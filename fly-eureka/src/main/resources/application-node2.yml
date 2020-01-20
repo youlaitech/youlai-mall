@@ -1,5 +1,5 @@
 server:
-  port: 7002
+  port: 7003
 spring:
   application:
     name: fly-eureka-server

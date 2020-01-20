@@ -9,6 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>fly-eureka</module>
+        <module>fly-config</module>
+        <module>fly-test</module>
     </modules>
     <packaging>pom</packaging>
     <name>fly-cloud</name>

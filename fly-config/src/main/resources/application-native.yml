@@ -1,0 +1,21 @@
+server:
+  port:1001
+
+spring:
+  application:
+    name: fly-config-server
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/properties/
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7001/eureka
+    registry-fetch-interval-seconds: 10
