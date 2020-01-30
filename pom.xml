@@ -8,9 +8,12 @@
     <artifactId>fly-cloud</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>fly-eureka</module>
-        <module>fly-config</module>
-        <module>fly-test</module>
+        <module>fly-cloud-eureka</module>
+        <module>fly-cloud-config</module>
+        <module>fly-cloud-system-service</module>
+        <module>fly-cloud-test</module>
+        <module>fly-common</module>
+        <module>fly-framework</module>
     </modules>
     <packaging>pom</packaging>
     <name>fly-cloud</name>
@@ -23,9 +26,15 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <lombok.version>1.18.10</lombok.version>
+        <hutool.version>5.0.6</hutool.version>
+        <mybatis-plus.version>3.0.7.1</mybatis-plus.version>
+        <druid.version>1.1.14</druid.version>
+        <fastjson.version>1.2.24</fastjson.version>
+        <mysql.version>8.0.18</mysql.version>
     </properties>
 
     <dependencies>
@@ -54,6 +63,41 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--mysql驱动包-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!--阿里数据库连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- mybatis plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- hutool工具类 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
