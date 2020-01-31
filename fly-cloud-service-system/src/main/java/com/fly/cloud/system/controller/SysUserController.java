@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.base.BaseController;
 import com.fly.cloud.system.pojo.entity.SysUser;
 import com.fly.cloud.system.service.ISysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -13,13 +14,14 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/system/user")
+@RequestMapping("/sss/system/user")
 public class SysUserController extends BaseController {
+
     @Resource
     private ISysUserService iSysUserService;
 
     @GetMapping("/page")
-    public R list(SysUser sysUser) {
+    public R page(SysUser sysUser) {
         Page<SysUser> page = initPage();
         IPage<SysUser> result = iSysUserService.page(page);
         return R.ok(result);

@@ -10,10 +10,11 @@
     <modules>
         <module>fly-cloud-eureka</module>
         <module>fly-cloud-config</module>
-        <module>fly-cloud-system-service</module>
+        <module>fly-cloud-service-system</module>
         <module>fly-cloud-test</module>
         <module>fly-common</module>
         <module>fly-framework</module>
+        <module>fly-cloud-service-seckill</module>
     </modules>
     <packaging>pom</packaging>
     <name>fly-cloud</name>
@@ -107,6 +108,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-
 </project>

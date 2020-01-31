@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fly-cloud-system-service</artifactId>
+    <artifactId>fly-cloud-service-system</artifactId>
 
     <dependencies>
         <dependency>
