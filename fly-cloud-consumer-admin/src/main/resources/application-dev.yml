@@ -1,0 +1,9 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: fly-cloud-consumer-admin
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
