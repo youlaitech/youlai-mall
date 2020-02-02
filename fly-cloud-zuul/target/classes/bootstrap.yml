@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    config:
+      uri: http://localhost:5001
+      name: application-zuul
+      profile: ${spring.profiles.active}
+      label: master

@@ -1,14 +1,15 @@
 server:
-  port: 1001
+  port: 5001
 
 spring:
   application:
-    name: fly-config-server
+    name: fly-cloud-config
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/fly2021/fly-config.git
+          uri: https://github.com/fly2021/fly-cloud-config.git
+          search-paths: fly-cloud
 
 eureka:
   instance:

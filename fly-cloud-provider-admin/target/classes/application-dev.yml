@@ -1,8 +1,11 @@
 server:
-  port: 8080
+  port: 8001
+
 
 # 数据源
 spring:
+  application:
+    name: fly-cloud-provider-admin
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/fly?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
@@ -26,17 +29,11 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
-  shiro:
-    session:
-      kickout:
-        maxSession: 1
-    password:
-      maxRetryCount: 10
 
 # 整合mybatis
 mybatis-plus:
   # 搜索指定包别名
-  type-aliases-package: com.fly.cloud.system
+  type-aliases-package: com.fly.cloud.admin
   # 该配置请和 type-aliases-package 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
   type-aliases-super-type: java.lang.Object
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
@@ -55,3 +52,13 @@ mybatis-plus:
     use-generated-keys: true
     default-statement-timeout: 60
     default-fetch-size: 100
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+  instance:
+    instance-id: 系統提供方服务-8001
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5

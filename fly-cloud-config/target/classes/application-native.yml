@@ -1,14 +1,14 @@
 server:
-  port:1001
+  port: 5001
 
 spring:
   application:
-    name: fly-config-server
+    name: fly-cloud-config
   cloud:
     config:
       server:
         native:
-          search-locations: classpath:/properties/
+          search-locations: classpath:/config/
 
 eureka:
   instance:

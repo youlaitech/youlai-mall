@@ -33,7 +33,7 @@ spring:
 # 整合mybatis
 mybatis-plus:
   # 搜索指定包别名
-  type-aliases-package: com.fly.cloud.system
+  type-aliases-package: com.fly.cloud.admin
   # 该配置请和 type-aliases-package 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
   type-aliases-super-type: java.lang.Object
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
@@ -57,3 +57,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:7001/eureka/
+  instance:
+    instance-id: 系統提供方服务-8001
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5

@@ -8,8 +8,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>com.fly</groupId>
     <artifactId>fly-framework</artifactId>
+    <version>1.0.0</version>
 
     <dependencies>
 
@@ -25,6 +26,7 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
+       
 
     </dependencies>
 
