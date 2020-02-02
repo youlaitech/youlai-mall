@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:5001
+      name: application-zuul
+      profile: dev
+      label: master
