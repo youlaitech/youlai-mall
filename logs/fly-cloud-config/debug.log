@@ -1,0 +1,194 @@
+2020-02-02 21:45:30,297 [main] INFO  [com.fly.cloud.config.FlyCloudConfigApplication] SpringApplication.java:655 - The following profiles are active: native
+2020-02-02 21:45:31,632 [main] WARN  [o.springframework.boot.actuate.endpoint.EndpointId] EndpointId.java:155 - Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2020-02-02 21:45:31,897 [main] INFO  [o.springframework.cloud.context.scope.GenericScope] GenericScope.java:295 - BeanFactory id=269e0e87-ffdd-3bc9-b145-f90c787f3205
+2020-02-02 21:45:32,573 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:92 - Tomcat initialized with port(s): 8080 (http)
+2020-02-02 21:45:32,605 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Initializing ProtocolHandler ["http-nio-8080"]
+2020-02-02 21:45:32,615 [main] INFO  [org.apache.catalina.core.StandardService] DirectJDKLog.java:173 - Starting service [Tomcat]
+2020-02-02 21:45:32,615 [main] INFO  [org.apache.catalina.core.StandardEngine] DirectJDKLog.java:173 - Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-02 21:45:33,078 [main] INFO  [o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]] DirectJDKLog.java:173 - Initializing Spring embedded WebApplicationContext
+2020-02-02 21:45:33,080 [main] INFO  [org.springframework.web.context.ContextLoader] ServletWebServerApplicationContext.java:284 - Root WebApplicationContext: initialization completed in 2752 ms
+2020-02-02 21:45:33,348 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-02-02 21:45:33,348 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-02-02 21:45:33,366 [main] INFO  [com.netflix.config.DynamicPropertyFactory] DynamicPropertyFactory.java:281 - DynamicPropertyFactory is initialized with configuration sources: com.netflix.config.ConcurrentCompositeConfiguration@2c18a3ea
+2020-02-02 21:45:36,399 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:45:36,767 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-02-02 21:45:36,768 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-02-02 21:45:37,116 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-02 21:45:40,309 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:45:43,010 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:45:43,059 [main] WARN  [o.s.c.l.c.BlockingLoadBalancerClientAutoConfiguration$BlockingLoadBalancerClientRibbonWarnLogger] BlockingLoadBalancerClientAutoConfiguration.java:86 - You already have RibbonLoadBalancerClient on your classpath. It will be used by default. As Spring Cloud Ribbon is in maintenance mode. We recommend switching to BlockingLoadBalancerClient instead. In order to use it, set the value of `spring.cloud.loadbalancer.ribbon.enabled` to `false` or remove spring-cloud-starter-netflix-ribbon from your project.
+2020-02-02 21:45:43,376 [main] INFO  [o.s.b.actuate.endpoint.web.EndpointLinksResolver] EndpointLinksResolver.java:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-02-02 21:45:43,524 [main] INFO  [o.s.cloud.netflix.eureka.InstanceInfoFactory] InstanceInfoFactory.java:72 - Setting initial instance status as: STARTING
+2020-02-02 21:45:43,605 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:365 - Initializing Eureka in region us-east-1
+2020-02-02 21:45:44,880 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:70 - Using JSON encoding codec LegacyJacksonJson
+2020-02-02 21:45:44,882 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:71 - Using JSON decoding codec LegacyJacksonJson
+2020-02-02 21:45:45,084 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:80 - Using XML encoding codec XStreamXml
+2020-02-02 21:45:45,084 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:81 - Using XML decoding codec XStreamXml
+2020-02-02 21:45:45,654 [main] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 21:45:46,874 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:976 - Disable delta property : false
+2020-02-02 21:45:46,875 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:977 - Single vip registry refresh property : null
+2020-02-02 21:45:46,876 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:978 - Force full registry fetch : false
+2020-02-02 21:45:46,877 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:979 - Application is null : false
+2020-02-02 21:45:46,877 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:980 - Registered Applications size is zero : true
+2020-02-02 21:45:46,878 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:982 - Application version is -1: true
+2020-02-02 21:45:46,878 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1065 - Getting all instance registry info from the eureka server
+2020-02-02 21:45:47,243 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1074 - The response status is 200
+2020-02-02 21:45:47,250 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1288 - Starting heartbeat executor: renew interval is: 5
+2020-02-02 21:45:47,255 [main] INFO  [com.netflix.discovery.InstanceInfoReplicator] InstanceInfoReplicator.java:60 - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2020-02-02 21:45:47,262 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:465 - Discovery Client initialized at timestamp 1580651147260 with initial instances count: 3
+2020-02-02 21:45:47,264 [main] INFO  [o.s.c.n.e.serviceregistry.EurekaServiceRegistry] EurekaServiceRegistry.java:41 - Registering application FLY-CLOUD-CONFIG with eureka with status UP
+2020-02-02 21:45:47,266 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1323 - Saw local status change event StatusChangeEvent [timestamp=1580651147266, current=UP, previous=STARTING]
+2020-02-02 21:45:47,271 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:844 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config: registering service...
+2020-02-02 21:45:47,314 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Starting ProtocolHandler ["http-nio-8080"]
+2020-02-02 21:45:47,345 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:853 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config - registration status: 204
+2020-02-02 21:45:47,369 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:204 - Tomcat started on port(s): 8080 (http) with context path ''
+2020-02-02 21:45:47,371 [main] INFO  [o.s.c.n.e.s.EurekaAutoServiceRegistration] EurekaAutoServiceRegistration.java:145 - Updating port to 8080
+2020-02-02 21:45:50,127 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:45:50,131 [main] INFO  [com.fly.cloud.config.FlyCloudConfigApplication] StartupInfoLogger.java:61 - Started FlyCloudConfigApplication in 28.171 seconds (JVM running for 33.356)
+2020-02-02 21:45:50,203 [RMI TCP Connection(5)-192.168.137.1] INFO  [o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]] DirectJDKLog.java:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-02-02 21:45:50,204 [RMI TCP Connection(5)-192.168.137.1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:525 - Initializing Servlet 'dispatcherServlet'
+2020-02-02 21:45:50,219 [RMI TCP Connection(5)-192.168.137.1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:547 - Completed initialization in 15 ms
+2020-02-02 21:45:54,536 [RMI TCP Connection(7)-192.168.137.1] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:47:02,322 [SpringContextShutdownHook] INFO  [o.s.c.n.e.serviceregistry.EurekaServiceRegistry] EurekaServiceRegistry.java:65 - Unregistering application FLY-CLOUD-CONFIG with eureka with status DOWN
+2020-02-02 21:47:02,323 [SpringContextShutdownHook] WARN  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1321 - Saw local status change event StatusChangeEvent [timestamp=1580651222323, current=DOWN, previous=UP]
+2020-02-02 21:47:02,324 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:844 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config: registering service...
+2020-02-02 21:47:02,329 [SpringContextShutdownHook] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:208 - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-02-02 21:47:02,332 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:853 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config - registration status: 204
+2020-02-02 21:47:02,334 [SpringContextShutdownHook] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:906 - Shutting down DiscoveryClient ...
+2020-02-02 21:47:05,335 [SpringContextShutdownHook] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:940 - Unregistering ...
+2020-02-02 21:47:05,342 [SpringContextShutdownHook] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:942 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config - deregister  status: 200
+2020-02-02 21:47:05,353 [SpringContextShutdownHook] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:929 - Completed shut down of DiscoveryClient
+2020-02-02 21:47:27,648 [main] INFO  [com.fly.cloud.config.FlyCloudConfigApplication] SpringApplication.java:655 - The following profiles are active: native
+2020-02-02 21:47:29,732 [main] WARN  [o.springframework.boot.actuate.endpoint.EndpointId] EndpointId.java:155 - Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2020-02-02 21:47:30,441 [main] INFO  [o.springframework.cloud.context.scope.GenericScope] GenericScope.java:295 - BeanFactory id=269e0e87-ffdd-3bc9-b145-f90c787f3205
+2020-02-02 21:47:31,512 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:92 - Tomcat initialized with port(s): 5001 (http)
+2020-02-02 21:47:31,538 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Initializing ProtocolHandler ["http-nio-5001"]
+2020-02-02 21:47:31,539 [main] INFO  [org.apache.catalina.core.StandardService] DirectJDKLog.java:173 - Starting service [Tomcat]
+2020-02-02 21:47:31,540 [main] INFO  [org.apache.catalina.core.StandardEngine] DirectJDKLog.java:173 - Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-02 21:47:31,964 [main] INFO  [o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]] DirectJDKLog.java:173 - Initializing Spring embedded WebApplicationContext
+2020-02-02 21:47:31,965 [main] INFO  [org.springframework.web.context.ContextLoader] ServletWebServerApplicationContext.java:284 - Root WebApplicationContext: initialization completed in 4260 ms
+2020-02-02 21:47:32,226 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-02-02 21:47:32,226 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-02-02 21:47:32,246 [main] INFO  [com.netflix.config.DynamicPropertyFactory] DynamicPropertyFactory.java:281 - DynamicPropertyFactory is initialized with configuration sources: com.netflix.config.ConcurrentCompositeConfiguration@100aa331
+2020-02-02 21:47:34,974 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:47:35,241 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-02-02 21:47:35,242 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-02-02 21:47:35,434 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-02 21:47:38,654 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:47:41,127 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:47:41,202 [main] WARN  [o.s.c.l.c.BlockingLoadBalancerClientAutoConfiguration$BlockingLoadBalancerClientRibbonWarnLogger] BlockingLoadBalancerClientAutoConfiguration.java:86 - You already have RibbonLoadBalancerClient on your classpath. It will be used by default. As Spring Cloud Ribbon is in maintenance mode. We recommend switching to BlockingLoadBalancerClient instead. In order to use it, set the value of `spring.cloud.loadbalancer.ribbon.enabled` to `false` or remove spring-cloud-starter-netflix-ribbon from your project.
+2020-02-02 21:47:41,503 [main] INFO  [o.s.b.actuate.endpoint.web.EndpointLinksResolver] EndpointLinksResolver.java:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-02-02 21:47:41,876 [main] INFO  [o.s.cloud.netflix.eureka.InstanceInfoFactory] InstanceInfoFactory.java:72 - Setting initial instance status as: STARTING
+2020-02-02 21:47:41,985 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:365 - Initializing Eureka in region us-east-1
+2020-02-02 21:47:43,800 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:70 - Using JSON encoding codec LegacyJacksonJson
+2020-02-02 21:47:43,801 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:71 - Using JSON decoding codec LegacyJacksonJson
+2020-02-02 21:47:44,108 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:80 - Using XML encoding codec XStreamXml
+2020-02-02 21:47:44,109 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:81 - Using XML decoding codec XStreamXml
+2020-02-02 21:47:44,768 [main] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 21:47:46,279 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:976 - Disable delta property : false
+2020-02-02 21:47:46,287 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:977 - Single vip registry refresh property : null
+2020-02-02 21:47:46,287 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:978 - Force full registry fetch : false
+2020-02-02 21:47:46,327 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:979 - Application is null : false
+2020-02-02 21:47:46,330 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:980 - Registered Applications size is zero : true
+2020-02-02 21:47:46,348 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:982 - Application version is -1: true
+2020-02-02 21:47:46,348 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1065 - Getting all instance registry info from the eureka server
+2020-02-02 21:47:47,351 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1074 - The response status is 200
+2020-02-02 21:47:47,361 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1288 - Starting heartbeat executor: renew interval is: 5
+2020-02-02 21:47:47,367 [main] INFO  [com.netflix.discovery.InstanceInfoReplicator] InstanceInfoReplicator.java:60 - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2020-02-02 21:47:47,377 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:465 - Discovery Client initialized at timestamp 1580651267374 with initial instances count: 3
+2020-02-02 21:47:47,379 [main] INFO  [o.s.c.n.e.serviceregistry.EurekaServiceRegistry] EurekaServiceRegistry.java:41 - Registering application FLY-CLOUD-CONFIG with eureka with status UP
+2020-02-02 21:47:47,380 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1323 - Saw local status change event StatusChangeEvent [timestamp=1580651267380, current=UP, previous=STARTING]
+2020-02-02 21:47:47,385 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:844 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config:5001: registering service...
+2020-02-02 21:47:47,424 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Starting ProtocolHandler ["http-nio-5001"]
+2020-02-02 21:47:47,456 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:853 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config:5001 - registration status: 204
+2020-02-02 21:47:47,486 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:204 - Tomcat started on port(s): 5001 (http) with context path ''
+2020-02-02 21:47:47,487 [main] INFO  [o.s.c.n.e.s.EurekaAutoServiceRegistration] EurekaAutoServiceRegistration.java:145 - Updating port to 5001
+2020-02-02 21:47:50,129 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:47:50,137 [main] INFO  [com.fly.cloud.config.FlyCloudConfigApplication] StartupInfoLogger.java:61 - Started FlyCloudConfigApplication in 32.763 seconds (JVM running for 36.479)
+2020-02-02 21:47:50,396 [RMI TCP Connection(5)-192.168.137.1] INFO  [o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]] DirectJDKLog.java:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-02-02 21:47:50,397 [RMI TCP Connection(5)-192.168.137.1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:525 - Initializing Servlet 'dispatcherServlet'
+2020-02-02 21:47:50,414 [RMI TCP Connection(5)-192.168.137.1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:547 - Completed initialization in 16 ms
+2020-02-02 21:47:54,830 [RMI TCP Connection(7)-192.168.137.1] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:49:20,872 [http-nio-5001-exec-1] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:49:20,960 [http-nio-5001-exec-1] INFO  [o.s.c.c.s.environment.NativeEnvironmentRepository] NativeEnvironmentRepository.java:278 - Adding property source: classpath:/config/application-zuul-dev.yml
+2020-02-02 21:49:57,213 [SpringContextShutdownHook] INFO  [o.s.c.n.e.serviceregistry.EurekaServiceRegistry] EurekaServiceRegistry.java:65 - Unregistering application FLY-CLOUD-CONFIG with eureka with status DOWN
+2020-02-02 21:49:57,214 [SpringContextShutdownHook] WARN  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1321 - Saw local status change event StatusChangeEvent [timestamp=1580651397214, current=DOWN, previous=UP]
+2020-02-02 21:49:57,214 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:844 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config:5001: registering service...
+2020-02-02 21:49:57,225 [SpringContextShutdownHook] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:208 - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-02-02 21:49:57,227 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:853 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config:5001 - registration status: 204
+2020-02-02 21:49:57,229 [SpringContextShutdownHook] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:906 - Shutting down DiscoveryClient ...
+2020-02-02 21:50:00,232 [DiscoveryClient-1] WARN  [com.netflix.discovery.TimedSupervisorTask] TimedSupervisorTask.java:88 - task supervisor shutting down, can't accept the task
+2020-02-02 21:50:00,231 [SpringContextShutdownHook] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:940 - Unregistering ...
+2020-02-02 21:50:00,248 [SpringContextShutdownHook] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:942 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config:5001 - deregister  status: 200
+2020-02-02 21:50:00,287 [SpringContextShutdownHook] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:929 - Completed shut down of DiscoveryClient
+2020-02-02 21:50:14,732 [main] INFO  [com.fly.cloud.config.FlyCloudConfigApplication] SpringApplication.java:655 - The following profiles are active: git
+2020-02-02 21:50:15,892 [main] WARN  [o.springframework.boot.actuate.endpoint.EndpointId] EndpointId.java:155 - Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2020-02-02 21:50:16,129 [main] INFO  [o.springframework.cloud.context.scope.GenericScope] GenericScope.java:295 - BeanFactory id=4b8d86b7-5d73-3322-9a78-8c124447de3d
+2020-02-02 21:50:16,942 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:92 - Tomcat initialized with port(s): 5001 (http)
+2020-02-02 21:50:16,971 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Initializing ProtocolHandler ["http-nio-5001"]
+2020-02-02 21:50:16,973 [main] INFO  [org.apache.catalina.core.StandardService] DirectJDKLog.java:173 - Starting service [Tomcat]
+2020-02-02 21:50:16,974 [main] INFO  [org.apache.catalina.core.StandardEngine] DirectJDKLog.java:173 - Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-02 21:50:17,419 [main] INFO  [o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]] DirectJDKLog.java:173 - Initializing Spring embedded WebApplicationContext
+2020-02-02 21:50:17,422 [main] INFO  [org.springframework.web.context.ContextLoader] ServletWebServerApplicationContext.java:284 - Root WebApplicationContext: initialization completed in 2666 ms
+2020-02-02 21:50:17,788 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-02-02 21:50:17,789 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-02-02 21:50:17,816 [main] INFO  [com.netflix.config.DynamicPropertyFactory] DynamicPropertyFactory.java:281 - DynamicPropertyFactory is initialized with configuration sources: com.netflix.config.ConcurrentCompositeConfiguration@1df5c7e3
+2020-02-02 21:50:20,521 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:50:22,124 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-02-02 21:50:22,125 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-02-02 21:50:22,309 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-02 21:50:25,251 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:50:27,861 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:50:27,914 [main] WARN  [o.s.c.l.c.BlockingLoadBalancerClientAutoConfiguration$BlockingLoadBalancerClientRibbonWarnLogger] BlockingLoadBalancerClientAutoConfiguration.java:86 - You already have RibbonLoadBalancerClient on your classpath. It will be used by default. As Spring Cloud Ribbon is in maintenance mode. We recommend switching to BlockingLoadBalancerClient instead. In order to use it, set the value of `spring.cloud.loadbalancer.ribbon.enabled` to `false` or remove spring-cloud-starter-netflix-ribbon from your project.
+2020-02-02 21:50:28,021 [main] INFO  [o.s.b.actuate.endpoint.web.EndpointLinksResolver] EndpointLinksResolver.java:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-02-02 21:50:28,151 [main] INFO  [o.s.cloud.netflix.eureka.InstanceInfoFactory] InstanceInfoFactory.java:72 - Setting initial instance status as: STARTING
+2020-02-02 21:50:28,229 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:365 - Initializing Eureka in region us-east-1
+2020-02-02 21:50:28,390 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:70 - Using JSON encoding codec LegacyJacksonJson
+2020-02-02 21:50:28,390 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:71 - Using JSON decoding codec LegacyJacksonJson
+2020-02-02 21:50:28,835 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:80 - Using XML encoding codec XStreamXml
+2020-02-02 21:50:28,835 [main] INFO  [c.n.discovery.provider.DiscoveryJerseyProvider] DiscoveryJerseyProvider.java:81 - Using XML decoding codec XStreamXml
+2020-02-02 21:50:29,474 [main] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 21:50:30,961 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:976 - Disable delta property : false
+2020-02-02 21:50:30,962 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:977 - Single vip registry refresh property : null
+2020-02-02 21:50:30,963 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:978 - Force full registry fetch : false
+2020-02-02 21:50:30,963 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:979 - Application is null : false
+2020-02-02 21:50:30,963 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:980 - Registered Applications size is zero : true
+2020-02-02 21:50:30,964 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:982 - Application version is -1: true
+2020-02-02 21:50:30,964 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1065 - Getting all instance registry info from the eureka server
+2020-02-02 21:50:31,330 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1074 - The response status is 200
+2020-02-02 21:50:31,336 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1288 - Starting heartbeat executor: renew interval is: 5
+2020-02-02 21:50:31,340 [main] INFO  [com.netflix.discovery.InstanceInfoReplicator] InstanceInfoReplicator.java:60 - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2020-02-02 21:50:31,357 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:465 - Discovery Client initialized at timestamp 1580651431353 with initial instances count: 3
+2020-02-02 21:50:31,359 [main] INFO  [o.s.c.n.e.serviceregistry.EurekaServiceRegistry] EurekaServiceRegistry.java:41 - Registering application FLY-CLOUD-CONFIG with eureka with status UP
+2020-02-02 21:50:31,360 [main] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:1323 - Saw local status change event StatusChangeEvent [timestamp=1580651431360, current=UP, previous=STARTING]
+2020-02-02 21:50:31,364 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:844 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config:5001: registering service...
+2020-02-02 21:50:31,400 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Starting ProtocolHandler ["http-nio-5001"]
+2020-02-02 21:50:31,428 [DiscoveryClient-InstanceInfoReplicator-0] INFO  [com.netflix.discovery.DiscoveryClient] DiscoveryClient.java:853 - DiscoveryClient_FLY-CLOUD-CONFIG/localhost:fly-cloud-config:5001 - registration status: 204
+2020-02-02 21:50:31,450 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:204 - Tomcat started on port(s): 5001 (http) with context path ''
+2020-02-02 21:50:31,452 [main] INFO  [o.s.c.n.e.s.EurekaAutoServiceRegistration] EurekaAutoServiceRegistration.java:145 - Updating port to 5001
+2020-02-02 21:50:34,392 [main] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:50:34,395 [main] INFO  [com.fly.cloud.config.FlyCloudConfigApplication] StartupInfoLogger.java:61 - Started FlyCloudConfigApplication in 26.959 seconds (JVM running for 30.048)
+2020-02-02 21:50:35,424 [RMI TCP Connection(3)-192.168.137.1] INFO  [o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]] DirectJDKLog.java:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-02-02 21:50:35,425 [RMI TCP Connection(3)-192.168.137.1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:525 - Initializing Servlet 'dispatcherServlet'
+2020-02-02 21:50:35,440 [RMI TCP Connection(3)-192.168.137.1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:547 - Completed initialization in 14 ms
+2020-02-02 21:50:51,067 [RMI TCP Connection(4)-192.168.137.1] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:52:18,308 [http-nio-5001-exec-1] INFO  [o.s.c.c.s.e.MultipleJGitEnvironmentRepository] JGitEnvironmentRepository.java:481 - Fetched for remote master and found 1 updates
+2020-02-02 21:52:21,739 [http-nio-5001-exec-1] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 21:52:21,880 [http-nio-5001-exec-1] INFO  [o.s.c.c.s.environment.NativeEnvironmentRepository] NativeEnvironmentRepository.java:278 - Adding property source: file:/C:/Users/haoxr/AppData/Local/Temp/config-repo-6040854726383957277/fly-cloud/application-zuul-dev.yml
+2020-02-02 21:55:30,969 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:00:30,972 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:05:30,975 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:10:30,977 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:15:30,980 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:20:30,984 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:25:30,986 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:30:30,989 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:35:30,994 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:40:30,997 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:45:30,999 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:50:31,001 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 22:55:32,168 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 23:00:32,171 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 23:05:32,174 [AsyncResolver-bootstrap-executor-0] INFO  [c.n.d.shared.resolver.aws.ConfigClusterResolver] ConfigClusterResolver.java:43 - Resolving eureka endpoints via configuration
+2020-02-02 23:05:42,859 [http-nio-5001-exec-5] INFO  [org.springframework.cloud.commons.util.InetUtils] InetUtils.java:170 - Cannot determine local hostname
+2020-02-02 23:05:42,902 [http-nio-5001-exec-5] INFO  [o.s.c.c.s.environment.NativeEnvironmentRepository] NativeEnvironmentRepository.java:278 - Adding property source: file:/C:/Users/haoxr/AppData/Local/Temp/config-repo-6040854726383957277/fly-cloud/application-zuul-dev.yml

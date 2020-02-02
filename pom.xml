@@ -16,6 +16,7 @@
         <module>fly-framework</module>
         <module>fly-cloud-service-seckill</module>
         <module>fly-cloud-consumer-admin</module>
+        <module>fly-cloud-zuul</module>
     </modules>
     <packaging>pom</packaging>
     <name>fly-cloud</name>
@@ -37,6 +38,8 @@
         <druid.version>1.1.14</druid.version>
         <fastjson.version>1.2.24</fastjson.version>
         <mysql.version>8.0.18</mysql.version>
+        <fly-common.version>1.0.0</fly-common.version>
+        <fly-framework.version>1.0.0</fly-framework.version>
     </properties>
 
     <dependencies>
@@ -106,6 +109,16 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fly</groupId>
+                <artifactId>fly-common</artifactId>
+                <version>${fly-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fly</groupId>
+                <artifactId>fly-framework</artifactId>
+                <version>${fly-framework.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

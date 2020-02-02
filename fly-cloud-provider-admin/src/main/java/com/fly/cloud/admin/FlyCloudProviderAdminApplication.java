@@ -6,11 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class},scanBasePackages = {"com.fly.cloud.admin"})
-@MapperScan(basePackages = "com.fly.cloud.system.mapper")
+@MapperScan(basePackages = "com.fly.cloud.admin.mapper")
 @EnableTransactionManagement
 @EnableDiscoveryClient
 public class FlyCloudProviderAdminApplication {
