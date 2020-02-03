@@ -1,0 +1,157 @@
+.container {
+    width: 100%;
+    margin: 15px 0;
+    font-family: "微软雅黑";
+    margin-left: 5%;
+}
+
+.itemInfo-wrap {
+    font-family: "宋体";
+    width: 40%;
+    margin-right: 24%;
+}
+
+.fr {
+    float: right;
+}
+
+.sku-name h4 {
+    font-weight: 700;
+    font-size: 16px;
+    color: #333;
+    font-family: "微软雅黑";
+}
+
+h4 {
+    font-size: 14.04px;
+    line-height: 21.06px;
+}
+
+.news {
+    padding-left: 10px;
+    line-height: 30px;
+    font-weight: 700;
+    color: #fff;
+    background: url(../../lib/font/icon/seckillbg.png) repeat-x;
+}
+
+.news span img {
+    margin-top: -5px;
+    margin-right: 5px;
+}
+
+img {
+    border: 0 none;
+    vertical-align: middle;
+    max-width: 100%;
+    width: auto \9;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+    border-style: none;
+}
+
+.news .overtime {
+    float: right;
+    padding-right: 15px;
+}
+
+.summary {
+    background: #fee9eb;
+    padding: 7px;
+}
+
+.summary-wrap {
+    overflow: hidden;
+    line-height: 28px;
+    margin-top: 10px;
+}
+
+.title {
+    margin-right: 15px;
+}
+
+.fl {
+    float: left;
+}
+
+i {
+    font-style: normal !important;
+}
+
+.summary-wrap .price {
+    color: #c81623;
+}
+
+.summary-wrap .price i {
+    font-size: 16px;
+}
+
+.summary-wrap .price b {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.summary-wrap .price span b {
+    font-size: 12px;
+}
+
+.summary-wrap .price span {
+    font-size: 12px;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.summary-wrap {
+    overflow: hidden;
+    line-height: 28px;
+    margin-top: 10px;
+}
+
+.preview-wrap {
+    /*width: 25%;*/
+    /*height: 100%;*/
+    border: 1px solid red;
+    border-style: dashed;
+}
+
+.fl {
+    float: left;
+}
+
+.spec-preview {
+    width: 100%;
+    height: 100%;
+}
+
+.jqzoom {
+    float: left;
+    border: 0;
+    position: relative;
+    padding: 5px;
+    cursor: pointer;
+    margin: 0;
+    display: block;
+}
+
+.jqzoom > img {
+    width: 410px;
+    max-width: none;
+    border: 0 none;
+    vertical-align: middle;
+    max-width: 100%;
+    width: auto \9;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+    border-style: none;
+}
+
