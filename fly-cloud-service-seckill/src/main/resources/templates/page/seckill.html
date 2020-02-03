@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>秒杀商品列表页</title>
+    <link rel="stylesheet" th:href="@{../../lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{../../lib/font/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{../../css/seckill.css}"/>
+    <link rel="stylesheet" th:href="@{../../css/public.css}"/>
+</head>
+<body>
+
+<div id="app">
+    <!-- header -->
+    <div th:replace="public/header :: header"></div>
+
+    <!-- main -->
+    <div id="main">
+        <div class="container">
+            <div>
+                <li class="show" th:each="item : ${list}">
+                    <div class="img">
+                        <img th:src="${item.image}"/>
+                    </div>
+                    <div class="title">
+                        <span th:text="${item.title}"></span>
+                    </div>
+                    <div class="price">
+                        <span>￥ <b th:text="${item.price}"></b></span>
+                    </div>
+                    <div class="count">
+                        <span>剩余库存： <b class="stock" th:text="${item.stockCount}"></b></span>
+                    </div>
+                    <div>
+                        <span style="float:left;font-size: 13px;">结束时间：[[${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+                    </div>
+                    <div class="buy">
+                        <a th:href="'/seckill/' + ${item.seckillId} + '/detail'" target="_blank">
+                            <button style="width:100%" class="btn btn-success">立即抢购</button>
+                        </a>
+                    </div>
+                </li>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div th:replace="public/footer :: footer"></div>
+
+    </div>
+
+</body>
+<script type="text/javascript" th:src="@{../../lib/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{../../lib/bootstrap.min.js}"></script>
+</html>

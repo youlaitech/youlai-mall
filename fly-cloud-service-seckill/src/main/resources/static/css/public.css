@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+#author {
+    float: right;
+    border-bottom: none;
+}
+
+#logo {
+    float: left;
+    border-bottom: none;
+    color: #409EFF;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#author > img {
+    border: 1px solid #eee;
+    border-radius: 100%;
+    box-sizing: border-box;
+    height: 30px;
+    margin: 0 8px 0 10px;
+    padding: 2px;
+    width: 30px;
+}
+
+#author .el-dropdown {
+    display: inline-block;
+    position: relative;
+    color: #606266;
+    font-size: 14px;
+}
+
+.footer {
+    border-top: solid 1px #e6e6e6;
+    margin-top: 50px;
+}
+
+.footer .footer-inner {
+    margin-top: 10px;
+    color: rgb(153, 153, 153);
+    margin-bottom: 25px;
+}
+
+.footer .footer-inner .copyright {
+    margin-bottom: 3px;
+}
