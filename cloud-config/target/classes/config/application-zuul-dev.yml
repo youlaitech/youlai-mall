@@ -1,0 +1,21 @@
+server:
+  port: 10001
+
+spring:
+  application:
+    name: fly-cloud-zuul
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+  instance:
+    instance-id: zuul网关-10001
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5
+zuul:
+  routes:
+    fly-cloud-consumer-admin:
+      path: /api/admin/**
+      serviceId: fly-cloud-consumer-admin

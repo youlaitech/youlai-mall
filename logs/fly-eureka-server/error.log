@@ -1,0 +1,14 @@
+2020-02-03 23:11:24,943 [main] ERROR [o.s.b.diagnostics.LoggingFailureAnalysisReporter] LoggingFailureAnalysisReporter.java:40 - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 7001 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 7001 or configure this application to listen on another port.
+
