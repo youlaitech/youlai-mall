@@ -1,0 +1,29 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: admin-client
+  zipkin:
+    base-url: http://localhost:9411
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+  boot:
+    admin:
+      client:
+        url: http://localhost:9001
+        enabled: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: admin-服务消费端-9002
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5
+feign:
+  hystrix:
+    enabled: true
+
