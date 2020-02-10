@@ -7,15 +7,14 @@
     <artifactId>fly-cloud</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>cloud-common</module>
-        <module>cloud-framework</module>
-        <module>cloud-gateway</module>
-        <module>cloud-zipkin</module>
-        <module>cloud-admin</module>
-        <module>cloud-config</module>
-        <module>cloud-eureka</module>
+        <module>fly-common</module>
+        <module>fly-framework</module>
+        <module>fly-gateway</module>
+        <module>fly-admin</module>
+        <module>fly-auth</module>
+        <module>fly-monitor</module>
+        <module>fly-center</module>
         <module>fly-cloud-service-seckill</module>
-        <module>cloud-boot-admin</module>
     </modules>
     <packaging>pom</packaging>
     <name>fly-cloud</name>
@@ -37,8 +36,8 @@
         <druid.version>1.1.14</druid.version>
         <fastjson.version>1.2.24</fastjson.version>
         <mysql.version>8.0.18</mysql.version>
-        <cloud-common.version>1.0.0</cloud-common.version>
-        <cloud-framework.version>1.0.0</cloud-framework.version>
+        <fly-common.version>1.0.0</fly-common.version>
+        <fly-framework.version>1.0.0</fly-framework.version>
         <zipkin.version>2.12.3</zipkin.version>
         <spring-boot-admin.version>2.1.6</spring-boot-admin.version>
     </properties>
@@ -113,13 +112,13 @@
             </dependency>
             <dependency>
                 <groupId>com.fly.cloud</groupId>
-                <artifactId>cloud-common</artifactId>
-                <version>${cloud-common.version}</version>
+                <artifactId>fly-common</artifactId>
+                <version>${fly-common.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fly.cloud</groupId>
-                <artifactId>cloud-framework</artifactId>
-                <version>${cloud-framework.version}</version>
+                <artifactId>fly-framework</artifactId>
+                <version>${fly-framework.version}</version>
             </dependency>
 
             <!-- zipkin -->

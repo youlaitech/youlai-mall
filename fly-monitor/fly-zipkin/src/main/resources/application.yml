@@ -1,0 +1,27 @@
+server:
+  port: 9411
+
+spring:
+  application:
+    name: cloud-zipkin
+  main:
+    allow-bean-definition-overriding: true
+  boot:
+    admin:
+      client:
+        url: http://localhost:9001
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: zipkin链路追踪-9411
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
