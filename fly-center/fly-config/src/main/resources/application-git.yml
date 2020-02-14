@@ -10,7 +10,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/fly2021/fly-cloud-config.git
+          uri: https://github.com/fly2021/microsevice-config.git
           search-paths: fly-cloud
   boot:
     admin:

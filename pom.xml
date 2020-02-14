@@ -8,13 +8,12 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>fly-common</module>
-        <module>fly-framework</module>
         <module>fly-gateway</module>
-        <module>fly-admin</module>
-        <module>fly-auth</module>
         <module>fly-monitor</module>
         <module>fly-center</module>
-        <module>fly-cloud-service-seckill</module>
+        <module>fly-auth</module>
+        <module>fly-service</module>
+        <module>fly-service-api</module>
     </modules>
     <packaging>pom</packaging>
     <name>fly-cloud</name>

@@ -18,7 +18,7 @@ import java.util.Map;
 public class AdminFeignFallbackProvider implements FallbackProvider {
     @Override
     public String getRoute() {
-        return "fly-cloud-consumer-admin";
+        return "fly-system";
     }
 
     @Override
