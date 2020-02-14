@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@Component
+//@Component
 @Slf4j
 public class LoginFilter extends ZuulFilter {
 

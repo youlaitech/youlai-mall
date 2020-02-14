@@ -2,6 +2,6 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
-      name: application-gateway
+      name: fly-gateway
       profile: dev
       label: master

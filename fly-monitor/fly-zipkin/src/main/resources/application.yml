@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: cloud-zipkin
+    name: fly-zipkin
   main:
     allow-bean-definition-overriding: true
   boot:
@@ -15,7 +15,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
-    instance-id: zipkin链路追踪-9411
+    instance-id: 链路追踪-9411
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5
