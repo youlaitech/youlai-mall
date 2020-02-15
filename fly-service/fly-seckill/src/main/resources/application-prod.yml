@@ -36,7 +36,7 @@ spring:
 # 整合mybatis
 mybatis-plus:
   # 搜索指定包别名
-  type-aliases-package: com.fly.cloud.system
+  type-aliases-package: com.fly.system
   # 该配置请和 type-aliases-package 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
   type-aliases-super-type: java.lang.Object
   # 配置mapper的扫描，找到所有的mapper.xml映射文件

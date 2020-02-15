@@ -1,4 +1,4 @@
-package com.fly.cloud.seckill.enums;
+package com.fly.seckill.enums;
 
 public enum SeckillStatEnum {
     SUCCESS(1, "秒杀成功"),

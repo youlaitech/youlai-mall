@@ -1,4 +1,4 @@
-package com.fly.cloud.seckill.redis;
+package com.fly.seckill.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

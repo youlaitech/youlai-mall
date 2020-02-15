@@ -1,7 +1,7 @@
-package com.fly.cloud.seckill.pojo.dto;
+package com.fly.seckill.pojo.dto;
 
-import com.fly.cloud.seckill.enums.SeckillStatEnum;
-import com.fly.cloud.seckill.pojo.entity.SeckillOrder;
+import com.fly.seckill.enums.SeckillStatEnum;
+import com.fly.seckill.pojo.entity.SeckillOrder;
 import lombok.Data;
 
 @Data

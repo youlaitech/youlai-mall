@@ -1,9 +1,9 @@
-package com.fly.cloud.seckill.pojo.entity;
+package com.fly.seckill.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fly.common.base.BaseEntity;
+import com.fly.common.core.base.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

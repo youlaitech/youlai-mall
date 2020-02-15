@@ -1,4 +1,4 @@
-package com.fly.cloud.seckill.exception;
+package com.fly.seckill.exception;
 
 /**
  * 重复执行秒杀的异常（运行期异常）

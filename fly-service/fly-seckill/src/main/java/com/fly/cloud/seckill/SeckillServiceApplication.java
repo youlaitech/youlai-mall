@@ -1,4 +1,4 @@
-package com.fly.cloud.seckill;
+package com.fly.seckill;
 
 
 import org.mybatis.spring.annotation.MapperScan;

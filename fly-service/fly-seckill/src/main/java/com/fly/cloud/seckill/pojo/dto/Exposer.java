@@ -1,4 +1,4 @@
-package com.fly.cloud.seckill.pojo.dto;
+package com.fly.seckill.pojo.dto;
 
 import lombok.Data;
 

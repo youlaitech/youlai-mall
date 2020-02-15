@@ -1,15 +1,15 @@
-package com.fly.cloud.seckill.controller;
+package com.fly.seckill.controller;
 
 
-import com.fly.cloud.seckill.enums.SeckillStatEnum;
-import com.fly.cloud.seckill.exception.RepeatKillException;
-import com.fly.cloud.seckill.exception.SeckillCloseException;
-import com.fly.cloud.seckill.exception.SeckillException;
-import com.fly.cloud.seckill.pojo.dto.Exposer;
-import com.fly.cloud.seckill.pojo.dto.SeckillExecution;
-import com.fly.cloud.seckill.pojo.dto.SeckillResult;
-import com.fly.cloud.seckill.pojo.entity.Seckill;
-import com.fly.cloud.seckill.service.ISeckillService;
+import com.fly.seckill.enums.SeckillStatEnum;
+import com.fly.seckill.exception.RepeatKillException;
+import com.fly.seckill.exception.SeckillCloseException;
+import com.fly.seckill.exception.SeckillException;
+import com.fly.seckill.pojo.dto.Exposer;
+import com.fly.seckill.pojo.dto.SeckillExecution;
+import com.fly.seckill.pojo.dto.SeckillResult;
+import com.fly.seckill.pojo.entity.Seckill;
+import com.fly.seckill.service.ISeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

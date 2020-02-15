@@ -1,9 +1,9 @@
-package com.fly.cloud.seckill.mapper;
+package com.fly.seckill.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.fly.cloud.seckill.pojo.entity.Seckill;
-import com.fly.cloud.seckill.pojo.entity.SeckillOrder;
+import com.fly.seckill.pojo.entity.Seckill;
+import com.fly.seckill.pojo.entity.SeckillOrder;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
