@@ -1,12 +1,12 @@
-package com.fly.cloud.seckill.service;
+package com.fly.seckill.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fly.cloud.seckill.exception.RepeatKillException;
-import com.fly.cloud.seckill.exception.SeckillCloseException;
-import com.fly.cloud.seckill.exception.SeckillException;
-import com.fly.cloud.seckill.pojo.dto.Exposer;
-import com.fly.cloud.seckill.pojo.dto.SeckillExecution;
-import com.fly.cloud.seckill.pojo.entity.Seckill;
+import com.fly.seckill.exception.RepeatKillException;
+import com.fly.seckill.exception.SeckillCloseException;
+import com.fly.seckill.exception.SeckillException;
+import com.fly.seckill.pojo.dto.Exposer;
+import com.fly.seckill.pojo.dto.SeckillExecution;
+import com.fly.seckill.pojo.entity.Seckill;
 
 import java.math.BigDecimal;
 import java.util.List;

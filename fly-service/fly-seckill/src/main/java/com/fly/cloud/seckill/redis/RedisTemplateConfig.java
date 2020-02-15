@@ -1,4 +1,4 @@
-package com.fly.cloud.seckill.redis;
+package com.fly.seckill.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

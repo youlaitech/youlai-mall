@@ -5,7 +5,7 @@
     <parent>
         <artifactId>fly-service</artifactId>
         <groupId>com.fly.cloud</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version> 1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,7 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>com.fly.cloud</groupId>
-            <artifactId>fly-common</artifactId>
+            <artifactId>fly-common-core</artifactId>
+            <version>${fly.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

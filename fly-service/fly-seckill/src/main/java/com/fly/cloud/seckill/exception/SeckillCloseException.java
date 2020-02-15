@@ -1,4 +1,4 @@
-package com.fly.cloud.seckill.exception;
+package com.fly.seckill.exception;
 
 /**
  * 秒杀关闭异常
