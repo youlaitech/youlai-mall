@@ -3,19 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.fly.cloud</groupId>
     <artifactId>fly-cloud</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>fly-cloud-eureka</module>
-        <module>fly-cloud-config</module>
-        <module>fly-cloud-provider-admin</module>
-        <module>fly-cloud-test</module>
         <module>fly-common</module>
-        <module>fly-framework</module>
-        <module>fly-cloud-service-seckill</module>
-        <module>fly-cloud-consumer-admin</module>
+        <module>fly-gateway</module>
+        <module>fly-monitor</module>
+        <module>fly-center</module>
+        <module>fly-auth</module>
+        <module>fly-service</module>
+        <module>fly-service-api</module>
     </modules>
     <packaging>pom</packaging>
     <name>fly-cloud</name>
@@ -23,20 +21,25 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.3.RELEASE</version>
+        <version>2.1.12.RELEASE</version>
     </parent>
 
     <properties>
+        <fly.version>1.0.0-SNAPSHOT</fly.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <spring-cloud.version>Greenwich.SR5</spring-cloud.version>
         <lombok.version>1.18.10</lombok.version>
         <hutool.version>5.0.6</hutool.version>
         <mybatis-plus.version>3.0.7.1</mybatis-plus.version>
         <druid.version>1.1.14</druid.version>
         <fastjson.version>1.2.24</fastjson.version>
         <mysql.version>8.0.18</mysql.version>
+        <fly-common.version>1.0.0</fly-common.version>
+        <fly-framework.version>1.0.0</fly-framework.version>
+        <zipkin.version>2.12.3</zipkin.version>
+        <spring-boot-admin.version>2.1.6</spring-boot-admin.version>
     </properties>
 
     <dependencies>
@@ -106,6 +109,28 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- zipkin -->
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-server</artifactId>
+                <version>${zipkin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-autoconfigure-ui</artifactId>
+                <version>${zipkin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
