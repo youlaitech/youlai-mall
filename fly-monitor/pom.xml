@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>fly-springboot-admin</module>
-        <module>fly-zipkin1</module>
+        <module>fly-zipkin</module>
     </modules>
 
     <dependencies>

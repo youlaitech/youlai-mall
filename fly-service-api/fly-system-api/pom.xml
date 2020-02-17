@@ -17,6 +17,9 @@
             <artifactId>fly-common-core</artifactId>
             <version>${fly.version}</version>
         </dependency>
+
+
+
     </dependencies>
 
 </project>

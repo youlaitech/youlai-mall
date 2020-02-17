@@ -3,10 +3,12 @@ package com.fly.system.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.web.cors.CorsUtils;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,8 +27,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and().requestMatchers().antMatchers("/**")
 
                 .and().authorizeRequests()
+                .antMatchers(HttpMethod.GET,
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/webjars/**",
+                        "/swagger/**",
+                        "/v2/api-docs",
+                        "/doc.html",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS,"/oauth/token").permitAll()
                 .antMatchers("/**").authenticated()
-
                 .and()
                 .httpBasic();
     }
