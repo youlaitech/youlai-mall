@@ -51,3 +51,8 @@ security:
       id: fly-user
       user-info-uri: http://localhost:9999/auth/user/current
       prefer-token-info: false
+
+#swagger 配置
+swagger:
+  auth:
+    server: http://127.0.0.1:8000/oauth/token  #验证token请求地址
