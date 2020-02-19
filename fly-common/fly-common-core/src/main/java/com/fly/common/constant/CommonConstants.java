@@ -1,4 +1,4 @@
-package com.fly.common.core.constant;
+package com.fly.common.constant;
 
 /**
  * 系统通用  常量值
