@@ -1,4 +1,4 @@
-package com.fly.common.core.base;
+package com.fly.common.base;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

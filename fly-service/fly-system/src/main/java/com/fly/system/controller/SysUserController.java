@@ -3,11 +3,10 @@ package com.fly.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly.common.core.base.BaseController;
+import com.fly.common.base.BaseController;
 import com.fly.system.pojo.dto.Result;
 import com.fly.system.pojo.entity.SysUser;
 import com.fly.system.service.ISysUserService;
-import com.fly.system.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 

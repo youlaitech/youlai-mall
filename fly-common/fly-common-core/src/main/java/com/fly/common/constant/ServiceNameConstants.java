@@ -1,4 +1,4 @@
-package com.fly.common.core.constant;
+package com.fly.common.constant;
 
 /**
  * 服务名称

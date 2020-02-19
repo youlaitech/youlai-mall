@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.system.pojo.dto.Result;
 import com.fly.system.pojo.entity.SysPermission;
 import com.fly.system.service.ISysPermissionService;
-import com.fly.common.core.base.BaseController;
+import com.fly.common.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

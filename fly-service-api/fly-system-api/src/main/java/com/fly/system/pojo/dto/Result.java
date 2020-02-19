@@ -1,6 +1,6 @@
 package com.fly.system.pojo.dto;
 
-import com.fly.common.core.constant.CommonConstants;
+import com.fly.common.constant.CommonConstants;
 import lombok.*;
 
 import java.io.Serializable;
