@@ -2,7 +2,7 @@ package com.fly.system.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly.system.pojo.dto.Result;
+import com.fly.common.dto.Result;
 import com.fly.system.pojo.entity.SysPermission;
 import com.fly.system.service.ISysPermissionService;
 import com.fly.common.base.BaseController;

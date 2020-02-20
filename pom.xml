@@ -40,10 +40,12 @@
         <fly-framework.version>1.0.0</fly-framework.version>
         <zipkin.version>2.12.3</zipkin.version>
         <spring-boot-admin.version>2.1.6</spring-boot-admin.version>
+        <oracle.version>11.2.0.4.0</oracle.version>
         <!--Swagger Resources-->
         <swagger.version>2.8.0</swagger.version>
         <swagger-annotations.version>1.5.21</swagger-annotations.version>
         <swagger-models.version>1.5.21</swagger-models.version>
+
     </properties>
 
     <dependencies>
@@ -143,6 +145,12 @@
                 <artifactId>swagger-models</artifactId>
                 <version>${swagger-models.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc6</artifactId>
+                <version>${oracle.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

@@ -1,7 +1,6 @@
 server:
   port: 8001
 
-# 数据源
 spring:
   application:
     name: fly-system
