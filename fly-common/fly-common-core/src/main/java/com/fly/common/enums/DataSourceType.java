@@ -1,19 +1,19 @@
 package com.fly.common.enums;
 
 /**
- * 数据源
- * 
- * @author ruoyi
+ * 数据源枚举
  */
-public enum DataSourceType
-{
-    /**
-     * 主库
-     */
-    MASTER,
+public enum DataSourceType {
 
-    /**
-     * 从库
-     */
-    SLAVE
+    mysql("mysql"),oracle("oracle");
+
+    private String value;
+
+    DataSourceType(String value){
+        this.value=value;
+    }
+
+    public String getValue(){
+        return value;
+    }
 }
