@@ -1,4 +1,4 @@
-package com.fly.system.mapper;
+package com.fly.system.mapper.mysql;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
