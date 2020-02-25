@@ -12,20 +12,9 @@ import javax.sql.DataSource;
 public class DruidConfig {
 
     @ConfigurationProperties(prefix = "spring.datasource")
-    @Bean("master")
+    @Bean
     public DataSource masterDataSource() {
         return new DruidDataSource();
-    }
-
-
-
-    @Value("{}")
-
-    public DataSource slaveDataSource(){
-        DruidDataSource slaveDataSource=new DruidDataSource();
-        slaveDataSource.setUrl();
-
-        return slaveDataSource;
     }
 
 

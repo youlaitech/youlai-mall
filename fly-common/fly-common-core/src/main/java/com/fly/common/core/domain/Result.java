@@ -1,4 +1,4 @@
-package com.fly.common.dto;
+package com.fly.common.core.domain;
 
 import lombok.Getter;
 
@@ -62,6 +62,10 @@ public class Result<T> {
 
     public static <T> Result<T> error(String msg) {
         return new Result<>(Status.ERROR.code, msg);
+    }
+
+    public static <T> Result<T> error(int code,String msg){
+        return new Result<>(code,msg);
     }
 
     public static <T> Result<T> status(boolean status){

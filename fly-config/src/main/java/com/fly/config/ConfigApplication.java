@@ -17,8 +17,6 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @SpringBootApplication
 public class ConfigApplication {
     public static void main(String[] args) {
-        SpringApplication application=new SpringApplication(ConfigApplication.class);
-        application.setBannerMode(Banner.Mode.OFF);
-        application.run(args);
+        SpringApplication.run(ConfigApplication.class,args);
     }
 }
