@@ -17,6 +17,10 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   instance:
     hostname: localhost
+    instance-id: 注册中心-8761
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000

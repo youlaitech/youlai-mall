@@ -1,4 +1,4 @@
-package com.fly.gateway.fallback;
+package com.fly.gateway.provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
@@ -15,10 +15,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class AdminFeignFallbackProvider implements FallbackProvider {
+public class CustomFallbackProvider implements FallbackProvider {
     @Override
     public String getRoute() {
-        return "fly-system";
+        // 提供回退服务的实例ID，*匹配所有的微服务
+        return "*";
     }
 
     @Override
@@ -48,8 +49,8 @@ public class AdminFeignFallbackProvider implements FallbackProvider {
             public InputStream getBody() throws IOException {
                 ObjectMapper mapper = new ObjectMapper();
                 Map<String, Object> map = new HashMap<>();
-                map.put("status", 200);
-                map.put("message", "链接失败，请检查您的网络");
+                map.put("code", 200);
+                map.put("msg", "请求失败");
                 return new ByteArrayInputStream(mapper.writeValueAsString(map).getBytes("UTF-8"));
             }
 

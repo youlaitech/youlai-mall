@@ -1,4 +1,4 @@
-package com.fly.common.base;
+package com.fly.common.core.controller;
 
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

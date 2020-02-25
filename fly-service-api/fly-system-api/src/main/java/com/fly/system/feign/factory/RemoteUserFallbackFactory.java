@@ -1,7 +1,7 @@
-package com.fly.system.feign.fallback;
+package com.fly.system.feign.factory;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.fly.common.dto.Result;
+import com.fly.common.core.domain.Result;
 import com.fly.system.feign.RemoteUserService;
 import com.fly.system.pojo.entity.SysUser;
 import feign.hystrix.FallbackFactory;

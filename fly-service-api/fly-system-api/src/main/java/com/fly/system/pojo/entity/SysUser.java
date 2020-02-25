@@ -2,7 +2,7 @@ package com.fly.system.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fly.common.base.BaseEntity;
+import com.fly.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
