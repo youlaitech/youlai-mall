@@ -1,0 +1,10 @@
+zuul:
+  routes:
+    fly-auth:
+      path: /auth/**
+      sensitiveHeaders:
+      serviceId: fly-auth
+    fly-system:
+      path: /system/**
+      sensitiveHeaders:
+      serviceId: fly-system

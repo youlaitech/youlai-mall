@@ -16,6 +16,11 @@ spring:
       name: fly-system
       profile: dev
       label: master
+    bus:
+      refresh:
+        enabled: true
+  kafka:
+    bootstrap-servers: 101.37.69.49:9092
   main:
     allow-bean-definition-overriding: true
 
@@ -63,3 +68,9 @@ security:
 swagger:
   auth:
     server: http://127.0.0.1:8000/oauth/token  #验证token请求地址
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*
