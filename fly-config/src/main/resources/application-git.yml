@@ -9,8 +9,7 @@ spring:
       server:
         git:
           uri: https://github.com/fly2021/fly-cloud.git
-          search-paths: fly-config-resource
-          default-label: master
+          search-paths: fly-config-properties
     bus:
       refresh:
         enabled: true
@@ -35,4 +34,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*
+        include: '*'
