@@ -22,4 +22,4 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 system:
   info:
-    title: fly-cloud
+    title: fly-cloud-dev
