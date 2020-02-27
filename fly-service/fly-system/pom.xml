@@ -121,5 +121,19 @@
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0.4.0-atlassian-hosted</version>
         </dependency>
+
+        <!--SpringCloudBus消息总线整合Kafka-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-bus</artifactId>
+        </dependency>
     </dependencies>
 </project>
