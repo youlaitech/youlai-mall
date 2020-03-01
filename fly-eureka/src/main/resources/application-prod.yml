@@ -3,12 +3,6 @@ server:
 spring:
   application:
     name: eureka-server
-  zipkin:
-    base-url: http://101.37.69.49:9411
-  boot:
-    admin:
-      client:
-        url: http://101.37.69.49:9001
 eureka:
   client:
     fetch-registry: false

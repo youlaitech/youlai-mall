@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>fly-cloud</artifactId>
+        <artifactId>shop-cloud</artifactId>
         <groupId>com.fly.cloud</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -16,18 +16,10 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>
     </dependencies>
 
     <properties>
-        <docker.image.prefix>fly</docker.image.prefix>
+        <docker.image.prefix>fly4j</docker.image.prefix>
     </properties>
 
     <build>
@@ -52,7 +44,7 @@
                 </executions>
 
                 <configuration>
-                    <!-- 镜像名称 fly/fly-eureka -->
+                    <!-- 镜像名称 fly4j/fly-eureka -->
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <!-- 指定标签 -->
                     <imageTags>
@@ -61,17 +53,16 @@
                     <!-- 基础镜像jdk1.8 -->
                     <baseImage>java</baseImage>
                     <!-- 制作者信息 -->
-                    <maintainer>fly 1490493387@qq.com</maintainer>
+                    <maintainer>fly4j</maintainer>
 
-                    <!-- 切换到/ROOT目录-->
+                    <!-- 切换到工作目录-->
                     <workdir>/ROOT</workdir>
                     <!--<cmd>["java","-version"]</cmd>-->
-                    <entryPoint>["java","-jar","${project.build.finalName}.jar"]</entryPoint>
+                    <entryPoint>["java","-Djava.security.egd=file:/dev/./urandom","-jar","${project.build.finalName}.jar"]</entryPoint>
 
-                    <!-- 指定 Dockerfile 路径 -->
-                    <!--<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>-->
                     <!-- 指定远程 docker api地址 -->
-                    <dockerHost>http://101.37.69.49:2375</dockerHost>
+                    <dockerHost>https://fly4j:2376</dockerHost>
+                    <dockerCertPath>C:\certs\docker\fly4j</dockerCertPath>
                     <!-- 复制 jar包到docker容器指定目录-->
                     <resources>
                         <resource>
@@ -86,5 +77,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
