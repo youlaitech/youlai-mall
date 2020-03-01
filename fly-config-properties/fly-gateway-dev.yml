@@ -8,3 +8,4 @@ zuul:
       path: /system/**
       sensitiveHeaders:
       serviceId: fly-system
+
