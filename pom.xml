@@ -10,8 +10,8 @@
         <module>fly-common</module>
         <module>fly-gateway</module>
         <module>fly-auth</module>
-        <module>fly-service</module>
-        <module>fly-service-api</module>
+        <module>fly-consumer</module>
+        <module>fly-provider</module>
     </modules>
     <packaging>pom</packaging>
     <name>shop-cloud</name>
