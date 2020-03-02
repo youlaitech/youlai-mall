@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  **/
 @Component
 @Slf4j
-public class CustomZuulFilter extends ZuulFilter {
+public class PreZuulFilter extends ZuulFilter {
 
     @Override
     public String filterType() {
