@@ -1,0 +1,11 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://101.37.69.49:8761/eureka/
+  instance:
+    ip-address: 101.37.69.49
+    hostname: ${eureka.instance.ip-address}
+    instance-id: System消费方-9001
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5

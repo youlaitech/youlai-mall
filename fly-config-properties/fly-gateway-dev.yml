@@ -7,9 +7,13 @@ zuul:
     fly-system:
       path: /system/**
       sensitiveHeaders:
-      serviceId: fly-system
+      serviceId: fly-system-consumer
   host:
     connectTimeoutMillis: 5000
+
+
+
+
 
 eureka:
   client:
