@@ -8,5 +8,5 @@ public interface ServiceNameConstants
     /**
      * system模块
      */
-    String SYSTEM_SERVICE = "fly-system";
+    String SYSTEM_PROVIDER = "fly-system-provider";
 }

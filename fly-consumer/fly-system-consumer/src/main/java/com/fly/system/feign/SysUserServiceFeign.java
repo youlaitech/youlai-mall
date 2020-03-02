@@ -8,7 +8,7 @@ import com.fly.system.domain.SysUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = SysUserServiceFeignHystrix.class)
+@FeignClient(name = ServiceNameConstants.SYSTEM_PROVIDER, fallbackFactory = SysUserServiceFeignHystrix.class)
 public interface SysUserServiceFeign {
 
     @GetMapping("/users/page")
