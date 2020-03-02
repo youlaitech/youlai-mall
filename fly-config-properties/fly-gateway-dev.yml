@@ -12,9 +12,6 @@ zuul:
     connectTimeoutMillis: 5000
 
 
-
-
-
 eureka:
   client:
     service-url:
