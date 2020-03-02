@@ -1,14 +1,3 @@
-server:
-  port: 8000
-
 spring:
-  application:
-    name: fly-auth
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    config:
-      uri: http://101.37.69.49:8888
-      name: fly-auth
-      profile: dev
-      label: master
+  profiles:
+    active: dev

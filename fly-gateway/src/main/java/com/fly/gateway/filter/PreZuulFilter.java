@@ -11,8 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by XianRui on 2020-02-24 18:01
+ *
+ * pre：可以在请求被路由之前调用  1
+ * route：在路由请求时候被调用   2
+ * post：在pre和route过滤器之后被调用 3
+ * error：处理请求时发生错误时被调用  4
+ *
  **/
-@Component
+//@Component
 @Slf4j
 public class PreZuulFilter extends ZuulFilter {
 
@@ -38,7 +44,7 @@ public class PreZuulFilter extends ZuulFilter {
         HttpServletRequest request = currentContext.getRequest();
         String method = request.getMethod();
         String servletPath = request.getServletPath();
-        log.info(">> 请求方法{}，请求路径：{}", method, servletPath);
+        log.info(">>> 请求方法{}，请求路径：{}", method, servletPath);
         return null;
     }
 }
