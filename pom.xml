@@ -14,13 +14,12 @@
         <module>fly-service-api</module>
     </modules>
     <packaging>pom</packaging>
-    <name>社区微商城接口服务</name>
+    <name>shop-cloud</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.12.RELEASE</version>
     </parent>
-
     <properties>
         <fly.version>1.0.0-SNAPSHOT</fly.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,11 +36,13 @@
         <fly-framework.version>1.0.0</fly-framework.version>
         <zipkin.version>2.12.3</zipkin.version>
         <spring-boot-admin.version>2.1.6</spring-boot-admin.version>
-        <oracle.version>11.2.0.4.0-atlassian-hosted</oracle.version>
         <!--Swagger Resources-->
         <swagger.version>2.9.2</swagger.version>
         <swagger-annotations.version>1.5.21</swagger-annotations.version>
         <swagger-models.version>1.5.21</swagger-models.version>
+        <!-- 指定jdk版本，避免项目导入无sdk报错-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
