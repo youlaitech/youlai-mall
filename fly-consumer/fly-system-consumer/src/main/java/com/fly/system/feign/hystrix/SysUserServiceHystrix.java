@@ -2,17 +2,17 @@ package com.fly.system.feign.hystrix;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fly.common.core.domain.Result;
-import com.fly.system.feign.SysUserServiceFeign;
+import com.fly.system.feign.ISysUserService;
 import com.fly.system.domain.SysUser;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SysUserServiceFeignHystrix implements FallbackFactory<SysUserServiceFeign> {
+public class SysUserServiceHystrix implements FallbackFactory<ISysUserService> {
 
     @Override
-    public SysUserServiceFeign create(Throwable throwable) {
-        return new SysUserServiceFeign() {
+    public ISysUserService create(Throwable throwable) {
+        return new ISysUserService() {
             @Override
             public Result<IPage<SysUser>> page() {
                 return null;

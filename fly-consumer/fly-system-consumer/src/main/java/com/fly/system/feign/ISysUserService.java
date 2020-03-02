@@ -3,13 +3,13 @@ package com.fly.system.feign;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fly.common.constant.ServiceNameConstants;
 import com.fly.common.core.domain.Result;
-import com.fly.system.feign.hystrix.SysUserServiceFeignHystrix;
+import com.fly.system.feign.hystrix.SysUserServiceHystrix;
 import com.fly.system.domain.SysUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = ServiceNameConstants.SYSTEM_PROVIDER, fallbackFactory = SysUserServiceFeignHystrix.class)
-public interface SysUserServiceFeign {
+@FeignClient(name = ServiceNameConstants.SYSTEM_PROVIDER, fallbackFactory = SysUserServiceHystrix.class)
+public interface ISysUserService {
 
     @GetMapping("/users/page")
     Result<IPage<SysUser>> page();
