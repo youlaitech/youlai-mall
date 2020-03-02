@@ -18,7 +18,6 @@ import java.security.Principal;
 @RequestMapping("/user")
 public class TokenController {
 
-
     @Autowired
     private TokenStore jdbcTokenStore;
 
