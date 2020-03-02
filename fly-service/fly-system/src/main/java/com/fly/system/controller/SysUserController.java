@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.controller.BaseController;
 import com.fly.common.core.domain.Result;
-import com.fly.system.pojo.entity.SysUser;
+import com.fly.system.entity.SysUser;
 import com.fly.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

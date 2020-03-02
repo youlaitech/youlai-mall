@@ -5,29 +5,35 @@ spring:
     active: dev
   application:
     name: fly-gateway
-  zipkin:
-    base-url: http://localhost:9411
-  boot:
-    admin:
-      client:
-        url: http://localhost:9001
-  cloud:
-    config:
-      uri: http://localhost:8888
-      name: ${spring.application.name}
-      profile: ${spring.profiles.active}
-      label: master
+ # cloud:
+ #   config:
+ #     uri: http://101.37.69.49:8888
+ #     name: ${spring.application.name}
+ #     profile: ${spring.profiles.active}
+
+
+zuul:
+  routes:
+    fly-auth:
+      path: /auth/**
+      sensitiveHeaders:
+      serviceId: fly-auth
+    fly-system:
+      path: /system/**
+      sensitiveHeaders:
+      serviceId: fly-system
+  host:
+    connectTimeoutMillis: 5000
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://101.37.69.49:8761/eureka/
   instance:
     instance-id: 网关-9999
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5
-
 
 # 全局参数设置
 ribbon:
@@ -36,6 +42,7 @@ ribbon:
   SocketTimeout: 10000
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 1
+
 hystrix:
   command:
     default:
@@ -45,6 +52,3 @@ hystrix:
             timeoutInMilliseconds: 40000
             # (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
             # (10000 +10000) * (0 + 1) * (1 + 1)
-zuul:
-  host:
-    connectTimeoutMillis: 5000

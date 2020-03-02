@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fly.common.constant.ServiceNameConstants;
 import com.fly.common.core.domain.Result;
 import com.fly.system.feign.factory.RemoteUserFallbackFactory;
-import com.fly.system.pojo.entity.SysUser;
+import com.fly.system.entity.SysUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

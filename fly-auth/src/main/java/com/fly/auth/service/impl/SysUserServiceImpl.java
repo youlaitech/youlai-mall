@@ -2,9 +2,9 @@ package com.fly.auth.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fly.auth.entity.SysUser;
 import com.fly.auth.mapper.SysUserMapper;
 import com.fly.auth.service.ISysUserService;
-import com.fly.system.pojo.entity.SysUser;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -2,9 +2,9 @@ package com.fly.auth.endpoints;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.fly.auth.domain.Result;
+import com.fly.auth.entity.SysUser;
 import com.fly.auth.service.ISysUserService;
-import com.fly.common.core.domain.Result;
-import com.fly.system.pojo.entity.SysUser;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

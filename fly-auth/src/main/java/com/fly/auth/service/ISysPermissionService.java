@@ -1,7 +1,7 @@
 package com.fly.auth.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fly.system.pojo.entity.SysPermission;
+import com.fly.auth.entity.SysPermission;
 
 import java.util.List;
 

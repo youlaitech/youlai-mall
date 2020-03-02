@@ -4,25 +4,11 @@ server:
 spring:
   application:
     name: fly-auth
-  zipkin:
-    base-url: http://localhost:9411
   main:
     allow-bean-definition-overriding: true
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://101.37.69.49:8888
       name: fly-auth
       profile: dev
       label: master
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    instance-id: 认证中心-8000
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 2
-    lease-expiration-duration-in-seconds: 5
-
-'

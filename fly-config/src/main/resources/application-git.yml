@@ -8,15 +8,15 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/fly2021/fly-cloud.git
+          uri: https://github.com/fly2021/shop-cloud.git
           search-paths: fly-config-properties
-    bus:
-      refresh:
-        enabled: true
-  kafka:
-    bootstrap-servers: 101.37.69.49:9092
-    consumer:
-      group-id: config-server
+#    bus:
+#     refresh:
+#       enabled: true
+# kafka:
+#   bootstrap-servers: 101.37.69.49:9092
+#   consumer:
+#     group-id: config-server
 
 eureka:
   instance:
@@ -26,7 +26,7 @@ eureka:
     lease-expiration-duration-in-seconds: 20
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://101.37.69.49:8761/eureka
     registry-fetch-interval-seconds: 10
 
 # 暴露刷新url：/actuator/bus-refresh
