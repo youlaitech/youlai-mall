@@ -1,4 +1,4 @@
-package com.fly.system.entity;
+package com.fly.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

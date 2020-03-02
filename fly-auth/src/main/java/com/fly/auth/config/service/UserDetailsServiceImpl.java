@@ -1,9 +1,9 @@
 package com.fly.auth.config.service;
 
+import com.fly.auth.entity.SysPermission;
+import com.fly.auth.entity.SysUser;
 import com.fly.auth.service.ISysPermissionService;
 import com.fly.auth.service.ISysUserService;
-import com.fly.system.pojo.entity.SysPermission;
-import com.fly.system.pojo.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

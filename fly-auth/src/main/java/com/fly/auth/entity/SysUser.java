@@ -1,8 +1,8 @@
-package com.fly.system.entity;
+package com.fly.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fly.common.core.domain.BaseEntity;
+import com.fly.auth.domain.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

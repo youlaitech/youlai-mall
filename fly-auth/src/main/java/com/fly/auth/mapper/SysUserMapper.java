@@ -2,7 +2,7 @@ package com.fly.auth.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.fly.system.pojo.entity.SysUser;
+import com.fly.auth.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
