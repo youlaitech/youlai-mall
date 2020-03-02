@@ -28,7 +28,8 @@ eureka:
     service-url:
       defaultZone: http://101.37.69.49:8761/eureka/
   instance:
-    hostname: 101.37.69.49 # eureka服务显示服务的host
+    ip-address: 101.37.69.49
+    hostname: ${eureka.instance.ip-address} # eureka服务显示服务的host
     instance-id: 认证中心-8000
     prefer-ip-address: false # true为自动获取本地IPV4地址
     lease-renewal-interval-in-seconds: 2
