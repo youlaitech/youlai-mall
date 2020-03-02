@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * error：处理请求时发生错误时被调用  4
  *
  **/
-//@Component
+@Component
 @Slf4j
 public class PreZuulFilter extends ZuulFilter {
 
