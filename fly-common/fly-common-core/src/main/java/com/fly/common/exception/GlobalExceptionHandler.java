@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public Result handleException(RuntimeException e) {
-        log.error(">> 运行时异常");
+        log.error(">> 运行时异常:{}",e.getMessage());
         return Result.error("运行时异常：" + e.getMessage());
     }
 

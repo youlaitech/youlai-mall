@@ -37,6 +37,9 @@ public class Result<T> {
     // 数据
     private T data;
 
+    private Result(){
+    }
+
     private Result(int code, String msg) {
         this.msg = msg;
         this.code = code;

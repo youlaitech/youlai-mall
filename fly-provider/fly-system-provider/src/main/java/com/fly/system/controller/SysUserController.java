@@ -1,15 +1,12 @@
 package com.fly.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.controller.BaseController;
-import com.fly.common.core.domain.Result;
-import com.fly.system.domain.SysUser;
+import com.fly.system.entity.SysUser;
 import com.fly.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
@@ -23,52 +20,43 @@ public class SysUserController extends BaseController {
     private ISysUserService iSysUserService;
 
     @GetMapping("/page")
-    public Result<IPage<SysUser>> page(SysUser sysUser) {
+    public Page<SysUser> page(SysUser sysUser) {
         Page<SysUser> page = initPage();
-        IPage<SysUser> data = iSysUserService.page(page);
-        return Result.success(data);
+        Page<SysUser> data = (Page)iSysUserService.page(page);
+        return data;
     }
 
     @GetMapping("/{id}")
-    public Result get(@PathVariable Long id) {
+    public SysUser get(@PathVariable Long id) {
         SysUser user = iSysUserService.getById(id);
-        if(user==null){
-            throw new RuntimeException("用户不存在");
-        }
-      return Result.success(user);
+        return user;
     }
 
     @PostMapping
-    public Result add(@RequestBody SysUser sysUser) {
-        return Result.status(iSysUserService.save(sysUser));
+    public boolean add(@RequestBody SysUser sysUser) {
+        return iSysUserService.save(sysUser);
     }
 
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable("id") Long id, @RequestBody SysUser sysUser) {
-        boolean result= iSysUserService.updateById(sysUser);
-        return Result.success(result);
+    public boolean update(@PathVariable("id") Long id, @RequestBody SysUser sysUser) {
+        return iSysUserService.updateById(sysUser);
     }
 
     @GetMapping("/list")
-    public Result list() {
+    public List<SysUser> list() {
         List<SysUser> list = iSysUserService.list();
-        return Result.success(list);
+        return list;
     }
 
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable Long[] ids) {
-        boolean result= iSysUserService.removeByIds(Arrays.asList(ids));
-        return Result.success(result);
+    public boolean delete(@PathVariable Long[] ids) {
+        return iSysUserService.removeByIds(Arrays.asList(ids));
     }
 
     @GetMapping("/username/{username}")
-    public Result<SysUser> getUserByName(@PathVariable String username){
+    public SysUser getUserByName(@PathVariable String username) {
         SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserName, username));
-        return Result.success(user);
+        return user;
     }
-
-
-
-
 }

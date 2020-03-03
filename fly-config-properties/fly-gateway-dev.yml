@@ -18,7 +18,7 @@ eureka:
       defaultZone: http://101.37.69.49:8761/eureka/
   instance:
     ip-address: 101.37.69.49
-    hostname: ${eureka.instance.ip-address} # eureka服务显示服务的host
+    hostname: ${eureka.instance.ip-address}
     instance-id: 网关-9999
     prefer-ip-address: false
     lease-renewal-interval-in-seconds: 2

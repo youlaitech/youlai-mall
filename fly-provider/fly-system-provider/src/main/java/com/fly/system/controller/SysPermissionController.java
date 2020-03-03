@@ -1,9 +1,7 @@
 package com.fly.system.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly.common.core.domain.Result;
-import com.fly.system.domain.SysPermission;
+import com.fly.system.entity.SysPermission;
 import com.fly.system.service.ISysPermissionService;
 import com.fly.common.core.controller.BaseController;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +18,21 @@ public class SysPermissionController extends BaseController {
     private ISysPermissionService iSysPermissionService;
 
     @GetMapping("/page")
-    public Result<IPage<SysPermission>> page(SysPermission sysUser) {
+    public Page<SysPermission> page(SysPermission sysUser) {
         Page<SysPermission> page = initPage();
-        IPage<SysPermission> data = iSysPermissionService.page(page);
-        return Result.success(data);
+        Page<SysPermission> data = (Page)iSysPermissionService.page(page);
+        return data;
     }
 
     @GetMapping("/{id}")
-    public Result get(@PathVariable Long id) {
-        SysPermission user = iSysPermissionService.getById(id);
-        return Result.success(user);
+    public SysPermission get(@PathVariable Long id) {
+        SysPermission permission= iSysPermissionService.getById(id);
+        return permission;
     }
 
     @PostMapping
-    public Result add(@RequestBody SysPermission sysUser) {
-        return Result.status(iSysPermissionService.save(sysUser));
+    public boolean add(@RequestBody SysPermission sysUser) {
+        return iSysPermissionService.save(sysUser);
     }
 
     @PutMapping(value = "/{id}")
@@ -52,5 +50,4 @@ public class SysPermissionController extends BaseController {
     public boolean delete(@PathVariable Long[] ids) {
         return iSysPermissionService.removeByIds(Arrays.asList(ids));
     }
-
 }

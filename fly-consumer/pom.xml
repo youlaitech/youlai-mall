@@ -41,11 +41,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
-
+        <!-- common -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <groupId>com.fly.cloud</groupId>
+            <artifactId>fly-common-core</artifactId>
+            <version>${fly.version}</version>
         </dependency>
-
     </dependencies>
 </project>
