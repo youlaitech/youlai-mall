@@ -17,7 +17,7 @@ public class FileController {
     private IFileService iFileService;
 
     @PostMapping
-    private Result upload(@RequestParam("file") MultipartFile file){
+    private Result upload(@RequestPart("file") MultipartFile file){
         String path = iFileService.upload(file);
         return Result.success(path);
     }
