@@ -1,4 +1,4 @@
-package com.fly.system.domain;
+package com.fly.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -20,7 +20,7 @@ public class SysUser extends BaseEntity {
     private Long deptId;
     private String delFlag;
     private Integer status;
-    private String avatar;
+    private String avatarUrl;
     private String tel;
     private String email;
 }

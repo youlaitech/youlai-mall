@@ -9,11 +9,3 @@ eureka:
     prefer-ip-address: false
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5
-
-# oauth2获取用户信息
-security:
-  oauth2:
-    resource:
-      id: current-user
-      user-info-uri: http://localhost:9999/auth/user/current
-      prefer-token-info: false
