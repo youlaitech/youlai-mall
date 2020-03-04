@@ -1,8 +1,8 @@
 package com.fly.system.controller;
 
-import com.fly.system.utils.FastdfsClientUtils;
+import com.fly.common.core.domain.FileInfo;
+import com.fly.system.utils.FastdfsClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,28 +16,28 @@ import java.io.IOException;
 public class FileController {
 
     @Autowired
-   private FastdfsClientUtils fastdfsClientUtils;
-
+    private FastdfsClientUtil fastdfsClientUtil;
 
     /**
      * 文件上传
+     *
      * @param file
      * @return
      * @throws IOException
      */
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String upload(@RequestPart("file") MultipartFile file) throws IOException {
-       return fastdfsClientUtils.upload(file);
+    @PostMapping
+    public FileInfo upload(@RequestParam("file") MultipartFile file) throws IOException {
+        return fastdfsClientUtil.upload(file);
     }
 
     /**
      * 文件删除
-     * @param fileUrl
+     *
+     * @param filePath 文件路径
      */
-    @DeleteMapping("/fileUrl/{fileUrl}")
-    public void deleteFile(@PathVariable("fileUrl") String fileUrl){
-         fastdfsClientUtils.deleteFile(fileUrl);
+    @DeleteMapping()
+    public void deleteFile(@RequestBody String filePath) {
+        fastdfsClientUtil.delete(filePath);
     }
-
 
 }

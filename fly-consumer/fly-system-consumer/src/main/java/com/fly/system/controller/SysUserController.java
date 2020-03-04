@@ -18,9 +18,10 @@ public class SysUserController {
     @Resource
     private ISysUserService iSysUserService;
 
-    @GetMapping("/page")
-    public Result<Page<SysUser>> page(SysUser sysUser) {
-        return Result.success(iSysUserService.page());
+    @GetMapping("/pageNum/{pageNum}/pageSize/{pageSize}")
+    public Result<Page<SysUser>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, SysUser sysUser) {
+        Page<SysUser> page = iSysUserService.page(pageNum, pageSize, sysUser);
+        return Result.success(page);
     }
 
     @GetMapping("/{id}")
@@ -30,12 +31,12 @@ public class SysUserController {
 
     @PostMapping
     public Result add(@RequestBody SysUser sysUser) {
-        return Result.success( iSysUserService.add(sysUser));
+        return Result.success(iSysUserService.add(sysUser));
     }
 
     @PutMapping(value = "/{id}")
     public Result update(@PathVariable("id") Long id, @RequestBody SysUser sysUser) {
-        return Result.success(iSysUserService.update(id,sysUser));
+        return Result.success(iSysUserService.update(id, sysUser));
     }
 
     @DeleteMapping("/{ids}")

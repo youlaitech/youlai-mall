@@ -1,5 +1,6 @@
 package com.fly.system.controller;
 
+import com.fly.common.core.domain.FileInfo;
 import com.fly.common.core.domain.Result;
 import com.fly.system.feign.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,14 @@ public class FileController {
     private IFileService iFileService;
 
     @PostMapping
-    private Result upload(@RequestPart("file") MultipartFile file){
-        String path = iFileService.upload(file);
-        return Result.success(path);
+    private Result upload(@RequestParam("file") MultipartFile file){
+        FileInfo fileInfo = iFileService.upload(file);
+        return Result.success(fileInfo);
     }
 
-    @DeleteMapping("/fileUrl/{fileUrl}")
-    private Result deleteFile(@PathVariable String fileUrl){
-        iFileService.deleteFile(fileUrl);
+    @DeleteMapping()
+    private Result delete(@RequestBody String filePath){
+        iFileService.deleteFile(filePath);
         return Result.success();
     }
 }
