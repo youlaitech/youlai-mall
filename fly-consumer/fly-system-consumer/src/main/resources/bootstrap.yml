@@ -10,3 +10,7 @@ spring:
       name: fly-system-consumer
       profile: dev
       label: master
+
+feign:
+  httpclient:
+    enabled: true

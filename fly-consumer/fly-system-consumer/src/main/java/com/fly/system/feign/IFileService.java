@@ -1,7 +1,7 @@
 package com.fly.system.feign;
 
 import com.fly.common.constant.ServiceNameConstants;
-import com.fly.system.config.FeignMultipartSupportConfig;
+import com.fly.common.core.domain.FileInfo;
 import com.fly.system.feign.fallback.FileServiceFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -15,13 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  * @date 2020-03-03 18:36
  **/
-@FeignClient(name = ServiceNameConstants.SYSTEM_PROVIDER, contextId ="file",configuration = FeignMultipartSupportConfig.class,fallbackFactory = FileServiceFallback.class)
+@FeignClient(name = ServiceNameConstants.SYSTEM_PROVIDER, contextId ="FILE",fallbackFactory = FileServiceFallback.class)
 public interface IFileService {
 
-    @PostMapping(value = "/files",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    String upload(@RequestPart("file") MultipartFile file);
+    @PostMapping(value = "/files",produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    FileInfo upload(@RequestPart("file") MultipartFile file);
 
-    @DeleteMapping("/files/fileUrl/{fileUrl}")
-    void deleteFile(@PathVariable String fileUrl);
+    @DeleteMapping("/files")
+    void deleteFile(@RequestBody String filePath);
 
 }

@@ -1,5 +1,6 @@
 package com.fly.system.utils;
 
+import com.fly.common.core.domain.FileInfo;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.fdfs.ThumbImageConfig;
 import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
@@ -18,8 +19,7 @@ import java.io.IOException;
  **/
 @Component
 @Slf4j
-public class FastdfsClientUtils {
-
+public class FastdfsClientUtil {
 
     @Value("${file.root-path}")
     private String fileRootPath;
@@ -37,30 +37,32 @@ public class FastdfsClientUtils {
      * @return
      * @throws Exception
      */
-    public String upload(MultipartFile file) throws IOException {
+    public FileInfo upload(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);//文件名
         String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);   // 文件扩展名
-        log.info(">>> begin upload file: originalFilename is {originalFilename},ext is {ext}", originalFilename, ext);
-        StorePath storePath = this.fastFileStorageClient.uploadImageAndCrtThumbImage(file.getInputStream(), file.getSize(), originalFilename, null);
+        log.info(">>> begin upload file: originalFilename is {},ext is {}", originalFilename, ext);
+        StorePath storePath = this.fastFileStorageClient.uploadFile(file.getInputStream(), file.getSize(), originalFilename, null);
         String path = storePath.getFullPath();
         // 获取缩略图路径
         String thumbImagePath = thumbImageConfig.getThumbImagePath(path);
-        log.info(">>> upload success,file path is {}",path);
-        return fileRootPath+path;
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFilePath(fileRootPath + path);
+        fileInfo.setThumbImagePath(fileRootPath + thumbImagePath);
+        return fileInfo;
     }
 
     /**
      * 删除文件
      *
-     * @Param fileUrl 文件访问地址
+     * @Param url 文件路径
      */
-    public void deleteFile(String fileUrl) {
-        log.info(">>> begin delete file: fileUrl is {}", fileUrl);
-        if (StringUtils.isEmpty(fileUrl)) {
+    public void delete(String filePath) {
+        log.info(">>> begin delete file: filePath is {}", filePath);
+        if (StringUtils.isEmpty(filePath)) {
             return;
         }
         try {
-            StorePath storePath = StorePath.parseFromUrl(fileUrl);
+            StorePath storePath = StorePath.parseFromUrl(filePath);
             fastFileStorageClient.deleteFile(storePath.getGroup(), storePath.getPath());
         } catch (FdfsUnsupportStorePathException e) {
             log.warn(e.getMessage());

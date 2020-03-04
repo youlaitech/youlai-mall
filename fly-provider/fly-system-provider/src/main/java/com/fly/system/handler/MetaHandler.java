@@ -15,14 +15,14 @@ public class MetaHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("createTime", new Date(), metaObject);
-        this.setFieldValByName("createBy", "com/fly/system", metaObject);
+        this.setFieldValByName("createBy", "fly4j", metaObject);
         this.setFieldValByName("updateTime", new Date(), metaObject);
-        this.setFieldValByName("updateBy", "com/fly/system", metaObject);
+        this.setFieldValByName("updateBy", "fly4j", metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         this.setFieldValByName("updateTime", new Date(), metaObject);
-        this.setFieldValByName("updateBy", "com/fly/system", metaObject);
+        this.setFieldValByName("updateBy", "fly4j", metaObject);
     }
 }

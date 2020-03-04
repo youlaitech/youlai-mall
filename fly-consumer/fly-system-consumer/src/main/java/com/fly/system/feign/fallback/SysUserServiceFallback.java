@@ -13,7 +13,7 @@ public class SysUserServiceFallback implements FallbackFactory<ISysUserService> 
     public ISysUserService create(Throwable throwable) {
         return new ISysUserService() {
             @Override
-            public Page<SysUser> page() {
+            public Page<SysUser> page(Integer pageNum, Integer pageSize, SysUser sysUser) {
                 return null;
             }
 

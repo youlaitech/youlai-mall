@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.User;
  * @date 2019-05-24
  */
 @UtilityClass
-public class SecurityUtils {
+public class SecurityUtil {
 
     /**
      * 获取Authentication

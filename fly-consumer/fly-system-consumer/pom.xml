@@ -9,17 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>fly-system-consumer</artifactId>
+
     <dependencies>
         <dependency>
-            <groupId>io.github.openfeign.form</groupId>
-            <artifactId>feign-form</artifactId>
-            <version>3.3.0</version>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.github.openfeign.form</groupId>
-            <artifactId>feign-form-spring</artifactId>
-            <version>3.3.0</version>
-        </dependency>
-
     </dependencies>
 </project>

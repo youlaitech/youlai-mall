@@ -12,6 +12,7 @@ import java.util.Enumeration;
 
 /**
  * Created by XianRui on 2020-03-03 9:22
+ * feign拦截添加原request请求头和参数
  **/
 @Configuration
 public class FeignClientConfig implements RequestInterceptor {
@@ -31,5 +32,19 @@ public class FeignClientConfig implements RequestInterceptor {
                 }
             }
         }
+
+       /* Enumeration<String> bodyNames = request.getParameterNames();
+        StringBuffer sb = new StringBuffer();
+        if (bodyNames != null) {
+            while (bodyNames.hasMoreElements()) {
+                String name = bodyNames.nextElement();
+                String values = request.getParameter(name);
+                sb.append(name).append("=").append(values).append("&");
+            }
+        }
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+            requestTemplate.body(sb.toString());
+        }*/
     }
 }
