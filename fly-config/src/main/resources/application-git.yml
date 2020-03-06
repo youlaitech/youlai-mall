@@ -9,7 +9,7 @@ spring:
       server:
         git:
           uri: https://github.com/fly2021/shop-cloud.git
-          search-paths: fly-config-properties
+          search-paths: fly-config-props/prod
 #    bus:
 #     refresh:
 #       enabled: true

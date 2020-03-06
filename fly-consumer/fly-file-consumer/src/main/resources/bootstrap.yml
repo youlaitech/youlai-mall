@@ -1,13 +1,13 @@
 server:
-  port: 9001
+  port: 9601
 
 spring:
   application:
-    name: fly-system-consumer
+    name: fly-file-consumer
   cloud:
     config:
       uri: http://101.37.69.49:8888
-      name: fly-system-consumer
-      profile: dev
+      name: fly-file-consumer
+      profile: prod
       label: master
 

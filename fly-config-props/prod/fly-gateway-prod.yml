@@ -1,8 +1,3 @@
-server:
-  port: 9999
-spring:
-  application:
-    name: fly-gateway
 zuul:
   routes:
     fly-auth:
@@ -13,18 +8,27 @@ zuul:
     fly-system:
       path: /system/**
       sensitiveHeaders:
-      serviceId: fly-system
+      serviceId: fly-system-consumer
       stripPrefix: true # path前缀是否删除
+    fly-file:
+      path: /files/**
+      sensitiveHeaders:
+      serviceId: fly-file-consumer
+      stripPrefix: false # 不会删除files
+
   host:
     connectTimeoutMillis: 5000
+
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://101.37.69.49:8761/eureka/
   instance:
+    ip-address: 101.37.69.49
+    hostname: ${eureka.instance.ip-address}
     instance-id: 网关-9999
-    prefer-ip-address: true
+    prefer-ip-address: false
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5
 
