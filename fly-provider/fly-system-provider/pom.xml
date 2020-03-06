@@ -22,18 +22,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- hystrix -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        </dependency>
 
-        <!-- common -->
-        <dependency>
-            <groupId>com.fly.cloud</groupId>
-            <artifactId>fly-common-core</artifactId>
-            <version>${fly.version}</version>
-        </dependency>
 
         <!-- druid连接池 -->
         <dependency>
@@ -55,23 +44,10 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <!--配置文件处理器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

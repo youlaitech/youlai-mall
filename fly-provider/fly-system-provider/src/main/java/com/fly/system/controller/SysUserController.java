@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.controller.BaseController;
 import com.fly.system.service.ISysUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 import com.fly.system.pojo.entity.SysUser;
 
-@Slf4j
+@Api(tags = "用户接口")
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class SysUserController extends BaseController {
 
     @Resource

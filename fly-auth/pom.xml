@@ -8,10 +8,10 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>fly-auth</artifactId>
 
     <dependencies>
+        <!-- spring cloud -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
@@ -42,8 +42,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
-
-        <!-- Mysql驱动包 -->
+        <!-- mysql driver -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -62,19 +61,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--配置文件处理器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
-
-
-    <properties>
-        <docker.image.prefix>fly4j</docker.image.prefix>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -97,7 +84,7 @@
                 </executions>
 
                 <configuration>
-                    <!-- 镜像名称 fly4j/fly-auth -->
+                    <!-- 镜像名称 -->
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <!-- 指定标签 -->
                     <imageTags>
@@ -106,7 +93,7 @@
                     <!-- 基础镜像jdk1.8 -->
                     <baseImage>java</baseImage>
                     <!-- 制作者信息 -->
-                    <maintainer>fly4j</maintainer>
+                    <maintainer>${docker.image.prefix}</maintainer>
 
                     <!-- 切换到工作目录-->
                     <workdir>/ROOT</workdir>

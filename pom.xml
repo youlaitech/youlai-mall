@@ -21,6 +21,7 @@
         <version>2.1.12.RELEASE</version>
     </parent>
     <properties>
+        <docker.image.prefix>fly4j</docker.image.prefix>
         <fly.version>1.0.0-SNAPSHOT</fly.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -56,6 +57,37 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- zipkin -->
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-server</artifactId>
+                <version>${zipkin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-autoconfigure-ui</artifactId>
+                <version>${zipkin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+
             <!--mysql驱动包-->
             <dependency>
                 <groupId>mysql</groupId>
@@ -84,41 +116,20 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-            <!-- hutool工具类 -->
             <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- zipkin -->
-            <dependency>
-                <groupId>io.zipkin.java</groupId>
-                <artifactId>zipkin-server</artifactId>
-                <version>${zipkin.version}</version>
+                <groupId>com.fly.cloud</groupId>
+                <artifactId>fly-common-core</artifactId>
+                <version>${fly.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.zipkin.java</groupId>
-                <artifactId>zipkin-autoconfigure-ui</artifactId>
-                <version>${zipkin.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-server</artifactId>
-                <version>${spring-boot-admin.version}</version>
+                <groupId>com.github.tobato</groupId>
+                <artifactId>fastdfs-client</artifactId>
+                <version>${fastdfs-client.version}</version>
             </dependency>
             <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>${spring-boot-admin.version}</version>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-httpclient</artifactId>
+                <version>${feign-httpclient.version}</version>
             </dependency>
 
             <!-- Swagger2 -->
@@ -132,7 +143,6 @@
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-            <!-- 使用Swagger2最新版本2.9.2避免NumberFormatException错误要引入下列两个依赖 -->
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
@@ -142,21 +152,6 @@
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-models</artifactId>
                 <version>${swagger-models.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc6</artifactId>
-                <version>${oracle.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.tobato</groupId>
-                <artifactId>fastdfs-client</artifactId>
-                <version>${fastdfs-client.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.openfeign</groupId>
-                <artifactId>feign-httpclient</artifactId>
-                <version>${feign-httpclient.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>fly-system-consumer</module>
+        <module>fly-file-consumer</module>
     </modules>
     <dependencies>
         <!-- spring boot web 依赖 -->
@@ -35,7 +36,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
-
         <!-- config -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -46,6 +46,23 @@
             <groupId>com.fly.cloud</groupId>
             <artifactId>fly-common-core</artifactId>
             <version>${fly.version}</version>
+        </dependency>
+        <!-- Swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
         </dependency>
     </dependencies>
 </project>
