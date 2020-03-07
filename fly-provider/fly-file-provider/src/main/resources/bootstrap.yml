@@ -1,8 +1,7 @@
-
 spring:
   application:
     name: fly-file-provider
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://101.37.69.49:8888
       name: ${spring.application.name}
