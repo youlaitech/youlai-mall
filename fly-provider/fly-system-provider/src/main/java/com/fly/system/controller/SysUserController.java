@@ -7,7 +7,7 @@ import com.fly.common.core.domain.Result;
 import com.fly.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
