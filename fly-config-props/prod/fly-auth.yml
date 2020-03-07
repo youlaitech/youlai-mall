@@ -22,6 +22,8 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
+  main:
+    allow-bean-definition-overriding: true
 
 mybatis-plus:
   configuration:
