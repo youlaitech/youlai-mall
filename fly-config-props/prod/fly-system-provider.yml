@@ -22,8 +22,7 @@ spring:
 #        enabled: true
 #  kafka:
 #    bootstrap-servers: 101.37.69.49:9092
-  main:
-    allow-bean-definition-overriding: true
+
 
 mybatis-plus:
   configuration:
@@ -37,7 +36,7 @@ eureka:
     service-url:
       defaultZone: http://101.37.69.49:8761/eureka/
   instance:
-    ip-address: localhost
+    ip-address: 101.132.25.57
     hostname: ${eureka.instance.ip-address}
     instance-id: 系统服务提供方-8001
     prefer-ip-address: false
