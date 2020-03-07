@@ -1,5 +1,4 @@
 spring:
-  port: 8000
   application:
     name: fly-auth
   cloud:
