@@ -1,3 +1,6 @@
+server:
+  port: 9999
+
 zuul:
   routes:
     fly-auth:

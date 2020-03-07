@@ -1,5 +1,4 @@
 spring:
-  port: 9999
   application:
     name: fly-gateway
   cloud:
