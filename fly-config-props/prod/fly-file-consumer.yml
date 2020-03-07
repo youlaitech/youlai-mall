@@ -1,3 +1,9 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size : 100Mb
+      max-request-size : 100Mb
+
 eureka:
   client:
     service-url:

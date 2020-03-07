@@ -40,8 +40,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("钜星微服务项目")
-                .contact(new Contact("juxingtech", "http://www.juxingtech.cn", "juxingtech@163.com"))
+                .title("微商城微服务项目")
+                .contact(new Contact("fly4j", "http://www.fly4j.cn", "fly4j@163.com"))
                 .version("1.0.0")
                 .build();
     }
