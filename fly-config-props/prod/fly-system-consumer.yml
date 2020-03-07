@@ -5,7 +5,7 @@ eureka:
   instance:
     ip-address: localhost
     hostname: ${eureka.instance.ip-address}
-    instance-id: System消费方-9001
+    instance-id: 系统服务消费方-9001
     prefer-ip-address: false
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5

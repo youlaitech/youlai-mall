@@ -36,7 +36,7 @@ eureka:
   instance:
     ip-address: localhost
     hostname: ${eureka.instance.ip-address}
-    instance-id: System提供方-8001
+    instance-id: 系统服务提供方-8001
     prefer-ip-address: false
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5
@@ -53,17 +53,6 @@ security:
 swagger:
   auth:
     server: http://101.37.69.49:8000/oauth/token
-
-fdfs:
-  so-timeout: 1501  # 超时时间
-  connect-timeout: 601 # 连接超时时间
-  thumb-image: # 缩略图
-    width: 60
-    height: 60
-  tracker-list: # tracker调度服务器 支持多个 默认22122
-    - 101.37.69.49:22122
-file:
-  root-path: http://101.37.69.49/
 #management:
 #  endpoints:
 #    web:
