@@ -42,9 +42,6 @@
         </dependency>-->
     </dependencies>
 
-    <properties>
-        <docker.image.prefix>fly4j</docker.image.prefix>
-    </properties>
 
     <build>
         <plugins>
@@ -68,7 +65,7 @@
                 </executions>
 
                 <configuration>
-                    <!-- 镜像名称 fly4j/fly-config -->
+                    <!-- 镜像名称 -->
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <!-- 指定标签 -->
                     <imageTags>
@@ -77,7 +74,7 @@
                     <!-- 基础镜像jdk1.8 -->
                     <baseImage>java</baseImage>
                     <!-- 制作者信息 -->
-                    <maintainer>fly4j</maintainer>
+                    <maintainer>${docker.image.prefix}</maintainer>
 
                     <!-- 切换到工作目录-->
                     <workdir>/ROOT</workdir>

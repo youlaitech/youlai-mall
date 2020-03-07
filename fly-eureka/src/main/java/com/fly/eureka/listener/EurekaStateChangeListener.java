@@ -15,19 +15,19 @@ public class EurekaStateChangeListener {
     @EventListener
     public void listen(EurekaInstanceCanceledEvent event) {
         //服务下线事件
-        log.info("服务:{}|{}挂了",event.getAppName(),event.getServerId());
+        log.info("service:{}|{} shutdown",event.getAppName(),event.getServerId());
     }
 
     @EventListener
     public void listen(EurekaInstanceRegisteredEvent event) {
         //服务注册事件
-        log.info("服务:{}|{}注册成功了",event.getInstanceInfo().getAppName(),event.getInstanceInfo().getIPAddr());
+        log.info("service:{}|{} registration successful",event.getInstanceInfo().getAppName(),event.getInstanceInfo().getIPAddr());
     }
 
     @EventListener
     public void listen(EurekaInstanceRenewedEvent event) {
         //服务续约事件
-        log.info("心跳检测:{}|{}",event.getInstanceInfo().getAppName(),event.getInstanceInfo().getIPAddr());
+        log.info("heartbeat check :{}|{}",event.getInstanceInfo().getAppName(),event.getInstanceInfo().getIPAddr());
     }
 
     @EventListener

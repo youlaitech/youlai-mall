@@ -3,7 +3,7 @@ eureka:
     service-url:
       defaultZone: http://101.37.69.49:8761/eureka/
   instance:
-    ip-address: 101.37.69.49
+    ip-address: 127.0.0.1
     hostname: ${eureka.instance.ip-address}
     instance-id: 文件服务提供方-8100
     prefer-ip-address: false
@@ -30,5 +30,5 @@ security:
   oauth2:
     resource:
       id: current-user
-      user-info-uri: http://101.37.69.49:9999/auth/user/current
+      user-info-uri: http://localhost:9999/auth/user/current
       prefer-token-info: false
