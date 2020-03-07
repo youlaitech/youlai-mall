@@ -28,7 +28,7 @@ eureka:
     lease-expiration-duration-in-seconds: 20
   client:
     serviceUrl:
-      defaultZone: http://${eureka.instance.ip-address}:8761/eureka
+      defaultZone: http://101.37.69.49:8761/eureka
     registry-fetch-interval-seconds: 10
 
 # 暴露刷新url：/actuator/bus-refresh
