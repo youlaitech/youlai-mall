@@ -1,6 +1,8 @@
 server:
   port: 8000
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,8 +26,7 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
-  main:
-    allow-bean-definition-overriding: true
+
 
 mybatis-plus:
   configuration:
