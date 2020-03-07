@@ -1,5 +1,5 @@
 server:
-  port: 8100
+  port: 9999
   max-http-header-size: 10MB
 
 zuul:
