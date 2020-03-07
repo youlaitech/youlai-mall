@@ -1,0 +1,30 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://101.37.69.49:8761/eureka/
+  instance:
+    ip-address: localhost
+    hostname: ${eureka.instance.ip-address}
+    instance-id: System消费方-9001
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5
+
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000
+            # (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
+            # (10000 +10000) * (0 + 1) * (1 + 1)

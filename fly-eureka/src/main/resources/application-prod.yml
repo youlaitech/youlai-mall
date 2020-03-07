@@ -2,7 +2,7 @@ server:
   port: 8761
 spring:
   application:
-    name: eureka-server
+    name: fly-eureka
 eureka:
   client:
     fetch-registry: false

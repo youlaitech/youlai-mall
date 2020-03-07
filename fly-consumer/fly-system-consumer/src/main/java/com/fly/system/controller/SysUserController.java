@@ -1,6 +1,5 @@
 package com.fly.system.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.domain.Result;
 import com.fly.system.domain.SysUser;
 import com.fly.system.feign.RemoteSysUserService;
@@ -18,28 +17,47 @@ public class SysUserController {
     private RemoteSysUserService remoteSysUserService;
 
     @GetMapping("/pageNum/{pageNum}/pageSize/{pageSize}")
-    public Result<Page<SysUser>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, SysUser sysUser) {
-        Page<SysUser> page = remoteSysUserService.page(pageNum, pageSize, sysUser);
-        return Result.success(page);
+    public Result page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, SysUser sysUser) {
+        Result result = remoteSysUserService.page(pageNum, pageSize, sysUser);
+        if (result.getCode() == Result.Status.SUCCESS.value()) {
+            return Result.success(result.getData());
+        }
+        return Result.error();
     }
 
     @GetMapping("/{id}")
     public Result get(@PathVariable Long id) {
-        return Result.success(remoteSysUserService.getById(id));
+        Result<SysUser> result = remoteSysUserService.getById(id);
+        if (result.getCode() == Result.Status.SUCCESS.value()) {
+            return Result.success(result.getData());
+        }
+        return Result.error();
     }
 
     @PostMapping
     public Result add(@RequestBody SysUser sysUser) {
-        return Result.success(remoteSysUserService.add(sysUser));
+        Result result = remoteSysUserService.add(sysUser);
+        if (result.getCode() == Result.Status.SUCCESS.value()) {
+            return Result.success();
+        }
+        return Result.error();
     }
 
     @PutMapping(value = "/{id}")
     public Result update(@PathVariable("id") Long id, @RequestBody SysUser sysUser) {
-        return Result.success(remoteSysUserService.update(id, sysUser));
+        Result result = remoteSysUserService.update(id, sysUser);
+        if (result.getCode() == Result.Status.SUCCESS.value()) {
+            return Result.success(result.getData());
+        }
+        return Result.error();
     }
 
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable Long[] ids) {
-        return Result.success(remoteSysUserService.delete(ids));
+        Result result = remoteSysUserService.delete(ids);
+        if (result.getCode() == Result.Status.SUCCESS.value()) {
+            return Result.success();
+        }
+        return Result.error();
     }
 }
