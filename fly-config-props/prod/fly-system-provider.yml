@@ -54,9 +54,16 @@ swagger:
   auth:
     server: http://101.37.69.49:8000/oauth/token
 
-system:
-  info:
-    title: fly-cloud-dev
+fdfs:
+  so-timeout: 1501  # 超时时间
+  connect-timeout: 601 # 连接超时时间
+  thumb-image: # 缩略图
+    width: 60
+    height: 60
+  tracker-list: # tracker调度服务器 支持多个 默认22122
+    - 101.37.69.49:22122
+file:
+  root-path: http://101.37.69.49/
 #management:
 #  endpoints:
 #    web:

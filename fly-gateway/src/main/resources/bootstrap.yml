@@ -1,11 +1,8 @@
 spring:
   port: 9999
-  profiles:
-    active: prod
   application:
     name: fly-gateway
-    cloud:
-      config:
-        uri: http://101.37.69.49:8888
-        name: ${spring.application.name}
-        profile: ${spring.profiles.active}
+  cloud:
+    config:
+      uri: http://101.37.69.49:8888
+      name: ${spring.application.name}

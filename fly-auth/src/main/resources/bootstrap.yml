@@ -1,7 +1,5 @@
 spring:
   port: 8000
-  profiles:
-    active: prod
   application:
     name: fly-auth
     main:
@@ -10,4 +8,3 @@ spring:
       config:
         uri: http://101.37.69.49:8888
         name: ${spring.application.name}
-        profile: ${spring.profiles.active}
