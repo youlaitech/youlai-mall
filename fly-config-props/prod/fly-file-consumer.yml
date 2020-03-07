@@ -13,7 +13,7 @@ eureka:
     service-url:
       defaultZone: http://${eureka.instance.ip-address}:8761/eureka/
   instance:
-    ip-address: 127.0.0.1
+    ip-address: 101.37.69.49
     hostname: ${eureka.instance.ip-address}
     instance-id: 文件服务消费方-9100
     prefer-ip-address: false

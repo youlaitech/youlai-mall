@@ -20,7 +20,7 @@ spring:
 
 eureka:
   instance:
-    ip-address: 127.0.0.1
+    ip-address: 101.37.69.49
     hostname: ${eureka.instance.ip-address} # eureka服务显示服务的host
     instance-id: 配置中心-8888
     prefer-ip-address: false
