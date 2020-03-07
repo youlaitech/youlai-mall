@@ -19,6 +19,11 @@ zuul:
       sensitiveHeaders:
       serviceId: fly-file-provider
       stripPrefix: false # 不会删除files
+    shop-goods:
+      path: /goods/**
+      sensitiveHeaders:
+      serviceId: shop-goods-provider
+      stripPrefix: true # path前缀是否删除
 
   host:
     connectTimeoutMillis: 5000
