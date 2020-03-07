@@ -2,6 +2,12 @@ server:
   port: 9999
   max-http-header-size: 10MB
 
+spring:
+  servlet:
+    multipart:
+      max-file-size : 10MB # 单个文件大小
+      max-request-size: 100MB # 单次请求上传总文件大小
+
 zuul:
   routes:
     fly-auth:
@@ -23,7 +29,7 @@ zuul:
       path: /goods/**
       sensitiveHeaders:
       serviceId: shop-goods-provider
-      stripPrefix: true # path前缀是否删除
+      stripPrefix: true
 
   host:
     connectTimeoutMillis: 5000
