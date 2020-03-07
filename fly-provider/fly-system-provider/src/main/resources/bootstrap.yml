@@ -4,22 +4,12 @@ server:
 spring:
   application:
     name: fly-system-provider
+  main:
+    allow-bean-definition-overriding: true
   cloud:
     config:
       uri: http://101.37.69.49:8888
-      name: fly-system-provider
-      profile: prod
-      label: master
-  main:
-    allow-bean-definition-overriding: true
+      name: ${spring.application.name}
 
-fdfs:
-  so-timeout: 1501  # 超时时间
-  connect-timeout: 601 # 连接超时时间
-  thumb-image: # 缩略图
-    width: 60
-    height: 60
-  tracker-list: # tracker调度服务器 支持多个 默认22122
-    - 101.37.69.49:22122
-file:
-  root-path: http://101.37.69.49/
+
+
