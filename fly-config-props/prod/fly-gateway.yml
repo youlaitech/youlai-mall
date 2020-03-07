@@ -8,12 +8,12 @@ zuul:
     fly-system:
       path: /system/**
       sensitiveHeaders:
-      serviceId: fly-system-consumer
+      serviceId: fly-system-provider
       stripPrefix: true # path前缀是否删除
     fly-file:
       path: /files/**
       sensitiveHeaders:
-      serviceId: fly-file-consumer
+      serviceId: fly-file-provider
       stripPrefix: false # 不会删除files
 
   host:
