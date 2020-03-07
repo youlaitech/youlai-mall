@@ -2,9 +2,7 @@ spring:
   port: 8000
   application:
     name: fly-auth
-    main:
-      allow-bean-definition-overriding: true
-    cloud:
-      config:
-        uri: http://101.37.69.49:8888
-        name: ${spring.application.name}
+  cloud:
+    config:
+      uri: http://101.37.69.49:8888
+      name: ${spring.application.name}
