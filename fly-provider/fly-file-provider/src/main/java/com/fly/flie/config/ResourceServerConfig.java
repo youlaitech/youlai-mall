@@ -26,7 +26,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and().requestMatchers().antMatchers("/**")
 
                 .and().authorizeRequests()
-                .anyRequest().permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/webjars/**",
+                        "/swagger/**",
+                        "/v2/api-docs",
+                        "/doc.html",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS,"/oauth/token").permitAll()
+                .antMatchers("/**").authenticated()
                 .and()
                 .httpBasic();
     }

@@ -58,8 +58,8 @@
                     <entryPoint>["java","-Djava.security.egd=file:/dev/./urandom","-jar","${project.build.finalName}.jar"]</entryPoint>
 
                     <!-- 指定远程 docker api地址 -->
-                    <dockerHost>https://fly4j:2376</dockerHost>
-                    <dockerCertPath>C:\certs\docker\fly4j</dockerCertPath>
+                    <dockerHost>https://fly4k:2376</dockerHost>
+                    <dockerCertPath>C:\certs\docker\fly4k</dockerCertPath>
                     <!-- 复制 jar包到docker容器指定目录-->
                     <resources>
                         <resource>
