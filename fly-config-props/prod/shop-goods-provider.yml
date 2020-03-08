@@ -41,7 +41,7 @@ security:
   oauth2:
     resource:
       id: current-user
-      user-info-uri: http://101.37.69.49:9999/auth/user/current
+      user-info-uri: http://101.37.69.49:8000/auth/user/current
       prefer-token-info: false
 
 # swagger 认证配置
