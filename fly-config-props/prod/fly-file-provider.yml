@@ -40,5 +40,5 @@ security:
   oauth2:
     resource:
       id: current-user
-      user-info-uri: http://101.37.69.49:9999/auth/user/current
+      user-info-uri: http://101.37.69.49:8000/user/current
       prefer-token-info: false
