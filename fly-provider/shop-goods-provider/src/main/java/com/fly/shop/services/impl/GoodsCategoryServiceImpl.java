@@ -31,11 +31,11 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, G
         List<GoodsCategory> list = this.baseMapper.selectList(
                 new LambdaQueryWrapper<GoodsCategory>().like(StringUtils.isNotBlank(goodsCategory.getCategoryName()),
                         GoodsCategory::getCategoryName, goodsCategory.getCategoryName()));
-        List<GoodsCategoryDTO> categoryList=CollUtil.newLinkedList();
+        List<GoodsCategoryDTO> categoryList = CollUtil.newLinkedList();
         // entity需和数据库表字段一一对应，这里使用DTO扩展了children属性
-        list.forEach(category->{
+        list.forEach(category -> {
             GoodsCategoryDTO categoryDTO = new GoodsCategoryDTO();
-            BeanUtil.copyProperties(category,categoryDTO);
+            BeanUtil.copyProperties(category, categoryDTO);
             categoryList.add(categoryDTO);
         });
 
@@ -48,7 +48,7 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, G
             });
         }
 
-        if(resultList.isEmpty()){
+        if (resultList.isEmpty()) {
             return categoryList;
         }
 
@@ -73,11 +73,10 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, G
     }
 
 
-
     @Override
     public List<TreeSelectVO> treeSelect(GoodsCategory goodsCategory) {
         List<GoodsCategory> categories = this.baseMapper.selectList(new LambdaQueryWrapper<GoodsCategory>()
-        .like(StringUtils.isNotBlank(goodsCategory.getCategoryName()),GoodsCategory::getCategoryName,goodsCategory.getCategoryName()));
+                .like(StringUtils.isNotBlank(goodsCategory.getCategoryName()), GoodsCategory::getCategoryName, goodsCategory.getCategoryName()));
         List<TreeSelectVO> list = CollUtil.newLinkedList();
         categories.forEach(category -> buildTreeSelect(category, categories, list));
         return list;
