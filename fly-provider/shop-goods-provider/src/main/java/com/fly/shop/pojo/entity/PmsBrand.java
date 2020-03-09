@@ -2,9 +2,12 @@ package com.fly.shop.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fly.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import net.bytebuddy.build.HashCodeAndEqualsPlugin;
+import org.springframework.core.annotation.Order;
 
 /**
  * @description: 商品品牌
@@ -17,15 +20,16 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class PmsBrand extends BaseEntity {
     @TableId
-    private Long id;
-    private String name;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long brandId;
+    private String brandName;
     private String firstLetter; // 首字母
     private Integer sort;
     private Integer factoryStatus;  // 是否为品牌制造商：0->不是；1->是
     private Integer showStatus;
     private Integer productCount;   // 产品数量
     private Integer productCommentCount;    // 产品评论数量
-    private String logo;    // 品牌logo
-    private String bigPic;  // 专区大图
+    private String logoUrl;    // 品牌logo
+    private String bigPicUrl;  // 专区大图
     private String brandStory;  // 品牌故事
 }
