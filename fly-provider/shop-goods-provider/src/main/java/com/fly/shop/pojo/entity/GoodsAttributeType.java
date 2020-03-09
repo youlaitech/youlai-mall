@@ -12,8 +12,12 @@ import lombok.Data;
 public class GoodsAttributeType extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
-    private Integer typeId;
+    private Integer attributeTypeId;
 
-    private String typeName;
+    private String attributeTypeName;
+
+    private Integer attributeCount;
+
+    private Integer paramCount;
 
 }
