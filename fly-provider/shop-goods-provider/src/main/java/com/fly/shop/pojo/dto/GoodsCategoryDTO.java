@@ -1,7 +1,6 @@
 package com.fly.shop.pojo.dto;
 
 
-import com.fly.shop.pojo.entity.GoodsCategory;
 import lombok.Data;
 
 import java.util.List;
