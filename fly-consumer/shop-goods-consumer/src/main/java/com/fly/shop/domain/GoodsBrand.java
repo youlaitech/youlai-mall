@@ -12,9 +12,9 @@ import lombok.experimental.Accessors;
  **/
 
 @Data
-@TableName("pms_brand")
+@TableName("goods_brand")
 @Accessors(chain = true)
-public class PmsBrand extends BaseEntity {
+public class GoodsBrand extends BaseEntity {
     private Long id;
     private String name;
     private String firstLetter; // 首字母
