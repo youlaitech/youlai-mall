@@ -1,7 +1,7 @@
 package com.fly.shop.feign.fallback;
 
-import com.fly.shop.domain.PmsBrand;
-import com.fly.shop.feign.IPmsBrandService;
+import com.fly.shop.domain.GoodsBrand;
+import com.fly.shop.feign.IGoodsBrandService;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +13,13 @@ import java.util.List;
  * @create: 2020-03-05 19:41
  **/
 @Component
-public class PmsBrandServiceFallback implements FallbackFactory<IPmsBrandService> {
+public class GoodsBrandServiceFallback implements FallbackFactory<IGoodsBrandService> {
     @Override
-    public IPmsBrandService create(Throwable throwable) {
-        return new IPmsBrandService(){
+    public IGoodsBrandService create(Throwable throwable) {
+        return new IGoodsBrandService(){
 
             @Override
-            public List<PmsBrand> getAll() {
+            public List<GoodsBrand> getAll() {
                 return null;
             }
         };
