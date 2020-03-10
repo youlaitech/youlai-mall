@@ -1,6 +1,7 @@
 package com.fly.shop.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fly.common.core.domain.BaseEntity;
@@ -63,18 +64,6 @@ public class GoodsAttribute  extends BaseEntity {
      */
     private Integer isHandAdd;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @TableField(exist = false)
+    private String attributeTypeName;
 }

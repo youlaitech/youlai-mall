@@ -1,13 +1,11 @@
 package com.fly.shop.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.controller.BaseController;
 import com.fly.common.core.domain.Result;
 import com.fly.shop.pojo.entity.GoodsAttribute;
 import com.fly.shop.services.IGoodsAttributeService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,16 +20,11 @@ public class GoodsAttributeController extends BaseController {
     @Resource
     private IGoodsAttributeService iGoodsAttributeService;
 
+
     @GetMapping("/pageNum/{pageNum}/pageSize/{pageSize}")
     public Result<Page<GoodsAttribute>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, GoodsAttribute attribute) {
         Page<GoodsAttribute> page = new Page<>(pageNum, pageSize);
-        Page<GoodsAttribute> data = (Page) iGoodsAttributeService.page(page,
-                new LambdaQueryWrapper<GoodsAttribute>()
-                        .like(StringUtils.isNotBlank(attribute.getAttributeName()),
-                                GoodsAttribute::getAttributeName, attribute.getAttributeName())
-                        .orderByDesc(GoodsAttribute::getUpdateTime)
-                        .orderByDesc(GoodsAttribute::getCreateTime)
-        );
+        Page<GoodsAttribute> data =  iGoodsAttributeService.selectPage(page,attribute);
         return Result.success(data);
     }
 
