@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface GoodsCategoryMapper extends BaseMapper<GoodsCategory> {
 
-
     @Select("<script>" +
             "   select * from  goods_category " +
             "   where 1=1 " +
