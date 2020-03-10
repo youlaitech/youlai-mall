@@ -1,7 +1,7 @@
 package com.fly.shop.controller;
 
-import com.fly.shop.domain.PmsBrand;
-import com.fly.shop.feign.IPmsBrandService;
+import com.fly.shop.domain.GoodsBrand;
+import com.fly.shop.feign.IGoodsBrandService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,13 +16,13 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/shop/brand")
-public class PmsBrandController {
+public class GoodsBrandController {
     @Resource
-    private IPmsBrandService iPmsBrandService;
+    private IGoodsBrandService iGoodsBrandService;
 
     @GetMapping("/list")
-    public List<PmsBrand> getList() {
-        List<PmsBrand> list = iPmsBrandService.getAll();
+    public List<GoodsBrand> getList() {
+        List<GoodsBrand> list = iGoodsBrandService.getAll();
         return list;
     }
 }

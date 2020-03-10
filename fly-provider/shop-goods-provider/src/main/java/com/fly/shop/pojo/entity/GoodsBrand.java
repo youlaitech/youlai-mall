@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fly.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import net.bytebuddy.build.HashCodeAndEqualsPlugin;
-import org.springframework.core.annotation.Order;
 
 /**
  * @description: 商品品牌
@@ -16,9 +14,9 @@ import org.springframework.core.annotation.Order;
  **/
 
 @Data
-@TableName("pms_brand")
+@TableName("goods_brand")
 @Accessors(chain = true)
-public class PmsBrand extends BaseEntity {
+public class GoodsBrand extends BaseEntity {
     @TableId
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long brandId;
