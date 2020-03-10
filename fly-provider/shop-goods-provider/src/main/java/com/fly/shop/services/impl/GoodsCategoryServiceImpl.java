@@ -78,6 +78,8 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, G
         List<GoodsCategory> categories = this.baseMapper.selectList(new LambdaQueryWrapper<GoodsCategory>()
                 .like(StringUtils.isNotBlank(goodsCategory.getCategoryName()), GoodsCategory::getCategoryName, goodsCategory.getCategoryName()));
         List<TreeSelectVO> list = CollUtil.newLinkedList();
+        TreeSelectVO node=new TreeSelectVO().setId(0L).setLabel("无上级分类").setChildren(null);
+        list.add(node);
         categories.forEach(category -> buildTreeSelect(category, categories, list));
         return list;
     }
