@@ -29,8 +29,7 @@ public class GoodsAttributeTypeController extends BaseController {
                 new LambdaQueryWrapper<GoodsAttributeType>()
                         .like(StringUtils.isNotBlank(attributeType.getAttributeTypeName()),
                                 GoodsAttributeType::getAttributeTypeName, attributeType.getAttributeTypeName())
-                        .orderByDesc(GoodsAttributeType::getUpdateTime)
-                        .orderByDesc(GoodsAttributeType::getCreateTime)
+                .orderByAsc(GoodsAttributeType::getAttributeTypeId)
         );
         return Result.success(data);
     }

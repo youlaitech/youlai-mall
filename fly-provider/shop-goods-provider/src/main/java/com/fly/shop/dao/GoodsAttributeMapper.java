@@ -16,6 +16,9 @@ public interface GoodsAttributeMapper extends BaseMapper<GoodsAttribute> {
             "   FROM goods_attribute a "+
             "   LEFT JOIN goods_attribute_type b ON a.attribute_type_id = b.attribute_type_id "+
             "   WHERE 1=1 "+
+            "   <if test='goodsAttribute.attributeTypeId!=null'> "+
+            "       AND a.attribute_type_id=#{goodsAttribute.attributeTypeId} "+
+            "   </if>"+
             "   <if test='goodsAttribute.type!=null'> "+
             "       AND a.type=#{goodsAttribute.type} "+
             "   </if>"+

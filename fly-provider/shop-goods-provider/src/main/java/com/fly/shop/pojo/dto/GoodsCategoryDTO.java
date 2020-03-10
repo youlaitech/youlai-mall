@@ -14,17 +14,21 @@ public class GoodsCategoryDTO   {
 
     private Integer parentId;
 
-    private String treePath;
+    private Integer goodsCount;
 
-    private Integer num;
+    private String goodsUnit;
 
-    private String unit;
+    private Integer sort;
 
-    private Integer isNavbar;
+    private String icon;
+
+    private Integer isNav;
 
     private Integer isShow;
 
-    private Integer sort;
+    private String keywords;
+
+    private String description;
 
     private List<GoodsCategoryDTO> children;
 
