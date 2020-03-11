@@ -3,6 +3,7 @@ package com.fly.shop.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.domain.Result;
+import com.fly.shop.pojo.dto.GoodsCategoryDTO;
 import com.fly.shop.pojo.entity.GoodsBrand;
 import com.fly.shop.services.IGoodsBrandService;
 import org.apache.commons.lang.StringUtils;
@@ -32,9 +33,9 @@ public class GoodsBrandController {
         return Result.success(data);
     }
     @GetMapping("/list")
-    public List<GoodsBrand> getList() {
+    public Result<List<GoodsBrand>> getList() {
         List<GoodsBrand> list = iGoodsBrandService.findAll();
-        return list;
+        return Result.success(list);
     }
 
     @GetMapping("/{id}")
