@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.controller.BaseController;
 import com.fly.common.core.domain.Result;
 import com.fly.shop.pojo.entity.GoodsAttribute;
+import com.fly.shop.pojo.vo.CascaderVO;
 import com.fly.shop.services.IGoodsAttributeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,15 @@ public class GoodsAttributeController extends BaseController {
     public Result delete(@PathVariable Long[] ids) {
         boolean status = iGoodsAttributeService.removeByIds(Arrays.asList(ids));
         return Result.status(status);
+    }
+
+    /**
+     * 商品类型和属性二级级联选择器
+     */
+    @GetMapping("/cascader")
+    public Result cascader(){
+        List<CascaderVO> cascader = iGoodsAttributeService.cascader();
+        return Result.success(cascader);
     }
 
 }

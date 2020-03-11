@@ -16,4 +16,7 @@ public interface IGoodsCategoryService extends IService<GoodsCategory> {
 
     List<TreeSelectVO> treeSelect(GoodsCategory goodsCategory);
 
+    boolean update(GoodsCategoryDTO goodsCategoryDTO);
+
+    boolean add(GoodsCategoryDTO goodsCategoryDTO);
 }
