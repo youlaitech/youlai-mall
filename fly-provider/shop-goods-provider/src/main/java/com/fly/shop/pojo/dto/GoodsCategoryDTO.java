@@ -4,6 +4,7 @@ package com.fly.shop.pojo.dto;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class GoodsCategoryDTO   {
@@ -31,5 +32,7 @@ public class GoodsCategoryDTO   {
     private String description;
 
     private List<GoodsCategoryDTO> children;
+
+    private Set<Integer> goodsAttributeIds;
 
 }
