@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface GoodsBrandMapper extends BaseMapper<GoodsBrand> {
 
-    @Select("select * from goods_brand")
+    @Select("select * from goods_brand order by sort desc")
     List<GoodsBrand> findAll();
 }
