@@ -1,10 +1,12 @@
 package com.fly.flie.controller;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.fly.common.core.domain.FileInfo;
 import com.fly.common.core.domain.Result;
-import com.fly.flie.utils.FastdfsClientUtil;
+import com.fly.flie.utils.FastDFSUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,7 @@ import java.io.IOException;
 public class FileController {
 
     @Autowired
-    private FastdfsClientUtil fastdfsClientUtil;
+    private FastDFSUtil fastDFSUtil;
 
     @PostMapping
     @ApiOperation(
@@ -39,11 +41,14 @@ public class FileController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "文件", paramType = "form", dataType = "__file"),
     })
-    public Result<FileInfo> upload(
+    public R<FileInfo> upload(
             MultipartFile file
     ) throws IOException {
-        FileInfo fileInfo = fastdfsClientUtil.upload(file);
-        return Result.success(fileInfo);
+        if (file == null) {
+            return R.failed("上传文件为空");
+        }
+        FileInfo fileInfo = fastDFSUtil.upload(file);
+        return R.ok(fileInfo);
     }
 
     @DeleteMapping()
@@ -58,8 +63,58 @@ public class FileController {
             @ApiResponse(code = 0, message = "删除成功!"),
             @ApiResponse(code = 500, message = "删除失败!")
     })
-    public Result deleteFile(String filePath) {
-        fastdfsClientUtil.deleteFile(filePath);
-        return Result.success();
+    public R deleteFile(String filePath) {
+        if (StringUtils.isBlank(filePath)) {
+            return R.failed("上传文件为空");
+        }
+        fastDFSUtil.deleteFile(filePath);
+        return R.ok(null);
     }
+
+    @PostMapping("/image")
+    @ApiOperation(
+            value = "图片上传",
+            httpMethod = "POST"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 0, message = "上传成功!"),
+            @ApiResponse(code = 500, message = "上传失败!")
+    })
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "文件", paramType = "form", dataType = "__file"),
+    })
+    public R<FileInfo> uploadImage(
+            MultipartFile file
+    ) throws IOException {
+        if (file == null) {
+            return R.failed("上传图片文件为空");
+        }
+        FileInfo fileInfo = fastDFSUtil.uploadImage(file);
+        return R.ok(fileInfo);
+    }
+
+
+    @PostMapping("/imageWithThumb")
+    @ApiOperation(
+            value = "图片上传(带缩略图)",
+            httpMethod = "POST"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 0, message = "上传成功!"),
+            @ApiResponse(code = 500, message = "上传失败!")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "文件", paramType = "form", dataType = "__file"),
+    })
+    public R<FileInfo> uploadImageWithThumb(
+            MultipartFile file
+    ) throws IOException {
+        if (file == null) {
+            return R.failed("上传图片文件为空");
+        }
+        FileInfo fileInfo = fastDFSUtil.uploadImage(file, true);
+        return R.ok(fileInfo);
+    }
+
 }
