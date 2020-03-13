@@ -3,7 +3,6 @@ package com.fly.shop.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.domain.Result;
 import com.fly.shop.pojo.dto.GoodsCategoryDTO;
@@ -12,7 +11,6 @@ import com.fly.shop.pojo.entity.GoodsCategoryAttributeRelation;
 import com.fly.shop.pojo.vo.TreeSelectVO;
 import com.fly.shop.services.IGoodsCategoryAttributeRelationService;
 import com.fly.shop.services.IGoodsCategoryService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

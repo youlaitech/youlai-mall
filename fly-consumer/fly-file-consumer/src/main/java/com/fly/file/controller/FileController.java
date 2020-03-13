@@ -1,10 +1,12 @@
 package com.fly.file.controller;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.fly.common.core.domain.FileInfo;
 import com.fly.common.core.domain.Result;
 import com.fly.file.feign.RemoteFileService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,15 +39,11 @@ public class FileController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "文件", paramType = "form", dataType = "__file"),
     })
-    public Result upload(MultipartFile file){
-        if(file==null){
-            Result.error("文件不能为空");
+    public R upload(MultipartFile file) {
+        if (file == null) {
+            R.failed("文件不能为空");
         }
-        Result<FileInfo> result = remoteFileService.upload(file);
-        if(Result.Status.SUCCESS.value()==result.getCode()){
-            return Result.success(result.getData());
-        }
-       return  Result.error("上传文件失败");
+        return remoteFileService.upload(file);
     }
 
     @DeleteMapping()
@@ -60,13 +58,54 @@ public class FileController {
             @ApiResponse(code = 0, message = "删除成功!"),
             @ApiResponse(code = 500, message = "删除失败!")
     })
-    public Result deleteFile(String filePath){
-
-        Result result = remoteFileService.deleteFile(filePath);
-        if(Result.Status.SUCCESS.value()==result.getCode()){
-            return Result.success();
+    public R deleteFile(String filePath) {
+        if (StringUtils.isBlank(filePath)) {
+            return R.failed("图片路径为空");
         }
-        return Result.error("删除文件失败");
+        return remoteFileService.deleteFile(filePath);
+    }
 
+    @PostMapping("/image")
+    @ApiOperation(
+            value = "图片上传",
+            httpMethod = "POST"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 0, message = "上传成功!"),
+            @ApiResponse(code = 500, message = "上传失败!")
+    })
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "文件", paramType = "form", dataType = "__file"),
+    })
+    public R<FileInfo> uploadImage(
+            MultipartFile file
+    ) {
+        if (file == null) {
+            return R.failed("上传图片文件为空");
+        }
+        return remoteFileService.uploadImage(file);
+    }
+
+    @PostMapping("/imageWithThumb")
+    @ApiOperation(
+            value = "图片上传(带缩略图)",
+            httpMethod = "POST"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 0, message = "上传成功!"),
+            @ApiResponse(code = 500, message = "上传失败!")
+    })
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "文件", paramType = "form", dataType = "__file"),
+    })
+    public R<FileInfo> uploadImageWithThumb(
+            MultipartFile file
+    ) {
+        if (file == null) {
+            return R.failed("上传图片文件为空");
+        }
+        return remoteFileService.uploadImageWithThumb(file);
     }
 }
