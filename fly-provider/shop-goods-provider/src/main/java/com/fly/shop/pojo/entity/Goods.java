@@ -56,7 +56,7 @@ public class Goods  extends BaseEntity {
     /**
      * 推荐状态；0->不推荐；1->推荐
      */
-    private Integer recommandStatus;
+    private Integer recommendStatus;
 
     /**
      * 审核状态：0->未审核；1->审核通过

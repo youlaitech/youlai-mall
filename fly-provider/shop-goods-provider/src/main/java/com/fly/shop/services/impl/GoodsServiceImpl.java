@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @description: 商品添加
+ * @description: 商品管理
  * @author: Mr.
  * @create: 2020-03-13 16:56
  **/
@@ -60,6 +60,50 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         //添加商品参数,添加自定义商品规格
         relateAndInsertList(goodsAttributeValueMapper, goodsDto.getGoodsAttributeValueList(), goodsId);
 
+        return true;
+    }
+
+    @Override
+    public boolean updatePublishStatus(List<Long> ids, Integer publishStatus) {
+        Goods goods = new Goods();
+        goods.setPublishStatus(publishStatus);
+        for(Long id:ids){
+            goods.setId(id);
+            goodsMapper.updatePublishStatus(goods);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateNewStatus(List<Long> ids, Integer newStatus) {
+        Goods goods = new Goods();
+        goods.setNewStatus(newStatus);
+        for(Long id:ids){
+            goods.setId(id);
+            goodsMapper.updateNewStatus(goods);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateRecommendStatus(List<Long> ids, Integer recommendStatus) {
+        Goods goods = new Goods();
+        goods.setRecommendStatus(recommendStatus);
+        for(Long id:ids){
+            goods.setId(id);
+            goodsMapper.updateRecommendStatus(goods);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateDeleteStatus(List<Long> ids, Integer deleteStatus) {
+        Goods goods = new Goods();
+        goods.setRecommendStatus(deleteStatus);
+        for(Long id:ids){
+            goods.setId(id);
+            goodsMapper.updateDeleteStatus(goods);
+        }
         return true;
     }
 

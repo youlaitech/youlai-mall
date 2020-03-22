@@ -3,7 +3,6 @@ package com.fly.shop.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly.common.core.domain.Result;
-import com.fly.shop.pojo.dto.GoodsCategoryDTO;
 import com.fly.shop.pojo.entity.GoodsBrand;
 import com.fly.shop.services.IGoodsBrandService;
 import org.apache.commons.lang.StringUtils;
@@ -40,8 +39,8 @@ public class GoodsBrandController {
 
     @GetMapping("/{id}")
     public Result get(@PathVariable Long id) {
-        GoodsBrand GoodsBrand = iGoodsBrandService.getById(id);
-        return Result.success(GoodsBrand);
+        GoodsBrand goodsBrand = iGoodsBrandService.getById(id);
+        return Result.success(goodsBrand);
     }
 
     @PostMapping
