@@ -12,6 +12,7 @@
         <module>fly-auth</module>
         <module>fly-consumer</module>
         <module>fly-provider</module>
+        <module>shop-order-provider</module>
     </modules>
     <packaging>pom</packaging>
     <name>shop-cloud</name>
