@@ -30,7 +30,11 @@ zuul:
       sensitiveHeaders:
       serviceId: shop-goods-provider
       stripPrefix: true
-
+    shop-order:
+      path: /order/**
+      sensitiveHeaders:
+      serviceId: shop-order-provider
+      stripPrefix: true
   host:
     connectTimeoutMillis: 5000
 
