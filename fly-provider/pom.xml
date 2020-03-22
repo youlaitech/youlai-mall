@@ -14,6 +14,7 @@
     <modules>
         <module>fly-system-provider</module>
         <module>fly-file-provider</module>
+        <module>shop-order-provider</module>
     </modules>
 
     <dependencies>
