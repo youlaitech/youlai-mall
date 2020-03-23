@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
-@MapperScan("com.fly4j.shop.fly4j.mapper")
+@MapperScan("com.fly4j.shop.order.mapper")
 public class OrderProviderApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrderProviderApplication.class,args);
