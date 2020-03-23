@@ -33,9 +33,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/v2/api-docs",
                         "/doc.html",
                         "/swagger-ui.html",
-                        "/swagger-resources/**",
-                        "/system/**",
-                        "/brands/**").permitAll()
+                        "/swagger-resources/**"
+                ).permitAll()
                 .antMatchers(HttpMethod.OPTIONS,"/oauth/token").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
