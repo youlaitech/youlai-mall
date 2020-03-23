@@ -1,6 +1,7 @@
 package com.fly4j.shop.order.controller.admin;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.fly4j.shop.order.pojo.entity.OrderSetting;
 import com.fly4j.shop.order.service.IOrderSettingService;
@@ -14,12 +15,11 @@ public class OrderSettingController {
     @Autowired
     private IOrderSettingService iOrderSettingService;
 
-    @GetMapping("/{id}")
-    public R get(@PathVariable("id") Integer id) {
-        OrderSetting orderSetting = iOrderSettingService.getById(id);
+    @GetMapping
+    public R get() {
+        OrderSetting orderSetting = iOrderSettingService.getOne(null);
         return R.ok(orderSetting);
     }
-
 
     @PutMapping("/{id}")
     public R update(@PathVariable("id") Integer id, OrderSetting orderSetting) {
