@@ -1,14 +1,12 @@
 package com.fly4j.shop.order.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fly.common.core.domain.BaseEntity;
 import lombok.Data;
-
-import java.util.Date;
 
 @Data
 @TableName("order_return_reason")
-public class OrderReturnReason {
+public class OrderReturnReason extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
@@ -18,8 +16,4 @@ public class OrderReturnReason {
     private Integer sort;
 
     private Integer status;
-
-    @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT-8")
-    private Date createTime;
 }

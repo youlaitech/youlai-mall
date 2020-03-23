@@ -25,6 +25,7 @@ public class OrderReturnReasonController {
                         .like(StringUtils.isNotBlank(orderReturnReason.getName()),
                                 OrderReturnReason::getName,
                                 orderReturnReason.getName())
+                .orderByAsc(OrderReturnReason::getSort)
         );
         return R.ok(data);
     }
@@ -37,7 +38,7 @@ public class OrderReturnReasonController {
     }
 
     @PostMapping
-    public R add(OrderReturnReason orderReturnReason) {
+    public R add(@RequestBody OrderReturnReason orderReturnReason) {
         boolean result = iOrderReturnReasonService.save(orderReturnReason);
         if (result) {
             return R.ok("新增成功");
@@ -47,7 +48,7 @@ public class OrderReturnReasonController {
     }
 
     @PutMapping("/{id}")
-    public R update(@PathVariable("id") Integer id, OrderReturnReason orderReturnReason) {
+    public R update(@PathVariable("id") Integer id,@RequestBody OrderReturnReason orderReturnReason) {
         boolean result = iOrderReturnReasonService.updateById(orderReturnReason);
         if (result) {
             return R.ok("更新成功");
@@ -57,7 +58,7 @@ public class OrderReturnReasonController {
     }
 
     @PutMapping("/id/{id}/status/{status}")
-    public R updateNavStatus(@PathVariable Integer id, @PathVariable Integer status) {
+    public R updateStatus(@PathVariable Integer id, @PathVariable Integer status) {
         boolean result = iOrderReturnReasonService.update(new LambdaUpdateWrapper<OrderReturnReason>()
                 .eq(OrderReturnReason::getId, id)
                 .set(OrderReturnReason::getStatus, status));
