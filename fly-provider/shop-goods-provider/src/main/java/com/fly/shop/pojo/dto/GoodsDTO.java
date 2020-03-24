@@ -1,10 +1,10 @@
 package com.fly.shop.pojo.dto;
 
 import com.fly.shop.pojo.entity.Goods;
-import com.fly.shop.pojo.vo.GoodsAttributeValueVO;
-import com.fly.shop.pojo.vo.GoodsFullReductionVO;
-import com.fly.shop.pojo.vo.GoodsLadderVO;
-import com.fly.shop.pojo.vo.GoodsSkuStockVO;
+import com.fly.shop.pojo.entity.GoodsAttributeValue;
+import com.fly.shop.pojo.entity.GoodsFullReduction;
+import com.fly.shop.pojo.entity.GoodsLadder;
+import com.fly.shop.pojo.entity.GoodsSkuStock;
 import lombok.Data;
 
 import java.util.List;
@@ -19,19 +19,19 @@ public class GoodsDTO extends Goods {
     /**
      * 商品阶梯价格设置
      */
-    private List<GoodsLadderVO> goodsLadderList;
+    private List<GoodsLadder> goodsLadderList;
     /**
      * 商品满减价格设置
      */
-    private List<GoodsFullReductionVO> goodsFullReductionList;
+    private List<GoodsFullReduction> goodsFullReductionList;
     /**
      * 商品的sku库存信息
      */
-    private List<GoodsSkuStockVO> skuStockList;
+    private List<GoodsSkuStock> skuStockList;
     /**
      * 商品参数及自定义规格属性
      */
-    private List<GoodsAttributeValueVO> goodsAttributeValueList;
+    private List<GoodsAttributeValue> goodsAttributeValueList;
 
 
 }

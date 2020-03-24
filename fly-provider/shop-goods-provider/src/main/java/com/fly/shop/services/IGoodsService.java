@@ -16,4 +16,6 @@ public interface IGoodsService extends IService<Goods> {
     boolean updateRecommendStatus(List<Long> ids, Integer recommendStatus);
 
     boolean updateDeleteStatus(List<Long> ids, Integer deleteStatus);
+
+    boolean update(Long id,GoodsDTO goodsDto);
 }
