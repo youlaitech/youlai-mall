@@ -123,4 +123,16 @@ public class GoodsController {
         return Result.success(goods);
     }
 
+    /**
+     * 更新商品
+     * @param id
+     * @param goodsDto
+     * @return
+     */
+    @PutMapping(value = "/update/{id}")
+    public Result update(@PathVariable("id") Long id, @RequestBody GoodsDTO goodsDto) {
+        boolean status = iGoodsService.update(id,goodsDto);
+        return Result.status(status);
+    }
+
 }

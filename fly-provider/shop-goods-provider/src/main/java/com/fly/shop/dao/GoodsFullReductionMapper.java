@@ -2,7 +2,7 @@ package com.fly.shop.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fly.shop.pojo.dto.GoodsDTO;
-import com.fly.shop.pojo.vo.GoodsFullReductionVO;
+import com.fly.shop.pojo.entity.GoodsFullReduction;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,5 +23,5 @@ public interface GoodsFullReductionMapper extends BaseMapper<GoodsDTO> {
             "            #{item.reducePrice,jdbcType=DECIMAL})" +
             "        </foreach>"+
             "</script>")
-    int insertList(@Param("list") List<GoodsFullReductionVO> goodsFullReductionList);
+    int insertList(@Param("list") List<GoodsFullReduction> goodsFullReductionList);
 }

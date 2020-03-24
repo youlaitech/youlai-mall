@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly.shop.dao.*;
 import com.fly.shop.pojo.dto.GoodsDTO;
 import com.fly.shop.pojo.entity.Goods;
-import com.fly.shop.pojo.vo.GoodsSkuStockVO;
+import com.fly.shop.pojo.entity.GoodsSkuStock;
 import com.fly.shop.services.IGoodsService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -107,6 +107,74 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return true;
     }
 
+    @Override
+    public boolean update(Long id, GoodsDTO goodsDto) {
+        return false;
+    }
+
+//    @Override
+//    public boolean update(Long id,GoodsDTO goodsDto) {
+//        //更新商品信息
+//        Goods goods = goodsDto;
+//        goods.setId(id);
+//        goodsMapper.updateById(goods);
+//
+//        //阶梯价格
+//        goodsLadderMapper.deleteByGoodsId(id);
+//        relateAndInsertList(goodsLadderMapper, goodsDto.getGoodsLadderList(), id);
+//
+//        //满减价格
+//        goodsFullReductionMapper.deleteByGoodsId(id);
+//        relateAndInsertList(goodsFullReductionMapper, goodsDto.getGoodsFullReductionList(), id);
+//
+//        //修改sku库存信息
+//        handleUpdateSkuStockList(id, goodsDto);
+//
+//        //修改商品参数,添加自定义商品规格
+//        goodsAttributeValueMapper.deleteByGoodsId(id);
+//        relateAndInsertList(goodsAttributeValueMapper, goodsDto.getGoodsAttributeValueList(), id);
+//
+//        return true;
+//    }
+//
+//    private void handleUpdateSkuStockList(Long id, GoodsDTO goodsDto) {
+//        //当前的sku信息
+//        List<GoodsSkuStockVO> currSkuList = goodsDto.getSkuStockList();
+//        //当前没有sku直接删除
+//        if(CollUtil.isEmpty(currSkuList)){
+//            goodsSkuStockMapper.deleteByGoodsId(id);
+//            return;
+//        }
+//        //获取初始sku信息
+//        List<GoodsSkuStockVO> oriStuList = goodsSkuStockMapper.selectListByGoodsId();
+//
+//        //获取新增sku信息
+//        List<GoodsSkuStockVO> insertSkuList = currSkuList.stream().filter(item->item.getId()==null).collect(Collectors.toList());
+//        //获取需要更新的sku信息
+//        List<GoodsSkuStockVO> updateSkuList = currSkuList.stream().filter(item->item.getId()!=null).collect(Collectors.toList());
+//        List<Long> updateSkuIds = updateSkuList.stream().map(GoodsSkuStockVO::getId).collect(Collectors.toList());
+//        //获取需要删除的sku信息
+//        List<GoodsSkuStockVO> removeSkuList = oriStuList.stream().filter(item-> !updateSkuIds.contains(item.getId())).collect(Collectors.toList());
+//        handleSkuStockCode(insertSkuList,id);
+//        handleSkuStockCode(updateSkuList,id);
+//        //新增sku
+//        if(CollUtil.isNotEmpty(insertSkuList)){
+//            relateAndInsertList(goodsSkuStockMapper, insertSkuList, id);
+//        }
+//        //删除sku
+//        if(CollUtil.isNotEmpty(removeSkuList)){
+//            List<Long> removeSkuIds = removeSkuList.stream().map(GoodsSkuStockVO::getId).collect(Collectors.toList());
+//            goodsSkuStockMapper.deleteBatchIds(removeSkuIds);
+//        }
+//        //修改sku
+//        if(CollUtil.isNotEmpty(updateSkuList)){
+//            for (GoodsSkuStockVO goodsSkuStock : updateSkuList) {
+//                goodsSkuStockMapper.updateById();
+//            }
+//        }
+//
+//    }
+
     /**
      * 建立和插入关系表操作
      *
@@ -134,10 +202,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     /**
      *处理sku的编码
      */
-    private void handleSkuStockCode(List<GoodsSkuStockVO> skuStockList, Long goodsId) {
+    private void handleSkuStockCode(List<GoodsSkuStock> skuStockList, Long goodsId) {
         if(CollectionUtils.isEmpty(skuStockList))return;
         for(int i=0;i<skuStockList.size();i++){
-            GoodsSkuStockVO skuStock = skuStockList.get(i);
+            GoodsSkuStock skuStock = skuStockList.get(i);
             if(StringUtils.isEmpty(skuStock.getSkuCode())){
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 StringBuilder sb = new StringBuilder();
