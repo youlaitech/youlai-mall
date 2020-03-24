@@ -1,13 +1,13 @@
-package com.fly.shop.pojo.vo;
+package com.fly.shop.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 @Data
-@Accessors(chain = true)
-public class GoodsAttributeValueVO implements Serializable {
+@TableName("goods_attribute_value")
+public class GoodsAttributeValue implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
