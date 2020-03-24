@@ -2,7 +2,7 @@ package com.fly.shop.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fly.shop.pojo.dto.GoodsDTO;
-import com.fly.shop.pojo.vo.GoodsAttributeValueVO;
+import com.fly.shop.pojo.entity.GoodsAttributeValue;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,5 +23,5 @@ public interface GoodsAttributeValueMapper extends BaseMapper<GoodsDTO> {
             "            #{item.value,jdbcType=VARCHAR})" +
             "        </foreach>"+
             "</script>")
-    int insertList(@Param("list") List<GoodsAttributeValueVO> goodsLadderList);
+    int insertList(@Param("list") List<GoodsAttributeValue> goodsLadderList);
 }
