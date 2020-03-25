@@ -12,7 +12,6 @@
         <module>fly-auth</module>
         <module>fly-consumer</module>
         <module>fly-provider</module>
-        <module>shop-order-provider</module>
     </modules>
     <packaging>pom</packaging>
     <name>shop-cloud</name>
@@ -32,7 +31,7 @@
         <hutool.version>5.0.6</hutool.version>
         <mybatis-plus.version>3.0.7.1</mybatis-plus.version>
         <druid.version>1.1.14</druid.version>
-        <fastjson.version>1.2.24</fastjson.version>
+        <fastjson.version>1.2.67</fastjson.version>
         <mysql.version>8.0.18</mysql.version>
         <fly-common.version>1.0.0</fly-common.version>
         <fly-framework.version>1.0.0</fly-framework.version>
