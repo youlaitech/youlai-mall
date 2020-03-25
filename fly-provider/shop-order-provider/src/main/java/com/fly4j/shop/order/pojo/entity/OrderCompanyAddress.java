@@ -7,8 +7,8 @@ import com.fly.common.core.domain.BaseEntity;
 import lombok.Data;
 
 @Data
-@TableName("company_address")
-public class OrderCompanyAddress extends BaseEntity {
+@TableName("order_company_address")
+public class OrderCompanyAddress   {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
