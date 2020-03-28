@@ -21,7 +21,7 @@ import java.util.List;
  * @create: 2020-03-24 17:04
  **/
 @RestController
-@RequestMapping
+@RequestMapping("/orders")
 public class OrderController {
     @Resource
     private IOrderService iOrderService;

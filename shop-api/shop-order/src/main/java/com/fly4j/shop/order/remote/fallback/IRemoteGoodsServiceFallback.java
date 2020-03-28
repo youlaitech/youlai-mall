@@ -1,5 +1,6 @@
 package com.fly4j.shop.order.remote.fallback;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.domain.Result;
 import com.fly4j.shop.order.pojo.dto.GoodsDTO;
@@ -35,6 +36,11 @@ public class IRemoteGoodsServiceFallback implements FallbackFactory<IRemoteGoods
 
             @Override
             public Result delete(Long[] ids) {
+                return null;
+            }
+
+            @Override
+            public R<GoodsDTO> getOrderGoods(Long id) {
                 return null;
             }
         };

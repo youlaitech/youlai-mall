@@ -1,5 +1,6 @@
 package com.fly4j.shop.order.remote;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.constant.ServiceNameConstants;
 import com.fly4j.common.core.domain.Result;
@@ -25,5 +26,9 @@ public interface IRemoteGoodsService {
 
     @DeleteMapping("/goods/{ids}")
     Result delete(@PathVariable Long[] ids);
+
+
+    @GetMapping("/updateInfo/{id}")
+    R<GoodsDTO> getOrderGoods(@PathVariable("id") Long id);
 
 }

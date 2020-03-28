@@ -132,9 +132,9 @@ export const constantRoutes = [
   },
 
   {
-    path: '/orders',
+    path: '/order',
     component: Layout,
-    redirect: '/orders/setting',
+    redirect: '/order/setting',
     name: '订单管理',
     meta: {title: '订单管理', icon: 'setting'},
     alwaysShow: true,
@@ -142,33 +142,33 @@ export const constantRoutes = [
       {
         path: 'orderList',
         name: 'orderList',
-        component: () => import('@/views/orders/list'),
+        component: () => import('@/views/order/list'),
         meta: {title: '订单列表', icon: 'product-list'}
       },
       {
         path: 'orderDetail',
         name: 'orderDetail',
-        component: () => import('@/views/orders/list/orderDetail'),
+        component: () => import('@/views/order/list/orderDetail'),
         meta: {title: '订单详情'},
         hidden:true
       },
       {
         path: 'deliverOrderList',
         name: 'deliverOrderList',
-        component: () => import('@/views/orders/list/deliverOrderList'),
+        component: () => import('@/views/order/list/deliverOrderList'),
         meta: {title: '发货列表'},
         hidden:true
       },
       {
         path: 'setting',
         name: '订单设置',
-        component: () => import('@/views/orders/setting'),
+        component: () => import('@/views/order/setting'),
         meta: {title: '订单设置', icon: 'setting'}
       },
       {
         path: 'returnReason',
         name: '退货原因设置',
-        component: () => import('@/views/orders/returnReason'),
+        component: () => import('@/views/order/returnReason'),
         meta: {title: '退货原因设置', icon: 'setting'}
       },
     ]

@@ -165,9 +165,9 @@
 
 </template>
 <script>
-  import {fetchList,closeOrder,deleteOrder} from '@/api/orders/list'
+  import {fetchList,closeOrder,deleteOrder} from '@/api/order/list'
   import {formatDate} from '@/utils/date';
-  import LogisticsDialog from '@/views/orders/list/logisticsDialog';
+  import LogisticsDialog from '@/views/order/list/logisticsDialog';
 
   const defaultListQuery = {
     orderNo: null,
@@ -309,7 +309,7 @@
         this.multipleSelection = val;
       },
       handleViewOrder(index, row){
-        this.$router.push({path:'/orders/orderDetail',query:{id:row.id}})
+        this.$router.push({path:'/order/orderDetail',query:{id:row.id}})
       },
       handleCloseOrder(index, row){
         this.closeOrder.dialogVisible=true;
@@ -317,7 +317,7 @@
       },
       handleDeliveryOrder(index, row){
         let listItem = this.covertOrder(row);
-        this.$router.push({path:'/orders/deliverOrderList',query:{list:[listItem]}})
+        this.$router.push({path:'/order/deliverOrderList',query:{list:[listItem]}})
       },
       handleViewLogistics(index, row){
         this.logisticsDialogVisible=true;
@@ -352,7 +352,7 @@
             });
             return;
           }
-          this.$router.push({path:'/orders/deliverOrderList',query:{list:list}})
+          this.$router.push({path:'/order/deliverOrderList',query:{list:list}})
         }else if(this.operateType===2){
           //关闭订单
           this.closeOrder.orderIds=[];
