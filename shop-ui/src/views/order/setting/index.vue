@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import {getObj, postObj, putObj} from '@/api/orders/setting'
+  import {getObj, postObj, putObj} from '@/api/order/setting'
 
   const checkTime = (rule, value, callback) => {
     if (!value) {

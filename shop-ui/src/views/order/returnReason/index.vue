@@ -123,7 +123,7 @@
 </template>
 
 <script>
-  import {page, getObj, postObj, putObj, delObj, updateStatus} from '@/api/orders/returnReason'
+  import {page, getObj, postObj, putObj, delObj, updateStatus} from '@/api/order/returnReason'
 
   export default {
     data() {

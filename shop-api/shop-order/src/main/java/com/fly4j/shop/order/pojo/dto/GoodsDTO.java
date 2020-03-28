@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 public class GoodsDTO {
-
-
-
-
+    private Long id;
+    private String name;
 }

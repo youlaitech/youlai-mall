@@ -31,7 +31,7 @@ zuul:
       serviceId: shop-goods
       stripPrefix: true
     shop-order:
-      path: /orders/**
+      path: /order/**
       sensitiveHeaders:
       serviceId: shop-order
       stripPrefix: true

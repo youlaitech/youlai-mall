@@ -347,8 +347,8 @@
   </div>
 </template>
 <script>
-  import {getOrderDetail,putReceiverInfo,updateMoneyInfo,closeOrder,updateOrderNote,deleteOrder} from '@/api/orders/list';
-  import LogisticsDialog from '@/views/orders/list/logisticsDialog';
+  import {getOrderDetail,putReceiverInfo,updateMoneyInfo,closeOrder,updateOrderNote,deleteOrder} from '@/api/order/list';
+  import LogisticsDialog from '@/views/order/list/logisticsDialog';
   import {formatDate} from '@/utils/date';
   import VDistpicker from 'v-distpicker';
   const defaultReceiverInfo = {

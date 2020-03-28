@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/companyAddress")
+@RequestMapping("/orders/companyAddress")
 public class OrderCompanyAddressController {
 
     @Resource

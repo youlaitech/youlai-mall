@@ -34,7 +34,7 @@ zuul:
       path: /orders/**
       sensitiveHeaders:
       serviceId: shop-order
-      stripPrefix: true
+      stripPrefix: false  # 不删除 orders
     shop-marketing:
       path: /marketing/**
       sensitiveHeaders:
