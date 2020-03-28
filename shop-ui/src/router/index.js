@@ -161,16 +161,29 @@ export const constantRoutes = [
       },
       {
         path: 'setting',
-        name: '订单设置',
+        name: 'setting',
         component: () => import('@/views/order/setting'),
         meta: {title: '订单设置', icon: 'setting'}
       },
       {
-        path: 'returnReason',
-        name: '退货原因设置',
-        component: () => import('@/views/order/returnReason'),
+        path: 'reason',
+        name: 'reason',
+        component: () => import('@/views/order/apply/reason'),
         meta: {title: '退货原因设置', icon: 'setting'}
       },
+      {
+        path: 'returnApply',
+        name: 'returnApply',
+        component: () => import('@/views/order/apply'),
+        meta: {title: '退货申请处理', icon: 'setting'}
+      },
+      {
+        path: 'returnApplyDetail',
+        name: 'returnApplyDetail',
+        component: () => import('@/views/order/apply/detail'),
+        meta: {title: '退货详情'},
+        hidden: true
+      }
     ]
   },
   // 404 page must be placed at the end !!!
