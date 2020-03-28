@@ -29,7 +29,7 @@ fdfs:
   tracker-list: # tracker调度服务器 支持多个 默认22122
     - 101.37.69.49:22122
 file:
-  root-path: http://101.37.69.49/
+  http-url: http://101.37.69.49/
 
 swagger:
   auth:
