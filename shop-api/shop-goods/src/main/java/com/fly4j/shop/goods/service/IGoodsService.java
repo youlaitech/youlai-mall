@@ -1,0 +1,21 @@
+package com.fly4j.shop.goods.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.fly4j.shop.goods.pojo.dto.GoodsDTO;
+import com.fly4j.shop.goods.pojo.entity.Goods;
+
+import java.util.List;
+
+public interface IGoodsService extends IService<Goods> {
+    boolean add(GoodsDTO goodsDto);
+
+    boolean updatePublishStatus(List<Long> ids, Integer publishStatus);
+
+    boolean updateNewStatus(List<Long> ids, Integer newStatus);
+
+    boolean updateRecommendStatus(List<Long> ids, Integer recommendStatus);
+
+    boolean updateDeleteStatus(List<Long> ids, Integer deleteStatus);
+
+    boolean update(Long id,GoodsDTO goodsDto);
+}
