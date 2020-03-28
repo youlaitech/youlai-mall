@@ -54,9 +54,9 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <executions>
+                    <!--执行mvn package,即执行 mvn clean package docker:build-->
                     <execution>
                         <id>build-image</id>
-                        <!--执行mvn package,即执行 mvn clean package docker:build-->
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>

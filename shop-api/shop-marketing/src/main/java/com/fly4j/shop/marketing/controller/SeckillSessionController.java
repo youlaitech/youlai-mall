@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly.common.core.domain.Result;
+import com.fly4j.common.core.domain.Result;
 import com.fly4j.shop.marketing.pojo.entity.SeckillSession;
 import com.fly4j.shop.marketing.service.ISeckillSessionService;
 import org.apache.commons.lang.StringUtils;
