@@ -2,31 +2,30 @@ import request from '@/utils/request'
 
 export function page(pageNum, pageSize, queryParams) {
   return request({
-    url: '/orders/setting/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/orders/returnApply/pageNum/' + pageNum + "/pageSize/" + pageSize,
     method: 'get',
     params: queryParams
   });
 }
 
-export function getObj() {
-  return request({
-    url: '/orders/setting' ,
-    method: 'get'
-  })
-}
-
 export function postObj(obj) {
   return request({
-    url: '/orders/setting',
+    url: '/orders/returnApply',
     method: 'post',
     data: obj
   });
 }
 
+export function getObj(id) {
+  return request({
+    url: '/orders/returnApply/' + id,
+    method: 'get'
+  })
+}
 
 export function putObj(id, obj) {
   return request({
-    url: '/orders/setting/' + id,
+    url: '/orders/returnApply/' + id,
     method: 'put',
     data: obj
   })
@@ -34,16 +33,19 @@ export function putObj(id, obj) {
 
 export function delObj(ids) {
   return request({
-    url: '/orders/setting/' + ids,
+    url: '/orders/returnApply/' + ids,
     method: 'delete'
   })
 }
 
 
-export function list(queryParams) {
+export function updateStatus(id, obj) {
   return request({
-    url: '/orders/setting/list',
-    method: 'get',
-    params: queryParams
-  });
+    url: '/orders/returnApply/' + id,
+    method: 'put',
+    data: obj
+  })
 }
+
+
+
