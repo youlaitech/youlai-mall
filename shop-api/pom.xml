@@ -14,9 +14,9 @@
     <modules>
         <module>fly4j-system</module>
         <module>fly4j-file</module>
+        <module>shop-goods</module>
         <module>shop-order</module>
         <module>shop-marketing</module>
-        <module>shop-order</module>
     </modules>
 
     <dependencies>

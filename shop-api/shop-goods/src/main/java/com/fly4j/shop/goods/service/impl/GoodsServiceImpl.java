@@ -1,11 +1,11 @@
 package com.fly4j.shop.goods.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fly4j.shop.dao.*;
+import com.fly4j.shop.goods.mapper.*;
 import com.fly4j.shop.goods.pojo.dto.GoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.Goods;
-import com.fly4j.shop.goods.service.IGoodsService;
 import com.fly4j.shop.goods.pojo.entity.GoodsSkuStock;
+import com.fly4j.shop.goods.service.IGoodsService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
