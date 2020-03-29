@@ -323,7 +323,7 @@
         this.$router.push({name: 'seckillSession'})
       },
       handleSetGoods(row) {
-        this.$router.push({name: 'seckillGoods', params: {seckillId: row.id, seckillTitle: row.title}})
+        this.$router.push({path: '/marketing/goods', query: {seckillId: row.id, seckillTitle: row.title}})
       }
     }
   }

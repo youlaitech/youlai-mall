@@ -200,7 +200,7 @@ export const constantRoutes = [
         path: 'seckill',
         name: 'seckill',
         component: () => import('@/views/marketing/seckill'),
-        meta: {title: '秒杀活动列表'}
+        meta: {title: '秒杀活动列表',icon:'setting'}
       },
       {
         path: 'session',

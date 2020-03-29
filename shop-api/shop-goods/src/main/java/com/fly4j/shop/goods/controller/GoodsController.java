@@ -146,9 +146,9 @@ public class GoodsController {
      * @return
      */
     @GetMapping("/seckill/pageNum/{pageNum}/pageSize/{pageSize}")
-    public R<Page<SeckillGoodsDTO>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
-        Page<Goods> page = new Page<>(pageNum, pageSize);
-        Page<SeckillGoodsDTO> data =  iGoodsService.selectPage(page,null);
+    public R<Page<SeckillGoodsDTO>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, SeckillGoodsDTO seckillGoodsDTO) {
+        Page<SeckillGoodsDTO> page = new Page<>(pageNum, pageSize);
+        Page<SeckillGoodsDTO> data =  iGoodsService.selectPage(page,seckillGoodsDTO);
         return R.ok(data);
     }
 
@@ -158,7 +158,7 @@ public class GoodsController {
      * @return
      */
     @GetMapping("/seckill/id/{id}")
-    public R<SeckillGoodsDTO> getSeckillGoodsById(@PathVariable("id") Long id){
+    public R<SeckillGoodsDTO> seckillGoodsInfo(@PathVariable("id") Long id){
         SeckillGoodsDTO data=iGoodsService.selectById(id);
         return R.ok(data);
     }

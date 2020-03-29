@@ -21,7 +21,7 @@ public interface IGoodsService extends IService<Goods> {
 
     boolean update(Long id,GoodsDTO goodsDto);
 
-    Page<SeckillGoodsDTO> selectPage(Page<Goods> page, SeckillGoodsDTO seckillGoodsDTO);
+    Page<SeckillGoodsDTO> selectPage(Page<SeckillGoodsDTO> page, SeckillGoodsDTO seckillGoodsDTO);
 
     SeckillGoodsDTO selectById(Long id);
 }
