@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: fly4j-system
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    config:
+      uri: http://101.37.69.49:8888
+      name: ${spring.application.name}
+
+
+
