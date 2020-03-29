@@ -186,6 +186,38 @@ export const constantRoutes = [
       }
     ]
   },
+
+
+  {
+    path: '/marketing',
+    component: Layout,
+    redirect: '/marketing/seckill',
+    name: '营销管理',
+    meta: {title: '营销管理', icon: 'setting'},
+    alwaysShow: true,
+    children: [
+      {
+        path: 'seckill',
+        name: 'seckill',
+        component: () => import('@/views/marketing/seckill'),
+        meta: {title: '秒杀活动列表'}
+      },
+      {
+        path: 'session',
+        name: 'seckillSession',
+        component: () => import('@/views/marketing/seckill/session'),
+        meta: {title: '秒杀时间段选择'},
+        hidden:true
+      },
+      {
+        path: 'goods',
+        name: 'seckillGoods',
+        component: () => import('@/views/marketing/seckill/goods'),
+        meta: {title: '秒杀商品列表'},
+        hidden:true
+      },
+    ]
+  },
   // 404 page must be placed at the end !!!
   {path: '*', redirect: '/404', hidden: true}
 
