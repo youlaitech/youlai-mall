@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- 搜索表单::begin -->
     <el-form :inline="true" ref="sessionForm">
-      <el-form-item>
+      <el-form-item label="秒杀时间段">
         <el-input v-model="sessionForm.seckillTitle" readonly style="width: 200px"></el-input>
         <el-select v-model="sessionForm.seckillSessionId" placeholder="请选择活动时间段" clearable>
           <el-option
@@ -149,11 +149,12 @@
       <el-table
         :data="goodsTableData"
         border
-        ref="goodsMultiTable">
-        <el-table-column min-width="5%" align="center">
-          <template scope="scope">
-            <el-radio class="radio" :label="scope.$index">&nbsp;</el-radio>
-          </template>
+        ref="goodsMultiTable"
+        @selection-change="handleGoodsSelectionChange"
+      >
+        <el-table-column
+          type="selection"
+          width="55">
         </el-table-column>
         <el-table-column
           prop="goodsName"
@@ -179,9 +180,6 @@
         @pagination="handleQueryGoods"/>
     </el-dialog>
 
-    <!-- 分页工具条::start -->
-    <!-- -->
-    <!-- 分页工具条::end -->
   </div>
 </template>
 
@@ -243,12 +241,13 @@
             required: true, message: '请选择商品类型', trigger: 'blur'
           }]
         },
-        seckillSessionOptions: []
+        seckillSessionOptions: [],
+        goodsIds: []
       }
     },
     created() {
-      this.sessionForm.seckillId = this.$route.params.seckillId
-      this.sessionForm.seckillTitle = this.$route.params.seckillTitle
+      this.sessionForm.seckillId = this.$route.query.seckillId
+      this.sessionForm.seckillTitle = this.$route.query.seckillTitle
       sessionList().then(response => {
         this.seckillSessionOptions = response.data
         this.sessionForm.seckillSessionId = response.data[0].id
@@ -370,8 +369,11 @@
       initPate() {
         this.handleQuery()
       },
-
-      handleOpenSelectGoods() { // 打开选择商品窗口
+      handleOpenSelectGoods() {
+       if( !this.sessionForm.seckillSessionId){
+         this.$message.warning("请选先择秒杀活动时间段")
+         return
+       }
         this.goodsDialog = {
           title: "选择商品",
           visible: true
@@ -386,11 +388,16 @@
       },
       handleQueryGoods() {
         page(this.pagination.pageNum, this.pagination.pageSize, this.goodsQueryForm).then(response => {
-          console.log(response.data)
+          this.goodsTableData = response.data.records
+          this.pagination.total = response.data.total
         })
       },
       handleSelectGoods() { //确认选择
 
+
+      },
+      handleGoodsSelectionChange(selection) {
+        this.goodsIds = selection.map(item => item.id)
       }
     }
   }

@@ -14,9 +14,8 @@ public class IRemoteGoodsServiceFallback implements FallbackFactory<IRemoteGoods
     @Override
     public IRemoteGoodsService create(Throwable throwable) {
         return new IRemoteGoodsService() {
-
             @Override
-            public R<Page<SeckillGoodsDTO>> page(Integer pageNum, Integer pageSize) {
+            public R<Page<SeckillGoodsDTO>> page(Integer pageNum, Integer pageSize, SeckillGoodsDTO seckillGoodsDTO) {
                 return null;
             }
 

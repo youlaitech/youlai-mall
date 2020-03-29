@@ -6,16 +6,18 @@ import com.fly4j.common.constant.ServiceNameConstants;
 import com.fly4j.shop.marketing.pojo.dto.SeckillGoodsDTO;
 import com.fly4j.shop.marketing.remote.fallback.IRemoteGoodsServiceFallback;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = ServiceNameConstants.SHOP_GOODS, fallbackFactory = IRemoteGoodsServiceFallback.class)
 public interface IRemoteGoodsService {
 
-    @GetMapping("/goods/seckill/pageNum/{pageNum}/pageSize/{pageSize}")
-    R<Page<SeckillGoodsDTO>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize);
+    @GetMapping("/seckill/pageNum/{pageNum}/pageSize/{pageSize}")
+    R<Page<SeckillGoodsDTO>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize,@SpringQueryMap SeckillGoodsDTO seckillGoodsDTO);
 
 
-    @GetMapping("/goods/seckill/{id}")
+    @GetMapping("/seckill/{id}")
     R<SeckillGoodsDTO> getByGoodsId(@PathVariable Long id);
+
 
 }

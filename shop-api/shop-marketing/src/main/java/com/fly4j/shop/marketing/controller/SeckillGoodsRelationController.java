@@ -37,7 +37,7 @@ public class SeckillGoodsRelationController {
         List<SeckillGoodsRelationDTO> returnList = new ArrayList<>();
         list.forEach(item -> {
             SeckillGoodsRelationDTO seckillGoodsRelationDTO = new SeckillGoodsRelationDTO();
-            BeanUtil.copyProperties(item, seckillGoodsRelationDTO);
+            BeanUtil.copyProperties(item,seckillGoodsRelationDTO);
             SeckillGoodsDTO goods = iRemoteGoodsService.getByGoodsId(item.getGoodsId()).getData();
             if (goods != null) {
                 seckillGoodsRelationDTO.setGoodsName(goods.getGoodsName());
@@ -52,8 +52,8 @@ public class SeckillGoodsRelationController {
 
 
     @GetMapping("/pageNum/{pageNum}/pageSize/{pageSize}")
-    public R<Page<SeckillGoodsDTO>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, SeckillGoodsDTO seckillGoodsDTO) {
-        R<Page<SeckillGoodsDTO>> data = iRemoteGoodsService.page(pageNum, pageSize);
+    public R<Page<SeckillGoodsDTO>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize,SeckillGoodsDTO seckillGoodsDTO) {
+        R<Page<SeckillGoodsDTO>> data = iRemoteGoodsService.page(pageNum, pageSize,seckillGoodsDTO);
         return data;
     }
 
@@ -62,6 +62,7 @@ public class SeckillGoodsRelationController {
         SeckillGoodsRelation seckillGoodsRelation = iSeckillGoodsRelationService.getById(id);
         SeckillGoodsDTO goods = iRemoteGoodsService.getByGoodsId(seckillGoodsRelation.getGoodsId()).getData();
         SeckillGoodsRelationDTO seckillGoodsRelationDTO = new SeckillGoodsRelationDTO();
+        BeanUtil.copyProperties(seckillGoodsRelation,seckillGoodsRelationDTO);
         if (goods != null) {
             seckillGoodsRelationDTO.setGoodsName(goods.getGoodsName());
             seckillGoodsRelationDTO.setGoodsPrice(goods.getGoodsPrice());
