@@ -28,10 +28,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private IOrderOperateHistoryService iOrderOperateHistoryService;
 
-    @Override
-    public boolean delivery(List<OrderDeliveryDTO> deliveryParamList) {
+    public boolean deliver(List<OrderDeliveryDTO> deliveryParamList) {
         //批量发货
-        boolean count = iOrderService.delivery(deliveryParamList);
+        boolean count = orderMapper.deliver(deliveryParamList);
         //添加操作记录
         List<OrderOperateHistory> operateHistoryList = deliveryParamList.stream()
                 .map(omsOrderDeliveryParam -> {
@@ -106,12 +105,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         //插入操作记录
         OrderOperateHistory history = new OrderOperateHistory();
         history.setOrderId(moneyInfoDto.getOrderId());
-        history.setCreateTime(new Date());
         history.setOperateMan("后台管理员");
         history.setOrderStatus(moneyInfoDto.getStatus());
         history.setNote("修改费用信息");
         iOrderOperateHistoryService.save(history);
-
         return status;
     }
 

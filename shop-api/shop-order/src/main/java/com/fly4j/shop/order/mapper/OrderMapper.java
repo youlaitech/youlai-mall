@@ -12,7 +12,7 @@ public interface OrderMapper extends BaseMapper<Order> {
 
 
     @Update("<script>" +
-            "UPDATE order_info SET delivery_sn = CASE id" +
+            "UPDATE order_info SET delivery_no = CASE id" +
             "        <foreach collection=\"list\" item=\"item\">" +
             "            WHEN #{item.orderId} THEN #{item.deliveryNo}" +
             "        </foreach>" +
@@ -39,7 +39,7 @@ public interface OrderMapper extends BaseMapper<Order> {
             "        </foreach>" +
             "        AND `status` = 1" +
             "</script>")
-    boolean delivery(@Param("list") List<OrderDeliveryDTO> deliveryParamList);
+    boolean deliver(@Param("list") List<OrderDeliveryDTO> deliveryParamList);
 
 
     @Select(" SELECT * " +
