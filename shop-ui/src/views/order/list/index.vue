@@ -28,17 +28,17 @@
         <el-input v-model="listQuery.orderNo" class="input-width" placeholder="订单编号"></el-input>
       </el-form-item>
       <el-form-item label="收货人：">
-        <el-input v-model="listQuery.receiverName" class="input-width" placeholder="收货人姓名/手机号码"></el-input>
+        <el-input v-model="listQuery.receiverName" class="input-width" placeholder="收货人姓名"></el-input>
       </el-form-item>
-      <el-form-item label="提交时间：">
-        <el-date-picker
-          class="input-width"
-          v-model="listQuery.createTime"
-          value-format="yyyy-MM-dd"
-          type="date"
-          placeholder="请选择时间">
-        </el-date-picker>
-      </el-form-item>
+<!--      <el-form-item label="提交时间：">-->
+<!--        <el-date-picker-->
+<!--          class="input-width"-->
+<!--          v-model="listQuery.createTime"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          type="date"-->
+<!--          placeholder="请选择时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
       <el-form-item label="订单状态：">
         <el-select v-model="listQuery.status" class="input-width" placeholder="全部" clearable>
           <el-option v-for="item in statusOptions"
@@ -77,8 +77,7 @@
     <el-table ref="orderTable"
               :data="list"
               style="width: 100%;"
-              @selection-change="handleSelectionChange"
-              v-loading="listLoading" border>
+              @selection-change="handleSelectionChange" border>
       <el-table-column type="selection" width="60" align="center"></el-table-column>
       <el-table-column label="编号" width="80" align="center">
         <template slot-scope="scope">{{scope.row.id}}</template>
@@ -158,7 +157,7 @@
         <el-button type="primary" @click="handleCloseOrderConfirm">确 定</el-button>
       </span>
     </el-dialog>
-<!--    <logistics-dialog v-model="logisticsDialogVisible"></logistics-dialog>-->
+    <logistics-dialog v-model="logisticsDialogVisible"></logistics-dialog>
     <!-- 表单弹窗::end -->
 
   </div>
@@ -185,9 +184,8 @@
         pageNum: 1,
         pageSize: 10,
         listQuery: Object.assign({}, defaultListQuery),
-        listLoading: true,
         list: null,
-        total: null,
+        total: 0,
         operateType: null,
         multipleSelection: [],
         closeOrder:{
@@ -303,6 +301,7 @@
         this.pageSize = 10;
         this.listQuery = Object.assign({}, defaultListQuery);
         this.resetForm("queryForm");
+        this.getList();
         },
 
       handleSelectionChange(val){
@@ -369,15 +368,7 @@
           this.deleteOrder(ids);
         }
       },
-      handleSizeChange(val){
-        this.listQuery.pageNum = 1;
-        this.listQuery.pageSize = val;
-        this.getList();
-      },
-      handleCurrentChange(val){
-        this.listQuery.pageNum = val;
-        this.getList();
-      },
+
       handleCloseOrderConfirm() {
         if (this.closeOrder.content == null || this.closeOrder.content === '') {
           this.$message({
@@ -402,9 +393,9 @@
         });
       },
       getList() {
-        this.listLoading = true;
+        this.pageNum = 1;
+        this.pageSize = 10;
         fetchList(this.pageNum,this.pageSize,this.listQuery).then(response => {
-          this.listLoading = false;
           this.list = response.data.records;
           this.total = response.data.total;
         });
