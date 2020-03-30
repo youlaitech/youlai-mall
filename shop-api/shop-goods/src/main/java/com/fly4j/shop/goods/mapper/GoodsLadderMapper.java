@@ -1,7 +1,6 @@
 package com.fly4j.shop.goods.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.fly4j.shop.goods.pojo.dto.GoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.GoodsLadder;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +12,7 @@ import java.util.List;
  * @author: Mr.
  * @create: 2020/3/14 15:17
  **/
-public interface GoodsLadderMapper extends BaseMapper<GoodsDTO> {
+public interface GoodsLadderMapper extends BaseMapper<GoodsLadder> {
 
     @Insert("<script>" +
             " INSERT INTO goods_ladder (goods_id, count, discount, price) VALUES " +
