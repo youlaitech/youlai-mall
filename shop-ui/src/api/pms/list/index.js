@@ -8,32 +8,32 @@ export function page(pageNum, pageSize, queryParams) {
   });
 }
 
-export function updatePublishStatus(params) {
+export function putPublishStatus(params) {
   return request({
-    url:'/goods/update/publishStatus',
+    url:'/goods/publishStatus',
     method:'put',
     params:params
   })
 }
 
-export function updateNewStatus(params) {
+export function putNewStatus(params) {
   return request({
-    url:'/goods/update/newStatus',
+    url:'/goods/newStatus',
     method:'put',
     params:params
   })
 }
 
-export function updateRecommendStatus(params) {
+export function putRecommendStatus(params) {
   return request({
-    url:'/goods/update/recommendStatus',
+    url:'/goods/recommendStatus',
     method:'put',
     params:params
   })
 }
-export function updateDeleteStatus(params) {
+export function putDeleteStatus(params) {
   return request({
-    url:'/goods/update/deleteStatus',
+    url:'/goods/deleteStatus',
     method:'put',
     params:params
   })
@@ -52,9 +52,9 @@ export function fetchSkuStockList(goodsId,params) {
     params:params
   })
 }
-export function updateSkuStockList(goodsId,data) {
+export function putSkuStockList(goodsId,data) {
   return request({
-    url:'/goods/sku/update/'+goodsId,
+    url:'/goods/sku/'+goodsId,
     method:'put',
     data:data
   })
