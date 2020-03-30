@@ -3,7 +3,6 @@ package com.fly4j.shop.marketing.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly.common.core.domain.Result;
 import com.fly4j.shop.marketing.pojo.entity.SeckillRecord;
 import com.fly4j.shop.marketing.service.ISeckillRecordService;
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping("/seckill/record")
+@RequestMapping("/seckillRecord")
 public class SeckillRecordController {
 
     @Autowired
@@ -59,10 +58,15 @@ public class SeckillRecordController {
         }
     }
 
+
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable Long[] ids) {
+    public R delete(@PathVariable Long[] ids) {
         boolean status = iSeckillRecordService.removeByIds(Arrays.asList(ids));
-        return Result.status(status);
+        if (status) {
+            return R.ok("删除成功");
+        } else {
+            return R.failed("删除失败");
+        }
     }
 
 }

@@ -7,13 +7,6 @@
         <el-button type="success" @click="handleEdit" :disabled="single">修改</el-button>
         <el-button type="danger" @click="handleDelete" :disabled="multiple">删除</el-button>
       </el-form-item>
-      <el-form-item label="退货原因" prop="name">
-        <el-input v-model="queryParams.name" placeholder="退货原因"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-        <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-      </el-form-item>
     </el-form>
     <!-- 搜索表单::end -->
 
@@ -36,18 +29,23 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        label="退货原因"
-        min-width="11%">
+        label="秒杀时间段名称"
+        min-width="20%">
       </el-table-column>
       <el-table-column
-        prop="sort"
-        label="排序"
-        min-width="11%">
+        prop="startTime"
+        label="每日开始时间"
+        min-width="15%">
+      </el-table-column>
+      <el-table-column
+        prop="endTime"
+        label="每日结束时间"
+        min-width="15%">
       </el-table-column>
       <el-table-column
         prop="status"
-        label="是否可用"
-        min-width="11%">
+        label="启用"
+        min-width="15%">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.status"
@@ -57,17 +55,7 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="createTime"
-        label="创建时间"
-        min-width="11%">
-      </el-table-column>
-      <el-table-column
-        prop="updateTime"
-        label="更新时间"
-        min-width="11%">
-      </el-table-column>
-      <el-table-column label="操作" min-width="15%">
+      <el-table-column label="操作" min-width="11%">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -94,20 +82,34 @@
 
     <!-- 表单弹窗::start -->
     <el-dialog
-      :title="dialog.title"
+      :name="dialog.name"
       :visible.sync="dialog.visible"
       @close="cancel"
       :append-to-body="true"
       top="5vh"
       width="40%">
       <el-form id="dataForm" label-width="140px" :model="form" :rules="rules" ref="form">
-        <el-form-item label="退货类型" prop="name">
+        <el-form-item label="秒杀时间段名称" prop="name">
           <el-input v-model="form.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="排序" prop="sort">
-          <el-input v-model="form.sort" auto-complete="off"></el-input>
+
+        <el-form-item label="每日开始时间" prop="startTime">
+          <el-time-select
+            placeholder="开始时间"
+            v-model="form.startTime"
+            value-format="HH:mm"
+            :picker-options="{ start: '08:00',step: '01:00', end: '22:00' }">
+          </el-time-select>
         </el-form-item>
-        <el-form-item label="是否可用" prop="status">
+        <el-form-item label="每日结束时间" prop="endTime">
+          <el-time-select
+            placeholder="结束时间"
+            v-model="form.endTime"
+            value-format="HH:mm"
+            :picker-options="{ start: '08:00',step: '01:00', end: '22:00',  minTime:form.startTime }">
+          </el-time-select>
+        </el-form-item>
+        <el-form-item label="启用" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">否</el-radio>
@@ -144,24 +146,26 @@
         },
         tableData: [],
         dialog: {
-          title: '',
+          name: '',
           visible: false,
         },
         form: {
-          id: undefined,
           name: undefined,
-          sort: 1,
-          status: 1
+          startTime: undefined,
+          endTime: undefined,
+          status: 0
         },
         rules: {
-          attributeName: [{
-            required: true, message: '请输入属性名称', trigger: 'blur'
+          name: [{
+            required: true, message: '请填写活动标题', trigger: 'blur'
           }],
-          attributeTypeId: [{
-            required: true, message: '请选择商品类型', trigger: 'blur'
+          startTime: [{
+            required: true, message: '请选择每天开始时间', trigger: 'blur'
+          }],
+          endTime: [{
+            required: true, message: '请选择每天结束时间', trigger: 'blur'
           }]
         },
-        attributeTypeList: undefined
       }
     },
     created() {
@@ -189,7 +193,7 @@
       handleAdd() {
         this.reset()
         this.dialog = {
-          title: "新增退货原因",
+          name: "新增时间段",
           visible: true
         }
 
@@ -197,13 +201,16 @@
       handleEdit(row) {
         this.reset();
         this.dialog = {
-          title: "修改退货原因",
+          name: "编辑时间段",
           visible: true
         }
         const id = row.id || this.ids
         getObj(id).then(response => {
           if (response.data) {
             this.form = response.data
+            this.form.startTime=response.data.startTime
+            this.form.endTime=response.data.endTime
+            console.log(this.form.startTime,this.form.endTime)
           }
         })
       },
@@ -244,14 +251,13 @@
       },
       // 显示隐藏
       handleStatusChange(row) {
-        let text = row.status === 0 ? '开启' : '关闭'
-        let that=this
-        this.$confirm('确认要' + text + row.name + '退货原因?', "提示", {
+        let text = row.status === 0 ? '启用' : '关闭'
+        let that = this
+        this.$confirm('确认要' + text + row.name + '秒杀活动?', "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function () {
-
           updateStatus(row.id, row.status).then(response => {
             that.$message.success(response.msg)
           })
@@ -274,17 +280,17 @@
       reset() {
         this.resetForm("form")
         this.form = {
-          id: undefined,
           name: undefined,
-          sort: 1,
-          status: 1
+          startTime: undefined,
+          endTime: undefined,
+          status: 0
         }
       },
       initPate() {
         this.handleQuery()
-      }
-    },
+      },
 
+    }
   }
 </script>
 
