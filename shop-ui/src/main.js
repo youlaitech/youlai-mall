@@ -33,13 +33,16 @@ new Vue({
 })
 
 
+import {parseTime, resetForm, addDateRange} from "@/utils/index";
 
-import {  parseTime,resetForm ,addDateRange} from "@/utils/index";
+import {formatDate} from "@/utils/date";
 // 全局方法挂载
 Vue.prototype.resetForm = resetForm
 Vue.prototype.parseTime = parseTime
-Vue.prototype.addDateRange=addDateRange
+
+Vue.prototype.addDateRange = addDateRange
+Vue.prototype.formatDate = formatDate
 
 // 全局变量声明定义
-Vue.prototype.uploadAction= process.env.VUE_APP_BASE_API + '/files'
+Vue.prototype.uploadAction = process.env.VUE_APP_BASE_API + '/files'
 

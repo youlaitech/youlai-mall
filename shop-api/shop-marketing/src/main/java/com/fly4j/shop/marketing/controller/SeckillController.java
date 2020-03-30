@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.common.core.domain.Result;
 import com.fly4j.shop.marketing.pojo.entity.Seckill;
 import com.fly4j.shop.marketing.service.ISeckillService;
 import org.apache.commons.lang.StringUtils;
@@ -62,9 +61,13 @@ public class SeckillController {
 
 
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable Long[] ids) {
+    public R delete(@PathVariable Long[] ids) {
         boolean status = iSeckillService.removeByIds(Arrays.asList(ids));
-        return Result.status(status);
+        if (status) {
+            return R.ok("删除成功");
+        } else {
+            return R.failed("删除失败");
+        }
     }
 
 

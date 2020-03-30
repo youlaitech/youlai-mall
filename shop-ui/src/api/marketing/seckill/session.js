@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function page(pageNum, pageSize, queryParams) {
   return request({
-    url: '/marketing/seckill/session/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/marketing/seckillSession/pageNum/' + pageNum + "/pageSize/" + pageSize,
     method: 'get',
     params: queryParams
   });
@@ -10,7 +10,7 @@ export function page(pageNum, pageSize, queryParams) {
 
 export function postObj(obj) {
   return request({
-    url: '/marketing/seckill/session',
+    url: '/marketing/seckillSession',
     method: 'post',
     data: obj
   });
@@ -18,14 +18,14 @@ export function postObj(obj) {
 
 export function getObj(id) {
   return request({
-    url: '/marketing/seckill/session/' + id,
+    url: '/marketing/seckillSession/' + id,
     method: 'get'
   })
 }
 
 export function putObj(id, obj) {
   return request({
-    url: '/marketing/seckill/session/' + id,
+    url: '/marketing/seckillSession/' + id,
     method: 'put',
     data: obj
   })
@@ -33,19 +33,23 @@ export function putObj(id, obj) {
 
 export function delObj(ids) {
   return request({
-    url: '/marketing/seckill/session/' + ids,
+    url: '/marketing/seckillSession/' + ids,
     method: 'delete'
   })
 }
 
 
-export function updateStatus(id, obj) {
+export function updateStatus(id, status) {
   return request({
-    url: '/marketing/seckill/session/' + id,
-    method: 'put',
-    data: obj
+    url: '/marketing/seckillSession/id/' + id+'/status/'+status,
+    method: 'put'
   })
 }
 
-
+export function list() {
+  return request({
+    url: '/marketing/seckillSession/list',
+    method: 'get'
+  })
+}
 

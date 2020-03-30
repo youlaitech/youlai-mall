@@ -1,10 +1,13 @@
 package com.fly4j.shop.goods.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.domain.Result;
 import com.fly4j.shop.goods.pojo.dto.GoodsDTO;
+import com.fly4j.shop.goods.pojo.dto.SeckillGoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.Goods;
+import com.fly4j.shop.goods.pojo.entity.GoodsAttribute;
 import com.fly4j.shop.goods.service.IGoodsService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -133,6 +136,31 @@ public class GoodsController {
     public Result update(@PathVariable("id") Long id, @RequestBody GoodsDTO goodsDto) {
         boolean status = iGoodsService.update(id,goodsDto);
         return Result.status(status);
+    }
+
+
+    /**
+     * 秒杀商品选择分页
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/seckill/pageNum/{pageNum}/pageSize/{pageSize}")
+    public R<Page<SeckillGoodsDTO>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, SeckillGoodsDTO seckillGoodsDTO) {
+        Page<SeckillGoodsDTO> page = new Page<>(pageNum, pageSize);
+        Page<SeckillGoodsDTO> data =  iGoodsService.selectPage(page,seckillGoodsDTO);
+        return R.ok(data);
+    }
+
+    /**
+     * 秒杀商品信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/seckill/id/{id}")
+    public R<SeckillGoodsDTO> seckillGoodsInfo(@PathVariable("id") Long id){
+        SeckillGoodsDTO data=iGoodsService.selectById(id);
+        return R.ok(data);
     }
 
 }

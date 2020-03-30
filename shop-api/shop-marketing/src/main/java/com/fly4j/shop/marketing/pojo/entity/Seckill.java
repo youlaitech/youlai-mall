@@ -18,10 +18,10 @@ public class Seckill extends BaseEntity {
 
     private String title;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT-8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date startDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT-8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date endDate;
 
     private Integer status;

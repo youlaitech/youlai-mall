@@ -39,11 +39,10 @@ export function delObj(ids) {
 }
 
 
-export function updateStatus(id, obj) {
+export function updateStatus(id, status) {
   return request({
-    url: '/marketing/seckill/' + id,
-    method: 'put',
-    data: obj
+    url: '/marketing/seckill/id/' + id+'/status/'+status,
+    method: 'put'
   })
 }
 

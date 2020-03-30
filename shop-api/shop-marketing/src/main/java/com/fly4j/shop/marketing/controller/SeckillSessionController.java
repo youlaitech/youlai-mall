@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.common.core.domain.Result;
 import com.fly4j.shop.marketing.pojo.entity.SeckillSession;
 import com.fly4j.shop.marketing.service.ISeckillSessionService;
 import org.apache.commons.lang.StringUtils;
@@ -12,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
-@RequestMapping("/seckill/session")
+@RequestMapping("/seckillSession")
 public class SeckillSessionController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class SeckillSessionController {
                         .like(StringUtils.isNotBlank(seckill.getName()),
                                 SeckillSession::getName,
                                 seckill.getName())
-                        .orderByDesc(SeckillSession::getCreateTime)
+                        .orderByAsc(SeckillSession::getName)
         );
         return R.ok(data);
     }
@@ -62,12 +62,14 @@ public class SeckillSessionController {
 
 
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable Long[] ids) {
+    public R delete(@PathVariable Long[] ids) {
         boolean status = iSeckillSessionService.removeByIds(Arrays.asList(ids));
-        return Result.status(status);
+        if (status) {
+            return R.ok("删除成功");
+        } else {
+            return R.failed("删除失败");
+        }
     }
-
-
 
     @PutMapping("/id/{id}/status/{status}")
     public R updateStatus(@PathVariable Integer id, @PathVariable Integer status) {
@@ -79,5 +81,12 @@ public class SeckillSessionController {
         } else {
             return R.failed("更新失败");
         }
+    }
+
+    @GetMapping("/list")
+    public R list() {
+        List<SeckillSession> list = iSeckillSessionService.list(new LambdaQueryWrapper<SeckillSession>()
+                .orderByAsc(SeckillSession::getName));
+        return R.ok(list);
     }
 }

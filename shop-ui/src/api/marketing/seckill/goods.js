@@ -2,15 +2,24 @@ import request from '@/utils/request'
 
 export function page(pageNum, pageSize, queryParams) {
   return request({
-    url: '/marketing/seckill/goods/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/marketing/seckillGoods/pageNum/' + pageNum + "/pageSize/" + pageSize,
     method: 'get',
     params: queryParams
   });
 }
 
+
+export function list(seckillId, seckillSessionId) {
+  return request({
+    url: '/marketing/seckillGoods/seckillId/' + seckillId + "/seckillSessionId/" + seckillSessionId,
+    method: 'get',
+  });
+}
+
+
 export function postObj(obj) {
   return request({
-    url: '/marketing/seckill/goods',
+    url: '/marketing/seckillGoods',
     method: 'post',
     data: obj
   });
@@ -18,14 +27,14 @@ export function postObj(obj) {
 
 export function getObj(id) {
   return request({
-    url: '/marketing/seckill/goods/' + id,
+    url: '/marketing/seckillGoods/' + id,
     method: 'get'
   })
 }
 
 export function putObj(id, obj) {
   return request({
-    url: '/marketing/seckill/goods/' + id,
+    url: '/marketing/seckillGoods/' + id,
     method: 'put',
     data: obj
   })
@@ -33,19 +42,11 @@ export function putObj(id, obj) {
 
 export function delObj(ids) {
   return request({
-    url: '/marketing/seckill/goods/' + ids,
+    url: '/marketing/seckillGoods/' + ids,
     method: 'delete'
   })
 }
 
-
-export function updateStatus(id, obj) {
-  return request({
-    url: '/marketing/seckill/goods/' + id,
-    method: 'put',
-    data: obj
-  })
-}
 
 
 

@@ -4,8 +4,8 @@
     <el-form :inline="true" ref="queryForm">
       <el-form-item>
         <el-button type="primary" @click="handleAdd">新增</el-button>
-        <el-button type="success" @click="handleEdit" :disabled="single">修改</el-button>
         <el-button type="danger" @click="handleDelete" :disabled="multiple">删除</el-button>
+        <el-button type="success" @click="handleSeckillSession">秒杀时间段列表</el-button>
       </el-form-item>
       <el-form-item label="活动标题" prop="name">
         <el-input v-model="queryParams.title" placeholder="活动标题"></el-input>
@@ -43,8 +43,11 @@
         prop="status"
         label="活动状态"
         min-width="11%">
+        <template slot-scope="{row}">
+          {{formatStatus(row)}}
+        </template>
+        >
       </el-table-column>
-
       <el-table-column
         prop="startDate"
         label="开始时间"
@@ -57,7 +60,7 @@
       </el-table-column>
       <el-table-column
         prop="status"
-        label="是否可用"
+        label="上线/下线"
         min-width="15%">
         <template slot-scope="scope">
           <el-switch
@@ -68,13 +71,11 @@
           </el-switch>
         </template>
       </el-table-column>
-
       <el-table-column label="操作" min-width="15%">
         <template slot-scope="scope">
-
           <el-button
             size="mini"
-            @click="handleEdit(scope.row)">设置商品
+            @click="handleSetGoods(scope.row)">设置商品
           </el-button>
           <el-button
             size="mini"
@@ -115,6 +116,7 @@
           <el-date-picker
             v-model="form.startDate"
             type="date"
+            value-format="yyyy-MM-dd"
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
@@ -122,6 +124,7 @@
           <el-date-picker
             v-model="form.endDate"
             type="date"
+            value-format="yyyy-MM-dd"
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
@@ -178,11 +181,10 @@
           startDate: [{
             required: true, message: '请选择活动开始日期', trigger: 'blur'
           }],
-          endDate:[{
+          endDate: [{
             required: true, message: '请选择活动结束日期', trigger: 'blur'
           }]
         },
-        attributeTypeList: undefined
       }
     },
     created() {
@@ -265,14 +267,13 @@
       },
       // 显示隐藏
       handleStatusChange(row) {
-        let text = row.status === 0 ? '开启' : '关闭'
-        let that=this
-        this.$confirm('确认要' + text + row.name + '退货原因?', "提示", {
+        let text = row.status === 0 ? '下线' : '上线'
+        let that = this
+        this.$confirm('确认要' + text + row.title + '秒杀活动?', "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function () {
-
           updateStatus(row.id, row.status).then(response => {
             that.$message.success(response.msg)
           })
@@ -303,9 +304,28 @@
       },
       initPate() {
         this.handleQuery()
+      },
+      formatStatus(row) {
+        const now = new Date().getTime();
+        const startTime = new Date(row.startDate).getTime();
+        const endTime = new Date(row.endDate).getTime() + 24 * 60 * 60 * 1000;
+        if (now < startTime) {
+          return '活动未开始'
+        } else if (now >= startTime && now < endTime) {
+          return '活动进行中'
+        } else if (now >= endTime) {
+          return '活动已结束'
+        } else {
+          return ''
+        }
+      },
+      handleSeckillSession() {
+        this.$router.push({name: 'seckillSession'})
+      },
+      handleSetGoods(row) {
+        this.$router.push({path: '/marketing/goods', query: {seckillId: row.id, seckillTitle: row.title}})
       }
-    },
-
+    }
   }
 </script>
 

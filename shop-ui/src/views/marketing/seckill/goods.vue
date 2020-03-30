@@ -1,18 +1,19 @@
 <template>
   <div class="app-container">
     <!-- 搜索表单::begin -->
-    <el-form :inline="true" ref="queryForm">
-      <el-form-item>
-        <el-button type="primary" @click="handleAdd">新增</el-button>
-        <el-button type="success" @click="handleEdit" :disabled="single">修改</el-button>
-        <el-button type="danger" @click="handleDelete" :disabled="multiple">删除</el-button>
+    <el-form :inline="true" ref="sessionForm">
+      <el-form-item label="秒杀时间段">
+        <el-input v-model="sessionForm.seckillTitle" readonly style="width: 200px"></el-input>
+        <el-select v-model="sessionForm.seckillSessionId" placeholder="请选择活动时间段" clearable>
+          <el-option
+            v-for="item in seckillSessionOptions"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="退货原因" prop="name">
-        <el-input v-model="queryParams.name" placeholder="退货原因"></el-input>
-      </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-        <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" @click="handleOpenSelectGoods">添加商品</el-button>
       </el-form-item>
     </el-form>
     <!-- 搜索表单::end -->
@@ -35,8 +36,33 @@
         min-width="5%">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="退货原因"
+        prop="goodsName"
+        label="商品名称"
+        min-width="11%">
+      </el-table-column>
+      <el-table-column
+        prop="goodsSn"
+        label="货号"
+        min-width="11%">
+      </el-table-column>
+      <el-table-column
+        prop="goodsStock"
+        label="剩余数量"
+        min-width="11%">
+      </el-table-column>
+      <el-table-column
+        prop="seckillPrice"
+        label="秒杀价格"
+        min-width="11%">
+      </el-table-column>
+      <el-table-column
+        prop="seckillCount"
+        label="秒杀数量"
+        min-width="11%">
+      </el-table-column>
+      <el-table-column
+        prop="seckillLimit"
+        label="限购数量"
         min-width="11%">
       </el-table-column>
       <el-table-column
@@ -44,29 +70,7 @@
         label="排序"
         min-width="11%">
       </el-table-column>
-      <el-table-column
-        prop="status"
-        label="是否可用"
-        min-width="11%">
-        <template slot-scope="scope">
-          <el-switch
-            v-model="scope.row.status"
-            :active-value="1"
-            :inactive-value="0"
-            @change="handleStatusChange(scope.row)">
-          </el-switch>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        label="创建时间"
-        min-width="11%">
-      </el-table-column>
-      <el-table-column
-        prop="updateTime"
-        label="更新时间"
-        min-width="11%">
-      </el-table-column>
+
       <el-table-column label="操作" min-width="15%">
         <template slot-scope="scope">
           <el-button
@@ -83,14 +87,6 @@
     </el-table>
     <!-- 数据表格::end-->
 
-    <!-- 分页工具条::start -->
-    <pagination
-      v-show="pagination.total>0"
-      :total="pagination.total"
-      :page.sync="pagination.pageNum"
-      :limit.sync="pagination.pageSize"
-      @pagination="handleQuery"/>
-    <!-- 分页工具条::end -->
 
     <!-- 表单弹窗::start -->
     <el-dialog
@@ -100,18 +96,30 @@
       :append-to-body="true"
       top="5vh"
       width="40%">
-      <el-form id="dataForm" label-width="140px" :model="form" :rules="rules" ref="form">
-        <el-form-item label="退货类型" prop="name">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
+      <el-form id="dataForm" label-width="140px" :model="form" :rules="rules" size="small" ref="form">
+        <el-form-item label="商品名称" prop="goodsName">
+          <el-input v-model="form.goodsName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="货号" prop="goodsSn">
+          <el-input v-model="form.goodsSn" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商品价格" prop="goodsPrice">
+          <el-input v-model="form.goodsPrice" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="秒杀价格" prop="seckillPrice">
+          <el-input v-model="form.seckillPrice" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="剩余数量" prop="goodsStock">
+          <el-input v-model="form.goodsStock" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="秒杀数量" prop="seckillCount">
+          <el-input v-model="form.seckillCount" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="限购数量" prop="seckillLimit">
+          <el-input v-model="form.seckillLimit" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="排序" prop="sort">
           <el-input v-model="form.sort" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="是否可用" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
-          </el-radio-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -119,11 +127,65 @@
         <el-button type="primary" @click="handleSubmit">确 定</el-button>
       </div>
     </el-dialog>
+
+
+    <el-dialog
+      :title="goodsDialog.title"
+      :visible.sync="goodsDialog.visible"
+      @close="closeGoodsDialog"
+      :append-to-body="true"
+      top="5vh"
+      width="40%">
+      <el-form :inline="true" :model="goodsQueryForm" class="demo-form-inline">
+        <el-form-item>
+          <el-input v-model="goodsQueryForm.goodsName" placeholder="商品名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="handleQueryGoods">查询</el-button>
+          <el-button type="success" icon="el-icon-check" @click="handleSelectGoods">确认选择</el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-table
+        :data="goodsTableData"
+        border
+        ref="goodsMultiTable"
+        @selection-change="handleGoodsSelectionChange"
+      >
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
+        <el-table-column
+          prop="goodsName"
+          label="商品名称"
+          min-width="20%">
+        </el-table-column>
+        <el-table-column
+          prop="goodsSn"
+          label="货号"
+          min-width="20%">
+        </el-table-column>
+        <el-table-column
+          prop="goodsPrice"
+          label="价格"
+          min-width="20%">
+        </el-table-column>
+      </el-table>
+      <pagination
+        v-show="pagination.total>0"
+        :total="pagination.total"
+        :page.sync="pagination.pageNum"
+        :limit.sync="pagination.pageSize"
+        @pagination="handleQueryGoods"/>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  import {page, getObj, postObj, putObj, delObj, updateStatus} from '@/api/marketing/seckill/goods'
+  import {list, page, getObj, postObj, putObj, delObj, updateStatus} from '@/api/marketing/seckill/goods'
+  import {list as sessionList} from '@/api/marketing/seckill/session'
 
   export default {
     data() {
@@ -139,19 +201,37 @@
           pageSize: 10,
           total: 0
         },
-        queryParams: {
-          name: undefined
+        sessionForm: {
+          seckillId: undefined,
+          seckillTitle: undefined,
+          seckillSessionId: undefined
+        },
+        goodsQueryForm: {
+          goodsName: undefined
         },
         tableData: [],
+        goodsTableData: [],
         dialog: {
           title: '',
           visible: false,
         },
+        goodsDialog: {
+          title: '',
+          visible: false
+        },
         form: {
           id: undefined,
-          name: undefined,
-          sort: 1,
-          status: 1
+          seckillId: undefined,
+          seckillSessionId: undefined,
+          goodsId: undefined,
+          seckillPrice: undefined,
+          seckillCount: undefined,
+          seckillLimit: undefined,
+          sort: undefined,
+          goodsName: undefined,
+          goodsPrice: undefined,
+          goodsStock: undefined,
+          goodsSn: undefined
         },
         rules: {
           attributeName: [{
@@ -161,17 +241,23 @@
             required: true, message: '请选择商品类型', trigger: 'blur'
           }]
         },
-        attributeTypeList: undefined
+        seckillSessionOptions: [],
+        goodsIds: []
       }
     },
     created() {
-      this.handleQuery()
+      this.sessionForm.seckillId = this.$route.query.seckillId
+      this.sessionForm.seckillTitle = this.$route.query.seckillTitle
+      sessionList().then(response => {
+        this.seckillSessionOptions = response.data
+        this.sessionForm.seckillSessionId = response.data[0].id
+        this.handleQuery()
+      })
     },
     methods: {
       handleQuery() {
-        page(this.pagination.pageNum, this.pagination.pageSize, this.queryParams).then(response => {
-          this.tableData = response.data.records
-          this.pagination.total = response.data.total
+        list(this.pagination.pageNum, this.pagination.pageSize, this.sessionForm).then(response => {
+          this.tableData = response.data
         })
       },
       resetQuery() {
@@ -180,19 +266,11 @@
           pageSize: 10,
           total: 0
         }
-        this.queryParams = {
+        this.sessionForm = {
           name: undefined
         }
-        this.resetForm("queryForm")
+        this.resetForm("sessionForm")
         this.handleQuery()
-      },
-      handleAdd() {
-        this.reset()
-        this.dialog = {
-          title: "新增退货原因",
-          visible: true
-        }
-
       },
       handleEdit(row) {
         this.reset();
@@ -245,7 +323,7 @@
       // 显示隐藏
       handleStatusChange(row) {
         let text = row.status === 0 ? '开启' : '关闭'
-        let that=this
+        let that = this
         this.$confirm('确认要' + text + row.name + '退货原因?', "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -275,16 +353,53 @@
         this.resetForm("form")
         this.form = {
           id: undefined,
-          name: undefined,
-          sort: 1,
-          status: 1
+          seckillId: undefined,
+          seckillSessionId: undefined,
+          goodsId: undefined,
+          seckillPrice: undefined,
+          seckillCount: undefined,
+          seckillLimit: undefined,
+          sort: undefined,
+          goodsName: undefined,
+          goodsPrice: undefined,
+          goodsStock: undefined,
+          goodsSn: undefined
         }
       },
       initPate() {
         this.handleQuery()
-      }
-    },
+      },
+      handleOpenSelectGoods() {
+       if( !this.sessionForm.seckillSessionId){
+         this.$message.warning("请选先择秒杀活动时间段")
+         return
+       }
+        this.goodsDialog = {
+          title: "选择商品",
+          visible: true
+        }
+        this.handleQueryGoods()
+      },
+      closeGoodsDialog() {
+        this.goodsDialog = {
+          title: '',
+          visible: false
+        }
+      },
+      handleQueryGoods() {
+        page(this.pagination.pageNum, this.pagination.pageSize, this.goodsQueryForm).then(response => {
+          this.goodsTableData = response.data.records
+          this.pagination.total = response.data.total
+        })
+      },
+      handleSelectGoods() { //确认选择
 
+
+      },
+      handleGoodsSelectionChange(selection) {
+        this.goodsIds = selection.map(item => item.id)
+      }
+    }
   }
 </script>
 
