@@ -189,7 +189,7 @@
     },
     created() {
       if (this.isEdit) {
-        this.handleEditCreated();
+        // this.handleEditCreated();
       }
     },
     computed: {
@@ -221,13 +221,7 @@
       }
     },
     methods: {
-      handleEditCreated() {
-        let ids = this.form.serviceIds.split(',');
-        console.log('handleEditCreated', ids);
-        for (let i = 0; i < ids.length; i++) {
-          this.selectServiceList.push(Number(ids[i]));
-        }
-      },
+
       handleRemoveGoodsLadder(index, row) {
         let GoodsLadderList = this.form.goodsLadderList;
         if (GoodsLadderList.length === 1) {

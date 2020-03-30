@@ -38,7 +38,7 @@
   import GoodsInfo from './goodsInfo';
   import GoodsPromotion from './goodsPromotion';
   import GoodsAttribute from './goodsAttribute';
-  import {postObj,getGoods,updateGoods} from '@/api/pms/add';
+  import {postObj,getGoods,putObj} from '@/api/pms/add';
 
   export default {
     name: "index",
@@ -86,7 +86,7 @@
           pic: undefined,
           albumPics: undefined,
 
-          attributeTypeId: undefined,
+          goodsAttributeCategoryId: undefined,
           //商品sku库存信息
           skuStockList: [],
           detailHtml: undefined,
@@ -130,7 +130,7 @@
           type: 'warning'
         }).then(() => {
           if(isEdit){
-            updateGoods(this.$route.query.id,this.npm).then(() =>{
+            putObj(this.$route.query.id,this.goodsParam).then(() =>{
               this.$message({
                 type: 'success',
                 message: '提交成功',
