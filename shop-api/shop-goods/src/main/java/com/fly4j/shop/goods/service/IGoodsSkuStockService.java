@@ -11,6 +11,7 @@ import java.util.List;
  * @create: 2020-03-24 15:32
  **/
 public interface IGoodsSkuStockService extends IService<GoodsSkuStock> {
+    int insertList(List<GoodsSkuStock> goodsLadderList);
 
     List<GoodsSkuStock> getList(Long goodsId, String keyword);
 
