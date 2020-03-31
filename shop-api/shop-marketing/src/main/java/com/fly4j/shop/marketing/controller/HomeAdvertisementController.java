@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 @RestController
@@ -61,9 +62,9 @@ public class HomeAdvertisementController {
         }
     }
 
-    @DeleteMapping("/{ids}")
-    public R delete(@PathVariable Long[] ids) {
-        boolean status = iHomeAdvertisementEntityService.removeByIds(Arrays.asList(ids));
+    @DeleteMapping()
+    public R delete(@RequestParam("ids") List<Long> ids) {
+        boolean status = iHomeAdvertisementEntityService.removeByIds(ids);
         if (status) {
             return R.ok("删除成功");
         } else {

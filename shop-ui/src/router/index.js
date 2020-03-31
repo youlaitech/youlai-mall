@@ -216,6 +216,12 @@ export const constantRoutes = [
         meta: {title: '秒杀商品列表'},
         hidden:true
       },
+      {
+        path:'advertisement',
+        name:'advertisement',
+        component:()=>import('@/views/marketing/advertisement'),
+        meta:{title:'广告列表',icon:'setting'}
+      }
     ]
   },
   // 404 page must be placed at the end !!!
