@@ -44,4 +44,6 @@ public class HomeAdvertisementEntity extends BaseEntity {
 
     private String remark;
 
+    private Integer sort;
+
 }
