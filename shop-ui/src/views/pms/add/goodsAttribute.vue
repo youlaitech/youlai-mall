@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="form" ref="goodsAttrForm" label-width="120px" style="width: 720px" size="small">
       <el-form-item label="属性类型：">
-        <el-select v-model="form.attributeTypeId"
+        <el-select v-model="form.goodsAttributeCategoryId"
                    placeholder="请选择属性类型"
                    @change="handleGoodsAttrTypeChange">
           <el-option
@@ -205,41 +205,6 @@
       //商品的编号
       goodsId(){
         return this.form.id;
-      },
-      //商品的主图和画册图片
-      selectGoodsPics:{
-        get:function () {
-          let pics=[];
-          if(this.form.pic===undefined||this.form.pic==null||this.form.pic===''){
-            return pics;
-          }
-          pics.push(this.form.pic);
-          if(this.form.albumPics===undefined||this.form.albumPics==null||this.form.albumPics===''){
-            return pics;
-          }
-          let albumPics = this.form.albumPics.split(',');
-          for(let i=0;i<albumPics.length;i++){
-            pics.push(albumPics[i]);
-          }
-          return pics;
-        },
-        set:function (newValue) {
-          if (newValue == null || newValue.length === 0) {
-            this.form.pic = null;
-            this.form.albumPics = null;
-          } else {
-            this.form.pic = newValue[0];
-            this.form.albumPics = '';
-            if (newValue.length > 1) {
-              for (let i = 1; i < newValue.length; i++) {
-                this.form.albumPics += newValue[i];
-                if (i !== newValue.length - 1) {
-                  this.form.albumPics += ',';
-                }
-              }
-            }
-          }
-        }
       }
     },
     created() {
@@ -254,7 +219,14 @@
         if(this.hasEditCreated)return;
         if(newValue===undefined||newValue==null||newValue===0)return;
         this.handleEditCreated();
+
+        // 图片回显
+        const picUrl = this.form.pic;
+        if (picUrl) {
+          this.goodsPicList.push({url: picUrl});
+        }
       }
+
     },
     methods: {
       handleEditCreated() {
@@ -303,8 +275,13 @@
             }
           } else {
             this.selectGoodsParam = [];
+
             for (let i = 0; i < list.length; i++) {
               let value=null;
+              if(this.isEdit) {
+                //编辑模式下获取参数属性
+                value= this.getEditParamValue(list[i].attributeId);
+              }
               this.selectGoodsParam.push({
                 id: list[i].attributeId,
                 name: list[i].attributeName,
@@ -315,6 +292,15 @@
             }
           }
         });
+      },
+
+      //获取属性的值
+      getEditParamValue(id){
+        for(let i=0;i<this.form.goodsAttributeValueList.length;i++){
+          if(id===this.form.goodsAttributeValueList[i].goodsAttributeId){
+            return this.form.goodsAttributeValueList[i].value;
+          }
+        }
       },
       //获取设置的可手动添加属性值
       getEditAttrOptions(id) {
@@ -543,6 +529,7 @@
         }
         return str;
       },
+
       // 上传文件相关
       handleBeforeUpload(file) {
         const isJPG = file.type === 'image/jpeg'
@@ -564,7 +551,6 @@
           this.$message.success('图片上传成功')
           this.form.pic = response.data.filePath
           // 多图则每次上传追加
-          // this.form.avatarUrl =this.form.avatarUrl+ ","+response.data.filePath
           this.dialogImageUrl = response.data.filePath
         }
       },
@@ -596,7 +582,7 @@
       },
       handleFinishCommit() {
         this.mergeGoodsAttrValue();
-        this.$emit('finishCommit')
+        this.$emit('finishCommit',this.isEdit);
       }
     }
   }

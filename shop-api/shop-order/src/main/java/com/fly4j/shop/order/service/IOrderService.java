@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IOrderService extends IService<Order> {
 
-    boolean delivery(List<OrderDeliveryDTO> deliveryParamList);
+    boolean deliver(List<OrderDeliveryDTO> deliverList);
 
     boolean close(List<Long> ids, String note);
 

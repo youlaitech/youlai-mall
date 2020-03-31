@@ -18,6 +18,12 @@ import java.util.List;
 public class GoodsSkuStockServiceImpl extends ServiceImpl<GoodsSkuStockMapper, GoodsSkuStock> implements IGoodsSkuStockService {
     @Resource
     private GoodsSkuStockMapper goodsSkuStockMapper;
+
+    @Override
+    public int insertList(List<GoodsSkuStock> goodsLadderList) {
+        return goodsSkuStockMapper.insertList(goodsLadderList);
+    }
+
     @Override
     public List<GoodsSkuStock> getList(Long goodsId, String keyword) {
         return goodsSkuStockMapper.getList(goodsId, keyword);

@@ -32,22 +32,22 @@ public class OrderController {
         Page<Order> data = (Page) iOrderService.page(page,new LambdaQueryWrapper<Order>()
                 .eq(StringUtils.isNotBlank(order.getOrderNo()), Order::getOrderNo, order.getOrderNo())
                 .like(StringUtils.isNotBlank(order.getReceiverName()), Order::getReceiverName, order.getReceiverName())
-//                .like(Order::getCreateTime,order.getCreateTime())
-//                .eq(Order::getStatus,order.getStatus())
-//                .eq(Order::getOrderType,order.getOrderType())
-//                .eq(StringUtils.isNotBlank(order.getSourceType()+""),Order::getSourceType,order.getSourceType())
+                .eq(order.getStatus()==null?false:true,Order::getStatus,order.getStatus())
+                .eq(order.getOrderType()==null?false:true,Order::getOrderType,order.getOrderType())
+                .eq(order.getSourceType()==null?false:true,Order::getSourceType,order.getSourceType())
+
         );
         return Result.success(data);
     }
 
     /**
      * 批量发货
-     * @param deliveryParamList
+     * @param deliverList
      * @return
      */
-    @PutMapping("/update/delivery")
-    public Result delivery(@RequestBody List<OrderDeliveryDTO> deliveryParamList) {
-        boolean status = iOrderService.delivery(deliveryParamList);
+    @PutMapping("/deliverInfo")
+    public Result putDeliverInfo(@RequestBody List<OrderDeliveryDTO> deliverList) {
+        boolean status = iOrderService.deliver(deliverList);
         return Result.status(status);
     }
 
@@ -102,8 +102,8 @@ public class OrderController {
      * @param moneyInfoDto
      * @return
      */
-    @PutMapping("/update/moneyInfo")
-    public Result updateReceiverInfo(@RequestBody MoneyInfoDTO moneyInfoDto) {
+    @PutMapping("/moneyInfo")
+    public Result putMoneyInfo(@RequestBody MoneyInfoDTO moneyInfoDto) {
         boolean status = iOrderService.updateMoneyInfo(moneyInfoDto);
         return Result.status(status);
     }

@@ -23,11 +23,11 @@ export function deleteOrder(params) {
     params:params
   })
 }
-export function deliveryOrder(data) {
+export function putDeliverInfo(obj) {
   return request({
-    url:'/orders/update/delivery',
-    method:'post',
-    data:data
+    url:'/orders/deliverInfo',
+    method:'put',
+    data:obj
   });
 }
 

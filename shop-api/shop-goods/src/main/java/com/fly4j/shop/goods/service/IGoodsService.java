@@ -23,5 +23,11 @@ public interface IGoodsService extends IService<Goods> {
 
     Page<SpikeGoodsDTO> selectPage(Page<SpikeGoodsDTO> page, SpikeGoodsDTO spikeGoodsDTO);
 
+<<<<<<< HEAD
     SpikeGoodsDTO selectById(Long id);
+=======
+    SeckillGoodsDTO selectById(Long id);
+
+    GoodsDTO getUpdateInfo(Long id);
+>>>>>>> 8a10aea310cbc9dec39bb10fc49bd1fa851e6743
 }

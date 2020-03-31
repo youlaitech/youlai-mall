@@ -1,7 +1,6 @@
 package com.fly4j.shop.goods.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.fly4j.shop.goods.pojo.dto.GoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.GoodsFullReduction;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +12,7 @@ import java.util.List;
 * @author: Mr.
 * @create: 2020/3/14 15:17
 **/
-public interface GoodsFullReductionMapper extends BaseMapper<GoodsDTO> {
+public interface GoodsFullReductionMapper extends BaseMapper<GoodsFullReduction> {
 
     @Insert("<script>" +
             "INSERT INTO goods_full_reduction (goods_id, full_price, reduce_price) VALUES" +

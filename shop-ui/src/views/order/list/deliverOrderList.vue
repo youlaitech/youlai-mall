@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-  import {deliveryOrder} from '@/api/order/list'
+  import {putDeliverInfo} from '@/api/order/list'
   const defaultLogisticsCompanies=["顺丰快递","圆通快递","中通快递","韵达快递"];
   export default {
     name: 'deliverOrderList',
@@ -73,19 +73,14 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deliveryOrder(this.list).then(response=>{
+          putDeliverInfo(this.list).then(response=>{
             this.$router.back();
             this.$message({
               type: 'success',
               message: '发货成功!'
             });
           });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消发货'
-          });
-        });
+        })
       }
     }
   }
