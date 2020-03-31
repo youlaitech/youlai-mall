@@ -46,3 +46,5 @@ Vue.prototype.formatDate = formatDate
 // 全局变量声明定义
 Vue.prototype.uploadAction = process.env.VUE_APP_BASE_API + '/files'
 
+//  全局引入 过滤器
+import '@/utils/filter'

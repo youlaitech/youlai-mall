@@ -4,9 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly4j.shop.goods.mapper.*;
 import com.fly4j.shop.goods.pojo.dto.GoodsDTO;
-import com.fly4j.shop.goods.pojo.dto.SeckillGoodsDTO;
+import com.fly4j.shop.goods.pojo.dto.SpikeGoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.Goods;
-import com.fly4j.shop.goods.pojo.entity.GoodsAttribute;
 import com.fly4j.shop.goods.pojo.entity.GoodsSkuStock;
 import com.fly4j.shop.goods.service.IGoodsService;
 import org.apache.commons.lang.StringUtils;
@@ -227,14 +226,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
 
     @Override
-    public Page<SeckillGoodsDTO> selectPage(Page<SeckillGoodsDTO> page, SeckillGoodsDTO seckillGoodsDTO) {
-        List<SeckillGoodsDTO> list = this.baseMapper.page(page, seckillGoodsDTO);
+    public Page<SpikeGoodsDTO> selectPage(Page<SpikeGoodsDTO> page, SpikeGoodsDTO spikeGoodsDTO) {
+        List<SpikeGoodsDTO> list = this.baseMapper.page(page, spikeGoodsDTO);
         page.setRecords(list);
         return page;
     }
 
     @Override
-    public SeckillGoodsDTO selectById(Long id) {
+    public SpikeGoodsDTO selectById(Long id) {
         return this.baseMapper.selectByGoodsId(id);
     }
 }

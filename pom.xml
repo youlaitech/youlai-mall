@@ -37,7 +37,7 @@
         <fly4j-framework.version>1.0.0</fly4j-framework.version>
         <zipkin.version>2.12.3</zipkin.version>
         <spring-boot-admin.version>2.1.6</spring-boot-admin.version>
-        <!--Swagger Resources-->
+        <!--Swagger-->
         <swagger.version>2.9.2</swagger.version>
         <swagger-annotations.version>1.5.21</swagger-annotations.version>
         <swagger-models.version>1.5.21</swagger-models.version>
@@ -45,6 +45,9 @@
         <fastdfs-client.version>1.27.2</fastdfs-client.version>
         <!-- feign-httpclient -->
         <feign-httpclient.version>10.8</feign-httpclient.version>
+
+        <!--dozer-->
+        <dozer.version>5.5.1</dozer.version>
     </properties>
 
     <dependencies>
@@ -158,6 +161,12 @@
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-models</artifactId>
                 <version>${swagger-models.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

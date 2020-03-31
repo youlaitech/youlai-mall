@@ -3,7 +3,7 @@ package com.fly4j.shop.goods.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fly4j.shop.goods.pojo.dto.GoodsDTO;
-import com.fly4j.shop.goods.pojo.dto.SeckillGoodsDTO;
+import com.fly4j.shop.goods.pojo.dto.SpikeGoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.Goods;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface IGoodsService extends IService<Goods> {
 
     boolean update(Long id,GoodsDTO goodsDto);
 
-    Page<SeckillGoodsDTO> selectPage(Page<SeckillGoodsDTO> page, SeckillGoodsDTO seckillGoodsDTO);
+    Page<SpikeGoodsDTO> selectPage(Page<SpikeGoodsDTO> page, SpikeGoodsDTO spikeGoodsDTO);
 
-    SeckillGoodsDTO selectById(Long id);
+    SpikeGoodsDTO selectById(Long id);
 }
