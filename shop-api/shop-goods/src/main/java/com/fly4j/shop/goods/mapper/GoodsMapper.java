@@ -2,7 +2,7 @@ package com.fly4j.shop.goods.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.shop.goods.pojo.dto.SeckillGoodsDTO;
+import com.fly4j.shop.goods.pojo.dto.SpikeGoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.Goods;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -26,17 +26,17 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
 
     @Select("<script>" +
-            " select id,name as goodsName,goods_sn,price as goodsPrice, stock as goodsStock from goods " +
+            " select id as goodsId,name as goodsName,goods_sn,price as goodsPrice, stock as goodsStock from goods " +
             "  where 1=1 " +
-            "   <if test='seckillGoodsDTO.goodsName !=null and seckillGoodsDTO.goodsName.trim() neq \"\"'>" +
-            "        and name like concat('%',#{seckillGoodsDTO.goodsName},'%') " +
+            "   <if test='spikeGoodsDTO.goodsName !=null and spikeGoodsDTO.goodsName.trim() neq \"\"'>" +
+            "        and name like concat('%',#{spikeGoodsDTO.goodsName},'%') " +
             "   </if> " +
             " order by sort asc" +
             "</script>")
-    List<SeckillGoodsDTO> page(Page<SeckillGoodsDTO> page, SeckillGoodsDTO seckillGoodsDTO);
+    List<SpikeGoodsDTO> page(Page<SpikeGoodsDTO> page, SpikeGoodsDTO spikeGoodsDTO);
 
 
-    @Select(" select id,name as goodsName,goods_sn,price as goodsPrice, stock as goodsStock from goods where id = #{goodsId}")
-    SeckillGoodsDTO selectByGoodsId(Long goodsId);
+    @Select(" select id as goodsId,name as goodsName,goods_sn,price as goodsPrice, stock as goodsStock from goods where id = #{goodsId}")
+    SpikeGoodsDTO selectByGoodsId(Long goodsId);
 
 }

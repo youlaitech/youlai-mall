@@ -191,28 +191,28 @@ export const constantRoutes = [
   {
     path: '/marketing',
     component: Layout,
-    redirect: '/marketing/seckill',
+    redirect: '/marketing/spike',
     name: '营销管理',
     meta: {title: '营销管理', icon: 'setting'},
     alwaysShow: true,
     children: [
       {
-        path: 'seckill',
-        name: 'seckill',
-        component: () => import('@/views/marketing/seckill'),
+        path: 'spike',
+        name: 'spike',
+        component: () => import('@/views/marketing/spike'),
         meta: {title: '秒杀活动列表',icon:'setting'}
       },
       {
-        path: 'session',
-        name: 'seckillSession',
-        component: () => import('@/views/marketing/seckill/session'),
+        path: 'period',
+        name: 'spikePeriod',
+        component: () => import('@/views/marketing/spike/period'),
         meta: {title: '秒杀时间段列表'},
         hidden:true
       },
       {
         path: 'goods',
-        name: 'seckillGoods',
-        component: () => import('@/views/marketing/seckill/goods'),
+        name: 'spikeGoods',
+        component: () => import('@/views/marketing/spike/goods'),
         meta: {title: '秒杀商品列表'},
         hidden:true
       },
