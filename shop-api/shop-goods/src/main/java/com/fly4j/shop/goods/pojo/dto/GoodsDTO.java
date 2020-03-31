@@ -33,5 +33,6 @@ public class GoodsDTO extends Goods {
      */
     private List<GoodsAttributeValue> goodsAttributeValueList;
 
-
+    //商品所选分类的父id
+    private Integer cateParentId;
 }

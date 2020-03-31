@@ -32,10 +32,10 @@ public class GoodsController {
         Page<Goods> data = (Page) iGoodsService.page(page, new LambdaQueryWrapper<Goods>()
                 .like(StringUtils.isNotBlank(goods.getName()), Goods::getName, goods.getName())
                 .eq(StringUtils.isNotBlank(goods.getGoodsSn()),Goods::getGoodsSn,goods.getGoodsSn())
-//                .eq(Goods::getGoodsCategoryId,goods.getGoodsCategoryId())
-//                .eq(Goods::getBrandId,goods.getBrandId())
-//                .eq(Goods::getPublishStatus,goods.getPublishStatus())
-//                .eq(Goods::getVerifyStatus,goods.getVerifyStatus())
+                .eq(goods.getGoodsCategoryId()==null?false:true,Goods::getGoodsCategoryId,goods.getGoodsCategoryId())
+                .eq(goods.getGoodsCategoryId()==null?false:true,Goods::getBrandId,goods.getBrandId())
+                .eq(goods.getGoodsCategoryId()==null?false:true,Goods::getPublishStatus,goods.getPublishStatus())
+                .eq(goods.getGoodsCategoryId()==null?false:true,Goods::getVerifyStatus,goods.getVerifyStatus())
         );
         return Result.success(data);
     }
@@ -57,8 +57,8 @@ public class GoodsController {
      * @param publishStatus
      * @return
      */
-    @PutMapping("/update/publishStatus")
-    public Result updatePublishStatus(@RequestParam("ids") List<Long> ids,
+    @PutMapping("/publishStatus")
+    public Result putPublishStatus(@RequestParam("ids") List<Long> ids,
                          @RequestParam("publishStatus") Integer publishStatus) {
         boolean status = iGoodsService.updatePublishStatus(ids, publishStatus);
         return Result.status(status);
@@ -70,8 +70,8 @@ public class GoodsController {
      * @param newStatus
      * @return
      */
-    @PutMapping("/update/newStatus")
-    public Result updateNewStatus(@RequestParam("ids") List<Long> ids,
+    @PutMapping("/newStatus")
+    public Result putNewStatus(@RequestParam("ids") List<Long> ids,
                          @RequestParam("newStatus") Integer newStatus) {
         boolean status = iGoodsService.updateNewStatus(ids, newStatus);
         return Result.status(status);
@@ -83,8 +83,8 @@ public class GoodsController {
      * @param recommendStatus
      * @return
      */
-    @PutMapping("/update/recommendStatus")
-    public Result updateRecommendStatus(@RequestParam("ids") List<Long> ids,
+    @PutMapping("/recommendStatus")
+    public Result putRecommendStatus(@RequestParam("ids") List<Long> ids,
                          @RequestParam("recommendStatus") Integer recommendStatus) {
         boolean status = iGoodsService.updateRecommendStatus(ids, recommendStatus);
         return Result.status(status);
@@ -96,8 +96,8 @@ public class GoodsController {
      * @param deleteStatus
      * @return
      */
-    @PutMapping("/update/deleteStatus")
-    public Result updateDeleteStatus(@RequestParam("ids") List<Long> ids,
+    @PutMapping("/deleteStatus")
+    public Result putDeleteStatus(@RequestParam("ids") List<Long> ids,
                          @RequestParam("deleteStatus") Integer deleteStatus) {
         boolean status = iGoodsService.updateDeleteStatus(ids, deleteStatus);
         return Result.status(status);
@@ -121,8 +121,8 @@ public class GoodsController {
      */
     @GetMapping("/updateInfo/{id}")
     public Result getUpdateInfo(@PathVariable Long id) {
-        Goods goods = iGoodsService.getById(id);
-        return Result.success(goods);
+        GoodsDTO goodsDTO = iGoodsService.getUpdateInfo(id);
+        return Result.success(goodsDTO);
     }
 
     /**
@@ -131,8 +131,8 @@ public class GoodsController {
      * @param goodsDto
      * @return
      */
-    @PutMapping(value = "/update/{id}")
-    public Result update(@PathVariable("id") Long id, @RequestBody GoodsDTO goodsDto) {
+    @PutMapping(value = "/{id}")
+    public Result putObj(@PathVariable("id") Long id, @RequestBody GoodsDTO goodsDto) {
         boolean status = iGoodsService.update(id,goodsDto);
         return Result.status(status);
     }

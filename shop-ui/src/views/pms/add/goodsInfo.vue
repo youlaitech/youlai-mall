@@ -64,7 +64,7 @@
 
 <script>
   import {list as fetchBrandList} from '@/api/pms/brand'
-  import {getObj,treeSelect} from '@/api/pms/category'
+  import {treeSelect} from '@/api/pms/category'
 
   export default {
     name: "goodsInfo",
@@ -78,10 +78,8 @@
     methods: {
       handleEditCreated(){
         if(this.form.goodsCategoryId!=null){
-          getObj(this.form.goodsCategoryId).then(response => {
-            this.selectGoodsCateValue.push(response.data.parentId+'');
+            this.selectGoodsCateValue.push(this.form.cateParentId+'');
             this.selectGoodsCateValue.push(this.form.goodsCategoryId+'');
-          });
         }
         this.hasEditCreated=true;
       },
@@ -195,7 +193,7 @@
         this.handleEditCreated();
       },
       selectGoodsCateValue: function (value) {
-        console.log(this.selectGoodsCateValue);
+        // console.log(this.selectGoodsCateValue);
         if (value != null && value.length === 2) {
           this.form.goodsCategoryId = value[1];
           this.form.goodsCategoryName = this.getCateNameById(this.form.goodsCategoryId);

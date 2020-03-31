@@ -32,8 +32,8 @@ public class GoodsSkuStockController {
      * @param skuStockList
      * @return
      */
-    @PutMapping("/update/{goodsId}")
-    public Result update(@PathVariable Long goodsId,@RequestBody List<GoodsSkuStock> skuStockList) {
+    @PutMapping("/{goodsId}")
+    public Result putObj(@PathVariable Long goodsId,@RequestBody List<GoodsSkuStock> skuStockList) {
         boolean status = iGoodsSkuStockService.update(goodsId,skuStockList);
         return Result.status(status);
     }
