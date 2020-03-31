@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping("/home/advertisement")
-public class HomeAdvertisementEntityController {
+public class HomeAdvertisementController {
 
     @Autowired
     private IHomeAdvertisementService iHomeAdvertisementEntityService;
