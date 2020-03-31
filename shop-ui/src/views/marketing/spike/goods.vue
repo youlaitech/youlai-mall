@@ -21,7 +21,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-edit" plain @click="handleOpenSelectGoods">选择商品</el-button>
-            <el-button icon="el-icon-refresh" @click="refresh">重置</el-button>
+            <el-button icon="el-icon-refresh" @click="refresh">刷新</el-button>
           </el-form-item>
         </el-col>
         <el-col :span="4" style="text-align: right">
