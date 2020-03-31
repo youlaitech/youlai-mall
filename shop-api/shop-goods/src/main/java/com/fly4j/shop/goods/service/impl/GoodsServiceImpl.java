@@ -7,16 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly4j.shop.goods.mapper.GoodsMapper;
 import com.fly4j.shop.goods.pojo.dto.GoodsDTO;
-<<<<<<< HEAD
 import com.fly4j.shop.goods.pojo.dto.SpikeGoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.Goods;
 import com.fly4j.shop.goods.pojo.entity.GoodsSkuStock;
 import com.fly4j.shop.goods.service.IGoodsService;
-=======
-import com.fly4j.shop.goods.pojo.dto.SeckillGoodsDTO;
 import com.fly4j.shop.goods.pojo.entity.*;
 import com.fly4j.shop.goods.service.*;
->>>>>>> 8a10aea310cbc9dec39bb10fc49bd1fa851e6743
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
