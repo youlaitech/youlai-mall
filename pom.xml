@@ -3,18 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.fly4j.cloud</groupId>
-    <artifactId>shop-cloud</artifactId>
+    <groupId>com.fly4j</groupId>
+    <artifactId>yshop</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>fly4j-common</module>
-        <module>fly4j-gateway</module>
-        <module>fly4j-auth</module>
+        <module>yshop-common</module>
+        <module>yshop-gateway</module>
+        <module>yshop-auth</module>
+        <module>yshop-gms</module>
         <module>shop-api</module>
-        <module>shop-admin</module>
     </modules>
     <packaging>pom</packaging>
-    <name>shop-cloud</name>
+    <name>yshop</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -23,6 +23,7 @@
     <properties>
         <docker.image.prefix>fly4j</docker.image.prefix>
         <fly4j.version>1.0.0-SNAPSHOT</fly4j.version>
+        <yshop.version>1.0.0-SNAPSHOT</yshop.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
