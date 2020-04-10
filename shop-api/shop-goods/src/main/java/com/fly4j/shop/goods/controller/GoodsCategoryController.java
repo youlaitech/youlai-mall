@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.common.core.domain.Result;
+import com.fly4j.common.core.bean.Result;
 import com.fly4j.shop.goods.pojo.dto.GoodsCategoryDTO;
 import com.fly4j.shop.goods.service.IGoodsCategoryAttributeRelationService;
 import com.fly4j.shop.goods.service.IGoodsCategoryService;

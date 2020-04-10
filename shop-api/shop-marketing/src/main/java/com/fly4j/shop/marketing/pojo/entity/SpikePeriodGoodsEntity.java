@@ -3,12 +3,11 @@ package com.fly4j.shop.marketing.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fly4j.common.core.domain.BaseEntity;
+import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
 @TableName("m_spike_period_goods")

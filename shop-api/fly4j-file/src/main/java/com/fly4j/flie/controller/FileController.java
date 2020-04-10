@@ -1,8 +1,8 @@
 package com.fly4j.flie.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
-import com.fly4j.common.core.domain.FileInfo;
-import com.fly4j.common.core.domain.Result;
+import com.fly4j.common.core.bean.FileInfo;
+import com.fly4j.common.core.bean.Result;
 import com.fly4j.flie.utils.FastDFSUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;

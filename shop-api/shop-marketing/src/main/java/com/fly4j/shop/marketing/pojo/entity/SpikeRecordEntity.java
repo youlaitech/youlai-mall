@@ -4,7 +4,7 @@ package com.fly4j.shop.marketing.pojo.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fly4j.common.core.domain.BaseEntity;
+import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 
 import java.util.Date;

@@ -1,7 +1,7 @@
 package com.fly4j.shop.order.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.fly4j.common.core.domain.BaseEntity;
+import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 
 @Data

@@ -3,7 +3,7 @@ package com.fly4j.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
-import com.fly4j.common.core.domain.Result;
+import com.fly4j.common.core.bean.Result;
 import com.fly4j.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

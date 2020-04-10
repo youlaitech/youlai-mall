@@ -3,7 +3,7 @@ package com.fly4j.shop.order.remote;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.constant.ServiceNameConstants;
-import com.fly4j.common.core.domain.Result;
+import com.fly4j.common.core.bean.Result;
 import com.fly4j.shop.order.pojo.dto.GoodsDTO;
 import com.fly4j.shop.order.remote.fallback.IRemoteGoodsServiceFallback;
 import org.springframework.cloud.openfeign.FeignClient;
