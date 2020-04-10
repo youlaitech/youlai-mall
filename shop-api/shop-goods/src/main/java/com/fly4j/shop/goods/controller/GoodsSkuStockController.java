@@ -1,6 +1,6 @@
 package com.fly4j.shop.goods.controller;
 
-import com.fly4j.common.core.domain.Result;
+import com.fly4j.common.core.bean.Result;
 import com.fly4j.shop.goods.pojo.entity.GoodsSkuStock;
 import com.fly4j.shop.goods.service.IGoodsSkuStockService;
 import org.springframework.web.bind.annotation.*;

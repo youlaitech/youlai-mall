@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fly4j.common.core.domain.BaseEntity;
+import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 
 /**

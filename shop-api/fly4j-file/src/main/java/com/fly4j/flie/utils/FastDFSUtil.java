@@ -1,6 +1,6 @@
 package com.fly4j.flie.utils;
 
-import com.fly4j.common.core.domain.FileInfo;
+import com.fly4j.common.core.bean.FileInfo;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.fdfs.ThumbImageConfig;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;

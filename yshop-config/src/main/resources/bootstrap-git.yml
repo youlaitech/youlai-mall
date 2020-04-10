@@ -1,0 +1,39 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: yshop-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/fly2021/yshop.git
+          search-paths: yshop-config/prod
+#    bus:
+#     refresh:
+#       enabled: true
+# kafka:
+#   bootstrap-servers: 101.37.69.49:9092
+#   consumer:
+#     group-id: config-server
+
+eureka:
+  instance:
+    ip-address: 101.37.69.49
+    hostname: ${eureka.instance.ip-address} # eureka服务显示服务的host
+    instance-id: 配置中心-8888
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+  client:
+    serviceUrl:
+      defaultZone: http://101.37.69.49:8761/eureka
+    registry-fetch-interval-seconds: 10
+
+# 暴露刷新url：/actuator/bus-refresh
+# management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'

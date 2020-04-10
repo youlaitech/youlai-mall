@@ -2,7 +2,7 @@ package com.fly4j.shop.order.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.common.core.domain.Result;
+import com.fly4j.common.core.bean.Result;
 import com.fly4j.shop.order.pojo.dto.MoneyInfoDTO;
 import com.fly4j.shop.order.pojo.dto.OrderDeliveryDTO;
 import com.fly4j.shop.order.pojo.dto.OrderDetailDTO;
