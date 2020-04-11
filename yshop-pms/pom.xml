@@ -13,8 +13,8 @@
     <artifactId>yshop-gms</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>gms-api</module>
-        <module>gms-service</module>
+        <module>pms-api</module>
+        <module>pms-service</module>
     </modules>
 
     <dependencies>

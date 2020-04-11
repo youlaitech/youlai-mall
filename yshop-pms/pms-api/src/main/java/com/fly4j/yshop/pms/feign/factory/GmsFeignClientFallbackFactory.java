@@ -1,6 +1,6 @@
-package com.fly4j.yshop.gms.feign.factory;
+package com.fly4j.yshop.pms.feign.factory;
 
-import com.fly4j.yshop.gms.feign.GmsFeignClient;
+import com.fly4j.yshop.pms.feign.GmsFeignClient;
 import feign.hystrix.FallbackFactory;
 
 public class GmsFeignClientFallbackFactory implements FallbackFactory<GmsFeignClient> {
