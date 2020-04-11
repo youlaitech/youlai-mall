@@ -1,4 +1,4 @@
-package com.fly4j.config;
+package com.fly4j.yshop.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +10,6 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  * Created by XianRui on 2020-01-20 9:55
  **/
 
-@Slf4j
 @EnableDiscoveryClient
 @EnableConfigServer
 @SpringBootApplication
