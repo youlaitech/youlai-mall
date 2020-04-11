@@ -1,4 +1,4 @@
-package com.fly4j.yshop.gms.pojo.entity;
+package com.fly4j.yshop.pms.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;

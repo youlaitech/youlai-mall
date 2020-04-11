@@ -2,7 +2,7 @@ package com.fly4j.yshop.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fly4j.auth.domain.BaseEntity;
+import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

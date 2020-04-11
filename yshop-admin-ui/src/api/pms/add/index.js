@@ -1,6 +1,8 @@
 import request from '@/utils/request'
 
-export function postObj(obj) {
+
+
+export function goodsList(obj) {
   return request({
     url:'/goods/add',
     method:'post',

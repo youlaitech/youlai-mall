@@ -9,9 +9,10 @@
     <modules>
         <module>yshop-common</module>
         <module>yshop-gateway</module>
+        <module>yshop-eureka</module>
+        <module>yshop-config</module>
         <module>yshop-auth</module>
-        <module>yshop-gms</module>
-        <module>shop-api</module>
+        <module>yshop-pms</module>
     </modules>
     <packaging>pom</packaging>
     <name>yshop</name>

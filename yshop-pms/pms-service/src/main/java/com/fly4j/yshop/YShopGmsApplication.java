@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages ="com.fly4j.yshop.gms.feign")
+@EnableFeignClients(basePackages = "com.fly4j.yshop.pms.feign")
 public class YShopGmsApplication {
     public static void main(String[] args) {
         SpringApplication.run(YShopGmsApplication.class, args);

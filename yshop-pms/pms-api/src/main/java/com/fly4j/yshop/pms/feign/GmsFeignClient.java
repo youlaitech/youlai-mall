@@ -1,9 +1,9 @@
-package com.fly4j.yshop.gms.feign;
+package com.fly4j.yshop.pms.feign;
 
-import com.fly4j.yshop.gms.feign.factory.GmsFeignClientFallbackFactory;
+import com.fly4j.yshop.pms.feign.factory.GmsFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient(name = "yshop-gms", fallbackFactory = GmsFeignClientFallbackFactory.class)
+@FeignClient(name = "yshop-pms", fallbackFactory = GmsFeignClientFallbackFactory.class)
 public interface GmsFeignClient {
 
 
