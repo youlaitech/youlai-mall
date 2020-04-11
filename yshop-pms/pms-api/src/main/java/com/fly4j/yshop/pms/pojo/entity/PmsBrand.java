@@ -12,8 +12,7 @@ public class PmsBrand extends BaseEntity {
   private long id;
   private String name;
   private String description;
-  private String picUrl;
+  private String pic_url;
   private long sort;
-  private long isDelete;
 
 }

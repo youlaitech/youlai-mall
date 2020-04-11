@@ -13,15 +13,15 @@ public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableField(fill = FieldFill.INSERT)
-    private String createBy;
+    private String create_by;
 
     @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
+    private Date create_time;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateBy;
+    private String update_by;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    private Date update_time;
 
 }

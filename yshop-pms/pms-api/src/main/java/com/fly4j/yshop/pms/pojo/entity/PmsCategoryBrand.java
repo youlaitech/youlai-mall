@@ -8,10 +8,10 @@ import lombok.Data;
 public class PmsCategoryBrand {
   @TableId
   @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private long categoryId;
+  private long category_id;
 
   @TableId
   @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private long brandId;
+  private long brand_id;
 
 }
