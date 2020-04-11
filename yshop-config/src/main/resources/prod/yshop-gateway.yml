@@ -13,7 +13,7 @@ zuul:
     auth-route:
       path: /auth/**
       sensitiveHeaders:
-      serviceId: fly4j-auth
+      serviceId: yshop-auth
       stripPrefix: true #  前缀auth移除（默认true移除）
     fms-route:
       path: /files/**
