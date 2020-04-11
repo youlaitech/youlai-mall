@@ -9,7 +9,7 @@ spring:
       server:
         git:
           uri: https://github.com/fly2021/yshop.git
-          search-paths: yshop-config/prod
+          search-paths: yshop-config/src/main/resources/prod
 #    bus:
 #     refresh:
 #       enabled: true
