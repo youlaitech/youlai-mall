@@ -1,4 +1,4 @@
-package com.fly4j.eureka.listener;
+package com.fly4j.yshop.eureka.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.netflix.eureka.server.event.*;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class EurekaStateChangeListener {
+public class EurekaStatusChangeListener {
 
     @EventListener
     public void listen(EurekaInstanceCanceledEvent event) {
