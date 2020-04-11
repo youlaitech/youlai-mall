@@ -10,8 +10,8 @@ public class PmsSpecification extends BaseEntity {
   @TableId
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   private long id;
-  private long goodsId;
+  private long goods_Id;
   private String name;
   private String value;
-  private String picUrl;
+  private String pic_url;
 }

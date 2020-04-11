@@ -20,27 +20,26 @@ public class PmsGoods extends BaseEntity {
   private String name;
 
   @ApiModelProperty(value = "商品编号")
-  private String goodsSn;
+  private String goods_sn;
 
   @ApiModelProperty(value = "分类ID")
-  private long categoryId;
+  private long category_id;
 
   @ApiModelProperty(value = "品牌ID")
-  private long brandId;
+  private long brand_id;
 
   @ApiModelProperty(value = "关键词")
   private String keywords;
   private String subtitle;
   private String description;
-  private String picUrl;
+  private String pic_url;
   private String album;
   private String unit;
-  private double marketPrice;
-  private double retailPrice;
+  private double market_price;
+  private double retail_price;
   private long sort;
   private String detail;
-  private long isNew;
-  private long isHot;
-  private long isSale;
-  private long isDelete;
+  private long is_new;
+  private long is_hot;
+  private long is_sale;
 }

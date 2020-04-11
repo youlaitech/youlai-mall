@@ -8,12 +8,10 @@ import lombok.Data;
 @Data
 public class PmsAttribute extends BaseEntity {
 
-  @TableId
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private long id;
-  private long goodsId;
-  private String name;
-  private String value;
-  private long isDelete;
-
+    @TableId
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private long id;
+    private long goods_id;
+    private String name;
+    private String value;
 }

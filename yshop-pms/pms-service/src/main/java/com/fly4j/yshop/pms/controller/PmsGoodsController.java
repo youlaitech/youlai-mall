@@ -30,16 +30,26 @@ public class PmsGoodsController extends BaseController {
 
     @ApiOperation(value = "商品分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "pageSize", value = "每页数量", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "pmsGoods", value = "商品对象", required = true, paramType = "query", dataType = "PmsGoods")
+            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "path", dataType = "Integer", defaultValue = "10"),
+            @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "goods_sn", value = "每页数量", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "is_new", value = "每页数量", paramType = "query", dataType = "Integer"),
     })
-    @GetMapping("/pageNum/{pageNum}/pageSize/{pageSize}")
-    public R<Page<PmsGoods>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, PmsGoods pmsGoods) {
-        Page<PmsGoods> page = new Page<>(pageNum, pageSize);
-        Page<PmsGoods> data = (Page<PmsGoods>) iPmsGoodsService.page(page, new LambdaQueryWrapper<PmsGoods>()
-                .eq(StrUtil.isNotBlank(pmsGoods.getName()), PmsGoods::getName, pmsGoods.getName())
-                .orderByDesc(PmsGoods::getCreateTime));
+    @GetMapping("/page/{page}/limit/{limit}")
+    public R<Page<PmsGoods>> page(
+            @PathVariable Integer page,
+            @PathVariable Integer limit,
+            String name,
+            String goods_sn,
+            String is_new
+    ) {
+        Page<PmsGoods> data = (Page<PmsGoods>) iPmsGoodsService.page(new Page<>(page, limit),
+                new LambdaQueryWrapper<PmsGoods>()
+                        .like(StrUtil.isNotBlank(name), PmsGoods::getName, name)
+                        .like(StrUtil.isNotBlank(goods_sn), PmsGoods::getGoods_sn, goods_sn)
+                        .eq(is_new != null, PmsGoods::getIs_new, is_new)
+                        .orderByDesc(PmsGoods::getCreate_time));
         return R.ok(data);
     }
 

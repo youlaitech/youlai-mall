@@ -84,6 +84,21 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/pms',
+    component: Layout,
+    redirect: '/pms/goods',
+    meta: {title: '商品管理', icon: 'product'},
+    alwaysShow: true,
+    children: [
+      {
+        path: 'goods',
+        name: '商品列表',
+        component: () => import('@/views/pms/goods'),
+        meta: {title: '商品列表', icon: 'product-list'}
+      },
+    ]
+  },
+  {
     path: '/shop',
     component: Layout,
     redirect: '/shop/brand',
@@ -150,14 +165,14 @@ export const constantRoutes = [
         name: 'orderDetail',
         component: () => import('@/views/order/list/orderDetail'),
         meta: {title: '订单详情'},
-        hidden:true
+        hidden: true
       },
       {
         path: 'deliverOrderList',
         name: 'deliverOrderList',
         component: () => import('@/views/order/list/deliverOrderList'),
         meta: {title: '发货列表'},
-        hidden:true
+        hidden: true
       },
       {
         path: 'setting',
@@ -200,27 +215,27 @@ export const constantRoutes = [
         path: 'spike',
         name: 'spike',
         component: () => import('@/views/marketing/spike'),
-        meta: {title: '秒杀活动列表',icon:'setting'}
+        meta: {title: '秒杀活动列表', icon: 'setting'}
       },
       {
         path: 'period',
         name: 'spikePeriod',
         component: () => import('@/views/marketing/spike/period'),
         meta: {title: '秒杀时间段列表'},
-        hidden:true
+        hidden: true
       },
       {
         path: 'goods',
         name: 'spikeGoods',
         component: () => import('@/views/marketing/spike/goods'),
         meta: {title: '秒杀商品列表'},
-        hidden:true
+        hidden: true
       },
       {
-        path:'advertisement',
-        name:'advertisement',
-        component:()=>import('@/views/marketing/advertisement'),
-        meta:{title:'广告列表',icon:'setting'}
+        path: 'advertisement',
+        name: 'advertisement',
+        component: () => import('@/views/marketing/advertisement'),
+        meta: {title: '广告列表', icon: 'setting'}
       }
     ]
   },
