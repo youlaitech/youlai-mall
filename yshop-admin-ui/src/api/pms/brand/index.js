@@ -35,7 +35,7 @@ export function brandDelete(ids) {
   return request({
     url: '/pms/brands',
     method: 'delete',
-    params: ids
+    params: {ids:ids}
   })
 }
 
@@ -45,3 +45,11 @@ export function brandList() {
     method: 'get'
   });
 }
+
+export function brandStatusUpdate(id,status) {
+  return request({
+    url: '/pms/brands/id/{id}/status/{status}',
+    method: 'put'
+  });
+}
+

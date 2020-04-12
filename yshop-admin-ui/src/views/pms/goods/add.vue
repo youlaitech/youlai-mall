@@ -5,8 +5,8 @@
         <span>商品介绍</span>
       </div>
       <el-form ref="goods" :rules="rules" :model="goods" label-width="150px">
-        <el-form-item label="商品编号" prop="goodsSn">
-          <el-input v-model="goods.goodsSn"/>
+        <el-form-item label="商品编号" prop="goods_sn">
+          <el-input v-model="goods.goods_sn"/>
         </el-form-item>
         <el-form-item label="商品名称" prop="name">
           <el-input v-model="goods.name"/>
@@ -36,35 +36,11 @@
         </el-form-item>
 
         <el-form-item label="商品图片">
-          <el-upload
-            :action="uploadAction"
-            :show-file-list="false"
-            :headers="headers"
-            :on-success="handleUploadPicSuccess"
-            class="avatar-uploader"
-            accept=".jpg,.jpeg,.png,.gif"
-            :auto-upload="true"
-          >
-            <img v-if="goods.pic_url" :src="goods.pic_url" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"/>
-          </el-upload>
+          <single-upload v-model="goods.pic_url"></single-upload>
         </el-form-item>
 
         <el-form-item label="商品相册">
-          <el-upload
-            :action="uploadAction"
-            :limit="5"
-            :headers="headers"
-            :on-exceed="handleExceed"
-            :on-success="handleUploadGallerySuccess"
-            :on-remove="handleRemove"
-            multiple
-            accept=".jpg,.jpeg,.png,.gif"
-            list-type="picture-card"
-            :auto-upload="true"
-          >
-            <i class="el-icon-plus"/>
-          </el-upload>
+          <multi-upload v-model="goods.album"></multi-upload>
         </el-form-item>
 
         <el-form-item label="商品单位">
@@ -77,8 +53,8 @@
         </el-form-item>
 
         <el-form-item label="所属品牌">
-          <el-select v-model="goods.brandId" clearable>
-            <el-option v-for="item in brandList" :key="item.value" :label="item.label" :value="item.value"/>
+          <el-select v-model="goods.brand_id" clearable>
+            <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id"/>
           </el-select>
         </el-form-item>
 
@@ -96,55 +72,61 @@
 </template>
 
 <script>
-  import {getToken} from '@/utils/auth'
   import Tinymce from '@/components/Tinymce'
-  import {deleteFile} from '@/api/fms'
+  import {categoryCascadeList} from '@/api/pms/category'
+  import {brandList} from '@/api/pms/brand'
+
+  import SingleUpload from '@/components/Upload/singleUpload'
+  import MultiUpload from '@/components/Upload/multiUpload'
 
   export default {
-    name: "add",
-    components: {
-      Tinymce
-    },
+    components: {SingleUpload, MultiUpload, Tinymce},
     data() {
       return {
-
-        goods: {pic_url: '', gallery: [], is_hot: false, is_new: true, is_sale: true},
-        rules: {
-          goodsSn: [{required: true, message: '商品编号不能为空', trigger: 'blur'}],
-          name: [{required: true, message: '商品名称不能为空', trigger: 'blur'}]
+        goods: {
+          pic_url: '',
+          gallery: [],
+          is_hot: false,
+          is_new: true,
+          is_sale: true,
+          album:undefined
         },
-
-        uploadAction: this.uploadAction,
-        headers: {authorization: getToken()},
-
+        categoryList: [],
+        brandList: [],
+        rules: {
+          goods_sn: [{required: true, message: '商品编号不能为空', trigger: 'blur'}],
+          name: [{required: true, message: '商品名称不能为空', trigger: 'blur'}]
+        }
       }
     },
-    methods:
-      {
-        handleExceed() {
-          this.$message.error('上传文件个数超出限制!最多上传5张图片!')
+    computed:{
+
+      albumPics:{
+        get:function () {
+
         },
-        handleUploadPicSuccess(response) {
-          if (response.code === 0) {
-            this.goods.pic_url = response.data.filePath
-          }
-        },
-        handleUploadGallerySuccess(response) {
-          if (response.code === 0) {
-            this.goods.gallery.push(response.data.filePath)
-          }
-        },
-        handleRemove(file) {
-          deleteFile(file.response.data.filePath).then(() => {
-            for (let i = 0; i < this.goods.gallery.length; i++) {
-              let filePath = file.response.data.filePath
-              if (this.goods.gallery[i] === filePath) {
-                this.goods.gallery.splice(i, 1)
-              }
-            }
-          })
-        },
+        set:function (newValue) {
+
+        }
       }
+
+    },
+    created() {
+      this.initData()
+    },
+    methods: {
+      initData() {
+        categoryCascadeList().then(response => {
+          this.categoryList = response.data
+        })
+        brandList().then(response => {
+          this.brandList = response.data
+        })
+      },
+      handleCategoryChange() {
+
+      }
+    }
   }
 </script>
 

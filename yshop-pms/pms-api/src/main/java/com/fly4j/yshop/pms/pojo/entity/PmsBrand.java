@@ -13,12 +13,12 @@ public class PmsBrand extends BaseEntity {
 
     @TableId(type = IdType.ID_WORKER)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private long id;
+    private Long id;
     private String name;
     private String description;
     private String logo_url;
     private String pic_url;
-    private long sort;
+    private Long sort;
     private Integer status;
 
     private String first_letter;

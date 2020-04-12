@@ -1,12 +1,5 @@
 import request from '@/utils/request'
 
-export function categoryPageList(page, limit, queryParams) {
-  return request({
-    url: '/pms/categories/page/' + page + "/limit/" + limit,
-    method: 'get',
-    params: queryParams
-  });
-}
 
 export function categoryAdd(data) {
   return request({
@@ -39,9 +32,34 @@ export function categoryDelete(ids) {
   })
 }
 
-export function categoryList() {
+export function categoryList(queryParams) {
   return request({
     url: '/pms/categories',
-    method: 'get'
+    method: 'get',
+    params: queryParams
   });
 }
+
+export function categoryCascadeList() {
+  return request({
+    url: '/pms/categories/cascade',
+    method: 'get'
+  })
+}
+
+export function categoryFirstLevelList() {
+  return request({
+    url: '/pms/categories/firstLevel',
+    method: 'get'
+  })
+}
+
+export function categoryIsShowUpdate(id, is_show) {
+  return request({
+    url: '/pms/categories/id/' + id + '/is_show/' + is_show,
+    method: 'put'
+  })
+}
+
+
+
