@@ -128,6 +128,7 @@
       :visible.sync="dialog.visible"
       @close="cancel"
       center
+      top="5vh"
       width="40%">
       <el-form id="dataForm" label-width="120px" :model="form" :rules="rules" ref="form">
         <el-form-item label="品牌名称" prop="name">
@@ -228,14 +229,20 @@
         this.single = selection.length != 1
         this.multiple = !selection.length
       },
-      handleAdd() {
+
+      handleResetForm() {
         this.resetForm("form")
+        this.form = {}
+      },
+      handleAdd() {
+        this.handleResetForm()
         this.dialog = {
           title: "新增品牌",
           visible: true
         }
       },
       handleEdit(row) {
+        this.handleResetForm()
         this.resetForm("form")
         this.dialog = {
           title: "修改品牌",
@@ -249,7 +256,7 @@
       handleSubmit() {
         this.$refs["form"].validate((valid) => {
           if (valid) {
-            const id = this.form.id;
+            const id = this.form.id
             if (id != undefined) {
               brandUpdate(id, this.form).then(() => {
                 this.$message.success("修改成功")
