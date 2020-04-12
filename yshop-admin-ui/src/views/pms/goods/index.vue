@@ -43,16 +43,16 @@
         min-width="5%">
       </el-table-column>
       <el-table-column
-        prop="attributeId"
+        prop="id"
         label="商品ID"
         min-width="50">
       </el-table-column>
 
       <el-table-column min-width="100" label="名称" prop="name"/>
 
-      <el-table-column property="iconUrl" label="图片">
+      <el-table-column property="pic_url" label="图片">
         <template slot-scope="scope">
-          <img :src="scope.row.picUrl" width="40">
+          <img :src="scope.row.pic_url" width="40">
         </template>
       </el-table-column>
 
@@ -107,19 +107,18 @@
     <pagination
       v-show="pagination.total>0"
       :total="pagination.total"
-      :page.sync="pagination.pageNum"
-      :limit.sync="pagination.pageSize"
+      :page.sync="pagination.page"
+      :limit.sync="pagination.limit"
       @pagination="handleQuery"/>
     <!-- 分页工具条::end -->
   </div>
 </template>
 
 <script>
-  import {goodsPageList, deleteGoods} from '@/api/pms/goods'
+  import {goodsPageList, goodsDelete} from '@/api/pms/goods'
 
   export default {
     data() {
-      name:"GoodsList",
       return {
         // 选中数组
         ids: [],
@@ -128,8 +127,8 @@
         // 非多个禁用
         multiple: true,
         pagination: {
-          pageNum: 1,
-          pageSize: 10,
+          page: 1,
+          limit: 10,
           total: 0
         },
         queryParams: {
@@ -144,15 +143,15 @@
     },
     methods: {
       handleQuery() {
-        goodsPageList(this.pagination.pageNum, this.pagination.pageSize, this.queryParams).then(response => {
+        goodsPageList(this.pagination.page, this.pagination.limit, this.queryParams).then(response => {
           this.pageList = response.data.records
           this.pagination.total = response.data.total
         })
       },
       handleResetQuery() {
         this.pagination = {
-          pageNum: 1,
-          pageSize: 10,
+          page: 1,
+          limit: 10,
           total: 0
         }
         this.queryParams = {
@@ -168,19 +167,19 @@
         this.detailDialogVisible = true
       },
       handleAdd() {
-
+        this.$router.push({name: 'goodsAdd'})
       },
       handleEdit(row) {
-
+        this.$router.push({name: 'goodsEdit', params: {id: row.id}})
       },
       handleDelete(row) {
-        const ids =row.id|| this.ids
+        const ids = row.id || this.ids
         this.$confirm('是否确认删除选中的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function () {
-          return deleteGoods(ids)
+          return goodsDelete(ids)
         }).then(() => {
           this.$message.success("删除成功")
           this.handleQuery()
@@ -192,7 +191,7 @@
         this.$refs.multipleTable.toggleRowSelection(row);
       },
       handleSelectionChange(selection) {
-        this.ids = selection.map(item => item.attributeId)
+        this.ids = selection.map(item => item.id)
         this.single = selection.length != 1
         this.multiple = !selection.length
       },

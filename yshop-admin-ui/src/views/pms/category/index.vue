@@ -185,7 +185,7 @@
   import Treeselect from "@riophae/vue-treeselect"
   import "@riophae/vue-treeselect/dist/vue-treeselect.css"
   import {getToken} from '@/utils/auth'
-  import {deleteFile} from '@/api/file'
+  import {deleteFile} from '@/api/fms'
   import {cascader} from '@/api/pms/attribute'
 
 

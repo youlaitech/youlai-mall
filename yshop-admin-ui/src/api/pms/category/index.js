@@ -1,72 +1,47 @@
 import request from '@/utils/request'
 
-export function page(pageNum, pageSize, queryParams) {
+export function categoryPageList(page, limit, queryParams) {
   return request({
-    url: '/goods/categories/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/pms/categories/page/' + page + "/limit/" + limit,
     method: 'get',
     params: queryParams
   });
 }
 
-export function postObj(obj) {
+export function categoryAdd(data) {
   return request({
-    url: '/goods/categories',
+    url: '/pms/categories',
     method: 'post',
-    data: obj
+    data: data
   });
 }
 
-export function getObj(id) {
+export function categoryDetail(id) {
   return request({
-    url: '/goods/categories/' + id,
+    url: '/pms/categories/' + id,
     method: 'get'
-  })
-}
-
-export function putObj(id, obj) {
-  return request({
-    url: '/goods/categories/' + id,
-    method: 'put',
-    data: obj
-  })
-}
-
-export function delObj(ids) {
-  return request({
-    url: '/goods/categories/' + ids,
-    method: 'delete'
-  })
-}
-
-
-export function list(queryParams) {
-  return request({
-    url: '/goods/categories/list',
-    method: 'get',
-    params: queryParams
   });
 }
 
-export function treeSelect(queryParams) {
+export function categoryUpdate(id, data) {
   return request({
-    url: '/goods/categories/treeSelect',
-    method: 'get',
-    param: queryParams
+    url: '/pms/categories/' + id,
+    method: 'put',
+    data: data
+  });
+}
+
+export function categoryDelete(ids) {
+  return request({
+    url: '/pms/categories',
+    method: 'delete',
+    params: ids
   })
 }
 
-export function updateNavStatus(categoryId, isNav) {
+export function categoryList() {
   return request({
-    url: '/goods/categories/id/' + categoryId + '/isNav/' + isNav,
-    method: 'put'
-  })
+    url: '/pms/categories',
+    method: 'get'
+  });
 }
-
-export function updateShowStatus(categoryId, isShow) {
-  return request({
-    url: '/goods/categories/id/' + categoryId + '/isShow/' + isShow,
-    method: 'put'
-  })
-}
-
-

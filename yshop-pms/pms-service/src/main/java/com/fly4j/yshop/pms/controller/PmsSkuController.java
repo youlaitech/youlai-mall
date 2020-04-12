@@ -27,7 +27,7 @@ public class PmsSkuController extends BaseController {
         Page<PmsSku> page = new Page<>(pageNum, pageSize);
         Page<PmsSku> data = (Page<PmsSku>) iPmsSkuService.page(page, new LambdaQueryWrapper<PmsSku>()
                 .eq(StrUtil.isNotBlank(pmsSku.getSpecs()), PmsSku::getSpecs, pmsSku.getSpecs())
-                .orderByDesc(PmsSku::getCreateTime));
+                .orderByDesc(PmsSku::getCreate_time));
         return R.ok(data);
     }
 

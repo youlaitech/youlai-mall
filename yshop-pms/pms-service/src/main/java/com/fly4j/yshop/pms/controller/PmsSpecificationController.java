@@ -27,7 +27,7 @@ public class PmsSpecificationController extends BaseController {
         Page<PmsSpecification> page = new Page<>(pageNum, pageSize);
         Page<PmsSpecification> data = (Page<PmsSpecification>) iPmsSpecificationService.page(page, new LambdaQueryWrapper<PmsSpecification>()
                 .eq(StrUtil.isNotBlank(pmsSpecification.getName()), PmsSpecification::getName, pmsSpecification.getName())
-                .orderByDesc(PmsSpecification::getCreateTime));
+                .orderByDesc(PmsSpecification::getCreate_time));
         return R.ok(data);
     }
 

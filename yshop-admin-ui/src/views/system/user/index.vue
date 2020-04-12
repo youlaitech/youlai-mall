@@ -157,7 +157,7 @@
 <script>
   import {page, getObj, postObj, putObj, delObj} from '@/api/system/user'
   import {getToken} from '@/utils/auth'
-  import {deleteFile} from '@/api/file'
+  import {deleteFile} from '@/api/fms'
 
   export default {
     name: "index",

@@ -27,7 +27,7 @@ public class PmsAttributeController extends BaseController {
         Page<PmsAttribute> page = new Page<>(pageNum, pageSize);
         Page<PmsAttribute> data = (Page<PmsAttribute>) iPmsAttributeService.page(page, new LambdaQueryWrapper<PmsAttribute>()
                 .eq(StrUtil.isNotBlank(pmsAttribute.getName()), PmsAttribute::getName, pmsAttribute.getName())
-                .orderByDesc(PmsAttribute::getCreateTime));
+                .orderByDesc(PmsAttribute::getCreate_time));
         return R.ok(data);
     }
 

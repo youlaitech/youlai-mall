@@ -27,7 +27,6 @@ public class PmsGoodsController extends BaseController {
     @Resource
     private IPmsGoodsService iPmsGoodsService;
 
-
     @ApiOperation(value = "商品分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
@@ -60,7 +59,18 @@ public class PmsGoodsController extends BaseController {
         return R.ok(list);
     }
 
-    @ApiOperation(value = "获取商品详情", httpMethod = "GET")
+
+    @ApiOperation(value = "新增商品", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pmsGoods", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsGoods")
+    })
+    @PostMapping
+    public R save(@RequestBody PmsGoods PmsGoods) {
+        boolean status = iPmsGoodsService.save(PmsGoods);
+        return status ? R.ok(null) : R.failed("上架商品失败");
+    }
+
+    @ApiOperation(value = "商品详情", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
     })
@@ -70,21 +80,11 @@ public class PmsGoodsController extends BaseController {
         return R.ok(user);
     }
 
-    @ApiOperation(value = "新增商品", httpMethod = "POST")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pmsGoods", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsGoods")
-    })
-    @PostMapping
-    public R add(@RequestBody PmsGoods PmsGoods) {
-        boolean status = iPmsGoodsService.save(PmsGoods);
-        return status ? R.ok(null) : R.failed("上架商品失败");
-    }
-
 
     @ApiOperation(value = "修改商品", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "pmsGoods", value = "商品对象", required = true, paramType = "body", dataType = "PmsGoods")
+            @ApiImplicitParam(name = "pmsGoods", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsGoods")
     })
     @PutMapping(value = "/{id}")
     public R update(@PathVariable("id") Long id, @RequestBody PmsGoods pmsGoods) {
@@ -95,7 +95,7 @@ public class PmsGoodsController extends BaseController {
 
     @ApiOperation(value = "删除商品", httpMethod = "delete")
     @ApiImplicitParam(name = "ids", value = "商品ID", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
-    @DeleteMapping("/{ids}")
+    @DeleteMapping()
     public R delete(@PathVariable Long[] ids) {
         boolean status = iPmsGoodsService.removeByIds(Arrays.asList(ids));
         return status ? R.ok(null) : R.failed("删除失败");
