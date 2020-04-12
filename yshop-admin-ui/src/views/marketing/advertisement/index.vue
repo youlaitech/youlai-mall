@@ -191,7 +191,7 @@
 <script>
   import {page, getObj, postObj, putObj, delObj, updateStatus} from '@/api/marketing/advertisement'
   import {getToken} from '@/utils/auth'
-  import {deleteFile} from '@/api/file'
+  import {deleteFile} from '@/api/fms'
 
   export default {
     data() {

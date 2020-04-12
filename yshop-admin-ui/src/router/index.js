@@ -92,10 +92,39 @@ export const constantRoutes = [
     children: [
       {
         path: 'goods',
-        name: '商品列表',
+        name: 'goodsList',
         component: () => import('@/views/pms/goods'),
-        meta: {title: '商品列表', icon: 'product-list'}
+        meta: {title: '商品列表', icon: 'product-list'},
+        children:[
+          {
+            path: 'edit/:id',
+            name: 'goodsEdit',
+            component: () => import('@/views/pms/goods/edit'),
+            meta: {title: '修改商品'},
+            hidden: true
+          },
+        ]
       },
+      {
+        path: 'add',
+        name: 'goodsAdd',
+        component: () => import('@/views/pms/goods/add'),
+        meta: {title: '添加商品', icon: 'product-add'}
+      },
+      {
+        path: 'category',
+        name: '商品分类',
+        component: () => import('@/views/pms/category'),
+        meta: {title: '商品分类', icon: 'list'}
+      },
+      {
+        path: 'brand',
+        name: '品牌管理',
+        component: () => import('@/views/pms/brand'),
+        meta: {title: '品牌管理', icon: 'product-brand'}
+      }
+
+
     ]
   },
   {

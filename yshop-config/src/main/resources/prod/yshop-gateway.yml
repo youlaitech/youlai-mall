@@ -16,10 +16,9 @@ zuul:
       serviceId: yshop-auth
       stripPrefix: true #  前缀auth移除（默认true移除）
     fms-route:
-      path: /files/**
+      path: /fms/**
       sensitiveHeaders:
-      serviceId: fly4j-file
-      stripPrefix: false #  前缀files不移除
+      serviceId: yshop-fms
     pms-route:
       path: /pms/**
       sensitiveHeaders:

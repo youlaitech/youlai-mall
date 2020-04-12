@@ -1,41 +1,47 @@
 import request from '@/utils/request'
 
-export function page(pageNum, pageSize, queryParams) {
+export function brandPageList(page, limit, queryParams) {
   return request({
-    url: '/goods/brands/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/pms/brands/page/' + page + "/limit/" + limit,
     method: 'get',
     params: queryParams
   });
 }
-export function postObj(obj) {
+
+export function brandAdd(data) {
   return request({
-    url: '/goods/brands',
+    url: '/pms/brands',
     method: 'post',
-    data: obj
+    data: data
   });
 }
-export function getObj(id) {
+
+export function brandDetail(id) {
   return request({
-    url: '/goods/brands/' + id,
+    url: '/pms/brands/' + id,
     method: 'get'
   });
 }
-export function putObj(id, obj) {
+
+export function brandUpdate(id, data) {
   return request({
-    url: '/goods/brands/' + id,
+    url: '/pms/brands/' + id,
     method: 'put',
-    data: obj
+    data: data
   });
 }
-export function delObj(ids) {
+
+export function brandDelete(ids) {
   return request({
-    url: '/goods/brands/' + ids,
-    method: 'delete'
+    url: '/pms/brands',
+    method: 'delete',
+    params: ids
   })
 }
-export function list() {
+
+export function brandList() {
   return request({
-    url: '/goods/brands/list',
+    url: '/pms/brands',
     method: 'get'
   });
 }

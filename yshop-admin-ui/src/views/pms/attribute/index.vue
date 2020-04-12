@@ -235,7 +235,7 @@
         }
         this.queryParams = {
           type: undefined,
-          attributeTypeId:undefined
+          attributeTypeId: undefined
         }
         this.resetForm("queryForm")
         this.handleQuery()
@@ -247,16 +247,16 @@
           return "单选"
         } else if (row.selectType == 2) {
           return "多选"
-        }else {
+        } else {
           return ""
         }
       },
       formatInputType: function (row) {
         if (row.inputType == 0) {
           return "手工录入"
-        } else if(row.inputType == 1) {
+        } else if (row.inputType == 1) {
           return "从列表中获取"
-        }else{
+        } else {
           return ""
         }
       },
@@ -357,8 +357,8 @@
         }
       },
       initPate() {
-        this.queryParams={
-          type : this.attributeType,
+        this.queryParams = {
+          type: this.attributeType,
           attributeTypeId: this.attributeTypeId
         }
         this.handleQuery()

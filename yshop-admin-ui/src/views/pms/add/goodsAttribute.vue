@@ -165,7 +165,7 @@
   import {list as fetchGoodsAttrTypeList} from '@/api/pms/attribute/type'
   import {page as fetchGoodsAttrList} from '@/api/pms/attribute'
   import {getToken} from '@/utils/auth'
-  import {deleteFile} from '@/api/file'
+  import {deleteFile} from '@/api/fms'
   import Tinymce from '@/components/Tinymce'
 
   export default {

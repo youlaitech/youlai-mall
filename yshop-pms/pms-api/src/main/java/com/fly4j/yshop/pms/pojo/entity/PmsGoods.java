@@ -31,7 +31,7 @@ public class PmsGoods extends BaseEntity {
   @ApiModelProperty(value = "关键词")
   private String keywords;
   private String subtitle;
-  private String description;
+  private String brief;
   private String pic_url;
   private String album;
   private String unit;
