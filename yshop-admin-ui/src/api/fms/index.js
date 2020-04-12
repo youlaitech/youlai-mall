@@ -1,9 +1,10 @@
 import request from '@/utils/request'
-export function fileDelete(filePath) {
+
+export function fileDelete(url) {
   return request({
-    url: '/files',
+    url: '/fms/files',
     method: 'delete',
-    data: filePath,
+    params: {url: url},
     headers: {
       'showLoading': false  // 不加载Loading
     }

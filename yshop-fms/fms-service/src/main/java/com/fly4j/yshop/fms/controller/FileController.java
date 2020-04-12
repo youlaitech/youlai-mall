@@ -52,13 +52,13 @@ public class FileController {
             httpMethod = "DELETE"
     )
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "filePath", value = "文件路径", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "url", value = "文件路径", required = true, paramType = "query"),
     })
-    public R deleteFile(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
-            return R.failed("上传文件为空");
+    public R deleteFile(String url) {
+        if (StringUtils.isBlank(url)) {
+            return R.failed("上传文件路径为空");
         }
-        fastDfsClient.deleteFile(filePath);
+        fastDfsClient.deleteFile(url);
         return R.ok(null);
     }
 

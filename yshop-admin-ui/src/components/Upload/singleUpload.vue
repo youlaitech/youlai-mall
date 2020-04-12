@@ -52,7 +52,7 @@
     data() {
       return {
         headers: {authorization: getToken()},
-        uploadAction: process.env.VUE_APP_BASE_API + '/files',
+        uploadAction: process.env.VUE_APP_BASE_API + '/fms/files',
         dialogVisible: false,
       }
     },
@@ -73,7 +73,7 @@
       handleUploadSuccess(response, file) {
         this.showFileList = true;
         this.fileList.pop();
-        let url = response.data.filePath
+        let url = response.data.url
         this.fileList.push({url: url})
         this.emitInput(this.fileList[0].url);
       }
