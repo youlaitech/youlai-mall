@@ -56,8 +56,8 @@ public class PmsSkuController extends BaseController {
     }
 
     @DeleteMapping("/{ids}")
-    public R delete(@PathVariable Long[] ids) {
-        boolean status = iPmsSkuService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestParam("ids") List<Long> ids) {
+        boolean status = iPmsSkuService.removeByIds(ids);
         return status ? R.ok(null) : R.failed("删除失败");
     }
 

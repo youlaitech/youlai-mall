@@ -15,7 +15,7 @@ public class PmsGoods extends BaseEntity {
   @TableId(type = IdType.ID_WORKER)
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   @ApiModelProperty(value = "主键id",hidden = true)
-  private long id;
+  private Long id;
 
   @ApiModelProperty(value = "商品名称")
   private String name;

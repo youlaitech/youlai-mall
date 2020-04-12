@@ -2,6 +2,7 @@ package com.fly4j.yshop.pms.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
@@ -32,8 +33,6 @@ public class PmsBrandController extends BaseController {
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
             @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "path", dataType = "Integer", defaultValue = "10"),
             @ApiImplicitParam(name = "name", value = "名称", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "goods_sn", value = "每页数量", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "is_new", value = "每页数量", paramType = "query", dataType = "Integer"),
     })
     @GetMapping("/page/{page}/limit/{limit}")
     public R<Page<PmsBrand>> page(
@@ -43,8 +42,9 @@ public class PmsBrandController extends BaseController {
     ) {
         Page<PmsBrand> data = (Page<PmsBrand>) iPmsBrandService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<PmsBrand>()
-                .eq(StrUtil.isNotBlank(name), PmsBrand::getName, name)
-                .orderByDesc(PmsBrand::getCreate_time));
+                        .eq(StrUtil.isNotBlank(name), PmsBrand::getName, name)
+                        .orderByAsc(PmsBrand::getSort)
+                        .orderByDesc(PmsBrand::getCreate_time));
         return R.ok(data);
     }
 
@@ -89,8 +89,27 @@ public class PmsBrandController extends BaseController {
     @ApiOperation(value = "删除品牌", httpMethod = "delete")
     @ApiImplicitParam(name = "ids", value = "品牌id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
-    public R delete(@PathVariable Long[] ids) {
-        boolean status = iPmsBrandService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestParam("ids") List<Long> ids) {
+        boolean status = iPmsBrandService.removeByIds(ids);
         return status ? R.ok(null) : R.failed("删除失败");
     }
+
+    @ApiOperation(value = "修改品牌", httpMethod = "PUT")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "status", value = "显示状态", required = true, paramType = "path", dataType = "Integer")
+    })
+    @PutMapping("/id/{id}/status/{status}")
+    public R updateStatus(@PathVariable Integer id, @PathVariable Integer status) {
+        boolean result = iPmsBrandService.update(new LambdaUpdateWrapper<PmsBrand>()
+                .eq(PmsBrand::getId, id)
+                .set(PmsBrand::getStatus, status));
+        if (result) {
+            return R.ok("更新成功");
+        } else {
+            return R.failed("更新失败");
+        }
+    }
+
+
 }

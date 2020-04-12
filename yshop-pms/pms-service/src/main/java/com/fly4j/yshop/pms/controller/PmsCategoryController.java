@@ -1,7 +1,11 @@
 package com.fly4j.yshop.pms.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.fly4j.common.constant.Constants;
 import com.fly4j.common.core.controller.BaseController;
+import com.fly4j.yshop.pms.pojo.dto.PmsCategoryDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsCategory;
 import com.fly4j.yshop.pms.pojo.vo.CascaderVO;
 import com.fly4j.yshop.pms.service.IPmsCategoryService;
@@ -13,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 @Api(tags = "分类接口")
@@ -25,10 +29,13 @@ public class PmsCategoryController extends BaseController {
     @Autowired
     private IPmsCategoryService iPmsCategoryService;
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "分类名称", paramType = "query", dataType = "PmsCategory")
+    })
     @ApiOperation(value = "分类列表", httpMethod = "GET")
     @GetMapping()
-    public R list() {
-        List<PmsCategory> list = iPmsCategoryService.list();
+    public R list(@RequestParam(required = false) String name) {
+        List<PmsCategoryDTO> list = iPmsCategoryService.selectList(name);
         return R.ok(list);
     }
 
@@ -60,25 +67,52 @@ public class PmsCategoryController extends BaseController {
             @ApiImplicitParam(name = "pmsCategory", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody PmsCategory PmsCategory) {
-        boolean status = iPmsCategoryService.updateById(PmsCategory);
+    public R update(@PathVariable("id") Long id, @RequestBody PmsCategory pmsCategory) {
+        boolean status = iPmsCategoryService.updateById(pmsCategory);
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
     @ApiOperation(value = "删除分类", httpMethod = "delete")
     @ApiImplicitParam(name = "ids", value = "分类id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
-    public R delete(@PathVariable Long[] ids) {
-        boolean status = iPmsCategoryService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestParam("ids") List<Long> ids) {
+        boolean status = iPmsCategoryService.removeByIds(ids);
         return status ? R.ok(null) : R.failed("删除失败");
     }
 
 
-    @ApiOperation(value = "分类级联列表", httpMethod = "GET")
+    @ApiOperation(value = "分类列表(级联)", httpMethod = "GET")
     @GetMapping(value = "/cascade")
     public R cascade() {
         List<CascaderVO> cascadeList = iPmsCategoryService.cascadeList();
         return R.ok(cascadeList);
+    }
+
+    @ApiOperation(value = "分类列表(一级)", httpMethod = "GET")
+    @GetMapping(value = "/firstLevel")
+    public R l1() {
+        List<PmsCategory> list = new LinkedList<>();
+        list.add(new PmsCategory().setId(0L).setName("顶级分类"));
+        list.addAll(iPmsCategoryService.list(new LambdaQueryWrapper<PmsCategory>()
+                .eq(PmsCategory::getLevel, Constants.CATEGORY_LEVEL1)));
+        return R.ok(list);
+    }
+
+    @ApiOperation(value = "分类可见状态更新", httpMethod = "PUT")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "分类id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "is_show", value = "显示状态", required = true, paramType = "path", dataType = "Integer")
+    })
+    @PutMapping("/id/{id}/is_show/{is_show}")
+    public R updateIsShowStatus(@PathVariable Integer id, @PathVariable Integer is_show) {
+        boolean result = iPmsCategoryService.update(new LambdaUpdateWrapper<PmsCategory>()
+                .eq(PmsCategory::getId, id)
+                .set(PmsCategory::getIs_show, is_show));
+        if (result) {
+            return R.ok("更新成功");
+        } else {
+            return R.failed("更新失败");
+        }
     }
 
 }

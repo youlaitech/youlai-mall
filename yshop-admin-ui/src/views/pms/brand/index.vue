@@ -10,7 +10,6 @@
       <el-form-item label="" prop="name">
         <el-input v-model="queryParams.name" placeholder="品牌名称"></el-input>
       </el-form-item>
-
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
         <el-button icon="el-icon-refresh" @click="handleResetQuery">重置</el-button>
@@ -165,8 +164,7 @@
 </template>
 
 <script>
-  import {brandPageList, brandAdd, brandDetail, brandUpdate, brandDelete} from '@/api/pms/brand'
-  import {getToken} from '@/utils/auth'
+  import {brandPageList, brandAdd, brandDetail, brandUpdate, brandDelete,brandStatusUpdate} from '@/api/pms/brand'
   import SingleUpload from '@/components/Upload/singleUpload'
 
   export default {
@@ -192,14 +190,14 @@
           title: undefined,
           visible: false,
         },
-        form: {},
+        form: {
+          status: 1
+        },
         rules: {
           name: [{
             required: true, message: '请输入品牌名称', trigger: 'blur'
           }]
         },
-        uploadAction: this.uploadAction,
-        headers: {authorization: getToken()},
       }
     },
     methods: {
@@ -218,7 +216,7 @@
         this.queryParams = {
           name: undefined
         };
-        this.resetForm("queryForm");
+        this.handleResetForm()
         this.handleQuery()
       },
       handleRowClick(row) {
@@ -232,7 +230,9 @@
 
       handleResetForm() {
         this.resetForm("form")
-        this.form = {}
+        this.form = {
+          status: 1
+        }
       },
       handleAdd() {
         this.handleResetForm()
@@ -279,23 +279,23 @@
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function () {
-          return brandDelete(ids)
         }).then(() => {
-          this.$message.success("删除成功")
-          this.handleQuery()
-        }).catch(() =>
+            brandDelete(ids).then(() => {
+              this.$message.success("删除成功")
+              this.handleQuery()
+            })
+          }
+        ).catch(() =>
           this.$message.info("已取消删除")
         )
       },
       cancel() {
-        this.resetForm("form")
+        this.handleResetForm()
         this.dialog.visible = false;
       },
 
-      // 更改显示状态
       handleStatusChange(id, row) {
-        putObj(id, row).then(() => {
+        brandStatusUpdate(id, row.status).then(() => {
           this.$message.success("修改成功")
         });
       }

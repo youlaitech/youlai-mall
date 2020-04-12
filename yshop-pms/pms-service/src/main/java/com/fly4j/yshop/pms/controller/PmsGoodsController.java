@@ -96,8 +96,8 @@ public class PmsGoodsController extends BaseController {
     @ApiOperation(value = "删除商品", httpMethod = "delete")
     @ApiImplicitParam(name = "ids", value = "商品ID", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
-    public R delete(@PathVariable Long[] ids) {
-        boolean status = iPmsGoodsService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestParam("ids") List<Long> ids) {
+        boolean status = iPmsGoodsService.removeByIds(ids);
         return status ? R.ok(null) : R.failed("删除失败");
     }
 

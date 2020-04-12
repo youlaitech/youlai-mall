@@ -11,8 +11,8 @@ public class PmsAttribute extends BaseEntity {
 
     @TableId(type = IdType.ID_WORKER)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private long id;
-    private long goods_id;
+    private Long id;
+    private Long goods_id;
     private String name;
     private String value;
 }
