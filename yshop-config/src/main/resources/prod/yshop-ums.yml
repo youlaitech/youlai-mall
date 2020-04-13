@@ -11,18 +11,11 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-#  cloud:
-#    bus:
-#      refresh:
-#        enabled: true
-#  kafka:
-#    bootstrap-servers: 101.37.69.49:9092
-
 
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
-    map-underscore-to-camel-case: false
+    map-underscore-to-camel-case: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     use-generated-keys: true
@@ -32,9 +25,9 @@ eureka:
     service-url:
       defaultZone: http://101.37.69.49:8761/eureka/
   instance:
-    ip-address:  localhost
+    ip-address: localhost
     hostname: ${eureka.instance.ip-address}
-    instance-id:  UMS用户服务-8001
+    instance-id:  UMS会员服务-8001
     prefer-ip-address: false
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5
@@ -44,33 +37,10 @@ security:
   oauth2:
     resource:
       id: current-user
-      user-info-uri: http://101.37.69.49:8000/user/current
+      user-info-uri: http://localhost:9999/auth/user/current
       prefer-token-info: false
 
 # swagger 认证配置
 swagger:
   auth:
     server: http://101.37.69.49:8000/oauth/token
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
-
-
-ribbon:
-  ReadTimeout: 10000
-  ConnectTimeout: 10000
-  SocketTimeout: 10000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 1
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 40000
-            # (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
-            # (10000 +10000) * (0 + 1) * (1 + 1)
