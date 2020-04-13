@@ -55,11 +55,11 @@ public class UmsMemberController extends BaseController {
 
     @ApiOperation(value = "新增会员", httpMethod = "POST")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pmsBrand", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
+            @ApiImplicitParam(name = "umsMember", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PostMapping
-    public R save(@RequestBody UmsMember pmsBrand) {
-        boolean status = iUmsMemberService.save(pmsBrand);
+    public R save(@RequestBody UmsMember umsMember) {
+        boolean status = iUmsMemberService.save(umsMember);
         return status ? R.ok(null) : R.failed("新增失败");
     }
 
@@ -76,11 +76,11 @@ public class UmsMemberController extends BaseController {
     @ApiOperation(value = "修改会员", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "会员id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "pmsBrand", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
+            @ApiImplicitParam(name = "umsMember", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody UmsMember pmsBrand) {
-        boolean status = iUmsMemberService.updateById(pmsBrand);
+    public R update(@PathVariable("id") Long id, @RequestBody UmsMember umsMember) {
+        boolean status = iUmsMemberService.updateById(umsMember);
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
