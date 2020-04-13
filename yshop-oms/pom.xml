@@ -9,12 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.fly4j</groupId>
-    <artifactId>yshop-pms</artifactId>
+    <artifactId>yshop-oms</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>pms-api</module>
-        <module>pms-service</module>
+        <module>oms-api</module>
+        <module>oms-service</module>
     </modules>
 
     <dependencies>
