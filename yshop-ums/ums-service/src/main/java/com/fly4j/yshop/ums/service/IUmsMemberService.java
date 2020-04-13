@@ -1,4 +1,4 @@
-package com.fly4j.shop.ums.service;
+package com.fly4j.yshop.ums.service;
 
 
 

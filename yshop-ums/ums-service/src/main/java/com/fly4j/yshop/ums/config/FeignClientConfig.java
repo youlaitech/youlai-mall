@@ -1,4 +1,4 @@
-package com.fly4j.shop.ums.config;
+package com.fly4j.yshop.ums.config;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.context.annotation.Configuration;

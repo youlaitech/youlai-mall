@@ -1,11 +1,11 @@
-package com.fly4j.shop.ums.controller;
+package com.fly4j.yshop.ums.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
-import com.fly4j.shop.ums.service.IUmsAddressService;
+import com.fly4j.yshop.ums.service.IUmsAddressService;
 import com.fly4j.yshop.ums.pojo.entity.UmsAddress;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

@@ -1,13 +1,10 @@
 package com.fly4j.yshop.sms.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
 import com.fly4j.yshop.sms.pojo.entity.SmsSeckillSessionSku;
-import com.fly4j.yshop.sms.service.ISmsSeckillSessionSkuService;
 import com.fly4j.yshop.sms.service.ISmsSeckillSessionSkuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "秒杀活动时间段商品商品接口")
+@Api(tags = "秒杀活动时间段商品接口")
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/seckill/skus")
 @Slf4j
 public class SmsSeckillSessionSkuController extends BaseController {
 

@@ -16,12 +16,13 @@ public class BaseEntity implements Serializable {
     private String create_by;
 
     @TableField(fill = FieldFill.INSERT)
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date create_time;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String update_by;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date update_time;
-
 }
