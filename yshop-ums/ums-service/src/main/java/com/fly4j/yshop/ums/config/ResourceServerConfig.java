@@ -1,4 +1,4 @@
-package com.fly4j.shop.ums.config;
+package com.fly4j.yshop.ums.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

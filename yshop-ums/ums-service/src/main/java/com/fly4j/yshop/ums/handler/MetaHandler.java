@@ -1,4 +1,4 @@
-package com.fly4j.shop.ums.handler;
+package com.fly4j.yshop.ums.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
