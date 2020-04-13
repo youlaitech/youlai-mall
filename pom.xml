@@ -14,6 +14,9 @@
         <module>yshop-auth</module>
         <module>yshop-pms</module>
         <module>yshop-fms</module>
+        <module>yshop-oms</module>
+        <module>yshop-sms</module>
+        <module>yshop-ums</module>
     </modules>
     <packaging>pom</packaging>
     <name>yshop</name>

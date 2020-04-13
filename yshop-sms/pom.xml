@@ -9,13 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.fly4j</groupId>
-    <artifactId>yshop-pms</artifactId>
+    <artifactId>yshop-sms</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>pms-api</module>
-        <module>pms-service</module>
+        <module>sms-api</module>
+        <module>sms-service</module>
     </modules>
+
 
     <dependencies>
         <dependency>
@@ -24,5 +24,4 @@
             <version>${yshop.version}</version>
         </dependency>
     </dependencies>
-
 </project>
