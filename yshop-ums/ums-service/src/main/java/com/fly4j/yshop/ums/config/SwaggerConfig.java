@@ -1,4 +1,4 @@
-package com.fly4j.shop.ums.config;
+package com.fly4j.yshop.ums.config;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
