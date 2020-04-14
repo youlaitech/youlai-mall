@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
-import com.fly4j.yshop.pms.pojo.entity.PmsGoods;
+import com.fly4j.yshop.pms.pojo.entity.PmsSpu;
 import com.fly4j.yshop.pms.service.IPmsGoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = "商品接口")
@@ -36,26 +35,26 @@ public class PmsGoodsController extends BaseController {
             @ApiImplicitParam(name = "is_new", value = "每页数量", paramType = "query", dataType = "Integer"),
     })
     @GetMapping("/page/{page}/limit/{limit}")
-    public R<Page<PmsGoods>> page(
+    public R<Page<PmsSpu>> page(
             @PathVariable Integer page,
             @PathVariable Integer limit,
             String name,
             String goods_sn,
             String is_new
     ) {
-        Page<PmsGoods> data = (Page<PmsGoods>) iPmsGoodsService.page(new Page<>(page, limit),
-                new LambdaQueryWrapper<PmsGoods>()
-                        .like(StrUtil.isNotBlank(name), PmsGoods::getName, name)
-                        .like(StrUtil.isNotBlank(goods_sn), PmsGoods::getGoods_sn, goods_sn)
-                        .eq(is_new != null, PmsGoods::getIs_new, is_new)
-                        .orderByDesc(PmsGoods::getCreate_time));
+        Page<PmsSpu> data = (Page<PmsSpu>) iPmsGoodsService.page(new Page<>(page, limit),
+                new LambdaQueryWrapper<PmsSpu>()
+                        .like(StrUtil.isNotBlank(name), PmsSpu::getName, name)
+                        .like(StrUtil.isNotBlank(goods_sn), PmsSpu::getGoods_sn, goods_sn)
+                        .eq(is_new != null, PmsSpu::getIs_new, is_new)
+                        .orderByDesc(PmsSpu::getCreate_time));
         return R.ok(data);
     }
 
     @ApiOperation(value = "获取商品列表", httpMethod = "GET")
     @GetMapping()
     public R list() {
-        List<PmsGoods> list = iPmsGoodsService.list();
+        List<PmsSpu> list = iPmsGoodsService.list();
         return R.ok(list);
     }
 
@@ -65,8 +64,8 @@ public class PmsGoodsController extends BaseController {
             @ApiImplicitParam(name = "pmsGoods", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsGoods")
     })
     @PostMapping
-    public R save(@RequestBody PmsGoods PmsGoods) {
-        boolean status = iPmsGoodsService.save(PmsGoods);
+    public R save(@RequestBody PmsSpu PmsSpu) {
+        boolean status = iPmsGoodsService.save(PmsSpu);
         return status ? R.ok(null) : R.failed("上架商品失败");
     }
 
@@ -76,7 +75,7 @@ public class PmsGoodsController extends BaseController {
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
-        PmsGoods user = iPmsGoodsService.getById(id);
+        PmsSpu user = iPmsGoodsService.getById(id);
         return R.ok(user);
     }
 
@@ -87,8 +86,8 @@ public class PmsGoodsController extends BaseController {
             @ApiImplicitParam(name = "pmsGoods", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsGoods")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody PmsGoods pmsGoods) {
-        boolean status = iPmsGoodsService.updateById(pmsGoods);
+    public R update(@PathVariable("id") Long id, @RequestBody PmsSpu pmsSpu) {
+        boolean status = iPmsGoodsService.updateById(pmsSpu);
         return status ? R.ok(null) : R.failed("更新商品失败");
     }
 

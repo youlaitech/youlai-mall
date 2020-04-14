@@ -81,11 +81,6 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="是否在售" prop="is_sale">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.is_sale ? 'success' : 'error' ">{{ scope.row.is_sale ? '在售' : '未售' }}</el-tag>
-        </template>
-      </el-table-column>
 
       <el-table-column label="操作" min-width="100">
         <template slot-scope="scope">
@@ -115,7 +110,7 @@
 </template>
 
 <script>
-  import {goodsPageList, goodsDelete} from '@/api/pms/goods'
+  import {spuPageList, spuDelete} from '@/api/pms/spu'
 
   export default {
     data() {
@@ -143,7 +138,7 @@
     },
     methods: {
       handleQuery() {
-        goodsPageList(this.pagination.page, this.pagination.limit, this.queryParams).then(response => {
+        spuPageList(this.pagination.page, this.pagination.limit, this.queryParams).then(response => {
           this.pageList = response.data.records
           this.pagination.total = response.data.total
         })
@@ -179,7 +174,7 @@
           cancelButtonText: "取消",
           type: "warning"
         }).then(function () {
-          return goodsDelete(ids)
+          return spuDelete(ids)
         }).then(() => {
           this.$message.success("删除成功")
           this.handleQuery()

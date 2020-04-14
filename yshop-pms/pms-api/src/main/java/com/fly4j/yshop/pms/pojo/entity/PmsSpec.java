@@ -7,11 +7,11 @@ import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 
 @Data
-public class PmsSpecification extends BaseEntity {
+public class PmsSpec extends BaseEntity {
   @TableId(type = IdType.ID_WORKER)
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   private Long id;
-  private Long goods_Id;
+  private Long spu_id;
   private String name;
   private String value;
   private String pic_url;

@@ -73,8 +73,8 @@
       },
       handleUploadSuccess(response, file) {
         let url = response.data.url
-        this.fileList.push({url: url});
-        this.emitInput(this.fileList);
+        this.fileList.push({url: url})
+        this.emitInput(this.fileList)
       },
       handleExceed(files, fileList) {
         this.$message({

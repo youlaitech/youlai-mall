@@ -18,5 +18,5 @@ public class SmsSeckillPromotion extends BaseEntity {
   private String title;
   private Date start_time;
   private Date end_time;
-  private Long status;
+  private Integer status;
 }

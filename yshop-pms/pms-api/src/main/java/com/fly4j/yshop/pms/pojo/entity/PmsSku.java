@@ -10,13 +10,13 @@ import lombok.Data;
 public class PmsSku extends BaseEntity {
   @TableId(type = IdType.ID_WORKER)
   @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private long id;
+  private Long id;
   @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private long goods_id;
-  private String specifications;
+  private Long spu_id;
+  private String specs;
   private double price;
-  private long number;
+  private Long number;
   private String pic_url;
-  private long sales_volume;
+  private Long sales_volume;
 
 }
