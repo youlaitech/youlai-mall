@@ -5,13 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
-import com.fly4j.yshop.pms.pojo.entity.PmsSpecification;
+import com.fly4j.yshop.pms.pojo.entity.PmsSpec;
 import com.fly4j.yshop.pms.service.IPmsSpecificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -23,35 +22,35 @@ public class PmsSpecificationController extends BaseController {
     private IPmsSpecificationService iPmsSpecificationService;
 
     @GetMapping("/pageNum/{pageNum}/pageSize/{pageSize}")
-    public R<Page<PmsSpecification>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, PmsSpecification pmsSpecification) {
-        Page<PmsSpecification> page = new Page<>(pageNum, pageSize);
-        Page<PmsSpecification> data = (Page<PmsSpecification>) iPmsSpecificationService.page(page, new LambdaQueryWrapper<PmsSpecification>()
-                .eq(StrUtil.isNotBlank(pmsSpecification.getName()), PmsSpecification::getName, pmsSpecification.getName())
-                .orderByDesc(PmsSpecification::getCreate_time));
+    public R<Page<PmsSpec>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, PmsSpec pmsSpec) {
+        Page<PmsSpec> page = new Page<>(pageNum, pageSize);
+        Page<PmsSpec> data = (Page<PmsSpec>) iPmsSpecificationService.page(page, new LambdaQueryWrapper<PmsSpec>()
+                .eq(StrUtil.isNotBlank(pmsSpec.getName()), PmsSpec::getName, pmsSpec.getName())
+                .orderByDesc(PmsSpec::getCreate_time));
         return R.ok(data);
     }
 
     @GetMapping()
     public R list() {
-        List<PmsSpecification> list = iPmsSpecificationService.list();
+        List<PmsSpec> list = iPmsSpecificationService.list();
         return R.ok(list);
     }
 
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
-        PmsSpecification user = iPmsSpecificationService.getById(id);
+        PmsSpec user = iPmsSpecificationService.getById(id);
         return R.ok(user);
     }
 
     @PostMapping
-    public R add(@RequestBody PmsSpecification PmsSpecification) {
-        boolean status = iPmsSpecificationService.save(PmsSpecification);
+    public R add(@RequestBody PmsSpec PmsSpec) {
+        boolean status = iPmsSpecificationService.save(PmsSpec);
         return status ? R.ok(null) : R.failed("新增失败");
     }
 
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody PmsSpecification PmsSpecification) {
-        boolean status = iPmsSpecificationService.updateById(PmsSpecification);
+    public R update(@PathVariable("id") Long id, @RequestBody PmsSpec PmsSpec) {
+        boolean status = iPmsSpecificationService.updateById(PmsSpec);
         return status ? R.ok(null) : R.failed("更新失败");
     }
 

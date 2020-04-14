@@ -24,7 +24,6 @@ public class OmsOrder extends BaseEntity {
     private String receiver_address;
     private String receiver_zip;
     private String buyer_message;
-    private double goods_amount;
     private double freight_amount;
     private double coupon_amount;
     private double total_amount;
