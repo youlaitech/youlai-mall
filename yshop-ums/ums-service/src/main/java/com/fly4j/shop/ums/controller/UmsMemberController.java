@@ -57,7 +57,7 @@ public class UmsMemberController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pmsBrand", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
-    @PostMapping
+    @PostMapping()
     public R save(@RequestBody UmsMember pmsBrand) {
         boolean status = iUmsMemberService.save(pmsBrand);
         return status ? R.ok(null) : R.failed("新增失败");

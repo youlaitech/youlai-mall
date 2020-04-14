@@ -143,7 +143,7 @@
       <el-form-item label="规格参数：">
         <el-tabs v-model="activeHtmlName" type="card">
           <el-tab-pane label="电脑端详情" name="pc">
-            <tinymce :width="595" :height="300" v-model="form.detailHtml" id="pc"></tinymce>
+            <!--<tinymce :width="595" :height="300" v-model="form.detailHtml" id="pc"></tinymce>-->
           </el-tab-pane>
           <el-tab-pane label="移动端详情" name="mobile">
             <tinymce :width="595" :height="300" v-model="form.detailMobileHtml" id="mobile"></tinymce>
@@ -166,11 +166,11 @@
   import {page as fetchGoodsAttrList} from '@/api/pms/attribute'
   import {getToken} from '@/utils/auth'
   import {deleteFile} from '@/api/fms'
-  import Tinymce from '@/components/Tinymce'
+  //import Tinymce from '@/components/Tinymce'
 
   export default {
     name: "GoodsAttrDetail",
-    components: {Tinymce},
+    components: {},
     props: {
       goodsParamData: Object,
       isEdit: {

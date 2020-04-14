@@ -1,8 +1,8 @@
 {
-  "name": "fly-ui",
+  "name": "yshop-admin-ui",
   "version": "1.0.0",
-  "description": "vue+elementUI项目",
-  "author": "fly",
+  "description": "有来小店后台管理前端",
+  "author": "fly4j",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",
@@ -26,9 +26,8 @@
     ]
   },
   "dependencies": {
-    "@packy-tang/vue-tinymce": "^1.0.0",
-    "@riophae/vue-treeselect": "^0.4.0",
     "@tinymce/tinymce-vue": "^3.2.0",
+    "@riophae/vue-treeselect": "^0.4.0",
     "axios": "^0.19.2",
     "element-ui": "^2.13.0",
     "fuse.js": "^3.4.6",
@@ -39,7 +38,6 @@
     "nprogress": "^0.2.0",
     "path-to-regexp": "^6.1.0",
     "screenfull": "4.2.0",
-    "tinymce": "^5.2.0",
     "v-distpicker": "^1.2.2",
     "vue": "2.6.10",
     "vue-cli": "^2.9.6",
