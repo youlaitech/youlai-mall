@@ -2,7 +2,7 @@ package com.fly4j.yshop.oms.config;
 
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.fly4j.yshop.pms.handler.MetaHandler;
+import com.fly4j.yshop.oms.handler.MetaHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

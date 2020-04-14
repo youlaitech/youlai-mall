@@ -1,4 +1,4 @@
-package com.fly4j.shop;
+package com.fly4j.yshop;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
