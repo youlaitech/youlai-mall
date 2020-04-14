@@ -10,8 +10,8 @@ import lombok.Data;
 public class PmsSpecification extends BaseEntity {
   @TableId(type = IdType.ID_WORKER)
   @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private long id;
-  private long goods_Id;
+  private Long id;
+  private Long goods_Id;
   private String name;
   private String value;
   private String pic_url;
