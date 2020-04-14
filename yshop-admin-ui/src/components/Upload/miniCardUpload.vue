@@ -1,31 +1,27 @@
 <template> 
   <div>
     <el-upload
+      class="mini-card-uploader"
       :headers="headers"
       :action="uploadAction"
-      list-type="picture"
       :multiple="false"
-      :show-file-list="showFileList"
+      :show-file-list="false"
       :file-list="fileList"
       :before-upload="beforeUpload"
-      :on-remove="handleRemove"
       :on-success="handleUploadSuccess"
       :on-preview="handlePreview"
       :auto-upload="true"
     >
-      <el-button size="small" type="primary">点击上传</el-button>
-     <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过10MB</div>-->
-
-
+      <img v-if="fileList[0].url" :src="fileList[0].url" class="mini-card">
+      <i v-else class="el-icon-plus mini-card-uploader-icon"></i>
+      <i v-if="fileList[0].url" class="el-icon-close mini-card-remove-icon" @click.stop="handleRemove(fileList[0].url)"></i>
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="fileList[0].url" alt="">
-    </el-dialog>
+
   </div>
 </template>
 <script>
   import {getToken} from '@/utils/auth'
-  import  {fileDelete} from '@/api/fms'
+  import {fileDelete} from '@/api/fms'
 
   export default {
     name: 'singleUpload',
@@ -62,8 +58,10 @@
       emitInput(val) {
         this.$emit('input', val)
       },
-      handleRemove(file, fileList) {
-        fileDelete(file.url)
+      handleRemove(url) {
+        if (url) {
+          fileDelete(url)
+        }
         this.emitInput('');
       },
       handlePreview(file) {
@@ -83,7 +81,39 @@
   }
 </script>
 <style>
+  .mini-card-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
 
+  .mini-card-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+
+  .mini-card-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 60px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+  }
+
+  .mini-card {
+    width: 60px;
+    height: 50px;
+    display: block;
+  }
+
+  .mini-card-remove-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #409eff;
+    }
 </style>
 
 

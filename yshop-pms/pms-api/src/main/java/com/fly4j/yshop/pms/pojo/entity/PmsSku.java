@@ -13,7 +13,7 @@ public class PmsSku extends BaseEntity {
   private long id;
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   private long goods_id;
-  private String specs;
+  private String specifications;
   private double price;
   private long number;
   private String pic_url;

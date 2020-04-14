@@ -40,6 +40,7 @@ module.exports = {
         }
       }
     },
+    host:"localhost",
     disableHostCheck: true
   },
   configureWebpack: {
