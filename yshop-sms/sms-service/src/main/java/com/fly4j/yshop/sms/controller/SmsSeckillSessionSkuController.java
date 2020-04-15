@@ -81,7 +81,7 @@ public class SmsSeckillSessionSkuController extends BaseController {
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
-    @ApiOperation(value = "删除秒杀活动时间段商品", httpMethod = "delete")
+    @ApiOperation(value = "删除秒杀活动时间段商品", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "秒杀活动时间段商品id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {

@@ -1,6 +1,5 @@
 package com.fly4j.yshop.pms.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,11 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sku")
+@RequestMapping("/skus")
 @Slf4j
 public class PmsSkuController extends BaseController {
 
@@ -26,7 +24,6 @@ public class PmsSkuController extends BaseController {
     public R<Page<PmsSku>> page(@PathVariable Integer pageNum, @PathVariable Integer pageSize, PmsSku pmsSku) {
         Page<PmsSku> page = new Page<>(pageNum, pageSize);
         Page<PmsSku> data = (Page<PmsSku>) iPmsSkuService.page(page, new LambdaQueryWrapper<PmsSku>()
-                .eq(StrUtil.isNotBlank(pmsSku.getSpecifications()), PmsSku::getSpecifications, pmsSku.getSpecifications())
                 .orderByDesc(PmsSku::getCreate_time));
         return R.ok(data);
     }
@@ -44,14 +41,14 @@ public class PmsSkuController extends BaseController {
     }
 
     @PostMapping
-    public R add(@RequestBody PmsSku PmsSku) {
-        boolean status = iPmsSkuService.save(PmsSku);
+    public R add(@RequestBody PmsSku pmsSku) {
+        boolean status = iPmsSkuService.save(pmsSku);
         return status ? R.ok(null) : R.failed("新增失败");
     }
 
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody PmsSku PmsSku) {
-        boolean status = iPmsSkuService.updateById(PmsSku);
+    public R update(@PathVariable("id") Long id, @RequestBody PmsSku pmsSku) {
+        boolean status = iPmsSkuService.updateById(pmsSku);
         return status ? R.ok(null) : R.failed("更新失败");
     }
 

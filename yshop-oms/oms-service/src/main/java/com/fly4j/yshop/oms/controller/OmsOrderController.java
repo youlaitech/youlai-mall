@@ -84,7 +84,7 @@ public class OmsOrderController extends BaseController {
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
-    @ApiOperation(value = "删除订单", httpMethod = "delete")
+    @ApiOperation(value = "删除订单", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "订单id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {

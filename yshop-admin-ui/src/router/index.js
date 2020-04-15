@@ -86,20 +86,20 @@ export const constantRoutes = [
   {
     path: '/pms',
     component: Layout,
-    redirect: '/pms/goods',
+    redirect: '/pms/spu',
     meta: {title: '商品管理', icon: 'product'},
     alwaysShow: true,
     children: [
       {
-        path: 'goods',
-        name: 'goodsList',
-        component: () => import('@/views/pms/goods'),
+        path: 'spu',
+        name: 'spuIndex',
+        component: () => import('@/views/pms/spu'),
         meta: {title: '商品列表', icon: 'product-list'},
         children:[
           {
             path: 'edit/:id',
-            name: 'goodsEdit',
-            component: () => import('@/views/pms/goods/edit'),
+            name: 'spuEdit',
+            component: () => import('@/views/pms/spu/edit'),
             meta: {title: '修改商品'},
             hidden: true
           },
@@ -107,8 +107,8 @@ export const constantRoutes = [
       },
       {
         path: 'add',
-        name: 'goodsAdd',
-        component: () => import('@/views/pms/goods/add'),
+        name: 'spuAdd',
+        component: () => import('@/views/pms/spu/add'),
         meta: {title: '添加商品', icon: 'product-add'}
       },
       {
@@ -123,8 +123,6 @@ export const constantRoutes = [
         component: () => import('@/views/pms/brand'),
         meta: {title: '品牌管理', icon: 'product-brand'}
       }
-
-
     ]
   },
   {

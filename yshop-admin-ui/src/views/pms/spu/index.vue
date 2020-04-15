@@ -59,15 +59,13 @@
       <el-table-column label="详情" prop="detail">
         <template slot-scope="scope">
           <el-dialog :visible.sync="detailDialogVisible" title="商品详情">
-            <div class="goods-detail-box" v-html="goodsDetail"/>
+            <div class="goods-detail-box" v-html="spuDetail"/>
           </el-dialog>
           <el-button type="primary" size="mini" @click="showDetail(scope.row.detail)">查看</el-button>
         </template>
       </el-table-column>
 
-      <el-table-column label="市场售价" prop="counterPrice"/>
-
-      <el-table-column label="当前价格" prop="retailPrice"/>
+      <el-table-column label="当前价格" prop="price"/>
 
       <el-table-column label="是否新品" prop="is_new">
         <template slot-scope="scope">
@@ -81,6 +79,18 @@
         </template>
       </el-table-column>
 
+      <el-table-column
+        prop="status"
+        label="上架/下架">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.status"
+            :active-value="1"
+            :inactive-value="0"
+            @change="handleStatusChange(scope.row)">
+          </el-switch>
+        </template>
+      </el-table-column>
 
       <el-table-column label="操作" min-width="100">
         <template slot-scope="scope">
@@ -110,7 +120,7 @@
 </template>
 
 <script>
-  import {spuPageList, spuDelete} from '@/api/pms/spu'
+  import {spuPageList, spuDelete, spuUpdate} from '@/api/pms/spu'
 
   export default {
     data() {
@@ -132,7 +142,7 @@
           is_new: undefined
         },
         pageList: [],
-        goodsDetail: undefined,
+        spuDetail: undefined,
         detailDialogVisible: false,
       }
     },
@@ -158,14 +168,14 @@
         this.handleQuery()
       },
       showDetail(detail) {
-        this.goodsDetail = detail
+        this.spuDetail = detail
         this.detailDialogVisible = true
       },
       handleAdd() {
-        this.$router.push({name: 'goodsAdd'})
+        this.$router.push({name: 'spuAdd'})
       },
       handleEdit(row) {
-        this.$router.push({name: 'goodsEdit', params: {id: row.id}})
+        this.$router.push({name: 'spuEdit', params: {id: row.id}})
       },
       handleDelete(row) {
         const ids = row.id || this.ids
@@ -190,6 +200,22 @@
         this.single = selection.length != 1
         this.multiple = !selection.length
       },
+      // 显示隐藏
+      handleStatusChange(row) {
+        let operation = row.status === 0 ? '下架' : '上架'
+        let that = this
+        this.$confirm('确认要' + operation + row.name + '商品?', "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(function () {
+          spuUpdate(row.id, {status: row.status}).then(response => {
+            that.$message.success(response.msg)
+          })
+        }).catch(function () {
+          row.status = row.status === 0 ? 1 : 0;
+        })
+      }
     },
     created() {
       this.handleQuery()

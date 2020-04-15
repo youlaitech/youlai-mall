@@ -86,7 +86,7 @@ public class PmsBrandController extends BaseController {
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
-    @ApiOperation(value = "删除品牌", httpMethod = "delete")
+    @ApiOperation(value = "删除品牌", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "品牌id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
