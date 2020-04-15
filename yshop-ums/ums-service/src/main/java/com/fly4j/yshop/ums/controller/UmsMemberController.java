@@ -84,7 +84,7 @@ public class UmsMemberController extends BaseController {
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
-    @ApiOperation(value = "删除会员", httpMethod = "delete")
+    @ApiOperation(value = "删除会员", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "会员id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {

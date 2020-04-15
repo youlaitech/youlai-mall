@@ -40,7 +40,7 @@ public class OmsOrderItemController extends BaseController {
     ) {
         Page<OmsOrderItem> data = (Page<OmsOrderItem>) iOmsOrderItemService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<OmsOrderItem>()
-                        .eq(StrUtil.isNotBlank(name), OmsOrderItem::getGoods_name, name)
+                        .eq(StrUtil.isNotBlank(name), OmsOrderItem::getSpu_name, name)
                         .orderByDesc(OmsOrderItem::getCreate_time));
         return R.ok(data);
     }
@@ -83,7 +83,7 @@ public class OmsOrderItemController extends BaseController {
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
-    @ApiOperation(value = "删除订单明细", httpMethod = "delete")
+    @ApiOperation(value = "删除订单明细", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "订单明细id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {

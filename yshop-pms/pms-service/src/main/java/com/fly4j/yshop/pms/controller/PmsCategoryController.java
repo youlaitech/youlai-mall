@@ -72,7 +72,7 @@ public class PmsCategoryController extends BaseController {
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
-    @ApiOperation(value = "删除分类", httpMethod = "delete")
+    @ApiOperation(value = "删除分类", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "分类id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {

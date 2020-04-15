@@ -82,7 +82,7 @@ public class UmsAddressController extends BaseController {
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
-    @ApiOperation(value = "删除地址", httpMethod = "delete")
+    @ApiOperation(value = "删除地址", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "地址id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function spuPageList(page, limit, queryParams) {
   return request({
-    url: '/pms/spu/page/' + page + "/limit/" + limit,
+    url: '/pms/spus/page/' + page + "/limit/" + limit,
     method: 'get',
     params: queryParams
   });
@@ -10,7 +10,7 @@ export function spuPageList(page, limit, queryParams) {
 
 export function spuAdd(data) {
   return request({
-    url: '/pms/spu',
+    url: '/pms/spus',
     method: 'post',
     data: data
   });
@@ -18,14 +18,14 @@ export function spuAdd(data) {
 
 export function spuDetail(id) {
   return request({
-    url: '/pms/spu/' + id,
+    url: '/pms/spus/' + id,
     method: 'get'
   })
 }
 
 export function spuUpdate(id, data) {
   return request({
-    url: '/pms/spu/' + id,
+    url: '/pms/spus/' + id,
     method: 'put',
     data: data
   })
@@ -33,7 +33,7 @@ export function spuUpdate(id, data) {
 
 export function spuDelete(ids) {
   return request({
-    url: '/pms/spu/attributes',
+    url: '/pms/spus',
     method: 'delete',
     params: ids
   })
