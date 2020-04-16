@@ -1,4 +1,4 @@
-package com.fly4j.yshop.oms.controller;
+package com.fly4j.yshop.oms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Api(tags = "订单接口")
@@ -33,16 +34,19 @@ public class OmsOrderController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
             @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "path", dataType = "Integer", defaultValue = "10"),
-            @ApiImplicitParam(name = "order_sn", value = "订单编号", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "member_id", value = "会员ID", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "order_sn", value = "订单编号", paramType = "query", dataType = "String")
     })
     @GetMapping("/page/{page}/limit/{limit}")
     public R<Page<OmsOrder>> page(
             @PathVariable Integer page,
             @PathVariable Integer limit,
+            String member_id,
             String order_sn
     ) {
         Page<OmsOrder> data = (Page<OmsOrder>) iOmsOrderService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<OmsOrder>()
+                        .eq(StrUtil.isNotBlank(member_id), OmsOrder::getMember_id, member_id)
                         .eq(StrUtil.isNotBlank(order_sn), OmsOrder::getOrder_sn, order_sn)
                         .orderByDesc(OmsOrder::getCreate_time));
         return R.ok(data);
@@ -71,8 +75,8 @@ public class OmsOrderController extends BaseController {
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
-        OmsOrder user = iOmsOrderService.getById(id);
-        return R.ok(user);
+        OmsOrder order = iOmsOrderService.getById(id);
+        return R.ok(order);
     }
 
     @ApiOperation(value = "修改订单", httpMethod = "PUT")
@@ -112,17 +116,6 @@ public class OmsOrderController extends BaseController {
     }
 
 
-    @Autowired
-    private PmsFeign pmsFeign;
-
-    @ApiOperation(value = "订单商品详情", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
-    })
-    @GetMapping("/spu/{id}")
-    public R getSpu(@PathVariable Long id) {
-        return pmsFeign.getSpuById(id);
-    }
 
 
     @ApiOperation(value = "订单发货", httpMethod = "PUT")
@@ -136,8 +129,15 @@ public class OmsOrderController extends BaseController {
                 .eq(OmsOrder::getId, id)
                 .set(OmsOrder::getLogistics_company, omsOrder.getLogistics_company())
                 .set(OmsOrder::getLogistics_number, omsOrder.getLogistics_number())
-                .set(OmsOrder::getDelivery_time, new java.util.Date())
+                .set(OmsOrder::getDeliver_time, new Date())
+                .set(OmsOrder::getStatus, 2) // 2-已发货
         );
         return status ? R.ok(null) : R.failed("发货失败");
     }
+
+
+
+
+
+
 }

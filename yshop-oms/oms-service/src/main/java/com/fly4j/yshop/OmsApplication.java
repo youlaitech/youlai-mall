@@ -1,5 +1,6 @@
 package com.fly4j.yshop;
 
+import com.fly4j.yshop.pms.feign.PmsFeign;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  **/
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.fly4j.yshop.*.feign")
+@EnableFeignClients(basePackageClasses = {PmsFeign.class})
 @MapperScan("com.fly4j.yshop.oms.mapper")
 public class OmsApplication {
     public static void main(String[] args) {

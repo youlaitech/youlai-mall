@@ -87,11 +87,11 @@
 
       <el-table-column
         label="操作"
-        min-width="10">
+        min-width="16">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleViewOrder(scope.$index, scope.row)"
+            @click="handleViewOrder(scope.row)"
           >查看订单
           </el-button>
           <el-button
@@ -159,7 +159,7 @@
         <el-form-item label="收货地址" prop="receiver_address">
           {{form.receiver_address}}
         </el-form-item>
-        <el-form-item>
+        <el-form-item label="物流公司" prop="logistics_company">
           <el-select placeholder="请选择物流公司"
                      v-model="form.logistics_company"
                      size="small">
@@ -183,7 +183,7 @@
 </template>
 
 <script>
-  import {orderPageList, orderDeliver,  orderDelete} from '@/api/oms/order'
+  import {orderPageList, orderDeliver, orderDelete} from '@/api/oms/order'
 
   const statusMap = {
     0: '待付款',
@@ -245,8 +245,7 @@
         },
         queryParams: {
           member_id: undefined,
-          order_sn: undefined,
-          statusArray: []
+          order_sn: undefined
         },
         timeArray: [],
         pageList: [],
@@ -317,7 +316,7 @@
           total: 0
         }
         this.queryParams = {
-          member_id:undefined,
+          member_id: undefined,
           order_sn: undefined
         };
         this.handleResetForm()
@@ -336,20 +335,23 @@
         this.resetForm("form")
       },
       handleViewOrder(row) {
-
-
+        this.$router.push({path: 'orderDetail', query: {id: row.id}})
       },
       handleCloseOrder(row) {
       },
       handleDeliverOrder(row) {
+        this.dialog = {
+          title: '订单发货',
+          visible: true
+        }
         this.handleResetForm()
         this.form = {
           id: row.id,
           order_sn: row.order_sn,
           receiver_name: row.receiver_name,
           receiver_mobile: row.receiver_mobile,
-          receiver_zip:row.receiver_zip,
-          receiver_address:row.receiver_address
+          receiver_zip: row.receiver_zip,
+          receiver_address: row.receiver_address
         }
       },
       handleViewLogistics(row) {
@@ -362,11 +364,8 @@
       handleSubmit() {
         this.$refs["form"].validate((valid) => {
           if (valid) {
-            orderDeliver(this.form.id,this.form).then(() => {
-              this.$notify.success({
-                title: '成功',
-                message: '发货成功'
-              })
+            orderDeliver(this.form.id, this.form).then(() => {
+              this.$notify.success("发货成功")
               this.dialog.visible = false
               this.handleQuery()
             })
