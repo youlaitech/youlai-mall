@@ -5,7 +5,7 @@
       <el-form-item label="" prop="member_id">
         <el-input v-model="queryParams.member_id" placeholder="会员ID"></el-input>
       </el-form-item>
-      <el-form-item label="" prop="member_id">
+      <el-form-item label="" prop="order_sn">
         <el-input v-model="queryParams.order_sn" placeholder="订单号"></el-input>
       </el-form-item>
       <el-form-item>
@@ -45,15 +45,11 @@
         label="会员ID"
         min-width="10"
       />
-
-      <el-table-column
-        prop="status"
-        label="订单状态"
-        min-width="10"
-      >
-        <template slot-scope="scope">
-          <el-tag>{{scope.row.status|orderStatusFilter}}</el-tag>
-        </template>
+      <el-table-column label="订单来源" width="120" align="center">
+        <template slot-scope="scope">{{scope.row.source_type | formatSourceType}}</template>
+      </el-table-column>
+      <el-table-column label="订单状态" width="120" align="center">
+        <template slot-scope="scope">{{scope.row.status | formatStatus}}</template>
       </el-table-column>
 
       <el-table-column
@@ -72,15 +68,18 @@
         label="支付时间"
         min-width="10"
       />
+      <el-table-column label="支付方式" width="120" align="center">
+        <template slot-scope="scope">{{scope.row.pay_type | formatPayType}}</template>
+      </el-table-column>
 
       <el-table-column
-        prop="logistics_code"
+        prop="logistics_number"
         label="物流单号 "
         min-width="10"
       />
 
       <el-table-column
-        prop="logistics_name"
+        prop="logistics_company"
         label="物流公司 "
         min-width="10"
       />
@@ -90,28 +89,31 @@
         label="操作"
         min-width="10">
         <template slot-scope="scope">
-
           <el-button
             size="mini"
-            type="primary"
-            @click="handleDetail(scope.row)">详情
+            @click="handleViewOrder(scope.$index, scope.row)"
+          >查看订单
+          </el-button>
+          <el-button
+            size="mini"
+            @click="handleCloseOrder( scope.row)"
+            v-show="scope.row.status===0">关闭订单
+          </el-button>
+          <el-button
+            size="mini"
+            @click="handleDeliverOrder( scope.row)"
+            v-show="scope.row.status===1">订单发货
+          </el-button>
+          <el-button
+            size="mini"
+            @click="handleViewLogistics(scope.row)"
+            v-show="scope.row.status===2||scope.row.status===3">订单跟踪
           </el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.row)">删除
-          </el-button>
-
-          <el-button
-            size="mini"
-            type="primary"
-            @click="handleDeliver(scope.row)">发货
-          </el-button>
-
-          <el-button
-            size="mini"
-            type="primary"
-            @click="handleRefund(scope.row)">退款
+            @click="handleDeleteOrder(scope.row)"
+            v-show="scope.row.status===4">删除订单
           </el-button>
         </template>
       </el-table-column>
@@ -142,26 +144,34 @@
                :rules="rules"
                ref="form">
         <el-form-item label="订单编号" prop="name">
-          <el-input v-model="form.order_sn" auto-complete="off"></el-input>
+          {{form.order_sn}}
         </el-form-item>
         <el-form-item label="收货人" prop="receiver_name">
-          <el-input v-model="form.receiver_name" auto-complete="off"></el-input>
+          {{form.receiver_name}}
         </el-form-item>
 
         <el-form-item label="手机号码" prop="receiver_mobile">
-          <el-input v-model="form.receiver_mobile" auto-complete="off"></el-input>
+          {{ form.receiver_mobile}}
         </el-form-item>
         <el-form-item label="邮政编码" prop="receiver_zip">
-          <el-input v-model="form.receiver_zip" auto-complete="off"></el-input>
+          {{form.receiver_zip}}
         </el-form-item>
         <el-form-item label="收货地址" prop="receiver_address">
-          <el-input v-model="form.receiver_address" auto-complete="off"></el-input>
+          {{form.receiver_address}}
         </el-form-item>
         <el-form-item>
-            <el-select placeholder="请选择物流公司">
+          <el-select placeholder="请选择物流公司"
+                     v-model="form.logistics_company"
+                     size="small">
+            <el-option v-for="item in companyOptions"
+                       :label="item"
+                       :value="item">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-
-            </el-select>
+        <el-form-item label="物流单号" prop="logistics_number">
+          <el-input v-model="form.logistics_number" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -173,7 +183,7 @@
 </template>
 
 <script>
-  import {orderPageList, orderAdd, orderDetail, orderUpdate, orderDelete} from '@/api/oms/order'
+  import {orderPageList, orderDeliver,  orderDelete} from '@/api/oms/order'
 
   const statusMap = {
     0: '待付款',
@@ -184,11 +194,41 @@
     5: '无效订单'
   }
 
+  const defaultLogisticsCompanies = ["顺丰快递", "圆通快递", "中通快递", "韵达快递"];
+
   export default {
     filters: {
-      orderStatusFilter(status) {
-        return statusMap[status]
-      }
+      formatPayType(value) {
+        if (value === 1) {
+          return '支付宝';
+        } else if (value === 2) {
+          return '微信';
+        } else {
+          return '未支付';
+        }
+      },
+      formatSourceType(value) {
+        if (value === 1) {
+          return 'APP订单';
+        } else if (value === 2) {
+          return '微信订单';
+        }
+      },
+      formatStatus(value) {
+        if (value === 1) {
+          return '待发货';
+        } else if (value === 2) {
+          return '已发货';
+        } else if (value === 3) {
+          return '已完成';
+        } else if (value === 4) {
+          return '已关闭';
+        } else if (value === 5) {
+          return '无效订单';
+        } else {
+          return '待付款';
+        }
+      },
     },
     data() {
       return {
@@ -218,8 +258,11 @@
           status: 1
         },
         rules: {
-          name: [{
-            required: true, message: '请输入品牌名称', trigger: 'blur'
+          logistics_company: [{
+            required: true, message: '请选择物流公司', trigger: 'blur'
+          }],
+          logistics_number: [{
+            required: true, message: '请输入物流单号', trigger: 'blur'
           }]
         },
         statusMap,
@@ -250,6 +293,7 @@
             }
           }]
         },
+        companyOptions: defaultLogisticsCompanies
       }
     },
     methods: {
@@ -273,7 +317,8 @@
           total: 0
         }
         this.queryParams = {
-          name: undefined
+          member_id:undefined,
+          order_sn: undefined
         };
         this.handleResetForm()
         this.handleQuery()
@@ -289,46 +334,42 @@
 
       handleResetForm() {
         this.resetForm("form")
+      },
+      handleViewOrder(row) {
+
+
+      },
+      handleCloseOrder(row) {
+      },
+      handleDeliverOrder(row) {
+        this.handleResetForm()
         this.form = {
-          status: 1
+          id: row.id,
+          order_sn: row.order_sn,
+          receiver_name: row.receiver_name,
+          receiver_mobile: row.receiver_mobile,
+          receiver_zip:row.receiver_zip,
+          receiver_address:row.receiver_address
         }
       },
-      handleAdd() {
-        this.handleResetForm()
-        this.dialog = {
-          title: "新增品牌",
-          visible: true
-        }
+      handleViewLogistics(row) {
+
+
       },
-      handleDetail(row) {
-        this.handleResetForm()
-        this.resetForm("form")
-        this.dialog = {
-          title: "修改品牌",
-          visible: true
-        }
-        const id = row.id || this.ids
-        orderDetail(id).then(response => {
-          this.form = response.data
-        })
+      handleDeleteOrder(row) {
+
       },
       handleSubmit() {
         this.$refs["form"].validate((valid) => {
           if (valid) {
-            const id = this.form.id
-            if (id != undefined) {
-              orderUpdate(id, this.form).then(() => {
-                this.$message.success("修改成功")
-                this.dialog.visible = false
-                this.handleQuery()
+            orderDeliver(this.form.id,this.form).then(() => {
+              this.$notify.success({
+                title: '成功',
+                message: '发货成功'
               })
-            } else {
-              orderAdd(this.form).then(() => {
-                this.$message.success("新增成功")
-                this.dialog.visible = false
-                this.handleQuery()
-              })
-            }
+              this.dialog.visible = false
+              this.handleQuery()
+            })
           }
         })
       },
@@ -348,10 +389,10 @@
           this.$message.info("已取消删除")
         )
       },
-      handleDeliver(row){
+      handleDeliver(row) {
 
       },
-      handleRefund(row){
+      handleRefund(row) {
 
       },
       cancel() {

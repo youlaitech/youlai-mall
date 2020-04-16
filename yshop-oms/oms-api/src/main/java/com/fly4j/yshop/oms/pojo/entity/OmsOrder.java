@@ -28,8 +28,8 @@ public class OmsOrder extends BaseEntity {
     private Double coupon_amount;
     private Double total_amount;
     private Double pay_amount;
-    private String logistics_code;
-    private String logistics_name;
+    private String logistics_number;
+    private String logistics_company;
     private Data pay_type;
     private Data pay_time;
     private Data delivery_time;
