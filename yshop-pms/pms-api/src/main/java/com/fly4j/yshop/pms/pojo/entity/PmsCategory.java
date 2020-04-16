@@ -20,6 +20,6 @@ public class PmsCategory extends BaseEntity {
     private Integer level;
     private String icon_url;
     private String pic_url;
-    private Long sort;
+    private Integer sort;
     private Integer is_show;
 }
