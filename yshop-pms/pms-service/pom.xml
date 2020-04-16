@@ -60,7 +60,6 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-
         <!-- Dozer -->
         <dependency>
             <groupId>net.sf.dozer</groupId>

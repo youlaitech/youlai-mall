@@ -359,7 +359,7 @@
         })
         let skuList = []
         this.handleCartesian(...valueList).forEach(item => {
-          skuList.push({specs: item})
+          skuList.push({specs: item,price:0,quantity: 10})
         })
         this.form.sku_list = skuList
       },

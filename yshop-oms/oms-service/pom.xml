@@ -18,6 +18,12 @@
             <version>${yshop.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fly4j</groupId>
+            <artifactId>pms-api</artifactId>
+            <version>${yshop.version}</version>
+        </dependency>
+
         <!-- spring boot web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -34,6 +40,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- spring security test -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <!--spring cloud eureka-->
@@ -60,12 +73,13 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-
         <!-- Dozer -->
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
         </dependency>
+
+
 
     </dependencies>
 
