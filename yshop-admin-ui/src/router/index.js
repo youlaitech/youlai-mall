@@ -124,6 +124,13 @@ export const constantRoutes = [
         meta: {title: '订单列表', icon: 'product-list'}
       },
       {
+        path: 'orderDetail',
+        name: 'orderDetail',
+        component: () => import('@/views/oms/order/detail'),
+        meta: {title: '订单详情', icon: 'product-list'},
+        hidden:true
+      },
+      {
         path: 'return',
         name: 'return',
         component: () => import('@/views/oms/return'),

@@ -36,52 +36,82 @@
         min-width="5%">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="品牌名称"
+        prop="order_sn"
+        label="订单编号"
         min-width="10"
-      >
-      </el-table-column>
+      />
       <el-table-column
-        prop="first_letter"
-        label="品牌首字母"
+        prop="member_id"
+        label="会员ID"
         min-width="10"
-      >
-      </el-table-column>
+      />
 
       <el-table-column
-        prop="pic_url"
-        label="专区大图"
+        prop="status"
+        label="订单状态"
         min-width="10"
       >
         <template slot-scope="scope">
-          <el-popover
-            placement="right"
-            title=""
-            trigger="click">
-            <img :src="scope.row.pic_url">
-            <img slot="reference" :src="scope.row.pic_url" :alt="scope.row.pic_url"
-                 style="max-height: 60px;max-width: 60px">
-          </el-popover>
+          <el-tag>{{scope.row.status|orderStatusFilter}}</el-tag>
         </template>
       </el-table-column>
+
       <el-table-column
-        prop="sort"
-        label="排序"
+        prop="total_amount"
+        label="订单总额"
         min-width="10"
-      >
-      </el-table-column>
+      />
+      <el-table-column
+        prop="pay_amount"
+        label="支付金额"
+        min-width="10"
+      />
+
+      <el-table-column
+        prop="pay_time"
+        label="支付时间"
+        min-width="10"
+      />
+
+      <el-table-column
+        prop="logistics_code"
+        label="物流单号 "
+        min-width="10"
+      />
+
+      <el-table-column
+        prop="logistics_name"
+        label="物流公司 "
+        min-width="10"
+      />
+
+
       <el-table-column
         label="操作"
         min-width="10">
         <template slot-scope="scope">
+
           <el-button
             size="mini"
-            @click="handleEdit(scope.row)">编辑
+            type="primary"
+            @click="handleDetail(scope.row)">详情
           </el-button>
           <el-button
             size="mini"
             type="danger"
             @click="handleDelete(scope.row)">删除
+          </el-button>
+
+          <el-button
+            size="mini"
+            type="primary"
+            @click="handleDeliver(scope.row)">发货
+          </el-button>
+
+          <el-button
+            size="mini"
+            type="primary"
+            @click="handleRefund(scope.row)">退款
           </el-button>
         </template>
       </el-table-column>
@@ -106,25 +136,32 @@
       center
       top="5vh"
       width="40%">
-      <el-form id="dataForm" label-width="120px" :model="form" :rules="rules" ref="form">
-        <el-form-item label="品牌名称" prop="name">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
+      <el-form id="dataForm"
+               label-width="120px"
+               :model="form"
+               :rules="rules"
+               ref="form">
+        <el-form-item label="订单编号" prop="name">
+          <el-input v-model="form.order_sn" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="品牌首字母" prop="first_letter">
-          <el-input v-model="form.first_letter" auto-complete="off"></el-input>
+        <el-form-item label="收货人" prop="receiver_name">
+          <el-input v-model="form.receiver_name" auto-complete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="品牌说明" prop="description">
-          <el-input v-model="form.description" auto-complete="off"></el-input>
+        <el-form-item label="手机号码" prop="receiver_mobile">
+          <el-input v-model="form.receiver_mobile" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="排序" prop="sort">
-          <el-input v-model="form.sort" auto-complete="off"></el-input>
+        <el-form-item label="邮政编码" prop="receiver_zip">
+          <el-input v-model="form.receiver_zip" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="是否显示" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
-          </el-radio-group>
+        <el-form-item label="收货地址" prop="receiver_address">
+          <el-input v-model="form.receiver_address" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-select placeholder="请选择物流公司">
+
+
+            </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -139,15 +176,12 @@
   import {orderPageList, orderAdd, orderDetail, orderUpdate, orderDelete} from '@/api/oms/order'
 
   const statusMap = {
-    101: '未付款',
-    102: '用户取消',
-    103: '系统取消',
-    201: '已付款',
-    202: '申请退款',
-    203: '已退款',
-    301: '已发货',
-    401: '用户收货',
-    402: '系统收货'
+    0: '待付款',
+    1: '待发货',
+    2: '已发货',
+    3: '已完成',
+    4: '已关闭',
+    5: '无效订单'
   }
 
   export default {
@@ -172,9 +206,9 @@
         queryParams: {
           member_id: undefined,
           order_sn: undefined,
-          timeArray: [],
           statusArray: []
         },
+        timeArray: [],
         pageList: [],
         dialog: {
           title: undefined,
@@ -188,11 +222,45 @@
             required: true, message: '请输入品牌名称', trigger: 'blur'
           }]
         },
-        statusMap
+        statusMap,
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+        },
       }
     },
     methods: {
       handleQuery() {
+        if (this.timeArray && this.timeArray.length === 2) {
+          this.queryParams.start_time = this.timeArray[0]
+          this.queryParams.end_time = this.timeArray[1]
+        } else {
+          this.queryParams.start_time = undefined
+          this.queryParams.end_time = undefined
+        }
         orderPageList(this.pagination.page, this.pagination.limit, this.queryParams).then(response => {
           this.pageList = response.data.records;
           this.total = response.data.total
@@ -232,7 +300,7 @@
           visible: true
         }
       },
-      handleEdit(row) {
+      handleDetail(row) {
         this.handleResetForm()
         this.resetForm("form")
         this.dialog = {
@@ -279,6 +347,12 @@
         ).catch(() =>
           this.$message.info("已取消删除")
         )
+      },
+      handleDeliver(row){
+
+      },
+      handleRefund(row){
+
       },
       cancel() {
         this.handleResetForm()
