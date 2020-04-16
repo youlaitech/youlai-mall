@@ -1,4 +1,4 @@
-package com.fly4j.yshop.oms.controller;
+package com.fly4j.yshop.oms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
