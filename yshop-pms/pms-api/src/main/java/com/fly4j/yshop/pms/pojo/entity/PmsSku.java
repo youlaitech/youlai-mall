@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class PmsSku extends BaseEntity {
   @TableId(type = IdType.ID_WORKER)
@@ -14,9 +16,9 @@ public class PmsSku extends BaseEntity {
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   private Long spu_id;
   private String specs;
-  private double price;
-  private Long number;
+  private BigDecimal price;
+  private Integer quantity;
   private String pic_url;
-  private Long sales_volume;
+  private Integer sales_volume;
 
 }

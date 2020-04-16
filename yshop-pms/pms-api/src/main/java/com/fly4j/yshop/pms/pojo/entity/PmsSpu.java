@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @ApiModel
 @Data
 public class PmsSpu extends BaseEntity {
@@ -35,11 +37,11 @@ public class PmsSpu extends BaseEntity {
     @ApiModelProperty(value = "商品图册")
     private String pic_urls;
     private String unit;
-    private double price;
+    private BigDecimal price;
     private Long sort;
     private String detail;
-    private Long is_new;
-    private Long is_hot;
+    private Integer is_new;
+    private Integer is_hot;
 
     private Integer status;
 }

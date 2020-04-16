@@ -8,58 +8,61 @@
         ref="spuForm"
         :rules="rules"
         :model="form" label-width="150px">
-        <el-form-item label="商品名称" prop="name">
-          <el-input v-model="form.goods.name"/>
+        <el-form-item label="商品名称" prop="spu.name">
+          <el-input v-model="form.spu.name"/>
         </el-form-item>
-        <el-form-item label="商品副标题" prop="name">
-          <el-input v-model="form.goods.name"/>
+        <el-form-item label="商品副标题" prop="spu.subtitle">
+          <el-input v-model="form.spu.subtitle"/>
         </el-form-item>
-        <el-form-item label="是否新品" prop="is_new">
-          <el-radio-group v-model="form.goods.is_new">
+        <el-form-item label="是否新品" prop="spu.is_new">
+          <el-radio-group v-model="form.spu.is_new">
             <el-radio :label="0">非新品</el-radio>
             <el-radio :label="1">新品</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="是否热卖" prop="is_hot">
-          <el-radio-group v-model="form.goods.is_hot">
+        <el-form-item label="是否热卖" prop="spu.is_hot">
+          <el-radio-group v-model="form.spu.is_hot">
             <el-radio :label="0">普通</el-radio>
             <el-radio :label="1">热卖</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="是否上架" prop="status">
-          <el-radio-group v-model="form.goods.status">
+        <el-form-item label="是否上架" prop="spu.status">
+          <el-radio-group v-model="form.spu.status">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">否</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="商品图片" prop="pic_url">
-          <single-upload v-model="form.goods.pic_url"></single-upload>
+        <el-form-item label="商品图片" prop="spu.pic_url">
+          <single-upload v-model="form.spu.pic_url"></single-upload>
         </el-form-item>
 
-        <el-form-item label="商品图册" prop="pic_urls">
-          <multi-upload v-model="form.goods.pic_urls"></multi-upload>
+        <el-form-item label="商品图册" prop="spu.pic_urls">
+          <multi-upload v-model="form.spu.pic_urls"></multi-upload>
         </el-form-item>
 
-        <el-form-item label="商品单位" prop="unit">
-          <el-input v-model="form.goods.unit" placeholder="件 / 个 / 盒"/>
+        <el-form-item label="商品单位" prop="spu.unit">
+          <el-input v-model="form.spu.unit" placeholder="件 / 个 / 盒"/>
         </el-form-item>
 
-        <el-form-item label="所属分类" prop="category_id">
-          <el-cascader :v-model="form.goods.category_id" :options="categoryList" expand-trigger="hover" clearable/>
+        <el-form-item label="所属分类" prop="spu.category_id">
+          <el-cascader :v-model="form.spu.category_id" :options="categoryList"
+                       expand-trigger="hover"
+                       clearable
+                       @change="handleCategoryChange"/>
         </el-form-item>
 
-        <el-form-item label="所属品牌" prop="brand_id">
-          <el-select v-model="form.goods.brand_id" clearable>
+        <el-form-item label="所属品牌" prop="spu.brand_id">
+          <el-select v-model="form.spu.brand_id" clearable>
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id"/>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="商品描述" prop="description">
-          <el-input v-model="form.goods.description"/>
+        <el-form-item label="商品描述" prop="spu.description">
+          <el-input v-model="form.spu.description"/>
         </el-form-item>
 
-        <el-form-item label="商品详情" prop="detail">
-          <editor v-model="form.goods.detail" :init="editorInit"/>
+        <el-form-item label="商品详情" prop="spu.detail">
+          <editor v-model="form.spu.detail" :init="editorInit"/>
         </el-form-item>
       </el-form>
     </el-card>
@@ -81,16 +84,16 @@
           border>
           <el-table-column label="规格名">
             <template slot-scope="scope">
-              <el-form-item :prop="'spec_list[' + scope.$index + '].name'">
-                <el-input v-model="scope.row.name" @input="handleSpecificationNameChange"></el-input>
+              <el-form-item :prop="'spec_list[' + scope.$index + '].name'"  :rules="rules.spec.name">
+                <el-input v-model="scope.row.name" @input="handleSpecChange"></el-input>
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="规格值">
             <template slot-scope="scope">
-              <el-form-item :prop="'spec_list[' + scope.$index + '].value'">
+              <el-form-item :prop="'spec_list[' + scope.$index + '].value'" :rules="rules.spec.value">
                 <el-input v-model="scope.row.value"
-                          @input="handleSpecificationValueChange(scope.row,scope.$index)"></el-input>
+                          @input="handleSpecChange(scope.row,scope.$index)"></el-input>
               </el-form-item>
             </template>
           </el-table-column>
@@ -104,7 +107,7 @@
           <el-table-column label="操作" width="150">
             <template slot-scope="scope">
               <el-form-item>
-                <el-button type="danger" @click="handleDeleteSpecification(scope.$index)">删除</el-button>
+                <el-button type="danger" @click="handleDeleteSpec(scope.$index)">删除</el-button>
               </el-form-item>
             </template>
           </el-table-column>
@@ -135,17 +138,15 @@
           </el-table-column>
           <el-table-column property="price" label="货品售价">
             <template slot-scope="scope">
-              <el-form-item :prop="'sku_list[' + scope.$index + '].price'">
-                <el-input v-model="scope.row.value"
-                          @input="handleSpecificationValueChange(scope.row,scope.$index)"></el-input>
+              <el-form-item :prop="'sku_list[' + scope.$index + '].price'" :rules="rules.sku.price">
+                <el-input v-model="scope.row.price"></el-input>
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column property="number" label="货品数量">
             <template slot-scope="scope">
-              <el-form-item :prop="'sku_list[' + scope.$index + '].number'">
-                <el-input v-model="scope.row.value"
-                          @input="handleSpecificationValueChange(scope.row,scope.$index)"></el-input>
+              <el-form-item :prop="'sku_list[' + scope.$index + '].quantity'" :rules="rules.sku.quantity">
+                <el-input v-model="scope.row.quantity"></el-input>
               </el-form-item>
             </template>
           </el-table-column>
@@ -179,7 +180,7 @@
 
           <el-table-column property="name" label="商品参数名称">
             <template slot-scope="scope">
-              <el-form-item :prop="'attribute_list[' + scope.$index + '].name'">
+              <el-form-item :prop="'attribute_list[' + scope.$index + '].name'"  :rules="rules.attribute.name">
                 <el-input v-model="scope.row.name"></el-input>
               </el-form-item>
             </template>
@@ -187,7 +188,7 @@
 
           <el-table-column property="value" label="商品参数值">
             <template slot-scope="scope">
-              <el-form-item :prop="'attribute_list[' + scope.$index + '].value'">
+              <el-form-item :prop="'attribute_list[' + scope.$index + '].value'" :rules="rules.attribute.value">
                 <el-input v-model="scope.row.value"></el-input>
               </el-form-item>
             </template>
@@ -225,7 +226,7 @@
     data() {
       return {
         form: {
-          goods: {
+          spu: {
             is_new:0,
             is_hot:0,
             status: 1,
@@ -238,7 +239,23 @@
         categoryList: [], //商品分类列表
         brandList: [], // 商品品牌列表
         rules: {
-          name: [{required: true, message: '商品名称不能为空', trigger: 'blur'}]
+          spu:{
+            name: [{required: true, message: '商品名称不能为空', trigger: 'blur'}],
+            category_id: [{required: true, message: '请选择商品分类', trigger: 'blur'}],
+            brand_id: [{required: true, message: '请选择商品所属品牌', trigger: 'blur'}]
+          },
+          spec:{
+            name: [{required: true, message: '请填写规格名', trigger: 'blur'}],
+            value: [{required: true, message: '请填写规格值', trigger: 'blur'}]
+          },
+          attribute:{
+            name: [{required: true, message: '请填写属性名', trigger: 'blur'}],
+            value: [{required: true, message: '请填写属性值', trigger: 'blur'}]
+          },
+          sku:{
+            price: [{required: true, message: '请填写货品售价', trigger: 'blur'}],
+            quantity: [{required: true, message: '请填写货品数量', trigger: 'blur'}]
+          }
         },
         editorInit: {
           language: 'zh_CN',
@@ -271,16 +288,18 @@
           this.brandList = response.data
         })
       },
+      handleCategoryChange(value) {
+        this.form.spu.category_id = value[value.length - 1]
+      },
       handleAddSpecification() {
         this.form.spec_list.push({})
       },
-      handleDeleteSpecification(index) {
+      handleDeleteSpec(index) {
         this.form.spec_list.splice(index, 1)
-      },
-      handleSpecificationNameChange(newValue) {
         this.handleGenerateSku()
       },
-      handleSpecificationValueChange(row, index) {
+
+      handleSpecChange(row, index) {
         if (!row.value) {
           return
         }
@@ -354,17 +373,50 @@
         this.$router.push({path: '/pms/spu'})
       },
       handleSubmit: function () {
-        console.log(this.form.goods.pic_urls)
-        return
-        spuAdd(this.form).then(response => {
-          if (response.code === 0) {
-            this.$notify.success({
-              title: '成功',
-              message: '创建成功'
+        if(this.form.spec_list.length<=0){
+          this.$message.error("请添加至少一条商品规格信息")
+          return
+        }
+        if(this.form.attribute_list.length<=0){
+          this.$message.error("请添加至少一条商品属性信息")
+          return
+        }
+
+        this.$refs["spuForm"].validate((valid) => {
+          if (valid) {
+            this.$refs["specForm"].validate((valid) => {
+              if (valid) {
+                this.$refs["skuForm"].validate((valid) => {
+                  if (valid) {
+                    this.$refs["attributeForm"].validate((valid) => {
+                      if (valid) {
+                        // 提交
+                        if(this.form.spu.pic_urls){
+                          this.form.spu.pic_urls=JSON.stringify(this.form.spu.pic_urls)
+                        }
+                        if(this.form.sku_list.length>0){
+                          this.form.sku_list.map(item=>
+                            item.specs=JSON.stringify(item.specs)
+                          )}
+                        spuAdd(this.form).then(response => {
+                          if (response.code === 0) {
+                            this.$notify.success({
+                              title: '成功',
+                              message: '创建成功'
+                            })
+                            this.$router.push({path: '/pms/spu'})
+                          }
+                        })
+                      }
+                    })
+                  }
+                })
+              }
             })
-            this.$router.push({path: '/pms/spu'})
           }
         })
+
+
       }
     }
   }

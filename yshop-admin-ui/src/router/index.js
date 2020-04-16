@@ -61,28 +61,11 @@ export const constantRoutes = [
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
+      component: () => import('@/views/dashboard'),
       meta: {title: 'Dashboard', icon: 'dashboard'}
     }]
   },
 
-
-  {
-    path: '/system',
-    component: Layout,
-    redirect: '/system/user',
-    name: '系统管理',
-    meta: {title: '系统管理', icon: 'setting'},
-    alwaysShow: true,
-    children: [
-      {
-        path: 'user',
-        name: '用户管理',
-        component: () => import('@/views/system/user'),
-        meta: {title: '用户管理', icon: 'peoples'}
-      },
-    ]
-  },
   {
     path: '/pms',
     component: Layout,
@@ -125,143 +108,68 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/shop',
-    component: Layout,
-    redirect: '/shop/brand',
-    name: '商品管理',
-    meta: {title: '商品管理', icon: 'product'},
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        name: '商品列表',
-        component: () => import('@/views/pms/list'),
-        meta: {title: '商品列表', icon: 'product-list'}
-      },
-      {
-        path: 'add',
-        name: '添加商品',
-        component: () => import('@/views/pms/add'),
-        meta: {title: '添加商品', icon: 'product-add'}
-      },
-      {
-        path: 'update',
-        name: '修改商品',
-        component: () => import('@/views/pms/update'),
-        meta: {title: '修改商品'},
-        hidden: true
-      },
-      {
-        path: 'attribute',
-        name: '商品类型',
-        component: () => import('@/views/pms/attribute/type'),
-        meta: {title: '商品类型', icon: 'data'}
-      },
-      {
-        path: 'category',
-        name: '商品分类',
-        component: () => import('@/views/pms/category'),
-        meta: {title: '商品分类', icon: 'list'}
-      },
-      {
-        path: 'brand',
-        name: '品牌管理',
-        component: () => import('@/views/pms/brand'),
-        meta: {title: '品牌管理', icon: 'product-brand'}
-      }
-    ]
-  },
 
   {
-    path: '/order',
+    path: '/oms',
     component: Layout,
-    redirect: '/order/setting',
+    redirect: '/oms/order',
     name: '订单管理',
     meta: {title: '订单管理', icon: 'setting'},
     alwaysShow: true,
     children: [
       {
-        path: 'orderList',
-        name: 'orderList',
-        component: () => import('@/views/order/list'),
+        path: 'order',
+        name: 'order',
+        component: () => import('@/views/oms/order'),
         meta: {title: '订单列表', icon: 'product-list'}
       },
       {
-        path: 'orderDetail',
-        name: 'orderDetail',
-        component: () => import('@/views/order/list/orderDetail'),
-        meta: {title: '订单详情'},
-        hidden: true
-      },
-      {
-        path: 'deliverOrderList',
-        name: 'deliverOrderList',
-        component: () => import('@/views/order/list/deliverOrderList'),
-        meta: {title: '发货列表'},
-        hidden: true
+        path: 'return',
+        name: 'return',
+        component: () => import('@/views/oms/return'),
+        meta: {title: '退货管理', icon: 'product-list'}
       },
       {
         path: 'setting',
         name: 'setting',
-        component: () => import('@/views/order/setting'),
-        meta: {title: '订单设置', icon: 'setting'}
-      },
-      {
-        path: 'reason',
-        name: 'reason',
-        component: () => import('@/views/order/apply/reason'),
-        meta: {title: '退货原因设置', icon: 'setting'}
-      },
-      {
-        path: 'returnApply',
-        name: 'returnApply',
-        component: () => import('@/views/order/apply'),
-        meta: {title: '退货申请处理', icon: 'setting'}
-      },
-      {
-        path: 'returnApplyDetail',
-        name: 'returnApplyDetail',
-        component: () => import('@/views/order/apply/detail'),
-        meta: {title: '退货详情'},
-        hidden: true
+        component: () => import('@/views/oms/setting'),
+        meta: {title: '订单设置', icon: 'product-list'}
       }
     ]
   },
 
-
   {
-    path: '/marketing',
+    path: '/sms',
     component: Layout,
-    redirect: '/marketing/spike',
+    redirect: '/sms/ad',
     name: '营销管理',
     meta: {title: '营销管理', icon: 'setting'},
     alwaysShow: true,
     children: [
       {
-        path: 'spike',
-        name: 'spike',
-        component: () => import('@/views/marketing/spike'),
-        meta: {title: '秒杀活动列表', icon: 'setting'}
+        path: 'seckill',
+        name: 'seckill',
+        component: () => import('@/views/sms/seckill'),
+        meta: {title: '秒杀活动', icon: 'setting'}
       },
       {
-        path: 'period',
-        name: 'spikePeriod',
-        component: () => import('@/views/marketing/spike/period'),
-        meta: {title: '秒杀时间段列表'},
+        path: 'seckillSession',
+        name: 'seckillSession',
+        component: () => import('@/views/sms/seckill/session'),
+        meta: {title: '秒杀时间段'},
         hidden: true
       },
       {
-        path: 'goods',
-        name: 'spikeGoods',
-        component: () => import('@/views/marketing/spike/goods'),
-        meta: {title: '秒杀商品列表'},
+        path: 'seckillSpu',
+        name: 'seckillSpu',
+        component: () => import('@/views/sms/seckill/spu'),
+        meta: {title: '秒杀商品'},
         hidden: true
       },
       {
-        path: 'advertisement',
-        name: 'advertisement',
-        component: () => import('@/views/marketing/advertisement'),
+        path: 'ad',
+        name: 'ad',
+        component: () => import('@/views/sms/ad'),
         meta: {title: '广告列表', icon: 'setting'}
       }
     ]
