@@ -39,11 +39,11 @@ public class OmsOrderController extends BaseController {
     public R<Page<OmsOrder>> page(
             @PathVariable Integer page,
             @PathVariable Integer limit,
-            String name
+            String order_sn
     ) {
         Page<OmsOrder> data = (Page<OmsOrder>) iOmsOrderService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<OmsOrder>()
-                        .eq(StrUtil.isNotBlank(name), OmsOrder::getOrder_sn, name)
+                        .eq(StrUtil.isNotBlank(order_sn), OmsOrder::getOrder_sn, order_sn)
                         .orderByDesc(OmsOrder::getCreate_time));
         return R.ok(data);
     }
