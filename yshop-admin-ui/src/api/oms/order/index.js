@@ -38,3 +38,12 @@ export function orderDelete(ids) {
     params: ids
   })
 }
+
+export function orderDeliver(id, data) {
+  return request({
+    url: '/oms/orders/' + id+'/deliver',
+    method: 'put',
+    data: data
+  })
+}
+

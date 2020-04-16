@@ -57,11 +57,11 @@ public class OmsOrderController extends BaseController {
 
     @ApiOperation(value = "新增订单", httpMethod = "POST")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pmsBrand", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
+            @ApiImplicitParam(name = "omsOrder", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
     })
     @PostMapping
-    public R save(@RequestBody OmsOrder pmsBrand) {
-        boolean status = iOmsOrderService.save(pmsBrand);
+    public R save(@RequestBody OmsOrder omsOrder) {
+        boolean status = iOmsOrderService.save(omsOrder);
         return status ? R.ok(null) : R.failed("新增失败");
     }
 
@@ -78,11 +78,11 @@ public class OmsOrderController extends BaseController {
     @ApiOperation(value = "修改订单", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "pmsBrand", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
+            @ApiImplicitParam(name = "omsOrder", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody OmsOrder pmsBrand) {
-        boolean status = iOmsOrderService.updateById(pmsBrand);
+    public R update(@PathVariable("id") Long id, @RequestBody OmsOrder omsOrder) {
+        boolean status = iOmsOrderService.updateById(omsOrder);
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
@@ -115,12 +115,29 @@ public class OmsOrderController extends BaseController {
     @Autowired
     private PmsFeign pmsFeign;
 
-    @ApiOperation(value = "订单-商品详情", httpMethod = "GET")
+    @ApiOperation(value = "订单商品详情", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
     })
     @GetMapping("/spu/{id}")
     public R getSpu(@PathVariable Long id) {
         return pmsFeign.getSpuById(id);
+    }
+
+
+    @ApiOperation(value = "订单发货", httpMethod = "PUT")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "omsOrder", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
+    })
+    @PutMapping(value = "/{id}/deliver")
+    public R deliver(@PathVariable("id") Long id, @RequestBody OmsOrder omsOrder) {
+        boolean status = iOmsOrderService.update(new LambdaUpdateWrapper<OmsOrder>()
+                .eq(OmsOrder::getId, id)
+                .set(OmsOrder::getLogistics_company, omsOrder.getLogistics_company())
+                .set(OmsOrder::getLogistics_number, omsOrder.getLogistics_number())
+                .set(OmsOrder::getDelivery_time, new java.util.Date())
+        );
+        return status ? R.ok(null) : R.failed("发货失败");
     }
 }
