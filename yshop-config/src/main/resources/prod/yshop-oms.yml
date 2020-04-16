@@ -44,3 +44,21 @@ security:
 swagger:
   auth:
     server: http://101.37.69.49:8000/oauth/token
+
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000
+            # (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
+            # (10000 +10000) * (0 + 1) * (1 + 1)

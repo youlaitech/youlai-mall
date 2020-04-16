@@ -8,11 +8,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
 import com.fly4j.yshop.oms.pojo.entity.OmsOrder;
 import com.fly4j.yshop.oms.service.IOmsOrderService;
+import com.fly4j.yshop.pms.feign.PmsFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -107,5 +109,18 @@ public class OmsOrderController extends BaseController {
         } else {
             return R.failed("更新失败");
         }
+    }
+
+
+    @Autowired
+    private PmsFeign pmsFeign;
+
+    @ApiOperation(value = "订单-商品详情", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
+    })
+    @GetMapping("/spu/{id}")
+    public R getSpu(@PathVariable Long id) {
+        return pmsFeign.getSpuById(id);
     }
 }

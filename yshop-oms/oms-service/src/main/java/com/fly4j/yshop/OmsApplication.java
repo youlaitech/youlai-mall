@@ -13,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  **/
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.fly4j.yshop.oms.feign")
+@EnableFeignClients(basePackages = "com.fly4j.yshop.*.feign")
 @MapperScan("com.fly4j.yshop.oms.mapper")
 public class OmsApplication {
     public static void main(String[] args) {

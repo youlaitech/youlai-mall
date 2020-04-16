@@ -2,19 +2,19 @@
   <div class="app-container">
     <!-- 搜索表单::begin -->
     <el-form :inline="true" ref="queryForm" :model="queryParams">
-      <el-form-item>
-        <el-button type="primary" @click="handleAdd">新增</el-button>
-        <el-button type="success" @click="handleEdit" :disabled="single">修改</el-button>
-        <el-button type="danger" @click="handleDelete" :disabled="multiple">删除</el-button>
-      </el-form-item>
       <el-form-item label="" prop="member_id">
         <el-input v-model="queryParams.member_id" placeholder="会员ID"></el-input>
       </el-form-item>
       <el-form-item label="" prop="member_id">
         <el-input v-model="queryParams.order_sn" placeholder="订单号"></el-input>
       </el-form-item>
-      <el-select v-model="queryParams.status" :multiple="false" style="width: 200px" class="filter-item" placeholder="请选择订单状态">
-        <el-option v-for="(key, value) in statusMap" :key="key" :label="key" :value="value" />
+      <el-form-item>
+        <el-date-picker v-model="queryParams.timeArray" type="datetimerange" class="filter-item" range-separator="至"
+                        start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions"/>
+      </el-form-item>
+      <el-select v-model="queryParams.statusArray" :multiple="false" style="width: 200px" class="filter-item"
+                 placeholder="请选择订单状态">
+        <el-option v-for="(key, value) in statusMap" :key="key" :label="key" :value="value"/>
       </el-select>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
@@ -137,6 +137,7 @@
 
 <script>
   import {orderPageList, orderAdd, orderDetail, orderUpdate, orderDelete} from '@/api/oms/order'
+
   const statusMap = {
     101: '未付款',
     102: '用户取消',
@@ -169,7 +170,10 @@
           total: 0
         },
         queryParams: {
-          name: undefined
+          member_id: undefined,
+          order_sn: undefined,
+          timeArray: [],
+          statusArray: []
         },
         pageList: [],
         dialog: {
