@@ -12,6 +12,7 @@ public class OmsOrder extends BaseEntity {
     @TableId(type = IdType.ID_WORKER)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
+
     private String order_sn;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long member_id;
