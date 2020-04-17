@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class OmsOrderItem extends BaseEntity {
 
@@ -23,7 +25,8 @@ public class OmsOrderItem extends BaseEntity {
     private Long spu_category_id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long sku_id;
-    private Integer quantity;
-    private String specs;
-    private String pic_url;
+    private BigDecimal sku_price;
+    private Integer sku_quantity;
+    private String sku_specs;
+    private String sku_pic_url;
 }
