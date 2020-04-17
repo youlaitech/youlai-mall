@@ -97,27 +97,23 @@
         </el-table-column>
         <el-table-column label="属性" width="120" align="center">
           <template slot-scope="scope">
-            {{scope.row.specs | formatSpecs}}
+            {{scope.row.specs | formatSpecification}}
           </template>
         </el-table-column>
         <el-table-column label="数量" width="120" align="center">
           <template slot-scope="scope">
-            {{scope.row.productQuantity}}
+            {{scope.row.sku_quantity}}
           </template>
         </el-table-column>
         <el-table-column label="小计" width="120" align="center">
           <template slot-scope="scope">
-            ￥{{scope.row.productPrice*scope.row.productQuantity}}
+            ￥{{scope.row.sku_price*scope.row.sku_quantity}}
           </template>
         </el-table-column>
       </el-table>
       <div style="float: right;margin: 20px">
-        合计：<span class="color-danger">￥{{order.totalAmount}}</span>
+        合计：<span class="color-danger">￥{{order.total_amount}}</span>
       </div>
-
-
-
-
     </el-card>
   </div>
 </template>
@@ -178,6 +174,9 @@
           address += "  " + order.receiver_detail_address
         }
         return address
+      },
+      formatSpecification(specs){
+        return specs
       }
     },
     data() {

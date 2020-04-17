@@ -6,15 +6,16 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
+import com.fly4j.yshop.oms.pojo.dto.OrderDTO;
 import com.fly4j.yshop.oms.pojo.entity.OmsOrder;
+import com.fly4j.yshop.oms.pojo.entity.OmsOrderItem;
+import com.fly4j.yshop.oms.service.IOmsOrderItemService;
 import com.fly4j.yshop.oms.service.IOmsOrderService;
-import com.fly4j.yshop.pms.feign.PmsFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,6 +31,10 @@ public class OmsOrderController extends BaseController {
     @Resource
     private IOmsOrderService iOmsOrderService;
 
+    @Resource
+    private IOmsOrderItemService iOmsOrderItemService;
+
+
     @ApiOperation(value = "订单分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
@@ -44,7 +49,7 @@ public class OmsOrderController extends BaseController {
             String member_id,
             String order_sn
     ) {
-        Page<OmsOrder> data = (Page<OmsOrder>) iOmsOrderService.page(new Page<>(page, limit),
+        Page<OmsOrder> data = iOmsOrderService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<OmsOrder>()
                         .eq(StrUtil.isNotBlank(member_id), OmsOrder::getMember_id, member_id)
                         .eq(StrUtil.isNotBlank(order_sn), OmsOrder::getOrder_sn, order_sn)
@@ -75,8 +80,16 @@ public class OmsOrderController extends BaseController {
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
+        OrderDTO orderDTO = new OrderDTO();
         OmsOrder order = iOmsOrderService.getById(id);
-        return R.ok(order);
+        if (order != null) {
+            orderDTO.setOrder(order);
+            List<OmsOrderItem> orderItemList = iOmsOrderItemService.list(
+                    new LambdaQueryWrapper<OmsOrderItem>().eq(OmsOrderItem::getOrder_id, id)
+            );
+            orderDTO.setOrder_item_list(orderItemList);
+        }
+        return R.ok(orderDTO);
     }
 
     @ApiOperation(value = "修改订单", httpMethod = "PUT")
@@ -116,8 +129,6 @@ public class OmsOrderController extends BaseController {
     }
 
 
-
-
     @ApiOperation(value = "订单发货", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
@@ -134,10 +145,6 @@ public class OmsOrderController extends BaseController {
         );
         return status ? R.ok(null) : R.failed("发货失败");
     }
-
-
-
-
 
 
 }
