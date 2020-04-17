@@ -80,12 +80,12 @@
         border>
         <el-table-column label="商品图片" width="120" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.productPic" style="height: 80px">
+            <img :src="scope.row.pic_url" style="height: 80px">
           </template>
         </el-table-column>
         <el-table-column label="商品名称" align="center">
           <template slot-scope="scope">
-            <p>{{scope.row.productName}}</p>
+            <p>{{scope.row.spu_name}}</p>
             <p>品牌：{{scope.row.productBrand}}</p>
           </template>
         </el-table-column>

@@ -18,7 +18,7 @@ public class OmsOrderItem extends BaseEntity {
     private Long spu_id;
     private String spu_name;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long spu_brand_id;
+    private String spu_brand;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long spu_category_id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
