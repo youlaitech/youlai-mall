@@ -33,9 +33,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR5</spring-cloud.version>
-        <lombok.version>1.18.10</lombok.version>
         <hutool.version>5.0.6</hutool.version>
-        <mybatis-plus.version>3.0.7.1</mybatis-plus.version>
+        <lombok.version>1.18.12</lombok.version>
+        <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <druid.version>1.1.14</druid.version>
         <fastjson.version>1.2.67</fastjson.version>
         <mysql.version>8.0.18</mysql.version>
@@ -51,7 +51,6 @@
         <fastdfs-client.version>1.27.2</fastdfs-client.version>
         <!-- feign-httpclient -->
         <feign-httpclient.version>10.8</feign-httpclient.version>
-
         <!--dozer-->
         <dozer.version>5.5.1</dozer.version>
     </properties>
@@ -118,7 +117,13 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
-            <!-- fastjson -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- FastJson -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
@@ -168,7 +173,7 @@
                 <artifactId>swagger-models</artifactId>
                 <version>${swagger-models.version}</version>
             </dependency>
-
+            <!-- Dozer -->
             <dependency>
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
