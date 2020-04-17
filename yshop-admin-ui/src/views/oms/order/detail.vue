@@ -75,9 +75,9 @@
         <span class="font-small">商品信息</span>
       </div>
       <el-table
-        ref="orderItemTable"
-        :data="order.orderItemList"
-        style="width: 100%;margin-top: 20px" border>
+        :data="order.order_item_list"
+        style="width: 100%;margin-top: 20px"
+        border>
         <el-table-column label="商品图片" width="120" align="center">
           <template slot-scope="scope">
             <img :src="scope.row.productPic" style="height: 80px">
