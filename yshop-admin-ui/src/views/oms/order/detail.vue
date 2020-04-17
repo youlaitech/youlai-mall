@@ -86,18 +86,18 @@
         <el-table-column label="商品名称" align="center">
           <template slot-scope="scope">
             <p>{{scope.row.spu_name}}</p>
-            <p>品牌：{{scope.row.productBrand}}</p>
+            <p>品牌：{{scope.row.spu_brand}}</p>
           </template>
         </el-table-column>
         <el-table-column label="价格/货号" width="120" align="center">
           <template slot-scope="scope">
-            <p>价格：￥{{scope.row.productPrice}}</p>
-            <p>货号：{{scope.row.productSn}}</p>
+            <p>价格：￥{{scope.row.sku_price}}</p>
+            <p>货号：{{scope.row.spu_sn}}</p>
           </template>
         </el-table-column>
         <el-table-column label="属性" width="120" align="center">
           <template slot-scope="scope">
-            {{scope.row.productAttr | formatProductAttr}}
+            {{scope.row.specs | formatSpecs}}
           </template>
         </el-table-column>
         <el-table-column label="数量" width="120" align="center">
