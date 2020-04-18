@@ -26,8 +26,8 @@
     ]
   },
   "dependencies": {
-    "@tinymce/tinymce-vue": "^3.2.0",
     "@riophae/vue-treeselect": "^0.4.0",
+    "@tinymce/tinymce-vue": "^3.2.0",
     "axios": "^0.19.2",
     "element-ui": "^2.13.0",
     "fuse.js": "^3.4.6",
