@@ -1,4 +1,4 @@
-package com.fly4j.yshop.pms.controller;
+package com.fly4j.yshop.pms.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;

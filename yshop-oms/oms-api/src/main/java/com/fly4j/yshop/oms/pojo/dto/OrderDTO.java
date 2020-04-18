@@ -19,4 +19,7 @@ public class OrderDTO {
     @ApiModelProperty(name = "订单商品明细信息")
     private List<OmsOrderItem> order_item_list;
 
+    @ApiModelProperty(name = "提交上次订单确认页给你的令牌")
+    private String orderToken;
+
 }
