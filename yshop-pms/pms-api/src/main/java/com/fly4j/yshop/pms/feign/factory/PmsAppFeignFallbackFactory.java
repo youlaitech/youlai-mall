@@ -11,11 +11,6 @@ public class PmsAppFeignFallbackFactory implements FallbackFactory<PmsAppFeign> 
     public PmsAppFeign create(Throwable throwable) {
         return new PmsAppFeign() {
             @Override
-            public R getSpuById(Long id) {
-                return null;
-            }
-
-            @Override
             public R getSkuById(Long id) {
                 return null;
             }
