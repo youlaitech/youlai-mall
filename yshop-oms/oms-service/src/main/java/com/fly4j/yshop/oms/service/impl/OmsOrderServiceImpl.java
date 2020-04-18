@@ -11,9 +11,10 @@ import com.fly4j.yshop.oms.service.IOmsOrderItemService;
 import com.fly4j.yshop.oms.service.IOmsOrderService;
 import com.fly4j.yshop.pms.feign.PmsAppFeign;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
+import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -35,9 +36,11 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     @Resource
     private PmsAppFeign pmsAppFeign;
     @Resource
-    private RedisTemplate redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
     @Resource
     private IOmsOrderItemService iOmsOrderItemService;
+//    @Resource
+//    private AmqpTemplate amqpTemplate;
 
     private static final String TOKEN_PREFIX = "order:token:";
 
@@ -46,7 +49,6 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
      * @param orderDTO
      * @return
      */
-    @Override
     public R saveOrder(OrderDTO orderDTO) {
 
         // 保存订单
@@ -77,7 +79,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         /**
          *  1. 验证令牌，是否重复提交
          */
-        String orderToken = orderDTO.getOrderToken();
+        String orderToken = orderDTO.getOrder_token();
         // 保证原子性（防止验证过程中，已下单）
         String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
         Jedis jedis = this.jedisPool.getResource();
@@ -85,9 +87,9 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
             Long flag  = (Long) jedis.eval(script, Arrays.asList(TOKEN_PREFIX + orderToken), Arrays.asList(orderToken));
 
             // 验证未通过
-//            if (flag == 0L) {
-//                return R.failed("不可重复提交");
-//            }
+            if (flag == 0L) {
+                return R.failed("订单不可重复提交");
+            }
         } finally {
             jedis.close();
         }
@@ -99,7 +101,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         List<OmsOrderItem> orderItems = orderDTO.getOrder_item_list();
         // 如果没有订单清单，直接返回
         if (CollectionUtils.isEmpty(orderItems)){
-            return R.failed("没有订单清单");
+            return R.failed("请选择商品再提交");
         }
 
         BigDecimal currentPrice = new BigDecimal(0);
@@ -111,18 +113,43 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         }
         // 如果价格不同，直接返回
         if (totalPrice.compareTo(currentPrice) != 0) {
-            return R.failed("价格有误");
+            return R.failed("页面已过期,请刷新后重试");
         }
 
         /**
          * 3. 验库存，并锁库存
          */
+        List<SkuLockVO> skuLockVOList = orderItems.stream().map(orderItem -> {
+            SkuLockVO skuLockVO = new SkuLockVO();
+            skuLockVO.setSku_id(orderItem.getSku_id());
+            skuLockVO.setQuantity(orderItem.getSku_quantity());
+            skuLockVO.setOrder_token(orderToken);
+            return skuLockVO;
+        }).collect(Collectors.toList());
+
+        // 调用远程方法验证库存并锁库存
+        R<SkuLockVO> SkuLockList = this.pmsAppFeign.checkAndLockStock(skuLockVOList);
+
+        // 锁定失败
+        if (SkuLockList.getCode() == 1) {
+           return R.failed("锁定失败");
+        }
+        // 锁定成功，获取锁定的结果集
 
         /**
          * 4. 生成订单
          */
+        try {
+            // 创建订单，并定时关单
+            R<OmsOrder> order = this.saveOrder(orderDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 解锁库存, 发送消息
+//            this.amqpTemplate.convertAndSend("ORDER-STOCK-EXCHANGE", "stock.unlock", orderToken);
 
-        return null;
+            return R.failed("服务器错误,创建订单失败");
+        }
+        return R.ok(null);
     }
 
     @Override
@@ -130,8 +157,8 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         // 随机生成唯一令牌，防止重复提交
         // 分布式id生成器，timeId适合做订单号
         String token = IdWorker.getTimeId();
-        this.redisTemplate.opsForValue().set(TOKEN_PREFIX + token, token);
+        this.stringRedisTemplate.opsForValue().set(TOKEN_PREFIX + token, token);
 
-        return (String)this.redisTemplate.opsForValue().get(TOKEN_PREFIX + token);
+        return this.stringRedisTemplate.opsForValue().get(TOKEN_PREFIX + token);
     }
 }

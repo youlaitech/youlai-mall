@@ -10,8 +10,6 @@ import com.fly4j.yshop.oms.pojo.entity.OmsOrder;
 
 public interface IOmsOrderService extends IService<OmsOrder> {
 
-    R saveOrder(OrderDTO orderDTO);
-
     R submit(OrderDTO orderDTO);
 
     String token();
