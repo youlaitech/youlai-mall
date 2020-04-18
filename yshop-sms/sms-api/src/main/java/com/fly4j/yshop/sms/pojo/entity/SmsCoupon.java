@@ -14,8 +14,7 @@ import java.util.Date;
 @Data
 @ApiModel
 public class SmsCoupon extends BaseEntity {
-  @TableId(type = IdType.ID_WORKER)
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
+  @TableId(type = IdType.ASSIGN_ID)
   @ApiModelProperty(value="优惠券id",hidden=true)
   private Long id;
 
@@ -25,11 +24,9 @@ public class SmsCoupon extends BaseEntity {
   @ApiModelProperty(value="满减条件",example="满100减10")
   private String condition_desc;
 
-  @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
   @ApiModelProperty(value="卡有效开始时间",example="2020-04-14 00:00:00")
   private Date startAt;
 
-  @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
   @ApiModelProperty(value="卡失效日期",example="2020-05-14 00:00:00")
   private Date endAt;
 
