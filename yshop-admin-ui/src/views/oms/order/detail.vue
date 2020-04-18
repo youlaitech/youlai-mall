@@ -14,7 +14,7 @@
         <span class="color-danger">当前订单状态：{{order.status | formatStatus}}</span>
         <div class="operate-button-container" v-show="order.status===0">
           <el-button size="mini" @click="showUpdateReceiverDialog">修改收货人信息</el-button>
-          <el-button size="mini" @click="showUpdateMoneyDialog">修改费用信息</el-button>
+          <el-button size="mini" @click="showUpdateFeeDialog">修改费用信息</el-button>
           <el-button size="mini" @click="showMessageDialog">发送站内信</el-button>
           <el-button size="mini" @click="showCloseOrderDialog">关闭订单</el-button>
           <el-button size="mini" @click="showMarkOrderDialog">备注订单</el-button>
@@ -42,18 +42,25 @@
       <div class="table-layout">
         <el-row>
           <el-col :span="4" class="table-cell-title">订单编号</el-col>
-          <el-col :span="4" class="table-cell-title">会员名称</el-col>
+          <el-col :span="4" class="table-cell-title">会员ID</el-col>
+          <el-col :span="4" class="table-cell-title">物流单号</el-col>
           <el-col :span="4" class="table-cell-title">支付方式</el-col>
           <el-col :span="4" class="table-cell-title">订单来源</el-col>
           <el-col :span="4" class="table-cell-title">订单类型</el-col>
         </el-row>
         <el-row>
           <el-col :span="4" class="table-cell">{{order.order_sn}}</el-col>
-          <el-col :span="4" class="table-cell">{{order.member_name}}</el-col>
-            <el-col :span="4" class="table-cell">{{order.pay_type | formatPayType}}</el-col>
+          <el-col :span="4" class="table-cell">{{order.member_id}}</el-col>
+          <el-col :span="4" class="table-cell">{{order.logistics_number}}</el-col>
+          <el-col :span="4" class="table-cell">{{order.pay_type | formatPayType}}</el-col>
           <el-col :span="4" class="table-cell">{{order.sourceType | formatSourceType}}</el-col>
           <el-col :span="4" class="table-cell">{{order.type | formatOrderType}}</el-col>
         </el-row>
+      </div>
+
+      <div style="margin-top: 20px">
+        <svg-icon icon-class="marker" style="color: #606266"></svg-icon>
+        <span class="font-small">收货人信息</span>
       </div>
       <div class="table-layout">
         <el-row>
@@ -64,7 +71,7 @@
         </el-row>
         <el-row>
           <el-col :span="6" class="table-cell">{{order.receiver_name}}</el-col>
-          <el-col :span="6" class="table-cell">{{order.receiver_phone}}</el-col>
+          <el-col :span="6" class="table-cell">{{order.receiver_mobile}}</el-col>
           <el-col :span="6" class="table-cell">{{order.receiver_zip_code}}</el-col>
           <el-col :span="6" class="table-cell">{{order | formatAddress}}</el-col>
         </el-row>
@@ -75,7 +82,7 @@
         <span class="font-small">商品信息</span>
       </div>
       <el-table
-        :data="order.order_item_list"
+        :data="order_item_list"
         style="width: 100%;margin-top: 20px"
         border>
         <el-table-column label="商品图片" width="120" align="center">
@@ -115,14 +122,118 @@
         合计：<span class="color-danger">￥{{order.total_amount}}</span>
       </div>
     </el-card>
+
+    <div style="margin-top: 60px">
+      <svg-icon icon-class="marker" style="color: #606266"></svg-icon>
+      <span class="font-small">费用信息</span>
+    </div>
+    <div class="table-layout">
+      <el-row>
+        <el-col :span="4" class="table-cell-title">商品合计</el-col>
+        <el-col :span="4" class="table-cell-title">运费</el-col>
+        <el-col :span="4" class="table-cell-title">优惠券</el-col>
+        <el-col :span="6" class="table-cell-title">订单总金额</el-col>
+        <el-col :span="6" class="table-cell-title">应付款金额</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4" class="table-cell">￥{{order.total_amount}}</el-col>
+        <el-col :span="4" class="table-cell">￥{{order.freight_amount}}</el-col>
+        <el-col :span="4" class="table-cell">-￥{{order.coupon_amount}}</el-col>
+        <el-col :span="6" class="table-cell">
+          <span class="color-danger">￥{{order.total_amount+order.freight_amount}}</span>
+        </el-col>
+        <el-col :span="6" class="table-cell">
+          <span class="color-danger">￥{{order.pay_amount}}</span>
+        </el-col>
+      </el-row>
+    </div>
+    <el-dialog title="修改收货人信息"
+               :visible.sync="receiverDialogVisible"
+               width="40%">
+      <el-form :model="receiverInfo"
+               ref="receiverInfoForm"
+               label-width="150px">
+        <el-form-item label="收货人姓名：">
+          <el-input v-model="receiverInfo.receiver_name" style="width: 200px"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号码：">
+          <el-input v-model="receiverInfo.receiver_mobile" style="width: 200px">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="邮政编码：">
+          <el-input v-model="receiverInfo.receiver_zip_code" style="width: 200px">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="所在区域：">
+          <v-distpicker :province="receiverInfo.receiver_province"
+                        :city="receiverInfo.receiver_city"
+                        :area="receiverInfo.receiver_area"
+                        @selected="onSelectArea"></v-distpicker>
+        </el-form-item>
+        <el-form-item label="详细地址：">
+          <el-input v-model="receiverInfo.receiver_detail_address" type="textarea" rows="3">
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+      <el-button @click="receiverDialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="handleUpdateReceiverInfo">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="修改费用信息"
+               :visible.sync="feeDialogVisible"
+               width="40%">
+      <div class="table-layout">
+        <el-row>
+          <el-col :span="4" class="table-cell-title">商品合计</el-col>
+          <el-col :span="4" class="table-cell-title">运费</el-col>
+          <el-col :span="4" class="table-cell-title">优惠券</el-col>
+          <el-col :span="6" class="table-cell-title">订单总金额</el-col>
+          <el-col :span="6" class="table-cell-title">应付款金额</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="4" class="table-cell">￥{{order.total_amount}}</el-col>
+          <el-col :span="4" class="table-cell">
+            <el-input v-model.number="feeInfo.freight_amount" size="mini">
+              <template slot="prepend">￥</template>
+            </el-input>
+          </el-col>
+          <el-col :span="4" class="table-cell">-￥{{order.coupon_amount}}</el-col>
+          <el-col :span="6" class="table-cell">
+            <span class="color-danger">￥{{order.total_amount+feeInfo.freight_amount}}</span>
+          </el-col>
+          <el-col :span="6" class="table-cell">
+            <span class="color-danger">￥{{order.total_amount+feeInfo.freight_amount-order.coupon_amount}}</span>
+          </el-col>
+        </el-row>
+      </div>
+      <span slot="footer" class="dialog-footer">
+      <el-button @click="feeDialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="handleUpdateFeeInfo">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  import {orderDetail} from '@/api/oms/order'
+  import {orderDetail, orderUpdate} from '@/api/oms/order'
+  import VDistpicker from 'v-distpicker'
+
+  const defaultReceiverInfo = {
+    id: undefined,
+    receiver_name: undefined,
+    receiver_mobile: undefined,
+    receiver_zip_code: undefined,
+    receiver_detail_address: undefined,
+    receiver_province: undefined,
+    receiver_city: undefined,
+    receiver_area: undefined
+  };
 
   export default {
-    name: "detail",
+    components: {VDistpicker},
     filters: {
       formatStatus(value) {
         if (value === 1) {
@@ -162,27 +273,34 @@
           return '正常订单';
         }
       },
-      formatAddress(order){
+      formatAddress(order) {
         let address = order.receiver_province
         if (order.receiver_city != null) {
           address += "  " + order.receiver_city
         }
-        if(order.receiver_area){
+        if (order.receiver_area) {
           address += "  " + order.receiver_area
         }
-        if(order.receiver_detail_address){
+        if (order.receiver_detail_address) {
           address += "  " + order.receiver_detail_address
         }
         return address
       },
-      formatSpecification(specs){
+      formatSpecification(specs) {
         return specs
       }
     },
     data() {
       return {
         id: null,
-        order: {}
+        order: {
+          status: undefined
+        },
+        order_item_list: [],
+        receiverInfo: Object.assign({}, defaultReceiverInfo),
+        receiverDialogVisible: false,
+        feeDialogVisible: false,
+        feeInfo: {id: undefined, freight_amount: 0, pay_amount: undefined},
       }
     },
     created() {
@@ -192,9 +310,11 @@
       initData() {
         this.id = this.$route.query.id;
         orderDetail(this.id).then(response => {
-          this.order = response.data
+          this.order = response.data.order
+          this.order_item_list = response.data.order_item_list
         })
       },
+
       formatStepStatus(value) {
         if (value === 1) {
           //待发货
@@ -211,15 +331,71 @@
         }
       },
 
-
-
-      // TODO...
+      onSelectArea(data) {
+        this.receiverInfo.receiver_province = data.province.value;
+        this.receiverInfo.receiver_city = data.city.value;
+        this.receiverInfo.receiver_area = data.area.value;
+      },
       showUpdateReceiverDialog() {
-
+        this.receiverDialogVisible = true
+        this.receiverInfo = {
+          id: this.order.id,
+          receiver_name: this.order.receiver_name,
+          receiver_mobile: this.order.receiver_mobile,
+          receiver_zip_code: this.order.receiver_zip_code,
+          receiver_detail_address: this.order.receiver_detail_address,
+          receiver_province: this.order.receiver_province,
+          receiver_city: this.order.receiver_city,
+          receiver_area: this.order.receiver_area,
+        }
       },
-      showUpdateMoneyDialog() {
-
+      handleUpdateReceiverInfo() {
+        this.$confirm('是否要修改收货信息?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          orderUpdate(this.id, this.receiverInfo).then(response => {
+            this.receiverDialogVisible = false
+            this.$message({
+              type: 'success',
+              message: '修改成功!'
+            });
+            orderDetail(this.id).then(response => {
+              this.order = response.data.order
+              this.order_item_list = response.data.order_item_list
+            })
+          })
+        })
       },
+
+      showUpdateFeeDialog() {
+        this.feeDialogVisible = true
+        this.feeInfo.id = this.order.id
+        this.feeInfo.freight_amount = this.order.freight_amount
+      },
+
+      handleUpdateFeeInfo() {
+        this.$confirm('是否要修改费用信息?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.feeInfo.pay_amount=this.order.total_amount+this.feeInfo.freight_amount-this.order.coupon_amount
+          orderUpdate(this.id, this.feeInfo).then(response => {
+            this.feeDialogVisible = false
+            this.$message({
+              type: 'success',
+              message: '修改成功!'
+            });
+            orderDetail(this.id).then(response => {
+              this.order = response.data.order
+              this.order_item_list = response.data.order_item_list
+            })
+          })
+        })
+      },
+      // TODO...
       showMessageDialog() {
 
       },
@@ -234,7 +410,8 @@
       },
       handleDeleteOrder() {
 
-      }
+      },
+
     },
   }
 </script>

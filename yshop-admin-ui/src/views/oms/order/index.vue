@@ -66,7 +66,7 @@
       <el-table-column
         prop="pay_time"
         label="支付时间"
-        min-width="10"
+        min-width="12"
       />
       <el-table-column label="支付方式" width="120" align="center">
         <template slot-scope="scope">{{scope.row.pay_type | formatPayType}}</template>

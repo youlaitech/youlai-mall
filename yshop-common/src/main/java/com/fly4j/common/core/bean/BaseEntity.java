@@ -20,7 +20,6 @@ public class BaseEntity implements Serializable {
     private String create_by;
 
     @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间",example = "2020-01-01 12:00:00")
     private Date create_time;
 
@@ -29,7 +28,6 @@ public class BaseEntity implements Serializable {
     private String update_by;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间",example = "2020-01-01 12:00:00")
     private Date update_time;
 }

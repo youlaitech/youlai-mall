@@ -1,6 +1,8 @@
 package com.fly4j.yshop.oms.config;
 
+import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +10,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -31,8 +34,23 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
         //2、添加FastJson的配置信息
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        //Long类型转String类型
+        SerializeConfig serializeConfig = SerializeConfig.globalInstance;
+        serializeConfig.put(BigInteger.class, ToStringSerializer.instance);
+        serializeConfig.put(Long.class, ToStringSerializer.instance);
+        serializeConfig.put(Long.TYPE, ToStringSerializer.instance);
+        fastJsonConfig.setSerializeConfig(serializeConfig);
+
+        fastJsonConfig.setSerializerFeatures(
+                SerializerFeature.WriteMapNullValue, // 保留map空的字段
+                SerializerFeature.WriteNullStringAsEmpty, // 将String类型的null转成""
+                SerializerFeature.WriteNullNumberAsZero, // 将Number类型的null转成0
+                SerializerFeature.WriteNullListAsEmpty, // 将List类型的null转成[]
+                SerializerFeature.WriteNullBooleanAsFalse, // 将Boolean类型的null转成false
+                SerializerFeature.WriteDateUseDateFormat,  //日期格式转换
+                SerializerFeature.DisableCircularReferenceDetect // 避免循环引用
+        );
         //3、在convert中添加配置信息
         fastConverter.setFastJsonConfig(fastJsonConfig);
         //4、将convert添加到converters中
