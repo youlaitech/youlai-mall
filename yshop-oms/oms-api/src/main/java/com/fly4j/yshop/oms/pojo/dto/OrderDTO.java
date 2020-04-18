@@ -20,6 +20,6 @@ public class OrderDTO {
     private List<OmsOrderItem> order_item_list;
 
     @ApiModelProperty(name = "提交上次订单确认页给你的令牌")
-    private String orderToken;
+    private String order_token;
 
 }

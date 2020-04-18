@@ -109,6 +109,12 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+            <version>10.8</version>
+        </dependency>
+
     </dependencies>
 
 </project>
