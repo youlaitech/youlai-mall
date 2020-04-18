@@ -8,14 +8,11 @@ spring:
     url: jdbc:mysql://101.37.69.49:3306/yshop-sms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
 
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
-    map-underscore-to-camel-case: true
+    map-underscore-to-camel-case: false
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 

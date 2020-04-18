@@ -1,51 +1,55 @@
 import request from '@/utils/request'
 
-export function page(pageNum, pageSize, queryParams) {
+export function adPageList(page, limit, queryParams) {
   return request({
-    url: '/marketing/home/advertisement/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/sms/ads/page/' + page + "/limit/" + limit,
     method: 'get',
     params: queryParams
   });
 }
 
-export function postObj(obj) {
+export function adAdd(data) {
   return request({
-    url: '/marketing/home/advertisement',
+    url: '/sms/ads',
     method: 'post',
-    data: obj
+    data: data
   });
 }
 
-export function getObj(id) {
+export function adDetail(id) {
   return request({
-    url: '/marketing/home/advertisement/' + id,
+    url: '/sms/ads/' + id,
     method: 'get'
-  })
+  });
 }
 
-export function putObj(id, obj) {
+export function adUpdate(id, data) {
   return request({
-    url: '/marketing/home/advertisement/' + id,
+    url: '/sms/ads/' + id,
     method: 'put',
-    data: obj
-  })
+    data: data
+  });
 }
 
-export function delObj(ids) {
+export function adDelete(ids) {
   return request({
-    url: '/marketing/home/advertisement',
+    url: '/sms/ads',
     method: 'delete',
-    params:{ids:ids}
+    params: {ids:ids}
   })
 }
 
-
-export function updateStatus(id, status) {
+export function adList() {
   return request({
-    url: '/marketing/home/advertisement/id/' + id+'/status/'+status,
-    method: 'put'
-  })
+    url: '/sms/ads',
+    method: 'get'
+  });
 }
 
-
+export function adStatusUpdate(id,status) {
+  return request({
+    url: '/sms/ads/id/{id}/status/{status}',
+    method: 'put'
+  });
+}
 

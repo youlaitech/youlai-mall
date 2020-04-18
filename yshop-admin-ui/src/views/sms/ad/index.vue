@@ -23,7 +23,7 @@
       ref="multipleTable"
       :data="tableData"
       @selection-change="handleSelectionChange"
-      @row-click="rowClick"
+      @row-click="handleRowClick"
       border>
       <el-table-column
         type="selection"
@@ -40,14 +40,6 @@
         min-width="11%">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="广告位置"
-        min-width="11%">
-        <template slot-scope="{row}">
-          {{formatType(row.type)}}
-        </template>
-      </el-table-column>
-      <el-table-column
         label="广告图片"
         min-width="11%">
         <template slot-scope="scope">
@@ -55,19 +47,19 @@
             placement="right"
             title=""
             trigger="hover">
-            <img :src="scope.row.imageUrl"/>
-            <img slot="reference" :src="scope.row.imageUrl" :alt="scope.row.imageUrl"
+            <img :src="scope.row.pic_url"/>
+            <img slot="reference" :src="scope.row.pic_url" :alt="scope.row.pic_url"
                  style="max-height: 60px;max-width: 60px">
           </el-popover>
         </template>
       </el-table-column>
       <el-table-column
-        prop="startTime"
+        prop="start_time"
         label="开始时间"
         min-width="11%">
       </el-table-column>
       <el-table-column
-        prop="endTime"
+        prop="end_time"
         label="到期时间"
         min-width="11%">
       </el-table-column>
@@ -126,43 +118,24 @@
         <el-form-item label="广告名称" required prop="name">
           <el-input v-model="form.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="广告位置" required  prop="type">
-          <el-select v-model="form.type">
-            <el-option label="APP首页轮播" :value="1"/>
-            <el-option label="PC首页轮播" :value="0"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="开始时间" required prop="startTime">
+        <el-form-item label="开始时间" required prop="start_time">
           <el-date-picker
-            v-model="form.startTime"
+            v-model="form.start_time"
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="到期时间" required prop="endTime">
+        <el-form-item label="到期时间" required prop="end_time">
           <el-date-picker
-            v-model="form.endTime"
+            v-model="form.end_time"
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="广告图片" prop="imageUrl">
-          <el-upload
-            ref="upload"
-            :file-list="imageList"
-            :action="uploadAction"
-            :show-file-list="true"
-            :before-upload="handleBeforeUpload"
-            :on-success="handleUploadSuccess"
-            :on-remove="handleRemove"
-            list-type="picture-card"
-            :auto-upload="true"
-            :limit="1"
-            :headers="fileHeaders">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+        <el-form-item label="广告图片" prop="pic_url">
+          <single-upload v-model="form.pic_url"></single-upload>
         </el-form-item>
         <el-form-item label="上线/下线" prop="status">
           <el-radio-group v-model="form.status">
@@ -173,8 +146,8 @@
         <el-form-item label="排序" prop="sort">
           <el-input v-model="form.sort" auto-complete="off" style="width: 200px"></el-input>
         </el-form-item>
-        <el-form-item label="广告链接" required prop="linkUrl">
-          <el-input v-model="form.linkUrl" auto-complete="off"></el-input>
+        <el-form-item label="广告链接" required prop="link_url">
+          <el-input v-model="form.link_url" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input type="textarea" v-model="form.remark" auto-complete="off"></el-input>
@@ -189,11 +162,11 @@
 </template>
 
 <script>
-  import {page, getObj, postObj, putObj, delObj, updateStatus} from '@/api/sms/ad'
-  import {getToken} from '@/utils/auth'
-  import {deleteFile} from '@/api/fms'
+  import {adPageList, adAdd, adDetail, adUpdate, adDelete,adStatusUpdate} from '@/api/sms/ad'
+  import SingleUpload from '@/components/Upload/singleUpload'
 
   export default {
+    components: {SingleUpload},
     data() {
       return {
         // 选中数组
@@ -218,37 +191,28 @@
         form: {
           id: undefined,
           name: undefined,
-          type: 1,
-          imageUrl: undefined,
-          startTime: undefined,
-          endTime: undefined,
+          pic_url: undefined,
+          start_time: undefined,
+          end_time: undefined,
           sort: undefined,
-          status: 0,
-          linkUrl:undefined
+          status: 1,
+          link_url:undefined,
+          remark:undefined
         },
         rules: {
           name: [{
             required: true, message: '请填写广告名称', trigger: 'blur'
           }],
-          type: [{
-            required: true, message: '请选择广告位置', trigger: 'blur'
-          }],
-          startTime: [{
+          start_time: [{
             required: true, message: '请设置开始时间', trigger: 'blur'
           }],
-          endTime: [{
+          end_time: [{
             required: true, message: '请设置到期时间', trigger: 'blur'
           }],
-          linkUrl: [{
+          link_url: [{
             required: true, message: '请输入广告链接', trigger: 'blur'
           }],
-        },
-        attributeTypeList: undefined,
-        uploadAction: this.uploadAction,
-        fileHeaders: {authorization: getToken()},
-        dialogImageVisible: false,
-        dialogImageUrl: undefined,
-        imageList: [],// 回显图片
+        }
       }
     },
     created() {
@@ -256,7 +220,7 @@
     },
     methods: {
       handleQuery() {
-        page(this.pagination.pageNum, this.pagination.pageSize, this.queryParams).then(response => {
+        adPageList(this.pagination.pageNum, this.pagination.pageSize, this.queryParams).then(response => {
           this.tableData = response.data.records
           this.pagination.total = response.data.total
         })
@@ -274,24 +238,24 @@
         this.handleQuery()
       },
       handleAdd() {
-        this.reset()
+        this.handleResetForm()
         this.dialog = {
-          title: "新增退货原因",
+          title: "新增广告",
           visible: true
         }
       },
       handleEdit(row) {
-        this.reset();
+        this.handleResetForm();
         this.dialog = {
-          title: "修改退货原因",
+          title: "修改广告",
           visible: true
         }
         const id = row.id || this.ids
-        getObj(id).then(response => {
+        adDetail(id).then(response => {
           if (response.data) {
             this.form = response.data
-            if (response.data.startTime && response.data.endTime) {
-              this.form.time = [new Date(response.data.startTime), new Date(response.data.endTime)]
+            if (response.data.start_time && response.data.end_time) {
+              this.form.time = [new Date(response.data.start_time), new Date(response.data.end_time)]
             }
           }
         })
@@ -301,13 +265,13 @@
           if (valid) {
             const id = this.form.id
             if (id != undefined) {
-              putObj(id, this.form).then(response => {
+              adUpdate(id, this.form).then(response => {
                 this.$message.success(response.msg)
                 this.dialog.visible = false
                 this.handleQuery()
               })
             } else {
-              postObj(this.form).then(response => {
+              adAdd(this.form).then(response => {
                 this.$message.success(response.msg)
                 this.dialog.visible = false
                 this.handleQuery()
@@ -323,7 +287,7 @@
           cancelButtonText: "取消",
           type: "warning"
         }).then(() => {
-          delObj(ids).then(() => {
+          adDelete(ids).then(() => {
             this.$message.success("删除成功")
             this.handleQuery()
           })
@@ -340,15 +304,14 @@
           cancelButtonText: "取消",
           type: "warning"
         }).then(function () {
-
-          updateStatus(row.id, row.status).then(response => {
+          adStatusUpdate(row.id, row.status).then(response => {
             that.$message.success(response.msg)
           })
         }).catch(function () {
           row.status = row.status === 0 ? 1 : 0;
         })
       },
-      rowClick(row) {
+      handleRowClick(row) {
         this.$refs.multipleTable.toggleRowSelection(row);
       },
       handleSelectionChange(selection) {
@@ -358,61 +321,24 @@
       },
       cancel() {
         this.dialog.visible = false;
-        this.reset();
+        this.handleResetForm()
       },
-      reset() {
+      handleResetForm() {
         this.resetForm("form")
         this.form = {
           id: undefined,
           name: undefined,
-          type: 1,
-          imageUrl: undefined,
-          startTime: undefined,
-          endTime: undefined,
+          pic_url: undefined,
+          start_time: undefined,
+          end_time: undefined,
           sort: undefined,
-          status: 0,
-          linkUrl:undefined
+          status:1,
+          link_url:undefined,
+          remark:undefined
         }
       },
       initPate() {
         this.handleQuery()
-      },
-      formatType(type) {
-        if (type === 1) {
-          return 'APP首页轮播'
-        } else if (type === 0) {
-          return "PC首页轮播"
-        } else {
-          return ''
-        }
-      },
-      // 上传文件相关
-      handleBeforeUpload(file) {
-        const isJPG = file.type === 'image/jpeg'
-        const isGIF = file.type === 'image/gif'
-        const isPNG = file.type === 'image/png'
-        const isBMP = file.type === 'image/bmp'
-        const isLt2M = file.size / 1024 / 1024 < 2
-
-        if (!isJPG && !isGIF && !isPNG && !isBMP) {
-          this.$message.error('上传图片必须是JPG/GIF/PNG/BMP 格式!')
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!')
-        }
-        return (isJPG || isBMP || isGIF || isPNG) && isLt2M
-      },
-      handleUploadSuccess(response) {
-        if (response.code == 0) {
-          this.$message.success('图片上传成功')
-          this.form.imageUrl = response.data.filePath
-          this.dialogImageUrl = response.data.filePath
-        }
-      },
-      handleRemove(file, fileList) { //删除图片
-        deleteFile(file.response.data.filePath).then(() => {
-          this.$message.success("删除图片成功")
-        })
       }
     }
   }
