@@ -11,9 +11,7 @@ import java.math.BigDecimal;
 @Data
 public class PmsSku extends BaseEntity {
   @TableId(type = IdType.ID_WORKER)
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private Long id;
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private Long spu_id;
   private String specs;
   private BigDecimal price;
