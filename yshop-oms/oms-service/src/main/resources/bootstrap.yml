@@ -23,3 +23,6 @@ spring:
   rabbitmq:
     host: 101.132.25.57
 
+feign:
+  httpclient:
+    enabled: true
