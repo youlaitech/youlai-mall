@@ -1,4 +1,4 @@
-package com.fly4j.yshop.pms.controller;
+package com.fly4j.yshop.pms.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
@@ -36,8 +36,8 @@ public class PmsSkuController extends BaseController {
 
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
-        PmsSku user = iPmsSkuService.getById(id);
-        return R.ok(user);
+        PmsSku sku = iPmsSkuService.getById(id);
+        return R.ok(sku);
     }
 
     @PostMapping
