@@ -6,11 +6,13 @@ import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,11 +55,17 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         );
         //3、在convert中添加配置信息
         fastConverter.setFastJsonConfig(fastJsonConfig);
-        //4、将convert添加到converters中
+        //4、解决响应数据非json和中文响应乱码
+        List<MediaType> jsonMediaTypes = new ArrayList<>();
+        jsonMediaTypes.add(MediaType.APPLICATION_JSON);
+        jsonMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+        fastConverter.setSupportedMediaTypes(jsonMediaTypes);
+        //5、将convert添加到converters中
         converters.add(fastConverter);
-        //5、追加默认转换器 如果不加则MessageConverters只有上面FastJsonHttpMessageConverter具体打印可以结合extendMessageConverters打印测试
+        //6、追加默认转换器 如果不加则MessageConverters只有上面FastJsonHttpMessageConverter具体打印可以结合extendMessageConverters打印测试
         super.addDefaultHttpMessageConverters(converters);
     }
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
