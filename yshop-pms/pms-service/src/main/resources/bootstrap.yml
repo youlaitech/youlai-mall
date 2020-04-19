@@ -18,3 +18,8 @@ spring:
         max-wait: -1
         max-idle: 500
         min-idle: 0
+  rabbitmq:
+    host: 101.132.25.57
+    virtual-host: fly4j
+    username: fly4j
+    password: 123456

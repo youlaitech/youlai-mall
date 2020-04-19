@@ -15,12 +15,17 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
     SkuLockVO getCanLocked(SkuLockVO skuLockVO);
 
     @Update("<script>" +
-            "UPDATE pms_sku SET stock_locked = stock_locked + #{quantity} WHERE id = #{sku_id}" +
+            "UPDATE pms_sku SET stock=stock-#{quantity}, stock_locked = stock_locked + #{quantity} WHERE id = #{sku_id}" +
             "</script>")
     long lockSku(@Param("sku_id") Long sku_id, @Param("quantity")Integer quantity);
 
     @Update("<script>" +
-            "UPDATE pms_sku SET stock_locked = stock_locked - #{stock_locked} WHERE id = #{sku_id}" +
+            "UPDATE pms_sku SET  stock=stock+#{quantity},stock_locked = stock_locked-#{quantity} WHERE id = #{sku_id}" +
             "</script>")
     void unLockSku(SkuLockVO skuLock);
+
+    @Update("<script>" +
+            "UPDATE pms_sku SET stock = stock - #{sku_quantity} AND stock_locked = 0 WHERE id = #{sku_id}" +
+            "</script>")
+    Integer minusStock(Long sku_id, Integer sku_quantity);
 }

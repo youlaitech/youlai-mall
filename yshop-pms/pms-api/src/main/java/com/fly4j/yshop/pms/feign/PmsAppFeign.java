@@ -6,10 +6,7 @@ import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,4 +18,7 @@ public interface PmsAppFeign {
 
     @PostMapping(value = "/api.app/v1/skus/lock",consumes = MediaType.APPLICATION_JSON_VALUE)
     R<SkuLockVO> checkAndLockStock(@RequestBody List<SkuLockVO> skuLockVOS);
+
+    @PutMapping(value = "/api.app/v1/skus/minus")
+    Integer minusStock(@RequestParam Long sku_id,@RequestParam Integer sku_quantity);
 }
