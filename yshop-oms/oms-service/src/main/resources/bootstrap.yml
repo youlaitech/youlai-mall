@@ -22,6 +22,9 @@ spring:
       shutdown-timeout: 0
   rabbitmq:
     host: 101.132.25.57
+    virtual-host: fly4j
+    username: fly4j
+    password: 123456
 
 feign:
   httpclient:
