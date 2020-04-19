@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@ApiModel("商品传输层实体")
+@ApiModel
 public class PmsSpuDTO {
 
     @ApiModelProperty("商品基本信息")

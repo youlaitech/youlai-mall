@@ -1,50 +1,55 @@
 import request from '@/utils/request'
 
-export function page(pageNum, pageSize, queryParams) {
+export function promotionPageList(page, limit, queryParams) {
   return request({
-    url: '/marketing/spike/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/sms/seckill/promotions/page/' + page + "/limit/" + limit,
     method: 'get',
     params: queryParams
   });
 }
 
-export function postObj(obj) {
+export function promotionAdd(data) {
   return request({
-    url: '/marketing/spike',
+    url: '/sms/seckill/promotions',
     method: 'post',
-    data: obj
+    data: data
   });
 }
 
-export function getObj(id) {
+export function promotionDetail(id) {
   return request({
-    url: '/marketing/spike/' + id,
+    url: '/sms/seckill/promotions/' + id,
     method: 'get'
-  })
+  });
 }
 
-export function putObj(id, obj) {
+export function promotionUpdate(id, data) {
   return request({
-    url: '/marketing/spike/' + id,
+    url: '/sms/seckill/promotions/' + id,
     method: 'put',
-    data: obj
+    data: data
+  });
+}
+
+export function promotionDelete(ids) {
+  return request({
+    url: '/sms/seckill/promotions',
+    method: 'delete',
+    params: {ids:ids}
   })
 }
 
-export function delObj(ids) {
+export function promotionList() {
   return request({
-    url: '/marketing/spike/' + ids,
-    method: 'delete'
-  })
+    url: '/sms/seckill/promotions',
+    method: 'get'
+  });
 }
 
-
-export function updateStatus(id, status) {
+export function promotionStatusUpdate(id,status) {
   return request({
-    url: '/marketing/spike/id/' + id+'/status/'+status,
+    url: '/sms/seckill/promotions/id/'+id+'/status/'+status,
     method: 'put'
-  })
+  });
 }
-
-
 

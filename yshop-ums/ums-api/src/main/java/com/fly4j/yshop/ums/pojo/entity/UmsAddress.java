@@ -2,7 +2,6 @@ package com.fly4j.yshop.ums.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fly4j.common.core.bean.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,17 +11,15 @@ import lombok.Data;
 @ApiModel
 public class UmsAddress extends BaseEntity {
 
-    @TableId(type = IdType.ID_WORKER)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value="地址id",hidden=true)
     private Long id;
 
     @ApiModelProperty(value="收货人名称",example="张三")
     private String name;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(value="用户表的用户ID",example="9527")
-    private Long member_id;
+    private Long user_id;
 
     @ApiModelProperty(value="行政区域表的省ID",example="110000")
     private String province;
@@ -40,10 +37,10 @@ public class UmsAddress extends BaseEntity {
     private String area_code;
 
     @ApiModelProperty(value="邮政编码",example="100010")
-    private String postal_code;
+    private String zip_code;
 
     @ApiModelProperty(value="手机号码",example="18856887888")
-    private String tel;
+    private String mobile;
 
     @ApiModelProperty(value="是否默认地址",example="1")
     private Integer is_default;

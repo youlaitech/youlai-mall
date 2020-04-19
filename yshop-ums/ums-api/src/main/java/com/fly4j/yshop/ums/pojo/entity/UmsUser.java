@@ -2,16 +2,15 @@ package com.fly4j.yshop.ums.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fly4j.common.core.bean.BaseEntity;
 import lombok.Data;
 
 @Data
-public class UmsMember extends BaseEntity {
-  @TableId(type = IdType.ID_WORKER)
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
+public class UmsUser extends BaseEntity {
+
+  @TableId(type = IdType.ASSIGN_ID)
   private Long id;
-  private Long levelId;
+  private Integer level;
   private String username;
   private String password;
   private String nickname;

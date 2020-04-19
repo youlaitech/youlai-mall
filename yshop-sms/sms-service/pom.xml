@@ -18,6 +18,12 @@
             <version>${yshop.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fly4j</groupId>
+            <artifactId>pms-api</artifactId>
+            <version>${yshop.version}</version>
+        </dependency>
+
         <!-- spring boot web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,12 +66,19 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-
         <!-- Dozer -->
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+            <version>10.8</version>
+        </dependency>
+
+
 
     </dependencies>
 </project>
