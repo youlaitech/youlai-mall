@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
-import com.fly4j.yshop.ums.service.IUmsMemberService;
-import com.fly4j.yshop.ums.pojo.entity.UmsMember;
+import com.fly4j.yshop.ums.service.IUmsUserService;
+import com.fly4j.yshop.ums.pojo.entity.UmsUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -20,12 +20,12 @@ import java.util.List;
 
 @Api(tags = "会员接口")
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/users")
 @Slf4j
-public class UmsMemberController extends BaseController {
+public class UmsUserController extends BaseController {
 
     @Resource
-    private IUmsMemberService iUmsMemberService;
+    private IUmsUserService iUmsUserService;
 
     @ApiOperation(value = "会员分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -34,22 +34,22 @@ public class UmsMemberController extends BaseController {
             @ApiImplicitParam(name = "nickname", value = "会员昵称", paramType = "query", dataType = "String"),
     })
     @GetMapping("/page/{page}/limit/{limit}")
-    public R<Page<UmsMember>> page(
+    public R<Page<UmsUser>> page(
             @PathVariable Integer page,
             @PathVariable Integer limit,
             String name
     ) {
-        Page<UmsMember> data = (Page<UmsMember>) iUmsMemberService.page(new Page<>(page, limit),
-                new LambdaQueryWrapper<UmsMember>()
-                        .eq(StrUtil.isNotBlank(name), UmsMember::getNickname, name)
-                        .orderByDesc(UmsMember::getCreate_time));
+        Page<UmsUser> data = (Page<UmsUser>) iUmsUserService.page(new Page<>(page, limit),
+                new LambdaQueryWrapper<UmsUser>()
+                        .eq(StrUtil.isNotBlank(name), UmsUser::getNickname, name)
+                        .orderByDesc(UmsUser::getCreate_time));
         return R.ok(data);
     }
 
     @ApiOperation(value = "会员列表", httpMethod = "GET")
     @GetMapping()
     public R list() {
-        List<UmsMember> list = iUmsMemberService.list();
+        List<UmsUser> list = iUmsUserService.list();
         return R.ok(list);
     }
 
@@ -58,8 +58,8 @@ public class UmsMemberController extends BaseController {
             @ApiImplicitParam(name = "umsMember", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PostMapping
-    public R save(@RequestBody UmsMember umsMember) {
-        boolean status = iUmsMemberService.save(umsMember);
+    public R save(@RequestBody UmsUser umsUser) {
+        boolean status = iUmsUserService.save(umsUser);
         return status ? R.ok(null) : R.failed("新增失败");
     }
 
@@ -69,7 +69,7 @@ public class UmsMemberController extends BaseController {
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
-        UmsMember user = iUmsMemberService.getById(id);
+        UmsUser user = iUmsUserService.getById(id);
         return R.ok(user);
     }
 
@@ -79,8 +79,8 @@ public class UmsMemberController extends BaseController {
             @ApiImplicitParam(name = "umsMember", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody UmsMember umsMember) {
-        boolean status = iUmsMemberService.updateById(umsMember);
+    public R update(@PathVariable("id") Long id, @RequestBody UmsUser umsUser) {
+        boolean status = iUmsUserService.updateById(umsUser);
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
@@ -88,7 +88,7 @@ public class UmsMemberController extends BaseController {
     @ApiImplicitParam(name = "ids", value = "会员id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
-        boolean status = iUmsMemberService.removeByIds(ids);
+        boolean status = iUmsUserService.removeByIds(ids);
         return status ? R.ok(null) : R.failed("删除失败");
     }
 
@@ -99,9 +99,9 @@ public class UmsMemberController extends BaseController {
     })
     @PutMapping("/id/{id}/status/{status}")
     public R updateStatus(@PathVariable Integer id, @PathVariable Integer status) {
-        boolean result = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
-                .eq(UmsMember::getId, id)
-                .set(UmsMember::getStatus, status));
+        boolean result = iUmsUserService.update(new LambdaUpdateWrapper<UmsUser>()
+                .eq(UmsUser::getId, id)
+                .set(UmsUser::getStatus, status));
         if (result) {
             return R.ok("更新成功");
         } else {

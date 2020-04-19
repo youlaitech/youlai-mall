@@ -9,9 +9,6 @@ spring:
     url: jdbc:mysql://101.37.69.49:3306/fly4j?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
