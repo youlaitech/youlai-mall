@@ -12,4 +12,5 @@ import java.util.List;
 public interface IPmsSkuService extends IService<PmsSku> {
 
     String checkAndLockStock(List<SkuLockVO> skuLockVOS);
+
 }
