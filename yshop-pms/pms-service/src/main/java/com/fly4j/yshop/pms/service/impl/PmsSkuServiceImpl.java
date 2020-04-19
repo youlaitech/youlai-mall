@@ -7,9 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly4j.yshop.pms.mapper.PmsSkuMapper;
 import com.fly4j.yshop.pms.pojo.dto.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
-import com.fly4j.yshop.pms.pojo.entity.PmsSkuLock;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
-import com.fly4j.yshop.pms.service.IPmsSkuLockService;
 import com.fly4j.yshop.pms.service.IPmsSkuService;
 import org.apache.commons.collections.CollectionUtils;
 import org.redisson.api.RLock;
@@ -31,8 +29,6 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     private RedissonClient redissonClient;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
-    @Resource
-    private IPmsSkuLockService iPmsSkuLockService;
 
     private static final String LOCK_PREFIX = "sku:lock:";
 
@@ -59,7 +55,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         }
         // 一旦库存锁不住，回滚已锁的库存，并提示页面那些商品的库存没锁住
         for (SkuLockVO skuLock : lockedSkus) {
-            iPmsSkuLockService.unLockSku(skuLock);
+            baseMapper.unLockSku(skuLock);
         }
 
         List<Long> skuIds = notLockSkus.stream().map(skuLockVO -> skuLockVO.getSku_id()).collect(Collectors.toList());
@@ -72,13 +68,11 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         RLock lock = this.redissonClient.getFairLock(LOCK_PREFIX + skuLockVO.getSku_id());
         lock.lock();
 
-        List<PmsSkuLock> skuEntities = iPmsSkuLockService.getAllCanLocked(skuLockVO);
-        if (skuEntities != null && skuEntities.size() > 0) {
-            // 拿到第一个仓库锁库存
-            PmsSkuLock skuEntity = skuEntities.get(0);
-            long i = iPmsSkuLockService.lockSku(skuEntity.getId(), skuLockVO.getQuantity());
+        SkuLockVO skuEntity = baseMapper.getCanLocked(skuLockVO);
+        if (skuEntity != null) {
+            // 锁库存
+            long i = baseMapper.lockSku(skuLockVO.getSku_id(), skuLockVO.getQuantity());
             if (i > 0) {
-                skuLockVO.setSku_id(skuEntity.getId());
                 lockedSkus.add(skuLockVO);
             } else {
                 notLockSkus.add(skuLockVO);
