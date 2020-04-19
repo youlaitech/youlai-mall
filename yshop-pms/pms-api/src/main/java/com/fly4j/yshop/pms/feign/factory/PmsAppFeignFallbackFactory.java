@@ -22,6 +22,11 @@ public class PmsAppFeignFallbackFactory implements FallbackFactory<PmsAppFeign> 
             public R<SkuLockVO> checkAndLockStock(List<SkuLockVO> skuLockVOS) {
                 return null;
             }
+
+            @Override
+            public Integer minusStock(Long sku_id, Integer sku_quantity) {
+                return 0;
+            }
         };
     }
 }

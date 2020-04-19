@@ -33,4 +33,9 @@ public class SkuController extends BaseController {
         }
         return R.ok(null);
     }
+
+    @PutMapping(value = "/minus")
+    public Integer minusStock(@RequestParam Long sku_id,@RequestParam Integer sku_quantity){
+        return iPmsSkuService.minusStock(sku_id,sku_quantity);
+    }
 }

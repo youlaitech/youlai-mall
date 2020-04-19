@@ -13,4 +13,7 @@ public interface IPmsSkuService extends IService<PmsSku> {
 
     String checkAndLockStock(List<SkuLockVO> skuLockVOS);
 
+    void unlockSku(String orderToken);
+
+    Integer minusStock(Long sku_id, Integer sku_quantity);
 }

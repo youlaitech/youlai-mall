@@ -25,6 +25,9 @@ spring:
     virtual-host: fly4j
     username: fly4j
     password: 123456
+    listener:
+      simple:
+        acknowledge-mode: manual
 
 feign:
   httpclient:
