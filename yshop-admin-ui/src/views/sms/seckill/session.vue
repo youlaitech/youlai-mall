@@ -16,7 +16,7 @@
       ref="multipleTable"
       :data="tableData"
       @selection-change="handleSelectionChange"
-      @row-click="rowClick"
+      @row-click="handleRowClick"
       border>
       <el-table-column
         type="selection"
@@ -25,27 +25,27 @@
       <el-table-column
         prop="id"
         label="编号"
-        min-width="5%">
+        min-width="10">
       </el-table-column>
       <el-table-column
         prop="name"
-        label="秒杀时间段名称"
-        min-width="20%">
+        label="时间段名称"
+        min-width="20">
       </el-table-column>
       <el-table-column
-        prop="startTime"
+        prop="start_time"
         label="每日开始时间"
-        min-width="15%">
+        min-width="15">
       </el-table-column>
       <el-table-column
-        prop="endTime"
+        prop="end_time"
         label="每日结束时间"
-        min-width="15%">
+        min-width="15">
       </el-table-column>
       <el-table-column
         prop="status"
         label="启用"
-        min-width="15%">
+        min-width="10">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.status"
@@ -82,7 +82,7 @@
 
     <!-- 表单弹窗::start -->
     <el-dialog
-      :name="dialog.name"
+      :title="dialog.title"
       :visible.sync="dialog.visible"
       @close="cancel"
       :append-to-body="true"
@@ -93,20 +93,20 @@
           <el-input v-model="form.name" auto-complete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="每日开始时间" prop="startTime">
+        <el-form-item label="每日开始时间" prop="start_time">
           <el-time-select
             placeholder="开始时间"
-            v-model="form.startTime"
+            v-model="form.start_time"
             value-format="HH:mm"
             :picker-options="{ start: '08:00',step: '01:00', end: '22:00' }">
           </el-time-select>
         </el-form-item>
-        <el-form-item label="每日结束时间" prop="endTime">
+        <el-form-item label="每日结束时间" prop="end_time">
           <el-time-select
             placeholder="结束时间"
-            v-model="form.endTime"
+            v-model="form.end_time"
             value-format="HH:mm"
-            :picker-options="{ start: '08:00',step: '01:00', end: '22:00',  minTime:form.startTime }">
+            :picker-options="{ start: '08:00',step: '01:00', end: '22:00',  minTime:form.start_time }">
           </el-time-select>
         </el-form-item>
         <el-form-item label="启用" prop="status">
@@ -125,7 +125,8 @@
 </template>
 
 <script>
-  import {page, getObj, postObj, putObj, delObj, updateStatus} from '@/api/sms/seckill/session'
+
+  import {sessionPageList, sessionAdd, sessionDetail, sessionUpdate, sessionDelete,sessionStatusUpdate} from '@/api/sms/seckill/session'
 
   export default {
     data() {
@@ -146,23 +147,23 @@
         },
         tableData: [],
         dialog: {
-          name: '',
+          title: '',
           visible: false,
         },
         form: {
           name: undefined,
-          startTime: undefined,
-          endTime: undefined,
+          start_time: undefined,
+          end_time: undefined,
           status: 0
         },
         rules: {
           name: [{
-            required: true, message: '请填写活动标题', trigger: 'blur'
+            required: true, message: '请填写秒杀时间段名称', trigger: 'blur'
           }],
-          startTime: [{
+          start_time: [{
             required: true, message: '请选择每天开始时间', trigger: 'blur'
           }],
-          endTime: [{
+          end_time: [{
             required: true, message: '请选择每天结束时间', trigger: 'blur'
           }]
         },
@@ -173,12 +174,12 @@
     },
     methods: {
       handleQuery() {
-        page(this.pagination.pageNum, this.pagination.pageSize, this.queryParams).then(response => {
+        sessionPageList(this.pagination.pageNum, this.pagination.pageSize, this.queryParams).then(response => {
           this.tableData = response.data.records
           this.pagination.total = response.data.total
         })
       },
-      resetQuery() {
+      handleResetQuery() {
         this.pagination = {
           pageNum: 1,
           pageSize: 10,
@@ -193,7 +194,7 @@
       handleAdd() {
         this.reset()
         this.dialog = {
-          name: "新增时间段",
+          title: "新增时间段",
           visible: true
         }
 
@@ -201,17 +202,15 @@
       handleEdit(row) {
         this.reset();
         this.dialog = {
-          name: "编辑时间段",
+          title: "编辑时间段",
           visible: true
         }
         const id = row.id || this.ids
-        getObj(id).then(response => {
-          if (response.data) {
+        sessionDetail(id).then(response => {
             this.form = response.data
-            this.form.startTime=response.data.startTime
-            this.form.endTime=response.data.endTime
-            console.log(this.form.startTime,this.form.endTime)
-          }
+            this.form.start_time=response.data.start_time
+            this.form.end_time=response.data.end_time
+            console.log(this.form.start_time,this.form.end_time)
         })
       },
       handleSubmit() {
@@ -219,13 +218,13 @@
           if (valid) {
             const id = this.form.id
             if (id != undefined) {
-              putObj(id, this.form).then(response => {
+              sessionUpdate(id, this.form).then(response => {
                 this.$message.success(response.msg)
                 this.dialog.visible = false
                 this.handleQuery()
               })
             } else {
-              postObj(this.form).then(response => {
+              sessionAdd(this.form).then(response => {
                 this.$message.success(response.msg)
                 this.dialog.visible = false
                 this.handleQuery()
@@ -241,7 +240,7 @@
           cancelButtonText: "取消",
           type: "warning"
         }).then(() => {
-          delObj(ids).then(() => {
+          sessionDelete(ids).then(() => {
             this.$message.success("删除成功")
             this.handleQuery()
           })
@@ -251,21 +250,21 @@
       },
       // 显示隐藏
       handleStatusChange(row) {
-        let text = row.status === 0 ? '启用' : '关闭'
+        let text = row.status === 0 ? '停止' : '启用'
         let that = this
         this.$confirm('确认要' + text + row.name + '秒杀活动?', "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function () {
-          updateStatus(row.id, row.status).then(response => {
+          sessionStatusUpdate(row.id, row.status).then(response => {
             that.$message.success(response.msg)
           })
         }).catch(function () {
           row.status = row.status === 0 ? 1 : 0;
         })
       },
-      rowClick(row) {
+      handleRowClick(row) {
         this.$refs.multipleTable.toggleRowSelection(row);
       },
       handleSelectionChange(selection) {
@@ -281,15 +280,14 @@
         this.resetForm("form")
         this.form = {
           name: undefined,
-          startTime: undefined,
-          endTime: undefined,
+          start_time: undefined,
+          end_time: undefined,
           status: 0
         }
       },
       initPate() {
         this.handleQuery()
-      },
-
+      }
     }
   }
 </script>

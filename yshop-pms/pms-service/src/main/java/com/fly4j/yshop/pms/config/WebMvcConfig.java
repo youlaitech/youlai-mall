@@ -41,7 +41,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         SerializeConfig serializeConfig = SerializeConfig.globalInstance;
         serializeConfig.put(BigInteger.class, ToStringSerializer.instance);
         serializeConfig.put(Long.class, ToStringSerializer.instance);
-        serializeConfig.put(Long.TYPE, ToStringSerializer.instance);
+         // serializeConfig.put(Long.TYPE, ToStringSerializer.instance); //不将long值转成string
         fastJsonConfig.setSerializeConfig(serializeConfig);
 
         fastJsonConfig.setSerializerFeatures(

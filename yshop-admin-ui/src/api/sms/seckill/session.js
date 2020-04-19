@@ -1,55 +1,55 @@
 import request from '@/utils/request'
 
-export function page(pageNum, pageSize, queryParams) {
+export function sessionPageList(page, limit, queryParams) {
   return request({
-    url: '/marketing/spikePeriod/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/sms/seckill/sessions/page/' + page + "/limit/" + limit,
     method: 'get',
     params: queryParams
   });
 }
 
-export function postObj(obj) {
+export function sessionAdd(data) {
   return request({
-    url: '/marketing/spikePeriod',
+    url: '/sms/seckill/sessions',
     method: 'post',
-    data: obj
+    data: data
   });
 }
 
-export function getObj(id) {
+export function sessionDetail(id) {
   return request({
-    url: '/marketing/spikePeriod/' + id,
+    url: '/sms/seckill/sessions/' + id,
     method: 'get'
-  })
+  });
 }
 
-export function putObj(id, obj) {
+export function sessionUpdate(id, data) {
   return request({
-    url: '/marketing/spikePeriod/' + id,
+    url: '/sms/seckill/sessions/' + id,
     method: 'put',
-    data: obj
+    data: data
+  });
+}
+
+export function sessionDelete(ids) {
+  return request({
+    url: '/sms/seckill/sessions',
+    method: 'delete',
+    params: {ids:ids}
   })
 }
 
-export function delObj(ids) {
+export function sessionList() {
   return request({
-    url: '/marketing/spikePeriod/' + ids,
-    method: 'delete'
-  })
-}
-
-
-export function updateStatus(id, status) {
-  return request({
-    url: '/marketing/spikePeriod/id/' + id+'/status/'+status,
-    method: 'put'
-  })
-}
-
-export function list() {
-  return request({
-    url: '/marketing/spikePeriod/list',
+    url: '/sms/seckill/sessions',
     method: 'get'
-  })
+  });
+}
+
+export function sessionStatusUpdate(id,status) {
+  return request({
+    url: '/sms/seckill/sessions/id/'+id+'/status/'+status,
+    method: 'put'
+  });
 }
 

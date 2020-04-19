@@ -1,7 +1,9 @@
 package com.fly4j.yshop.pms.feign.factory;
 
 import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.yshop.pms.feign.PmsFeign;
+import com.fly4j.yshop.pms.pojo.dto.PmsSkuDTO;
 import feign.hystrix.FallbackFactory;
 
 public class PmsFeignFallbackFactory implements FallbackFactory<PmsFeign> {
@@ -12,6 +14,11 @@ public class PmsFeignFallbackFactory implements FallbackFactory<PmsFeign> {
         return new PmsFeign() {
             @Override
             public R getSpuById(Long id) {
+                return null;
+            }
+
+            @Override
+            public R<Page<PmsSkuDTO>> skuPage(Integer page, Integer limit, String spu_name) {
                 return null;
             }
         };
