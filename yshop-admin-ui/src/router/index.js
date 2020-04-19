@@ -113,7 +113,6 @@ export const constantRoutes = [
     path: '/oms',
     component: Layout,
     redirect: '/oms/order',
-    name: '订单管理',
     meta: {title: '订单管理', icon: 'setting'},
     alwaysShow: true,
     children: [
@@ -149,7 +148,6 @@ export const constantRoutes = [
     path: '/sms',
     component: Layout,
     redirect: '/sms/ad',
-    name: '营销管理',
     meta: {title: '营销管理', icon: 'setting'},
     alwaysShow: true,
     children: [
@@ -178,6 +176,29 @@ export const constantRoutes = [
         name: 'ad',
         component: () => import('@/views/sms/ad'),
         meta: {title: '广告列表', icon: 'setting'}
+      }
+    ]
+  },
+
+
+  {
+    path: '/ums',
+    component: Layout,
+    redirect: '/ums/user',
+    meta: {title: '用户管理', icon: 'setting'},
+    alwaysShow: true,
+    children: [
+      {
+        path: 'user',
+        name: 'user',
+        component: () => import('@/views/ums/user'),
+        meta: {title: '会员管理', icon: 'setting'}
+      },
+      {
+        path: 'address',
+        name: 'address',
+        component: () => import('@/views/ums/address'),
+        meta: {title: '收货地址', icon: 'setting'},
       }
     ]
   },
