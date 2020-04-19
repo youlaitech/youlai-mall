@@ -1,68 +1,56 @@
 import request from '@/utils/request'
 
-export function page(pageNum, pageSize, queryParams) {
+export function skuPageList(page, limit, queryParams) {
   return request({
-    url: '/marketing/spikePeriodGoods/pageNum/' + pageNum + "/pageSize/" + pageSize,
+    url: '/sms/seckill/skus/page/' + page + "/limit/" + limit,
     method: 'get',
-    params: queryParams,
-    headers: {
-      'showLoading': true,
-      'loadingTarget':'#goodsTable'
-    }
-  })
+    params: queryParams
+  });
 }
 
-
-export function list(spikeId, spikePeriodId) {
+export function skuAdd(data) {
   return request({
-    url: '/marketing/spikePeriodGoods/spikeId/' + spikeId + "/spikePeriodId/" + spikePeriodId,
-    method: 'get',
-    headers: {
-      'showLoading': true,
-      'loadingTarget':'#spikePeriodGoodsForm'
-    }
-  })
-}
-
-
-export function postObj(data) {
-  return request({
-    url: '/marketing/spikePeriodGoods',
+    url: '/sms/seckill/skus',
     method: 'post',
-    data: data,
-    headers: {
-      'showLoading': true,
-      'loadingTarget':'#spikePeriodGoods'
-    }
-  })
+    data: data
+  });
 }
 
-export function getObj(id) {
+export function skuDetail(id) {
   return request({
-    url: '/marketing/spikePeriodGoods/' + id,
+    url: '/sms/seckill/skus/' + id,
     method: 'get'
-  })
+  });
 }
 
-export function putObj(id, data) {
+export function skuUpdate(id, data) {
   return request({
-    url: '/marketing/spikePeriodGoods/' + id,
+    url: '/sms/seckill/skus/' + id,
     method: 'put',
-    data: data,
-    headers: {
-      'showLoading': true,
-      'loadingTarget':'#spikePeriodGoods'
-    }
-  })
+    data: data
+  });
 }
 
-export function delObj(ids) {
+export function skuDelete(ids) {
   return request({
-    url: '/marketing/spikePeriodGoods/' + ids,
-    method: 'delete'
+    url: '/sms/seckill/skus',
+    method: 'delete',
+    params: {ids:ids}
   })
 }
 
+export function skuList(params) {
+  return request({
+    url: '/sms/seckill/skus',
+    method: 'get',
+    params:params
+  });
+}
 
-
+export function skuStatusUpdate(id,status) {
+  return request({
+    url: '/sms/seckill/skus/id/'+id+'/status/'+status,
+    method: 'put'
+  });
+}
 

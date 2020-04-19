@@ -31,20 +31,17 @@ public class PmsSpuController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
             @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "path", dataType = "Integer", defaultValue = "10"),
-            @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "is_new", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String")
     })
     @GetMapping("/page/{page}/limit/{limit}")
     public R<Page<PmsSpu>> page(
             @PathVariable Integer page,
             @PathVariable Integer limit,
-            String name,
-            String is_new
+            String name
     ) {
-        Page<PmsSpu> data = (Page<PmsSpu>) iPmsSpuService.page(new Page<>(page, limit),
+        Page<PmsSpu> data = iPmsSpuService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<PmsSpu>()
                         .like(StrUtil.isNotBlank(name), PmsSpu::getName, name)
-                        .eq(is_new != null, PmsSpu::getIs_new, is_new)
                         .orderByDesc(PmsSpu::getCreate_time));
         return R.ok(data);
     }

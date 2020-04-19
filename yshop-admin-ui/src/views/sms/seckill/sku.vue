@@ -1,26 +1,25 @@
 <template>
-  <div class="app-container" id="spikePeriodGoods">
+  <div class="app-container" >
 
-    <!-- 搜索表单::begin -->
     <el-card shadow="never">
       <el-form :inline="true">
         <el-col :span="20">
           <el-form-item>
-            <el-input v-model="spikeTitle" readonly style="width: 200px"></el-input>
-            <el-select v-model="form.spikePeriodId"
+            <el-input v-model="title" readonly style="width: 200px"></el-input>
+            <el-select v-model="form.promotion_session_id"
                        placeholder="请选择活动时间段"
                        clearable
                        filterable
-                       @change="handleSelectSpikePeriodChange">
+                       @change="handleSelectSessionChange">
               <el-option
-                v-for="item in spikePeriodOptions"
+                v-for="item in sessionOptions"
                 :label="item.name"
                 :value="item.id">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-edit" plain @click="handleOpenSelectGoods">选择商品</el-button>
+            <el-button type="primary" icon="el-icon-edit" plain @click="showSelectSkuDialog">选择商品</el-button>
             <el-button icon="el-icon-refresh" @click="refresh">刷新</el-button>
           </el-form-item>
         </el-col>
@@ -33,19 +32,17 @@
     </el-card>
     <!-- 搜索表单::end -->
 
-
     <el-card shadow="never" style="margin-top: 10px">
       <div slot="header" class="clearfix">
         <span>商品列表</span>
       </div>
-
       <el-form size="mini"
-               id="spikePeriodGoodsForm"
+               id="skuForm"
                :model="form"
-               ref="spikePeriodGoodsForm"
+               ref="skuForm"
       >
         <el-table
-          :data="form.spikePeriodGoodsList"
+          :data="form.sku_list"
           highlight-current-row
           border>
           <el-table-column label="编号" width="120">
@@ -53,64 +50,68 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column label="商品名称">
+          <el-table-column
+            label="商品图片"
+            min-width="10">
             <template slot-scope="scope">
-              <el-form-item :prop="'spikePeriodGoodsList[' + scope.$index + '].goodsName'">
-                {{ scope.row.goodsName}}
+              <img :src="scope.row.pic_url"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="商品编号" width="200">
+            <template slot-scope="scope">
+              <el-form-item :prop="'sku_list[' + scope.$index + '].spu_code'">
+                {{ scope.row.spu_code}}
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column label="货号" width="200">
+          <el-table-column label="商品名称" min-width="10">
             <template slot-scope="scope">
-              <el-form-item :prop="'spikePeriodGoodsList[' + scope.$index + '].goodsSn'">
-                {{ scope.row.goodsSn}}
+              <el-form-item :prop="'sku_list[' + scope.$index + '].spu_name'">
+                {{ scope.row.spu_name}}
               </el-form-item>
             </template>
           </el-table-column>
 
-          <el-table-column label="商品价格" width="150">
+     <!--     <el-table-column label="商品价格" width="150">
             <template slot-scope="scope">
-              <el-form-item :prop="'spikePeriodGoodsList[' + scope.$index + '].goodsPrice'">
-                {{ scope.row.goodsPrice|moneyFormat}}
+              <el-form-item :prop="'sku_list[' + scope.$index + '].price'">
+                {{ scope.row.price|moneyFormat}}
               </el-form-item>
             </template>
           </el-table-column>
 
-          <el-table-column label="剩余数量" width="150">
+          <el-table-column label="库存数量" width="150">
             <template slot-scope="scope">
-              <el-form-item :prop="'spikePeriodGoodsList[' + scope.$index + '].goodsStock'">
-                {{ scope.row.goodsStock}}
+              <el-form-item :prop="'sku_list[' + scope.$index + '].stock'">
+                {{ scope.row.stock}}
               </el-form-item>
             </template>
-          </el-table-column>
+          </el-table-column>-->
           <el-table-column label="秒杀价格" width="150">
             <template slot-scope="scope">
-              <el-form-item :prop="'spikePeriodGoodsList[' + scope.$index + '].spikePrice'" :rules="rules.spikePrice">
-                <el-input-number v-model="scope.row.spikePrice" controls-position="right" :min="0"
-                                 :max="scope.row.goodsPrice"></el-input-number>
+              <el-form-item :prop="'sku_list[' + scope.$index + '].seckill_price'" :rules="rules.seckill_price">
+                <el-input-number v-model="scope.row.seckill_price" controls-position="right" :min="0"/>
               </el-form-item>
             </template>
           </el-table-column>
 
           <el-table-column label="秒杀数量" width="150">
             <template slot-scope="scope">
-              <el-form-item :prop="'spikePeriodGoodsList[' + scope.$index + '].spikeCount'" :rules="rules.spikeCount">
-                <el-input-number v-model="scope.row.spikeCount" controls-position="right" :min="0"
-                                 :max="scope.row.goodsStock"></el-input-number>
+              <el-form-item :prop="'sku_list[' + scope.$index + '].seckill_count'" :rules="rules.seckill_count">
+                <el-input-number v-model="scope.row.seckill_count" controls-position="right" :min="0" />
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="限购数量" width="150">
             <template slot-scope="scope">
-              <el-form-item :prop="'spikePeriodGoodsList[' + scope.$index + '].spikeLimit'" :rules="rules.spikeLimit">
-                <el-input-number v-model="scope.row.spikeLimit" controls-position="right" :min="0"
-                                 :max="scope.row.goodsStock"></el-input-number>
+              <el-form-item :prop="'sku_list[' + scope.$index + '].seckill_limit'" :rules="rules.seckill_limit">
+                <el-input-number v-model="scope.row.seckill_limit" controls-position="right" :min="0" />
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="排序" width="150">
             <template slot-scope="scope">
-              <el-form-item :prop="'spikePeriodGoodsList[' + scope.$index + '].sort'">
+              <el-form-item :prop="'sku_list[' + scope.$index + '].sort'">
                 <el-input-number v-model="scope.row.sort" controls-position="right"></el-input-number>
               </el-form-item>
             </template>
@@ -118,7 +119,7 @@
           <el-table-column label="操作" width="150">
             <template slot-scope="scope">
               <el-form-item>
-                <el-button type="danger" @click="handleRemoveSpikeGoods(scope.$index)">删除</el-button>
+                <el-button type="danger" @click="handleRemoveSku(scope.$index)">删除</el-button>
               </el-form-item>
             </template>
           </el-table-column>
@@ -127,19 +128,19 @@
     </el-card>
 
     <el-dialog
-      :title="goodsDialog.title"
-      :visible.sync="goodsDialog.visible"
-      @close="closeGoodsDialog"
+      :title="skuDialog.title"
+      :visible.sync="skuDialog.visible"
+      @close="closeSkuDialog"
       :append-to-body="true"
       top="5vh"
-      width="40%">
-      <el-form :inline="true" :model="goodsQueryForm" class="demo-form-inline">
+      width="70%">
+      <el-form :inline="true" :model="skuQueryForm" class="demo-form-inline">
         <el-col :span="20">
           <el-form-item>
-            <el-input v-model="goodsQueryForm.goodsName" placeholder="商品名称"></el-input>
+            <el-input v-model="skuQueryForm.sku_name" placeholder="商品名称"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" plain icon="el-icon-search" @click="handleQueryGoods">搜索</el-button>
+            <el-button type="primary" plain icon="el-icon-search" @click="handleQuerySku">搜索</el-button>
           </el-form-item>
         </el-col>
 
@@ -150,38 +151,59 @@
       </el-form>
 
       <el-table
-        :data="goodsTableData"
+        :data="skuTableData"
         border
-        ref="goodsMultiTable"
-        @selection-change="handleGoodsSelectionChange"
-        id="goodsTable"
+        ref="multipleTable"
+        @selection-change="handleSkuSelectionChange"
+        @row-click="handleRowClick"
       >
         <el-table-column
           type="selection"
           width="55">
         </el-table-column>
         <el-table-column
-          prop="goodsName"
+          label="商品图片"
+          min-width="10">
+          <template slot-scope="scope">
+            <img :src="scope.row.pic_url"/>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="spu_code"
+          label="商品编号"
+          min-width="10">
+        </el-table-column>
+        <el-table-column
+          prop="spu_name"
           label="商品名称"
-          min-width="20%">
+          min-width="10">
+        </el-table-column>
+
+        <el-table-column
+          prop="specs"
+          label="规格"
+          min-width="20">
         </el-table-column>
         <el-table-column
-          prop="goodsSn"
-          label="货号"
-          min-width="20%">
-        </el-table-column>
-        <el-table-column
-          prop="goodsPrice"
+          prop="sku_price"
           label="价格"
-          min-width="20%">
+          min-width="10">
+          <template slot-scope="scope">
+            {{scope.row.price|moneyFormat }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="stock"
+          label="库存"
+          min-width="10">
         </el-table-column>
       </el-table>
       <pagination
         v-show="pagination.total>0"
         :total="pagination.total"
-        :page.sync="pagination.pageNum"
-        :limit.sync="pagination.pageSize"
-        @pagination="handleQueryGoods"
+        :page.sync="pagination.page"
+        :limit.sync="pagination.limit"
+        @pagination="handleQuerySku"
       />
     </el-dialog>
 
@@ -189,8 +211,8 @@
 </template>
 
 <script>
-  import {list, page, postObj} from '@/api/sms/seckill/spu'
-  import {list as spikePeriodList} from '@/api/sms/seckill/session'
+  import {skuPageList,skuAdd,skuList} from '@/api/sms/seckill/sku'
+  import {sessionList} from '@/api/sms/seckill/session'
 
   export default {
     data() {
@@ -198,61 +220,65 @@
         // 选中数组
         ids: [],
         pagination: {
-          pageNum: 1,
-          pageSize: 10,
+          page: 1,
+          limit: 10,
           total: 0
         },
-        goodsQueryForm: {
-          goodsName: undefined
+        skuQueryForm: {
+          sku_name: undefined
         },
-        goodsTableData: [],
+        skuTableData: [],
         dialog: {
           title: '',
           visible: false,
         },
-        goodsDialog: {
+        skuDialog: {
           title: '',
           visible: false
         },
         rules: {
-          spikePrice: [{
+          seckil_price: [{
             required: true, message: '请填写秒杀价格', trigger: 'blur'
           }],
-          spikeCount: [{
+          seckill_count: [{
             required: true, message: '请填写秒杀数量', trigger: 'blur'
           }],
-          spikeLimit: [{
+          seckill_limit: [{
             required: true, message: '请填写秒杀数量', trigger: 'blur'
           }]
         },
-        spikePeriodOptions: [], // 秒杀时间段下拉数据
-        selectedGoods: [], // 新增选中的商品
+        sessionOptions: [], // 秒杀时间段下拉数据
+        selectedSkuList: [], // 新增选中的商品
         form: {
-          spikeId: undefined,
-          spikePeriodId: undefined,
-          spikePeriodGoodsList: []
+          promotion_id: undefined,
+          promotion_session_id: undefined,
+          sku_list: []
         },
-        spikeTitle: undefined
+        title: undefined
       }
     },
     created() {
-      this.form.spikeId = this.$route.query.spikeId
-      this.spikeTitle = this.$route.query.spikeTitle
+      this.form.promotion_id = this.$route.query.id
+      this.title = this.$route.query.title
       // 秒杀活动时间段数据加载
-      spikePeriodList().then(response => {
+      sessionList().then(response => {
         if (response.data && response.data.length > 0) {
-          this.spikePeriodOptions = response.data
-          this.form.spikePeriodId = response.data[0].id
+          this.sessionOptions = response.data
+          this.form.promotion_session_id = response.data[0].id
           this.handleQuery()
         }
       })
     },
     methods: {
       handleQuery() {
-        this.form.spikePeriodGoodsList = []
-        if (this.form.spikeId && this.form.spikePeriodId) {
-          list(this.form.spikeId, this.form.spikePeriodId).then(response => {
-            this.form.spikePeriodGoodsList = response.data
+        this.form.sku_list = []
+        if (this.form.promotion_id && this.form.promotion_session_id) {
+          let param={
+            promotion_id:this.form.promotion_id,
+            promotion_session_id:this.form.promotion_session_id
+          }
+          skuList(param).then(response => {
+            this.form.sku_list = response.data
           })
         }
       },
@@ -260,95 +286,103 @@
         this.handleQuery()
       },
       // 活动时间段下拉change事件
-      handleSelectSpikePeriodChange(val) {
-        this.form.spikePeriodGoodsList = []
-        const spikePeriodId = val
-        if (this.form.spikeId && spikePeriodId) {
-          list(this.form.spikeId, spikePeriodId).then(response => {
-            this.form.spikePeriodGoodsList = response.data
+      handleSelectSessionChange(val) {
+        this.form.sku_list = []
+        const promotion_session_id = val
+        if (this.form.promotion_id && promotion_session_id) {
+          let param={
+            promotion_id:this.form.promotion_id,
+            promotion_session_id:promotion_session_id
+          }
+          skuList(param).then(response => {
+            this.form.sku_list = response.data
           })
         }
       },
+      handleRowClick(row) {
+        this.$refs.multipleTable.toggleRowSelection(row);
+      },
       handleSubmit() {
-        this.$refs["spikePeriodGoodsForm"].validate((valid) => {
+        this.$refs["skuForm"].validate((valid) => {
           if (valid) {
-            postObj(this.form).then(response => {
+            skuAdd(this.form).then(response => {
               this.$message.success(response.msg)
               this.handleQuery()
             })
           }
         })
       },
-      handleOpenSelectGoods() {
-        if (!this.form.spikePeriodId) {
+      showSelectSkuDialog() {
+        if (!this.form.promotion_session_id) {
           this.$message.warning("请选先择秒杀活动时间段")
           return
         }
-        this.goodsDialog = {
+        this.skuDialog = {
           title: "选择商品",
           visible: true
         }
-        this.handleQueryGoods()
+        this.handleQuerySku()
       },
-      closeGoodsDialog() {
-        this.goodsDialog = {
+      closeSkuDialog() {
+        this.skuDialog = {
           title: '',
           visible: false
         }
       },
-      handleQueryGoods() {
-        page(this.pagination.pageNum, this.pagination.pageSize, this.goodsQueryForm).then(response => {
-          this.goodsTableData = response.data.records
+      handleQuerySku() {
+        skuPageList(this.pagination.page, this.pagination.limit, this.skuQueryForm).then(response => {
+          this.skuTableData = response.data.records
           this.pagination.total = response.data.total
         })
       },
-      handleGoodsSelectionChange(selection) {  // 商品选择
-        this.selectedGoods = selection
+      handleSkuSelectionChange(selection) {  // 商品选择
+        this.selectedSkuList = selection
       },
       handleConfirmSelectedGoods() { //确认选择
-        if (this.selectedGoods.length <= 0) {
+        if (this.selectedSkuList.length <= 0) {
           this.$message.warning("请选择要添加的商品")
           return
         }
-        // 校验添加的商品是否重复
-        let repeatGoods = []
-        let tempSpikeGoodsList = this.form.spikePeriodGoodsList
-        this.selectedGoods.forEach(item => {
+        // 重复的sku_id集合
+        let repeatSkuIds = []
+        let skuList = this.form.sku_list
+        this.selectedSkuList.forEach(item => {
           let flag = false  //是否被过滤标识
-          for (let i = 0; i < tempSpikeGoodsList.length; i++) {
-            if (item.goodsId === tempSpikeGoodsList[i].goodsId) { // 重复添加的商品
-              console.log(item.goodsId)
-              repeatGoods.push(item.goodsName)
+          for (let i = 0; i < skuList.length; i++) {
+            if (item.id === skuList[i].sku_id) { // 重复添加的商品
+              repeatSkuIds.push(item.id)
               flag = true
             }
           }
           if (flag === false) {
-            let selectedGoods = {
-              id: undefined,
-              goodsId: item.goodsId,
-              goodsName: item.goodsName,
-              goodsPrice: item.goodsPrice,
-              goodsStock: item.goodsStock,
-              goodsSn: item.goodsSn,
-              spikePrice: 0,
-              spikeCount: 0,
-              spikeLimit: 0,
-              sort: 1,
+            let selectedSku = {
+              id:undefined,
+              sku_id: item.id,
+              price: item.price,
+              stock: item.stock,
+              seckill_price: 0,
+              seckill_count: 0,
+              seckill_limit: 0,
+              sort: 0,
+              spu_code:item.spu_code,
+              spu_name:item.spu_name,
+              pic_url:item.pic_url,
+              specs: item.specs,
             }
-            this.form.spikePeriodGoodsList.push(selectedGoods)
+            this.form.sku_list.push(selectedSku)
           }
         })
-        this.closeGoodsDialog()
-        if (repeatGoods.length > 0) {
-          this.$alert('已自动过滤重复商品：' + repeatGoods.join(','), '商品重复提示', {
+        this.closeSkuDialog()
+        if (repeatSkuIds.length > 0) {
+          this.$alert('已自动过滤重复商品：' + repeatSkuIds.join(','), '商品重复提示', {
             confirmButtonText: '确定',
             callback: () => {
             }
           })
         }
       },
-      handleRemoveSpikeGoods(index) {
-        this.form.spikePeriodGoodsList.splice(index, 1)
+      handleRemoveSku(index) {
+        this.form.sku_list.splice(index, 1)
       }
     }
   }

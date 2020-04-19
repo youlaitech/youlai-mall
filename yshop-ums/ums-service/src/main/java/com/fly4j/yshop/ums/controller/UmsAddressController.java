@@ -37,7 +37,7 @@ public class UmsAddressController extends BaseController {
             @PathVariable Integer limit,
             String name
     ) {
-        Page<UmsAddress> data = (Page<UmsAddress>) iUmsAddressService.page(new Page<>(page, limit),
+        Page<UmsAddress> data = iUmsAddressService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<UmsAddress>()
                         .eq(StrUtil.isNotBlank(name), UmsAddress::getName, name)
                         .orderByDesc(UmsAddress::getCreate_time));

@@ -32,16 +32,16 @@
       <el-table-column
         prop="id"
         label="编号"
-        min-width="5%">
+        min-width="10">
       </el-table-column>
       <el-table-column
         prop="name"
         label="广告名称"
-        min-width="11%">
+        min-width="10">
       </el-table-column>
       <el-table-column
         label="广告图片"
-        min-width="11%">
+        min-width="10">
         <template slot-scope="scope">
           <el-popover
             placement="right"
@@ -56,17 +56,17 @@
       <el-table-column
         prop="start_time"
         label="开始时间"
-        min-width="11%">
+        min-width="10">
       </el-table-column>
       <el-table-column
         prop="end_time"
         label="到期时间"
-        min-width="11%">
+        min-width="10">
       </el-table-column>
       <el-table-column
         prop="status"
         label="上线/下线"
-        min-width="11%">
+        min-width="10">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.status"
@@ -79,7 +79,7 @@
       <el-table-column
         prop="sort"
         label="排序"
-        min-width="11%">
+        min-width="10">
       </el-table-column>
       <el-table-column label="操作" min-width="15%">
         <template slot-scope="scope">
@@ -101,8 +101,8 @@
     <pagination
       v-show="pagination.total>0"
       :total="pagination.total"
-      :page.sync="pagination.pageNum"
-      :limit.sync="pagination.pageSize"
+      :page.sync="pagination.page"
+      :limit.sync="pagination.limit"
       @pagination="handleQuery"/>
     <!-- 分页工具条::end -->
 
@@ -176,8 +176,8 @@
         // 非多个禁用
         multiple: true,
         pagination: {
-          pageNum: 1,
-          pageSize: 10,
+          page: 1,
+          limit: 10,
           total: 0
         },
         queryParams: {
@@ -220,15 +220,15 @@
     },
     methods: {
       handleQuery() {
-        adPageList(this.pagination.pageNum, this.pagination.pageSize, this.queryParams).then(response => {
+        adPageList(this.pagination.page, this.pagination.limit, this.queryParams).then(response => {
           this.tableData = response.data.records
           this.pagination.total = response.data.total
         })
       },
       resetQuery() {
         this.pagination = {
-          pageNum: 1,
-          pageSize: 10,
+          page: 1,
+          limit: 10,
           total: 0
         }
         this.queryParams = {

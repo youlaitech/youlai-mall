@@ -1,39 +1,39 @@
 import request from '@/utils/request'
 
-export function spuPageList(page, limit, queryParams) {
+export function skuPageList(page, limit, queryParams) {
   return request({
-    url: '/pms/spus/page/' + page + "/limit/" + limit,
+    url: '/pms/skus/page/' + page + "/limit/" + limit,
     method: 'get',
     params: queryParams
   });
 }
 
-export function spuAdd(data) {
+export function skuAdd(data) {
   return request({
-    url: '/pms/spus',
+    url: '/pms/skus',
     method: 'post',
     data: data
   });
 }
 
-export function spuDetail(id) {
+export function skuDetail(id) {
   return request({
-    url: '/pms/spus/' + id,
+    url: '/pms/skus/' + id,
     method: 'get'
   })
 }
 
-export function spuUpdate(id, data) {
+export function skuUpdate(id, data) {
   return request({
-    url: '/pms/spus/' + id,
+    url: '/pms/skus/' + id,
     method: 'put',
     data: data
   })
 }
 
-export function spuDelete(ids) {
+export function skuDelete(ids) {
   return request({
-    url: '/pms/spus',
+    url: '/pms/skus',
     method: 'delete',
     params: ids
   })
