@@ -39,7 +39,7 @@ public class SmsSeckillPromotionController extends BaseController {
             @PathVariable Integer limit,
             String title
     ) {
-        Page<SmsSeckillPromotion> data = (Page<SmsSeckillPromotion>) iSmsSeckillPromotionService.page(new Page<>(page, limit),
+        Page<SmsSeckillPromotion> data = iSmsSeckillPromotionService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<SmsSeckillPromotion>()
                         .like(StrUtil.isNotBlank(title), SmsSeckillPromotion::getTitle, title)
                         .orderByDesc(SmsSeckillPromotion::getCreate_time));

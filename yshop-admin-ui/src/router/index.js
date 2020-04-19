@@ -62,7 +62,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard'),
-      meta: {title: 'Dashboard', icon: 'dashboard'}
+      meta: {title: '首页', icon: 'dashboard'}
     }]
   },
 
@@ -154,9 +154,9 @@ export const constantRoutes = [
     alwaysShow: true,
     children: [
       {
-        path: 'seckill',
-        name: 'seckill',
-        component: () => import('@/views/sms/seckill'),
+        path: 'seckillPromotion',
+        name: 'seckillPromotion',
+        component: () => import('@/views/sms/seckill/promotion'),
         meta: {title: '秒杀活动', icon: 'setting'}
       },
       {
@@ -167,9 +167,9 @@ export const constantRoutes = [
         hidden: true
       },
       {
-        path: 'seckillSpu',
-        name: 'seckillSpu',
-        component: () => import('@/views/sms/seckill/spu'),
+        path: 'seckillSku',
+        name: 'seckillSku',
+        component: () => import('@/views/sms/seckill/sku'),
         meta: {title: '秒杀商品'},
         hidden: true
       },

@@ -12,8 +12,7 @@ import java.util.Date;
 @Data
 public class SmsSeckillPromotion extends BaseEntity {
 
-  @TableId(type = IdType.ID_WORKER)
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
+  @TableId(type = IdType.ASSIGN_ID)
   private Long id;
   private String title;
   private Date start_time;

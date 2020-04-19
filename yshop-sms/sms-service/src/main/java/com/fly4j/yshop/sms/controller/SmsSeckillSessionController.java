@@ -39,7 +39,7 @@ public class SmsSeckillSessionController extends BaseController {
             @PathVariable Integer limit,
             String name
     ) {
-        Page<SmsSeckillSession> data = (Page<SmsSeckillSession>) iSmsSeckillSessionService.page(new Page<>(page, limit),
+        Page<SmsSeckillSession> data = iSmsSeckillSessionService.page(new Page<>(page, limit),
                 new LambdaQueryWrapper<SmsSeckillSession>()
                         .like(StrUtil.isNotBlank(name), SmsSeckillSession::getName, name)
                         .orderByDesc(SmsSeckillSession::getCreate_time));
@@ -79,8 +79,8 @@ public class SmsSeckillSessionController extends BaseController {
             @ApiImplicitParam(name = "smsSeckill", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsSeckill")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody SmsSeckillSession smsSeckillPromotion) {
-        boolean status = iSmsSeckillSessionService.updateById(smsSeckillPromotion);
+    public R update(@PathVariable("id") Long id, @RequestBody SmsSeckillSession smsSeckillsession) {
+        boolean status = iSmsSeckillSessionService.updateById(smsSeckillsession);
         return status ? R.ok(null) : R.failed("更新失败");
     }
 
@@ -98,7 +98,7 @@ public class SmsSeckillSessionController extends BaseController {
             @ApiImplicitParam(name = "status", value = "显示状态", required = true, paramType = "path", dataType = "Integer")
     })
     @PutMapping("/id/{id}/status/{status}")
-    public R updateStatus(@PathVariable Integer id, @PathVariable Integer status) {
+    public R updateStatus(@PathVariable Long id, @PathVariable Integer status) {
         boolean result = iSmsSeckillSessionService.update(new LambdaUpdateWrapper<SmsSeckillSession>()
                 .eq(SmsSeckillSession::getId, id)
                 .set(SmsSeckillSession::getStatus, status));

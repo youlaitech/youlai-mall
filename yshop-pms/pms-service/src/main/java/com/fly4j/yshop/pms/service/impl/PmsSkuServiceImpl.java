@@ -2,8 +2,10 @@ package com.fly4j.yshop.pms.service.impl;
 
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly4j.yshop.pms.mapper.PmsSkuMapper;
+import com.fly4j.yshop.pms.pojo.dto.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.entity.PmsSkuLock;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -84,5 +87,11 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
             notLockSkus.add(skuLockVO);
         }
         lock.unlock();
+    }
+
+
+    @Override
+    public Page<PmsSkuDTO> selectPage(Map<String, Object> params, Page<PmsSku> page) {
+        return this.baseMapper.page(params,page);
     }
 }

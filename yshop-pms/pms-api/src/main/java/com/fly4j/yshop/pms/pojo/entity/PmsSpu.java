@@ -14,12 +14,15 @@ import java.math.BigDecimal;
 @Data
 public class PmsSpu extends BaseEntity {
 
-    @TableId(type = IdType.ID_WORKER)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "主键id", hidden = true)
     private Long id;
 
     @ApiModelProperty(value = "商品名称")
     private String name;
+
+    @ApiModelProperty(value = "商品编号")
+    private String code;
 
     @ApiModelProperty(value = "分类ID")
     private Long category_id;
