@@ -32,4 +32,6 @@ public class AppSpuDTO {
     @ApiModelProperty("商品属性列表")
     private List<PmsAttribute> attribute_list;
 
+    private AppSkuDTO sku;
+
 }
