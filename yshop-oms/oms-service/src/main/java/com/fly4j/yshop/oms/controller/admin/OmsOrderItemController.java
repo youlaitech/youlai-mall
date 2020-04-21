@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "订单明细接口")
+@Api(tags = "订单明细API")
 @RestController
 @RequestMapping("/orderItems")
 @Slf4j

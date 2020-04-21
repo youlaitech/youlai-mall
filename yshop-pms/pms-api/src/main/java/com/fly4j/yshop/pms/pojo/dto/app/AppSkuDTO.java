@@ -24,10 +24,6 @@ public class AppSkuDTO {
     // 默认价格（单位元）
     private String price;
     private Integer stock_num;
-    // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
-    private Long collection_id;
-    // 是否无规格商品
-    private Boolean none_sku;
 
     @Data
     public static class Tree{
@@ -81,7 +77,5 @@ public class AppSkuDTO {
             return "0";
         }
     }
-
-
 
 }

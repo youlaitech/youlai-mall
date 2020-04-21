@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.feign.PmsFeign;
-import com.fly4j.yshop.pms.pojo.dto.PmsSkuDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import com.fly4j.yshop.sms.pojo.dto.SmsSeckillSessionSkuDTO;
 import com.fly4j.yshop.sms.pojo.entity.SmsSeckillSessionSku;
 import com.fly4j.yshop.sms.service.ISmsSeckillSessionSkuService;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "秒杀商品接口")
+@Api(tags = "秒杀商品API")
 @RestController
 @RequestMapping("/seckill/skus")
 @Slf4j

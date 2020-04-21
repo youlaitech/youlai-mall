@@ -1,4 +1,4 @@
-package com.fly4j.yshop.pms.pojo.dto;
+package com.fly4j.yshop.pms.pojo.dto.admin;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 
-@Api(tags = "品牌接口")
+@Api(tags = "品牌API")
 @RestController
 @RequestMapping("/brands")
 @Slf4j

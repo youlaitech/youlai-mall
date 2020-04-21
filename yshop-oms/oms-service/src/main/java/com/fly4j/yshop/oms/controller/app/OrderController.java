@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-@Api(tags="APP订单接口")
+@Api(tags="APP订单API")
 @RestController
 @RequestMapping("/api.app/v1/orders")
 public class OrderController {

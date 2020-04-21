@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.fly4j.common.constant.Constants;
 import com.fly4j.common.core.controller.BaseController;
-import com.fly4j.yshop.pms.pojo.dto.PmsCategoryDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsCategoryDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsCategory;
 import com.fly4j.yshop.pms.pojo.vo.CascaderVO;
 import com.fly4j.yshop.pms.service.IPmsCategoryService;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
 
-@Api(tags = "分类接口")
+@Api(tags = "分类API")
 @RestController
 @RequestMapping("/categories")
 @Slf4j

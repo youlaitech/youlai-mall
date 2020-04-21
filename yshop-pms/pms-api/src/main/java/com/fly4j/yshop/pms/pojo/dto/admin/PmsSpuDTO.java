@@ -1,4 +1,4 @@
-package com.fly4j.yshop.pms.pojo.dto;
+package com.fly4j.yshop.pms.pojo.dto.admin;
 import com.fly4j.yshop.pms.pojo.entity.PmsAttribute;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.entity.PmsSpec;

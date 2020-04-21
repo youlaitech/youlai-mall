@@ -19,7 +19,7 @@ import java.io.IOException;
 /**
  * Created by XianRui on 2020-03-03 17:16
  **/
-@Api(tags = "文件接口")
+@Api(tags = "文件API")
 @RestController
 @RequestMapping("/files")
 @Slf4j

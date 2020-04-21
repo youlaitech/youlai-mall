@@ -2,7 +2,7 @@ package com.fly4j.yshop.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.yshop.pms.pojo.dto.PmsSkuDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import org.apache.ibatis.annotations.Select;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;

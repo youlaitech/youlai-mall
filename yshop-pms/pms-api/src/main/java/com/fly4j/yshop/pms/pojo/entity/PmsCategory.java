@@ -10,15 +10,13 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class PmsCategory extends BaseEntity {
-    @TableId(type = IdType.ID_WORKER)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private String name;
     private String description;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private String icon_url;
     private Long parent_id;
     private Integer level;
-    private String icon_url;
     private String pic_url;
     private Integer sort;
     private Integer is_show;

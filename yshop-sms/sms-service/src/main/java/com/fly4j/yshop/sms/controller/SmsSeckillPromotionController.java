@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "秒杀活动接口")
+@Api(tags = "秒杀活动API")
 @RestController
 @RequestMapping("/seckill/promotions")
 @Slf4j
