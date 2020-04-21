@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-@Api(tags = "订单接口")
+@Api(tags = "订单API")
 @RestController
 @RequestMapping("/orders")
 @Slf4j

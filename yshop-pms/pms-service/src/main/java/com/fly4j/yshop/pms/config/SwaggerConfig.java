@@ -39,7 +39,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("有来小店API")
+                .title("juxingtech")
                 .contact(new Contact("fly4j", "https://www.youlai.store", "youlaistore@163.com"))
                 .version("1.0.0")
                 .build();

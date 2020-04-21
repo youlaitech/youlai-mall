@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "会员接口")
+@Api(tags = "会员API")
 @RestController
 @RequestMapping("/users")
 @Slf4j

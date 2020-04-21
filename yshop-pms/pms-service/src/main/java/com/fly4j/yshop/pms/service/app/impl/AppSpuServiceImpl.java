@@ -7,8 +7,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly4j.yshop.pms.mapper.PmsSpuMapper;
+import com.fly4j.yshop.pms.pojo.dto.app.AppAttributeDTO;
 import com.fly4j.yshop.pms.pojo.dto.app.AppSkuDTO;
-import com.fly4j.yshop.pms.pojo.dto.app.AppSpuDTO;
+import com.fly4j.yshop.pms.pojo.dto.app.AppGoodsDetailDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsAttribute;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.entity.PmsSpec;
@@ -18,6 +19,7 @@ import com.fly4j.yshop.pms.service.IPmsSkuService;
 import com.fly4j.yshop.pms.service.IPmsSpecService;
 import com.fly4j.yshop.pms.service.app.IAppSpuService;
 import org.apache.commons.lang3.StringUtils;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +42,12 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     @Autowired
     private IPmsSkuService iPmsSkuService;
 
+    @Autowired
+    private DozerBeanMapper dozerBeanMapper;
+
     @Override
-    public AppSpuDTO getSpuDetail(Long id) {
-        AppSpuDTO spuDTO = new AppSpuDTO();
+    public AppGoodsDetailDTO getGoodsDetail(Long id) {
+        AppGoodsDetailDTO spuDTO = new AppGoodsDetailDTO();
 
         // 1、基本信息
         PmsSpu spu = this.baseMapper.selectById(id);
@@ -58,10 +63,15 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 2、属性列表
         List<PmsAttribute> attributeList = iPmsAttributeService
                 .list(new LambdaQueryWrapper<PmsAttribute>().eq(PmsAttribute::getSpu_id, id));
-        spuDTO.setAttribute_list(attributeList);
+        List<AppAttributeDTO> attributeDTOList = new ArrayList<>();
+        if (attributeList != null && attributeList.size() > 0) {
+            attributeDTOList = attributeList.stream().map(item -> dozerBeanMapper.map(item, AppAttributeDTO.class))
+                    .collect(Collectors.toList());
+        }
+        spuDTO.setAttribute_list(attributeDTOList);
 
         // 3、SKU列表
-        AppSkuDTO appSkuDTO=new AppSkuDTO();
+        AppSkuDTO appSkuDTO = new AppSkuDTO();
         List<PmsSpec> specList = iPmsSpecService.list(new LambdaQueryWrapper<PmsSpec>().eq(PmsSpec::getSpu_id, id));
         Map<String, List<PmsSpec>> specMap = new HashMap<>();
         for (int i = 0; i < specList.size(); i++) {
@@ -107,7 +117,6 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         appSkuDTO.setTree(treeList);
 
         List<AppSkuDTO.Sku> list = new ArrayList<>();
-
         List<PmsSku> pmsSkuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpu_id, id));
         List<List<String>> skuSpecListList = pmsSkuList.stream().map(item -> JSON.parseArray(item.getSpecs(), String.class))
                 .collect(Collectors.toList());
@@ -122,7 +131,7 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                                 if (skuSpecListList.get(m).size() >= 1) {
                                     sku.setId(pmsSkuList.get(m).getId());
                                     sku.setPrice(pmsSkuList.get(m).getPrice());
-                                    sku.setStock_num(pmsSkuList.get(m).getStock()-pmsSkuList.get(m).getStock_locked());
+                                    sku.setStock_num(pmsSkuList.get(m).getStock() - pmsSkuList.get(m).getStock_locked());
                                     sku.setS1("0");
                                     sku.setS2("0");
                                     sku.setS3("0");
@@ -152,7 +161,7 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                                     );
                                 }
                             }
-                            if(sku.getId()!=null){
+                            if (sku.getId() != null) {
                                 list.add(sku);
                             }
                         }

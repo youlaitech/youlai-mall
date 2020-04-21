@@ -3,7 +3,7 @@ package com.fly4j.yshop.pms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly4j.yshop.pms.mapper.PmsSpuMapper;
-import com.fly4j.yshop.pms.pojo.dto.PmsSpuDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsSpuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsAttribute;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.entity.PmsSpec;

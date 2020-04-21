@@ -8,9 +8,7 @@ import lombok.Data;
 
 @Data
 public class PmsAttribute extends BaseEntity {
-
-    @TableId(type = IdType.ID_WORKER)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private Long spu_id;
     private String name;

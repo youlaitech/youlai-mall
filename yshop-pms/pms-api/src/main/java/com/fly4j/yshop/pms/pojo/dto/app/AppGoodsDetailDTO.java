@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
 @Data
 @ApiModel
 @Accessors
-public class AppSpuDTO {
+public class AppGoodsDetailDTO {
 
     private Long id;
 
@@ -29,8 +30,12 @@ public class AppSpuDTO {
 
     private String detail;
 
+    private BigDecimal price;
+
+    private Integer sales_volume;
+
     @ApiModelProperty("商品属性列表")
-    private List<PmsAttribute> attribute_list;
+    private List<AppAttributeDTO> attribute_list;
 
     private AppSkuDTO sku;
 

@@ -4,7 +4,7 @@ package com.fly4j.yshop.pms.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fly4j.yshop.pms.pojo.dto.PmsSkuDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 

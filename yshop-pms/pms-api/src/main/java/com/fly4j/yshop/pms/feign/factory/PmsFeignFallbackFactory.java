@@ -3,7 +3,7 @@ package com.fly4j.yshop.pms.feign.factory;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.yshop.pms.feign.PmsFeign;
-import com.fly4j.yshop.pms.pojo.dto.PmsSkuDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import feign.hystrix.FallbackFactory;
 
 public class PmsFeignFallbackFactory implements FallbackFactory<PmsFeign> {

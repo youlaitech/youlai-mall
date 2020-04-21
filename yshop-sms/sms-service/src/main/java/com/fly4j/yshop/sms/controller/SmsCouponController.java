@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "优惠券接口")
+@Api(tags = "优惠券API")
 @RestController
 @RequestMapping("/coupons")
 @Slf4j

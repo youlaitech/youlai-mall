@@ -1,10 +1,9 @@
 package com.fly4j.yshop.pms.controller.admin;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
-import com.fly4j.yshop.pms.pojo.dto.PmsSkuDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.service.IPmsSkuService;
 import io.swagger.annotations.Api;
@@ -23,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/skus")
 @Slf4j
-@Api(tags = "商品SKU接口")
+@Api(tags = "商品SKUAPI")
 public class PmsSkuController extends BaseController {
 
     @Resource

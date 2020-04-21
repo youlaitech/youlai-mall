@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly4j.common.constant.Constants;
 import com.fly4j.yshop.pms.mapper.PmsCategoryMapper;
-import com.fly4j.yshop.pms.pojo.dto.PmsCategoryDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsCategoryDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsCategory;
 import com.fly4j.yshop.pms.pojo.vo.CascaderVO;
 import com.fly4j.yshop.pms.service.IPmsCategoryService;

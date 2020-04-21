@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "秒杀活动时间段接口")
+@Api(tags = "秒杀活动时间段API")
 @RestController
 @RequestMapping("/seckill/sessions")
 @Slf4j

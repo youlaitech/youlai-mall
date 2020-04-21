@@ -2,7 +2,7 @@ package com.fly4j.yshop.pms.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fly4j.yshop.pms.pojo.dto.PmsCategoryDTO;
+import com.fly4j.yshop.pms.pojo.dto.admin.PmsCategoryDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsCategory;
 import com.fly4j.yshop.pms.pojo.vo.CascaderVO;
 
