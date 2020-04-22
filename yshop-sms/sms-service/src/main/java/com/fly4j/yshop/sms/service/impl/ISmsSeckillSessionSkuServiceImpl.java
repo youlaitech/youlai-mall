@@ -3,7 +3,7 @@ package com.fly4j.yshop.sms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fly4j.yshop.sms.mapper.SmsSeckillSessionSkuMapper;
-import com.fly4j.yshop.sms.pojo.dto.SmsSeckillSessionSkuDTO;
+import com.fly4j.yshop.sms.pojo.dto.admin.SmsSeckillSessionSkuDTO;
 import com.fly4j.yshop.sms.pojo.entity.SmsSeckillSessionSku;
 import com.fly4j.yshop.sms.service.ISmsSeckillSessionSkuService;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author fly2021【xianrui0365@163.com】

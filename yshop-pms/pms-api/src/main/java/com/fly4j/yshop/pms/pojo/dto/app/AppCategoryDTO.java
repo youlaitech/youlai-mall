@@ -16,4 +16,5 @@ public class AppCategoryDTO {
     private String name;
     private String description;
     private String icon_url;
+    private String pic_url;
 }

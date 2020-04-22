@@ -1,4 +1,4 @@
-package com.fly4j.yshop.sms.pojo.dto;
+package com.fly4j.yshop.sms.pojo.dto.admin;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fly4j.yshop.sms.pojo.entity.SmsSeckillSessionSku;

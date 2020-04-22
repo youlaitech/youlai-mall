@@ -1,4 +1,4 @@
-package com.fly4j.yshop.sms.controller;
+package com.fly4j.yshop.sms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

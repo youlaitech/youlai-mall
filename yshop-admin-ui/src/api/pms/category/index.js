@@ -28,7 +28,7 @@ export function categoryDelete(ids) {
   return request({
     url: '/pms/categories',
     method: 'delete',
-    params: ids
+    params: {ids:ids}
   })
 }
 
