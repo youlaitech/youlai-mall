@@ -1,6 +1,5 @@
 package com.fly4j.yshop.oms.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,12 +15,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +40,6 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     private static final String TOKEN_PREFIX = "order:token:";
 
 
-
     /**
      * 提交订单
      * @param orderDTO
@@ -57,33 +52,37 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
          *  1. 验证令牌，是否重复提交
          */
         String orderToken = orderDTO.getOrder_token();
-        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-        Long flag = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Arrays.asList(TOKEN_PREFIX + orderToken), orderToken);
-        if (flag == 0L) {
-            return R.failed("订单不可重复提交");
-        }
+//        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+//        Long flag = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Arrays.asList(TOKEN_PREFIX + orderToken), orderToken);
+//        if (flag == 0L) {
+//            return R.failed("订单不可重复提交");
+//        }
 
         /**
          * 2. 验证价格,防止用户在订单页面停留太久，导致的价格不一致
          */
-        BigDecimal totalPrice = orderDTO.getOrder().getTotal_amount();
         List<OmsOrderItem> orderItems = orderDTO.getOrder_item_list();
         // 如果没有订单清单，直接返回
         if (CollectionUtils.isEmpty(orderItems)){
             return R.failed("请选择商品再提交");
         }
 
-//        BigDecimal currentPrice = new BigDecimal(0);
-//        for (OmsOrderItem orderItem : orderItems) {
-//            R<PmsSku> skuInfoResp = pmsAppFeign.getSkuById(orderItem.getSku_id());
-//            PmsSku skuInfo = skuInfoResp.getData();
-//            BigDecimal decimal = skuInfo.getPrice().multiply(new BigDecimal(orderItem.getSku_quantity()));
-//            currentPrice = currentPrice.add(decimal);
-//        }
+//        BigDecimal currentTotalPrice = orderItems.stream().map(item -> {
+//            // 查询数据库中商品的价格
+//            R<PmsSku> pmsSku = pmsAppFeign.getSkuById(item.getSku_id());
+//            PmsSku skuInfo = pmsSku.getData();
+//            if (skuInfo == null) {
+//                return new BigDecimal("0");
+//            }
+//            return skuInfo.getPrice().multiply(new BigDecimal(item.getSku_quantity()));
+//        }).reduce(new BigDecimal("0"), BigDecimal::add);
+//
 //        // 如果价格不同，直接返回
-//        if (totalPrice.compareTo(currentPrice) != 0) {
+//        if (currentTotalPrice.compareTo(orderDTO.getOrder().getTotal_amount()) != 0) {
 //            return R.failed("页面已过期,请刷新后重试");
 //        }
+
+
 
         /**
          * 3. 验库存，并锁库存
@@ -101,7 +100,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
 
         // 锁定失败
         if (SkuLockList.getCode() == 1) {
-           return R.failed("锁定失败");
+            return R.failed("锁定失败");
         }
         // 锁定成功，获取锁定的结果集
 
@@ -170,12 +169,4 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         return this.stringRedisTemplate.opsForValue().get(TOKEN_PREFIX + token);
     }
 
-    @Override
-    public int closeOrder(String orderToken) {
-        OmsOrder orderEntity = this.getOne(new QueryWrapper<OmsOrder>().eq("order_sn", orderToken));
-        if (orderEntity!=null&& orderEntity.getStatus().equals(0)) {
-            return this.baseMapper.updateStatus(orderToken, 4);
-        }
-        return 0;
-    }
 }

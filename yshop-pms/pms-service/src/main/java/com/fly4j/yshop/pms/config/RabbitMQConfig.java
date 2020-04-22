@@ -31,7 +31,7 @@ public class RabbitMQConfig {
 	 */
 	@Bean("STOCK-TTL-BINDING")
 	public Binding ttlBinding(){
-		// 锁定库存后会发送一条routingKey=stock.lock的消息到ORDER-TTL-QUEUE,然后会被路由到延时队列ORDER-STOCK-EXCHANGE,延时队列没有消费者,到期后会将消息转发
+		// 锁定库存后会发送一条routingKey=stock.create的消息到STOCK-TTL-QUEUE,然后会被路由到延时队列STOCK-EXCHANGE,延时队列没有消费者,到期后会将消息转发
 		return new Binding("STOCK-TTL-QUEUE", Binding.DestinationType.QUEUE, "STOCK-EXCHANGE", "stock.create", null);
 	}
 
