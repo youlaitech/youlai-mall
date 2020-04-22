@@ -1,4 +1,4 @@
-package com.fly4j.yshop.sms.controller;
+package com.fly4j.yshop.sms.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.feign.PmsFeign;
 import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
-import com.fly4j.yshop.sms.pojo.dto.SmsSeckillSessionSkuDTO;
+import com.fly4j.yshop.sms.pojo.dto.admin.SmsSeckillSessionSkuDTO;
 import com.fly4j.yshop.sms.pojo.entity.SmsSeckillSessionSku;
 import com.fly4j.yshop.sms.service.ISmsSeckillSessionSkuService;
 import io.swagger.annotations.Api;

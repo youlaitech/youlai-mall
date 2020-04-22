@@ -17,8 +17,8 @@ public class PmsCategoryDTO implements Serializable {
   private Long parent_id;
   private Integer level;
   private String pic_url;
-  private Long sort;
-  private Long is_show;
+  private Integer sort;
+  private Integer is_show;
 
   private List<PmsCategoryDTO> children;
 }

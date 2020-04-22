@@ -35,6 +35,6 @@ export function spuDelete(ids) {
   return request({
     url: '/pms/spus',
     method: 'delete',
-    params: ids
+    params: {ids:ids}
   })
 }

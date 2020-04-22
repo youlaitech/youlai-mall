@@ -104,7 +104,7 @@ public class PmsCategoryController extends BaseController {
             @ApiImplicitParam(name = "is_show", value = "显示状态", required = true, paramType = "path", dataType = "Integer")
     })
     @PutMapping("/id/{id}/is_show/{is_show}")
-    public R updateIsShowStatus(@PathVariable Integer id, @PathVariable Integer is_show) {
+    public R updateIsShowStatus(@PathVariable Long id, @PathVariable Integer is_show) {
         boolean result = iPmsCategoryService.update(new LambdaUpdateWrapper<PmsCategory>()
                 .eq(PmsCategory::getId, id)
                 .set(PmsCategory::getIs_show, is_show));
