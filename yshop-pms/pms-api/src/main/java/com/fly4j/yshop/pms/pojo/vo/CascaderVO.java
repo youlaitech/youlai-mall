@@ -25,6 +25,5 @@ public class CascaderVO implements Serializable {
 
     /** 子节点 */
     @ApiModelProperty(name="子节点")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<CascaderVO> children;
 }

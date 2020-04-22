@@ -12,7 +12,7 @@
     <artifactId>oms-api</artifactId>
 
     <dependencies>
-        <!-- feign client -->
+        <!-- Feign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
