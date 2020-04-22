@@ -47,7 +47,7 @@ public class AppGoodsController {
     })
     @GetMapping()
     public R list(
-            @RequestParam(required = false) Integer category_id,
+            @RequestParam(required = false) Long category_id,
             @RequestParam(required = false) Integer limit,
             @RequestParam(required = false) Long is_hot,
             @RequestParam(required = false) Long is_new

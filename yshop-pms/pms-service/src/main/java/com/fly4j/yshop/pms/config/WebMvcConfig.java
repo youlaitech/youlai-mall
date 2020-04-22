@@ -48,7 +48,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 SerializerFeature.WriteMapNullValue, // 保留map空的字段
                 SerializerFeature.WriteNullStringAsEmpty, // 将String类型的null转成""
                 SerializerFeature.WriteNullNumberAsZero, // 将Number类型的null转成0
-                SerializerFeature.WriteNullListAsEmpty, // 将List类型的null转成[]
+                // SerializerFeature.WriteNullListAsEmpty, // 将List类型的null转成[]
                 SerializerFeature.WriteNullBooleanAsFalse, // 将Boolean类型的null转成false
                 SerializerFeature.WriteDateUseDateFormat,  //日期格式转换
                 SerializerFeature.DisableCircularReferenceDetect // 避免循环引用

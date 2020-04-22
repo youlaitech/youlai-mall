@@ -64,7 +64,6 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
         if (categoryList != null && categoryList.size() > 0) {
             List<PmsCategory> categoryListL1 = categoryList.stream()
                     .filter(category -> Constants.CATEGORY_LEVEL1.equals(category.getLevel())).collect(Collectors.toList());
-
             List<PmsCategory> categoryListL2 = categoryList.stream()
                     .filter(category -> Constants.CATEGORY_LEVEL2.equals(category.getLevel())).collect(Collectors.toList());
             categoryListL1.forEach(l1 -> {
@@ -78,7 +77,9 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
                                     .setLabel(l2.getName()
                                     )));
                 }
-                cascaderVO.setChildren(children);
+               if(children!=null){
+                   cascaderVO.setChildren(children);
+               }
                 cascadeList.add(cascaderVO);
             });
         }
