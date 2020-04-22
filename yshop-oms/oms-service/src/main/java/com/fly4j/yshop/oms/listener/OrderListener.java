@@ -1,6 +1,6 @@
 package com.fly4j.yshop.oms.listener;
 
-import com.fly4j.yshop.oms.service.IOmsOrderService;
+import com.fly4j.yshop.oms.mapper.OmsOrderMapper;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -15,7 +15,7 @@ import java.io.IOException;
 @Slf4j
 public class OrderListener {
     @Resource
-    private IOmsOrderService iOmsOrderService;
+    private OmsOrderMapper omsOrderMapper;
     @Resource
     private AmqpTemplate amqpTemplate;
 
@@ -27,7 +27,7 @@ public class OrderListener {
         System.out.println(" 订单提交后1分钟到了 你未付款 订单自动关闭");
         try {
             // 关单
-            if (this.iOmsOrderService.closeOrder(orderToken) == 1) {
+            if (this.omsOrderMapper.closeOrder(orderToken) == 1) {
                 // 如果关单成功，发送消息给库存系统，释放库存
                 this.amqpTemplate.convertAndSend("STOCK-EXCHANGE", "stock.unlock", orderToken);
             }

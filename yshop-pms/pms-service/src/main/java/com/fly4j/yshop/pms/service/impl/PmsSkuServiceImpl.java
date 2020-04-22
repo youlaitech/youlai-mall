@@ -9,6 +9,7 @@ import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 import com.fly4j.yshop.pms.service.IPmsSkuService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.redisson.api.RLock;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements IPmsSkuService {
 
     @Resource
@@ -78,15 +80,19 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     @Override
     public void unlockSku(String orderToken) {
         // 查询redis中保存的锁库存信息
-        System.out.println("解库存开始。。。。。。");
-        String stockLockJson = this.stringRedisTemplate.opsForValue().get(LOCK_PREFIX + orderToken);
+       log.info("解库存开始。。。。。。");
+        String stockLockJson = stringRedisTemplate.opsForValue().get(LOCK_PREFIX + orderToken);
         if (StringUtils.isNotBlank(stockLockJson)){
             List<SkuLockVO> skuLockVOS = JSON.parseArray(stockLockJson, SkuLockVO.class);
             skuLockVOS.forEach(skuLockVO -> {
                 this.baseMapper.unLockSku(skuLockVO);
             });
         }
-        System.out.println("解库存结束。。。。。。");
+        log.info("解库存结束。。。。。。");
+
+        // 删除redis中锁定的库存信息
+        Boolean delete = stringRedisTemplate.delete((LOCK_PREFIX + orderToken));
+        log.info("删除结果：{}",delete);
     }
 
     @Override
@@ -99,8 +105,9 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         RLock lock = this.redissonClient.getFairLock(LOCK_PREFIX + skuLockVO.getSku_id());
         lock.lock();
 
-        SkuLockVO skuEntity = this.baseMapper.getCanLocked(skuLockVO);
-        if (skuEntity != null) {
+        Integer stock = this.baseMapper.getStock(skuLockVO);
+        log.info("剩余库存:{},扣减库存:{}",stock,skuLockVO.getQuantity());
+        if (stock > 0) {
             // 锁库存
             long i = this.baseMapper.lockSku(skuLockVO.getSku_id(), skuLockVO.getQuantity());
             if (i > 0) {

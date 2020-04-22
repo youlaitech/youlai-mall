@@ -13,6 +13,4 @@ public interface IOmsOrderService extends IService<OmsOrder> {
     R submit(OrderDTO orderDTO);
 
     String token();
-
-    int closeOrder(String orderToken);
 }

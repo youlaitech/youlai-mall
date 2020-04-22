@@ -14,12 +14,12 @@ import java.util.Map;
 public interface PmsSkuMapper extends BaseMapper<PmsSku> {
 
     @Select("<script>" +
-            "SELECT id AS sku_id,stock_locked AS quantity FROM pms_sku  WHERE id = #{sku_id} AND stock-stock_locked >= #{quantity}" +
+            "SELECT stock-stock_locked FROM pms_sku  WHERE id = #{sku_id} AND stock-stock_locked >= #{quantity}" +
             "</script>")
-    SkuLockVO getCanLocked(SkuLockVO skuLockVO);
+    Integer getStock(SkuLockVO skuLockVO);
 
     @Update("<script>" +
-            "UPDATE pms_sku SET stock=stock-#{quantity}, stock_locked = stock_locked + #{quantity} WHERE id = #{sku_id}" +
+            "UPDATE pms_sku SET stock_locked = stock_locked + #{quantity} WHERE id = #{sku_id}" +
             "</script>")
     long lockSku(@Param("sku_id") Long sku_id, @Param("quantity")Integer quantity);
 
@@ -40,7 +40,7 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
     Page<PmsSkuDTO> page(Map<String, Object> params, Page<PmsSku> page);
 
     @Update("<script>" +
-            "UPDATE pms_sku SET  stock=stock+#{quantity},stock_locked = stock_locked-#{quantity} WHERE id = #{sku_id}" +
+            "UPDATE pms_sku SET stock_locked = stock_locked-#{quantity} WHERE id = #{sku_id}" +
             "</script>")
     void unLockSku(SkuLockVO skuLock);
 
