@@ -14,14 +14,14 @@ import java.util.Map;
 public interface PmsSkuMapper extends BaseMapper<PmsSku> {
 
     @Select("<script>" +
-            "SELECT stock-stock_locked FROM pms_sku  WHERE id = #{sku_id} AND stock-stock_locked >= #{quantity}" +
+            "SELECT  stock-stock_locked  FROM pms_sku  WHERE id = #{sku_id} AND stock-stock_locked >= #{quantity}" +
             "</script>")
     Integer getStock(SkuLockVO skuLockVO);
 
     @Update("<script>" +
             "UPDATE pms_sku SET stock_locked = stock_locked + #{quantity} WHERE id = #{sku_id}" +
             "</script>")
-    long lockSku(@Param("sku_id") Long sku_id, @Param("quantity")Integer quantity);
+    int lockSku(@Param("sku_id") Long sku_id, @Param("quantity")Integer quantity);
 
     @Select("<script>"
                  +" SELECT"
