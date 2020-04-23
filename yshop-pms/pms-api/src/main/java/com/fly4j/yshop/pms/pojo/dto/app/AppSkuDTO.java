@@ -2,6 +2,8 @@ package com.fly4j.yshop.pms.pojo.dto.app;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -21,9 +23,14 @@ public class AppSkuDTO {
 
     public List<Sku> list;
 
-    // 默认价格（单位元）
+    @ApiModelProperty("商品总库存")
     private String price;
+
+    @ApiModelProperty("商品总库存")
     private Integer stock_num;
+
+    @ApiModelProperty("是否无规格商品")
+    private Boolean none_sku;
 
     @Data
     public static class Tree{
