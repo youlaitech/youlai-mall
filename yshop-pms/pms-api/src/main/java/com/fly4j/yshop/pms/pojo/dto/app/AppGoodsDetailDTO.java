@@ -32,7 +32,11 @@ public class AppGoodsDetailDTO {
 
     private String detail;
 
-    private BigDecimal price;
+    @ApiModelProperty("专柜价")
+    private BigDecimal counter_price;
+
+    @ApiModelProperty("零售价")
+    private BigDecimal retail_price;
 
     private Integer sales_volume;
 

@@ -14,6 +14,9 @@ import com.fly4j.yshop.pms.service.IPmsSpecService;
 import com.fly4j.yshop.pms.service.IPmsSpuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -34,8 +37,13 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
     @Override
     public boolean add(PmsSpuDTO pmsSpuDTO) {
+        // sku
+        List<PmsSku> skuList = pmsSpuDTO.getSku_list();
+        BigDecimal retail_price = skuList.stream().min(Comparator.comparing(PmsSku::getPrice)).get().getPrice();
+
         // spu
         PmsSpu spu = pmsSpuDTO.getSpu();
+        spu.setRetail_price(retail_price);
         iPmsSpuService.save(spu);
         Long spuId = spu.getId();
 
@@ -57,10 +65,10 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             iPmsSpecService.saveBatch(specList);
         }
 
-        // sku
-        List<PmsSku> skuList = pmsSpuDTO.getSku_list();
+
         if (skuList != null && skuList.size() > 0) {
             skuList.forEach(sku -> {
+                sku.setStock_locked(0);
                 sku.setSpu_id(spuId);
             });
             iPmsSkuService.saveBatch(skuList);

@@ -82,7 +82,7 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         }
         spuDTO.setSpec_list(appSpecDTOList);
 
-        // 4、SKU列表i
+        // 4、SKU列表
         AppSkuDTO appSkuDTO = new AppSkuDTO();
         Map<String, List<PmsSpec>> specMap = new HashMap<>();
         for (int i = 0; i < specList.size(); i++) {

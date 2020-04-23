@@ -21,7 +21,7 @@ public class OmsOrderItem extends BaseEntity {
     @ApiModelProperty(hidden = true)
     private String order_sn;
 
-    @ApiModelProperty(value = "spu_ID",example="1250430782352474113")
+    @ApiModelProperty(value = "商品ID",example="1250430782352474113")
     private Long spu_id;
 
     @ApiModelProperty(value = "商品名称",example="小米手机5")
@@ -39,12 +39,12 @@ public class OmsOrderItem extends BaseEntity {
     @ApiModelProperty(value = "sku价格",example="1799.00")
     private BigDecimal sku_price;
 
-    @ApiModelProperty(value = "sku销售量",example="100")
+    @ApiModelProperty(value = "sku销量",example="100")
     private Integer sku_quantity;
 
     @ApiModelProperty(value = "sku规格",example="['白色', '3G+32G']")
     private String sku_specs;
 
     @ApiModelProperty(value = "sku图片地址",example="http://101.37.69.49/group1/M00/00/02/rBACvV6XFwiAAxiSAADUyQY7C5A313.jpg")
-    private String sku_pic_url;
+    private String pic_url;
 }
