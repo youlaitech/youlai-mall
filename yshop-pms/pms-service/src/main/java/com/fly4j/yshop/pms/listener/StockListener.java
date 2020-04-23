@@ -22,7 +22,6 @@ public class StockListener {
             key = {"stock.unlock"}
     ))
     public void unlock(String orderToken){
-
         this.iPmsSkuService.unlockSku(orderToken);
     }
 }

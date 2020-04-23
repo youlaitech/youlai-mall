@@ -42,6 +42,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
 
     /**
      * 提交订单
+     *
      * @param orderDTO
      * @return
      */
@@ -63,7 +64,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
          */
         List<OmsOrderItem> orderItems = orderDTO.getOrder_item_list();
         // 如果没有订单清单，直接返回
-        if (CollectionUtils.isEmpty(orderItems)){
+        if (CollectionUtils.isEmpty(orderItems)) {
             return R.failed("请选择商品再提交");
         }
 
@@ -83,7 +84,6 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
 //        }
 
 
-
         /**
          * 3. 验库存，并锁库存
          */
@@ -96,10 +96,10 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         }).collect(Collectors.toList());
 
         // 调用远程方法验证库存并锁库存
-        R<SkuLockVO> SkuLockList = pmsAppFeign.checkAndLockStock(skuLockVOList);
-
+        R<SkuLockVO> result = pmsAppFeign.checkAndLockStock(skuLockVOList);
         // 锁定失败
-        if (SkuLockList.getCode() == 1) {
+        if (result.getCode() != 0l) {
+            log.error("锁定失败");
             return R.failed("锁定失败");
         }
         // 锁定成功，获取锁定的结果集
@@ -135,6 +135,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
 
     /**
      * 保存订单
+     *
      * @param orderDTO
      * @return
      */
@@ -143,6 +144,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         // 保存订单
         OmsOrder order = new OmsOrder();
         BeanUtils.copyProperties(orderDTO.getOrder(), order);
+        order.setOrder_sn(orderDTO.getOrder_token());
         order.setStatus(0);
         this.save(order);
 

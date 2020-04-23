@@ -80,6 +80,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         // 查询redis中保存的锁库存信息
         log.info("解库存开始。。。。。。");
         String stockLockJson = stringRedisTemplate.opsForValue().get(LOCK_PREFIX + orderToken);
+        log.info("锁定库存信息：{}",stockLockJson);
         if (StringUtils.isNotBlank(stockLockJson)) {
             List<SkuLockVO> skuLockVOS = JSON.parseArray(stockLockJson, SkuLockVO.class);
             skuLockVOS.forEach(skuLockVO -> {
@@ -93,8 +94,12 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         log.info("解库存结束。。。。。。");
 
         // 删除redis中锁定的库存信息
-        Boolean delete = stringRedisTemplate.delete((LOCK_PREFIX + orderToken));
-        log.info("删除结果：{}", delete);
+        Boolean deleteStatus = stringRedisTemplate.delete(LOCK_PREFIX + orderToken);
+        if(deleteStatus==false){
+            log.error("删除锁定库存信息失败：{}",orderToken);
+        }
+
+
     }
 
     @Override

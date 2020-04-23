@@ -16,7 +16,7 @@ public class OmsOrder extends BaseEntity {
     @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(hidden = true)
     private Long id;
-    @ApiModelProperty(value = "订单号")
+    @ApiModelProperty(hidden = true,value = "订单号")
     private String order_sn;
 
     @ApiModelProperty(value = "会员ID",example="1211480307950280706")
