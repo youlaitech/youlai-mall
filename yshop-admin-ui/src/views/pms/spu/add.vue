@@ -14,6 +14,9 @@
         <el-form-item label="商品副标题" prop="spu.subtitle">
           <el-input v-model="form.spu.subtitle"/>
         </el-form-item>
+        <el-form-item label="专柜价" prop="spu.counter_price">
+          <el-input v-model="form.spu.counter_price"/>
+        </el-form-item>
         <el-form-item label="是否新品" prop="spu.is_new">
           <el-radio-group v-model="form.spu.is_new">
             <el-radio :label="0">非新品</el-radio>
@@ -35,32 +38,26 @@
         <el-form-item label="商品图片" prop="spu.pic_url">
           <single-upload v-model="form.spu.pic_url"></single-upload>
         </el-form-item>
-
         <el-form-item label="商品图册" prop="spu.pic_urls">
           <multi-upload v-model="form.spu.pic_urls"></multi-upload>
         </el-form-item>
-
         <el-form-item label="商品单位" prop="spu.unit">
           <el-input v-model="form.spu.unit" placeholder="件 / 个 / 盒"/>
         </el-form-item>
-
         <el-form-item label="所属分类" prop="spu.category_id">
           <el-cascader :v-model="form.spu.category_id" :options="categoryList"
                        expand-trigger="hover"
                        clearable
                        @change="handleCategoryChange"/>
         </el-form-item>
-
         <el-form-item label="所属品牌" prop="spu.brand_id">
           <el-select v-model="form.spu.brand_id" clearable>
             <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id"/>
           </el-select>
         </el-form-item>
-
         <el-form-item label="商品描述" prop="spu.description">
           <el-input v-model="form.spu.description"/>
         </el-form-item>
-
         <el-form-item label="商品详情" prop="spu.detail">
           <editor v-model="form.spu.detail" :init="editorInit"/>
         </el-form-item>

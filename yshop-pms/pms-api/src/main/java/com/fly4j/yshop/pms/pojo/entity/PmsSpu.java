@@ -40,6 +40,13 @@ public class PmsSpu extends BaseEntity {
     private String pic_urls;
     private String unit;
     private BigDecimal price;
+
+    @ApiModelProperty(value = "专柜价")
+    private BigDecimal counter_price;
+
+    @ApiModelProperty(value = "零售价")
+    private BigDecimal retail_price;
+
     private Long sort;
     private String detail;
     private Integer is_new;
