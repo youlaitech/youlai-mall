@@ -1,9 +1,6 @@
-package com.fly4j.yshop.sms.pojo.entity;
+package com.fly4j.yshop.sms.pojo.dto.app;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fly4j.common.core.bean.BaseEntity;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,15 +10,15 @@ import java.util.Date;
 
 @Data
 @ApiModel
-public class SmsCoupon extends BaseEntity {
-  @TableId(type = IdType.ASSIGN_ID)
+public class AppCouponDTO {
+
   @ApiModelProperty(value="优惠券id",hidden=true)
   private Long id;
 
   @ApiModelProperty(value="优惠券名称",example="优惠券")
   private String name;
 
-  @ApiModelProperty(value = "优惠券所属用户ID",example = "1")
+  @ApiModelProperty(value = "优惠券所属用户ID")
   private Long user_id;
 
   @ApiModelProperty(value="满减条件",example="满100减10")

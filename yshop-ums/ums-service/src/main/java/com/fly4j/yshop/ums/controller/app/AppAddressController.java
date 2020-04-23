@@ -1,10 +1,11 @@
-package com.fly4j.yshop.ums.controller;
+package com.fly4j.yshop.ums.controller.app;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.common.core.controller.BaseController;
+import com.fly4j.yshop.ums.pojo.dto.AppAddressDTO;
 import com.fly4j.yshop.ums.service.IUmsAddressService;
 import com.fly4j.yshop.ums.pojo.entity.UmsAddress;
 import io.swagger.annotations.Api;
@@ -12,43 +13,42 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.dozer.DozerBeanMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(tags = "地址API")
 @RestController
-@RequestMapping("/addresses")
+@RequestMapping("/api.app/v1/addresses")
 @Slf4j
-public class UmsAddressController extends BaseController {
+public class AppAddressController extends BaseController {
     @Resource
     private IUmsAddressService iUmsAddressService;
-    
-    @ApiOperation(value = "地址分页", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "path", dataType = "Integer", defaultValue = "10"),
-            @ApiImplicitParam(name = "name", value = "收货人名称", paramType = "query", dataType = "String"),
-    })
-    @GetMapping("/page/{page}/limit/{limit}")
-    public R<Page<UmsAddress>> page(
-            @PathVariable Integer page,
-            @PathVariable Integer limit,
-            String name
-    ) {
-        Page<UmsAddress> data = iUmsAddressService.page(new Page<>(page, limit),
-                new LambdaQueryWrapper<UmsAddress>()
-                        .eq(StrUtil.isNotBlank(name), UmsAddress::getName, name)
-                        .orderByDesc(UmsAddress::getCreate_time));
-        return R.ok(data);
-    }
+
+    @Autowired
+    private DozerBeanMapper dozerBeanMapper;
 
     @ApiOperation(value = "地址列表", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "limit", value = "返回结果条数", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "user_id", value = "用户ID", paramType = "query", dataType = "Long")
+    })
     @GetMapping()
-    public R list() {
-        List<UmsAddress> list = iUmsAddressService.list();
-        return R.ok(list);
+    public R<List<AppAddressDTO>> page(
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) Integer user_id
+    ) {
+        List<UmsAddress> list = iUmsAddressService.list(new LambdaQueryWrapper<UmsAddress>()
+                .eq(user_id != null, UmsAddress::getUser_id, user_id)
+                .orderByDesc(UmsAddress::getCreate_time)
+                .last(limit != null, "LIMIT " + limit)
+        );
+        List<AppAddressDTO> resultList = list.stream().map(item -> dozerBeanMapper.map(item, AppAddressDTO.class)).collect(Collectors.toList());
+        return R.ok(resultList);
     }
 
     @ApiOperation(value = "地址详情", httpMethod = "GET")
