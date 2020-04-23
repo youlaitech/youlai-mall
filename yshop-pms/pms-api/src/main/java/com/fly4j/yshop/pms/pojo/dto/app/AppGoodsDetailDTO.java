@@ -26,6 +26,8 @@ public class AppGoodsDetailDTO {
 
     private String description;
 
+    private String pic_url;
+
     private List<String> pic_urls;
 
     private String detail;
@@ -36,6 +38,8 @@ public class AppGoodsDetailDTO {
 
     @ApiModelProperty("商品属性列表")
     private List<AppAttributeDTO> attribute_list;
+
+    private List<AppSpecDTO> spec_list;
 
     private AppSkuDTO sku;
 

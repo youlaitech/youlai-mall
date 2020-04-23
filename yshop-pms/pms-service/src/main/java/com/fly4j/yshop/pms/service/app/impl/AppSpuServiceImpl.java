@@ -10,6 +10,7 @@ import com.fly4j.yshop.pms.mapper.PmsSpuMapper;
 import com.fly4j.yshop.pms.pojo.dto.app.AppAttributeDTO;
 import com.fly4j.yshop.pms.pojo.dto.app.AppSkuDTO;
 import com.fly4j.yshop.pms.pojo.dto.app.AppGoodsDetailDTO;
+import com.fly4j.yshop.pms.pojo.dto.app.AppSpecDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsAttribute;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.entity.PmsSpec;
@@ -23,6 +24,7 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,9 +72,18 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         }
         spuDTO.setAttribute_list(attributeDTOList);
 
-        // 3、SKU列表
+        // 3、规格信息
+        List<PmsSpec> specList = iPmsSpecService.list(new LambdaQueryWrapper<PmsSpec>().
+                eq(PmsSpec::getSpu_id, id));
+        List<AppSpecDTO> appSpecDTOList = new ArrayList<>();
+        if (specList!=null&&specList.size()>0){
+            appSpecDTOList = specList.stream().map(item -> dozerBeanMapper.map(item, AppSpecDTO.class))
+                    .collect(Collectors.toList());
+        }
+        spuDTO.setSpec_list(appSpecDTOList);
+
+        // 4、SKU列表i
         AppSkuDTO appSkuDTO = new AppSkuDTO();
-        List<PmsSpec> specList = iPmsSpecService.list(new LambdaQueryWrapper<PmsSpec>().eq(PmsSpec::getSpu_id, id));
         Map<String, List<PmsSpec>> specMap = new HashMap<>();
         for (int i = 0; i < specList.size(); i++) {
             PmsSpec pmsSpec = specList.get(i);
@@ -104,7 +115,6 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                     v.setImgUrl(item.getPic_url());
                     v.setPreviewImgUrl(item.getPic_url());
                     vList.add(v);
-
                     specifications.add(item.getValue());
                 });
             }
@@ -120,6 +130,8 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> pmsSkuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpu_id, id));
         List<List<String>> skuSpecListList = pmsSkuList.stream().map(item -> JSON.parseArray(item.getSpecs(), String.class))
                 .collect(Collectors.toList());
+        boolean none_sku = true; //是否是无规格商品
+        int stock_num = 0;
         if (skuSpecListList != null && skuSpecListList.size() > 0) {
             if (specificationsList != null && specificationsList.size() > 0) {
                 List<List<String>> specificationsListList = getDescartes(specificationsList);
@@ -129,9 +141,12 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                             AppSkuDTO.Sku sku = new AppSkuDTO.Sku();
                             if (skuSpecListList.get(m).containsAll(specificationList)) {
                                 if (skuSpecListList.get(m).size() >= 1) {
+                                    none_sku = false;
                                     sku.setId(pmsSkuList.get(m).getId());
-                                    sku.setPrice(pmsSkuList.get(m).getPrice());
-                                    sku.setStock_num(pmsSkuList.get(m).getStock() - pmsSkuList.get(m).getStock_locked());
+                                    sku.setPrice(new BigDecimal(100).multiply(pmsSkuList.get(m).getPrice()));
+                                    int stockNum = pmsSkuList.get(m).getStock() - pmsSkuList.get(m).getStock_locked();
+                                    sku.setStock_num(stockNum);
+                                    stock_num += stockNum;
                                     sku.setS1("0");
                                     sku.setS2("0");
                                     sku.setS3("0");
@@ -169,6 +184,10 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 }
             }
         }
+        appSkuDTO.setStock_num(stock_num);
+        appSkuDTO.setNone_sku(none_sku);
+        appSkuDTO.setPrice("0.00");
+
         appSkuDTO.setList(list);
         spuDTO.setSku(appSkuDTO);
         return spuDTO;
