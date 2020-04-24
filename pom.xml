@@ -12,7 +12,6 @@
         <module>yshop-eureka</module>
         <module>yshop-config</module>
         <module>yshop-auth</module>
-        <module>yshop-pms</module>
         <module>yshop-fms</module>
         <module>yshop-oms</module>
         <module>yshop-sms</module>
@@ -47,6 +46,7 @@
         <fastdfs-client.version>1.27.2</fastdfs-client.version>
         <feign-httpclient.version>10.8</feign-httpclient.version>
         <dozer.version>5.5.1</dozer.version>
+        <redisson.version>3.12.5</redisson.version>
     </properties>
 
     <dependencies>
@@ -164,6 +164,14 @@
                 <artifactId>dozer</artifactId>
                 <version>${dozer.version}</version>
             </dependency>
+
+            <!-- redisson -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>
