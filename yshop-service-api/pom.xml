@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>yshop</artifactId>
+        <groupId>com.fly4j</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>yshop-service-api</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>yshop-pms-api</module>
+        <module>yshop-sms-api</module>
+        <module>yshop-ums-api</module>
+        <module>yshop-oms-api</module>
+    </modules>
+
+    <dependencies>
+        <!-- spring cloud openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fly4j</groupId>
+            <artifactId>yshop-common-core</artifactId>
+            <version>${yshop.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fly4j</groupId>
+            <artifactId>yshop-common-swagger</artifactId>
+            <version>${yshop.version}</version>
+        </dependency>
+    </dependencies>
+</project>
