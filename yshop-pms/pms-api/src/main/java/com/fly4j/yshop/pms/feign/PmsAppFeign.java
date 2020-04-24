@@ -1,7 +1,7 @@
 package com.fly4j.yshop.pms.feign;
 
 import com.baomidou.mybatisplus.extension.api.R;
-import com.fly4j.yshop.pms.feign.factory.PmsAppFeignFallbackFactory;
+import com.fly4j.yshop.pms.feign.app.factory.PmsAppFeignFallbackFactory;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 import org.springframework.cloud.openfeign.FeignClient;
