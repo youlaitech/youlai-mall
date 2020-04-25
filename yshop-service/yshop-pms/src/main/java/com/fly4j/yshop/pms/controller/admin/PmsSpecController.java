@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.common.core.controller.BaseController;
+import com.fly4j.yshop.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.entity.PmsSpec;
 import com.fly4j.yshop.pms.service.IPmsSpecService;
 import lombok.extern.slf4j.Slf4j;

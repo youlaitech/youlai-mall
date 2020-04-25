@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.common.core.controller.BaseController;
+import com.fly4j.yshop.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.entity.PmsBrand;
 import com.fly4j.yshop.pms.service.IPmsBrandService;
 import io.swagger.annotations.Api;

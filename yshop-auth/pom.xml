@@ -11,13 +11,26 @@
     <artifactId>yshop-auth</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.fly4j</groupId>
+            <artifactId>yshop-common-db</artifactId>
+            <version>${yshop.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fly4j</groupId>
+            <artifactId>yshop-common-core</artifactId>
+            <version>${yshop.version}</version>
+        </dependency>
+
         <!-- Spring Cloud Eureka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
-        <!-- Spring Security Oauth2 -->
+        <!-- Spring Cloud Security Oauth2 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
@@ -28,28 +41,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
-        
-        <!-- druid -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
-        <!-- mysql -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
 
+        <!-- spring boot web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.fly4j</groupId>
-            <artifactId>yshop-common</artifactId>
-            <version>${yshop.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

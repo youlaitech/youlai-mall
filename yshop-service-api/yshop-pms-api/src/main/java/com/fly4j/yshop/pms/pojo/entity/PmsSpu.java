@@ -2,7 +2,7 @@ package com.fly4j.yshop.pms.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fly4j.common.core.entity.BaseEntity;
+import com.fly4j.yshop.common.core.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -38,8 +38,6 @@ public class PmsSpu extends BaseEntity {
     @ApiModelProperty(value = "商品图册")
     private String pic_urls;
     private String unit;
-    private BigDecimal price;
-
     @ApiModelProperty(value = "专柜价")
     private BigDecimal counter_price;
 

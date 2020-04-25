@@ -3,7 +3,7 @@ package com.fly4j.yshop.oms.controller.app;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.fly4j.yshop.oms.pojo.dto.OrderDTO;
 import com.fly4j.yshop.oms.service.IOmsOrderService;
-import com.fly4j.yshop.pms.feign.PmsFeign;
+import com.fly4j.yshop.pms.feign.admin.PmsFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

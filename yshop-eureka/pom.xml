@@ -12,6 +12,7 @@
     <artifactId>yshop-eureka</artifactId>
 
     <dependencies>
+        <!-- spring cloud eureka server -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>

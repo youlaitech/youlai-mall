@@ -53,7 +53,7 @@ eureka:
 
 # 全局参数设置
 ribbon:
-  ReadTimeout: 10000
+  ReadTimeout: 120000
   ConnectTimeout: 10000
   SocketTimeout: 10000
   MaxAutoRetries: 0

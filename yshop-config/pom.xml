@@ -12,12 +12,12 @@
     <artifactId>yshop-config</artifactId>
 
     <dependencies>
-        <!--启用eureka client-->
+        <!-- spring cloud eureka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-        <!--配置中心服务-->
+        <!-- spring cloud config -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>

@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
+
 /**
  * 商品详情
  */
@@ -18,6 +20,7 @@ public class AppGoodsDTO {
 
     private String pic_url;
 
-    private String price;
+    private BigDecimal retail_price;
 
+    private BigDecimal counter_price;
 }

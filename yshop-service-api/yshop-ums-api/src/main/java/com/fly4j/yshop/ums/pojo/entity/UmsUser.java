@@ -2,7 +2,7 @@ package com.fly4j.yshop.ums.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fly4j.common.core.entity.BaseEntity;
+import com.fly4j.yshop.common.core.entity.BaseEntity;
 import lombok.Data;
 
 @Data

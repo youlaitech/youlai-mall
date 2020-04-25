@@ -12,10 +12,6 @@
         <module>yshop-eureka</module>
         <module>yshop-config</module>
         <module>yshop-auth</module>
-        <module>yshop-fms</module>
-        <module>yshop-oms</module>
-        <module>yshop-sms</module>
-        <module>yshop-ums</module>
         <module>yshop-service</module>
         <module>yshop-service-api</module>
     </modules>

@@ -55,9 +55,11 @@ public class AppGoodsController {
                 .eq(is_hot != null, PmsSpu::getIs_hot, is_hot)
                 .eq(is_new != null, PmsSpu::getIs_new, is_new)
                 .orderByAsc(PmsSpu::getSort)
-                .last(limit != null, "LIMIT "+limit)
+                .last(limit != null, "LIMIT " + limit)
         );
-        List<AppGoodsDTO> resultList = list.stream().map(item -> dozerBeanMapper.map(item, AppGoodsDTO.class)).collect(Collectors.toList());
+        List<AppGoodsDTO> resultList = list.stream().map(item -> dozerBeanMapper
+                .map(item, AppGoodsDTO.class))
+                .collect(Collectors.toList());
         return R.ok(resultList);
     }
 
@@ -66,7 +68,7 @@ public class AppGoodsController {
             @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
     })
     @GetMapping("/{id}")
-    public R<AppGoodsDetailDTO> detail(@PathVariable Long id){
+    public R<AppGoodsDetailDTO> detail(@PathVariable Long id) {
         AppGoodsDetailDTO appGoodsDetailDTO = iAppSpuService.getGoodsDetail(id);
         return R.ok(appGoodsDetailDTO);
     }
