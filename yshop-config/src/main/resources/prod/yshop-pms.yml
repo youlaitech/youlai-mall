@@ -30,7 +30,7 @@ eureka:
     service-url:
       defaultZone: http://101.37.69.49:8761/eureka/
   instance:
-    ip-address: www.youlai.store
+    ip-address: 101.132.25.57
     hostname: ${eureka.instance.ip-address}
     instance-id:  PMS商品服务-8002
     prefer-ip-address: false
@@ -42,7 +42,7 @@ security:
   oauth2:
     resource:
       id: current-user
-      user-info-uri: http://www.youlai.store:9999/auth/user/current
+      user-info-uri: http://101.132.25.57:9999/auth/user/current
       prefer-token-info: false
 
 # swagger 认证配置
