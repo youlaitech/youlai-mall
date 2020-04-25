@@ -16,6 +16,7 @@
         <module>yshop-common-swagger</module>
         <module>yshop-common-redis</module>
         <module>yshop-common-web</module>
+        <module>yshop-common-db</module>
     </modules>
 
 

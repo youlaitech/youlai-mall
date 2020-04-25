@@ -1,6 +1,7 @@
 package com.fly4j.yshop.pms.service.impl;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,7 +12,6 @@ import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 import com.fly4j.yshop.pms.service.IPmsSkuService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -81,7 +81,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         log.info("解库存开始。。。。。。");
         String stockLockJson = stringRedisTemplate.opsForValue().get(LOCK_PREFIX + orderToken);
         log.info("锁定库存信息：{}",stockLockJson);
-        if (StringUtils.isNotBlank(stockLockJson)) {
+        if (StrUtil.isNotBlank(stockLockJson)) {
             List<SkuLockVO> skuLockVOS = JSON.parseArray(stockLockJson, SkuLockVO.class);
             skuLockVOS.forEach(skuLockVO -> {
                 PmsSku pmsSku = this.baseMapper.selectById(skuLockVO.getSku_id());

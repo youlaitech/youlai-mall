@@ -9,7 +9,7 @@ import com.fly4j.yshop.oms.mapper.OmsOrderMapper;
 import com.fly4j.yshop.oms.pojo.dto.OrderDTO;
 import com.fly4j.yshop.oms.service.IOmsOrderItemService;
 import com.fly4j.yshop.oms.service.IOmsOrderService;
-import com.fly4j.yshop.pms.feign.PmsAppFeign;
+import com.fly4j.yshop.pms.feign.app.PmsAppFeign;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.amqp.core.AmqpTemplate;

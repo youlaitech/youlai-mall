@@ -2,15 +2,15 @@ package com.fly4j.yshop.pms.service.impl;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fly4j.common.constant.Constants;
+import com.fly4j.yshop.common.constant.Constants;
 import com.fly4j.yshop.pms.mapper.PmsCategoryMapper;
 import com.fly4j.yshop.pms.pojo.dto.admin.PmsCategoryDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsCategory;
 import com.fly4j.yshop.pms.pojo.vo.CascaderVO;
 import com.fly4j.yshop.pms.service.IPmsCategoryService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -27,7 +27,7 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
         List<PmsCategoryDTO> list = new LinkedList<>();
 
         List<PmsCategory> categoryList = this.list(new LambdaQueryWrapper<PmsCategory>()
-                .like(StringUtils.isNotBlank(name), PmsCategory::getName, name)
+                .like(StrUtil.isNotBlank(name), PmsCategory::getName, name)
                 .orderByAsc(PmsCategory::getSort)
         );
         if (categoryList != null && categoryList.size() > 0) {

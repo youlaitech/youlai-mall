@@ -2,7 +2,7 @@ package com.fly4j.yshop.ums.controller.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
-import com.fly4j.common.core.controller.BaseController;
+import com.fly4j.yshop.common.core.controller.BaseController;
 import com.fly4j.yshop.ums.pojo.dto.AppAddressDTO;
 import com.fly4j.yshop.ums.pojo.entity.UmsAddress;
 import com.fly4j.yshop.ums.service.IUmsAddressService;
@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;

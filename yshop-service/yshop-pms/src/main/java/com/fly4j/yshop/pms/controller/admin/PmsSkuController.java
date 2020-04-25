@@ -1,8 +1,9 @@
 package com.fly4j.yshop.pms.controller.admin;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fly4j.common.core.controller.BaseController;
+import com.fly4j.yshop.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.service.IPmsSkuService;
@@ -11,7 +12,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -39,7 +39,7 @@ public class PmsSkuController extends BaseController {
                                    @PathVariable Integer limit, @RequestParam(required = false)   String spu_name) {
 
         Map<String,Object> params=new HashMap<>();
-        if(StringUtils.isNotBlank(spu_name)){
+        if(StrUtil.isNotBlank(spu_name)){
             params.put("spu_name",spu_name);
         }
         Page<PmsSkuDTO> data =  iPmsSkuService.selectPage(params, new Page<>(page, limit));
