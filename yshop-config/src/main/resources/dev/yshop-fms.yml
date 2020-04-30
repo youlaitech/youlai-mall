@@ -15,7 +15,7 @@ eureka:
   instance:
     ip-address: 101.132.25.57
     hostname: ${eureka.instance.ip-address}
-    instance-id: 文件服务提供方-8100
+    instance-id: FMS文件服务-8100
     prefer-ip-address: false
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5
@@ -29,7 +29,8 @@ fdfs:
   tracker-list: # tracker调度服务器 支持多个 默认22122
     - 101.37.69.49:22122
 file:
-  http-url: http://101.37.69.49/
+  server:
+    host: http://101.37.69.49/
 
 swagger:
   auth:

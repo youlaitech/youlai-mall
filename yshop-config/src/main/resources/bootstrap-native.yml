@@ -3,12 +3,12 @@ server:
 
 spring:
   application:
-    name:  fly4j-config
+    name:  yshop-config
   cloud:
     config:
       server:
         native:
-          search-locations: classpath:/config/
+          search-locations: classpath:/dev/
 eureka:
   instance:
     prefer-ip-address: true

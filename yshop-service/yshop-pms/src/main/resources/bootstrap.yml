@@ -1,25 +1,3 @@
 spring:
-  main:
-    allow-bean-definition-overriding: true
-  application:
-    name: yshop-pms
-  cloud:
-    config:
-      uri: http://101.37.69.49:8888
-      name: ${spring.application.name}
-  redis:
-    host: 101.132.25.57
-    port: 6379
-    password: 123456
-    timeout: 540000
-    jedis:
-      pool:
-        max-active: 8
-        max-wait: -1
-        max-idle: 500
-        min-idle: 0
-  rabbitmq:
-    host: 101.132.25.57
-    virtual-host: fly4j
-    username: fly4j
-    password: 123456
+  profiles:
+    active: dev
