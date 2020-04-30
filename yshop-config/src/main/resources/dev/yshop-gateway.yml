@@ -10,46 +10,40 @@ spring:
 
 zuul:
   routes:
-    fly4j-auth:
+    auth-route:
       path: /auth/**
       sensitiveHeaders:
-      serviceId: fly4j-auth
-      stripPrefix: true # path前缀是否删除
-    fly4j-system:
-      path: /system/**
+      serviceId: yshop-auth
+      stripPrefix: true #  前缀auth移除（默认true移除）
+    fms-route:
+      path: /fms/**
       sensitiveHeaders:
-      serviceId: fly4j-system
-      stripPrefix: true # path前缀是否删除
-    fly4j-file:
-      path: /files/**
+      serviceId: yshop-fms
+    pms-route:
+      path: /pms/**
       sensitiveHeaders:
-      serviceId: fly4j-file
-      stripPrefix: false # 不会删除files
-    shop-goods:
-      path: /goods/**
+      serviceId: yshop-pms
+    oms-route:
+      path: /oms/**
       sensitiveHeaders:
-      serviceId: shop-goods
-      stripPrefix: true
-    shop-order:
-      path: /order/**
+      serviceId: yshop-oms
+    sms-route:
+      path: /sms/**
       sensitiveHeaders:
-      serviceId: shop-order
-      stripPrefix: true
-    shop-marketing:
-      path: /marketing/**
+      serviceId: yshop-sms
+    ums-route:
+      path: /ums/**
       sensitiveHeaders:
-      serviceId: shop-marketing
-      stripPrefix: true
+      serviceId: yshop-ums
   host:
     connectTimeoutMillis: 5000
-
 
 eureka:
   client:
     service-url:
-      defaultZone: http://${eureka.instance.ip-address}:8761/eureka/
+      defaultZone: http://101.37.69.49:8761/eureka/
   instance:
-    ip-address: 101.37.69.49
+    ip-address: localhost
     hostname: ${eureka.instance.ip-address}
     instance-id: 网关-9999
     prefer-ip-address: false
@@ -59,7 +53,7 @@ eureka:
 
 # 全局参数设置
 ribbon:
-  ReadTimeout: 10000
+  ReadTimeout: 120000
   ConnectTimeout: 10000
   SocketTimeout: 10000
   MaxAutoRetries: 0

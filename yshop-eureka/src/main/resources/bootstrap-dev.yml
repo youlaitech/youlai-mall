@@ -10,7 +10,7 @@ eureka:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   instance:
-    hostname: 127.0.0.1
+    hostname: localhost
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
