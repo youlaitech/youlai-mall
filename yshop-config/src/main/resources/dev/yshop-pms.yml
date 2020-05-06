@@ -8,21 +8,29 @@ spring:
     url: jdbc:mysql://101.37.69.49:3306/yshop-pms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
+  redis:
+    host: 101.132.25.57
+    port: 6379
+    password: 123456
+    timeout: 540000
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  rabbitmq:
+    host: 101.132.25.57
+    virtual-host: fly4j
+    username: fly4j
+    password: 123456
 
 mybatis-plus:
-  # 搜索指定包别名
-  type-aliases-package: com.fly4j.yshop.pms.pojo.entity
-  # 该配置请和 type-aliases-package 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
-  type-aliases-super-type: java.lang.Object
   configuration:
     # 驼峰下划线转换
     map-underscore-to-camel-case: false
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    use-generated-keys: true
-  global-config:
-    db-config:
-      id-type: auto
 
 
 eureka:
