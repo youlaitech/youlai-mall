@@ -27,5 +27,12 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
+        <!-- fastJson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 </project>
