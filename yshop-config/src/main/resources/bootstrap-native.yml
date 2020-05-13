@@ -1,0 +1,20 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name:  yshop-config
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/dev/
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+  client:
+    serviceUrl:
+      defaultZone: http://101.37.69.49:8761/eureka
+    registry-fetch-interval-seconds: 10

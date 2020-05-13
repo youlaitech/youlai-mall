@@ -1,0 +1,70 @@
+server:
+  port: 9999
+  max-http-header-size: 10MB
+
+spring:
+  servlet:
+    multipart:
+      max-file-size : 10MB # 单个文件大小
+      max-request-size: 100MB # 单次请求上传总文件大小
+
+zuul:
+  routes:
+    auth-route:
+      path: /auth/**
+      sensitiveHeaders:
+      serviceId: yshop-auth
+      stripPrefix: true #  前缀auth移除（默认true移除）
+    fms-route:
+      path: /fms/**
+      sensitiveHeaders:
+      serviceId: yshop-fms
+    pms-route:
+      path: /pms/**
+      sensitiveHeaders:
+      serviceId: yshop-pms
+    oms-route:
+      path: /oms/**
+      sensitiveHeaders:
+      serviceId: yshop-oms
+    sms-route:
+      path: /sms/**
+      sensitiveHeaders:
+      serviceId: yshop-sms
+    ums-route:
+      path: /ums/**
+      sensitiveHeaders:
+      serviceId: yshop-ums
+  host:
+    connectTimeoutMillis: 5000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://101.37.69.49:8761/eureka/
+  instance:
+    ip-address: 101.132.25.57
+    hostname: ${eureka.instance.ip-address}
+    instance-id: 网关-9999
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5
+
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000
+            # (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
+            # (10000 +10000) * (0 + 1) * (1 + 1)

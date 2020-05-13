@@ -1,0 +1,68 @@
+server:
+  port: 8002
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://101.37.69.49:3306/yshop-pms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: 123456
+
+mybatis-plus:
+  # 搜索指定包别名
+  type-aliases-package: com.fly4j.yshop.pms.pojo.entity
+  # 该配置请和 type-aliases-package 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
+  type-aliases-super-type: java.lang.Object
+  configuration:
+    # 驼峰下划线转换
+    map-underscore-to-camel-case: false
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    use-generated-keys: true
+  global-config:
+    db-config:
+      id-type: auto
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://101.37.69.49:8761/eureka/
+  instance:
+    ip-address: 101.132.25.57
+    hostname: ${eureka.instance.ip-address}
+    instance-id:  PMS商品服务-8002
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5
+
+# oauth2获取用户信息
+security:
+  oauth2:
+    resource:
+      id: current-user
+      user-info-uri: http://101.132.25.57:9999/auth/user/current
+      prefer-token-info: false
+
+# swagger 认证配置
+swagger:
+  auth:
+    server: http://101.37.69.49:8000/oauth/token
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000
+            # (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
+            # (10000 +10000) * (0 + 1) * (1 + 1)
