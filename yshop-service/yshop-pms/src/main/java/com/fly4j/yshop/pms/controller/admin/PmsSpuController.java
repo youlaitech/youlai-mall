@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "商品API")
+@Api(tags = "ADMIN-商品SPU")
 @RestController
-@RequestMapping("/spus")
+@RequestMapping("/spu")
 @Slf4j
 public class PmsSpuController extends BaseController {
 
@@ -94,5 +94,4 @@ public class PmsSpuController extends BaseController {
         boolean status = iPmsSpuService.removeByIds(ids);
         return status ? R.ok(null) : R.failed("删除失败");
     }
-
 }

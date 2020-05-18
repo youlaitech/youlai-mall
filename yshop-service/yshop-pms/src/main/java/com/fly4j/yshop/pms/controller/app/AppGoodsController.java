@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * APP商品API
+ * APP商品管理
  *
  * @author haoxianrui
  * @since 2020-04-20
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api.app/v1/goods")
-@Api(tags = "APP-商品API")
+@Api(tags = "APP-商品管理")
 public class AppGoodsController {
 
     @Autowired

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "品牌API")
+@Api(tags = "ADMIN-商品品牌")
 @RestController
 @RequestMapping("/brands")
 @Slf4j
