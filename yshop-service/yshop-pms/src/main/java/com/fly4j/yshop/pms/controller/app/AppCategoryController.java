@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api.app/v1/categories")
-@Api(tags = "APP-商品分类API")
+@Api(tags = "APP-商品分类")
 public class AppCategoryController {
 
     @Autowired

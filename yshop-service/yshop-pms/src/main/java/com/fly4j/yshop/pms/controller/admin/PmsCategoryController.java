@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
 
-@Api(tags = "分类API")
+@Api(tags = "ADMIN-商品分类")
 @RestController
 @RequestMapping("/categories")
 @Slf4j

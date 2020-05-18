@@ -50,9 +50,8 @@ public class RedisConfig {
 
     @Bean
     public RedissonClient redissonClient() {
-        // redis不在本机
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://localhost:6379");
+        config.useSingleServer().setAddress("redis://101.132.25.57:6379").setPassword("123456");
         return Redisson.create(config);
     }
 }
