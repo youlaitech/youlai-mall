@@ -7,7 +7,7 @@ import com.fly4j.yshop.sms.service.ISmsSeckillPromotionService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author fly2021【xianrui0365@163.com】
+ * @author hxrui
  * @date 2020-04-13 15:02
  **/
 @Service

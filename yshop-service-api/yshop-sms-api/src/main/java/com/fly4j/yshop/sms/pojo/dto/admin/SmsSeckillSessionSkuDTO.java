@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 秒杀商品保存传输层实体
  *
- * @author fly2021【xianrui0365@163.com】
+ * @author hxrui
  * @date 2020-03-31 10:32
  **/
 

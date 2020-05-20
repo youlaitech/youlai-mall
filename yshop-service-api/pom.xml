@@ -16,7 +16,6 @@
         <module>yshop-sms-api</module>
         <module>yshop-ums-api</module>
         <module>yshop-oms-api</module>
-        <module>yshop-fms-api</module>
     </modules>
 
     <dependencies>

@@ -8,8 +8,6 @@ spring:
     url: jdbc:mysql://101.37.69.49:3306/yshop-oms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
-<<<<<<< HEAD
-=======
   redis:
     host: 101.132.25.57
     port: 6379
@@ -29,9 +27,6 @@ spring:
       listener:
         simple:
           acknowledge-mode: manual
-
->>>>>>> 3d26641c4a5a111308766367225743ff672555c3
-
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
@@ -81,9 +76,3 @@ hystrix:
             timeoutInMilliseconds: 40000
             # (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
             # (10000 +10000) * (0 + 1) * (1 + 1)
-<<<<<<< HEAD
-=======
-feign:
-  httpclient:
-    enabled: true
->>>>>>> 3d26641c4a5a111308766367225743ff672555c3
