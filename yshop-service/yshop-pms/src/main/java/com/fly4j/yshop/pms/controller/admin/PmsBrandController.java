@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+<<<<<<< HEAD
 @Api(tags = "品牌API")
+=======
+@Api(tags = "ADMIN-商品品牌")
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
 @RestController
 @RequestMapping("/brands")
 @Slf4j

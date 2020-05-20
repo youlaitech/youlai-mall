@@ -123,11 +123,15 @@
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
+<<<<<<< HEAD
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-extension</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
+=======
+
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
 
             <!-- swagger -->
             <dependency>

@@ -34,8 +34,12 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(Collections.singletonList(securityScheme()))
+<<<<<<< HEAD
                 .securityContexts(Collections.singletonList(securityContext()))
                 .useDefaultResponseMessages(false);
+=======
+                .securityContexts(Collections.singletonList(securityContext()));
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
     }
 
     private ApiInfo apiInfo() {

@@ -24,11 +24,18 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
+<<<<<<< HEAD
         <!-- mybatis-plus-extension -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
             <version>${mybatis-plus.version}</version>
+=======
+        <!-- mybatis-plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
         </dependency>
     </dependencies>
 </project>

@@ -8,6 +8,29 @@ spring:
     url: jdbc:mysql://101.37.69.49:3306/yshop-oms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
+<<<<<<< HEAD
+=======
+  redis:
+    host: 101.132.25.57
+    port: 6379
+    password: 123456
+    timeout: 540000
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    rabbitmq:
+      host: 101.132.25.57
+      virtual-host: fly4j
+      username: fly4j
+      password: 123456
+      listener:
+        simple:
+          acknowledge-mode: manual
+
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
 
 mybatis-plus:
   configuration:
@@ -58,3 +81,9 @@ hystrix:
             timeoutInMilliseconds: 40000
             # (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
             # (10000 +10000) * (0 + 1) * (1 + 1)
+<<<<<<< HEAD
+=======
+feign:
+  httpclient:
+    enabled: true
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
