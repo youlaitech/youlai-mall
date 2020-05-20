@@ -1,7 +1,12 @@
 spring:
+<<<<<<< HEAD
   application:
     name: yshop-gateway
   cloud:
     config:
       uri: http://101.37.69.49:8888
       name: ${spring.application.name}
+=======
+  profiles:
+    active: dev
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3

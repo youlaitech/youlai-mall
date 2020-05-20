@@ -20,9 +20,15 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+<<<<<<< HEAD
 @RequestMapping("/skus")
 @Slf4j
 @Api(tags = "商品SKUAPI")
+=======
+@RequestMapping("/sku")
+@Slf4j
+@Api(tags = "ADMIN-商品SKU")
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
 public class PmsSkuController extends BaseController {
 
     @Resource

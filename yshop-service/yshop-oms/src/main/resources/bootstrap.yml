@@ -6,6 +6,7 @@ spring:
   cloud:
     config:
       uri: http://101.37.69.49:8888
+<<<<<<< HEAD
       name: ${spring.application.name}
   redis:
     host: 101.132.25.57
@@ -32,3 +33,6 @@ spring:
 feign:
   httpclient:
     enabled: true
+=======
+      name: ${spring.application.name}
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3

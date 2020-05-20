@@ -18,9 +18,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+<<<<<<< HEAD
 @Api(tags = "商品API")
 @RestController
 @RequestMapping("/spus")
+=======
+@Api(tags = "ADMIN-商品SPU")
+@RestController
+@RequestMapping("/spu")
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
 @Slf4j
 public class PmsSpuController extends BaseController {
 
@@ -94,5 +100,8 @@ public class PmsSpuController extends BaseController {
         boolean status = iPmsSpuService.removeByIds(ids);
         return status ? R.ok(null) : R.failed("删除失败");
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3d26641c4a5a111308766367225743ff672555c3
 }
