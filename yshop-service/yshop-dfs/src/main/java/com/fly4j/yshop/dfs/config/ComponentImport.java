@@ -1,4 +1,4 @@
-package com.fly4j.yshop.fms.config;
+package com.fly4j.yshop.dfs.config;
 
 import com.github.tobato.fastdfs.FdfsClientConfig;
 import org.springframework.context.annotation.Configuration;

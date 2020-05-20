@@ -1,4 +1,4 @@
-package com.fly4j.shop.fms.pojo.dto;
+package com.fly4j.yshop.dfs.pojo.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

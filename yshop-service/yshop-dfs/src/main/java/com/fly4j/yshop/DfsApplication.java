@@ -7,8 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
-public class FmsApplication {
+public class DfsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FmsApplication.class, args);
+        SpringApplication.run(DfsApplication.class, args);
     }
 }

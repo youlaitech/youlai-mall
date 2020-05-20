@@ -1,6 +1,6 @@
-package com.fly4j.yshop.fms.client;
+package com.fly4j.yshop.dfs.client;
 
-import com.fly4j.shop.fms.pojo.dto.FileInfo;
+import com.fly4j.yshop.dfs.pojo.dto.FileInfo;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.fdfs.ThumbImageConfig;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;

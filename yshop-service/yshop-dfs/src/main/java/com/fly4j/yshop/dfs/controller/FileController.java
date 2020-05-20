@@ -1,10 +1,10 @@
-package com.fly4j.yshop.fms.controller;
+package com.fly4j.yshop.dfs.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 
-import com.fly4j.shop.fms.pojo.dto.FileInfo;
-import com.fly4j.yshop.fms.client.FastDfsClient;
+import com.fly4j.yshop.dfs.pojo.dto.FileInfo;
+import com.fly4j.yshop.dfs.client.FastDfsClient;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
