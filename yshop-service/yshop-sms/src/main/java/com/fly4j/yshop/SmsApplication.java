@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @author fly2021【xianrui0365@163.com】
+ * @author hxrui
  * @date 2020-04-13 17:48
  **/
 @SpringBootApplication

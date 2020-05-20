@@ -26,9 +26,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
         </dependency>
-
-<<<<<<< HEAD
-=======
         <!-- fastJson -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -36,6 +33,5 @@
             <optional>true</optional>
         </dependency>
 
->>>>>>> 3d26641c4a5a111308766367225743ff672555c3
     </dependencies>
 </project>
