@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api.app/v1/skus")
+@RequestMapping("/api.app/v1/sku")
 @Slf4j
 public class AppSkuController extends BaseController {
     @Resource

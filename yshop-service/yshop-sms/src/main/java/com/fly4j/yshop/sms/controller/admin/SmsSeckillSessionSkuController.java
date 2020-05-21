@@ -22,7 +22,7 @@ import java.util.List;
 
 @Api(tags = "秒杀商品API")
 @RestController
-@RequestMapping("/seckill/skus")
+@RequestMapping("/seckill/sku")
 @Slf4j
 public class SmsSeckillSessionSkuController extends BaseController {
 
