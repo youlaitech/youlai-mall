@@ -29,8 +29,8 @@ public class PmsSpuController extends BaseController {
 
     @ApiOperation(value = "商品分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "path", dataType = "Integer", defaultValue = "10"),
+            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "query", dataType = "Integer", defaultValue = "10"),
             @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String")
     })
     @GetMapping("/page/{page}/limit/{limit}")

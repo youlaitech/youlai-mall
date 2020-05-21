@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "地址API")
+@Api(tags = "APP-用户地址")
 @RestController
 @RequestMapping("/api.app/v1/addresses")
 @Slf4j

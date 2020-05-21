@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "广告API")
+@Api(tags = "ADMIN-广告管理")
 @RestController
 @RequestMapping("/ads")
 @Slf4j
