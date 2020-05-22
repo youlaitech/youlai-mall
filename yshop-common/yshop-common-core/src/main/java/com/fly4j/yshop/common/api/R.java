@@ -15,9 +15,6 @@ public class R<T> implements Serializable {
 
     private String msg;
 
-    @JsonIgnore
-    private long total;
-
     public static <T> R<T> ok() {
         return ok(null);
     }

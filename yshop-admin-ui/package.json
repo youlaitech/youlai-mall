@@ -1,7 +1,7 @@
 {
   "name": "yshop-admin-ui",
   "version": "1.0.0",
-  "description": "有来小店后台管理前端",
+  "description": "有来小店后台管理",
   "author": "fly4j",
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -16,7 +16,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+
     }
   },
   "lint-staged": {

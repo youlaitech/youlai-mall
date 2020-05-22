@@ -10,24 +10,25 @@ import com.fly4j.yshop.oms.pojo.dto.OrderDTO;
 import com.fly4j.yshop.oms.service.IOmsOrderItemService;
 import com.fly4j.yshop.oms.service.IOmsOrderService;
 import com.fly4j.yshop.pms.feign.app.PmsAppFeign;
+import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
-<<<<<<< HEAD
- * @author hxrui
-=======
+
  * @author Mr.
->>>>>>> 3d26641c4a5a111308766367225743ff672555c3
- * @date 2020-04-13 15:02
+ * @since 1.0.0
  **/
 @Service
 public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> implements IOmsOrderService {
@@ -57,19 +58,12 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
          *  1. 验证令牌，是否重复提交
          */
         String orderToken = orderDTO.getOrder_token();
-<<<<<<< HEAD
-//        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-//        Long flag = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Arrays.asList(TOKEN_PREFIX + orderToken), orderToken);
-//        if (flag == 0L) {
-//            return R.failed("订单不可重复提交");
-//        }
-=======
+
        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
        Long flag = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Arrays.asList(TOKEN_PREFIX + orderToken), orderToken);
        if (flag == 0L) {
            return R.failed("订单不可重复提交");
        }
->>>>>>> 3d26641c4a5a111308766367225743ff672555c3
 
         /**
          * 2. 验证价格,防止用户在订单页面停留太久，导致的价格不一致
@@ -80,22 +74,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
             return R.failed("请选择商品再提交");
         }
 
-<<<<<<< HEAD
-//        BigDecimal currentTotalPrice = orderItems.stream().map(item -> {
-//            // 查询数据库中商品的价格
-//            R<PmsSku> pmsSku = pmsAppFeign.getSkuById(item.getSku_id());
-//            PmsSku skuInfo = pmsSku.getData();
-//            if (skuInfo == null) {
-//                return new BigDecimal("0");
-//            }
-//            return skuInfo.getPrice().multiply(new BigDecimal(item.getSku_quantity()));
-//        }).reduce(new BigDecimal("0"), BigDecimal::add);
-//
-//        // 如果价格不同，直接返回
-//        if (currentTotalPrice.compareTo(orderDTO.getOrder().getTotal_amount()) != 0) {
-//            return R.failed("页面已过期,请刷新后重试");
-//        }
-=======
+
        BigDecimal currentTotalPrice = orderItems.stream().map(item -> {
            // 查询数据库中商品的价格
            R<PmsSku> pmsSku = pmsAppFeign.getSkuById(item.getSku_id());
@@ -110,7 +89,6 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
        if (currentTotalPrice.compareTo(orderDTO.getOrder().getTotal_amount()) != 0) {
            return R.failed("页面已过期,请刷新后重试");
        }
->>>>>>> 3d26641c4a5a111308766367225743ff672555c3
 
 
         /**
@@ -200,8 +178,4 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         return this.stringRedisTemplate.opsForValue().get(TOKEN_PREFIX + token);
     }
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 3d26641c4a5a111308766367225743ff672555c3
