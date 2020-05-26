@@ -1,6 +1,5 @@
-package com.fly4j.yshop.common.enums;
+package com.fly4j.yshop.common.api;
 
-import com.fly4j.yshop.common.api.IErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
