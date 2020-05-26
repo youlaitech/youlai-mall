@@ -33,9 +33,9 @@ public class PmsSpecController extends BaseController {
     })
     @GetMapping
     public Result list(
-            @RequestParam Integer page,
-            @RequestParam Integer limit,
-            String name) {
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) String name) {
         LambdaQueryWrapper<PmsSpec> queryWrapper = new LambdaQueryWrapper<PmsSpec>()
                 .eq(StrUtil.isNotBlank(name), PmsSpec::getName, name)
                 .orderByDesc(PmsSpec::getCreate_time);
