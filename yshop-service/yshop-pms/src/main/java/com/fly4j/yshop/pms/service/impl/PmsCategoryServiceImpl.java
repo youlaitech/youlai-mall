@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -23,11 +24,11 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
 
 
     @Override
-    public List<PmsCategoryDTO> selectList(String name) {
+    public List<PmsCategoryDTO> treeList(Map<String, Object> paramMap) {
         List<PmsCategoryDTO> list = new LinkedList<>();
 
         List<PmsCategory> categoryList = this.list(new LambdaQueryWrapper<PmsCategory>()
-                .like(StrUtil.isNotBlank(name), PmsCategory::getName, name)
+                .like(paramMap.get("name") != null, PmsCategory::getName, paramMap.get("name").toString())
                 .orderByAsc(PmsCategory::getSort)
         );
         if (categoryList != null && categoryList.size() > 0) {
@@ -77,9 +78,9 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
                                     .setLabel(l2.getName()
                                     )));
                 }
-               if(children!=null){
-                   cascaderVO.setChildren(children);
-               }
+                if (children != null) {
+                    cascaderVO.setChildren(children);
+                }
                 cascadeList.add(cascaderVO);
             });
         }

@@ -2,8 +2,9 @@ package com.fly4j.yshop.pms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fly4j.yshop.common.api.PageResult;
+import com.fly4j.yshop.common.api.Result;
 import com.fly4j.yshop.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.entity.PmsSpu;
 import com.fly4j.yshop.pms.pojo.dto.admin.PmsSpuDTO;
@@ -27,51 +28,40 @@ public class PmsSpuController extends BaseController {
     @Resource
     private IPmsSpuService iPmsSpuService;
 
-    @ApiOperation(value = "商品分页", httpMethod = "GET")
+    @ApiOperation(value = "SPU列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "query", dataType = "Integer", defaultValue = "10"),
             @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String")
     })
-    @GetMapping("/page/{page}/limit/{limit}")
-    public R<Page<PmsSpu>> page(
-            @PathVariable Integer page,
-            @PathVariable Integer limit,
+    @GetMapping
+    public Result list(
+            @RequestParam Integer page,
+            @RequestParam Integer limit,
             String name
     ) {
-        Page<PmsSpu> data = iPmsSpuService.page(new Page<>(page, limit),
-                new LambdaQueryWrapper<PmsSpu>()
-                        .like(StrUtil.isNotBlank(name), PmsSpu::getName, name)
-                        .orderByDesc(PmsSpu::getCreate_time));
-        return R.ok(data);
-    }
-
-    @ApiOperation(value = "获取商品列表", httpMethod = "GET")
-    @GetMapping()
-    public R list() {
-        List<PmsSpu> list = iPmsSpuService.list();
-        return R.ok(list);
+        LambdaQueryWrapper<PmsSpu> queryWrapper = new LambdaQueryWrapper<PmsSpu>()
+                .like(StrUtil.isNotBlank(name), PmsSpu::getName, name)
+                .orderByDesc(PmsSpu::getCreate_time);
+        Page<PmsSpu> result = iPmsSpuService.page(new Page<>(page, limit), queryWrapper);
+        return PageResult.ok(result.getRecords(), result.getTotal());
     }
 
 
-    @ApiOperation(value = "新增商品", httpMethod = "POST")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pmsSpuDTO", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpuDTO")
-    })
+    @ApiOperation(value = "新增SPU", httpMethod = "POST")
+    @ApiImplicitParam(name = "pmsSpuDTO", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpuDTO")
     @PostMapping
-    public R save(@RequestBody PmsSpuDTO pmsSpuDTO) {
+    public Result save(@RequestBody PmsSpuDTO pmsSpuDTO) {
         boolean status = iPmsSpuService.add(pmsSpuDTO);
-        return status ? R.ok(null) : R.failed("上架商品失败");
+        return Result.status(status);
     }
 
-    @ApiOperation(value = "商品详情", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
-    })
+    @ApiOperation(value = "SPU详情", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
-        PmsSpu user = iPmsSpuService.getById(id);
-        return R.ok(user);
+    public Result get(@PathVariable Long id) {
+        PmsSpu spu = iPmsSpuService.getById(id);
+        return Result.ok(spu);
     }
 
 
@@ -81,17 +71,19 @@ public class PmsSpuController extends BaseController {
             @ApiImplicitParam(name = "pmsSpu", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpu")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody PmsSpu pmsSpu) {
+    public Result update(
+            @PathVariable("id") Long id,
+            @RequestBody PmsSpu pmsSpu
+    ) {
         boolean status = iPmsSpuService.updateById(pmsSpu);
-        return status ? R.ok(null) : R.failed("更新商品失败");
+        return Result.status(status);
     }
 
-
-    @ApiOperation(value = "删除商品", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "商品ID", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiOperation(value = "删除SPU", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
-    public R delete(@RequestParam("ids") List<Long> ids) {
+    public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iPmsSpuService.removeByIds(ids);
-        return status ? R.ok(null) : R.failed("删除失败");
+        return Result.status(status);
     }
 }

@@ -10,6 +10,7 @@ public enum ApiErrorCode implements IErrorCode {
     FAILED(-1,"操作失败"),
     SUCCESS(0,"执行成功");
 
+
     private int code;
 
     private String msg;

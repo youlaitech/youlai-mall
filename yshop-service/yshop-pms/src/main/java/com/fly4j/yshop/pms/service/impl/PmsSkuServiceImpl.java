@@ -129,7 +129,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
 
     @Override
-    public Page<PmsSkuDTO> selectPage(Map<String, Object> params, Page<PmsSku> page) {
-        return this.baseMapper.page(params, page);
+    public Page<PmsSkuDTO> list(Map<String, Object> params, Page<PmsSku> page) {
+        return this.baseMapper.selectList(params, page);
     }
 }
