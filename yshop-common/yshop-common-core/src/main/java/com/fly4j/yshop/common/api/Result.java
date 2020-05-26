@@ -1,13 +1,11 @@
 package com.fly4j.yshop.common.api;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fly4j.yshop.common.enums.ApiErrorCode;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class R<T> implements Serializable {
+public class Result<T> implements Serializable {
 
     private long code;
 
@@ -15,11 +13,11 @@ public class R<T> implements Serializable {
 
     private String msg;
 
-    public static <T> R<T> ok() {
+    public static <T> Result<T> ok() {
         return ok(null);
     }
 
-    public static <T> R<T> ok(T data) {
+    public static <T> Result<T> ok(T data) {
         ApiErrorCode aec = ApiErrorCode.SUCCESS;
         if (data instanceof Boolean && Boolean.FALSE.equals(data)) {
             aec = ApiErrorCode.FAILED;
@@ -27,27 +25,31 @@ public class R<T> implements Serializable {
         return restResult(data, aec);
     }
 
-    public static <T> R<T> failed() {
+    public static <T> Result<T> failed() {
         return restResult((T) null, ApiErrorCode.FAILED.getCode(), ApiErrorCode.FAILED.getMsg());
     }
 
-    public static <T> R<T> failed(String msg) {
+    public static <T> Result<T> failed(String msg) {
         return restResult((T) null, ApiErrorCode.FAILED.getCode(), msg);
     }
 
-    public static <T> R<T> failed(IErrorCode errorCode) {
+    public static <T> Result<T> failed(IErrorCode errorCode) {
         return restResult((T) null, errorCode.getCode(), errorCode.getMsg());
     }
 
-    public static <T> R<T> restResult(T data, IErrorCode errorCode) {
+    public static <T> Result<T> restResult(T data, IErrorCode errorCode) {
         return restResult(data, errorCode.getCode(), errorCode.getMsg());
     }
 
-    public static <T> R<T> restResult(T data, int code, String msg) {
-        R<T> r = new R();
+    public static <T> Result<T> restResult(T data, int code, String msg) {
+        Result<T> r = new Result();
         r.setData(data);
         r.setCode(code);
         r.setMsg(msg);
         return r;
+    }
+
+    public static <T> Result<T> status(boolean status) {
+        return status ? ok() : failed();
     }
 }

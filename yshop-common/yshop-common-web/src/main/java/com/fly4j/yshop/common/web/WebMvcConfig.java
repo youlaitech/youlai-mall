@@ -10,21 +10,24 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author haoxianrui
- * @since 2020-04-17
+ *  WebMvc配置类
+ *
+ * @author hxrui
+ * @since 1.0.0
  **/
 @Configuration
-public class WebMvcConfig extends WebMvcConfigurationSupport {
+public class WebMvcConfig implements WebMvcConfigurer {
 
 
     @Override
-    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         for (HttpMessageConverter<?> messageConverter : converters) {
             System.out.println(messageConverter);
         }
@@ -56,14 +59,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         //3、在convert中添加配置信息
         fastConverter.setFastJsonConfig(fastJsonConfig);
         //4、解决响应数据非json和中文响应乱码
-        List<MediaType> jsonMediaTypes = new ArrayList<>();
-        jsonMediaTypes.add(MediaType.APPLICATION_JSON);
-        jsonMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
-        fastConverter.setSupportedMediaTypes(jsonMediaTypes);
+        List<MediaType> fastMediaTypes = new ArrayList<>();
+        fastMediaTypes.add(MediaType.APPLICATION_JSON);
+        fastConverter.setSupportedMediaTypes(fastMediaTypes);
         //5、将convert添加到converters中
-        converters.add(fastConverter);
-        //6、追加默认转换器 如果不加则MessageConverters只有上面FastJsonHttpMessageConverter具体打印可以结合extendMessageConverters打印测试
-        super.addDefaultHttpMessageConverters(converters);
+        converters.add(0,fastConverter);
     }
 
 
@@ -75,6 +75,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 "classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations(
                 "classpath:/META-INF/resources/webjars/");
-        super.addResourceHandlers(registry);
+       // super.addResourceHandlers(registry);
     }
 }
