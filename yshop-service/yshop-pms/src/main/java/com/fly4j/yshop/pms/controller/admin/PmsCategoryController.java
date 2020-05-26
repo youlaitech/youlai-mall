@@ -3,6 +3,7 @@ package com.fly4j.yshop.pms.controller.admin;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.fly4j.yshop.common.api.Result;
 import com.fly4j.yshop.common.constant.Constants;
 import com.fly4j.yshop.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.dto.admin.PmsCategoryDTO;
@@ -17,8 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "ADMIN-商品分类")
 @RestController
@@ -29,47 +32,66 @@ public class PmsCategoryController extends BaseController {
     @Autowired
     private IPmsCategoryService iPmsCategoryService;
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "分类名称", paramType = "query", dataType = "PmsCategory")
-    })
     @ApiOperation(value = "分类列表", httpMethod = "GET")
-    @GetMapping()
-    public R list(@RequestParam(required = false) String name) {
-        List<PmsCategoryDTO> list = iPmsCategoryService.selectList(name);
-        return R.ok(list);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "分类名称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "is_cascade", value = "是否级联", paramType = "query", dataType = "Boolean"),
+            @ApiImplicitParam(name = "level", value = "分类级别", paramType = "query", dataType = "Integer")
+    })
+    @GetMapping
+    public Result list(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Boolean is_cascade,
+            @RequestParam(required = false) Integer level
+    ) {
+        if (is_cascade) {
+            // 级联下拉列表
+            List<CascaderVO> cascadeList = iPmsCategoryService.cascadeList();
+            return Result.ok(cascadeList);
+        } else if (level == 1) {
+            // 一级下拉列表
+            List<PmsCategory> list = new LinkedList<>();
+            list.add(new PmsCategory().setId(0L).setName("顶级分类"));
+            List<PmsCategory> result = iPmsCategoryService.list(new LambdaQueryWrapper<PmsCategory>()
+                    .eq(PmsCategory::getLevel, 1));
+            list.addAll(result);
+            return Result.ok(list);
+        }else{
+            // 树形列表
+            Map<String,Object> paramMap=new HashMap<>();
+            paramMap.put("name",name);
+            List<PmsCategoryDTO> list = iPmsCategoryService.treeList(paramMap);
+            return Result.ok(list);
+        }
     }
 
     @ApiOperation(value = "新增分类", httpMethod = "POST")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pmsCategory", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
-    })
+    @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     @PostMapping
-    public R save(@RequestBody PmsCategory pmsCategory) {
-        boolean status = iPmsCategoryService.save(pmsCategory);
-        return status ? R.ok(null) : R.failed("新增失败");
+    public Result save(@RequestBody PmsCategory category) {
+        boolean status = iPmsCategoryService.save(category);
+        return Result.status(status);
     }
-
 
     @ApiOperation(value = "分类详情", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "分类id", required = true, paramType = "path", dataType = "Long"),
-    })
+    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
-        PmsCategory user = iPmsCategoryService.getById(id);
-        return R.ok(user);
+    public Result get(@PathVariable Long id) {
+        PmsCategory category = iPmsCategoryService.getById(id);
+        return Result.ok(category);
     }
-
 
     @ApiOperation(value = "修改分类", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "pmsCategory", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
+            @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody PmsCategory pmsCategory) {
-        boolean status = iPmsCategoryService.updateById(pmsCategory);
-        return status ? R.ok(null) : R.failed("更新失败");
+    public Result update(@PathVariable("id") Long id,
+                         @RequestBody PmsCategory category
+    ) {
+        boolean status = iPmsCategoryService.updateById(category);
+        return Result.status(status);
     }
 
     @ApiOperation(value = "删除分类", httpMethod = "DELETE")
@@ -79,40 +101,4 @@ public class PmsCategoryController extends BaseController {
         boolean status = iPmsCategoryService.removeByIds(ids);
         return status ? R.ok(null) : R.failed("删除失败");
     }
-
-
-    @ApiOperation(value = "分类列表(级联)", httpMethod = "GET")
-    @GetMapping(value = "/cascade")
-    public R cascade() {
-        List<CascaderVO> cascadeList = iPmsCategoryService.cascadeList();
-        return R.ok(cascadeList);
-    }
-
-    @ApiOperation(value = "分类列表(一级)", httpMethod = "GET")
-    @GetMapping(value = "/firstLevel")
-    public R l1() {
-        List<PmsCategory> list = new LinkedList<>();
-        list.add(new PmsCategory().setId(0L).setName("顶级分类"));
-        list.addAll(iPmsCategoryService.list(new LambdaQueryWrapper<PmsCategory>()
-                .eq(PmsCategory::getLevel, Constants.CATEGORY_LEVEL1)));
-        return R.ok(list);
-    }
-
-    @ApiOperation(value = "分类可见状态更新", httpMethod = "PUT")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "分类id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "is_show", value = "显示状态", required = true, paramType = "path", dataType = "Integer")
-    })
-    @PutMapping("/id/{id}/is_show/{is_show}")
-    public R updateIsShowStatus(@PathVariable Long id, @PathVariable Integer is_show) {
-        boolean result = iPmsCategoryService.update(new LambdaUpdateWrapper<PmsCategory>()
-                .eq(PmsCategory::getId, id)
-                .set(PmsCategory::getIs_show, is_show));
-        if (result) {
-            return R.ok("更新成功");
-        } else {
-            return R.failed("更新失败");
-        }
-    }
-
 }

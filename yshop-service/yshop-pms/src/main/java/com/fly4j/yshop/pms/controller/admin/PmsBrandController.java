@@ -2,9 +2,9 @@ package com.fly4j.yshop.pms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fly4j.yshop.common.api.PageResult;
+import com.fly4j.yshop.common.api.Result;
 import com.fly4j.yshop.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.entity.PmsBrand;
 import com.fly4j.yshop.pms.service.IPmsBrandService;
@@ -30,86 +30,66 @@ public class PmsBrandController extends BaseController {
 
     @ApiOperation(value = "品牌分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "path", dataType = "Integer", defaultValue = "10"),
-            @ApiImplicitParam(name = "name", value = "名称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "name", value = "品牌名称", paramType = "query", dataType = "String"),
     })
-    @GetMapping("/page/{page}/limit/{limit}")
-    public R<Page<PmsBrand>> page(
-            @PathVariable Integer page,
-            @PathVariable Integer limit,
-            String name
+    @GetMapping
+    public Result list(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) String name
     ) {
-        Page<PmsBrand> data = (Page<PmsBrand>) iPmsBrandService.page(new Page<>(page, limit),
-                new LambdaQueryWrapper<PmsBrand>()
-                        .eq(StrUtil.isNotBlank(name), PmsBrand::getName, name)
-                        .orderByAsc(PmsBrand::getSort)
-                        .orderByDesc(PmsBrand::getCreate_time));
-        return R.ok(data);
+        LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<PmsBrand>()
+                .eq(StrUtil.isNotBlank(name), PmsBrand::getName, name)
+                .orderByAsc(PmsBrand::getSort)
+                .orderByDesc(PmsBrand::getCreate_time);
+
+        if (page != null && limit != null) {
+            Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
+            return PageResult.ok(result.getRecords(), result.getTotal());
+        } else if (limit != null) {
+            queryWrapper.last("LIMIT " + limit);
+        }
+        List<PmsBrand> list = iPmsBrandService.list(queryWrapper);
+        return Result.ok(list);
     }
 
-    @ApiOperation(value = "品牌列表", httpMethod = "GET")
-    @GetMapping()
-    public R list() {
-        List<PmsBrand> list = iPmsBrandService.list();
-        return R.ok(list);
-    }
 
     @ApiOperation(value = "新增品牌", httpMethod = "POST")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pmsBrand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
-    })
+    @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
     @PostMapping
-    public R save(@RequestBody PmsBrand pmsBrand) {
-        boolean status = iPmsBrandService.save(pmsBrand);
-        return status ? R.ok(null) : R.failed("新增失败");
+    public Result save(@RequestBody PmsBrand brand) {
+        boolean status = iPmsBrandService.save(brand);
+        return Result.status(status);
     }
 
     @ApiOperation(value = "品牌详情", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long"),
-    })
+    @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
-        PmsBrand user = iPmsBrandService.getById(id);
-        return R.ok(user);
+    public Result get(@PathVariable Long id) {
+        PmsBrand brand = iPmsBrandService.getById(id);
+        return Result.ok(brand);
     }
 
     @ApiOperation(value = "修改品牌", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "pmsBrand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
+            @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody PmsBrand pmsBrand) {
-        boolean status = iPmsBrandService.updateById(pmsBrand);
-        return status ? R.ok(null) : R.failed("更新失败");
+    public Result update(@PathVariable("id") Long id,
+                         @RequestBody PmsBrand brand) {
+        boolean status = iPmsBrandService.updateById(brand);
+        return Result.status(status);
     }
 
     @ApiOperation(value = "删除品牌", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "品牌id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
-    public R delete(@RequestParam("ids") List<Long> ids) {
+    public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iPmsBrandService.removeByIds(ids);
-        return status ? R.ok(null) : R.failed("删除失败");
+        return Result.status(status);
     }
-
-    @ApiOperation(value = "修改品牌", httpMethod = "PUT")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "status", value = "显示状态", required = true, paramType = "path", dataType = "Integer")
-    })
-    @PutMapping("/id/{id}/status/{status}")
-    public R updateStatus(@PathVariable Integer id, @PathVariable Integer status) {
-        boolean result = iPmsBrandService.update(new LambdaUpdateWrapper<PmsBrand>()
-                .eq(PmsBrand::getId, id)
-                .set(PmsBrand::getStatus, status));
-        if (result) {
-            return R.ok("更新成功");
-        } else {
-            return R.failed("更新失败");
-        }
-    }
-
 
 }

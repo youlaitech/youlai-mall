@@ -1,8 +1,8 @@
 package com.fly4j.yshop.pms.controller.admin;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fly4j.yshop.common.api.PageResult;
+import com.fly4j.yshop.common.api.Result;
 import com.fly4j.yshop.common.core.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
@@ -19,61 +19,64 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "ADMIN-商品SKU")
 @RestController
 @RequestMapping("/sku")
-@Slf4j
-@Api(tags = "ADMIN-商品SKU")
 public class PmsSkuController extends BaseController {
 
     @Resource
     private IPmsSkuService iPmsSkuService;
 
-    @ApiOperation(value = "商品分页", httpMethod = "GET")
+    @ApiOperation(value = "SKU列表", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "Integer", defaultValue = "0"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "path", dataType = "Integer", defaultValue = "10"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "spu_name", value = "商品名称", paramType = "query", dataType = "String"),
     })
-    @GetMapping("/page/{page}/limit/{limit}")
-    public R<Page<PmsSkuDTO>> page(@PathVariable Integer page,
-                                   @PathVariable Integer limit, @RequestParam(required = false)   String spu_name) {
-
-        Map<String,Object> params=new HashMap<>();
-        if(StrUtil.isNotBlank(spu_name)){
-            params.put("spu_name",spu_name);
-        }
-        Page<PmsSkuDTO> data =  iPmsSkuService.selectPage(params, new Page<>(page, limit));
-        return R.ok(data);
+    @GetMapping
+    public Result list(
+            @RequestParam Integer page,
+            @PathVariable Integer limit,
+            @RequestParam(required = false) String spu_name) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("spu_name", spu_name);
+        Page<PmsSkuDTO> result = iPmsSkuService.list(params, new Page<>(page, limit));
+        return PageResult.ok(result.getRecords(), result.getTotal());
     }
 
-    @GetMapping()
-    public R list() {
-        List<PmsSku> list = iPmsSkuService.list();
-        return R.ok(list);
-    }
-
+    @ApiOperation(value = "SKU详情", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public Result get(@PathVariable Long id) {
         PmsSku sku = iPmsSkuService.getById(id);
-        return R.ok(sku);
+        return Result.ok(sku);
     }
 
+    @ApiOperation(value = "新增SKU", httpMethod = "POST")
+    @ApiImplicitParam(name = "pmsSku", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSku")
     @PostMapping
-    public R add(@RequestBody PmsSku pmsSku) {
+    public Result save(@RequestBody PmsSku pmsSku) {
         boolean status = iPmsSkuService.save(pmsSku);
-        return status ? R.ok(null) : R.failed("新增失败");
+        return Result.status(status);
     }
 
+    @ApiOperation(value = "修改SKU", httpMethod = "PUT")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "pmsSku", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSku")
+    })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody PmsSku pmsSku) {
+    public Result update(@PathVariable("id") Long id, @RequestBody PmsSku pmsSku) {
         boolean status = iPmsSkuService.updateById(pmsSku);
-        return status ? R.ok(null) : R.failed("更新失败");
+        return Result.status(status);
     }
 
+    @ApiOperation(value = "删除SKU", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping()
-    public R delete(@RequestParam("ids") List<Long> ids) {
+    public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iPmsSkuService.removeByIds(ids);
-        return status ? R.ok(null) : R.failed("删除失败");
+        return Result.status(status);
     }
 
 }

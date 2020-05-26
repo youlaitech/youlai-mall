@@ -1,14 +1,14 @@
 import request from '@/utils/request'
 
-export function skuPageList(page, limit, queryParams) {
+export function pageList(queryParams) {
   return request({
-    url: '/pms/sku/page/' + page + "/limit/" + limit,
+    url: '/pms/sku',
     method: 'get',
     params: queryParams
   });
 }
 
-export function skuAdd(data) {
+export function save(data) {
   return request({
     url: '/pms/sku',
     method: 'post',
@@ -16,14 +16,14 @@ export function skuAdd(data) {
   });
 }
 
-export function skuDetail(id) {
+export function detail(id) {
   return request({
     url: '/pms/sku/' + id,
     method: 'get'
   })
 }
 
-export function skuUpdate(id, data) {
+export function update(id, data) {
   return request({
     url: '/pms/sku/' + id,
     method: 'put',
@@ -31,7 +31,7 @@ export function skuUpdate(id, data) {
   })
 }
 
-export function skuDelete(ids) {
+export function del(ids) {
   return request({
     url: '/pms/sku',
     method: 'delete',

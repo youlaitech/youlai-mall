@@ -1,4 +1,4 @@
-package com.fly4j.yshop.pms.eureka.listener;
+package com.fly4j.yshop.eureka.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.netflix.eureka.server.event.*;

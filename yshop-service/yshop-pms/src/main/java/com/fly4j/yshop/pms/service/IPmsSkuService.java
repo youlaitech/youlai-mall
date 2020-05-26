@@ -19,5 +19,6 @@ public interface IPmsSkuService extends IService<PmsSku> {
     void unlockSku(String orderToken);
 
     Integer minusStock(Long sku_id, Integer sku_quantity);
-    Page<PmsSkuDTO> selectPage(Map<String, Object> params, Page<PmsSku> page);
+
+    Page<PmsSkuDTO> list(Map<String, Object> params, Page<PmsSku> page);
 }

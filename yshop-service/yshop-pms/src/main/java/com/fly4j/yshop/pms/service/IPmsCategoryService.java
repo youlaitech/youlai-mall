@@ -7,13 +7,12 @@ import com.fly4j.yshop.pms.pojo.entity.PmsCategory;
 import com.fly4j.yshop.pms.pojo.vo.CascaderVO;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface IPmsCategoryService extends IService<PmsCategory> {
 
-    List<PmsCategoryDTO> selectList(String name);
+    List<CascaderVO> cascadeList();
 
-     List<CascaderVO> cascadeList();
-
-
+    List<PmsCategoryDTO> treeList(Map<String, Object> paramMap);
 }
