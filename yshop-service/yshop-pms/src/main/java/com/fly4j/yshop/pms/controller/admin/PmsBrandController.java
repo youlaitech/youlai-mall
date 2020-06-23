@@ -35,11 +35,7 @@ public class PmsBrandController extends BaseController {
             @ApiImplicitParam(name = "name", value = "品牌名称", paramType = "query", dataType = "String"),
     })
     @GetMapping
-    public Result list(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer limit,
-            @RequestParam(required = false) String name
-    ) {
+    public Result list( Integer page,Integer limit,String name) {
         LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<PmsBrand>()
                 .eq(StrUtil.isNotBlank(name), PmsBrand::getName, name)
                 .orderByAsc(PmsBrand::getSort)

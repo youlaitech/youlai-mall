@@ -36,8 +36,8 @@ public class PmsSkuController extends BaseController {
     @GetMapping
     public Result list(
             @RequestParam Integer page,
-            @PathVariable Integer limit,
-            @RequestParam(required = false) String spu_name) {
+            @RequestParam Integer limit,
+            String spu_name) {
         Map<String, Object> params = new HashMap<>();
         params.put("spu_name", spu_name);
         Page<PmsSkuDTO> result = iPmsSkuService.list(params, new Page<>(page, limit));
