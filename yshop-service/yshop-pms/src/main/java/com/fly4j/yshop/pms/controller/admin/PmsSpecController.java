@@ -32,10 +32,7 @@ public class PmsSpecController extends BaseController {
             @ApiImplicitParam(name = "name", value = "规格名称", paramType = "query", dataType = "String"),
     })
     @GetMapping
-    public Result list(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer limit,
-            @RequestParam(required = false) String name) {
+    public Result list(Integer page, Integer limit,String name) {
         LambdaQueryWrapper<PmsSpec> queryWrapper = new LambdaQueryWrapper<PmsSpec>()
                 .eq(StrUtil.isNotBlank(name), PmsSpec::getName, name)
                 .orderByDesc(PmsSpec::getCreate_time);

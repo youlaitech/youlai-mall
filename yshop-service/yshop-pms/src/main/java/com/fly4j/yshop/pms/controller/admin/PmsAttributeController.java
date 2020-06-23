@@ -2,7 +2,6 @@ package com.fly4j.yshop.pms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fly4j.yshop.common.api.PageResult;
 import com.fly4j.yshop.common.api.Result;
@@ -13,11 +12,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = "ADMIN-商品属性")
@@ -35,11 +32,7 @@ public class PmsAttributeController extends BaseController {
             @ApiImplicitParam(name = "name", value = "品牌名称", paramType = "query", dataType = "String"),
     })
     @GetMapping
-    public Result list(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer limit,
-            @RequestParam(required = false) String name
-    ) {
+    public Result list(Integer page, Integer limit, String name) {
         LambdaQueryWrapper<PmsAttribute> queryWrapper = new LambdaQueryWrapper<PmsAttribute>()
                 .eq(StrUtil.isNotBlank(name), PmsAttribute::getName, name)
                 .orderByDesc(PmsAttribute::getCreate_time);

@@ -39,11 +39,7 @@ public class PmsCategoryController extends BaseController {
             @ApiImplicitParam(name = "level", value = "分类级别", paramType = "query", dataType = "Integer")
     })
     @GetMapping
-    public Result list(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Boolean is_cascade,
-            @RequestParam(required = false) Integer level
-    ) {
+    public Result list( String name, Boolean is_cascade,Integer level) {
         if (is_cascade) {
             // 级联下拉列表
             List<CascaderVO> cascadeList = iPmsCategoryService.cascadeList();
