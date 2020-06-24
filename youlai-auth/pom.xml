@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>youlai-mall</artifactId>
+        <groupId>com.youlai</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>youlai-mall-auth</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fly4j</groupId>
+            <artifactId>yshop-common-db</artifactId>
+            <version>${yshop.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fly4j</groupId>
+            <artifactId>yshop-common-core</artifactId>
+            <version>${yshop.version}</version>
+        </dependency>
+
+        <!-- Spring Cloud Eureka -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+
+        <!-- Spring Cloud Security Oauth2 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+
+        <!-- Spring Cloud Config -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
+        <!-- spring boot web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <!--执行mvn package,即执行 mvn clean package docker:build-->
+                    <!--<execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>-->
+                </executions>
+
+                <configuration>
+                    <!-- 镜像名称 -->
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <!-- 指定标签 -->
+                    <imageTags>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <!-- 基础镜像jdk1.8 -->
+                    <baseImage>java</baseImage>
+                    <!-- 制作者信息 -->
+                    <maintainer>${docker.image.prefix}</maintainer>
+
+                    <!-- 切换到工作目录-->
+                    <workdir>/ROOT</workdir>
+                    <!--<cmd>["java","-version"]</cmd>-->
+                    <entryPoint>
+                        ["java","-Djava.security.egd=file:/dev/./urandom","-jar","${project.build.finalName}.jar"]
+                    </entryPoint>
+
+                    <!-- 指定远程 docker api地址 -->
+                    <dockerHost>https://fly4j:2376</dockerHost>
+                    <dockerCertPath>C:\certs\docker\fly4j</dockerCertPath>
+                    <!-- 复制 jar包到docker容器指定目录-->
+                    <resources>
+                        <resource>
+                            <targetPath>/ROOT</targetPath>
+                            <!-- 用于指定需要复制的根目录，${project.build.directory}表示target目录 -->
+                            <directory>${project.build.directory}</directory>
+                            <!-- 用于指定需要复制的文件，${project.build.finalName}.jar就是打包后的target目录下的jar包名称　-->
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
