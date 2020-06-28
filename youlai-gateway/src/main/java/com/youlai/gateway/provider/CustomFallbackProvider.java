@@ -1,4 +1,4 @@
-package com.fly4j.yshop.gateway.provider;
+package com.youlai.gateway.provider;
 
 import com.netflix.hystrix.exception.HystrixTimeoutException;
 import lombok.extern.slf4j.Slf4j;

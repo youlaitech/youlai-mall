@@ -1,4 +1,4 @@
-package com.fly4j.yshop.gateway.provider;
+package com.youlai.gateway.provider;
 
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.client.ClientHttpResponse;

@@ -1,4 +1,4 @@
-package com.fly4j.yshop.gateway.config;
+package com.youlai.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
