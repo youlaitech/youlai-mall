@@ -9,6 +9,7 @@
     <modules>
         <module>youlai-mall-service</module>
         <module>youlai-mall-service-api</module>
+        <module>youlai-sms</module>
     </modules>
     <packaging>pom</packaging>
     <parent>
