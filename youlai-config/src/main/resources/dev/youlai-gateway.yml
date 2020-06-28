@@ -13,7 +13,7 @@ zuul:
     auth-route:
       path: /auth/**
       sensitiveHeaders:
-      serviceId: yshop-auth
+      serviceId: youlai-auth
       stripPrefix: true #  前缀auth移除（默认true移除）
     fms-route:
       path: /fms/**
@@ -22,26 +22,26 @@ zuul:
     pms-route:
       path: /pms/**
       sensitiveHeaders:
-      serviceId: yshop-pms
+      serviceId: youlai-mall-pms
     oms-route:
       path: /oms/**
       sensitiveHeaders:
-      serviceId: yshop-oms
+      serviceId: youlai-mall-oms
     sms-route:
       path: /sms/**
       sensitiveHeaders:
-      serviceId: yshop-sms
+      serviceId: youlai-mall-sms
     ums-route:
       path: /ums/**
       sensitiveHeaders:
-      serviceId: yshop-ums
+      serviceId: youlai-mall-ums
   host:
     connectTimeoutMillis: 5000
 
 eureka:
   client:
     service-url:
-      defaultZone: http://101.37.69.49:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
   instance:
     ip-address: localhost
     hostname: ${eureka.instance.ip-address}
