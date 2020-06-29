@@ -40,6 +40,14 @@
             <artifactId>spring-cloud-starter-config</artifactId>
             <version>${spring-cloud.version}</version>
         </dependency>
+
+        <!-- Spring Cloud Security Oauth2 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <version>2.2.2.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
 </project>
