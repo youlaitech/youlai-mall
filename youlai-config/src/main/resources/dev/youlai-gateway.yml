@@ -11,30 +11,10 @@ spring:
 zuul:
   routes:
     auth-route:
-      path: /auth/**
+      path: /sc/**
       sensitiveHeaders:
-      serviceId: youlai-auth
+      serviceId: youlai-sc
       stripPrefix: true #  前缀auth移除（默认true移除）
-    fms-route:
-      path: /fms/**
-      sensitiveHeaders:
-      serviceId: yshop-fms
-    pms-route:
-      path: /pms/**
-      sensitiveHeaders:
-      serviceId: youlai-mall-pms
-    oms-route:
-      path: /oms/**
-      sensitiveHeaders:
-      serviceId: youlai-mall-oms
-    sms-route:
-      path: /sms/**
-      sensitiveHeaders:
-      serviceId: youlai-mall-sms
-    ums-route:
-      path: /ums/**
-      sensitiveHeaders:
-      serviceId: youlai-mall-ums
   host:
     connectTimeoutMillis: 5000
 
