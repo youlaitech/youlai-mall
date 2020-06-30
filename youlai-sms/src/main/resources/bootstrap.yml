@@ -1,9 +1,0 @@
-spring:
-  main:
-    allow-bean-definition-overriding: true
-  application:
-    name: youlai-sms
-  cloud:
-    config:
-      uri: http://localhost:8888
-      name: ${spring.application.name}
