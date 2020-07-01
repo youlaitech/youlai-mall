@@ -12,7 +12,6 @@
         <module>youlai-sc</module>
     </modules>
     <packaging>pom</packaging>
-
     <properties>
         <docker.image.prefix>youlai</docker.image.prefix>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
