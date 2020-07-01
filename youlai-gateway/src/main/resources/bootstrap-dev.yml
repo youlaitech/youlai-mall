@@ -1,6 +1,6 @@
 spring:
   application:
-    name: yshop-gateway
+    name: youlai-gateway
   cloud:
     config:
       uri: http://localhost:8888
