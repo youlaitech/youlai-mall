@@ -2,7 +2,7 @@ server:
   port: 8761
 spring:
   application:
-    name: yshop-eureka
+    name: youlai-eureka
 eureka:
   client:
     fetch-registry: false

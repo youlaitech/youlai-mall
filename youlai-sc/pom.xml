@@ -10,9 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>youlai-sc</artifactId>
-    <packaging>pom</packaging>
     <properties>
         <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
+        <spring-boot.version>2.2.6.RELEASE</spring-boot.version>
         <spring-cloud.version>2.2.3.RELEASE</spring-cloud.version>
     </properties>
 
@@ -36,6 +36,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
             <version>${spring-cloud.version}</version>
@@ -54,6 +60,4 @@
             <version>2.2.2.RELEASE</version>
         </dependency>
     </dependencies>
-
-
 </project>

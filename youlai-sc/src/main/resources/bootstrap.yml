@@ -1,8 +1,8 @@
 spring:
-  main:
-    allow-bean-definition-overriding: true
   application:
     name: youlai-sc
+  main:
+    allow-bean-definition-overriding: true
   cloud:
     config:
       uri: http://localhost:8888
