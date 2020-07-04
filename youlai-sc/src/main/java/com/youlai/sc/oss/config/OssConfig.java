@@ -1,6 +1,6 @@
 package com.youlai.sc.oss.config;
 
-import com.youlai.sc.oss.core.OssService;
+import com.youlai.sc.oss.service.OssService;
 import com.youlai.sc.oss.strategy.MinioStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,16 +16,16 @@ public class OssConfig {
     public OssService ossService() {
         OssService ossService = new OssService();
         String active = this.ossProperties.getActive();
-
-
-        ossService.setOssStrategy(minioStrategy());
+        if("minio".equals(active)){
+            ossService.setOssStrategy(minioStrategy());
+        }
         return ossService;
     }
 
     @Bean
     public MinioStrategy minioStrategy() {
         MinioStrategy minioStrategy = new MinioStrategy();
-        minioStrategy.setConfig(ossProperties.getMinio());
+        minioStrategy.setProps(ossProperties.getMinio());
         return minioStrategy;
     }
 }
