@@ -1,12 +1,14 @@
 package com.youlai.sc.oss.controller;
 
 import com.youlai.common.result.Result;
-import com.youlai.sc.oss.service.OssService;
+import com.youlai.sc.oss.strategy.MinioStrategy;
+import com.youlai.sc.oss.strategy.OssStrategy;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +28,8 @@ import javax.annotation.Resource;
 @Slf4j
 public class OssController {
 
-    @Resource
-    private OssService ossService;
+    @Autowired
+    private MinioStrategy minioStrategy;
 
     @PostMapping
     @ApiOperation(
@@ -41,7 +43,7 @@ public class OssController {
             MultipartFile file
     )  {
         Assert.notNull(file,"文件不能为空");
-        String path = ossService.getOssStrategy().upload(file);
+        String path =minioStrategy.upload(file);
         return Result.success(path);
     }
 
@@ -54,7 +56,7 @@ public class OssController {
             @ApiImplicitParam(name = "path", value = "文件路径", required = true, paramType = "query"),
     })
     public Result delete(String path) {
-        boolean delete = ossService.getOssStrategy().delete(path);
+        boolean delete = minioStrategy.delete(path);
         return Result.status(delete);
     }
 

@@ -27,3 +27,10 @@ eureka:
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 5
 
+oss:
+  active: minio
+  minio:
+    endpoint: http://101.37.69.49:9000/
+    access-key: minioadmin
+    secret-key: minioadmin
+    bucket-name: youlai-mall
