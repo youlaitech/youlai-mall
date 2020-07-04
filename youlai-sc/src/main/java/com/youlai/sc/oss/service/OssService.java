@@ -1,4 +1,4 @@
-package com.youlai.sc.oss.core;
+package com.youlai.sc.oss.service;
 
 
 import com.youlai.sc.oss.strategy.OssStrategy;
