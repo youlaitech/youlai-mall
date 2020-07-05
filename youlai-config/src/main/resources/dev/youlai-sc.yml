@@ -34,3 +34,7 @@ oss:
     access-key: minioadmin
     secret-key: minioadmin
     bucket-name: youlai-mall
+
+swagger:
+  auth:
+    endpoint: http://localhost:8000/oauth/token

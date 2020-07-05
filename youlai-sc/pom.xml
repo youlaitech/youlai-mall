@@ -38,6 +38,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-core</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
             <version>${spring-cloud.version}</version>
@@ -60,6 +66,8 @@
             <artifactId>minio</artifactId>
             <version>${minio.version}</version>
         </dependency>
+
+
 
     </dependencies>
 </project>
