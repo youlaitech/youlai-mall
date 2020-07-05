@@ -15,14 +15,24 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            //允许使用iframe 嵌套，避免swagger-ui 不被加载的问题
-            .headers()
-            .frameOptions().disable()
-            .and()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/auth/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .csrf().disable();
+                //允许使用iframe 嵌套，避免swagger-ui 不被加载的问题
+                .headers()
+                .frameOptions().disable()
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/webjars/**",
+                        "/swagger/**",
+                        "/v2/api-docs",
+                        "/doc.html",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**"
+                ).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .csrf().disable();
     }
 }

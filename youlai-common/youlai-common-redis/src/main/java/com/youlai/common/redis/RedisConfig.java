@@ -7,43 +7,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.io.Serializable;
 
-/**
- * Redis配置
- */
 @Configuration
 public class RedisConfig {
 
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory lettuceConnectionFactory) {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
-      /*  // fast json serializer
-        FastJsonRedisSerializer fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
-
-        // serialize key-value
+    public RedisTemplate<String, Serializable> redisTemplate(LettuceConnectionFactory lettuceConnectionFactory){
+        RedisTemplate<String,Serializable> redisTemplate=new RedisTemplate<>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
-
-        // serialize hash key-value
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);*/
-
-        // connection factory
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setConnectionFactory(lettuceConnectionFactory);
         return redisTemplate;
     }
-
-    @Bean
-    public StringRedisTemplate stringRedisTemplate(LettuceConnectionFactory lettuceConnectionFactory) {
-        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
-        // connection factory
-        stringRedisTemplate.setConnectionFactory(lettuceConnectionFactory);
-        return stringRedisTemplate;
-    }
-
 
     @Bean
     public RedissonClient redissonClient() {

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>yshop-common-redis</artifactId>
+    <artifactId>youlai-common-redis</artifactId>
     <dependencies>
         <!-- spring boot redis -->
         <dependency>

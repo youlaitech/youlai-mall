@@ -11,6 +11,11 @@
 
     <artifactId>youlai-common-web</artifactId>
 
+
+    <properties>
+        <spring-cloud-oauth2.version>2.2.2.RELEASE</spring-cloud-oauth2.version>
+    </properties>
+
     <dependencies>
         <!-- spring boot web -->
         <dependency>
@@ -18,6 +23,15 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- spring cloud security oauth2 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <version>${spring-cloud-oauth2.version}</version>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 </project>
