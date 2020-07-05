@@ -22,8 +22,8 @@ import java.util.Collections;
 @Slf4j
 public class SwaggerConfig {
 
-    @Value("${swagger.auth.server}")
-    private String AUTH_SERVER;
+    @Value("${auth.token.endpoint}")
+    private String AUTH_TOKEN_ENDPOINT;
 
     @Bean
     public Docket createRestApi() {
@@ -47,7 +47,7 @@ public class SwaggerConfig {
     }
 
     private SecurityScheme securityScheme() {
-        GrantType grantType = new ResourceOwnerPasswordCredentialsGrant(AUTH_SERVER);
+        GrantType grantType = new ResourceOwnerPasswordCredentialsGrant(AUTH_TOKEN_ENDPOINT);
 
         return new OAuthBuilder()
                 .name("OAuth2")
