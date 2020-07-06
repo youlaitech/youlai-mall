@@ -9,9 +9,6 @@ import io.minio.PutObjectOptions;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
 
 public class MinioStrategy implements OssStrategy {
 
@@ -33,19 +30,18 @@ public class MinioStrategy implements OssStrategy {
     @Override
     public String upload(MultipartFile file) {
         try {
-            if (!minioClient.bucketExists(this.props.getBucketName())) {
-                minioClient.makeBucket(this.props.getBucketName());
+            String bucketName = this.props.getBucketName();
+            if (!minioClient.bucketExists(bucketName)) {
+                minioClient.makeBucket(bucketName);
             }
             InputStream inputStream = file.getInputStream();
 
             String fileName = file.getOriginalFilename();
 
+            minioClient.putObject(bucketName, fileName, inputStream, new PutObjectOptions(inputStream.available(), -1));
 
-
-            minioClient.putObject(this.props.getBucketName(), fileName, inputStream, new PutObjectOptions(inputStream.available(), -1));
-
-            return this.props.getEndpoint() + URLUtil.encodePath(fileName);
-
+            String fileUrl = minioClient.getObjectUrl(bucketName, fileName);
+            return fileUrl;
         } catch (Exception e) {
             throw new CustomException("上传失败");
         }
