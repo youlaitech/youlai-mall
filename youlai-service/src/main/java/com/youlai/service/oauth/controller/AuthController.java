@@ -3,8 +3,8 @@ package com.youlai.service.oauth.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.youlai.common.result.Result;
-import com.youlai.service.oauth.entity.SysUser;
-import com.youlai.service.oauth.service.ISysUserService;
+import com.youlai.service.system.entity.SysUser;
+import com.youlai.service.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -27,7 +27,7 @@ public class AuthController {
     public Result<SysUser> user(Principal principal) {
         String username = principal.getName();
         SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUserName, username));
+                .eq(SysUser::getUsername, username));
         return Result.success(user);
     }
 

@@ -35,8 +35,8 @@ public class Result<T> implements Serializable {
         return result(ResultCodeEnum.SYSTEM_EXECUTION_ERROR.getCode(), ResultCodeEnum.SYSTEM_EXECUTION_ERROR.getMsg(), null);
     }
 
-    public static <T> Result<T> error(IResultCode resultCode) {
-        return result(resultCode.getCode(), resultCode.getMsg(), null);
+    public static <T> Result<T> error(String msg) {
+        return result(ResultCodeEnum.SYSTEM_EXECUTION_ERROR.getCode(), msg, null);
     }
 
     public static <T> Result<T> status(boolean status) {

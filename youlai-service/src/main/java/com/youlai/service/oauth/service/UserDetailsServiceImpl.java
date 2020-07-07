@@ -1,9 +1,10 @@
-package com.youlai.service.oauth.service.impl;
+package com.youlai.service.oauth.service;
 
-import com.youlai.service.oauth.entity.SysPermission;
-import com.youlai.service.oauth.entity.SysUser;
-import com.youlai.service.oauth.service.ISysPermissionService;
-import com.youlai.service.oauth.service.ISysUserService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.youlai.service.system.entity.SysPermission;
+import com.youlai.service.system.entity.SysUser;
+import com.youlai.service.system.service.ISysPermissionService;
+import com.youlai.service.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,10 +33,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = iSysUserService.getByUserName(username);
+        SysUser sysUser = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username));
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         if (sysUser != null) {
-            List<SysPermission> permissions = iSysPermissionService.getByUserId(sysUser.getUserId());
+            List<SysPermission> permissions = iSysPermissionService.getByUserId(sysUser.getId());
             if(permissions!=null){
                 List<String> perms = permissions.stream().map(item -> item.getPerms()).collect(Collectors.toList());
                 perms.forEach(perm->{
@@ -43,7 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 });
             }
         }
-        return new User(sysUser.getUserName(),sysUser.getPassword(),true,true,true,true,grantedAuthorities);
+        return new User(sysUser.getUsername(),sysUser.getPassword(),true,true,true,true,grantedAuthorities);
     }
 
 }
