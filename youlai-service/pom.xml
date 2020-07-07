@@ -16,9 +16,17 @@
         <spring-cloud.version>2.2.3.RELEASE</spring-cloud.version>
         <spring-cloud-oauth2.version>2.2.2.RELEASE</spring-cloud-oauth2.version>
         <minio.version>7.1.0</minio.version>
+        <hutool.version>5.3.2</hutool.version>
     </properties>
 
     <dependencies>
+        <!-- HuTool -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>youlai-common-core</artifactId>

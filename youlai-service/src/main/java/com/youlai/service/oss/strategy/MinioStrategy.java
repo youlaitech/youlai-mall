@@ -1,7 +1,6 @@
 package com.youlai.service.oss.strategy;
 
 
-import com.sun.deploy.util.URLUtil;
 import com.youlai.common.exception.CustomException;
 import com.youlai.service.oss.config.OssProperties;
 import io.minio.MinioClient;

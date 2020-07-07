@@ -1,7 +1,7 @@
-package com.youlai.service.oauth.service;
+package com.youlai.service.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.service.oauth.entity.SysPermission;
+import com.youlai.service.system.entity.SysPermission;
 
 import java.util.List;
 

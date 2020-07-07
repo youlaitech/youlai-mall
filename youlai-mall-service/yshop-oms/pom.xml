@@ -15,31 +15,31 @@
         <dependency>
             <groupId>com.fly4j</groupId>
             <artifactId>yshop-common-web</artifactId>
-            <version>${yshop.version}</version>
+            <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
             <artifactId>yshop-common-db</artifactId>
-            <version>${yshop.version}</version>
+            <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
             <artifactId>yshop-common-redis</artifactId>
-            <version>${yshop.version}</version>
+            <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
             <artifactId>yshop-pms-api</artifactId>
-            <version>${yshop.version}</version>
+            <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
             <artifactId>yshop-oms-api</artifactId>
-            <version>${yshop.version}</version>
+            <version>${youlai-mall.version}</version>
         </dependency>
 
         <!-- spring cloud eureka -->

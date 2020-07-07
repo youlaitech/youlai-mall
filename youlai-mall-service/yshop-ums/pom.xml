@@ -16,19 +16,19 @@
        <dependency>
            <groupId>com.fly4j</groupId>
            <artifactId>yshop-common-db</artifactId>
-           <version>${yshop.version}</version>
+           <version>${youlai-mall.version}</version>
        </dependency>
 
        <dependency>
            <groupId>com.fly4j</groupId>
            <artifactId>yshop-common-web</artifactId>
-           <version>${yshop.version}</version>
+           <version>${youlai-mall.version}</version>
        </dependency>
 
        <dependency>
            <groupId>com.fly4j</groupId>
            <artifactId>yshop-ums-api</artifactId>
-           <version>${yshop.version}</version>
+           <version>${youlai-mall.version}</version>
        </dependency>
 
        <!-- spring cloud eureka -->

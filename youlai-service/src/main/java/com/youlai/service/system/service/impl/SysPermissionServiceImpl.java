@@ -1,9 +1,9 @@
-package com.youlai.service.oauth.service.impl;
+package com.youlai.service.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.service.oauth.entity.SysPermission;
-import com.youlai.service.oauth.mapper.SysPermissionMapper;
-import com.youlai.service.oauth.service.ISysPermissionService;
+import com.youlai.service.system.entity.SysPermission;
+import com.youlai.service.system.mapper.SysPermissionMapper;
+import com.youlai.service.system.service.ISysPermissionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

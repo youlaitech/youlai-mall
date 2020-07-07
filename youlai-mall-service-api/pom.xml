@@ -28,13 +28,13 @@
         <dependency>
             <groupId>com.fly4j</groupId>
             <artifactId>yshop-common-core</artifactId>
-            <version>${yshop.version}</version>
+            <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
             <artifactId>yshop-common-swagger</artifactId>
-            <version>${yshop.version}</version>
+            <version>${youlai-mall.version}</version>
         </dependency>
     </dependencies>
 </project>

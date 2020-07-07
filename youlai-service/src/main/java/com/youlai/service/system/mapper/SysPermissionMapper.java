@@ -1,8 +1,8 @@
-package com.youlai.service.oauth.mapper;
+package com.youlai.service.system.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.service.oauth.entity.SysPermission;
+import com.youlai.service.system.entity.SysPermission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
