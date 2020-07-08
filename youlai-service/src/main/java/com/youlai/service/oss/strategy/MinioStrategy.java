@@ -1,7 +1,7 @@
 package com.youlai.service.oss.strategy;
 
 
-import com.youlai.common.exception.CustomException;
+import com.youlai.common.web.exception.CustomException;
 import com.youlai.service.oss.config.OssProperties;
 import io.minio.MinioClient;
 import io.minio.PutObjectOptions;
