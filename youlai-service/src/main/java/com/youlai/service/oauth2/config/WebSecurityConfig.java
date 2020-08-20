@@ -1,6 +1,6 @@
-package com.youlai.service.oauth.config;
+package com.youlai.service.oauth2.config;
 
-import com.youlai.service.oauth.service.UserDetailsServiceImpl;
+import com.youlai.service.oauth2.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
