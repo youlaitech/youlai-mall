@@ -7,6 +7,7 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.service.system.entity.SysUser;
 import com.youlai.service.system.service.ISysUserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-
+@Api(tags = "用户接口")
 @RestController
 @RequestMapping("/users")
 @Slf4j
@@ -90,7 +91,5 @@ public class SysUserController {
         boolean status = iSysUserService.removeByIds(ids);
         return Result.status(status);
     }
-
-
 
 }

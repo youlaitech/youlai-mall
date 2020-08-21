@@ -13,7 +13,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     @Override
     public List<SysPermission> getByUserId(Long userId) {
-        return this.baseMapper.selectByUserId(userId);
+        return this.baseMapper.listByUserId(userId);
     }
 
 }
