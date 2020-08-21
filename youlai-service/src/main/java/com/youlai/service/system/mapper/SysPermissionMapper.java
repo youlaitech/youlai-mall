@@ -18,5 +18,5 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
             "    INNER JOIN sys_role_permission d ON d.role_id = c.role_id " +
             "    INNER JOIN sys_permission e ON e.permission_id = d.permission_id " +
             "    WHERE a.user_id =#{userId}")
-    List<SysPermission> selectByUserId(Long userId);
+    List<SysPermission> listByUserId(Long userId);
 }

@@ -9,7 +9,13 @@ import lombok.experimental.Accessors;
 public class SysPermission {
 
     @TableId
-    private Long permissionId;
-    private String permissionName;
+    private Integer id;
+    private String name;
     private String perms;
+    private Integer type;
+    private Integer status;
+    private String icon;
+    private Integer level;
+    private Integer sort;
+    private String url;
 }
