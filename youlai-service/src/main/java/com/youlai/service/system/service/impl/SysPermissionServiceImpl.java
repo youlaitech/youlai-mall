@@ -12,8 +12,8 @@ import java.util.List;
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements ISysPermissionService {
 
     @Override
-    public List<SysPermission> getByUserId(Long userId) {
-        return this.baseMapper.listByUserId(userId);
+    public List<SysPermission> listByUserId(Integer userId) {
+        List<SysPermission> list = this.baseMapper.listByUserId(userId);
+        return list;
     }
-
 }

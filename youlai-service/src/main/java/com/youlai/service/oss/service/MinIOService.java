@@ -42,8 +42,9 @@ public class MinIOService implements InitializingBean {
                 .bucket(bucketName)
                 .build();
         if (!client.bucketExists(bucketExistsArgs)) {
-            MakeBucketArgs.builder()
-                    .bucket(bucketName);
+            MakeBucketArgs makeBucketArgs = MakeBucketArgs.builder()
+                    .bucket(bucketName).build();
+            client.makeBucket(makeBucketArgs);
         }
     }
 

@@ -2,10 +2,11 @@ package com.youlai.service.system.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.youlai.common.core.entity.BaseEntity;
 import lombok.Data;
 
 @Data
-public class SysDictType {
+public class SysDictType extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
