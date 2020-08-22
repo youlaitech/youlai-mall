@@ -27,7 +27,7 @@ public class MinIOController {
     })
     public Result<String> upload(
             @RequestParam(value = "file") MultipartFile file,
-            @RequestParam(value = "bucket_name", required = false, defaultValue = "helmet") String bucketName
+            @RequestParam(value = "bucket_name", required = false, defaultValue = "youlai") String bucketName
     ) {
         try {
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);

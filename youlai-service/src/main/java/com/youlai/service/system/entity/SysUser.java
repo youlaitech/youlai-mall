@@ -9,7 +9,7 @@ import lombok.Data;
 public class SysUser extends BaseEntity {
 
     @TableId
-    private Long id;
+    private Integer id;
 
     private String username;
 

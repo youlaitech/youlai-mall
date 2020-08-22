@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         SysUser sysUser = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username));
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         if (sysUser != null) {
-            List<SysPermission> permissions = iSysPermissionService.getByUserId(sysUser.getId());
+            List<SysPermission> permissions = iSysPermissionService.listByUserId(sysUser.getId());
             if(permissions!=null){
                 List<String> perms = permissions.stream().map(item -> item.getPerms()).collect(Collectors.toList());
                 perms.forEach(perm->{
