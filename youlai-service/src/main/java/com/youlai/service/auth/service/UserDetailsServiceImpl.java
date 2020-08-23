@@ -1,4 +1,4 @@
-package com.youlai.service.oauth2.service;
+package com.youlai.service.auth.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.service.system.entity.SysPermission;

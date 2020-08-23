@@ -26,7 +26,6 @@ public class MinIOService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        log.info("MinioTemplate 初始化");
         Assert.notBlank(minIOProperties.getEndpoint(), "Minio URL 为空");
         Assert.notBlank(minIOProperties.getAccessKey(), "Minio accessKey为空");
         Assert.notBlank(minIOProperties.getSecretKey(), "Minio secretKey为空");

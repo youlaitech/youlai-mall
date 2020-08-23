@@ -1,4 +1,4 @@
-package com.youlai.service.oauth2.controller;
+package com.youlai.service.auth.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/oauth2")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired

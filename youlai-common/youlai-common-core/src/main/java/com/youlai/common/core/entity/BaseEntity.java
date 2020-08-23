@@ -19,7 +19,7 @@ public class BaseEntity implements Serializable {
 
      @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建人",example = "admin")
-    private String creteBy;
+    private String createBy;
 
      @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间",example = "2020-01-01 12:00:00")

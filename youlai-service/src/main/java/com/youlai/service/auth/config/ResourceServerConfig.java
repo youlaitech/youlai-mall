@@ -1,4 +1,4 @@
-package com.youlai.service.oauth2.config;
+package com.youlai.service.auth.config;
 
 
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/**/*.css",
                         "/**/*.js",
@@ -31,7 +31,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/swagger-ui.html",
                         "/swagger-resources/**"
                 ).permitAll()
-                //.anyRequest().authenticated()
+                .antMatchers(HttpMethod.OPTIONS,"/oauth/token").permitAll()
+                .antMatchers("/**").authenticated()
                 .and()
                 .csrf().disable();
     }
