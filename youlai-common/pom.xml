@@ -8,8 +8,8 @@
     <artifactId>youlai-common</artifactId>
     <groupId>com.youlai</groupId>
     <version>1.0.0-SNAPSHOT</version>
-
     <packaging>pom</packaging>
+
     <modules>
         <module>youlai-common-core</module>
         <module>youlai-common-swagger</module>
@@ -31,14 +31,6 @@
         <spring-boot.version>2.2.6.RELEASE</spring-boot.version>
         <common-pools.version>2.8.0</common-pools.version>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
