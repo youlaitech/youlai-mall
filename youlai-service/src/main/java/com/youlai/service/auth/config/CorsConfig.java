@@ -1,4 +1,4 @@
-package com.youlai.service.oauth2.config;
+package com.youlai.service.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

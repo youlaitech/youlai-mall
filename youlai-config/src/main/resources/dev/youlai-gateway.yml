@@ -1,22 +1,32 @@
 server:
   port: 9999
-  max-http-header-size: 10MB
 
 spring:
-  servlet:
-    multipart:
-      max-file-size : 10MB # 单个文件大小
-      max-request-size: 100MB # 单次请求上传总文件大小
-
-zuul:
-  routes:
-    auth-route:
-      path: /sc/**
-      sensitiveHeaders:
-      serviceId: youlai-sc
-      stripPrefix: true #  前缀auth移除（默认true移除）
-  host:
-    connectTimeoutMillis: 5000
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      routes:
+        - id: youlai-auth
+          uri: lb://youlai-service
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=0
+        - id: youlai-file
+          uri: lb://youlai-service
+          predicates:
+            - Path=/api/v1/files/**
+          filters:
+            - StripPrefix=0
+        - id: youlai-admin
+          uri: lb://youlai-service
+          predicates:
+            - Path=/admin/**
+          filters:
+            - StripPrefix=1
 
 eureka:
   client:

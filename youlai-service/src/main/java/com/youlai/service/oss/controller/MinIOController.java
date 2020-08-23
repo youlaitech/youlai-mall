@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Api(tags = "MinIO文件接口")
+@Api(tags = "文件接口")
 @RestController
-@RequestMapping("/api/v1/minio/files")
+@RequestMapping("/api/v1/files")
 @Slf4j
 public class MinIOController {
 
