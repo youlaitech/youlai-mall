@@ -13,28 +13,28 @@ zuul:
     auth-route:
       path: /auth/**
       sensitiveHeaders:
-      serviceId: yshop-auth
+      serviceId: youlai-mall-auth
       stripPrefix: true #  前缀auth移除（默认true移除）
     fms-route:
       path: /fms/**
       sensitiveHeaders:
-      serviceId: yshop-fms
+      serviceId: youlai-mall-fms
     pms-route:
       path: /pms/**
       sensitiveHeaders:
-      serviceId: yshop-pms
+      serviceId: youlai-mall-pms
     oms-route:
       path: /oms/**
       sensitiveHeaders:
-      serviceId: yshop-oms
+      serviceId: youlai-mall-oms
     sms-route:
       path: /sms/**
       sensitiveHeaders:
-      serviceId: yshop-sms
+      serviceId: youlai-mall-sms
     ums-route:
       path: /ums/**
       sensitiveHeaders:
-      serviceId: yshop-ums
+      serviceId: youlai-mall-ums
   host:
     connectTimeoutMillis: 5000
 

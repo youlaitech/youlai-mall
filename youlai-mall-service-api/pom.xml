@@ -9,13 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>yshop-service-api</artifactId>
+    <artifactId>youlai-mall-service-api</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>yshop-pms-api</module>
-        <module>yshop-sms-api</module>
-        <module>yshop-ums-api</module>
-        <module>yshop-oms-api</module>
+        <module>youlai-mall-pms-api</module>
+        <module>youlai-mall-sms-api</module>
+        <module>youlai-mall-ums-api</module>
+        <module>youlai-mall-oms-api</module>
     </modules>
 
     <dependencies>
@@ -27,13 +27,13 @@
 
         <dependency>
             <groupId>com.fly4j</groupId>
-            <artifactId>yshop-common-core</artifactId>
+            <artifactId>youlai-mall-common-core</artifactId>
             <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
-            <artifactId>yshop-common-swagger</artifactId>
+            <artifactId>youlai-mall-common-swagger</artifactId>
             <version>${youlai-mall.version}</version>
         </dependency>
     </dependencies>
