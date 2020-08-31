@@ -3,35 +3,35 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>yshop-service</artifactId>
+        <artifactId>youlai-mall-service</artifactId>
         <groupId>com.fly4j</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>yshop-pms</artifactId>
+    <artifactId>youlai-mall-pms</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.fly4j</groupId>
-            <artifactId>yshop-common-web</artifactId>
+            <artifactId>youlai-mall-common-web</artifactId>
             <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
-            <artifactId>yshop-common-db</artifactId>
+            <artifactId>youlai-mall-common-db</artifactId>
             <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
-            <artifactId>yshop-pms-api</artifactId>
+            <artifactId>youlai-mall-pms-api</artifactId>
             <version>${youlai-mall.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fly4j</groupId>
-            <artifactId>yshop-common-redis</artifactId>
+            <artifactId>youlai-mall-common-redis</artifactId>
             <version>${youlai-mall.version}</version>
         </dependency>
 

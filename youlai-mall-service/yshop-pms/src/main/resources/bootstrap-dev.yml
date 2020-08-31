@@ -2,7 +2,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: yshop-pms
+    name: youlai-mall-pms
   cloud:
     config:
       uri: http://localhost:8888

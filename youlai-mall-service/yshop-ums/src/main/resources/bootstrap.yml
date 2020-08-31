@@ -2,7 +2,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: yshop-ums
+    name: youlai-mall-ums
   cloud:
     config:
       uri: http://101.37.69.49:8888

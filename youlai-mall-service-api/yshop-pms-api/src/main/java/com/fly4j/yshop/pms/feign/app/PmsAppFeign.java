@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "yshop-pms", fallbackFactory = PmsAppFeignFallbackFactory.class)
+@FeignClient(name = "youlai-mall-pms", fallbackFactory = PmsAppFeignFallbackFactory.class)
 public interface PmsAppFeign {
 
     @GetMapping(value = "/api.app/v1/skus/{id}")
