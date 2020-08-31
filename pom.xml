@@ -3,15 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.youlai</groupId>
     <artifactId>youlai-mall</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+
     <modules>
-        <module>youlai-mall-service</module>
-        <module>youlai-mall-service-api</module>
-        <module>youlai-service</module>
+        <module>youlai-admin</module>
+        <module>youlai-common</module>
+        <module>youlai-auth</module>
+        <module>youlai-admin-api</module>
+        <module>youlai-admin</module>
+        <module>youlai-admin-api</module>
+        <module>youlai-auth</module>
     </modules>
 
     <parent>
@@ -26,10 +32,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <youlai-mall.version>1.0.0-SNAPSHOT</youlai-mall.version>
         <lombok.version>1.18.12</lombok.version>
         <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
-        <spring-boot-admin.version>2.2.2</spring-boot-admin.version>
+        <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
         <hutool.version>5.3.2</hutool.version>
         <mysql.version>8.0.19</mysql.version>
         <druid.version>1.1.22</druid.version>
@@ -39,6 +44,8 @@
         <swagger-models.version>1.5.21</swagger-models.version>
         <feign-httpclient.version>10.8</feign-httpclient.version>
         <redisson.version>3.12.5</redisson.version>
+        <nimbus-jose-jwt.version>8.16</nimbus-jose-jwt.version>
+        <minio.version>7.1.0</minio.version>
     </properties>
 
     <dependencies>
@@ -47,8 +54,6 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
-
-        <!-- HuTool -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -56,9 +61,10 @@
         </dependency>
     </dependencies>
 
+
     <dependencyManagement>
         <dependencies>
-            <!-- spring cloud -->
+            <!--Spring Cloud 相关依赖-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -67,12 +73,28 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- spring cloud openfeign[r] -->
+            <!--Spring Cloud Alibaba 相关依赖-->
             <dependency>
-                <groupId>io.github.openfeign</groupId>
-                <artifactId>feign-httpclient</artifactId>
-                <version>${feign-httpclient.version}</version>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
 </project>
