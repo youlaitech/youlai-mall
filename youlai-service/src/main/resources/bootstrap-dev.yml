@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: youlai-service
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    config:
-      uri: http://localhost:8888
-      name: ${spring.application.name}

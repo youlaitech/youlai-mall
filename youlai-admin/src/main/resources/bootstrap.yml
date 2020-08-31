@@ -1,0 +1,12 @@
+server:
+  port: 8808
+
+spring:
+  application:
+    name: youlai-admin
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+      config:
+        file-extension: yaml
