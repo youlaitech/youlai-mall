@@ -1,0 +1,33 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://localhost:9999/youlai-service/rsa/publicKey'
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 启用服务发现
+          lower-case-service-id: true
+      routes:
+        - id: youlai-service
+          uri: lb://youlai-service
+          predicates:
+            - Path=/youlai-service/**
+          filters:
+            - StripPrefix=1
+
+# 配置白名单路径
+white:
+    urls:
+      - "/**/*.js"
+      - "/**/*.css"
+      - "/**/*.png"
+      - "/youlai-service/oauth/token"
+      - "/youlai-service/rsa/publicKey"
