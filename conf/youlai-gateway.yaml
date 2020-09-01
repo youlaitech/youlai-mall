@@ -3,7 +3,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: 'http://localhost:9999/youlai-service/rsa/publicKey'
+          jwk-set-uri: 'http://localhost:9999/auth/rsa/publicKey'
   redis:
     database: 0
     host: localhost
@@ -16,10 +16,16 @@ spring:
           enabled: true # 启用服务发现
           lower-case-service-id: true
       routes:
-        - id: youlai-service
-          uri: lb://youlai-service
+        - id: youlai-auth
+            uri: lb://youlai-auth
+            predicates:
+              - Path=/auth/**
+            filters:
+              - StripPrefix=1
+        - id: youlai-admin
+          uri: lb://youlai-admin
           predicates:
-            - Path=/youlai-service/**
+            - Path=/admin/**
           filters:
             - StripPrefix=1
 
@@ -29,5 +35,5 @@ white:
       - "/**/*.js"
       - "/**/*.css"
       - "/**/*.png"
-      - "/youlai-service/oauth/token"
-      - "/youlai-service/rsa/publicKey"
+      - "/auth/oauth/token"
+      - "/auth/rsa/publicKey"
