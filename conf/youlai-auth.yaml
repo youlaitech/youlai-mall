@@ -1,5 +1,0 @@
-rsa:
-  publicKey: abcdef
-auth:
-  token:
-    endpoint: http://localhost:8000/oauth/token

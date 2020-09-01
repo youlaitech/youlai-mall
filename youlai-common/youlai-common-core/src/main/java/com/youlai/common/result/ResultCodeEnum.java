@@ -15,13 +15,23 @@ public enum ResultCodeEnum implements  IResultCode, Serializable {
 
     SUCCESS("00000","一切ok"),
 
-    CLIENT_ERROR("A0001","用户端错误"),
-    CLIENT_REQUEST_PARAM_ERROR("A0400","用户请求参数错误"),
-    CLIENT_REQUEST_PARAM_IS_BLANK("A0410","请求必填参数为空"),
-    CLIENT_UPLOAD_FILE_ERROR("A0700","用户上传文件异常"),
-    CLIENT_UPLOAD_FILE_TYPE_NOT_MATCH("A0701","用户上传文件类型不匹配"),
-    CLIENT_UPLOAD_FILE_SIZE_EXCEEDS("A0702","用户上传文件太大"),
-    CLIENT_UPLOAD_IMAGE_SIZE_EXCEEDS("A0703","用户上传图片太大"),
+    USER_ERROR("A0001","用户端错误"),
+    USER_LOGIN_ERROR("A0200","用户登录异常"),
+    USER_ACCOUNT_NOT_EXIST("A0201","用户账户不存在"),
+    USER_ACCOUNT_LOCKED("A0202","用户账户被冻结"),
+    USER_ACCOUNT_INVALID("A0203","用户账户已作废"),
+    USER_ACCOUNT_UNAUTHENTICATED ("A0204","用户未登录或token已过期"), //
+    USER_PASSWORD_ERROR("A0210","用户密码错误"),
+    USER_LOGIN_EXPIRED("A0230","用户登录已过期"),
+    USER_AUTHORIZED_ERROR ("A0300","访问权限异常"),
+    USER_ACCESS_UNAUTHORIZED ("A0301","访问未授权"),
+
+    USER_REQUEST_PARAM_ERROR("A0400","用户请求参数错误"),
+    USER_REQUEST_PARAM_IS_BLANK("A0410","请求必填参数为空"),
+    USER_UPLOAD_FILE_ERROR("A0700","用户上传文件异常"),
+    USER_UPLOAD_FILE_TYPE_NOT_MATCH("A0701","用户上传文件类型不匹配"),
+    USER_UPLOAD_FILE_SIZE_EXCEEDS("A0702","用户上传文件太大"),
+    USER_UPLOAD_IMAGE_SIZE_EXCEEDS("A0703","用户上传图片太大"),
 
     SYSTEM_EXECUTION_ERROR("B0001","系统执行出错"),
     SYSTEM_EXECUTION_TIMEOUT("B0100","系统执行超时"),
