@@ -113,7 +113,7 @@ public class SysUserController {
         if(sysUser!=null){
             BeanUtil.copyProperties(sysUser,userDTO);
             List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                    .eq(SysUserRole::getUserId, sysUser)
+                    .eq(SysUserRole::getUserId, sysUser.getId())
             ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
             if(CollectionUtil.isNotEmpty(roleIds)){
                 List<String> roles = iSysRoleService.listByIds(roleIds).stream()
