@@ -32,11 +32,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SysUserController {
 
-    private ISysUserService iSysUserService;
-
-    private ISysUserRoleService iSysUserRoleService;
-
-    private ISysRoleService iSysRoleService;
+    private final ISysUserService iSysUserService;
+    private final ISysUserRoleService iSysUserRoleService;
+    private final ISysRoleService iSysRoleService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({

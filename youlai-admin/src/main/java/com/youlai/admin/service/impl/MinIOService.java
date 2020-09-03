@@ -7,9 +7,12 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -52,6 +55,7 @@ public class MinIOService implements InitializingBean {
         PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                 .bucket(bucketName)
                 .object(objectName)
+                .contentType(MediaType.IMAGE_JPEG_VALUE)
                 .stream(inputStream, inputStream.available(), -1)
                 .build();
         client.putObject(putObjectArgs);
