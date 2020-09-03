@@ -12,13 +12,18 @@
     <artifactId>youlai-common-swagger</artifactId>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 </project>
