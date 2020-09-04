@@ -1,18 +1,18 @@
 package com.youlai.auth.controller;
 
+import com.youlai.admin.api.dto.UserDTO;
+import com.youlai.admin.api.service.UmsAdminService;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
@@ -50,4 +50,14 @@ public class AuthController {
                 .build();
         return Result.success(oauth2Token);
     }
+
+    @Autowired
+    private UmsAdminService umsAdminService;
+
+    @GetMapping("/loadUserByUsername")
+    public Result loadUserByUsername(){
+        UserDTO userDTO = umsAdminService.loadUserByUsername("admin");
+        return Result.success(userDTO);
+    }
+
 }

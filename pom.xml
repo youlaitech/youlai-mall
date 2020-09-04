@@ -42,7 +42,6 @@
         <swagger.version>2.9.2</swagger.version>
         <swagger-annotations.version>1.5.21</swagger-annotations.version>
         <swagger-models.version>1.5.21</swagger-models.version>
-        <feign-httpclient.version>10.8</feign-httpclient.version>
         <redisson.version>3.12.5</redisson.version>
         <nimbus-jose-jwt.version>8.16</nimbus-jose-jwt.version>
         <minio.version>7.1.0</minio.version>
@@ -107,7 +106,6 @@
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
