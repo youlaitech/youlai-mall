@@ -20,7 +20,7 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>youlai-admin-api</artifactId>
-            <version>${youlai-common.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
