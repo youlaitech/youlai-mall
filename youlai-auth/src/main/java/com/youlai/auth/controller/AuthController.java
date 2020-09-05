@@ -3,6 +3,7 @@ package com.youlai.auth.controller;
 import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.admin.api.service.UmsAdminService;
 import com.youlai.auth.domain.Oauth2Token;
+import com.youlai.common.auth.constant.AuthConstant;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -46,7 +47,7 @@ public class AuthController {
                 .token(oAuth2AccessToken.getValue())
                 .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
-                .tokenHead("Bearer ")
+                .tokenHead(AuthConstant.JWT_TOKEN_PREFIX)
                 .build();
         return Result.success(oauth2Token);
     }
