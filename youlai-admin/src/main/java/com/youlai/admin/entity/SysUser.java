@@ -17,11 +17,13 @@ public class SysUser extends BaseEntity {
 
     private Integer gender;
 
+    private String avatar;
+
     private String password;
 
-    private String status;
-
     private String salt;
+
+    private String status;
 
     private Integer deptId;
 
