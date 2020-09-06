@@ -3,6 +3,9 @@ package com.youlai.admin.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.api.dto.UserDTO;
@@ -11,6 +14,8 @@ import com.youlai.admin.entity.SysUserRole;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
+import com.youlai.admin.vo.UserVO;
+import com.youlai.common.auth.constant.AuthConstant;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
@@ -19,9 +24,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,6 +79,7 @@ public class SysUserController {
         return Result.success(sysUser);
     }
 
+
     @ApiOperation(value = "新增用户", httpMethod = "POST")
     @ApiImplicitParam(name = "sysUser", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     @PostMapping
@@ -106,14 +116,14 @@ public class SysUserController {
     public UserDTO loadUserByUsername(@RequestParam String username) {
         SysUser sysUser = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username));
-        UserDTO userDTO=new UserDTO();
+        UserDTO userDTO = new UserDTO();
 
-        if(sysUser!=null){
-            BeanUtil.copyProperties(sysUser,userDTO);
+        if (sysUser != null) {
+            BeanUtil.copyProperties(sysUser, userDTO);
             List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
                     .eq(SysUserRole::getUserId, sysUser.getId())
             ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
-            if(CollectionUtil.isNotEmpty(roleIds)){
+            if (CollectionUtil.isNotEmpty(roleIds)) {
                 List<String> roles = iSysRoleService.listByIds(roleIds).stream()
                         .map(role -> role.getId() + "_" + role.getPerms()).collect(Collectors.toList());
                 userDTO.setRoles(roles);
@@ -124,4 +134,23 @@ public class SysUserController {
     }
 
 
+    @ApiOperation(value = "当前请求用户信息", httpMethod = "GET")
+    @GetMapping("/current")
+    public Result currentUserInfo(HttpServletRequest request) {
+        String payload = request.getHeader(AuthConstant.USER_TOKEN_HEADER);
+        JSONObject jsonObject = JSONUtil.parseObj(payload);
+        Integer id = jsonObject.getInt("id");
+        SysUser sysUser = iSysUserService.getById(id);
+        UserVO userVO = new UserVO();
+        BeanUtil.copyProperties(sysUser, userVO);
+        List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
+                .eq(SysUserRole::getUserId, sysUser.getId())
+        ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
+        if (CollectionUtil.isNotEmpty(roleIds)) {
+            List<String> roles = iSysRoleService.listByIds(roleIds).stream()
+                    .map(role -> role.getPerms()).collect(Collectors.toList());
+            userVO.setRoles(roles);
+        }
+        return Result.success(userVO);
+    }
 }

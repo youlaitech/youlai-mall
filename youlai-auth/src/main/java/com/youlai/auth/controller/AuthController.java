@@ -47,18 +47,7 @@ public class AuthController {
                 .token(oAuth2AccessToken.getValue())
                 .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
-                .tokenHead(AuthConstant.JWT_TOKEN_PREFIX)
                 .build();
         return Result.success(oauth2Token);
     }
-
-    @Autowired
-    private UmsAdminService umsAdminService;
-
-    @GetMapping("/loadUserByUsername")
-    public Result loadUserByUsername(){
-        UserDTO userDTO = umsAdminService.loadUserByUsername("admin");
-        return Result.success(userDTO);
-    }
-
 }
