@@ -1,4 +1,4 @@
-package com.youlai.admin.entity;
+package com.youlai.admin.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -6,23 +6,25 @@ import com.youlai.common.core.entity.BaseEntity;
 import lombok.Data;
 
 @Data
-public class SysDict  extends BaseEntity {
+public class SysMenu  extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    private String label;
+    private String name;
 
-    private String value;
+    private Integer parentId;
 
-    private String typeCode;
+    private String icon;
 
-    private String sort;
+    private Integer sort;
+
+    private Integer visible;
 
     private Integer status;
 
-    private Integer isDefault;
+    private String path;
 
-    private  String remark;
+    private String perms;
 
 }

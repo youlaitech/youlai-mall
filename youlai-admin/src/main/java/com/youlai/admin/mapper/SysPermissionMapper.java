@@ -1,7 +1,7 @@
 package com.youlai.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.admin.entity.SysPermission;
+import com.youlai.admin.domain.entity.SysPermission;
 import org.apache.ibatis.annotations.Select;
 import org.mapstruct.Mapper;
 

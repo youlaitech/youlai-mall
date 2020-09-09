@@ -1,7 +1,7 @@
 package com.youlai.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.entity.SysDictType;
+import com.youlai.admin.domain.entity.SysDictType;
 import com.youlai.admin.mapper.SysDictTypeMapper;
 import com.youlai.admin.service.ISysDictTypeService;
 import org.springframework.stereotype.Service;

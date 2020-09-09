@@ -1,4 +1,4 @@
-package com.youlai.admin.entity;
+package com.youlai.admin.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -6,22 +6,19 @@ import com.youlai.common.core.entity.BaseEntity;
 import lombok.Data;
 
 @Data
-public class SysRole extends BaseEntity {
+public class SysDictType extends BaseEntity {
 
-    @TableId(type= IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Integer id;
+
+    private String code;
 
     private String name;
 
-    private String perms;
-
-    private Integer sort;
-
     private Integer status;
 
-    private Integer deleted;
+    private  String  remark;
 
-    private String remark;
 
 
 }

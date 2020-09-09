@@ -3,7 +3,7 @@ package com.youlai.admin.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.entity.SysDictType;
+import com.youlai.admin.domain.entity.SysDictType;
 import com.youlai.admin.service.ISysDictTypeService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
