@@ -3,7 +3,8 @@ package com.youlai.admin.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.entity.SysMenu;
+import com.youlai.admin.domain.entity.SysMenu;
+import com.youlai.admin.domain.entity.SysMenu;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -24,31 +25,29 @@ import java.util.List;
 @Slf4j
 public class SysMenuController {
 
-
     @Autowired
     private ISysMenuService iSysMenuService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "username", value = "菜单名", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "mode", value = "查询模式: 1-表格数据 2-树形下拉", paramType = "query", dataType = "Integer")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, String name) {
-        LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<SysMenu>()
-                .like(StrUtil.isNotBlank(name), SysMenu::getName, name)
+    public Result list(String name,Integer mode) {
+        LambdaQueryWrapper<SysMenu> baseQuery = new LambdaQueryWrapper<SysMenu>()
+                .orderByAsc(SysMenu::getSort)
                 .orderByDesc(SysMenu::getUpdateTime)
                 .orderByDesc(SysMenu::getCreateTime);
-
-        if (page != null && limit != null) {
-            Page<SysMenu> result = iSysMenuService.page(new Page<>(page, limit) ,queryWrapper);
-
-            return PageResult.success(result.getRecords(), result.getTotal());
-        } else if (limit != null) {
-            queryWrapper.last("LIMIT " + limit);
+        List list;
+        if (mode.equals(1)) { // 表格数据
+            baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysMenu::getName, name);
+            list = iSysMenuService.listForTableData(baseQuery);
+        } else if (mode.equals(2)) { // tree-select 树形下拉数据
+            list = iSysMenuService.listForTreeSelect(baseQuery);
+        } else {
+            list = iSysMenuService.list(baseQuery);
         }
-        List<SysMenu> list = iSysMenuService.list(queryWrapper);
         return Result.success(list);
     }
 

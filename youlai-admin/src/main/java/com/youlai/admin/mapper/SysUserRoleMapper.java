@@ -1,7 +1,7 @@
 package com.youlai.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.admin.entity.SysUserRole;
+import com.youlai.admin.domain.entity.SysUserRole;
 import org.mapstruct.Mapper;
 
 @Mapper

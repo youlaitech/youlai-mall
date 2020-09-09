@@ -1,7 +1,7 @@
 package com.youlai.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.entity.SysPermission;
+import com.youlai.admin.domain.entity.SysPermission;
 import com.youlai.admin.mapper.SysPermissionMapper;
 import com.youlai.admin.service.ISysPermissionService;
 import org.springframework.stereotype.Service;

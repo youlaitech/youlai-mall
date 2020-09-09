@@ -1,14 +1,14 @@
-package com.youlai.admin.vo;
+package com.youlai.admin.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.youlai.common.core.entity.BaseEntity;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class DeptVO {
+public class SysDept extends BaseEntity {
 
+    @TableId(type= IdType.AUTO)
     private Integer id;
 
     private String name;
@@ -21,13 +21,12 @@ public class DeptVO {
 
     private Integer status;
 
+    private Integer deleted;
+
     private String leader;
 
     private String mobile;
 
     private String email;
-
-
-    private List<DeptVO> children;
 
 }

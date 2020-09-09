@@ -2,7 +2,7 @@ package com.youlai.admin.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.admin.entity.SysPermission;
+import com.youlai.admin.domain.entity.SysPermission;
 
 import java.util.List;
 
