@@ -1,4 +1,4 @@
-package com.youlai.admin.entity;
+package com.youlai.admin.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;

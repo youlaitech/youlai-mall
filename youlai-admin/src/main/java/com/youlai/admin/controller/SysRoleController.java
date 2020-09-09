@@ -3,7 +3,7 @@ package com.youlai.admin.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.entity.SysRole;
+import com.youlai.admin.domain.entity.SysRole;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -32,7 +32,7 @@ public class SysRoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "username", value = "角色名", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "username", value = "角色名称", paramType = "query", dataType = "String"),
     })
     @GetMapping
     public Result list(Integer page, Integer limit, String name) {
@@ -43,7 +43,6 @@ public class SysRoleController {
 
         if (page != null && limit != null) {
             Page<SysRole> result = iSysRoleService.page(new Page<>(page, limit) ,queryWrapper);
-
             return PageResult.success(result.getRecords(), result.getTotal());
         } else if (limit != null) {
             queryWrapper.last("LIMIT " + limit);

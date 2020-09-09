@@ -4,11 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.AdminConstant;
-import com.youlai.admin.entity.SysDept;
+import com.youlai.admin.domain.entity.SysDept;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.service.ISysDeptService;
-import com.youlai.admin.vo.DeptVO;
-import com.youlai.admin.vo.TreeSelectVO;
+import com.youlai.admin.domain.vo.DeptVO;
+import com.youlai.admin.domain.vo.TreeSelectVO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +24,16 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         List<DeptVO> list = recursionForTableData(AdminConstant.ROOT_DEPT_ID, deptList);
         return list;
     }
+
+
+
+    @Override
+    public List<TreeSelectVO> listForTreeSelect(LambdaQueryWrapper<SysDept> baseQuery) {
+        List<SysDept> deptList = this.baseMapper.selectList(baseQuery);
+        List<TreeSelectVO> list = recursionForTreeSelect(AdminConstant.ROOT_DEPT_ID, deptList);
+        return list;
+    }
+
 
 
     /**
@@ -47,12 +57,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         return list;
     }
 
-    @Override
-    public List<TreeSelectVO> listForTreeSelect(LambdaQueryWrapper<SysDept> baseQuery) {
-        List<SysDept> deptList = this.baseMapper.selectList(baseQuery);
-        List<TreeSelectVO> list = recursionForTreeSelect(AdminConstant.ROOT_DEPT_ID, deptList);
-        return list;
-    }
 
     /**
      * 递归生成部门树形下拉数据

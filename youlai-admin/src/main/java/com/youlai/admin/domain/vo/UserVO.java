@@ -1,4 +1,4 @@
-package com.youlai.admin.vo;
+package com.youlai.admin.domain.vo;
 
 import lombok.Data;
 
