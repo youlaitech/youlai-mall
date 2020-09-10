@@ -67,7 +67,7 @@ public class PmsCategoryController extends BaseController {
     }
 
     @ApiOperation(value = "分类详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result get(@PathVariable Long id) {
         PmsCategory category = iPmsCategoryService.getById(id);
@@ -76,7 +76,7 @@ public class PmsCategoryController extends BaseController {
 
     @ApiOperation(value = "修改分类", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     })
     @PutMapping(value = "/{id}")
@@ -88,7 +88,7 @@ public class PmsCategoryController extends BaseController {
     }
 
     @ApiOperation(value = "删除分类", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "分类id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "分类id", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iPmsCategoryService.removeByIds(ids);

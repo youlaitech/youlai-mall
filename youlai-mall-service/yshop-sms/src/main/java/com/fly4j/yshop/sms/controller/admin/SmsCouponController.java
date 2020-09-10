@@ -53,7 +53,7 @@ public class SmsCouponController extends BaseController {
 
     @ApiOperation(value = "优惠券详情", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "优惠券id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "优惠券id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
@@ -73,7 +73,7 @@ public class SmsCouponController extends BaseController {
 
     @ApiOperation(value = "修改优惠券", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "优惠券id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "优惠券id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "smsCoupon", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsCoupon")
     })
     @PutMapping(value = "/{id}")
@@ -83,7 +83,7 @@ public class SmsCouponController extends BaseController {
     }
 
     @ApiOperation(value = "删除优惠券", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "优惠券id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "优惠券id", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSmsCouponService.removeByIds(ids);

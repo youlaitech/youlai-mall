@@ -38,7 +38,7 @@ public class AppGoodsController {
 
     @ApiOperation(value = "商品列表", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "category_id", value = "商品分类ID", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "category_id", value = "商品分类ID", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "返回结果条数", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "is_hot", value = "是否热品", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "is_new", value = "是否新品", paramType = "query", dataType = "Integer"),
@@ -65,7 +65,7 @@ public class AppGoodsController {
 
     @ApiOperation(value = "商品详情", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
     public R<AppGoodsDetailDTO> detail(@PathVariable Long id) {

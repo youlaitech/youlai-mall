@@ -48,7 +48,7 @@ public class PmsAttributeController extends BaseController {
     }
 
     @ApiOperation(value = "属性详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "属性id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "属性id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
         PmsAttribute attribute = iPmsAttributeService.getById(id);
@@ -66,7 +66,7 @@ public class PmsAttributeController extends BaseController {
 
     @ApiOperation(value = "修改属性", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "属性id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "属性id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "attribute", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsAttribute")
     })
     @PutMapping(value = "/{id}")
@@ -78,7 +78,7 @@ public class PmsAttributeController extends BaseController {
     }
 
     @ApiOperation(value = "删除属性", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iPmsAttributeService.removeByIds(ids);

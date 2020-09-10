@@ -44,7 +44,7 @@ public class PmsSkuController extends BaseController {
     }
 
     @ApiOperation(value = "SKU详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result get(@PathVariable Long id) {
         PmsSku sku = iPmsSkuService.getById(id);
@@ -61,7 +61,7 @@ public class PmsSkuController extends BaseController {
 
     @ApiOperation(value = "修改SKU", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "pmsSku", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSku")
     })
     @PutMapping(value = "/{id}")
@@ -71,7 +71,7 @@ public class PmsSkuController extends BaseController {
     }
 
     @ApiOperation(value = "删除SKU", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iPmsSkuService.removeByIds(ids);

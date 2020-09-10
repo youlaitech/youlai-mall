@@ -33,7 +33,7 @@ public class AppAddressController extends BaseController {
     @ApiOperation(value = "地址列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "limit", value = "返回结果条数", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "user_id", value = "用户ID", paramType = "query", dataType = "Long")
+            @ApiImplicitParam(name = "user_id", value = "用户ID", paramType = "query", dataType = "Integer")
     })
     @GetMapping()
     public R<List<AppAddressDTO>> page(
@@ -51,7 +51,7 @@ public class AppAddressController extends BaseController {
 
     @ApiOperation(value = "地址详情", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "地址id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "地址id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
@@ -71,7 +71,7 @@ public class AppAddressController extends BaseController {
 
     @ApiOperation(value = "修改地址", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "地址id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "地址id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "umsAddress", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsAddress")
     })
     @PutMapping(value = "/{id}")
@@ -81,7 +81,7 @@ public class AppAddressController extends BaseController {
     }
 
     @ApiOperation(value = "删除地址", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "地址id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "地址id", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iUmsAddressService.removeByIds(ids);

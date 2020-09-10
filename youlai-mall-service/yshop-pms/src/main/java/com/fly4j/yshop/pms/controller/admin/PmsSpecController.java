@@ -50,7 +50,7 @@ public class PmsSpecController extends BaseController {
     }
 
     @ApiOperation(value = "规格详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result get(@PathVariable Long id) {
         PmsSpec spec = iPmsSpecService.getById(id);
@@ -67,7 +67,7 @@ public class PmsSpecController extends BaseController {
 
     @ApiOperation(value = "修改规格", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "spec", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpec")
     })
     @PutMapping(value = "/{id}")
@@ -80,7 +80,7 @@ public class PmsSpecController extends BaseController {
     }
 
     @ApiOperation(value = "删除规格", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iPmsSpecService.removeByIds(ids);

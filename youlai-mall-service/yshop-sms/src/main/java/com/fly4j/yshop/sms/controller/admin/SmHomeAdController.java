@@ -53,7 +53,7 @@ public class SmHomeAdController extends BaseController {
 
     @ApiOperation(value = "广告详情", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
@@ -73,7 +73,7 @@ public class SmHomeAdController extends BaseController {
 
     @ApiOperation(value = "修改广告", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "smsHomeAd", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsHomeAd")
     })
     @PutMapping(value = "/{id}")
@@ -83,7 +83,7 @@ public class SmHomeAdController extends BaseController {
     }
 
     @ApiOperation(value = "删除广告", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "广告id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "广告id", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSmsHomeAdService.removeByIds(ids);

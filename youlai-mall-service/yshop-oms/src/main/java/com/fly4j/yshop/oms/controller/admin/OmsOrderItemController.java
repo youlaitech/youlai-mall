@@ -64,7 +64,7 @@ public class OmsOrderItemController extends BaseController {
 
     @ApiOperation(value = "订单明细详情", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单明细id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "订单明细id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
@@ -74,7 +74,7 @@ public class OmsOrderItemController extends BaseController {
 
     @ApiOperation(value = "修改订单明细", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单明细id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "订单明细id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "omsOrderItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrderItem")
     })
     @PutMapping(value = "/{id}")
@@ -84,7 +84,7 @@ public class OmsOrderItemController extends BaseController {
     }
 
     @ApiOperation(value = "删除订单明细", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "订单明细id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "订单明细id", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iOmsOrderItemService.removeByIds(ids);

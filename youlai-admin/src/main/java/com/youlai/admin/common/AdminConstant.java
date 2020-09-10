@@ -6,5 +6,4 @@ package com.youlai.admin.common;
 public interface AdminConstant {
 
     int ROOT_DEPT_ID = 0;
-
 }
