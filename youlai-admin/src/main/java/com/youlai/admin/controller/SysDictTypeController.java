@@ -52,7 +52,7 @@ public class SysDictTypeController {
     }
 
     @ApiOperation(value = "字典类型详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "字典类型id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "字典类型id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
         SysDictType sysDictType = iSysDictTypeService.getById(id);
@@ -69,7 +69,7 @@ public class SysDictTypeController {
 
     @ApiOperation(value = "修改字典类型", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "字典类型id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "字典类型id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "sysDictType", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictType")
     })
     @PutMapping(value = "/{id}")
@@ -81,7 +81,7 @@ public class SysDictTypeController {
     }
 
     @ApiOperation(value = "删除字典类型", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysDictTypeService.removeByIds(ids);

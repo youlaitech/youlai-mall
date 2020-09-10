@@ -2,7 +2,9 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.domain.entity.SysRole;
 import com.youlai.admin.domain.entity.SysRole;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.result.PageResult;
@@ -32,7 +34,7 @@ public class SysRoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "username", value = "角色名称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query", dataType = "String"),
     })
     @GetMapping
     public Result list(Integer page, Integer limit, String name) {
@@ -52,7 +54,7 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "角色详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
         SysRole sysRole = iSysRoleService.getById(id);
@@ -69,7 +71,7 @@ public class SysRoleController {
 
     @ApiOperation(value = "修改角色", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "sysRole", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     })
     @PutMapping(value = "/{id}")
@@ -82,11 +84,29 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "删除角色", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysRoleService.removeByIds(ids);
         return Result.status(status);
+    }
+
+
+    @ApiOperation(value = "修改角色【局部更新】", httpMethod = "PATCH")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
+    })
+    @PatchMapping(value = "/{id}")
+    public Result patch(@PathVariable Integer id, @RequestBody SysRole role) {
+        LambdaUpdateWrapper<SysRole> luw = new LambdaUpdateWrapper<SysRole>().eq(SysRole::getId, id);
+        if (role.getStatus() != null) { // 状态更新
+            luw.set(SysRole::getStatus, role.getStatus());
+        }  else {
+            return Result.success();
+        }
+        boolean update = iSysRoleService.update(luw);
+        return Result.success(update);
     }
 
 }

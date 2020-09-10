@@ -74,7 +74,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .filter(dept -> dept.getParentId().equals(parentId))
                 .forEach(dept -> {
                     TreeSelectVO treeSelectVO = new TreeSelectVO();
-                    treeSelectVO.setId(dept.getId().toString());
+                    treeSelectVO.setId(dept.getId());
                     treeSelectVO.setLabel(dept.getName());
                     List<TreeSelectVO> children = recursionForTreeSelect(dept.getId(), deptList);
                     treeSelectVO.setChildren(children);
