@@ -65,7 +65,7 @@ public class UmsUserController extends BaseController {
 
     @ApiOperation(value = "会员详情", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "会员id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "会员id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
@@ -75,7 +75,7 @@ public class UmsUserController extends BaseController {
 
     @ApiOperation(value = "修改会员", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "会员id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "会员id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "umsMember", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PutMapping(value = "/{id}")
@@ -85,7 +85,7 @@ public class UmsUserController extends BaseController {
     }
 
     @ApiOperation(value = "删除会员", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "会员id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "会员id", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iUmsUserService.removeByIds(ids);
@@ -94,7 +94,7 @@ public class UmsUserController extends BaseController {
 
     @ApiOperation(value = "修改会员状态", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "会员id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "会员id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "status", value = "显示状态", required = true, paramType = "path", dataType = "Integer")
     })
     @PutMapping("/id/{id}/status/{status}")

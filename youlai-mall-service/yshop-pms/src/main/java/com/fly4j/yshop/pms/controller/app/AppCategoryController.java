@@ -40,7 +40,7 @@ public class AppCategoryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "limit", value = "返回结果条数", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "level", value = "分类级别", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "parent_id", value = "父分类ID", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "parent_id", value = "父分类ID", paramType = "query", dataType = "Integer"),
     })
     @GetMapping()
     public R list(

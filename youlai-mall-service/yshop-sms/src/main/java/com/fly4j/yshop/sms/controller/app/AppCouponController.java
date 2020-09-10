@@ -39,7 +39,7 @@ public class AppCouponController {
     @ApiOperation(value = "优惠券列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "limit", value = "返回结果条数", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "user_id", value = "用户ID", paramType = "query", dataType = "Long")
+            @ApiImplicitParam(name = "user_id", value = "用户ID", paramType = "query", dataType = "Integer")
     })
     @GetMapping()
     public R list(

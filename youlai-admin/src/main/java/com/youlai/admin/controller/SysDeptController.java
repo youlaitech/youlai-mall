@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,16 +67,10 @@ public class SysDeptController {
     @ApiImplicitParam(name = "sysDept", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDept")
     @PostMapping
     public Result add(@RequestBody SysDept sysDept) {
-        Integer parentId = sysDept.getParentId();
-        String treePath;
-        if (parentId.equals(AdminConstant.ROOT_DEPT_ID)) {
-            treePath = String.valueOf(AdminConstant.ROOT_DEPT_ID);
-        } else {
-            SysDept parentDept = iSysDeptService.getById(parentId);
-            treePath = Optional.ofNullable(parentDept).map(dept -> dept.getParentId() + "," + dept.getTreePath()).get();
-        }
+        String treePath = getDeptTreePath(sysDept);
         sysDept.setTreePath(treePath);
-        return Result.status(iSysDeptService.save(sysDept));
+        boolean status = iSysDeptService.save(sysDept);
+        return Result.status(status);
     }
 
     @ApiOperation(value = "修改部门", httpMethod = "PUT")
@@ -88,14 +83,7 @@ public class SysDeptController {
             @PathVariable Integer id,
             @RequestBody SysDept sysDept) {
 
-        Integer parentId = sysDept.getParentId();
-        String treePath;
-        if (parentId.equals(AdminConstant.ROOT_DEPT_ID)) {
-            treePath = String.valueOf(AdminConstant.ROOT_DEPT_ID);
-        } else {
-            SysDept parentDept = iSysDeptService.getById(parentId);
-            treePath = Optional.ofNullable(parentDept).map(dept -> dept.getParentId() + "," + dept.getTreePath()).get();
-        }
+        String treePath = getDeptTreePath(sysDept);
         sysDept.setTreePath(treePath);
         boolean status = iSysDeptService.updateById(sysDept);
         return Result.status(status);
@@ -109,8 +97,21 @@ public class SysDeptController {
         // 删除部门以及子部门
         Optional.ofNullable(ids).orElse(new ArrayList<>()).forEach(id ->
                 iSysDeptService.remove(new LambdaQueryWrapper<SysDept>().eq(SysDept::getId, id)
-                        .or().apply("concat (',',tree_path,',') like concat('%,',{1},',%')", id))
+                        .or().apply("concat (',',tree_path,',') like concat('%,',{0},',%')", id))
         );
         return Result.success();
     }
+
+    private String getDeptTreePath(SysDept sysDept) {
+        Integer parentId = sysDept.getParentId();
+        String treePath;
+        if (parentId.equals(AdminConstant.ROOT_DEPT_ID)) {
+            treePath = String.valueOf(AdminConstant.ROOT_DEPT_ID);
+        } else {
+            SysDept parentDept = iSysDeptService.getById(parentId);
+            treePath = Optional.ofNullable(parentDept).map(dept -> dept.getTreePath() + "," + dept.getId()).orElse(Strings.EMPTY);
+        }
+        return treePath;
+    }
+
 }

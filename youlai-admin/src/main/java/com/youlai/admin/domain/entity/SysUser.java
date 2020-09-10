@@ -1,5 +1,6 @@
 package com.youlai.admin.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.entity.BaseEntity;
 import lombok.Data;
@@ -15,6 +16,8 @@ public class SysUser extends BaseEntity {
 
     private String nickname;
 
+    private String mobile;
+
     private Integer gender;
 
     private String avatar;
@@ -23,10 +26,13 @@ public class SysUser extends BaseEntity {
 
     private String salt;
 
-    private String status;
+    private Integer status;
 
     private Integer deptId;
 
     private Integer deleted;
+
+    @TableField(exist = false)
+    private String deptName;
 
 }

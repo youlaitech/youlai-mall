@@ -74,7 +74,7 @@ public class SmsSeckillSessionSkuController extends BaseController {
 
     @ApiOperation(value = "秒杀商品商品详情", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "秒杀商品商品id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "秒杀商品商品id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
@@ -84,7 +84,7 @@ public class SmsSeckillSessionSkuController extends BaseController {
 
     @ApiOperation(value = "修改秒杀商品", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "秒杀商品商品id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "秒杀商品商品id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "smsSeckillSessionSku", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsSeckill")
     })
     @PutMapping(value = "/{id}")
@@ -94,7 +94,7 @@ public class SmsSeckillSessionSkuController extends BaseController {
     }
 
     @ApiOperation(value = "删除秒杀商品商品", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "秒杀商品商品id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "秒杀商品商品id", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSmsSeckillSessionSkuService.removeByIds(ids);

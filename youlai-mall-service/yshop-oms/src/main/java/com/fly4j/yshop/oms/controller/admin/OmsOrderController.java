@@ -76,7 +76,7 @@ public class OmsOrderController extends BaseController {
 
     @ApiOperation(value = "订单详情", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
@@ -94,7 +94,7 @@ public class OmsOrderController extends BaseController {
 
     @ApiOperation(value = "修改订单", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "omsOrder", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
     })
     @PutMapping(value = "/{id}")
@@ -104,7 +104,7 @@ public class OmsOrderController extends BaseController {
     }
 
     @ApiOperation(value = "删除订单", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "订单id", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "订单id", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping()
     public R delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iOmsOrderService.removeByIds(ids);
@@ -113,7 +113,7 @@ public class OmsOrderController extends BaseController {
 
     @ApiOperation(value = "修改订单状态", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "status", value = "显示状态", required = true, paramType = "path", dataType = "Integer")
     })
     @PutMapping("/id/{id}/status/{status}")
@@ -131,7 +131,7 @@ public class OmsOrderController extends BaseController {
 
     @ApiOperation(value = "订单发货", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "omsOrder", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
     })
     @PutMapping(value = "/{id}/deliver")

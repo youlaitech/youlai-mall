@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class PageResult<T> extends Result {
 
-    private Long total;
+    private long total;
 
     public static <T> PageResult<T> success(T data, Long total) {
         PageResult<T> pageResult = new PageResult();

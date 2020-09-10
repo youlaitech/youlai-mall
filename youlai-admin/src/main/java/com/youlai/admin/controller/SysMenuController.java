@@ -2,7 +2,9 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.domain.entity.SysMenu;
 import com.youlai.admin.domain.entity.SysMenu;
 import com.youlai.admin.domain.entity.SysMenu;
 import com.youlai.admin.service.ISysMenuService;
@@ -52,7 +54,7 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "菜单详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
         SysMenu sysMenu = iSysMenuService.getById(id);
@@ -69,7 +71,7 @@ public class SysMenuController {
 
     @ApiOperation(value = "修改菜单", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "sysMenu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
     })
     @PutMapping(value = "/{id}")
@@ -82,11 +84,27 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "删除菜单", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysMenuService.removeByIds(ids);
         return Result.status(status);
     }
-
+    
+    @ApiOperation(value = "修改菜单【局部更新】", httpMethod = "PATCH")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
+    })
+    @PatchMapping(value = "/{id}")
+    public Result patch(@PathVariable Integer id, @RequestBody SysMenu menu) {
+        LambdaUpdateWrapper<SysMenu> luw = new LambdaUpdateWrapper<SysMenu>().eq(SysMenu::getId, id);
+        if (menu.getStatus() != null) { // 状态更新
+            luw.set(SysMenu::getStatus, menu.getStatus());
+        }  else {
+            return Result.success();
+        }
+        boolean update = iSysMenuService.update(luw);
+        return Result.success(update);
+    }
 }

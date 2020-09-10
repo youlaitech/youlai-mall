@@ -25,16 +25,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         return list;
     }
 
-
-
     @Override
     public List<TreeSelectVO> listForTreeSelect(LambdaQueryWrapper<SysDept> baseQuery) {
         List<SysDept> deptList = this.baseMapper.selectList(baseQuery);
         List<TreeSelectVO> list = recursionForTreeSelect(AdminConstant.ROOT_DEPT_ID, deptList);
         return list;
     }
-
-
 
     /**
      * 递归生成部门表格数据
@@ -71,7 +67,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .filter(dept -> dept.getParentId().equals(parentId))
                 .forEach(dept -> {
                     TreeSelectVO treeSelectVO = new TreeSelectVO();
-                    treeSelectVO.setId(dept.getId().toString());
+                    treeSelectVO.setId(dept.getId());
                     treeSelectVO.setLabel(dept.getName());
                     List<TreeSelectVO> children = recursionForTreeSelect(dept.getId(), deptList);
                     treeSelectVO.setChildren(children);
