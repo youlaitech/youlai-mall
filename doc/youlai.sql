@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 09/09/2020 18:05:09
+ Date: 11/09/2020 19:58:01
 */
 
 SET NAMES utf8mb4;
@@ -150,12 +150,15 @@ CREATE TABLE `sys_dept`  (
   `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '更新者',
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (1, '123', 0, '', 3, '123', '17621590365', 'sfdasdf@sds.com', 1, 0, 'admin', '2020-09-09 17:43:40', 'admin', '2020-09-09 17:43:40');
+INSERT INTO `sys_dept` VALUES (3, '测试', 0, '0', 1, '123', '', NULL, 1, 0, 'admin', '2020-09-10 11:52:52', 'admin', '2020-09-10 11:52:52');
+INSERT INTO `sys_dept` VALUES (5, '123', 3, '0,3', 1, '23', NULL, '', 1, 0, 'admin', '2020-09-10 11:54:46', 'admin', '2020-09-10 11:54:46');
+INSERT INTO `sys_dept` VALUES (6, '4567', 5, '0,3,5', 1, NULL, NULL, NULL, 1, 0, 'admin', '2020-09-10 17:43:07', 'admin', '2020-09-10 17:43:07');
+INSERT INTO `sys_dept` VALUES (7, '2222', 3, '0,3', 1, NULL, NULL, NULL, 1, 0, 'admin', '2020-09-10 17:43:20', 'admin', '2020-09-10 17:43:20');
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -246,17 +249,17 @@ INSERT INTO `sys_dict_type` VALUES (10, 'sys_normal_disable', '系统开关', '0
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '菜单名称',
-  `parent_id` bigint(20) DEFAULT NULL COMMENT '父菜单ID',
+  `parent_id` int(20) DEFAULT NULL COMMENT '父菜单ID',
   `path` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '路由地址',
   `component` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件路径',
   `perms` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限标识',
-  `type` tinyint(1) DEFAULT NULL COMMENT '菜单类型 (0菜单 1目录 2按钮)',
+  `type` tinyint(1) DEFAULT NULL COMMENT '菜单类型 (0 目录，1 菜单，2 按钮)',
   `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '#' COMMENT '菜单图标',
   `sort` int(11) DEFAULT 0 COMMENT '排序',
   `visible` tinyint(1) DEFAULT 0 COMMENT '是否可见',
-  `status` tinyint(1) DEFAULT 0 COMMENT '状态（0正常 1禁用）',
+  `status` tinyint(1) DEFAULT 0 COMMENT '状态（0 禁用，1 开启）',
   `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '创建人',
   `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
@@ -341,9 +344,9 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 'root', 1, 0, 0, '超级管理员', '2018-12-23 16:00:00', 'admin', '2019-05-05 16:00:00', 'admin');
-INSERT INTO `sys_role` VALUES (2, '仓库管理员', 'admin', 2, 0, 0, '系统管理员', '2018-12-23 16:00:00', 'admin', '2019-05-03 16:00:00', 'admin');
-INSERT INTO `sys_role` VALUES (3, '普通用户', 'common', 3, 0, 0, '普通用户', '2019-05-05 16:00:00', 'admin', '2019-05-05 16:00:00', 'admin');
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 'root', 1, 0, 0, '超级管理员', '2018-12-23 16:00:00', 'admin', '2020-09-11 17:04:23', 'admin');
+INSERT INTO `sys_role` VALUES (2, '仓库管理员', 'admin', 2, 0, 0, '系统管理员', '2018-12-23 16:00:00', 'admin', '2020-09-11 17:04:54', 'admin');
+INSERT INTO `sys_role` VALUES (3, '普通用户', 'common', 3, 0, 0, '普通用户', '2019-05-05 16:00:00', 'admin', '2020-09-11 17:13:46', 'admin');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -353,6 +356,39 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` int(11) NOT NULL COMMENT '角色ID',
   `menu_id` int(11) NOT NULL COMMENT '菜单ID'
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role_menu
+-- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (1, 1);
+INSERT INTO `sys_role_menu` VALUES (1, 2);
+INSERT INTO `sys_role_menu` VALUES (2, 1);
+INSERT INTO `sys_role_menu` VALUES (1, 21);
+INSERT INTO `sys_role_menu` VALUES (1, 22);
+INSERT INTO `sys_role_menu` VALUES (1, 23);
+INSERT INTO `sys_role_menu` VALUES (1, 28);
+INSERT INTO `sys_role_menu` VALUES (1, 24);
+INSERT INTO `sys_role_menu` VALUES (1, 26);
+INSERT INTO `sys_role_menu` VALUES (1, 27);
+INSERT INTO `sys_role_menu` VALUES (1, 32);
+INSERT INTO `sys_role_menu` VALUES (1, 33);
+INSERT INTO `sys_role_menu` VALUES (1, 34);
+INSERT INTO `sys_role_menu` VALUES (1, 37);
+INSERT INTO `sys_role_menu` VALUES (1, 38);
+INSERT INTO `sys_role_menu` VALUES (1, 39);
+INSERT INTO `sys_role_menu` VALUES (2, 21);
+INSERT INTO `sys_role_menu` VALUES (2, 22);
+INSERT INTO `sys_role_menu` VALUES (2, 23);
+INSERT INTO `sys_role_menu` VALUES (2, 28);
+INSERT INTO `sys_role_menu` VALUES (2, 2);
+INSERT INTO `sys_role_menu` VALUES (3, 21);
+INSERT INTO `sys_role_menu` VALUES (3, 22);
+INSERT INTO `sys_role_menu` VALUES (3, 23);
+INSERT INTO `sys_role_menu` VALUES (3, 28);
+INSERT INTO `sys_role_menu` VALUES (3, 17);
+INSERT INTO `sys_role_menu` VALUES (3, 18);
+INSERT INTO `sys_role_menu` VALUES (3, 19);
+INSERT INTO `sys_role_menu` VALUES (3, 20);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -399,7 +435,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '系统管理员', 0, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', '51379ee6-a921-4804-95eb-779bcef24013', NULL, 0, 'http://101.37.69.49/group1/M00/00/00/rBACvV5ksIyAd6-cAAJ601vxWDc849.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', 'admin', '2020-03-09 10:12:54', 'fly4j');
+INSERT INTO `sys_user` VALUES (1, 'admin', '系统管理员', 0, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', '51379ee6-a921-4804-95eb-779bcef24013', 5, 0, 'http://101.37.69.49/group1/M00/00/00/rBACvV5ksIyAd6-cAAJ601vxWDc849.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', 'admin', '2020-03-09 10:12:54', 'fly4j');
 
 -- ----------------------------
 -- Table structure for sys_user_role
