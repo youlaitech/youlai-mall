@@ -1,9 +1,12 @@
 package com.youlai.admin.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.entity.BaseEntity;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class SysRole extends BaseEntity {
@@ -22,6 +25,9 @@ public class SysRole extends BaseEntity {
     private Integer deleted;
 
     private String remark;
+
+    @TableField(exist = false)
+    private List<Integer> menuIds;
 
 
 }

@@ -4,10 +4,14 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.common.AdminConstant;
 import com.youlai.admin.domain.entity.SysMenu;
 import com.youlai.admin.domain.entity.SysMenu;
 import com.youlai.admin.domain.entity.SysMenu;
+import com.youlai.admin.domain.entity.SysRoleMenu;
+import com.youlai.admin.domain.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysMenuService;
+import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
@@ -18,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Api(tags = "菜单接口")
 @RestController
@@ -30,13 +34,18 @@ public class SysMenuController {
     @Autowired
     private ISysMenuService iSysMenuService;
 
+    @Autowired
+    private ISysRoleMenuService iSysRoleMenuService;
+
+
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "mode", value = "查询模式: 1-表格数据 2-树形下拉", paramType = "query", dataType = "Integer")
+            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "mode", value = "查询模式: 1-表格数据 2-树形数据", paramType = "query", dataType = "Integer")
     })
     @GetMapping
-    public Result list(String name,Integer mode) {
+    public Result list(String name, Integer roleId, Integer mode) {
         LambdaQueryWrapper<SysMenu> baseQuery = new LambdaQueryWrapper<SysMenu>()
                 .orderByAsc(SysMenu::getSort)
                 .orderByDesc(SysMenu::getUpdateTime)
@@ -45,8 +54,24 @@ public class SysMenuController {
         if (mode.equals(1)) { // 表格数据
             baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysMenu::getName, name);
             list = iSysMenuService.listForTableData(baseQuery);
-        } else if (mode.equals(2)) { // tree-select 树形下拉数据
+        } else if (mode.equals(2)) { // 树形数据
             list = iSysMenuService.listForTreeSelect(baseQuery);
+            if (roleId != null) { // 菜单树形 + 角色权限
+                Map<String, Object> map = new HashMap<>();
+                map.put("menus", list);
+                List<Integer> checkedKeys;
+                if (roleId.equals(AdminConstant.ROOT_ROLE_ID)) { // 超级管理员拥有所有的菜单权限
+                    checkedKeys = (List<Integer>) list.stream().map(item -> ((TreeSelectVO) item).getId()).collect(Collectors.toList());
+                } else {
+                    checkedKeys = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
+                            .eq(SysRoleMenu::getRoleId, roleId))
+                            .stream()
+                            .map(item -> item.getMenuId())
+                            .collect(Collectors.toList());
+                }
+                map.put("checkedKeys", checkedKeys);
+                return Result.success(map);
+            }
         } else {
             list = iSysMenuService.list(baseQuery);
         }
@@ -56,7 +81,7 @@ public class SysMenuController {
     @ApiOperation(value = "菜单详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
+    public Result detail(@PathVariable Integer id) {
         SysMenu sysMenu = iSysMenuService.getById(id);
         return Result.success(sysMenu);
     }
@@ -76,7 +101,7 @@ public class SysMenuController {
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody SysMenu sysMenu) {
         sysMenu.setUpdateTime(new Date());
         boolean status = iSysMenuService.updateById(sysMenu);
@@ -90,7 +115,7 @@ public class SysMenuController {
         boolean status = iSysMenuService.removeByIds(ids);
         return Result.status(status);
     }
-    
+
     @ApiOperation(value = "修改菜单【局部更新】", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
@@ -101,7 +126,7 @@ public class SysMenuController {
         LambdaUpdateWrapper<SysMenu> luw = new LambdaUpdateWrapper<SysMenu>().eq(SysMenu::getId, id);
         if (menu.getStatus() != null) { // 状态更新
             luw.set(SysMenu::getStatus, menu.getStatus());
-        }  else {
+        } else {
             return Result.success();
         }
         boolean update = iSysMenuService.update(luw);
