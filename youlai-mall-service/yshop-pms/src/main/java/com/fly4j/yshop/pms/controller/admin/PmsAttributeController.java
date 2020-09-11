@@ -50,7 +50,7 @@ public class PmsAttributeController extends BaseController {
     @ApiOperation(value = "属性详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "属性id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
+    public Result detail(@PathVariable Integer id) {
         PmsAttribute attribute = iPmsAttributeService.getById(id);
         return Result.ok(attribute);
     }
@@ -71,7 +71,7 @@ public class PmsAttributeController extends BaseController {
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable("id") Long id,
+            @PathVariable("id") Integer id,
             @RequestBody PmsAttribute attribute) {
         boolean status = iPmsAttributeService.updateById(attribute);
         return Result.status(status);

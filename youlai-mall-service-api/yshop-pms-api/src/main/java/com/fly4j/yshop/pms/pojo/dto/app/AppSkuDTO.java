@@ -50,7 +50,7 @@ public class AppSkuDTO {
 
     @Data
     public static class Sku{
-        private Long id;
+        private Integer id;
 
         private BigDecimal price;
 

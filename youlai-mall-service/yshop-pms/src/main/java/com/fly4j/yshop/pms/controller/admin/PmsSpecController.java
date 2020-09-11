@@ -52,7 +52,7 @@ public class PmsSpecController extends BaseController {
     @ApiOperation(value = "规格详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result get(@PathVariable Long id) {
+    public Result get(@PathVariable Integer id) {
         PmsSpec spec = iPmsSpecService.getById(id);
         return Result.ok(spec);
     }
@@ -72,7 +72,7 @@ public class PmsSpecController extends BaseController {
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable("id") Long id,
+            @PathVariable("id") Integer id,
             @RequestBody PmsSpec spec
     ) {
         boolean status = iPmsSpecService.updateById(spec);

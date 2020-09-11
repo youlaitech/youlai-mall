@@ -54,7 +54,7 @@ public class SysDictTypeController {
     @ApiOperation(value = "字典类型详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "字典类型id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
+    public Result detail(@PathVariable Integer id) {
         SysDictType sysDictType = iSysDictTypeService.getById(id);
         return Result.success(sysDictType);
     }
@@ -74,7 +74,7 @@ public class SysDictTypeController {
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody SysDictType sysDictType) {
         boolean status = iSysDictTypeService.updateById(sysDictType);
         return Result.status(status);

@@ -48,7 +48,7 @@ public class AppSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     private DozerBeanMapper dozerBeanMapper;
 
     @Override
-    public AppGoodsDetailDTO getGoodsDetail(Long id) {
+    public AppGoodsDetailDTO getGoodsDetail(Integer id) {
         AppGoodsDetailDTO spuDTO = new AppGoodsDetailDTO();
 
         // 1、基本信息

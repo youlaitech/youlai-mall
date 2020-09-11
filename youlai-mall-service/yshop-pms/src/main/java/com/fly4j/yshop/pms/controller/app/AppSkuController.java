@@ -20,7 +20,7 @@ public class AppSkuController extends BaseController {
     private IPmsSkuService iPmsSkuService;
 
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public R get(@PathVariable Integer id) {
         PmsSku sku = iPmsSkuService.getById(id);
         return R.ok(sku);
     }

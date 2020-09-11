@@ -56,7 +56,7 @@ public class SmHomeAdController extends BaseController {
             @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public R get(@PathVariable Integer id) {
         SmsHomeAd coupon = iSmsHomeAdService.getById(id);
         return R.ok(coupon);
     }
@@ -77,7 +77,7 @@ public class SmHomeAdController extends BaseController {
             @ApiImplicitParam(name = "smsHomeAd", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsHomeAd")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody SmsHomeAd smsHomeAd) {
+    public R update(@PathVariable("id") Integer id, @RequestBody SmsHomeAd smsHomeAd) {
         boolean status = iSmsHomeAdService.updateById(smsHomeAd);
         return status ? R.ok(null) : R.failed("更新失败");
     }

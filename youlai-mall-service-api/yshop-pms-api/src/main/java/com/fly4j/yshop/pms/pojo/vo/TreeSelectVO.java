@@ -15,7 +15,7 @@ public class TreeSelectVO implements Serializable {
 
     /** 节点ID */
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long id;
+    private Integer id;
 
     /** 节点名称 */
     private String label;

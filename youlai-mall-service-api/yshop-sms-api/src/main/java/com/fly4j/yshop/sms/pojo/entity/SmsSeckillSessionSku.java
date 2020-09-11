@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class SmsSeckillSessionSku extends BaseEntity {
 
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private Integer id;
     private Long promotion_id;
     private Long promotion_session_Id;
     private Long sku_id;

@@ -16,7 +16,7 @@ import java.util.List;
 @Accessors
 public class AppGoodsDetailDTO {
 
-    private Long id;
+    private Integer id;
 
     private String name;
 

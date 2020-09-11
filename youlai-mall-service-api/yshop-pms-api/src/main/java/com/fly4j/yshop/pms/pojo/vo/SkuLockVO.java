@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SkuLockVO {
 
-    private Long id;
+    private Integer id;
 
     private Long sku_id;
 

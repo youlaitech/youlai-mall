@@ -68,7 +68,7 @@ public class SmsSeckillPromotionController extends BaseController {
             @ApiImplicitParam(name = "id", value = "秒杀活动id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public R get(@PathVariable Integer id) {
         SmsSeckillPromotion user = iSmsSeckillPromotionService.getById(id);
         return R.ok(user);
     }
@@ -79,7 +79,7 @@ public class SmsSeckillPromotionController extends BaseController {
             @ApiImplicitParam(name = "smsSeckillPromotion", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsSeckillPromotion")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody SmsSeckillPromotion smsSeckillPromotion) {
+    public R update(@PathVariable("id") Integer id, @RequestBody SmsSeckillPromotion smsSeckillPromotion) {
         boolean status = iSmsSeckillPromotionService.updateById(smsSeckillPromotion);
         return status ? R.ok(null) : R.failed("更新失败");
     }

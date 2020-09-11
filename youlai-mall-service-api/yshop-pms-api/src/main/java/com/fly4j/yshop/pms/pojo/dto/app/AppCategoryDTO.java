@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @ApiModel
 @Accessors
 public class AppCategoryDTO {
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private String icon_url;

@@ -10,7 +10,7 @@ import lombok.Data;
 public class PmsSpec extends BaseEntity {
   @TableId(type = IdType.ID_WORKER)
   @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private Long id;
+  private Integer id;
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   private Long spu_id;
   private String name;

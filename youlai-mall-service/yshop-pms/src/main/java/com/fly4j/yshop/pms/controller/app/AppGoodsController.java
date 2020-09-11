@@ -68,7 +68,7 @@ public class AppGoodsController {
             @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
-    public R<AppGoodsDetailDTO> detail(@PathVariable Long id) {
+    public R<AppGoodsDetailDTO> detail(@PathVariable Integer id) {
         AppGoodsDetailDTO appGoodsDetailDTO = iAppSpuService.getGoodsDetail(id);
         return R.ok(appGoodsDetailDTO);
     }

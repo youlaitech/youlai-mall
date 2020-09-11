@@ -12,7 +12,7 @@ import java.util.Date;
 public class SmsSeckillPromotion extends BaseEntity {
 
   @TableId(type = IdType.ASSIGN_ID)
-  private Long id;
+  private Integer id;
   private String title;
   private Date start_time;
   private Date end_time;

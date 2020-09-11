@@ -54,7 +54,7 @@ public class AppAddressController extends BaseController {
             @ApiImplicitParam(name = "id", value = "地址id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public R get(@PathVariable Integer id) {
         UmsAddress address = iUmsAddressService.getById(id);
         return R.ok(address);
     }
@@ -75,7 +75,7 @@ public class AppAddressController extends BaseController {
             @ApiImplicitParam(name = "umsAddress", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsAddress")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody UmsAddress umsAddress) {
+    public R update(@PathVariable("id") Integer id, @RequestBody UmsAddress umsAddress) {
         boolean status = iUmsAddressService.updateById(umsAddress);
         return status ? R.ok(null) : R.failed("更新失败");
     }

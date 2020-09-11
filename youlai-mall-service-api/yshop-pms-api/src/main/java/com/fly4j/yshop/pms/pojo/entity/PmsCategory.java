@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class PmsCategory extends BaseEntity {
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private String icon_url;

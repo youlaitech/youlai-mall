@@ -15,7 +15,7 @@ import java.util.Date;
 public class SmsCoupon extends BaseEntity {
   @TableId(type = IdType.ASSIGN_ID)
   @ApiModelProperty(value="优惠券id",hidden=true)
-  private Long id;
+  private Integer id;
 
   @ApiModelProperty(value="优惠券名称",example="优惠券")
   private String name;

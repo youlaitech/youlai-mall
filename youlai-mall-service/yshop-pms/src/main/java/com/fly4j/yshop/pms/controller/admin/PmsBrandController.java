@@ -63,7 +63,7 @@ public class PmsBrandController extends BaseController {
     @ApiOperation(value = "品牌详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result get(@PathVariable Long id) {
+    public Result get(@PathVariable Integer id) {
         PmsBrand brand = iPmsBrandService.getById(id);
         return Result.ok(brand);
     }
@@ -74,7 +74,7 @@ public class PmsBrandController extends BaseController {
             @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable("id") Long id,
+    public Result update(@PathVariable("id") Integer id,
                          @RequestBody PmsBrand brand) {
         boolean status = iPmsBrandService.updateById(brand);
         return Result.status(status);

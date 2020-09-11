@@ -56,7 +56,7 @@ public class SmsCouponController extends BaseController {
             @ApiImplicitParam(name = "id", value = "优惠券id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public R get(@PathVariable Integer id) {
         SmsCoupon coupon = iSmsCouponService.getById(id);
         return R.ok(coupon);
     }
@@ -77,7 +77,7 @@ public class SmsCouponController extends BaseController {
             @ApiImplicitParam(name = "smsCoupon", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsCoupon")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody SmsCoupon smsCoupon) {
+    public R update(@PathVariable("id") Integer id, @RequestBody SmsCoupon smsCoupon) {
         boolean status = iSmsCouponService.updateById(smsCoupon);
         return status ? R.ok(null) : R.failed("更新失败");
     }

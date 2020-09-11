@@ -69,7 +69,7 @@ public class PmsCategoryController extends BaseController {
     @ApiOperation(value = "分类详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result get(@PathVariable Long id) {
+    public Result get(@PathVariable Integer id) {
         PmsCategory category = iPmsCategoryService.getById(id);
         return Result.ok(category);
     }
@@ -80,7 +80,7 @@ public class PmsCategoryController extends BaseController {
             @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable("id") Long id,
+    public Result update(@PathVariable("id") Integer id,
                          @RequestBody PmsCategory category
     ) {
         boolean status = iPmsCategoryService.updateById(category);

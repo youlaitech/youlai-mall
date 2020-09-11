@@ -10,7 +10,7 @@ import lombok.Data;
 public class SmsSeckillSession extends BaseEntity {
   
   @TableId(type = IdType.ASSIGN_ID)
-  private Long id;
+  private Integer id;
   private String name;
   private String start_time;
   private String end_time;
