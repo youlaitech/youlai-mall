@@ -15,7 +15,7 @@ public class OmsOrderItem extends BaseEntity {
 
     @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(hidden = true)
-    private Long id;
+    private Integer id;
     @ApiModelProperty(hidden = true)
     private Long order_id;
     @ApiModelProperty(hidden = true)

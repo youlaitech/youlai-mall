@@ -13,7 +13,7 @@ public class PmsFeignFallbackFactory implements FallbackFactory<PmsFeign> {
     public PmsFeign create(Throwable throwable) {
         return new PmsFeign() {
             @Override
-            public R getSpuById(Long id) {
+            public R getSpuById(Integer id) {
                 return null;
             }
 

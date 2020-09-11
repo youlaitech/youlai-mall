@@ -79,7 +79,7 @@ public class OmsOrderController extends BaseController {
             @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public R get(@PathVariable Integer id) {
         OrderDTO orderDTO = new OrderDTO();
         OmsOrder order = iOmsOrderService.getById(id);
         if (order != null) {
@@ -98,7 +98,7 @@ public class OmsOrderController extends BaseController {
             @ApiImplicitParam(name = "omsOrder", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody OmsOrder omsOrder) {
+    public R update(@PathVariable("id") Integer id, @RequestBody OmsOrder omsOrder) {
         boolean status = iOmsOrderService.updateById(omsOrder);
         return status ? R.ok(null) : R.failed("更新失败");
     }
@@ -135,7 +135,7 @@ public class OmsOrderController extends BaseController {
             @ApiImplicitParam(name = "omsOrder", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
     })
     @PutMapping(value = "/{id}/deliver")
-    public R deliver(@PathVariable("id") Long id, @RequestBody OmsOrder omsOrder) {
+    public R deliver(@PathVariable("id") Integer id, @RequestBody OmsOrder omsOrder) {
         boolean status = iOmsOrderService.update(new LambdaUpdateWrapper<OmsOrder>()
                 .eq(OmsOrder::getId, id)
                 .set(OmsOrder::getLogistics_company, omsOrder.getLogistics_company())

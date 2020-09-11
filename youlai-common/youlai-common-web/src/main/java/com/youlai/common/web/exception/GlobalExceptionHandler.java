@@ -22,9 +22,16 @@ public class GlobalExceptionHandler {
     }
 
 
-
     @ExceptionHandler(JsonProcessingException.class)
-    public Result handleJsonProcessingException(IllegalArgumentException e){
+    public Result handleJsonProcessingException(JsonProcessingException e) {
+        return Result.error(e.getMessage());
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public Result handleBusinessException(BusinessException e) {
+        if (e.getResultCode() != null) {
+            return Result.custom(e.getResultCode());
+        }
         return Result.error(e.getMessage());
     }
 }

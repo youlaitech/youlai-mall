@@ -68,7 +68,7 @@ public class UmsUserController extends BaseController {
             @ApiImplicitParam(name = "id", value = "会员id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public R get(@PathVariable Integer id) {
         UmsUser user = iUmsUserService.getById(id);
         return R.ok(user);
     }
@@ -79,7 +79,7 @@ public class UmsUserController extends BaseController {
             @ApiImplicitParam(name = "umsMember", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody UmsUser umsUser) {
+    public R update(@PathVariable("id") Integer id, @RequestBody UmsUser umsUser) {
         boolean status = iUmsUserService.updateById(umsUser);
         return status ? R.ok(null) : R.failed("更新失败");
     }

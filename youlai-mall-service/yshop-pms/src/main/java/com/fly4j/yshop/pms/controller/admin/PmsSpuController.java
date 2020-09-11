@@ -59,7 +59,7 @@ public class PmsSpuController extends BaseController {
     @ApiOperation(value = "SPU详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result get(@PathVariable Long id) {
+    public Result get(@PathVariable Integer id) {
         PmsSpu spu = iPmsSpuService.getById(id);
         return Result.ok(spu);
     }
@@ -72,7 +72,7 @@ public class PmsSpuController extends BaseController {
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable("id") Long id,
+            @PathVariable("id") Integer id,
             @RequestBody PmsSpu pmsSpu
     ) {
         boolean status = iPmsSpuService.updateById(pmsSpu);

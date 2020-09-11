@@ -10,5 +10,5 @@ import com.fly4j.yshop.pms.pojo.dto.app.AppGoodsDetailDTO;
  **/
 public interface IAppSpuService extends IService<PmsSpu> {
 
-    AppGoodsDetailDTO getGoodsDetail(Long id);
+    AppGoodsDetailDTO getGoodsDetail(Integer id);
 }

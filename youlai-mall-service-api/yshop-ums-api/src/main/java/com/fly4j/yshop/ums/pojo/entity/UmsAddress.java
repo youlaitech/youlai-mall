@@ -13,7 +13,7 @@ public class UmsAddress extends BaseEntity {
 
     @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value="地址id",hidden=true)
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value="收货人名称",example="张三")
     private String name;

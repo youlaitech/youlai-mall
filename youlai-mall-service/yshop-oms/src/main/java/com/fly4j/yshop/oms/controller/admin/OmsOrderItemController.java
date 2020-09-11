@@ -67,7 +67,7 @@ public class OmsOrderItemController extends BaseController {
             @ApiImplicitParam(name = "id", value = "订单明细id", required = true, paramType = "path", dataType = "Integer"),
     })
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id) {
+    public R get(@PathVariable Integer id) {
         OmsOrderItem user = iOmsOrderItemService.getById(id);
         return R.ok(user);
     }
@@ -78,7 +78,7 @@ public class OmsOrderItemController extends BaseController {
             @ApiImplicitParam(name = "omsOrderItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrderItem")
     })
     @PutMapping(value = "/{id}")
-    public R update(@PathVariable("id") Long id, @RequestBody OmsOrderItem omsOrderItem) {
+    public R update(@PathVariable("id") Integer id, @RequestBody OmsOrderItem omsOrderItem) {
         boolean status = iOmsOrderItemService.updateById(omsOrderItem);
         return status ? R.ok(null) : R.failed("更新失败");
     }

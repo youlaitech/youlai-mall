@@ -14,7 +14,7 @@ import java.util.List;
 public interface PmsAppFeign {
 
     @GetMapping(value = "/api.app/v1/skus/{id}")
-    R<PmsSku> getSkuById(@PathVariable Long id);
+    R<PmsSku> getSkuById(@PathVariable Integer id);
 
     @PostMapping(value = "/api.app/v1/skus/lock",consumes = MediaType.APPLICATION_JSON_VALUE)
     R<SkuLockVO> checkAndLockStock(@RequestBody List<SkuLockVO> skuLockVOS);

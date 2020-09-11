@@ -9,7 +9,7 @@ import lombok.Data;
 public class AppAddressDTO {
 
     @ApiModelProperty(value="地址id",hidden=true)
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value="收货人名称",example="张三")
     private String name;

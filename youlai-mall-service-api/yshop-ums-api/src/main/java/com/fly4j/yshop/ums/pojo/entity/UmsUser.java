@@ -9,7 +9,7 @@ import lombok.Data;
 public class UmsUser extends BaseEntity {
 
   @TableId(type = IdType.ASSIGN_ID)
-  private Long id;
+  private Integer id;
   private Integer level;
   private String username;
   private String password;

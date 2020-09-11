@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Accessors
 public class AppGoodsDTO {
 
-    private Long id;
+    private Integer id;
 
     private String name;
 

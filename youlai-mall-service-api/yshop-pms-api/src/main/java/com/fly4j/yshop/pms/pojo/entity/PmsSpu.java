@@ -15,7 +15,7 @@ public class PmsSpu extends BaseEntity {
 
     @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "主键id", hidden = true)
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value = "商品名称")
     private String name;

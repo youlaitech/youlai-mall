@@ -46,7 +46,7 @@ public class PmsSkuController extends BaseController {
     @ApiOperation(value = "SKU详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result get(@PathVariable Long id) {
+    public Result get(@PathVariable Integer id) {
         PmsSku sku = iPmsSkuService.getById(id);
         return Result.ok(sku);
     }
@@ -65,7 +65,7 @@ public class PmsSkuController extends BaseController {
             @ApiImplicitParam(name = "pmsSku", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSku")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable("id") Long id, @RequestBody PmsSku pmsSku) {
+    public Result update(@PathVariable("id") Integer id, @RequestBody PmsSku pmsSku) {
         boolean status = iPmsSkuService.updateById(pmsSku);
         return Result.status(status);
     }

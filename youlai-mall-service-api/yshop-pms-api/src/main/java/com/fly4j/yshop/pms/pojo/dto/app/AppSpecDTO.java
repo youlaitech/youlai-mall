@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class AppSpecDTO {
 
-    private Long id;
+    private Integer id;
     private String name;
     private String value;
 }

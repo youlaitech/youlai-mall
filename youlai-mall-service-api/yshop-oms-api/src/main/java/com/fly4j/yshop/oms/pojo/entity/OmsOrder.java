@@ -15,7 +15,7 @@ import java.util.Date;
 public class OmsOrder extends BaseEntity {
     @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(hidden = true)
-    private Long id;
+    private Integer id;
     @ApiModelProperty(hidden = true,value = "订单号")
     private String order_sn;
 

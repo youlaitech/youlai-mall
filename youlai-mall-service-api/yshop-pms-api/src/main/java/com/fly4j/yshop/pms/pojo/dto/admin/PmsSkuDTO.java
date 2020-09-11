@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Data
 @ApiModel
 public class PmsSkuDTO {
-    private Long id;
+    private Integer id;
     private String spu_name;
     private String spu_code;
     private String specs;

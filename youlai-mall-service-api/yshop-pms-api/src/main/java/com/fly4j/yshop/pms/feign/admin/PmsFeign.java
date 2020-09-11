@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface PmsFeign {
 
     @GetMapping(value = "/spus/{id}")
-    R getSpuById(@PathVariable Long id);
+    R getSpuById(@PathVariable Integer id);
 
 
     @GetMapping("/skus/page/{page}/limit/{limit}")
