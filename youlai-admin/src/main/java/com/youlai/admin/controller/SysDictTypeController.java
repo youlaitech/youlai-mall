@@ -2,8 +2,10 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.domain.entity.SysDictType;
+import com.youlai.admin.domain.entity.SysUser;
 import com.youlai.admin.service.ISysDictTypeService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -31,7 +33,7 @@ public class SysDictTypeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "username", value = "字典类型名", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "name", value = "类型名", paramType = "query", dataType = "String"),
     })
     @GetMapping
     public Result list(Integer page, Integer limit, String name) {
@@ -42,7 +44,6 @@ public class SysDictTypeController {
 
         if (page != null && limit != null) {
             Page<SysDictType> result = iSysDictTypeService.page(new Page<>(page, limit) ,queryWrapper);
-
             return PageResult.success(result.getRecords(), result.getTotal());
         } else if (limit != null) {
             queryWrapper.last("LIMIT " + limit);
@@ -55,28 +56,28 @@ public class SysDictTypeController {
     @ApiImplicitParam(name = "id", value = "字典类型id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
-        SysDictType sysDictType = iSysDictTypeService.getById(id);
-        return Result.success(sysDictType);
+        SysDictType dictType = iSysDictTypeService.getById(id);
+        return Result.success(dictType);
     }
 
     @ApiOperation(value = "新增字典类型", httpMethod = "POST")
-    @ApiImplicitParam(name = "sysDictType", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictType")
+    @ApiImplicitParam(name = "dictType", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictType")
     @PostMapping
-    public Result add(@RequestBody SysDictType sysDictType) {
-        boolean status = iSysDictTypeService.save(sysDictType);
+    public Result add(@RequestBody SysDictType dictType) {
+        boolean status = iSysDictTypeService.save(dictType);
         return Result.status(status);
     }
 
     @ApiOperation(value = "修改字典类型", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "字典类型id", required = true, paramType = "path", dataType = "Integer"),
-            @ApiImplicitParam(name = "sysDictType", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictType")
+            @ApiImplicitParam(name = "dictType", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictType")
     })
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Integer id,
-            @RequestBody SysDictType sysDictType) {
-        boolean status = iSysDictTypeService.updateById(sysDictType);
+            @RequestBody SysDictType dictType) {
+        boolean status = iSysDictTypeService.updateById(dictType);
         return Result.status(status);
     }
 
@@ -86,6 +87,23 @@ public class SysDictTypeController {
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysDictTypeService.removeByIds(ids);
         return Result.status(status);
+    }
+
+    @ApiOperation(value = "修改用户", httpMethod = "PATCH")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
+    })
+    @PatchMapping(value = "/{id}")
+    public Result patch(@PathVariable Integer id, @RequestBody SysDictType dictType) {
+        LambdaUpdateWrapper<SysUser> luw = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
+        if (user.getStatus() != null) { // 状态更新
+            luw.set(SysUser::getStatus, user.getStatus());
+        } else {
+            return Result.success();
+        }
+        boolean update = iSysUserService.update(luw);
+        return Result.success(update);
     }
 
 }
