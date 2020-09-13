@@ -51,7 +51,7 @@ public class SysUserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "user", value = "用户信息", paramType = "query", dataType = "SysUser"),
+            @ApiImplicitParam(name = "user", value = "用户信息", paramType = "query", dataType = "SysUser")
     })
     @GetMapping
     public Result list(Integer page, Integer limit, SysUser user) {
