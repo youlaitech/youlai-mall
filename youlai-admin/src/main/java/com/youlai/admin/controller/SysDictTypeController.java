@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.domain.entity.SysDictType;
-import com.youlai.admin.domain.entity.SysUser;
+import com.youlai.admin.domain.entity.SysDictType;
 import com.youlai.admin.service.ISysDictTypeService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -89,21 +89,20 @@ public class SysDictTypeController {
         return Result.status(status);
     }
 
-    @ApiOperation(value = "修改用户", httpMethod = "PATCH")
+    @ApiOperation(value = "修改字典类型(部分更新)", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
-            @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
+            @ApiImplicitParam(name = "dictType", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictType")
     })
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SysDictType dictType) {
-        LambdaUpdateWrapper<SysUser> luw = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
-        if (user.getStatus() != null) { // 状态更新
-            luw.set(SysUser::getStatus, user.getStatus());
+        LambdaUpdateWrapper<SysDictType> luw = new LambdaUpdateWrapper<SysDictType>().eq(SysDictType::getId, id);
+        if (dictType.getStatus() != null) { // 状态更新
+            luw.set(SysDictType::getStatus, dictType.getStatus());
         } else {
             return Result.success();
         }
-        boolean update = iSysUserService.update(luw);
+        boolean update = iSysDictTypeService.update(luw);
         return Result.success(update);
     }
-
 }
