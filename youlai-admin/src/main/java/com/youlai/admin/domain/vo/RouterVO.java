@@ -1,5 +1,6 @@
 package com.youlai.admin.domain.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouterVO {
 
     @ApiModelProperty(example = "/admin")

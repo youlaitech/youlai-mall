@@ -134,8 +134,8 @@ public class SysUserController {
                 .eq(SysUserRole::getUserId, user.getId())
         ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(roleIds)) {
-            List<String> roles = iSysRoleService.listByIds(roleIds).stream()
-                    .map(role -> role.getPerms()).collect(Collectors.toList());
+            List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
+                    .map(role -> role.getId()).collect(Collectors.toList());
             userVO.setRoles(roles);
         }
         return Result.success(userVO);
