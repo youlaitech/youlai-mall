@@ -18,6 +18,6 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     public IPage<SysDict> list(Page<SysDict> page, SysDict dict) {
         List<SysDict> list = this.baseMapper.list(page,dict);
         page.setRecords(list);
-        return null;
+        return page;
     }
 }
