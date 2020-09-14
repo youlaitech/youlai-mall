@@ -10,9 +10,9 @@ public class SysDict  extends BaseEntity {
     @TableId
     private Integer id;
 
-    private String value;
+    private String name;
 
-    private String text;
+    private String value;
 
     private String typeCode;
 

@@ -1,14 +1,17 @@
 package com.youlai.admin.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.entity.BaseEntity;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class SysMenu  extends BaseEntity {
 
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Integer id;
 
     private String name;
@@ -25,6 +28,11 @@ public class SysMenu  extends BaseEntity {
 
     private String path;
 
+    private String component;
+
     private String perms;
+
+    @TableField(exist = false)
+    private List<Integer> roles;
 
 }
