@@ -72,7 +72,7 @@ public class SysMenuController {
                 return Result.success(map);
             }
         }else if(mode.equals(3)){
-            list = iSysMenuService.listForRouter();
+            list = iSysMenuService.listForRoute();
         } else {
             list = iSysMenuService.list(baseQuery);
         }

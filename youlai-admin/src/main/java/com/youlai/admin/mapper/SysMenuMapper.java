@@ -22,5 +22,5 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
             @Result(id=true, column="id", property="id"),
             @Result(property = "roles",column="id",many = @Many(select="com.youlai.admin.mapper.SysRoleMenuMapper.listByMenuId"))
     })
-    List<SysMenu> listForRouter();
+    List<SysMenu> listForRoute();
 }

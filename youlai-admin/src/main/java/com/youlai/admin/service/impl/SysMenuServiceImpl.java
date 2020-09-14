@@ -37,13 +37,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public List listForRouter() {
-        List<SysMenu> menuList = this.baseMapper.listForRouter();
-        List<RouterVO> list = recursionForRouter(AdminConstant.ROOT_MENU_ID, menuList);
+    public List listForRoute() {
+        List<SysMenu> menuList = this.baseMapper.listForRoute();
+        List<RouterVO> list = recursionForRoutes(AdminConstant.ROOT_MENU_ID, menuList);
         return list;
     }
 
-    private List<RouterVO> recursionForRouter(int parentId, List<SysMenu> menuList) {
+    private List<RouterVO> recursionForRoutes(int parentId, List<SysMenu> menuList) {
         List<RouterVO> list = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
@@ -65,7 +65,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                         routerVO.setAlwaysShow(Boolean.TRUE);
                         routerVO.setRedirect("noRedirect");
                     }
-                    List<RouterVO> children = recursionForRouter(menu.getId(), menuList);
+                    List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
                     list.add(routerVO);
                 });
