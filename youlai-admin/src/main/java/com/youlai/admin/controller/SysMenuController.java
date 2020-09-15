@@ -36,8 +36,7 @@ public class SysMenuController {
     private ISysMenuService iSysMenuService;
     private ISysRoleMenuService iSysRoleMenuService;
 
-
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "菜单列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Integer"),
