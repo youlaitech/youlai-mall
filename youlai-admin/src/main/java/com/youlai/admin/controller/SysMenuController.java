@@ -71,8 +71,8 @@ public class SysMenuController {
                 map.put("checkedKeys", checkedKeys);
                 return Result.success(map);
             }
-        }else if(mode.equals(3)){
-            list = iSysMenuService.listForRoute();
+        } else if (mode.equals(3)) {
+            list = iSysMenuService.listForRouter();
         } else {
             list = iSysMenuService.list(baseQuery);
         }
@@ -83,29 +83,28 @@ public class SysMenuController {
     @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
-        SysMenu sysMenu = iSysMenuService.getById(id);
-        return Result.success(sysMenu);
+        SysMenu menu = iSysMenuService.getById(id);
+        return Result.success(menu);
     }
 
     @ApiOperation(value = "新增菜单", httpMethod = "POST")
-    @ApiImplicitParam(name = "sysMenu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
+    @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
     @PostMapping
-    public Result add(@RequestBody SysMenu sysMenu) {
-        boolean status = iSysMenuService.save(sysMenu);
+    public Result add(@RequestBody SysMenu menu) {
+        boolean status = iSysMenuService.save(menu);
         return Result.status(status);
     }
 
     @ApiOperation(value = "修改菜单", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Integer"),
-            @ApiImplicitParam(name = "sysMenu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
+            @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
     })
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Integer id,
-            @RequestBody SysMenu sysMenu) {
-        sysMenu.setUpdateTime(new Date());
-        boolean status = iSysMenuService.updateById(sysMenu);
+            @RequestBody SysMenu menu) {
+        boolean status = iSysMenuService.updateById(menu);
         return Result.status(status);
     }
 

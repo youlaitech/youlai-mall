@@ -20,8 +20,8 @@ public class AdminApplicationTests {
     private ISysMenuService iSysMenuService;
 
     @Test
-    public void testlistForRoute() {
-        List list = iSysMenuService.listForRoute();
+    public void testlistForRouter() {
+        List list = iSysMenuService.listForRouter();
         Assert.isTrue(list.size()>0);
     }
 }
