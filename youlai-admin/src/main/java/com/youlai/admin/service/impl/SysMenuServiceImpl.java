@@ -42,6 +42,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return list;
     }
 
+    // 递归生成路由
     private List<RouterVO> recursionForRoutes(int parentId, List<SysMenu> menuList) {
         List<RouterVO> list = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
