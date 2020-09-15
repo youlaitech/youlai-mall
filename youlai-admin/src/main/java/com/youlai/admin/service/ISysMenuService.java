@@ -16,5 +16,5 @@ public interface ISysMenuService extends IService<SysMenu> {
 
     List<TreeSelectVO> listForTreeSelect(LambdaQueryWrapper<SysMenu> baseQuery);
 
-    List listForRoute();
+    List listForRouter();
 }

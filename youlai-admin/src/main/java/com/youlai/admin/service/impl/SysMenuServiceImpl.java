@@ -11,7 +11,6 @@ import com.youlai.admin.domain.vo.RouterVO;
 import com.youlai.admin.domain.vo.TreeSelectVO;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.service.ISysMenuService;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,8 +36,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public List listForRoute() {
-        List<SysMenu> menuList = this.baseMapper.listForRoute();
+    public List listForRouter() {
+        List<SysMenu> menuList = this.baseMapper.listForRouter();
         List<RouterVO> list = recursionForRoutes(AdminConstant.ROOT_MENU_ID, menuList);
         return list;
     }
@@ -51,20 +50,23 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .forEach(menu -> {
                     RouterVO routerVO = new RouterVO();
                     routerVO.setName(menu.getName());
-                    routerVO.setPath(menu.getPath());
-                    String component = StrUtil.isNotBlank(menu.getComponent()) ? menu.getComponent() : "Layout";
-                    routerVO.setComponent(component);
-                    RouterVO.Meta meta = routerVO.new Meta(
+                    if (parentId == AdminConstant.ROOT_MENU_ID) {
+                        routerVO.setAlwaysShow(Boolean.TRUE);
+                        routerVO.setPath("/" + menu.getPath());
+                    } else {
+                        routerVO.setPath(menu.getPath());
+                    }
+                    routerVO.setRedirect(menu.getRedirect());
+                    routerVO.setComponent(
+                            StrUtil.isNotBlank(menu.getComponent()) ?
+                                    menu.getComponent() :
+                                    "Layout");
+
+                    routerVO.setMeta(routerVO.new Meta(
                             menu.getName(),
                             menu.getIcon(),
                             menu.getRoles()
-                    );
-                    routerVO.setMeta(meta);
-
-                    if (AdminConstant.ROOT_MENU_ID == parentId) {
-                        routerVO.setAlwaysShow(Boolean.TRUE);
-                        routerVO.setRedirect("noRedirect");
-                    }
+                    ));
                     List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
                     list.add(routerVO);

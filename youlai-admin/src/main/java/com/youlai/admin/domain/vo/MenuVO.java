@@ -22,6 +22,8 @@ public class MenuVO extends BaseEntity {
 
     private Integer status;
 
+    private String component;
+
     private String path;
 
     private String perms;
