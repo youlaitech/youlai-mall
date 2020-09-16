@@ -77,7 +77,7 @@ youlai-mall
 4. [SpringCloud实战 | 第四篇：SpringCloud整合Gateway实现API网关](https://www.cnblogs.com/haoxianrui/p/13608650.html)
 5. [SpringCloud实战 | 第五篇：SpringCloud整合OpenFeign实现微服务之间的调用](https://www.cnblogs.com/haoxianrui/p/13615592.html)
 6. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
-7. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html))
+7. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html)
 
 
 ## 问题
