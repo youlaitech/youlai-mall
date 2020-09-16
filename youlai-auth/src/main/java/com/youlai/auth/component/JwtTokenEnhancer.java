@@ -1,6 +1,6 @@
 package com.youlai.auth.component;
 
-import com.youlai.auth.domain.LoginUser;
+import com.youlai.auth.domain.UserInfo;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -17,10 +17,10 @@ import java.util.Map;
 public class JwtTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        LoginUser loginUser =(LoginUser)authentication.getPrincipal();
+        UserInfo userInfo =(UserInfo)authentication.getPrincipal();
         Map<String,Object> map=new HashMap<>();
-        map.put("id",loginUser.getId());
-        map.put("client_id",loginUser.getClientId());
+        map.put("id", userInfo.getId());
+        map.put("client_id", userInfo.getClientId());
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(map);
         return accessToken;
     }

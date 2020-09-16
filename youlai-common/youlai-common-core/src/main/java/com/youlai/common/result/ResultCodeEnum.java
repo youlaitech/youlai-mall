@@ -20,7 +20,7 @@ public enum ResultCodeEnum implements  IResultCode, Serializable {
     USER_ACCOUNT_NOT_EXIST("A0201","用户账户不存在"),
     USER_ACCOUNT_LOCKED("A0202","用户账户被冻结"),
     USER_ACCOUNT_INVALID("A0203","用户账户已作废"),
-    USER_ACCOUNT_UNAUTHENTICATED ("A0204","用户未登录或token已过期"), //
+    USER_ACCOUNT_UNAUTHENTICATED ("A0204","用户未登录或token已过期"),
     USER_PASSWORD_ERROR("A0210","用户密码错误"),
     USER_LOGIN_EXPIRED("A0230","用户登录已过期"),
     USER_AUTHORIZED_ERROR ("A0300","访问权限异常"),
