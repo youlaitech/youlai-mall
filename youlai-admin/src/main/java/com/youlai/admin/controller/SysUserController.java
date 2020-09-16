@@ -98,10 +98,10 @@ public class SysUserController {
         return Result.status(status);
     }
 
-    @ApiOperation(value = "用户名获取用户详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "query", dataType = "String")
-    @GetMapping("/loadUserByUsername")
-    public UserDTO loadUserByUsername(@RequestParam String username) {
+    @ApiOperation(value = "用户名获取用户信息", httpMethod = "GET")
+    @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
+    @GetMapping("/user/{username}")
+    public UserDTO loadUserByUsername(@PathVariable String username) {
         SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username));
         UserDTO userDTO = new UserDTO();
@@ -112,8 +112,8 @@ public class SysUserController {
                     .eq(SysUserRole::getUserId, user.getId())
             ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
             if (CollectionUtil.isNotEmpty(roleIds)) {
-                List<String> roles = iSysRoleService.listByIds(roleIds).stream()
-                        .map(role -> role.getId() + "_" + role.getPerms()).collect(Collectors.toList());
+                List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
+                        .map(role -> role.getId()).collect(Collectors.toList());
                 userDTO.setRoles(roles);
             }
         }
@@ -122,7 +122,7 @@ public class SysUserController {
 
 
     @ApiOperation(value = "当前请求用户信息", httpMethod = "GET")
-    @GetMapping("/current")
+    @GetMapping("/me")
     public Result currentUserInfo(HttpServletRequest request) {
         String payload = request.getHeader(AuthConstant.USER_TOKEN_HEADER);
         JSONObject jsonObject = JSONUtil.parseObj(payload);
@@ -134,8 +134,10 @@ public class SysUserController {
                 .eq(SysUserRole::getUserId, user.getId())
         ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(roleIds)) {
-            List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
-                    .map(role -> role.getId()).collect(Collectors.toList());
+            List<Integer> roles = iSysRoleService.listByIds(roleIds)
+                    .stream()
+                    .map(role -> role.getId())
+                    .collect(Collectors.toList());
             userVO.setRoles(roles);
         }
         return Result.success(userVO);

@@ -1,5 +1,5 @@
-![](https://img.shields.io/badge/SpringBoot-2.3.0-brightgreen.svg)
-![](https://img.shields.io/badge/SpringCloud-Hoxton.SR5-green.svg)
+![](https://img.shields.io/badge/SpringBoot-2.3.3-brightgreen.svg)
+![](https://img.shields.io/badge/SpringCloud-Hoxton.SR8-green.svg)
 
 ## **项目简介**
 
@@ -10,7 +10,7 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 ``` lua
 youlai-mall
 ├── conf -- Nacos配置中心存储的配置
-├── doc -- 数据库初始化脚本
+├── sql -- 数据库初始化脚本
 ├── youlai-admin -- 后台管理系统服务
 ├── youlai-admin-api -- 后台管理系统服务的远程调用客户端
 ├── youlai-auth -- 认证中心

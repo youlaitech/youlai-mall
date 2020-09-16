@@ -1,15 +1,11 @@
 package com.youlai.auth.controller;
 
-import com.youlai.admin.api.dto.UserDTO;
-import com.youlai.admin.api.service.UmsAdminService;
 import com.youlai.auth.domain.Oauth2Token;
-import com.youlai.common.auth.constant.AuthConstant;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
