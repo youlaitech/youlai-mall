@@ -2,7 +2,9 @@ package com.youlai.common.web.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCodeEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -34,4 +36,9 @@ public class GlobalExceptionHandler {
         }
         return Result.error(e.getMessage());
     }
+
+  /*  @ExceptionHandler(InvalidGrantException.class)
+    public Result handleInvalidGrantException(InvalidGrantException e){
+        return Result.custom(ResultCodeEnum.USER_LOGIN_ERROR);
+    }*/
 }

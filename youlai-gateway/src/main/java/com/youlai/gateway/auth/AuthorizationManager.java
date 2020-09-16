@@ -85,6 +85,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstant.RESOURCE_ROLES_MAP_KEY);
         Iterator<Object> iterator = resourceRolesMap.keySet().iterator();
 
+        // 拥有该请求资源权限的角色ID集合
         List<String> authorities = new ArrayList<>();
         while (iterator.hasNext()) {
             String pattern = (String) iterator.next();
@@ -92,12 +93,11 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 authorities.addAll(Convert.toList(String.class, resourceRolesMap.get(pattern)));
             }
         }
-        List<String> finalAuthorities = authorities;
         Mono<AuthorizationDecision> authorizationDecisionMono = mono
                 .filter(Authentication::isAuthenticated)
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
-                .any(authorities::contains)
+                .any(roleId -> authorities.contains(roleId)) // 判断用户角色中是否有访问资源权限的角色，一个就好
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));
 

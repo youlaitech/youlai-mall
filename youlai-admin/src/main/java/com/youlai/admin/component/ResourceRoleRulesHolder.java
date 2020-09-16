@@ -22,7 +22,7 @@ public class ResourceRoleRulesHolder {
     public void initResourceRolesMap() {
         Map<String, List<String>> resourceRoleMap = new TreeMap<>();
         List<String> roleNames = new ArrayList<>();
-        roleNames.add(AuthConstant.AUTHORITY_PREFIX + "1_root");
+        roleNames.add(AuthConstant.AUTHORITY_PREFIX + "1");
         resourceRoleMap.put("/youlai-admin/**", roleNames);
         redisTemplate.delete(AuthConstant.RESOURCE_ROLES_MAP_KEY);
         redisTemplate.opsForHash().putAll(AuthConstant.RESOURCE_ROLES_MAP_KEY, resourceRoleMap);

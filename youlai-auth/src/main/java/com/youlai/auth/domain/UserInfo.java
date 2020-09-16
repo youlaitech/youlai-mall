@@ -16,7 +16,7 @@ import java.util.Collection;
  */
 @Data
 @NoArgsConstructor
-public class LoginUser implements UserDetails {
+public class UserInfo implements UserDetails {
 
     private Integer id;
 
@@ -30,7 +30,7 @@ public class LoginUser implements UserDetails {
 
     private Collection<SimpleGrantedAuthority> authorities;
 
-    public LoginUser(UserDTO user){
+    public UserInfo(UserDTO user){
         this.setId(user.getId());
         this.setUsername(user.getUsername());
         this.setPassword(user.getPassword());
@@ -38,7 +38,7 @@ public class LoginUser implements UserDetails {
         this.setClientId(user.getClientId());
         if(user.getRoles()!=null){
             authorities=new ArrayList<>();
-            user.getRoles().forEach(item -> authorities.add(new SimpleGrantedAuthority(item)));
+            user.getRoles().forEach(roleId -> authorities.add(new SimpleGrantedAuthority(String.valueOf(roleId))));
         }
 
     }
