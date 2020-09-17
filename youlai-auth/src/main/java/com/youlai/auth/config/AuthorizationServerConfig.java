@@ -1,6 +1,7 @@
 package com.youlai.auth.config;
 
 import com.youlai.auth.component.JwtTokenEnhancer;
+import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
 import com.youlai.common.core.constant.AuthConstants;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -22,6 +25,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +47,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
+    @Autowired
+    private  DataSource dataSource;
+
+
     /**
      * 配置客户端详情
      *
@@ -51,14 +60,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     @SneakyThrows
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
+        /*clients.inMemory()
                 .withClient("client")
                 .secret(passwordEncoder.encode("123456"))
                 .scopes("all")
                 .authorizedGrantTypes("password", "refresh_token")
                 .accessTokenValiditySeconds(3600)
-                .refreshTokenValiditySeconds(86400);
+                .refreshTokenValiditySeconds(86400);*/
+
+        JdbcClientDetailsServiceImpl jdbcClientDetailsService=new JdbcClientDetailsServiceImpl(dataSource);
+        jdbcClientDetailsService.setFindClientDetailsSql(AuthConstants.CLIENT_DETAILS_FIND_SQL);
+        jdbcClientDetailsService.setSelectClientDetailsSql(AuthConstants.CLIENT_DETAILS_SELECT_SQL);
+        clients.withClientDetails(jdbcClientDetailsService);
+
     }
+
 
     /**
      * 配置令牌端点的安全约束

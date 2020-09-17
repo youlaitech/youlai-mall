@@ -61,4 +61,13 @@ public interface AuthConstants {
 
     String OAUTH2_TOKEN_PREFIX = "oauth2:token:";
 
+
+    String CLIENT_DETAILS_FIELDS = "client_id, CONCAT('{noop}',client_secret) as client_secret, resource_ids, scope, "
+            + "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
+            + "refresh_token_validity, additional_information, autoapprove";
+    String CLIENT_DETAILS_BASE_SQL = "select " + CLIENT_DETAILS_FIELDS + " from oauth_client_details";
+    String CLIENT_DETAILS_FIND_SQL = CLIENT_DETAILS_BASE_SQL + " order by client_id";
+    String CLIENT_DETAILS_SELECT_SQL = CLIENT_DETAILS_BASE_SQL + " where client_id = ?";
+
+    String BCRYPT = "{bcrypt}";
 }
