@@ -2,7 +2,7 @@ package com.fly4j.yshop.ums.controller.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
-import com.youlai.common.core.controller.BaseController;
+import com.youlai.common.core.base.controller.BaseController;
 import com.fly4j.yshop.ums.pojo.dto.AppAddressDTO;
 import com.fly4j.yshop.ums.pojo.entity.UmsAddress;
 import com.fly4j.yshop.ums.service.IUmsAddressService;

@@ -2,7 +2,7 @@ package com.youlai.admin.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.youlai.common.core.entity.BaseEntity;
+import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
 

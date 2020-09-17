@@ -2,7 +2,7 @@ package com.fly4j.yshop.pms.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.api.Result;
-import com.youlai.common.core.controller.BaseController;
+import com.youlai.common.core.base.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.dto.admin.PmsCategoryDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsCategory;
 import com.fly4j.yshop.pms.pojo.vo.CascaderVO;

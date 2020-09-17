@@ -10,9 +10,8 @@ import com.youlai.admin.mapper.SysRoleMapper;
 import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
-import com.youlai.common.web.exception.BusinessException;
+import com.youlai.common.web.exception.BizException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -89,7 +88,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Optional.ofNullable(ids).orElse(new ArrayList<>()).forEach(id -> {
             int count = iSysUserRoleService.count(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getRoleId, id));
             if (count > 0) {
-                throw new BusinessException("该角色已分配用户，无法删除");
+                throw new BizException("该角色已分配用户，无法删除");
             }
             // 删除角色菜单
             iSysRoleMenuService.remove(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getRoleId, id));

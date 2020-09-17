@@ -3,7 +3,7 @@ package com.fly4j.yshop.pms.controller.admin;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.api.PageResult;
 import com.youlai.common.api.Result;
-import com.youlai.common.core.controller.BaseController;
+import com.youlai.common.core.base.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.dto.admin.PmsSkuDTO;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.service.IPmsSkuService;

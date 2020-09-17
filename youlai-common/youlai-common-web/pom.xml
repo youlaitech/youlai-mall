@@ -11,7 +11,6 @@
 
     <artifactId>youlai-common-web</artifactId>
 
-
     <dependencies>
         <dependency>
             <groupId>com.youlai</groupId>
@@ -24,14 +23,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <optional>true</optional>
         </dependency>
-
-        <!-- spring cloud security oauth2 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-            <optional>true</optional>
-        </dependency>
-
     </dependencies>
 
 </project>

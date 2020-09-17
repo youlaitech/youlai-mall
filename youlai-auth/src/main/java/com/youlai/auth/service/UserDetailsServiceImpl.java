@@ -2,7 +2,7 @@ package com.youlai.auth.service;
 
 import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.admin.api.service.AdminUserService;
-import com.youlai.auth.domain.UserInfo;
+import com.youlai.auth.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -31,22 +31,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String clientId = request.getParameter("client_id");
-        UserDTO user = adminUserService.loadUserByUsername(username);
-        if (user == null) {
+        UserDTO userDTO = adminUserService.loadUserByUsername(username);
+        if (userDTO == null) {
             throw new UsernameNotFoundException("用户名或者密码错误");
         }
-        user.setClientId(clientId);
-        UserInfo userInfo = new UserInfo(user);
-        if (!userInfo.isEnabled()) {
+        userDTO.setClientId(clientId);
+        User user = new User(userDTO);
+        if (!user.isEnabled()) {
             throw new DisabledException("该账户已被禁用!");
-        } else if (!userInfo.isAccountNonLocked()) {
+        } else if (!user.isAccountNonLocked()) {
             throw new LockedException("该账号已被锁定!");
-        } else if (!userInfo.isAccountNonExpired()) {
+        } else if (!user.isAccountNonExpired()) {
             throw new AccountExpiredException("该账号已过期!");
-        } else if (!userInfo.isCredentialsNonExpired()) {
+        } else if (!user.isCredentialsNonExpired()) {
             throw new CredentialsExpiredException("该账户的登录凭证已过期，请重新登录!");
         }
-        return userInfo;
+        return user;
     }
 
 }

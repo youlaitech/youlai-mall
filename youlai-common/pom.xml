@@ -15,11 +15,10 @@
 
     <modules>
         <module>youlai-common-core</module>
-        <module>youlai-common-swagger</module>
+        <module>youlai-common-knife4j</module>
         <module>youlai-common-redis</module>
         <module>youlai-common-web</module>
         <module>youlai-common-db</module>
-        <module>youlai-common-auth</module>
     </modules>
 
     <properties>
@@ -101,7 +100,7 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>youlai-common-swagger</artifactId>
+                <artifactId>youlai-common-knife4j</artifactId>
                 <version>${youlai-common.version}</version>
             </dependency>
 

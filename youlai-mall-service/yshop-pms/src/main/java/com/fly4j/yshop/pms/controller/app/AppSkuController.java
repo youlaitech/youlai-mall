@@ -2,7 +2,7 @@ package com.fly4j.yshop.pms.controller.app;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.api.R;
-import com.youlai.common.core.controller.BaseController;
+import com.youlai.common.core.base.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.entity.PmsSku;
 import com.fly4j.yshop.pms.pojo.vo.SkuLockVO;
 import com.fly4j.yshop.pms.service.IPmsSkuService;

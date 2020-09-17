@@ -31,31 +31,13 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-auth</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>youlai-common-db</artifactId>
             <version>${youlai-common.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-swagger</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
+            <artifactId>youlai-common-knife4j</artifactId>
             <version>${youlai-common.version}</version>
         </dependency>
 

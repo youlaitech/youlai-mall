@@ -2,7 +2,7 @@ package com.fly4j.yshop.sms.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.youlai.common.core.entity.BaseEntity;
+import com.youlai.common.core.base.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
