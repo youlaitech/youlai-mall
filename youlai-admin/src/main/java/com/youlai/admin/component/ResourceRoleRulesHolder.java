@@ -1,7 +1,7 @@
 package com.youlai.admin.component;
 
 
-import com.youlai.common.auth.constant.AuthConstant;
+import com.youlai.common.core.constant.AuthConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -22,9 +22,9 @@ public class ResourceRoleRulesHolder {
     public void initResourceRolesMap() {
         Map<String, List<String>> resourceRoleMap = new TreeMap<>();
         List<String> roleNames = new ArrayList<>();
-        roleNames.add(AuthConstant.AUTHORITY_PREFIX + "1");
+        roleNames.add(AuthConstants.AUTHORITY_PREFIX + "1");
         resourceRoleMap.put("/youlai-admin/**", roleNames);
-        redisTemplate.delete(AuthConstant.RESOURCE_ROLES_MAP_KEY);
-        redisTemplate.opsForHash().putAll(AuthConstant.RESOURCE_ROLES_MAP_KEY, resourceRoleMap);
+        redisTemplate.delete(AuthConstants.RESOURCE_ROLES_MAP_KEY);
+        redisTemplate.opsForHash().putAll(AuthConstants.RESOURCE_ROLES_MAP_KEY, resourceRoleMap);
     }
 }

@@ -2,7 +2,7 @@ package com.youlai.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.nimbusds.jose.JWSObject;
-import com.youlai.common.auth.constant.AuthConstant;
+import com.youlai.common.core.constant.AuthConstants;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -23,14 +23,14 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        String token = exchange.getRequest().getHeaders().getFirst(AuthConstant.JWT_TOKEN_HEADER);
+        String token = exchange.getRequest().getHeaders().getFirst(AuthConstants.JWT_TOKEN_HEADER);
         if (StrUtil.isBlank(token)) {
             return chain.filter(exchange);
         }
-        token = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
+        token = token.replace(AuthConstants.JWT_TOKEN_PREFIX, "");
         JWSObject jwsObject = JWSObject.parse(token);
         String payload = jwsObject.getPayload().toString();
-        ServerHttpRequest request = exchange.getRequest().mutate().header(AuthConstant.USER_TOKEN_HEADER, payload).build();
+        ServerHttpRequest request = exchange.getRequest().mutate().header(AuthConstants.USER_TOKEN_HEADER, payload).build();
         exchange = exchange.mutate().request(request).build();
         return chain.filter(exchange);
     }

@@ -1,7 +1,7 @@
 package com.youlai.auth.controller;
 
 import com.youlai.auth.domain.Oauth2Token;
-import com.youlai.common.result.Result;
+import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

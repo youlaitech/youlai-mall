@@ -16,7 +16,7 @@ import java.util.Collection;
  */
 @Data
 @NoArgsConstructor
-public class UserInfo implements UserDetails {
+public class User implements UserDetails {
 
     private Integer id;
 
@@ -30,7 +30,7 @@ public class UserInfo implements UserDetails {
 
     private Collection<SimpleGrantedAuthority> authorities;
 
-    public UserInfo(UserDTO user){
+    public User(UserDTO user){
         this.setId(user.getId());
         this.setUsername(user.getUsername());
         this.setPassword(user.getPassword());

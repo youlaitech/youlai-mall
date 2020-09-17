@@ -1,6 +1,6 @@
 package com.youlai.gateway.filter;
 
-import com.youlai.common.auth.constant.AuthConstant;
+import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.gateway.config.WhiteUrlsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -34,7 +34,7 @@ public class WhiteUrlsRemoveJwtFilter implements WebFilter {
         List<String> ignoreUrls = whiteUrlsConfig.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {
-                request = exchange.getRequest().mutate().header(AuthConstant.JWT_TOKEN_HEADER, "").build();
+                request = exchange.getRequest().mutate().header(AuthConstants.JWT_TOKEN_HEADER, "").build();
                 exchange = exchange.mutate().request(request).build();
                 return chain.filter(exchange);
             }

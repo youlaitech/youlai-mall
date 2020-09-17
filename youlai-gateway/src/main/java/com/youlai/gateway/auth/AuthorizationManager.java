@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.admin.api.dto.UserDTO;
-import com.youlai.common.auth.constant.AuthConstant;
+import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.gateway.config.WhiteUrlsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -58,17 +58,17 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
 
         try {
-            String token = request.getHeaders().getFirst(AuthConstant.JWT_TOKEN_HEADER);
+            String token = request.getHeaders().getFirst(AuthConstants.JWT_TOKEN_HEADER);
             if (StrUtil.isBlank(token)) {
                 return Mono.just(new AuthorizationDecision(false));
             }
-            token = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
+            token = token.replace(AuthConstants.JWT_TOKEN_PREFIX, "");
             JWSObject jwsObject = JWSObject.parse(token);
             String payload = jwsObject.getPayload().toString(); // jwt 载体部分
             UserDTO userDTO = JSONUtil.toBean(payload, UserDTO.class);
 
-            if (AuthConstant.ADMIN_CLIENT_ID.equals(userDTO.getClientId())
-                    && !pathMatcher.match(AuthConstant.ADMIN_URL_PATTERN, uri.getPath())) {
+            if (AuthConstants.ADMIN_CLIENT_ID.equals(userDTO.getClientId())
+                    && !pathMatcher.match(AuthConstants.ADMIN_URL_PATTERN, uri.getPath())) {
                 return Mono.just(new AuthorizationDecision(false));
             }
         } catch (ParseException e) {
@@ -77,12 +77,12 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
 
         // 非管理端路径直接放行
-        if (!pathMatcher.match(AuthConstant.ADMIN_URL_PATTERN, uri.getPath())) {
+        if (!pathMatcher.match(AuthConstants.ADMIN_URL_PATTERN, uri.getPath())) {
             return Mono.just(new AuthorizationDecision(true));
         }
 
         // 管理端路径需要校验权限
-        Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstant.RESOURCE_ROLES_MAP_KEY);
+        Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstants.RESOURCE_ROLES_MAP_KEY);
         Iterator<Object> iterator = resourceRolesMap.keySet().iterator();
 
         // 拥有该请求资源权限的角色ID集合

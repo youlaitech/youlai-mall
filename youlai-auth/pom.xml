@@ -25,19 +25,19 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-auth</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-swagger</artifactId>
+            <artifactId>youlai-common-knife4j</artifactId>
             <version>${youlai-common.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>youlai-common-core</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-redis</artifactId>
             <version>${youlai-common.version}</version>
         </dependency>
 
@@ -63,7 +63,6 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!-- 认证依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>

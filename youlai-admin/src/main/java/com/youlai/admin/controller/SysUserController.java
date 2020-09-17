@@ -2,7 +2,6 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -16,17 +15,15 @@ import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.admin.domain.vo.UserVO;
-import com.youlai.common.auth.constant.AuthConstant;
-import com.youlai.common.result.PageResult;
-import com.youlai.common.result.Result;
+import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.core.result.PageResult;
+import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import jdk.net.SocketFlow;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -124,7 +121,7 @@ public class SysUserController {
     @ApiOperation(value = "当前请求用户信息", httpMethod = "GET")
     @GetMapping("/me")
     public Result currentUserInfo(HttpServletRequest request) {
-        String payload = request.getHeader(AuthConstant.USER_TOKEN_HEADER);
+        String payload = request.getHeader(AuthConstants.USER_TOKEN_HEADER);
         JSONObject jsonObject = JSONUtil.parseObj(payload);
         Integer id = jsonObject.getInt("id");
         SysUser user = iSysUserService.getById(id);
