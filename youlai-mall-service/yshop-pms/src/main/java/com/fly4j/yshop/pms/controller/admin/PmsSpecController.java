@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.api.PageResult;
 import com.youlai.common.api.Result;
-import com.youlai.common.core.controller.BaseController;
+import com.youlai.common.core.base.controller.BaseController;
 import com.fly4j.yshop.pms.pojo.entity.PmsSpec;
 import com.fly4j.yshop.pms.service.IPmsSpecService;
 import io.swagger.annotations.Api;

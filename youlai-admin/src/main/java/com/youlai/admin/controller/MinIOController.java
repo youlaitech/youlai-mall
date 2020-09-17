@@ -3,7 +3,7 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.util.IdUtil;
 import com.youlai.admin.service.impl.MinIOService;
-import com.youlai.common.result.Result;
+import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

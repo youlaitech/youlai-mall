@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.admin.common.AdminConstant;
 import com.youlai.admin.domain.entity.SysDept;
 import com.youlai.admin.service.ISysDeptService;
-import com.youlai.common.result.Result;
+import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

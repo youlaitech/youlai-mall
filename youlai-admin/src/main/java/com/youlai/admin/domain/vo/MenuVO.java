@@ -1,6 +1,6 @@
 package com.youlai.admin.domain.vo;
 
-import com.youlai.common.core.entity.BaseEntity;
+import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
 import java.util.List;

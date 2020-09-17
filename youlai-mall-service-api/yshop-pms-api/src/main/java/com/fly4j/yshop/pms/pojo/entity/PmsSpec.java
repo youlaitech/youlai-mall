@@ -3,7 +3,7 @@ package com.fly4j.yshop.pms.pojo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.youlai.common.core.entity.BaseEntity;
+import com.youlai.common.core.base.entity.BaseEntity;
 import lombok.Data;
 
 @Data

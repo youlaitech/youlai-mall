@@ -2,10 +2,10 @@ package com.youlai.gateway.config;
 
 
 import cn.hutool.core.util.ArrayUtil;
-import com.youlai.common.auth.constant.AuthConstant;
+import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.gateway.auth.AuthorizationManager;
-import com.youlai.gateway.component.AuthServerAuthenticationEntryPoint;
-import com.youlai.gateway.component.ResourceServerAccessDeniedHandler;
+import com.youlai.gateway.component.AuthExceptionEntryPoint;
+import com.youlai.gateway.component.AccessDeniedHandler;
 import com.youlai.gateway.filter.WhiteUrlsRemoveJwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,8 +31,8 @@ import reactor.core.publisher.Mono;
 public class ResourceServerConfig {
 
     private AuthorizationManager authorizationManager;
-    private ResourceServerAccessDeniedHandler resourceServerAccessDeniedHandler;
-    private AuthServerAuthenticationEntryPoint authServerAuthenticationEntryPoint;
+    private AccessDeniedHandler accessDeniedHandler;
+    private AuthExceptionEntryPoint authExceptionEntryPoint;
     private WhiteUrlsConfig whiteUrlsConfig;
     private WhiteUrlsRemoveJwtFilter whiteUrlsRemoveJwtFilter;
 
@@ -41,7 +41,7 @@ public class ResourceServerConfig {
         http.oauth2ResourceServer().jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
         // 自定义处理JWT请求头过期或签名错误的结果
-        http.oauth2ResourceServer().authenticationEntryPoint(authServerAuthenticationEntryPoint);
+        http.oauth2ResourceServer().authenticationEntryPoint(authExceptionEntryPoint);
         // 对白名单路径，直接移除JWT请求头
         http.addFilterBefore(whiteUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         http.authorizeExchange()
@@ -49,8 +49,8 @@ public class ResourceServerConfig {
                 .anyExchange().access(authorizationManager)
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(resourceServerAccessDeniedHandler) // 处理未授权
-                .authenticationEntryPoint(authServerAuthenticationEntryPoint) //处理未认证
+                .accessDeniedHandler(accessDeniedHandler) // 处理未授权
+                .authenticationEntryPoint(authExceptionEntryPoint) //处理未认证
                 .and().csrf().disable();
 
         return http.build();
@@ -67,8 +67,8 @@ public class ResourceServerConfig {
     @Bean
     public Converter<Jwt, ? extends Mono<? extends AbstractAuthenticationToken>> jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix(AuthConstant.AUTHORITY_PREFIX);
-        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(AuthConstant.AUTHORITY_CLAIM_NAME);
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix(AuthConstants.AUTHORITY_PREFIX);
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(AuthConstants.AUTHORITY_CLAIM_NAME);
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
