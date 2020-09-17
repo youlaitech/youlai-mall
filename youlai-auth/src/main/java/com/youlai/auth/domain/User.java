@@ -1,6 +1,7 @@
 package com.youlai.auth.domain;
 
 import com.youlai.admin.api.dto.UserDTO;
+import com.youlai.common.core.constant.AuthConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,14 +31,14 @@ public class User implements UserDetails {
 
     private Collection<SimpleGrantedAuthority> authorities;
 
-    public User(UserDTO user){
+    public User(UserDTO user) {
         this.setId(user.getId());
         this.setUsername(user.getUsername());
-        this.setPassword(user.getPassword());
+        this.setPassword(AuthConstants.BCRYPT + user.getPassword());
         this.setEnabled(user.getStatus().equals(1));
         this.setClientId(user.getClientId());
-        if(user.getRoles()!=null){
-            authorities=new ArrayList<>();
+        if (user.getRoles() != null) {
+            authorities = new ArrayList<>();
             user.getRoles().forEach(roleId -> authorities.add(new SimpleGrantedAuthority(String.valueOf(roleId))));
         }
 
