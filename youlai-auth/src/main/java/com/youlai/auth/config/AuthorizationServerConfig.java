@@ -16,8 +16,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -25,7 +23,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.util.ArrayList;
@@ -78,8 +75,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
      * 配置令牌端点的安全约束
-     *
-     * @param endpoints
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
@@ -126,12 +121,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * 从classpath下的秘钥库中获取秘钥对
+     * 从classpath下的密钥库中获取密钥对(公钥+私钥)
      */
     @Bean
     public KeyPair keyPair() {
-        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
-        KeyPair keyPair = factory.getKeyPair("jwt", "123456".toCharArray());
+        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("youlai.jks"), "123456".toCharArray());
+        KeyPair keyPair = factory.getKeyPair("youlai", "123456".toCharArray());
         return keyPair;
     }
 }
