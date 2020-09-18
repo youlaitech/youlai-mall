@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @RestController
 @AllArgsConstructor
-public class KeyPairController {
+public class PublicKeyController {
 
     private KeyPair keyPair;
 
