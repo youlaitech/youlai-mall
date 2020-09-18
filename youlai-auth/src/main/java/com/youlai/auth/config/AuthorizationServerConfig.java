@@ -1,7 +1,8 @@
 package com.youlai.auth.config;
 
-import com.youlai.auth.component.JwtTokenEnhancer;
+import com.youlai.auth.domain.User;
 import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
+import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.core.constant.AuthConstants;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -26,7 +27,9 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 认证服务器
@@ -35,53 +38,38 @@ import java.util.List;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private DataSource dataSource;
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private JwtTokenEnhancer jwtTokenEnhancer;
+    private UserDetailsServiceImpl userDetailsService;
+
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Autowired
-    private  DataSource dataSource;
-
-
     /**
      * 配置客户端详情
-     *
-     * @param clients
-     * @throws Exception
      */
     @Override
     @SneakyThrows
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        /*clients.inMemory()
-                .withClient("client")
-                .secret(passwordEncoder.encode("123456"))
-                .scopes("all")
-                .authorizedGrantTypes("password", "refresh_token")
-                .accessTokenValiditySeconds(3600)
-                .refreshTokenValiditySeconds(86400);*/
-
-        JdbcClientDetailsServiceImpl jdbcClientDetailsService=new JdbcClientDetailsServiceImpl(dataSource);
-        jdbcClientDetailsService.setFindClientDetailsSql(AuthConstants.CLIENT_DETAILS_FIND_SQL);
-        jdbcClientDetailsService.setSelectClientDetailsSql(AuthConstants.CLIENT_DETAILS_SELECT_SQL);
+    public void configure(ClientDetailsServiceConfigurer clients) {
+        JdbcClientDetailsServiceImpl jdbcClientDetailsService = new JdbcClientDetailsServiceImpl(dataSource);
+        jdbcClientDetailsService.setFindClientDetailsSql(AuthConstants.FIND_CLIENT_DETAILS_SQL);
+        jdbcClientDetailsService.setSelectClientDetailsSql(AuthConstants.SELECT_CLIENT_DETAILS_SQL);
         clients.withClientDetails(jdbcClientDetailsService);
-
     }
-
 
     /**
      * 配置令牌端点的安全约束
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        // 配置JWT的内容增强器
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
-        tokenEnhancers.add(jwtTokenEnhancer);
+        tokenEnhancers.add(tokenEnhancer());
         tokenEnhancers.add(jwtAccessTokenConverter());
         tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
 
@@ -89,16 +77,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenStore(tokenStore())
-        ;
+                .userDetailsService(userDetailsService);
     }
 
-
-    @Bean
-    public TokenStore tokenStore() {
-        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        tokenStore.setPrefix(AuthConstants.OAUTH2_TOKEN_PREFIX);
-        return tokenStore;
-    }
 
 
     /**
@@ -129,4 +110,29 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         KeyPair keyPair = factory.getKeyPair("youlai", "123456".toCharArray());
         return keyPair;
     }
+
+
+    @Bean
+    public TokenStore tokenStore() {
+        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
+        tokenStore.setPrefix(AuthConstants.OAUTH2_TOKEN_PREFIX);
+        return tokenStore;
+    }
+
+    /**
+     * JWT内容增强
+     */
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return (accessToken, authentication) -> {
+            Map<String, Object> map = new HashMap<>(2);
+            User user = (User) authentication.getUserAuthentication().getPrincipal();
+            map.put(AuthConstants.JWT_USER_ID_KEY, user.getId());
+            map.put(AuthConstants.JWT_CLIENT_ID_KEY, user.getClientId());
+            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(map);
+            return accessToken;
+        };
+    }
+
+
 }
