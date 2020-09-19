@@ -4,12 +4,11 @@ import com.youlai.auth.domain.User;
 import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
 import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.core.constant.AuthConstants;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -19,10 +18,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
 import java.security.KeyPair;
@@ -32,23 +29,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 认证服务器
+ * 授权服务配置
  */
 @Configuration
 @EnableAuthorizationServer
+@AllArgsConstructor
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-
-    @Autowired
     private DataSource dataSource;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
 
     /**
      * 配置客户端详情
@@ -63,7 +53,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * 配置令牌端点的安全约束
+     * 配置授权（authorization）以及令牌（token）的访问端点和令牌服务(token services)
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
@@ -76,11 +66,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
-                .tokenStore(tokenStore())
-                .userDetailsService(userDetailsService);
+                .userDetailsService(userDetailsService)
+                // refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
+                //      1，重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
+                //      2，非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
+                .reuseRefreshTokens(false);
     }
-
-
 
     /**
      * 允许表单认证
@@ -106,17 +97,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Bean
     public KeyPair keyPair() {
-        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("youlai.jks"), "123456".toCharArray());
-        KeyPair keyPair = factory.getKeyPair("youlai", "123456".toCharArray());
+        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(
+                new ClassPathResource("youlai.jks"), "123456".toCharArray());
+        KeyPair keyPair = factory.getKeyPair(
+                "youlai", "123456".toCharArray());
         return keyPair;
-    }
-
-
-    @Bean
-    public TokenStore tokenStore() {
-        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        tokenStore.setPrefix(AuthConstants.OAUTH2_TOKEN_PREFIX);
-        return tokenStore;
     }
 
     /**
@@ -133,6 +118,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             return accessToken;
         };
     }
-
-
 }
