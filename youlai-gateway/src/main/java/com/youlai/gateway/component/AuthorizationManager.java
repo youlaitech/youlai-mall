@@ -1,12 +1,11 @@
-package com.youlai.gateway.auth;
-
+package com.youlai.gateway.component;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.gateway.config.WhiteUrlsConfig;
+import com.youlai.gateway.config.WhiteListConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
@@ -29,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 鉴权管理器，用于判断是否有资源的访问权限
+ * 鉴权管理器
  */
 @Component
 public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
@@ -38,21 +37,21 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     private RedisTemplate redisTemplate;
 
     @Autowired
-    private WhiteUrlsConfig whiteUrlsConfig;
+    private WhiteListConfig whiteListConfig;
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         URI uri = request.getURI();
-        //白名单路径直接放行
+        // 白名单路径直接放行
         PathMatcher pathMatcher = new AntPathMatcher();
-        List<String> whiteUrls = whiteUrlsConfig.getUrls();
+        List<String> whiteUrls = whiteListConfig.getUrls();
         for (String ignoreUrl : whiteUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {
                 return Mono.just(new AuthorizationDecision(true));
             }
         }
-        //对应跨域的预检请求直接放行
+        // 对应跨域的预检请求直接放行
         if (request.getMethod() == HttpMethod.OPTIONS) {
             return Mono.just(new AuthorizationDecision(true));
         }
@@ -97,7 +96,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 .filter(Authentication::isAuthenticated)
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
-                .any(roleId -> authorities.contains(roleId)) // 判断用户角色中是否有访问资源权限的角色，一个就好
+                .any(roleId -> authorities.contains(roleId))
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));
 
