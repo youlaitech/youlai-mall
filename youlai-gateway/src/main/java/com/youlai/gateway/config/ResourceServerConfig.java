@@ -3,10 +3,10 @@ package com.youlai.gateway.config;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.gateway.auth.AuthorizationManager;
-import com.youlai.gateway.component.AuthExceptionEntryPoint;
-import com.youlai.gateway.component.AccessDeniedHandler;
-import com.youlai.gateway.filter.WhiteUrlsRemoveJwtFilter;
+import com.youlai.gateway.component.AuthorizationManager;
+import com.youlai.gateway.component.CustomServerAuthenticationEntryPoint;
+import com.youlai.gateway.component.CustomServerAccessDeniedHandler;
+import com.youlai.gateway.filter.WhiteListRemoveJwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,37 +31,36 @@ import reactor.core.publisher.Mono;
 public class ResourceServerConfig {
 
     private AuthorizationManager authorizationManager;
-    private AccessDeniedHandler accessDeniedHandler;
-    private AuthExceptionEntryPoint authExceptionEntryPoint;
-    private WhiteUrlsConfig whiteUrlsConfig;
-    private WhiteUrlsRemoveJwtFilter whiteUrlsRemoveJwtFilter;
+    private CustomServerAccessDeniedHandler customServerAccessDeniedHandler;
+    private CustomServerAuthenticationEntryPoint customServerAuthenticationEntryPoint;
+    private WhiteListConfig whiteListConfig;
+    private WhiteListRemoveJwtFilter whiteListRemoveJwtFilter;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.oauth2ResourceServer().jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
         // 自定义处理JWT请求头过期或签名错误的结果
-        http.oauth2ResourceServer().authenticationEntryPoint(authExceptionEntryPoint);
+        http.oauth2ResourceServer().authenticationEntryPoint(customServerAuthenticationEntryPoint);
         // 对白名单路径，直接移除JWT请求头
-        http.addFilterBefore(whiteUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+        http.addFilterBefore(whiteListRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         http.authorizeExchange()
-                .pathMatchers(ArrayUtil.toArray(whiteUrlsConfig.getUrls(),String.class)).permitAll()
+                .pathMatchers(ArrayUtil.toArray(whiteListConfig.getUrls(),String.class)).permitAll()
                 .anyExchange().access(authorizationManager)
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(accessDeniedHandler) // 处理未授权
-                .authenticationEntryPoint(authExceptionEntryPoint) //处理未认证
+                .accessDeniedHandler(customServerAccessDeniedHandler) // 处理未授权
+                .authenticationEntryPoint(customServerAuthenticationEntryPoint) //处理未认证
                 .and().csrf().disable();
 
         return http.build();
     }
 
     /**
-     * https://blog.csdn.net/qq_24230139/article/details/105091273
+     * @linkhttps://blog.csdn.net/qq_24230139/article/details/105091273
      * ServerHttpSecurity没有将jwt中authorities的负载部分当做Authentication
      * 需要把jwt的Claim中的authorities加入
      * 方案：重新定义ReactiveAuthenticationManager权限管理器，默认转换器JwtGrantedAuthoritiesConverter
-     *
      * @return
      */
     @Bean

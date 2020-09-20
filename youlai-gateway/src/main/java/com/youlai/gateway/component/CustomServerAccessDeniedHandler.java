@@ -17,10 +17,10 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.Charset;
 
 /**
- * 无权限访问自定义异常
+ * 无权访问自定义响应
  */
 @Component
-public class AccessDeniedHandler implements ServerAccessDeniedHandler {
+public class CustomServerAccessDeniedHandler implements ServerAccessDeniedHandler {
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, AccessDeniedException e) {
