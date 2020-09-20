@@ -74,5 +74,4 @@ public class ResourceServerConfig {
         return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
     }
 
-
 }

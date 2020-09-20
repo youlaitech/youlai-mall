@@ -5,6 +5,7 @@ import com.nimbusds.jose.JWSObject;
 import com.youlai.common.core.constant.AuthConstants;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -27,10 +28,12 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         if (StrUtil.isBlank(token)) {
             return chain.filter(exchange);
         }
-        token = token.replace(AuthConstants.JWT_TOKEN_PREFIX, "");
+        token = token.replace(AuthConstants.JWT_TOKEN_PREFIX, Strings.EMPTY);
         JWSObject jwsObject = JWSObject.parse(token);
         String payload = jwsObject.getPayload().toString();
-        ServerHttpRequest request = exchange.getRequest().mutate().header(AuthConstants.USER_TOKEN_HEADER, payload).build();
+        ServerHttpRequest request = exchange.getRequest().mutate()
+                .header(AuthConstants.USER_TOKEN_HEADER, payload)
+                .build();
         exchange = exchange.mutate().request(request).build();
         return chain.filter(exchange);
     }
