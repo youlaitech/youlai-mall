@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
  * 无效token自定义异常
  */
 @Component
-public class AuthExceptionEntryPoint implements ServerAuthenticationEntryPoint {
+public class CustomServerAuthenticationEntryPoint implements ServerAuthenticationEntryPoint {
     @Override
     public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException e) {
         ServerHttpResponse response=exchange.getResponse();

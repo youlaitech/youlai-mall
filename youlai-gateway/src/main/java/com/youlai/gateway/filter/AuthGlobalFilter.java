@@ -14,15 +14,15 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
- * 将登录用户的JWT转换成用户信息过滤器
+ * JWT转换成用户信息过滤器
  */
 @Component
 @Slf4j
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
+
     @SneakyThrows
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
         String token = exchange.getRequest().getHeaders().getFirst(AuthConstants.JWT_TOKEN_HEADER);
         if (StrUtil.isBlank(token)) {
             return chain.filter(exchange);
