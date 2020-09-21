@@ -15,16 +15,4 @@ import java.util.TreeMap;
 @Component
 @AllArgsConstructor
 public class ResourceRoleRulesHolder {
-
-    private RedisTemplate redisTemplate;
-
-    @PostConstruct
-    public void initResourceRolesMap() {
-        Map<String, List<String>> resourceRoleMap = new TreeMap<>();
-        List<String> roleNames = new ArrayList<>();
-        roleNames.add(AuthConstants.AUTHORITY_PREFIX + "1");
-        resourceRoleMap.put("/youlai-admin/**", roleNames);
-        redisTemplate.delete(AuthConstants.RESOURCE_ROLES_MAP_KEY);
-        redisTemplate.opsForHash().putAll(AuthConstants.RESOURCE_ROLES_MAP_KEY, resourceRoleMap);
-    }
-}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               }

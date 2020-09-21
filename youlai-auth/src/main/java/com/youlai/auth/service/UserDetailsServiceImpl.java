@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String clientId = request.getParameter("client_id");
         UserDTO userDTO = adminUserService.loadUserByUsername(username);
         if (userDTO == null) {
-            throw new UsernameNotFoundException("用户名或者密码错误");
+            throw new UsernameNotFoundException("用户不存在");
         }
         userDTO.setClientId(clientId);
         User user = new User(userDTO);
