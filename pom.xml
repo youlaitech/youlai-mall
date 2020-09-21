@@ -10,12 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>youlai-admin</module>
         <module>youlai-common</module>
-        <module>youlai-auth</module>
         <module>youlai-admin-api</module>
         <module>youlai-admin</module>
-        <module>youlai-admin-api</module>
         <module>youlai-auth</module>
     </modules>
 
