@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>youlai-admin</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>youlai-admin-api</module>
+        <module>youlai-admin-biz</module>
+    </modules>
 
 
     <properties>
@@ -17,11 +22,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-admin-api</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
@@ -41,49 +41,5 @@
             <version>${youlai-common.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-web</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-redis</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- nacos 依赖-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
 </project>

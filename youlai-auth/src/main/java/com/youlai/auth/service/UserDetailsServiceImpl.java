@@ -1,7 +1,7 @@
 package com.youlai.auth.service;
 
 import com.youlai.admin.api.dto.UserDTO;
-import com.youlai.admin.api.service.AdminUserService;
+import com.youlai.admin.api.feign.RemoteAdminService;
 import com.youlai.auth.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private AdminUserService adminUserService;
+    private RemoteAdminService remoteAdminService;
 
     @Autowired
     private HttpServletRequest request;
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String clientId = request.getParameter("client_id");
-        UserDTO userDTO = adminUserService.loadUserByUsername(username);
+        UserDTO userDTO = remoteAdminService.loadUserByUsername(username);
         if (userDTO == null) {
             throw new UsernameNotFoundException("用户不存在");
         }

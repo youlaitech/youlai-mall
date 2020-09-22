@@ -18,11 +18,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-admin-api</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>

@@ -2,6 +2,7 @@ package com.youlai.gateway.filter;
 
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.gateway.config.WhiteListConfig;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -20,9 +21,9 @@ import java.util.List;
  * 白名单路径移除JWT请求头
  */
 @Component
+@AllArgsConstructor
 public class WhiteListRemoveJwtFilter implements WebFilter {
 
-    @Autowired
     private WhiteListConfig whiteListConfig;
 
     @Override

@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.gateway.config.WhiteListConfig;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -29,6 +30,7 @@ import java.util.Map;
  */
 @Component
 @AllArgsConstructor
+@Slf4j
 public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     private RedisTemplate redisTemplate;
@@ -57,11 +59,12 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             return Mono.just(new AuthorizationDecision(false));
         }
 
-        // 缓存取资源角色关系对应列表
-        Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstants.RESOURCE_ROLES_MAP_KEY);
+        // 缓存取资源权限角色关系列表
+        Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstants.RESOURCE_ROLES_KEY);
         Iterator<Object> iterator = resourceRolesMap.keySet().iterator();
+
+        // 请求路径匹配到的资源需要的角色权限集合authorities统计
         List<String> authorities = new ArrayList<>();
-        // 遍历获取请求资源所需角色集合
         while (iterator.hasNext()) {
             String pattern = (String) iterator.next();
             if (pathMatcher.match(pattern, uri.getPath())) {
@@ -72,7 +75,10 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 .filter(Authentication::isAuthenticated)
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
-                .any(roleId -> authorities.contains(roleId))
+                .any(roleId -> {
+                    // roleId是请求用户的角色(格式:ROLE_{roleId})，authorities是请求资源所需要角色的集合
+                    return authorities.contains(roleId);
+                })
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));
         return authorizationDecisionMono;
