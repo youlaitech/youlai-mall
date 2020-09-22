@@ -40,7 +40,7 @@ public interface AuthConstants {
     /**
      * Redis缓存权限规则key
      */
-    String RESOURCE_ROLES_MAP_KEY = "auth:resourceRolesMap";
+    String RESOURCE_ROLES_KEY = "auth:resourceRoles";
 
     String OAUTH2_TOKEN_PREFIX = "oauth2:token:";
 
