@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * 容器启动完成初始化资源权限至Redis缓存
+ * 容器启动完成加载资源权限数据到缓存
  */
 @Component
 @AllArgsConstructor
@@ -36,6 +36,7 @@ public class InitResourceRolesCacheRunner implements CommandLineRunner {
         Map<String, List<String>> resourceRolesMap = new TreeMap<>();
         Optional.ofNullable(resources).orElse(new ArrayList<>()).forEach(resource -> {
 
+            // 转换 roleId -> ROLE_{roleId}
             List<String> roles = Optional.ofNullable(resource.getRoleIds()).orElse(new ArrayList<>())
                     .stream().map(roleId -> AuthConstants.AUTHORITY_PREFIX + roleId)
                     .collect(Collectors.toList());
