@@ -29,8 +29,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 后台Long值传递给前端精度丢失问题（JS最大精度整数是Math.pow(2,53)）
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-        simpleModule.addSerializer(BigInteger.class, ToStringSerializer.instance);
+        // simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+        // simpleModule.addSerializer(BigInteger.class, ToStringSerializer.instance);
         objectMapper.registerModule(simpleModule);
 
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
