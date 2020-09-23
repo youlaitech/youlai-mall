@@ -71,16 +71,17 @@ youlai-mall
 
 ## 项目文档
 
-1. [SpringCloud实战 | 第一篇：Windows搭建Nacos服务 ](https://www.cnblogs.com/haoxianrui/p/13581881.html)
-2. [SpringCloud实战 | 第二篇：SpringCloud整合Nacos实现注册中心](https://www.cnblogs.com/haoxianrui/p/13584204.html)
-3. [SpringCloud实战 | 第三篇：SpringCloud整合Nacos实现配置中心](https://www.cnblogs.com/haoxianrui/p/13585125.html)
-4. [SpringCloud实战 | 第四篇：SpringCloud整合Gateway实现API网关](https://www.cnblogs.com/haoxianrui/p/13608650.html)
-5. [SpringCloud实战 | 第五篇：SpringCloud整合OpenFeign实现微服务之间的调用](https://www.cnblogs.com/haoxianrui/p/13615592.html)
-6. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
-7. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html)
+1. [Spring Cloud实战 | 第一篇：Windows搭建Nacos服务 ](https://www.cnblogs.com/haoxianrui/p/13581881.html)
+2. [Spring Cloud实战 | 第二篇：Spring Cloud整合Nacos实现注册中心](https://www.cnblogs.com/haoxianrui/p/13584204.html)
+3. [Spring Cloud实战 | 第三篇：Spring Cloud整合Nacos实现配置中心](https://www.cnblogs.com/haoxianrui/p/13585125.html)
+4. [Spring Cloud实战 | 第四篇：Spring Cloud整合Gateway实现API网关](https://www.cnblogs.com/haoxianrui/p/13608650.html)
+5. [Spring Cloud实战 | 第五篇：Spring Cloud整合OpenFeign实现微服务之间的调用](https://www.cnblogs.com/haoxianrui/p/13615592.html)
+6. [Spring Cloud实战 | 第六篇：Spring Cloud Gateway+Spring Security OAuth2+JWT实现微服务统一认证授权](https://www.cnblogs.com/haoxianrui/p/13719356.html)
+7. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
+8. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html)
 
 
 ## 问题
 
-项目在搭建的过程中如您遇到任何问题，都可以联系我帮你解决（微信号：haoxianrui）。
+项目在搭建的过程中如您遇到任何问题，都可以联系我（微信号：haoxianrui）。
 
