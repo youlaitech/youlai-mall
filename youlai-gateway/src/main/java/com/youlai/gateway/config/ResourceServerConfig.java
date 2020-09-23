@@ -34,7 +34,6 @@ public class ResourceServerConfig {
     private CustomServerAccessDeniedHandler customServerAccessDeniedHandler;
     private CustomServerAuthenticationEntryPoint customServerAuthenticationEntryPoint;
     private WhiteListConfig whiteListConfig;
-    private WhiteListRemoveJwtFilter whiteListRemoveJwtFilter;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -42,8 +41,6 @@ public class ResourceServerConfig {
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
         // 自定义处理JWT请求头过期或签名错误的结果
         http.oauth2ResourceServer().authenticationEntryPoint(customServerAuthenticationEntryPoint);
-        // 对白名单路径，直接移除JWT请求头
-        http.addFilterBefore(whiteListRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         http.authorizeExchange()
                 .pathMatchers(ArrayUtil.toArray(whiteListConfig.getUrls(),String.class)).permitAll()
                 .anyExchange().access(authorizationManager)

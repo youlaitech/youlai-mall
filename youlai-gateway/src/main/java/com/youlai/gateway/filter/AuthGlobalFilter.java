@@ -33,6 +33,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         String payload = jwsObject.getPayload().toString();
         ServerHttpRequest request = exchange.getRequest().mutate()
                 .header(AuthConstants.USER_TOKEN_HEADER, payload)
+                .header(AuthConstants.JWT_TOKEN_HEADER,token)
                 .build();
         exchange = exchange.mutate().request(request).build();
         return chain.filter(exchange);
