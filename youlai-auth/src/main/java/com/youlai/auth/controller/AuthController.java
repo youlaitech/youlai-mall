@@ -6,6 +6,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -14,6 +16,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Api(tags = "认证中心认证登录")
@@ -23,6 +26,9 @@ public class AuthController {
 
     @Resource
     private TokenEndpoint tokenEndpoint;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @ApiOperation("Oauth2获取token")
     @ApiImplicitParams({
@@ -46,4 +52,14 @@ public class AuthController {
                 .build();
         return Result.success(oauth2Token);
     }
+
+    @DeleteMapping("/logout")
+    public Result logout(){
+
+        //redisTemplate.opsForHash().putAll("",new ArrayList<>());
+
+        return null;
+    }
+
+
 }
