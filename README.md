@@ -9,10 +9,12 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 
 ``` lua
 youlai-mall
-├── conf -- Nacos配置中心存储的配置
-├── sql -- 数据库初始化脚本
-├── youlai-admin -- 后台管理系统服务
-├── youlai-admin-api -- 后台管理系统服务的远程调用客户端
+├── document
+    ├── DEFAULT_GROUP.zip  -- Nacos配置中心存储的配置
+    ├── youlai.sql -- 数据库初始化脚本
+├── youlai-admin 
+    ├── youlai-admin-api -- 后台管理服务的远程调用客户端
+    ├── youlai-admin-biz -- 后台管理服务
 ├── youlai-auth -- 认证中心
 ├── youlai-common -- 公共模块
 └── youlai-gateway -- API网关
@@ -23,7 +25,7 @@ youlai-mall
 | 后端技术 |  版本号                     
 | -------------------- |  -------------------- |                             
 | SpringBoot|     2.3.3.RELEASE                      
-| SpringCloud|  Hoxton.SR5
+| SpringCloud|  Hoxton.SR8
 | SpringCloud Alibaba|  2.2.1.RELEASE
 | Spring Security OAuth2| 2.2.2.RELEASE
 | MyBatis Plus|3.4.0
