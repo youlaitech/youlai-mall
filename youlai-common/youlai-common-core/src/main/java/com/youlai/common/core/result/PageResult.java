@@ -13,8 +13,8 @@ public class PageResult<T> extends Result {
 
     public static <T> PageResult<T> success(T data, Long total) {
         PageResult<T> pageResult = new PageResult();
-        pageResult.setCode(ResultCodeEnum.SUCCESS.getCode());
-        pageResult.setMsg(ResultCodeEnum.SUCCESS.getMsg());
+        pageResult.setCode(ResultCode.SUCCESS.getCode());
+        pageResult.setMsg(ResultCode.SUCCESS.getMsg());
         pageResult.setData(data);
         pageResult.setTotal(total);
         return pageResult;

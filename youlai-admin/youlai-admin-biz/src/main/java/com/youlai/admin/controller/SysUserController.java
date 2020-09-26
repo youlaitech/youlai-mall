@@ -121,7 +121,7 @@ public class SysUserController {
     @ApiOperation(value = "当前请求用户信息", httpMethod = "GET")
     @GetMapping("/me")
     public Result currentUserInfo(HttpServletRequest request) {
-        String payload = request.getHeader(AuthConstants.USER_TOKEN_HEADER);
+         String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
         JSONObject jsonObject = JSONUtil.parseObj(payload);
         Integer id = jsonObject.getInt("id");
         SysUser user = iSysUserService.getById(id);
