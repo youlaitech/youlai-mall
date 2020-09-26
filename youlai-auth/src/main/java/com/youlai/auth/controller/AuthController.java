@@ -1,40 +1,38 @@
 package com.youlai.auth.controller;
 
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
+import com.youlai.common.core.result.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.text.ParseException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-@Api(tags = "认证中心认证登录")
+@Api(tags = "认证中心")
 @RestController
 @RequestMapping("/oauth")
+@AllArgsConstructor
 public class AuthController {
 
-    @Resource
     private TokenEndpoint tokenEndpoint;
-
-    @Autowired
     private RedisTemplate redisTemplate;
 
     @ApiOperation("Oauth2获取token")
@@ -61,14 +59,19 @@ public class AuthController {
     }
 
     @DeleteMapping("/logout")
-    public Result logout(HttpServletRequest request) throws ParseException {
-        String token = request.getHeader(AuthConstants.JWT_TOKEN_HEADER);
-        JWSObject jwsObject = JWSObject.parse(token);
-        String payload = jwsObject.getPayload().toString(); // jwt 载体部分
-        UserDTO userDTO = JSONUtil.toBean(payload, UserDTO.class);
-        redisTemplate.opsForValue().set("", "");
-        return null;
+    public Result logout(HttpServletRequest request) {
+        String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
+        JSONObject jsonObject = JSONUtil.parseObj(payload);
+
+        String jti = jsonObject.getStr("jti"); // JWT唯一标识
+        long exp = jsonObject.getLong("exp"); // JWT过期时间戳
+
+        long currentTimeSeconds = System.currentTimeMillis() / 1000;
+
+        if (exp < currentTimeSeconds) { // token已过期
+            return Result.custom(ResultCode.INVALID_TOKEN_OR_EXPIRED);
+        }
+        redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (exp - currentTimeSeconds), TimeUnit.SECONDS);
+        return Result.success();
     }
-
-
 }

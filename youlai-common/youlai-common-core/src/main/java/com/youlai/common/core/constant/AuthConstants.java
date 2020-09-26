@@ -23,26 +23,17 @@ public interface AuthConstants {
     String JWT_TOKEN_PREFIX = "Bearer ";
 
     /**
-     * 用户信息HTTP请求头
+     * JWT载体key
      */
-    String USER_TOKEN_HEADER = "user";
-
-    /**
-     * 后台管理client_id
-     */
-    String ADMIN_CLIENT_ID = "admin-client";
-
-    /**
-     * 后台管理接口路径匹配
-     */
-    String ADMIN_URL_PATTERN = "/youlai-admin/**";
+    String JWT_PAYLOAD_KEY = "payload";
 
     /**
      * Redis缓存权限规则key
      */
     String RESOURCE_ROLES_KEY = "auth:resourceRoles";
 
-    String OAUTH2_TOKEN_PREFIX = "oauth2:token:";
+
+    String TOKEN_BLACKLIST_PREFIX = "auth:token:blacklist:";
 
     String CLIENT_DETAILS_FIELDS = "client_id, CONCAT('{noop}',client_secret) as client_secret, resource_ids, scope, "
             + "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "

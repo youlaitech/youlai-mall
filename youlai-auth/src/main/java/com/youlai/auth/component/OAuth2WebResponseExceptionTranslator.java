@@ -1,7 +1,7 @@
 package com.youlai.auth.component;
 
 import com.youlai.auth.exception.CustomOAuth2Exception;
-import com.youlai.common.core.result.ResultCodeEnum;
+import com.youlai.common.core.result.ResultCode;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -63,12 +63,12 @@ public class OAuth2WebResponseExceptionTranslator implements WebResponseExceptio
     private static class InvalidException extends OAuth2Exception {
 
         public InvalidException() {
-            super(ResultCodeEnum.USER_PASSWORD_ERROR.getMsg());
+            super(ResultCode.USERNAME_OR_PASSWORD_ERROR.getMsg());
         }
 
         @Override
         public String getOAuth2ErrorCode() {
-            return ResultCodeEnum.USER_PASSWORD_ERROR.getCode();
+            return ResultCode.USERNAME_OR_PASSWORD_ERROR.getCode();
         }
 
         @Override

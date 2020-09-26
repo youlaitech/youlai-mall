@@ -23,20 +23,20 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> success(T data) {
-        ResultCodeEnum rce = ResultCodeEnum.SUCCESS;
+        ResultCode rce = ResultCode.SUCCESS;
         if (data instanceof Boolean && Boolean.FALSE.equals(data)) {
-            rce = ResultCodeEnum.SYSTEM_EXECUTION_ERROR;
+            rce = ResultCode.SYSTEM_EXECUTION_ERROR;
         }
         return result(rce, data);
     }
 
 
     public static <T> Result<T> error() {
-        return result(ResultCodeEnum.SYSTEM_EXECUTION_ERROR.getCode(), ResultCodeEnum.SYSTEM_EXECUTION_ERROR.getMsg(), null);
+        return result(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), ResultCode.SYSTEM_EXECUTION_ERROR.getMsg(), null);
     }
 
     public static <T> Result<T> error(String msg) {
-        return result(ResultCodeEnum.SYSTEM_EXECUTION_ERROR.getCode(), msg, null);
+        return result(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), msg, null);
     }
 
     public static <T> Result<T> status(boolean status) {
