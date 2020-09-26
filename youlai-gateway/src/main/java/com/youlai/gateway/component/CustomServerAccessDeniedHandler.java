@@ -2,7 +2,7 @@ package com.youlai.gateway.component;
 
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.core.result.Result;
-import com.youlai.common.core.result.ResultCodeEnum;
+import com.youlai.common.core.result.ResultCode;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class CustomServerAccessDeniedHandler implements ServerAccessDeniedHandle
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getHeaders().set("Access-Control-Allow-Origin","*");
         response.getHeaders().set("Cache-Control","no-cache");
-        String body= JSONUtil.toJsonStr(Result.custom(ResultCodeEnum.USER_ACCESS_UNAUTHORIZED));
+        String body= JSONUtil.toJsonStr(Result.custom(ResultCode.USER_ACCESS_UNAUTHORIZED));
         DataBuffer buffer =  response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
         return response.writeWith(Mono.just(buffer));
     }
