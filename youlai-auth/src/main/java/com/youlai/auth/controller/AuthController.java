@@ -69,7 +69,7 @@ public class AuthController {
         long currentTimeSeconds = System.currentTimeMillis() / 1000;
 
         if (exp < currentTimeSeconds) { // token已过期
-            return Result.custom(ResultCode.INVALID_TOKEN_OR_EXPIRED);
+            return Result.custom(ResultCode.TOKEN_INVALID_OR_EXPIRED);
         }
         redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (exp - currentTimeSeconds), TimeUnit.SECONDS);
         return Result.success();

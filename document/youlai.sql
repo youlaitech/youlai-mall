@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 22/09/2020 19:59:02
+ Date: 27/09/2020 17:10:20
 */
 
 SET NAMES utf8mb4;
@@ -61,15 +61,13 @@ CREATE TABLE `sys_dept`  (
   `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '更新者',
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (3, '测试', 0, '0', 1, '123', '', NULL, 1, 0, 'admin', '2020-09-10 11:52:52', 'admin', '2020-09-10 11:52:52');
-INSERT INTO `sys_dept` VALUES (5, '123', 3, '0,3', 1, '23', NULL, '', 1, 0, 'admin', '2020-09-10 11:54:46', 'admin', '2020-09-10 11:54:46');
-INSERT INTO `sys_dept` VALUES (6, '4567', 5, '0,3,5', 1, NULL, NULL, NULL, 1, 0, 'admin', '2020-09-10 17:43:07', 'admin', '2020-09-10 17:43:07');
-INSERT INTO `sys_dept` VALUES (7, '2222', 3, '0,3', 1, NULL, NULL, NULL, 1, 0, 'admin', '2020-09-10 17:43:20', 'admin', '2020-09-10 17:43:20');
+INSERT INTO `sys_dept` VALUES (8, '研发部', 0, '0', 1, '郝先瑞', '17621590365', '1490493387@qq.com', 1, 0, 'admin', '2020-09-23 11:32:05', 'admin', '2020-09-23 11:32:05');
+INSERT INTO `sys_dept` VALUES (9, '测试部', 0, '0', 1, '张三', '15123569856', 'youlai@163.com', 1, 0, 'admin', '2020-09-23 11:33:06', 'admin', '2020-09-23 11:33:06');
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -89,40 +87,15 @@ CREATE TABLE `sys_dict`  (
   `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '更新者',
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, '头盔', '01', 'material_type', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict` VALUES (2, '电池', '02', 'material_type', 2, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict` VALUES (3, '个', '01', 'material_unit', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict` VALUES (4, '台', '02', 'material_unit', 2, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict` VALUES (5, '已提交待审核', '0', 'process_status', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict` VALUES (6, '审核通过', '1', 'process_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (7, '审核不通过', '2', 'process_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (8, '生产入库', '01', 'stock_in_type', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (9, '采购进货', '02', 'stock_in_type', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (10, '采购退货', '03', 'stock_in_type', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (11, '生产退料', '04', 'stock_in_type', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (12, '其他入库', '05', 'stock_in_type', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (13, '销售出库', '03', 'stock_out_type', 3, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (14, '销售退货', '02', 'stock_out_type', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (15, '男', '0', 'sys_user_sex', 1, 1, NULL, '性别男', 'admin', '2019-05-05 13:07:52', 'admin', '2019-07-02 14:23:05');
-INSERT INTO `sys_dict` VALUES (16, '女', '1', 'sys_user_sex', 2, 1, NULL, '性别女', 'admin', '2019-04-19 11:33:00', 'admin', '2019-07-02 14:23:05');
-INSERT INTO `sys_dict` VALUES (17, '完好', '0', 'material_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (18, '损坏', '1', 'material_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (19, '丢失', '2', 'material_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (20, '拆分', '3', 'material_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (21, '组装', '4', 'material_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (22, '待入库', '0', 'material_store_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (23, '已入库', '1', 'material_store_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (24, '待出库', '2', 'material_store_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (25, '已出库', '3', 'material_store_status', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (26, '生产领料', '01', 'stock_out_type', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (27, '其他出库', '04', 'stock_out_type', 0, 1, NULL, '', '', NULL, '', NULL);
-INSERT INTO `sys_dict` VALUES (28, '正常', '1', 'sys_normal_disable', 1, 1, NULL, '', '', NULL, 'admin', '2020-09-14 14:35:25');
-INSERT INTO `sys_dict` VALUES (29, '停用', '0', 'sys_normal_disable', 2, 1, NULL, '', '', NULL, 'admin', '2020-09-14 14:35:31');
+INSERT INTO `sys_dict` VALUES (1, '男', '0', 'sys_user_sex', 1, 1, NULL, '性别男', 'admin', '2019-05-05 13:07:52', 'admin', '2019-07-02 14:23:05');
+INSERT INTO `sys_dict` VALUES (2, '女', '1', 'sys_user_sex', 2, 1, NULL, '性别女', 'admin', '2019-04-19 11:33:00', 'admin', '2019-07-02 14:23:05');
+INSERT INTO `sys_dict` VALUES (3, '正常', '1', 'sys_normal_disable', 1, 1, NULL, '', '', NULL, 'admin', '2020-09-14 14:35:25');
+INSERT INTO `sys_dict` VALUES (4, '停用', '0', 'sys_normal_disable', 2, 1, NULL, '', '', NULL, 'admin', '2020-09-14 14:35:31');
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -177,18 +150,18 @@ CREATE TABLE `sys_menu`  (
   `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 'admin', '', '/admin/user', NULL, 0, 'component', 6, 1, 1, '', NULL, 'admin', '2020-09-15 13:10:45');
-INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'user', 'admin/user', NULL, NULL, 1, 'user', 0, 1, 1, '', NULL, 'admin', '2020-09-15 13:12:05');
-INSERT INTO `sys_menu` VALUES (37, '角色管理', 1, 'role', 'admin/role', NULL, NULL, 1, 'peoples', 0, 1, 1, '', NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (38, '菜单管理', 1, 'menu', 'admin/menu', NULL, NULL, 1, 'tree-table', 8, 1, 1, '', NULL, 'admin', '2020-09-15 13:12:20');
-INSERT INTO `sys_menu` VALUES (39, '字典管理', 1, 'dict', 'admin/dict', NULL, NULL, 1, 'education', 10, 1, 1, '', NULL, 'admin', '2020-09-15 13:11:37');
-INSERT INTO `sys_menu` VALUES (40, '部门管理', 1, 'dept', 'admin/dept', NULL, NULL, 1, 'tree', 0, 1, 1, '', NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (41, '资源管理', 1, 'resource', 'admin/resource', NULL, NULL, 1, 'list', 9, 1, 1, 'admin', '2020-09-22 17:00:01', 'admin', '2020-09-22 17:00:01');
+INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 'admin', '', '/admin/user', NULL, 0, 'component', 6, 1, 1, 'admin', '2020-09-23 09:12:21', 'admin', '2020-09-15 13:10:45');
+INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'user', 'admin/user', NULL, NULL, 1, 'user', 0, 1, 1, 'admin', '2020-09-23 09:12:26', 'admin', '2020-09-15 13:12:05');
+INSERT INTO `sys_menu` VALUES (3, '角色管理', 1, 'role', 'admin/role', NULL, NULL, 1, 'peoples', 0, 1, 1, 'admin', NULL, 'admin', NULL);
+INSERT INTO `sys_menu` VALUES (4, '菜单管理', 1, 'menu', 'admin/menu', NULL, NULL, 1, 'tree-table', 8, 1, 1, 'admin', NULL, 'admin', '2020-09-15 13:12:20');
+INSERT INTO `sys_menu` VALUES (5, '字典管理', 1, 'dict', 'admin/dict', NULL, NULL, 1, 'education', 10, 1, 1, 'admin', NULL, 'admin', '2020-09-15 13:11:37');
+INSERT INTO `sys_menu` VALUES (6, '部门管理', 1, 'dept', 'admin/dept', NULL, NULL, 1, 'tree', 0, 1, 1, 'admin', NULL, 'admin', NULL);
+INSERT INTO `sys_menu` VALUES (7, '资源管理', 1, 'resource', 'admin/resource', NULL, NULL, 1, 'list', 9, 1, 1, 'admin', '2020-09-22 17:00:01', 'admin', '2020-09-22 17:00:01');
 
 -- ----------------------------
 -- Table structure for sys_resource
@@ -242,7 +215,7 @@ CREATE TABLE `sys_role`  (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, '超级管理员', 'root', 1, 1, 0, '超级管理员', '2018-12-23 16:00:00', 'admin', '2020-09-11 17:04:23', 'admin');
-INSERT INTO `sys_role` VALUES (2, '仓库管理员', 'admin', 2, 1, 0, '系统管理员', '2018-12-23 16:00:00', 'admin', '2020-09-22 17:01:44', 'admin');
+INSERT INTO `sys_role` VALUES (2, '系统管理员', 'admin', 2, 1, 0, '系统管理员', '2018-12-23 16:00:00', 'admin', '2020-09-22 17:01:44', 'admin');
 INSERT INTO `sys_role` VALUES (3, '普通用户', 'common', 3, 1, 0, '普通用户', '2019-05-05 16:00:00', 'admin', '2020-09-22 17:09:54', 'admin');
 
 -- ----------------------------
@@ -259,18 +232,18 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 INSERT INTO `sys_role_menu` VALUES (1, 1);
 INSERT INTO `sys_role_menu` VALUES (1, 2);
-INSERT INTO `sys_role_menu` VALUES (1, 27);
-INSERT INTO `sys_role_menu` VALUES (1, 37);
-INSERT INTO `sys_role_menu` VALUES (1, 38);
-INSERT INTO `sys_role_menu` VALUES (1, 39);
+INSERT INTO `sys_role_menu` VALUES (1, 3);
+INSERT INTO `sys_role_menu` VALUES (1, 4);
+INSERT INTO `sys_role_menu` VALUES (1, 5);
+INSERT INTO `sys_role_menu` VALUES (1, 6);
 INSERT INTO `sys_role_menu` VALUES (2, 2);
-INSERT INTO `sys_role_menu` VALUES (2, 37);
-INSERT INTO `sys_role_menu` VALUES (2, 38);
-INSERT INTO `sys_role_menu` VALUES (2, 39);
-INSERT INTO `sys_role_menu` VALUES (2, 40);
-INSERT INTO `sys_role_menu` VALUES (2, 41);
-INSERT INTO `sys_role_menu` VALUES (3, 40);
-INSERT INTO `sys_role_menu` VALUES (3, 38);
+INSERT INTO `sys_role_menu` VALUES (2, 3);
+INSERT INTO `sys_role_menu` VALUES (2, 4);
+INSERT INTO `sys_role_menu` VALUES (2, 5);
+INSERT INTO `sys_role_menu` VALUES (2, 6);
+INSERT INTO `sys_role_menu` VALUES (1, 7);
+INSERT INTO `sys_role_menu` VALUES (2, 7);
+INSERT INTO `sys_role_menu` VALUES (2, 1);
 
 -- ----------------------------
 -- Table structure for sys_role_resource
@@ -288,6 +261,14 @@ CREATE TABLE `sys_role_resource`  (
 -- ----------------------------
 INSERT INTO `sys_role_resource` VALUES (1, 4);
 INSERT INTO `sys_role_resource` VALUES (1, 3);
+INSERT INTO `sys_role_resource` VALUES (1, 1);
+INSERT INTO `sys_role_resource` VALUES (1, 2);
+INSERT INTO `sys_role_resource` VALUES (1, 5);
+INSERT INTO `sys_role_resource` VALUES (1, 6);
+INSERT INTO `sys_role_resource` VALUES (1, 7);
+INSERT INTO `sys_role_resource` VALUES (2, 3);
+INSERT INTO `sys_role_resource` VALUES (2, 4);
+INSERT INTO `sys_role_resource` VALUES (2, 2);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -317,7 +298,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '系统管理员', 0, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', '51379ee6-a921-4804-95eb-779bcef24013', 5, 0, 'https://i.loli.net/2020/05/08/dVvpaQ8NHkWAC2c.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', 'admin', '2020-03-09 10:12:54', 'fly4j');
+INSERT INTO `sys_user` VALUES (1, 'admin', '系统管理员', 0, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', '51379ee6-a921-4804-95eb-779bcef24013', 0, 0, 'https://i.loli.net/2020/05/08/dVvpaQ8NHkWAC2c.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', 'admin', '2020-03-09 10:12:54', 'fly4j');
 
 -- ----------------------------
 -- Table structure for sys_user_role
