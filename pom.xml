@@ -13,6 +13,8 @@
         <module>youlai-common</module>
         <module>youlai-admin</module>
         <module>youlai-auth</module>
+        <module>youlai-mall-sms</module>
+        <module>youlai-mall-sms/youlai-mall-sms-api</module>
     </modules>
 
     <parent>
