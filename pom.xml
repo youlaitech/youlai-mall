@@ -36,7 +36,6 @@
         <mysql.version>8.0.19</mysql.version>
         <druid.version>1.1.23</druid.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
-        <nimbus-jose-jwt.version>8.16</nimbus-jose-jwt.version>
         <minio.version>7.1.0</minio.version>
         <knife4j.version>2.0.4</knife4j.version>
     </properties>
@@ -79,12 +78,6 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.nimbusds</groupId>
-                <artifactId>nimbus-jose-jwt</artifactId>
-                <version>${nimbus-jose-jwt.version}</version>
             </dependency>
 
             <dependency>
