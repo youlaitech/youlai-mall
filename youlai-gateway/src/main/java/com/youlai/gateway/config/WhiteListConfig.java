@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "white-list")
+@ConfigurationProperties(prefix = "whitelist")
 public class WhiteListConfig {
 
     private List<String> urls;
