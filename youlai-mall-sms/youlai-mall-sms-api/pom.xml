@@ -12,8 +12,17 @@
 
     <artifactId>youlai-mall-sms-api</artifactId>
 
+    <properties>
+        <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
+    </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-core</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
