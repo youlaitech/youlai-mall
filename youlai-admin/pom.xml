@@ -16,9 +16,4 @@
         <module>youlai-admin-biz</module>
     </modules>
 
-
-    <properties>
-        <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
-    </properties>
-
 </project>

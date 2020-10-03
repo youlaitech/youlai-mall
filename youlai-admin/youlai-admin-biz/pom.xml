@@ -11,7 +11,6 @@
 
     <artifactId>youlai-admin-biz</artifactId>
 
-
     <properties>
         <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
     </properties>
@@ -25,13 +24,12 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
+            <artifactId>youlai-common-db</artifactId>
             <version>${youlai-common.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-db</artifactId>
+            <artifactId>youlai-common-core</artifactId>
             <version>${youlai-common.version}</version>
         </dependency>
 
