@@ -11,5 +11,77 @@
 
     <artifactId>youlai-mall-sms-biz</artifactId>
 
+    <properties>
+        <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-mall-sms-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-db</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-core</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-knife4j</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-web</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-redis</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- nacos 依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
