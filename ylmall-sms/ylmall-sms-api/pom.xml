@@ -3,30 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>youlai-mall</artifactId>
+        <artifactId>ylmall-sms</artifactId>
         <groupId>com.youlai</groupId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>youlai-mall-sms-api</artifactId>
-
-    <properties>
-        <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
-    </properties>
+    <artifactId>ylmall-sms-api</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
         </dependency>
 
         <dependency>
@@ -37,7 +25,6 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-            <version>11.0</version>
         </dependency>
     </dependencies>
 </project>

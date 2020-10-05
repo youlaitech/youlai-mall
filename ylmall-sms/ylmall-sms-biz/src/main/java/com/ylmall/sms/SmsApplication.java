@@ -1,4 +1,4 @@
-package com.youlai.mall.sms;
+package com.ylmall.sms;
 
 
 @SpringBootApplication

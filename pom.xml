@@ -15,6 +15,9 @@
         <module>youlai-auth</module>
         <module>youlai-mall-sms</module>
         <module>youlai-mall-sms/youlai-mall-sms-api</module>
+        <module>ymall-ums</module>
+        <module>ylmall-pms</module>
+        <module>ylmall-oms</module>
     </modules>
 
     <parent>
@@ -89,6 +92,12 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
