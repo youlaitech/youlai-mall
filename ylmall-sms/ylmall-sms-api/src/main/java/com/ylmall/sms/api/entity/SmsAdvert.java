@@ -1,4 +1,4 @@
-package com.youlai.mall.sms.api.entity;
+package com.ylmall.sms.api.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
