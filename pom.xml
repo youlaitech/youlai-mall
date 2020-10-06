@@ -13,9 +13,8 @@
         <module>youlai-common</module>
         <module>youlai-admin</module>
         <module>youlai-auth</module>
-        <module>youlai-mall-sms</module>
-        <module>youlai-mall-sms/youlai-mall-sms-api</module>
-        <module>ymall-ums</module>
+        <module>ylmall-sms</module>
+        <module>ylmall-ums</module>
         <module>ylmall-pms</module>
         <module>ylmall-oms</module>
     </modules>
