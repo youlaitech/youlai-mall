@@ -3,6 +3,7 @@ package com.youlai.auth.service;
 import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.admin.api.feign.RemoteAdminService;
 import com.youlai.auth.domain.User;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -20,12 +21,10 @@ import javax.servlet.http.HttpServletRequest;
  * 自定义用户认证和授权
  */
 @Service
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
     private RemoteAdminService remoteAdminService;
-
-    @Autowired
     private HttpServletRequest request;
 
     @Override

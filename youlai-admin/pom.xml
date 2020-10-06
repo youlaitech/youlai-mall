@@ -11,9 +11,28 @@
 
     <artifactId>youlai-admin</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>youlai-admin-api</module>
         <module>youlai-admin-biz</module>
     </modules>
+
+    <properties>
+        <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
+    </properties>
+
+    <dependencies>
+
+
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-core</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+
+
+    </dependencies>
 
 </project>

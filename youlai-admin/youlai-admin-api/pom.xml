@@ -11,38 +11,36 @@
 
     <artifactId>youlai-admin-api</artifactId>
 
-    <properties>
-        <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
-    </properties>
-
     <dependencies>
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-            <version>11.0</version>
         </dependency>
 
         <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-httpclient</artifactId>
-            <version>11.0</version>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-web</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-db</artifactId>
+            <version>${youlai-common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-common-knife4j</artifactId>
+            <version>${youlai-common.version}</version>
         </dependency>
     </dependencies>
 </project>
