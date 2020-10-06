@@ -24,36 +24,8 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-db</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-knife4j</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-web</artifactId>
-            <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>youlai-common-redis</artifactId>
             <version>${youlai-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- nacos 依赖-->

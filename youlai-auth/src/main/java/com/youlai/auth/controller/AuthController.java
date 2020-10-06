@@ -2,8 +2,6 @@ package com.youlai.auth.controller;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.nimbusds.jose.JWSObject;
-import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
@@ -13,7 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
