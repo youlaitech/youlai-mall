@@ -12,12 +12,8 @@ spring:
         file-extension: yaml
         group: DEFAULT_GROUP
         prefix: ${spring.application.name}
-feign:
-  httpclient:
-    enabled: false
-  okhttp:
-    enabled: true
-
-# 演示配置中心使用
-rsa:
-  publicKey: 123456
+wx:
+  miniapp:
+    configs:
+        appid: wx99a151dc43d2637b
+        secret: a09605af8ad29ca5d18ff31c19828f37
