@@ -11,10 +11,6 @@
 
     <artifactId>ylmall-ums-biz</artifactId>
 
-    <properties>
-        <weixin-java-miniapp.version>3.3.0</weixin-java-miniapp.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.youlai</groupId>
@@ -73,10 +69,5 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
-            <version>${weixin-java-miniapp.version}</version>
-        </dependency>
     </dependencies>
 </project>
