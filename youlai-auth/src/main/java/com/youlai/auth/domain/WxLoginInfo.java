@@ -7,6 +7,10 @@ public class WxLoginInfo {
 
     private String code;
 
+    private String encryptedData;
+
+    private String iv;
+
     private UserInfo userInfo;
 
     @Data

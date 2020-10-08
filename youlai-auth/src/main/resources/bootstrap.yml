@@ -14,6 +14,5 @@ spring:
         prefix: ${spring.application.name}
 wx:
   miniapp:
-    configs:
-        appid: wx99a151dc43d2637b
-        secret: a09605af8ad29ca5d18ff31c19828f37
+      appid: wx99a151dc43d2637b
+      secret: a09605af8ad29ca5d18ff31c19828f37
