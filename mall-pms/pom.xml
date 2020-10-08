@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ylmall-oms</artifactId>
+    <artifactId>ylmall-pms</artifactId>
 
     <packaging>pom</packaging>
     <modules>
-        <module>ylmall-oms-api</module>
-        <module>ylmall-oms-biz</module>
+        <module>mall-pms-api</module>
+        <module>mall-pms-biz</module>
     </modules>
 
     <properties>

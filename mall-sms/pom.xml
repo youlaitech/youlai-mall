@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ylmall-pms</artifactId>
+    <artifactId>ylmall-sms</artifactId>
 
     <packaging>pom</packaging>
     <modules>
-        <module>ylmall-pms-api</module>
-        <module>ylmall-pms-biz</module>
+        <module>mall-sms-api</module>
+        <module>mall-sms-biz</module>
     </modules>
 
     <properties>
@@ -28,5 +28,4 @@
             <version>${youlai-common.version}</version>
         </dependency>
     </dependencies>
-
 </project>
