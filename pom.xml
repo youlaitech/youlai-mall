@@ -13,10 +13,10 @@
         <module>youlai-common</module>
         <module>youlai-admin</module>
         <module>youlai-auth</module>
-        <module>ylmall-sms</module>
-        <module>ylmall-ums</module>
-        <module>ylmall-pms</module>
-        <module>ylmall-oms</module>
+        <module>mall-sms</module>
+        <module>mall-ums</module>
+        <module>mall-pms</module>
+        <module>mall-oms</module>
     </modules>
 
     <parent>

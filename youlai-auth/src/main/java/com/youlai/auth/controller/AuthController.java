@@ -1,11 +1,8 @@
 package com.youlai.auth.controller;
 
-import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.domain.Oauth2Token;
-import com.youlai.auth.domain.WxLoginInfo;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
@@ -14,7 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
@@ -77,27 +73,4 @@ public class AuthController {
     }
 
 
-    private WxMaService wxService;
-
-    @PostMapping("/login_by_wx")
-    public Result loginByWx(@RequestBody WxLoginInfo wxLoginInfo) {
-        String code = wxLoginInfo.getCode();
-        WxLoginInfo.UserInfo userInfo = wxLoginInfo.getUserInfo();
-        if (code == null || userInfo == null) {
-            return Result.error();
-        }
-
-        String sessionKey;
-        String openId;
-        try {
-            WxMaJscode2SessionResult result = this.wxService.getUserService().getSessionInfo(code);
-            sessionKey = result.getSessionKey();
-            openId = result.getOpenid();
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-        }
-
-
-        return Result.success();
-    }
 }
