@@ -2,6 +2,8 @@ package com.youlai.auth.controller;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.youlai.auth.domain.WxLoginInfo;
 import com.youlai.common.core.result.Result;
 import lombok.AllArgsConstructor;
@@ -26,11 +28,19 @@ public class WxAuthController {
             return Result.error();
         }
         WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
-        if(session==null){
+        if (session == null) {
             return Result.error();
         }
         String openid = session.getOpenid();
-        String secretKey = session.getSessionKey();
+        String sessionKey = session.getSessionKey();
+
+        // 用户信息
+        WxMaUserInfo userInfo = wxService.getUserService().getUserInfo(sessionKey, wxLoginInfo.getEncryptedData(), wxLoginInfo.getIv());
+
+        // 手机号码信息
+        WxMaPhoneNumberInfo phoneNumberInfo = wxService.getUserService().getPhoneNoInfo(sessionKey, wxLoginInfo.getEncryptedData(), wxLoginInfo.getIv());
+
+
         return Result.success();
     }
 
