@@ -3,6 +3,7 @@ package com.youlai.auth.controller;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -91,8 +92,8 @@ public class AuthController {
                     String sessionKey = session.getSessionKey();
 
                     MemberDTO memberDTO = remoteUmsMemberService.loadMemberByOpenid(openid);
-                    UmsMember member=new UmsMember();
-                    if (memberDTO == null) {
+                    UmsMember member = new UmsMember();
+                    if (memberDTO == null || memberDTO.getId() == null) {
                         // 注册会员
                         String encryptedData = parameters.get("encryptedData");
                         String iv = parameters.get("iv");
@@ -108,12 +109,13 @@ public class AuthController {
                         if (!ResultCode.SUCCESS.getCode().equals(result.getCode())) {
                             throw new BizException("注册会员失败");
                         }
+                    } else {
+                        BeanUtil.copyProperties(memberDTO, member);
                     }
 
                     // 微信授权登录数据模拟生成token
-                    parameters.put("username",member.getUsername());
-                    parameters.put("password",member.getPassword());
-
+                    parameters.put("username", member.getUsername());
+                    parameters.put("password", member.getUsername());
                     oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
                     oauth2Token = Oauth2Token.builder()
                             .token(oAuth2AccessToken.getValue())
