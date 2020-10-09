@@ -47,4 +47,16 @@ public interface AuthConstants {
     String JWT_USER_ID_KEY = "id";
 
     String JWT_CLIENT_ID_KEY = "client_id";
+
+
+    /**
+     * 有来商城后台管理客户端ID
+     */
+    String ADMIN_CLIENT_ID="youlai-mall-admin";
+
+
+    /**
+     * 有来商城微信小程序客户端ID
+     */
+    String WEAPP_CLIENT_ID="youlai-mall-weapp";
 }

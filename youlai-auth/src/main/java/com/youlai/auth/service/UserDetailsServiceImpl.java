@@ -3,6 +3,10 @@ package com.youlai.auth.service;
 import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.admin.api.feign.RemoteAdminService;
 import com.youlai.auth.domain.User;
+import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.mall.ums.api.dto.MemberDTO;
+import com.youlai.mall.ums.api.entity.UmsMember;
+import com.youlai.mall.ums.api.feign.RemoteUmsMemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -25,17 +29,31 @@ import javax.servlet.http.HttpServletRequest;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private RemoteAdminService remoteAdminService;
+    private RemoteUmsMemberService remoteUmsMemberService;
     private HttpServletRequest request;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String clientId = request.getParameter("client_id");
-        UserDTO userDTO = remoteAdminService.loadUserByUsername(username);
-        if (userDTO == null) {
-            throw new UsernameNotFoundException("用户不存在");
+        User user = null;
+        switch (clientId) {
+            case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
+                UserDTO userDTO = remoteAdminService.loadUserByUsername(username);
+                if (userDTO == null) {
+                    throw new UsernameNotFoundException("用户不存在");
+                }
+                userDTO.setClientId(clientId);
+                user = new User(userDTO);
+                break;
+            case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
+                MemberDTO memberDTO = remoteUmsMemberService.loadMemberByOpenid(username);
+                if (memberDTO == null) {
+                    throw new UsernameNotFoundException("用户不存在");
+                }
+                memberDTO.setClientId(clientId);
+                user = new User(memberDTO);
+                break;
         }
-        userDTO.setClientId(clientId);
-        User user = new User(userDTO);
         if (!user.isEnabled()) {
             throw new DisabledException("该账户已被禁用!");
         } else if (!user.isAccountNonLocked()) {
@@ -46,6 +64,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new CredentialsExpiredException("该账户的登录凭证已过期，请重新登录!");
         }
         return user;
+
+
     }
 
 }
