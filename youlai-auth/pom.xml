@@ -16,6 +16,17 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>mall-ums-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>youlai-admin-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
@@ -25,8 +36,8 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-admin-api</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>youlai-common-web</artifactId>
+            <version>${youlai-common.version}</version>
         </dependency>
 
         <dependency>
