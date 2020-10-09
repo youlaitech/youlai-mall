@@ -29,8 +29,7 @@ public class UmsMemberController {
     public MemberDTO loadMemberByOpenid(@PathVariable String openid) {
         UmsMember umsMember = iUmsMemberService.getOne(
                 new LambdaQueryWrapper<UmsMember>()
-                        .eq(UmsMember::getOpenid, openid)
-                        .apply("limit 1"));
+                        .eq(UmsMember::getOpenid, openid));
 
         MemberDTO memberDTO=new MemberDTO();
         if(umsMember!=null){
