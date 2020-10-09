@@ -29,6 +29,4 @@ public class UmsMember {
     private String sessionKey;
 
 
-
-
 }

@@ -1,0 +1,37 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://localhost:9999/youlai-auth/rsa/publicKey'
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 启用自动根据服务ID生成路由
+          lower-case-service-id: true # 设置路由的路径为小写的服务ID
+      routes:
+        - id: youlai-auth
+          uri: lb://youlai-auth
+          predicates:
+            - Path=/youlai-auth/**
+          filters:
+            - StripPrefix=1 # 移除前缀 youlai-auth
+        - id: youlai-admin
+          uri: lb://youlai-admin
+          predicates:
+            - Path=/youlai-admin/**
+          filters:
+            - StripPrefix=1
+
+# 配置白名单路径
+white-list:
+    urls:
+      - "/youlai-auth/oauth/token"
+      - "/youlai-auth/oauth/logout"
+      - "/youlai-auth/rsa/publicKey"

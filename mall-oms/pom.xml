@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ylmall-oms</artifactId>
+    <artifactId>mall-oms</artifactId>
 
     <packaging>pom</packaging>
     <modules>

@@ -1,0 +1,6 @@
+2020-09-27 09:00:43,836 INFO [dump-all-ok] youlai-admin.yaml+DEFAULT_GROUP, 1598958610000, length=761, md5=db581927ef8219f4300ce481584bb0e9
+
+2020-09-27 09:00:43,839 INFO [dump-all-ok] youlai-auth.yaml+DEFAULT_GROUP, 1600337638000, length=426, md5=4d2e69edefa5654f729edab61be0c92c
+
+2020-09-27 09:00:43,840 INFO [dump-all-ok] youlai-gateway.yaml+DEFAULT_GROUP, 1600937036000, length=903, md5=f826530228134df055fe5d26855a89a8
+

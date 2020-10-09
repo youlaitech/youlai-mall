@@ -1,0 +1,6 @@
+2020-09-27 09:01:29,592|192.168.1.104|youlai-admin|DEFAULT_GROUP|null|unknown|-1|pull|not-found|-1|127.0.0.1
+2020-09-27 09:01:29,729|192.168.1.104|youlai-admin.yaml|DEFAULT_GROUP|null|unknown|1598958610000|pull|ok|2209879729|127.0.0.1
+2020-09-27 09:04:24,856|192.168.1.104|youlai-auth|DEFAULT_GROUP|null|unknown|-1|pull|not-found|-1|127.0.0.1
+2020-09-27 09:04:24,865|192.168.1.104|youlai-auth.yaml|DEFAULT_GROUP|null|unknown|1600337638000|pull|ok|831026865|127.0.0.1
+2020-09-27 09:04:31,451|192.168.1.104|youlai-gateway|DEFAULT_GROUP|null|unknown|-1|pull|not-found|-1|127.0.0.1
+2020-09-27 09:04:31,459|192.168.1.104|youlai-gateway.yaml|DEFAULT_GROUP|null|unknown|1600937036000|pull|ok|231635459|127.0.0.1

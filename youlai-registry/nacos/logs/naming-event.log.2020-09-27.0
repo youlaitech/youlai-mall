@@ -1,0 +1,12 @@
+2020-09-27 09:01:48,055 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8080:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-09-27 09:01:48,057 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 192.168.1.104:8080_true,
+
+2020-09-27 09:04:36,502 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-09-27 09:04:36,502 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-09-27 09:04:43,020 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-09-27 09:04:43,020 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 192.168.1.104:9999_true,
+

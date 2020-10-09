@@ -1,0 +1,14 @@
+2020-09-27 09:01:49,059 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2020-09-27 09:04:37,503 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2020-09-27 09:04:40,051 WARN client: 192.168.119.1:51570 already associated with key serviceName: DEFAULT_GROUP@@youlai-admin, clusters: , address: /192.168.119.1:51570, agent: Nacos-Java-Client:v1.2.1
+
+2020-09-27 09:04:44,022 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2020-09-27 09:04:44,034 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.119.1:51570, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,51570,73540141636700
+
+2020-09-27 09:04:44,034 INFO send udp packet: 192.168.119.1,51570,73540141636700
+
+2020-09-27 09:04:44,039 INFO received ack: {"type": "push-ack", "lastRefTime":"73540141636700", "data":""} from: 192.168.119.1:51570, cost: 5 ms, unacked: 0, total push: 1
+
