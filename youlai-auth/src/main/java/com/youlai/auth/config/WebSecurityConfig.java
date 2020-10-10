@@ -19,7 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          http
             .authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
         .and()
-            .authorizeRequests().antMatchers("/rsa/publicKey").permitAll().anyRequest().authenticated()
+            .authorizeRequests().antMatchers("/rsa/publicKey","/oauth/logout").permitAll().anyRequest().authenticated()
         .and()
             .csrf().disable();
     }
