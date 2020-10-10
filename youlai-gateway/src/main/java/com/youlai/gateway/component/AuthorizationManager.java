@@ -6,7 +6,6 @@ import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.gateway.config.WhiteListConfig;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -39,14 +38,6 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         String path = request.getURI().getPath();
         PathMatcher pathMatcher = new AntPathMatcher();
 
-        // 白名单路径直接放行
-        List<String> whiteList = whiteListConfig.getUrls();
-        for (String ignoreUrl : whiteList) {
-            if (pathMatcher.match(ignoreUrl, path)) {
-                return Mono.just(new AuthorizationDecision(true));
-            }
-        }
-
         // 对应跨域的预检请求直接放行
         if (request.getMethod() == HttpMethod.OPTIONS) {
             return Mono.just(new AuthorizationDecision(true));
@@ -58,7 +49,12 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             return Mono.just(new AuthorizationDecision(false));
         }
 
-        // 缓存取资源权限角色关系列表
+        // 非管理端路径无需鉴权直接放行
+        if (!pathMatcher.match(AuthConstants.ADMIN_URL_PATTERN, path)) {
+            return Mono.just(new AuthorizationDecision(true));
+        }
+
+        // 从缓存取资源权限角色关系列表
         Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstants.RESOURCE_ROLES_KEY);
         Iterator<Object> iterator = resourceRolesMap.keySet().iterator();
 
