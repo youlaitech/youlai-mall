@@ -1,50 +1,356 @@
-2020-10-09 14:41:33,678 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:02:21,137 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 14:41:33,680 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+2020-10-10 09:02:21,139 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 
 
-2020-10-09 14:41:37,812 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:02:22,162 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8080:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 14:41:37,812 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 192.168.1.104:9999_true,
+2020-10-10 09:02:22,162 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 
 
-2020-10-09 14:42:29,840 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8080:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:02:22,418 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 14:42:29,840 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 192.168.1.104:8080_true,
+2020-10-10 09:02:22,418 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
 
-2020-10-09 14:45:28,724 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602225908840
+2020-10-10 09:02:23,175 INFO DEFAULT_GROUP@@youlai-mall-ums {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 14:45:43,917 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+2020-10-10 09:02:23,175 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-mall-ums, ips: 
 
-2020-10-09 14:45:43,917 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+2020-10-10 09:03:19,027 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8080:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 16:09:02,346 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:03:19,027 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 192.168.1.104:8080_true,
 
-2020-10-09 16:09:02,347 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+2020-10-10 09:03:29,955 INFO DEFAULT_GROUP@@youlai-mall-ums {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 19:28:45,980 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:03:29,955 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-mall-ums, ips: 192.168.1.104:8601_true,
 
-2020-10-09 19:28:45,980 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 
+2020-10-10 09:03:53,752 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 19:28:46,404 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8080:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:03:53,752 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
 
-2020-10-09 19:28:46,404 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 
+2020-10-10 09:04:09,881 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 19:28:46,600 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:04:09,881 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 192.168.1.104:9999_true,
 
-2020-10-09 19:28:46,600 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+2020-10-10 09:26:12,156 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602293154161
 
-2020-10-09 19:29:17,873 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8080:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:26:17,685 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
 
-2020-10-09 19:29:17,873 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 192.168.1.104:8080_true,
+2020-10-10 09:26:37,160 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602293177684
 
-2020-10-09 19:29:22,735 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:26:39,293 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
 
-2020-10-09 19:29:22,735 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 192.168.1.104:9999_true,
+2020-10-10 09:27:17,165 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602293218088
 
-2020-10-09 19:29:31,792 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:27:32,266 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
 
-2020-10-09 19:29:31,792 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+2020-10-10 09:27:32,266 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
 
-2020-10-09 19:35:23,344 INFO DEFAULT_GROUP@@youlai-mall-ums {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
+2020-10-10 09:30:50,989 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
 
-2020-10-09 19:35:23,344 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-mall-ums, ips: 192.168.1.104:8601_true,
+2020-10-10 09:30:50,989 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 09:31:05,991 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602293450987
+
+2020-10-10 09:31:20,999 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 09:31:20,999 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 09:31:22,732 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 09:31:22,732 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 09:31:40,999 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602293482732
+
+2020-10-10 09:31:54,074 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 09:32:11,005 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602293514074
+
+2020-10-10 09:32:19,231 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 09:32:36,009 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602293539231
+
+2020-10-10 09:32:51,047 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 09:32:51,047 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 09:33:31,044 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 09:33:31,044 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 09:34:16,039 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602293639240
+
+2020-10-10 09:34:31,047 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 09:34:31,047 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 09:53:10,025 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 09:53:10,026 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:07:15,181 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602295618190
+
+2020-10-10 10:07:22,759 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 10:26:30,429 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602296775064
+
+2020-10-10 10:26:45,439 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:26:45,439 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:28:27,693 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:28:27,693 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:29:40,470 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602296961653
+
+2020-10-10 10:29:55,511 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:29:55,511 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:30:00,906 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:30:00,906 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:33:40,520 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602297203743
+
+2020-10-10 10:33:55,527 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:33:55,527 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:36:00,680 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:36:00,681 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:36:45,559 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602297386872
+
+2020-10-10 10:37:00,567 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:37:00,567 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:38:34,683 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:38:34,683 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:39:50,595 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602297574719
+
+2020-10-10 10:39:51,129 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 10:40:20,601 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602297604812
+
+2020-10-10 10:40:26,282 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 10:40:50,607 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602297631418
+
+2020-10-10 10:41:05,614 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:41:05,614 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:41:22,907 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:41:22,907 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:42:40,644 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602297744653
+
+2020-10-10 10:42:55,652 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:42:55,652 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:43:42,054 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:43:42,054 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:44:25,664 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602297847917
+
+2020-10-10 10:44:40,669 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:44:40,670 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:46:19,655 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:46:19,655 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:46:35,696 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602297979654
+
+2020-10-10 10:46:50,702 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:46:50,702 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:49:12,860 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:49:12,860 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:50:27,878 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602298212173
+
+2020-10-10 10:50:42,887 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:50:42,888 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:51:29,300 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:51:29,300 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:51:47,898 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602298289300
+
+2020-10-10 10:51:50,772 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 10:52:07,903 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602298310772
+
+2020-10-10 10:52:22,908 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:52:22,908 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:52:33,630 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:52:33,630 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:55:02,947 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602298483026
+
+2020-10-10 10:55:05,553 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 10:55:22,952 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602298505553
+
+2020-10-10 10:55:37,958 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:55:37,958 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:56:46,986 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:56:46,986 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 10:58:27,995 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602298691432
+
+2020-10-10 10:58:29,810 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 10:58:58,002 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602298719651
+
+2020-10-10 10:59:13,007 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 10:59:13,007 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 10:59:53,699 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 10:59:53,699 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 11:00:13,023 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602298793699
+
+2020-10-10 11:00:28,030 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 11:00:28,030 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 11:10:25,308 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 11:10:25,308 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 11:12:50,338 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602299553919
+
+2020-10-10 11:13:02,833 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 11:13:35,349 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602299597728
+
+2020-10-10 11:13:50,354 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 11:13:50,354 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 11:14:02,302 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 11:14:02,302 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 11:14:20,356 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602299642301
+
+2020-10-10 11:14:34,537 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 11:16:00,377 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602299740649
+
+2020-10-10 11:16:09,259 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 11:16:25,384 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602299769259
+
+2020-10-10 11:16:26,957 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 11:16:45,389 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602299786957
+
+2020-10-10 11:16:45,738 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 11:18:00,401 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602299863554
+
+2020-10-10 11:18:15,406 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 11:18:15,406 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 11:18:16,520 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 11:18:16,520 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 11:18:35,408 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602299896520
+
+2020-10-10 11:18:50,415 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 11:18:50,415 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 11:50:08,459 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 11:50:08,459 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 11:52:50,560 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 11:52:50,560 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 11:52:50,804 INFO DEFAULT_GROUP@@youlai-mall-ums {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 11:52:50,804 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-mall-ums, ips: 
+
+2020-10-10 11:53:24,020 INFO DEFAULT_GROUP@@youlai-mall-ums {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 11:53:24,020 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-mall-ums, ips: 192.168.1.104:8601_true,
+
+2020-10-10 11:53:24,938 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 11:53:24,938 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 11:57:13,527 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602302215549
+
+2020-10-10 11:57:15,647 INFO service: DEFAULT_GROUP@@youlai-auth {POS} {IP-ENABLED} valid: 192.168.1.104:8000@DEFAULT, region: unknown, msg: client beat ok
+
+2020-10-10 13:06:41,202 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 13:06:41,202 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 13:06:41,254 INFO DEFAULT_GROUP@@youlai-mall-ums {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 13:06:41,254 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-mall-ums, ips: 
+
+2020-10-10 13:07:00,218 INFO DEFAULT_GROUP@@youlai-mall-ums {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 13:07:00,218 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-mall-ums, ips: 192.168.1.104:8601_true,
+
+2020-10-10 13:07:06,562 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 13:07:06,562 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 13:09:29,773 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602306552709
+
+2020-10-10 13:09:44,783 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 13:09:44,783 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 13:10:21,003 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 13:10:21,003 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 13:10:39,797 INFO {POS} {IP-DISABLED} valid: 192.168.1.104:8000@DEFAULT@DEFAULT_GROUP@@youlai-auth, region: unknown, msg: client timeout after 15000, last beat: 1602306621002
+
+2020-10-10 13:10:54,802 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2020-10-10 13:10:54,802 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 13:11:13,236 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 13:11:13,236 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2020-10-10 17:50:38,966 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 17:50:38,966 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2020-10-10 17:51:14,683 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2020-10-10 17:51:14,683 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
 

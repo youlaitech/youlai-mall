@@ -28,5 +28,7 @@ public class UmsMember {
 
     private String sessionKey;
 
+    private Integer status;
+
 
 }

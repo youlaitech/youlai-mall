@@ -1,0 +1,98 @@
+2020-10-09 14:41:34,683 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2020-10-09 14:41:34,710 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.119.1:56140, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56140,21725347122200
+
+2020-10-09 14:41:34,710 INFO send udp packet: 192.168.119.1,56140,21725347122200
+
+2020-10-09 14:41:34,739 INFO received ack: {"type": "push-ack", "lastRefTime":"21725347122200", "data":""} from: 192.168.119.1:56140, cost: 29 ms, unacked: 0, total push: 1
+
+2020-10-09 14:41:38,814 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2020-10-09 14:41:38,814 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.119.1:56140, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56140,21729466091500
+
+2020-10-09 14:41:38,815 INFO send udp packet: 192.168.119.1,56140,21729466091500
+
+2020-10-09 14:41:38,816 INFO received ack: {"type": "push-ack", "lastRefTime":"21729466091500", "data":""} from: 192.168.119.1:56140, cost: 1 ms, unacked: 0, total push: 2
+
+2020-10-09 14:42:30,842 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2020-10-09 14:45:29,724 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2020-10-09 14:45:29,724 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.119.1:56140, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56140,21960376421500
+
+2020-10-09 14:45:29,725 INFO send udp packet: 192.168.119.1,56140,21960376421500
+
+2020-10-09 14:45:29,726 INFO received ack: {"type": "push-ack", "lastRefTime":"21960376421500", "data":""} from: 192.168.119.1:56140, cost: 1 ms, unacked: 0, total push: 3
+
+2020-10-09 14:45:44,918 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2020-10-09 14:45:44,918 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.119.1:56140, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56140,21975570722200
+
+2020-10-09 14:45:44,918 INFO send udp packet: 192.168.119.1,56140,21975570722200
+
+2020-10-09 14:45:44,920 INFO received ack: {"type": "push-ack", "lastRefTime":"21975570722200", "data":""} from: 192.168.119.1:56140, cost: 2 ms, unacked: 0, total push: 4
+
+2020-10-09 16:09:03,349 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2020-10-09 16:09:03,350 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.119.1:56140, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56140,26974001497100
+
+2020-10-09 16:09:03,350 INFO send udp packet: 192.168.119.1,56140,26974001497100
+
+2020-10-09 16:09:03,422 INFO received ack: {"type": "push-ack", "lastRefTime":"26974001497100", "data":""} from: 192.168.119.1:56140, cost: 72 ms, unacked: 0, total push: 5
+
+2020-10-09 19:28:46,981 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2020-10-09 19:28:46,982 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.119.1:56140, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56140,38957480111000
+
+2020-10-09 19:28:46,982 INFO send udp packet: 192.168.119.1,56140,38957480111000
+
+2020-10-09 19:28:46,985 INFO received ack: {"type": "push-ack", "lastRefTime":"38957480111000", "data":""} from: 192.168.119.1:56140, cost: 3 ms, unacked: 0, total push: 6
+
+2020-10-09 19:28:47,404 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2020-10-09 19:28:47,404 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.119.1:56140, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56140,38957902762900
+
+2020-10-09 19:28:47,404 INFO send udp packet: 192.168.119.1,56140,38957902762900
+
+2020-10-09 19:28:47,407 INFO received ack: {"type": "push-ack", "lastRefTime":"38957902762900", "data":""} from: 192.168.119.1:56140, cost: 3 ms, unacked: 0, total push: 7
+
+2020-10-09 19:28:47,407 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.119.1:56135, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56135,38957902762900
+
+2020-10-09 19:28:47,407 INFO send udp packet: 192.168.119.1,56135,38957902762900
+
+2020-10-09 19:28:47,602 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2020-10-09 19:28:47,602 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.119.1:56140, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,56140,38958100572500
+
+2020-10-09 19:28:47,603 INFO send udp packet: 192.168.119.1,56140,38958100572500
+
+2020-10-09 19:28:47,604 INFO received ack: {"type": "push-ack", "lastRefTime":"38958100572500", "data":""} from: 192.168.119.1:56140, cost: 1 ms, unacked: 1, total push: 9
+
+2020-10-09 19:28:57,409 INFO retry to push data, key: 192.168.119.1,56135,38957902762900
+
+2020-10-09 19:28:57,409 INFO send udp packet: 192.168.119.1,56135,38957902762900
+
+2020-10-09 19:29:07,412 INFO retry to push data, key: 192.168.119.1,56135,38957902762900
+
+2020-10-09 19:29:07,412 WARN max re-push times reached, retry times 2, key: 192.168.119.1,56135,38957902762900
+
+2020-10-09 19:29:18,875 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2020-10-09 19:29:23,736 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2020-10-09 19:29:23,736 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.119.1:61186, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,61186,38994234504400
+
+2020-10-09 19:29:23,736 INFO send udp packet: 192.168.119.1,61186,38994234504400
+
+2020-10-09 19:29:23,740 INFO received ack: {"type": "push-ack", "lastRefTime":"38994234504400", "data":""} from: 192.168.119.1:61186, cost: 4 ms, unacked: 0, total push: 10
+
+2020-10-09 19:29:32,792 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2020-10-09 19:29:32,792 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.119.1:61186, agent: Nacos-Java-Client:v1.2.1, key: 192.168.119.1,61186,39003290313200
+
+2020-10-09 19:29:32,792 INFO send udp packet: 192.168.119.1,61186,39003290313200
+
+2020-10-09 19:29:32,794 INFO received ack: {"type": "push-ack", "lastRefTime":"39003290313200", "data":""} from: 192.168.119.1:61186, cost: 2 ms, unacked: 0, total push: 11
+
+2020-10-09 19:35:24,345 INFO DEFAULT_GROUP@@youlai-mall-ums is changed, add it to push queue.
+

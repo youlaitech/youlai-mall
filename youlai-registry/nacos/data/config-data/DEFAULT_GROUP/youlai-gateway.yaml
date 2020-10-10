@@ -33,5 +33,4 @@ spring:
 white-list:
     urls:
       - "/youlai-auth/oauth/token"
-      - "/youlai-auth/oauth/logout"
       - "/youlai-auth/rsa/publicKey"

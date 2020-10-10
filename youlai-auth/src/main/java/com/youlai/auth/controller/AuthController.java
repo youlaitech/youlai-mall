@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import me.chanjar.weixin.common.error.WxErrorException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -72,64 +72,19 @@ public class AuthController {
         if (StrUtil.isBlank(clientId)) {
             throw new BizException("客户端ID不能为空");
         }
-        switch (clientId) {
-            case AuthConstants.ADMIN_CLIENT_ID: // 后台管理
-                OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-                Oauth2Token oauth2Token = Oauth2Token.builder()
-                        .token(oAuth2AccessToken.getValue())
-                        .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
-                        .expiresIn(oAuth2AccessToken.getExpiresIn())
-                        .build();
-                return Result.success(oauth2Token);
-            case AuthConstants.WEAPP_CLIENT_ID: // 微信小程序
-                try {
-                    String code = parameters.get("code");
-                    if (StrUtil.isBlank(code)) {
-                        throw new BizException("code不能为空");
-                    }
-                    WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
-                    String openid = session.getOpenid();
-                    String sessionKey = session.getSessionKey();
 
-                    MemberDTO memberDTO = remoteUmsMemberService.loadMemberByOpenid(openid);
-                    UmsMember member = new UmsMember();
-                    if (memberDTO == null || memberDTO.getId() == null) {
-                        // 注册会员
-                        String encryptedData = parameters.get("encryptedData");
-                        String iv = parameters.get("iv");
-
-                        WxMaUserInfo userInfo = wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
-                        member.setNickname(userInfo.getNickName());
-                        member.setAvatar(userInfo.getAvatarUrl());
-                        member.setGender(Integer.valueOf(userInfo.getGender()));
-                        member.setOpenid(openid);
-                        member.setUsername(openid);
-                        member.setPassword(passwordEncoder.encode(openid));
-                        Result result = remoteUmsMemberService.add(member);
-                        if (!ResultCode.SUCCESS.getCode().equals(result.getCode())) {
-                            throw new BizException("注册会员失败");
-                        }
-                    } else {
-                        BeanUtil.copyProperties(memberDTO, member);
-                    }
-
-                    // 微信授权登录数据模拟生成token
-                    parameters.put("username", member.getUsername());
-                    parameters.put("password", member.getUsername());
-                    oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-                    oauth2Token = Oauth2Token.builder()
-                            .token(oAuth2AccessToken.getValue())
-                            .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
-                            .expiresIn(oAuth2AccessToken.getExpiresIn())
-                            .build();
-                    return Result.success(oauth2Token);
-                } catch (WxErrorException e) {
-                    e.printStackTrace();
-                    throw new BizException("auth failed");
-                }
+        // 微信小程序逻辑处理
+        if (AuthConstants.WEAPP_CLIENT_ID.equals(clientId)) {
+            this.handleParametersForWeapp(parameters);
         }
 
-        return null;
+        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+        Oauth2Token oauth2Token = Oauth2Token.builder()
+                .token(oAuth2AccessToken.getValue())
+                .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
+                .expiresIn(oAuth2AccessToken.getExpiresIn())
+                .build();
+        return Result.success(oauth2Token);
     }
 
     @DeleteMapping("/logout")
@@ -149,5 +104,50 @@ public class AuthController {
         return Result.success();
     }
 
+
+    private void handleParametersForWeapp(Map<String, String> parameters) {
+
+        try {
+            String code = parameters.get("code");
+            if (StrUtil.isBlank(code)) {
+                throw new BizException("code不能为空");
+            }
+            WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+            String openid = session.getOpenid();
+            String sessionKey = session.getSessionKey();
+
+            MemberDTO memberDTO = remoteUmsMemberService.loadMemberByOpenid(openid);
+            UmsMember member = new UmsMember();
+            if (memberDTO == null || memberDTO.getId() == null) {
+                // 注册会员
+                String encryptedData = parameters.get("encryptedData");
+                String iv = parameters.get("iv");
+
+                WxMaUserInfo userInfo = wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
+                member.setNickname(userInfo.getNickName());
+                member.setAvatar(userInfo.getAvatarUrl());
+                member.setGender(Integer.valueOf(userInfo.getGender()));
+                member.setOpenid(openid);
+                member.setUsername(openid);
+                member.setPassword(passwordEncoder.encode(openid).replace(AuthConstants.BCRYPT, Strings.EMPTY)); // 加密密码移除前缀加密方式 {bcrypt}
+
+                Result result = remoteUmsMemberService.add(member);
+                if (!ResultCode.SUCCESS.getCode().equals(result.getCode())) {
+                    throw new BizException("注册会员失败");
+                }
+            } else {
+                BeanUtil.copyProperties(memberDTO, member);
+            }
+
+            // 微信授权登录数据模拟生成token
+            parameters.put("username", member.getUsername());
+            parameters.put("password", member.getUsername());
+
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            throw new BizException("auth failed");
+        }
+
+    }
 
 }
