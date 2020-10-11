@@ -11,16 +11,6 @@ public class WxLoginInfo {
 
     private String iv;
 
-    private UserInfo userInfo;
 
-    @Data
-    public class UserInfo {
-        private String nickName;
-        private String avatarUrl;
-        private String country;
-        private String province;
-        private String city;
-        private String language;
-        private Integer gender;
-    }
+
 }
