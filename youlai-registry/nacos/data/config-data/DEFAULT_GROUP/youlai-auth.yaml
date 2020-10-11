@@ -1,0 +1,20 @@
+auth:
+  token:
+    endpoint: http://localhost:8000/oauth/token
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/youlai?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: 123456
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
