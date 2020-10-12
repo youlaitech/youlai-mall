@@ -3,7 +3,6 @@ package com.youlai.mall.ums.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.core.result.Result;
-import com.youlai.mall.ums.api.dto.MemberDTO;
 import com.youlai.mall.ums.api.entity.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
