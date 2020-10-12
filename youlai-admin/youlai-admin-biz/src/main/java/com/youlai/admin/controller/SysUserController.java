@@ -99,20 +99,20 @@ public class SysUserController {
     @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
     @GetMapping("/user/{username}")
     public Result<UserDTO> loadUserByUsername(@PathVariable String username) {
+        UserDTO userDTO = null;
         SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username));
-        if (user == null) {
-            return Result.error("用户不存在");
-        }
-        UserDTO userDTO = new UserDTO();
-        BeanUtil.copyProperties(user, userDTO);
-        List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                .eq(SysUserRole::getUserId, user.getId())
-        ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
-        if (CollectionUtil.isNotEmpty(roleIds)) {
-            List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
-                    .map(role -> role.getId()).collect(Collectors.toList());
-            userDTO.setRoles(roles);
+        if (user != null) {
+            userDTO = new UserDTO();
+            BeanUtil.copyProperties(user, userDTO);
+            List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
+                    .eq(SysUserRole::getUserId, user.getId())
+            ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
+            if (CollectionUtil.isNotEmpty(roleIds)) {
+                List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
+                        .map(role -> role.getId()).collect(Collectors.toList());
+                userDTO.setRoles(roles);
+            }
         }
         return Result.success(userDTO);
     }
