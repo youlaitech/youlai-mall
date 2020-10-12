@@ -2,7 +2,6 @@ package com.youlai.mall.ums.api.dto;
 
 import lombok.Data;
 
-
 @Data
 public class MemberDTO {
 
@@ -14,4 +13,5 @@ public class MemberDTO {
 
     private String avatar;
     private String nickname;
+
 }
