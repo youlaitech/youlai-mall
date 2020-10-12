@@ -16,7 +16,7 @@ public interface RemoteUmsMemberService {
     Result<MemberDTO> loadMemberByOpenid(@PathVariable String openid);
 
     @PostMapping("/members")
-    Result add(@RequestBody UmsMember umsMember);
+    Result add(@RequestBody UmsMember member);
 
 }
 

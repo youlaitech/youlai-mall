@@ -8,6 +8,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.core.constant.Constants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
@@ -54,18 +55,27 @@ public class AuthController {
             @ApiImplicitParam(name = "client_secret", defaultValue = "123456", value = "Oauth2客户端秘钥", required = true),
             @ApiImplicitParam(name = "refresh_token", value = "刷新token"),
             @ApiImplicitParam(name = "username", defaultValue = "admin", value = "登录用户名"),
-            @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码")
+            @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码"),
+
+            @ApiImplicitParam(name = "code", value = "小程序code"),
+            @ApiImplicitParam(name = "encryptedData", value = "包括敏感数据在内的完整用户信息的加密数据"),
+            @ApiImplicitParam(name = "iv", value = "加密算法的初始向量"),
     })
     @PostMapping("/token")
     public Result postAccessToken(
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
-    ) throws HttpRequestMethodNotSupportedException {
+    ) throws HttpRequestMethodNotSupportedException, WxErrorException {
 
         String clientId = parameters.get("client_id");
 
         if (StrUtil.isBlank(clientId)) {
             throw new BizException("客户端ID不能为空");
+        }
+
+        // 微信小程序端认证处理
+        if(AuthConstants.WEAPP_CLIENT_ID.equals(clientId)){
+            return this.handleForWxAppAuth(principal,parameters);
         }
 
         OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
@@ -77,6 +87,8 @@ public class AuthController {
 
         return Result.success(oauth2Token);
     }
+
+
 
     @DeleteMapping("/logout")
     public Result logout(HttpServletRequest request) {
@@ -94,4 +106,62 @@ public class AuthController {
         redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (exp - currentTimeSeconds), TimeUnit.SECONDS);
         return Result.success();
     }
+
+
+    private Result handleForWxAppAuth(Principal principal, Map<String, String> parameters) throws WxErrorException, HttpRequestMethodNotSupportedException {
+
+        String code = parameters.get("code");
+        if (StrUtil.isBlank(code)) {
+            throw new BizException("code不能为空");
+        }
+
+        WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+        String openid = session.getOpenid();
+        String sessionKey = session.getSessionKey();
+
+        Result<MemberDTO> result = remoteUmsMemberService.loadMemberByOpenid(openid);
+        if (!ResultCode.SUCCESS.getCode().equals(result.getCode())) {
+            throw new BizException("获取会员信息失败");
+        }
+        MemberDTO memberDTO = result.getData();
+        String username;
+        if (memberDTO == null) { // 微信授权登录 会员信息不存在时 注册会员
+            String encryptedData = parameters.get("encryptedData");
+            String iv = parameters.get("iv");
+
+            WxMaUserInfo userInfo = wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
+            if (userInfo == null) {
+                throw new BizException("获取用户信息失败");
+            }
+            UmsMember member = new UmsMember()
+                    .setNickname(userInfo.getNickName())
+                    .setAvatar(userInfo.getAvatarUrl())
+                    .setGender(Integer.valueOf(userInfo.getGender()))
+                    .setOpenid(openid)
+                    .setUsername(openid)
+                    .setPassword(passwordEncoder.encode(openid).replace(AuthConstants.BCRYPT, Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
+                    .setStatus(Constants.STATUS_NORMAL_VALUE);
+
+            Result res = remoteUmsMemberService.add(member);
+            if (!ResultCode.SUCCESS.getCode().equals(res.getCode())) {
+                throw new BizException("注册会员失败");
+            }
+            username = openid;
+        } else {
+            username = memberDTO.getUsername();
+        }
+
+        parameters.put("username", username);
+        parameters.put("password", username);
+
+        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+        Oauth2Token oauth2Token = Oauth2Token.builder()
+                .token(oAuth2AccessToken.getValue())
+                .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
+                .expiresIn(oAuth2AccessToken.getExpiresIn())
+                .build();
+        return Result.success(oauth2Token);
+
+    }
+
 }

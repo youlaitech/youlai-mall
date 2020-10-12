@@ -4,6 +4,8 @@ import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.admin.api.feign.RemoteAdminService;
 import com.youlai.auth.domain.User;
 import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.core.result.Result;
+import com.youlai.common.core.result.ResultCode;
 import com.youlai.mall.ums.api.dto.MemberDTO;
 import com.youlai.mall.ums.api.feign.RemoteUmsMemberService;
 import lombok.AllArgsConstructor;
@@ -36,18 +38,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = null;
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
-                UserDTO userDTO = remoteAdminService.loadUserByUsername(username);
-                if (userDTO == null) {
+                Result<UserDTO> userResult = remoteAdminService.loadUserByUsername(username);
+                if (userResult == null || !ResultCode.SUCCESS.getCode().equals(userResult.getCode())) {
                     throw new UsernameNotFoundException("用户不存在");
                 }
+                UserDTO userDTO = userResult.getData();
                 userDTO.setClientId(clientId);
                 user = new User(userDTO);
                 break;
             case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
-                MemberDTO memberDTO = remoteUmsMemberService.loadMemberByOpenid(username);
-                if (memberDTO == null) {
-                    throw new UsernameNotFoundException("用户不存在");
+                Result<MemberDTO> memberResult = remoteUmsMemberService.loadMemberByOpenid(username);
+                if (memberResult == null || !ResultCode.SUCCESS.getCode().equals(memberResult.getCode())) {
+                    throw new UsernameNotFoundException("会员不存在");
                 }
+                MemberDTO memberDTO = memberResult.getData();
                 memberDTO.setClientId(clientId);
                 user = new User(memberDTO);
                 break;
