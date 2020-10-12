@@ -3,7 +3,6 @@ package com.youlai.auth.controller;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -100,8 +99,8 @@ public class AuthController {
 
         long currentTimeSeconds = System.currentTimeMillis() / 1000;
 
-        if (exp < currentTimeSeconds) { // token已过期
-            return Result.custom(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        if (exp < currentTimeSeconds) { // token已过期，无需加入黑名单
+            return Result.success();
         }
         redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (exp - currentTimeSeconds), TimeUnit.SECONDS);
         return Result.success();
