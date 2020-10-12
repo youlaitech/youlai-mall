@@ -18,23 +18,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/members")
 @Slf4j
 public class UmsMemberController {
-
     @Autowired
     private IUmsMemberService iUmsMemberService;
-
 
     @ApiOperation(value = "根据Openid获取会员信息", httpMethod = "GET")
     @ApiImplicitParam(name = "openid", value = "用户唯一标识", required = true, paramType = "path", dataType = "String")
     @GetMapping("/member/{openid}")
     public Result<MemberDTO> loadMemberByOpenid(@PathVariable String openid) {
+        MemberDTO memberDTO = null;
         UmsMember member = iUmsMemberService.getOne(
                 new LambdaQueryWrapper<UmsMember>()
                         .eq(UmsMember::getOpenid, openid));
-        if (member == null) {
-            return Result.error("会员不存在");
+        if (member != null) {
+            memberDTO = new MemberDTO();
+            BeanUtil.copyProperties(member, memberDTO);
+            return Result.success(memberDTO);
         }
-        MemberDTO memberDTO = new MemberDTO();
-        BeanUtil.copyProperties(member, memberDTO);
         return Result.success(memberDTO);
     }
 
