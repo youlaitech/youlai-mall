@@ -3,6 +3,7 @@ package com.youlai.mall.ums.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.core.result.Result;
+import com.youlai.mall.ums.api.dto.MemberDTO;
 import com.youlai.mall.ums.api.entity.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
@@ -25,16 +26,11 @@ public class UmsMemberController {
     @ApiOperation(value = "根据Openid获取会员信息", httpMethod = "GET")
     @ApiImplicitParam(name = "openid", value = "用户唯一标识", required = true, paramType = "path", dataType = "String")
     @GetMapping("/member/{openid}")
-    public MemberDTO loadMemberByOpenid(@PathVariable String openid) {
+    public Result<UmsMember> loadMemberByOpenid(@PathVariable String openid) {
         UmsMember umsMember = iUmsMemberService.getOne(
                 new LambdaQueryWrapper<UmsMember>()
                         .eq(UmsMember::getOpenid, openid));
-
-        MemberDTO memberDTO=new MemberDTO();
-        if(umsMember!=null){
-            BeanUtil.copyProperties(umsMember,memberDTO);
-        }
-        return memberDTO;
+        return Result.success(umsMember);
     }
 
 
