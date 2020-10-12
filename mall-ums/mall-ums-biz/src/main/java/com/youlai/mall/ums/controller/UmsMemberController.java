@@ -26,11 +26,16 @@ public class UmsMemberController {
     @ApiOperation(value = "根据Openid获取会员信息", httpMethod = "GET")
     @ApiImplicitParam(name = "openid", value = "用户唯一标识", required = true, paramType = "path", dataType = "String")
     @GetMapping("/member/{openid}")
-    public Result<UmsMember> loadMemberByOpenid(@PathVariable String openid) {
-        UmsMember umsMember = iUmsMemberService.getOne(
+    public Result<MemberDTO> loadMemberByOpenid(@PathVariable String openid) {
+        UmsMember member = iUmsMemberService.getOne(
                 new LambdaQueryWrapper<UmsMember>()
                         .eq(UmsMember::getOpenid, openid));
-        return Result.success(umsMember);
+        if (member == null) {
+            return Result.error("会员不存在");
+        }
+        MemberDTO memberDTO = new MemberDTO();
+        BeanUtil.copyProperties(member, memberDTO);
+        return Result.success(memberDTO);
     }
 
 

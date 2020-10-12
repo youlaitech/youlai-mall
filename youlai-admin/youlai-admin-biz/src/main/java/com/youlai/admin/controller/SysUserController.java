@@ -52,7 +52,7 @@ public class SysUserController {
     })
     @GetMapping
     public Result list(Integer page, Integer limit, SysUser user) {
-        IPage<SysUser> result =iSysUserService.list(new Page<>(page, limit),user);
+        IPage<SysUser> result = iSysUserService.list(new Page<>(page, limit), user);
         return PageResult.success(result.getRecords(), result.getTotal());
     }
 
@@ -98,30 +98,30 @@ public class SysUserController {
     @ApiOperation(value = "用户名获取用户信息", httpMethod = "GET")
     @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
     @GetMapping("/user/{username}")
-    public UserDTO loadUserByUsername(@PathVariable String username) {
+    public Result<UserDTO> loadUserByUsername(@PathVariable String username) {
         SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username));
-        UserDTO userDTO = new UserDTO();
-
-        if (user != null) {
-            BeanUtil.copyProperties(user, userDTO);
-            List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                    .eq(SysUserRole::getUserId, user.getId())
-            ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
-            if (CollectionUtil.isNotEmpty(roleIds)) {
-                List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
-                        .map(role -> role.getId()).collect(Collectors.toList());
-                userDTO.setRoles(roles);
-            }
+        if (user == null) {
+            return Result.error("用户不存在");
         }
-        return userDTO;
+        UserDTO userDTO = new UserDTO();
+        BeanUtil.copyProperties(user, userDTO);
+        List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
+                .eq(SysUserRole::getUserId, user.getId())
+        ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
+        if (CollectionUtil.isNotEmpty(roleIds)) {
+            List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
+                    .map(role -> role.getId()).collect(Collectors.toList());
+            userDTO.setRoles(roles);
+        }
+        return Result.success(userDTO);
     }
 
 
     @ApiOperation(value = "当前请求用户信息", httpMethod = "GET")
     @GetMapping("/me")
     public Result currentUserInfo(HttpServletRequest request) {
-         String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
+        String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
         JSONObject jsonObject = JSONUtil.parseObj(payload);
         Integer id = jsonObject.getInt("id");
         SysUser user = iSysUserService.getById(id);
