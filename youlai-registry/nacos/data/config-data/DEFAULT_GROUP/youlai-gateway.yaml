@@ -13,15 +13,15 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true # 启用服务发现
-          lower-case-service-id: true
+          enabled: true # 启用自动根据服务ID生成路由
+          lower-case-service-id: true # 设置路由的路径为小写的服务ID
       routes:
         - id: youlai-auth
           uri: lb://youlai-auth
           predicates:
             - Path=/youlai-auth/**
           filters:
-            - StripPrefix=1
+            - StripPrefix=1 # 移除前缀 youlai-auth
         - id: youlai-admin
           uri: lb://youlai-admin
           predicates:
@@ -30,8 +30,7 @@ spring:
             - StripPrefix=1
 
 # 配置白名单路径
-whitelist:
-  urls:
+white-list:
+    urls:
       - "/youlai-auth/oauth/token"
       - "/youlai-auth/rsa/publicKey"
-      - "/youlai-auth/wx/auth/login"

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface RemoteUmsMemberService {
 
     @GetMapping("/members/member/{openid}")
-    MemberDTO loadMemberByOpenid(@PathVariable String openid);
+    Result<UmsMember> loadMemberByOpenid(@PathVariable String openid);
 
     @PostMapping("/members")
     Result add(@RequestBody UmsMember umsMember);

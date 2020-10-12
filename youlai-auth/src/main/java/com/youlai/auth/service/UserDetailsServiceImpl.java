@@ -4,6 +4,7 @@ import com.youlai.admin.api.dto.UserDTO;
 import com.youlai.admin.api.feign.RemoteAdminService;
 import com.youlai.auth.domain.User;
 import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.mall.ums.api.dto.MemberDTO;
 import com.youlai.mall.ums.api.feign.RemoteUmsMemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AccountExpiredException;
