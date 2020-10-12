@@ -78,7 +78,16 @@ public class WxOAuthController {
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
-        Result<UmsMember> result = remoteUmsMemberService.loadMemberByOpenid(openid);
+        Result<MemberDTO> result = remoteUmsMemberService.loadMemberByOpenid(openid);
+        if(ResultCode.SUCCESS.getCode().equals(result.getCode())){
+            MemberDTO memberDTO = result.getData();
+            if(memberDTO!=null){
+
+            }
+
+
+        }
+
         WxMaUserInfo userInfo;
         UmsMember member;
         if (memberDTO == null || memberDTO.getId() == null) {
