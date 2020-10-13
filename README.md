@@ -50,14 +50,15 @@ youlai-mall
 
 1. 拉取[youlai-mall](https://github.com/hxrui/youlai-mall)代码并导入，项目依赖Lombok插件，如果IDEA未安装请至插件市场安装后重启IDEA。
 2. 创建数据库youlai，导入项目包下的doc/youlai.sql完成数据表的创建和初始化。
-3. 启动nacos-server，Windows下如何搭建请参考我的这篇文章 [SpringCloud实战 | 第一篇：Windows搭建Nacos服务](https://www.cnblogs.com/haoxianrui/p/13581881.html) 
-4. 进入Nacos管控台，依次点击配置管理->配置列表->导入配置，然后选择项目文件下conf/DEFAULT_GROUP.zip完成项目配置文件导入，成功后 编辑配置文件修改数据库连接信息。
-5. 分别启动youlai-admin,youlai-auth,youlai-gateway服务。
+3. 创建数据库youlai-mall，导入项目包下的doc/youlai-mall.sql完成数据表的创建和初始化。
+4. 启动nacos-server，Windows下如何搭建请参考我的这篇文章 [SpringCloud实战 | 第一篇：Windows搭建Nacos服务](https://www.cnblogs.com/haoxianrui/p/13581881.html) 
+5. 进入Nacos管控台，依次点击配置管理->配置列表->导入配置，然后选择项目文件下conf/DEFAULT_GROUP.zip完成项目配置文件导入，成功后 编辑配置文件修改数据库连接信息。
+6. 分别启动youlai-admin,youlai-auth,youlai-gateway服务。
 
 
 ### 2. 启动管理后台前端
 
-1. 拉取[youlai-mall-admin-web](https://github.com/hxrui/youlai-mall-admin)代码并导入IDEA
+1. 拉取[youlai-mall-admin-web](https://github.com/hxrui/youlai-mall-admin) 代码并导入IDEA
 2. npm install  
 3. npm run dev
 4. 浏览器打开 http://localhost:9527, 输入用户名/密码: admin/123456 登录管理平台
