@@ -10,7 +10,7 @@ import lombok.Data;
 public class SysUser extends BaseEntity {
 
     @TableId
-    private Integer id;
+    private Long id;
 
     private String username;
 
@@ -23,8 +23,6 @@ public class SysUser extends BaseEntity {
     private String avatar;
 
     private String password;
-
-    private String salt;
 
     private Integer status;
 
