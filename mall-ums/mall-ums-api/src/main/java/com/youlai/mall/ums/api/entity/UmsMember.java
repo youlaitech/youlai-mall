@@ -11,8 +11,6 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 public class UmsMember {
 
-
-
     private Long id;
 
     private String username;
