@@ -20,7 +20,7 @@ import java.util.Collection;
 @NoArgsConstructor
 public class User implements UserDetails {
 
-    private Integer id;
+    private Long id;
 
     private String username;
 

@@ -88,8 +88,6 @@ public class AuthController {
         return Result.success(oauth2Token);
     }
 
-
-
     @DeleteMapping("/logout")
     public Result logout(HttpServletRequest request) {
         String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
@@ -106,7 +104,6 @@ public class AuthController {
         redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (exp - currentTimeSeconds), TimeUnit.SECONDS);
         return Result.success();
     }
-
 
     private Result handleForWxAppAuth(Principal principal, Map<String, String> parameters) throws WxErrorException, HttpRequestMethodNotSupportedException {
 

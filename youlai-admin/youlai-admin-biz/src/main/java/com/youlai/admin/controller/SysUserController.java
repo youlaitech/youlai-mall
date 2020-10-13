@@ -118,12 +118,12 @@ public class SysUserController {
     }
 
 
-    @ApiOperation(value = "当前请求用户信息", httpMethod = "GET")
+    @ApiOperation(value = "获取当前请求的用户信息", httpMethod = "GET")
     @GetMapping("/me")
-    public Result currentUserInfo(HttpServletRequest request) {
+    public Result getCurrentUserInfo(HttpServletRequest request) {
         String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
         JSONObject jsonObject = JSONUtil.parseObj(payload);
-        Integer id = jsonObject.getInt("id");
+        Long id = jsonObject.getLong("id");
         SysUser user = iSysUserService.getById(id);
         UserVO userVO = new UserVO();
         BeanUtil.copyProperties(user, userVO);
