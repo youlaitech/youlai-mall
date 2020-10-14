@@ -4,8 +4,14 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.api.entity.SysMenu;
 import com.youlai.admin.api.entity.SysResource;
+import com.youlai.admin.api.entity.SysRoleMenu;
+import com.youlai.admin.api.entity.SysRoleResource;
+import com.youlai.admin.api.vo.TreeSelectVO;
+import com.youlai.admin.common.AdminConstant;
 import com.youlai.admin.service.ISysResourceService;
+import com.youlai.admin.service.ISysRoleResourceService;
 import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
@@ -16,7 +22,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Api(tags = "资源接口")
 @RestController
@@ -27,27 +36,52 @@ public class SysResourceController {
 
     private ISysResourceService iSysResourceService;
 
+    private ISysRoleResourceService iSysRoleResourceService;
+
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "资源名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "url", value = "资源路径", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "mode", value = "查询模式: 1-表格数据 2-树形数据", defaultValue = "1", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Integer")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, String name, String url) {
-        LambdaQueryWrapper<SysResource> queryWrapper = new LambdaQueryWrapper<SysResource>()
+    public Result list(Integer page, Integer limit, String name, String url, Integer mode, Integer roleId) {
+
+        LambdaQueryWrapper<SysResource> baseQuery = new LambdaQueryWrapper<SysResource>()
                 .like(StrUtil.isNotBlank(name), SysResource::getName, name)
                 .like(StrUtil.isNotBlank(url), SysResource::getUrl, url)
                 .orderByDesc(SysResource::getUpdateTime)
                 .orderByDesc(SysResource::getCreateTime);
-        if (page != null && limit != null) {
-            Page<SysResource> result = iSysResourceService.page(new Page<>(page, limit), queryWrapper);
-            return PageResult.success(result.getRecords(), result.getTotal());
-        } else if (limit != null) {
-            queryWrapper.last("LIMIT " + limit);
+        List list;
+        if (mode.equals(2)) { // 树形数据
+            list = iSysResourceService.listForTreeSelect(baseQuery);
+            if (roleId != null) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("resources", list);
+                List<Integer> checkedKeys;
+                checkedKeys = iSysRoleResourceService.list(new LambdaQueryWrapper<SysRoleResource>()
+                        .eq(SysRoleResource::getRoleId, roleId))
+                        .stream()
+                        .map(item -> item.getResourceId())
+                        .collect(Collectors.toList());
+                map.put("checkedKeys", checkedKeys);
+                return Result.success(map);
+            }
+
+        } else {
+            if (page != null && limit != null) {
+                Page<SysResource> result = iSysResourceService.page(new Page<>(page, limit), baseQuery);
+                return PageResult.success(result.getRecords(), result.getTotal());
+            } else if (limit != null) {
+                baseQuery.last("LIMIT " + limit);
+            }
+            list = iSysResourceService.list(baseQuery);
         }
-        List<SysResource> list = iSysResourceService.list(queryWrapper);
+
+
         return Result.success(list);
     }
 
