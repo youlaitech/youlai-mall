@@ -30,7 +30,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<TreeSelectVO> listForTreeSelect(LambdaQueryWrapper<SysMenu> baseQuery) {
-        List<SysMenu> menuList = this.baseMapper.selectList(baseQuery);
+        List<SysMenu> menuList = this.list(baseQuery);
         List<TreeSelectVO> list = recursionForTreeSelect(AdminConstant.ROOT_MENU_ID, menuList);
         return list;
     }
