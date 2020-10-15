@@ -2,14 +2,9 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.api.entity.SysMenu;
 import com.youlai.admin.api.entity.SysResource;
-import com.youlai.admin.api.entity.SysRoleMenu;
 import com.youlai.admin.api.entity.SysRoleResource;
-import com.youlai.admin.api.vo.TreeSelectVO;
-import com.youlai.admin.common.AdminConstant;
 import com.youlai.admin.service.ISysResourceService;
 import com.youlai.admin.service.ISysRoleResourceService;
 import com.youlai.common.core.result.PageResult;
@@ -44,11 +39,13 @@ public class SysResourceController {
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "资源名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "url", value = "资源路径", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "mode", value = "查询模式: 1-表格数据 2-树形数据", defaultValue = "1", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "mode", value = "查询模式: 1-table数据 2-树形数据", defaultValue = "1", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Integer")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, String name, String url, Integer mode, Integer roleId) {
+    public Result list(Integer page, Integer limit, String name, String url,
+                       @RequestParam(required = false,defaultValue = "1") Integer mode,  // 默认table数据
+                       Integer roleId) {
 
         LambdaQueryWrapper<SysResource> baseQuery = new LambdaQueryWrapper<SysResource>()
                 .like(StrUtil.isNotBlank(name), SysResource::getName, name)

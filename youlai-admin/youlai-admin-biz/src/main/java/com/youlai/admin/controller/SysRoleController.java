@@ -8,12 +8,14 @@ import com.youlai.admin.api.entity.SysRole;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
+import com.youlai.common.web.exception.BizException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -91,18 +93,24 @@ public class SysRoleController {
     @ApiOperation(value = "修改角色【局部更新】", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "mode", value = "操作模式: 1-状态更新 2-分配资源", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     })
     @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Integer id, @RequestBody SysRole role) {
-        LambdaUpdateWrapper<SysRole> luw = new LambdaUpdateWrapper<SysRole>().eq(SysRole::getId, id);
-        if (role.getStatus() != null) { // 状态更新
-            luw.set(SysRole::getStatus, role.getStatus());
+    public Result patch(@PathVariable Integer id, Integer mode, @RequestBody SysRole role) {
+        Assert.notNull(mode, "未指定操作模式");
+        if (mode.equals(1)) { //状态更新
+            LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<SysRole>()
+                    .eq(SysRole::getId, id)
+                    .set(SysRole::getStatus, role.getStatus());
+            boolean status = iSysRoleService.update(updateWrapper);
+            return Result.status(status);
+        } else if (mode.equals(2)) { // 分配资源
+            boolean status = iSysRoleService.update(id, role.getResourceIds());
+            return Result.status(status);
         } else {
-            return Result.error("未发生任何更新");
+            throw new BizException("未指定操作模式");
         }
-        boolean status = iSysRoleService.update(luw);
-        return Result.status(status);
     }
 
 }

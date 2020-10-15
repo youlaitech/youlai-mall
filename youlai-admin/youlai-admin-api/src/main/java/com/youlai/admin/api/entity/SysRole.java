@@ -29,5 +29,7 @@ public class SysRole extends BaseEntity {
     @TableField(exist = false)
     private List<Integer> menuIds;
 
+    @TableField(exist = false)
+    private List<Integer> resourceIds;
 
 }
