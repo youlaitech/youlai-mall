@@ -13,4 +13,6 @@ public interface ISysRoleService extends IService<SysRole> {
     boolean delete(List<Integer> ids);
 
     boolean add(SysRole role);
+
+    boolean update(Integer id, List<Integer> resourceIds);
 }

@@ -54,16 +54,11 @@ public class SysMenuController {
             if (roleId != null) { // 菜单树形 + 角色权限
                 Map<String, Object> map = new HashMap<>();
                 map.put("menus", list);
-                List<Integer> checkedKeys;
-                if (roleId.equals(AdminConstant.ROOT_ROLE_ID)) { // 超级管理员拥有所有的菜单权限
-                    checkedKeys = (List<Integer>) list.stream().map(item -> ((TreeSelectVO) item).getId()).collect(Collectors.toList());
-                } else {
-                    checkedKeys = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
-                            .eq(SysRoleMenu::getRoleId, roleId))
-                            .stream()
-                            .map(item -> item.getMenuId())
-                            .collect(Collectors.toList());
-                }
+                List<Integer> checkedKeys = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
+                        .eq(SysRoleMenu::getRoleId, roleId))
+                        .stream()
+                        .map(item -> item.getMenuId())
+                        .collect(Collectors.toList());
                 map.put("checkedKeys", checkedKeys);
                 return Result.success(map);
             }
