@@ -1,5 +1,7 @@
 package com.youlai.admin.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +25,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/dictionaries")
 @Slf4j
+@AllArgsConstructor
 public class SysDictController {
 
-    @Autowired
     private ISysDictService iSysDictService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
@@ -35,8 +38,18 @@ public class SysDictController {
     })
     @GetMapping
     public Result list(Integer page, Integer limit, SysDict dict) {
-        IPage<SysDict> result =iSysDictService.list(new Page<>(page, limit),dict);
-        return PageResult.success(result.getRecords(), result.getTotal());
+        if (page != null && limit != null) {
+            IPage<SysDict> result = iSysDictService.list(new Page<>(page, limit), dict);
+            return PageResult.success(result.getRecords(), result.getTotal());
+        } else {
+            List<SysDict> list = iSysDictService.list(new LambdaQueryWrapper<SysDict>()
+                    .eq(StrUtil.isNotBlank(dict.getTypeCode()), SysDict::getTypeCode, dict.getTypeCode())
+                    .select(SysDict::getName)
+                    .select(SysDict::getValue)
+                    .orderByAsc(SysDict::getSort)
+            );
+            return Result.success(list);
+        }
     }
 
     @ApiOperation(value = "字典详情", httpMethod = "GET")
