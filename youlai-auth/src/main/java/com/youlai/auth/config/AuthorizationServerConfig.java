@@ -43,7 +43,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private OAuth2WebResponseExceptionTranslator oAuth2WebResponseExceptionTranslator;
 
     /**
-     * 配置客户端详情
+     * 配置客户端详情(数据库)
      */
     @Override
     @SneakyThrows
