@@ -1,5 +1,6 @@
 package com.youlai.admin.api.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.Data;
 @Data
 public class SysDict  extends BaseEntity {
 
-    @TableId
+    @TableId(type= IdType.AUTO)
     private Integer id;
 
     private String name;
@@ -22,6 +23,6 @@ public class SysDict  extends BaseEntity {
 
     private Integer defaulted;
 
-    private  String remark;
+    private String remark;
 
 }

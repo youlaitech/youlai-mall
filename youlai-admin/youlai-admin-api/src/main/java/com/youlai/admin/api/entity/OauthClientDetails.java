@@ -18,9 +18,11 @@ public class OauthClientDetails  {
     @ApiModelProperty(value = "客户端密钥")
     private String clientSecret;
 
-
     @ApiModelProperty(value = "资源id列表")
     private String resourceIds;
+
+    @ApiModelProperty(value = "域")
+    private String scope;
 
     @ApiModelProperty(value = "授权方式")
     private String authorizedGrantTypes;
@@ -31,10 +33,10 @@ public class OauthClientDetails  {
     @ApiModelProperty(value = "权限列表")
     private String authorities;
 
-    @ApiModelProperty(value = "请求令牌有效时间")
+    @ApiModelProperty(value = "认证令牌时效")
     private Integer accessTokenValidity;
 
-    @ApiModelProperty(value = "刷新令牌有效时间")
+    @ApiModelProperty(value = "刷新令牌时效")
     private Integer refreshTokenValidity;
 
     @ApiModelProperty(value = "扩展信息")
