@@ -44,8 +44,7 @@ public class SysDictController {
         } else {
             List<SysDict> list = iSysDictService.list(new LambdaQueryWrapper<SysDict>()
                     .eq(StrUtil.isNotBlank(dict.getTypeCode()), SysDict::getTypeCode, dict.getTypeCode())
-                    .select(SysDict::getName)
-                    .select(SysDict::getValue)
+                    .select(SysDict::getName,SysDict::getValue)
                     .orderByAsc(SysDict::getSort)
             );
             return Result.success(list);

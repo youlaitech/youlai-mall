@@ -21,3 +21,6 @@ minio:
   endpoint: http://101.37.69.49:9000/
   access-key: minioadmin
   secret-key: minioadmin
+auth:
+  token:
+    endpoint: http://localhost:8000/oauth/token

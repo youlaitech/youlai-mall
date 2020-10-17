@@ -1,5 +1,6 @@
 package com.youlai.admin.api.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
@@ -12,7 +13,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class SysResource extends BaseEntity {
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String name;
     private String url;
