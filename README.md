@@ -12,6 +12,7 @@ youlai-mall
 ├── document
     ├── DEFAULT_GROUP.zip  -- Nacos配置中心存储的配置
     ├── youlai.sql -- 数据库初始化脚本
+    ├── youlai-mall.sql -- 数据库初始化脚本
 ├── youlai-admin 
     ├── youlai-admin-api -- 后台管理服务的远程调用客户端
     ├── youlai-admin-biz -- 后台管理服务
