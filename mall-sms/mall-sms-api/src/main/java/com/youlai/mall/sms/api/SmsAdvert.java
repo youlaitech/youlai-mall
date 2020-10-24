@@ -1,4 +1,4 @@
-package com.ylmall.sms.api.entity;
+package com.youlai.mall.sms.api;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -30,5 +30,6 @@ public class SmsAdvert extends BaseEntity {
     private Integer clickCount;
 
     private String remark;
+
 
 }

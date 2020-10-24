@@ -1,11 +1,13 @@
 package com.youlai.mall.ums.api.entity;
 
 
-import lombok.Builder;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @Accessors(chain = true)
