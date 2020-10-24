@@ -4,22 +4,23 @@ package com.youlai.admin.controller;
 import cn.hutool.core.util.IdUtil;
 import com.youlai.admin.service.impl.MinIOService;
 import com.youlai.common.core.result.Result;
+import com.youlai.common.web.exception.BizException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags = "文件接口")
 @RestController
-@RequestMapping("/api/v1/files")
+@RequestMapping("/files")
 @Slf4j
+@AllArgsConstructor
 public class MinIOController {
 
-    @Autowired
     private MinIOService minIOService;
 
     @PostMapping
@@ -30,7 +31,7 @@ public class MinIOController {
     })
     public Result<String> upload(
             @RequestParam(value = "file") MultipartFile file,
-            @RequestParam(value = "bucket_name", required = false, defaultValue = "com/youlai") String bucketName
+            @RequestParam(value = "bucket_name", required = false, defaultValue = "default") String bucketName
     ) {
         try {
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
@@ -38,8 +39,7 @@ public class MinIOController {
             String path = minIOService.putObject(bucketName, objectName, file.getInputStream());
             return Result.success(path);
         } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(e.getLocalizedMessage());
+            throw new BizException(e.getMessage());
         }
     }
 

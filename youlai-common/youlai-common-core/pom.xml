@@ -16,7 +16,6 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- spring boot web -->

@@ -106,5 +106,4 @@ public class SysDictController {
         boolean update = iSysDictService.update(luw);
         return Result.success(update);
     }
-
 }

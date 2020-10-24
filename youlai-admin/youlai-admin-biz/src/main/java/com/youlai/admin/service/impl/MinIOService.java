@@ -27,9 +27,9 @@ public class MinIOService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        Assert.notBlank(minIOProperties.getEndpoint(), "Minio URL 为空");
-        Assert.notBlank(minIOProperties.getAccessKey(), "Minio accessKey为空");
-        Assert.notBlank(minIOProperties.getSecretKey(), "Minio secretKey为空");
+        Assert.notBlank(minIOProperties.getEndpoint(), "MinIO URL 为空");
+        Assert.notBlank(minIOProperties.getAccessKey(), "MinIO accessKey为空");
+        Assert.notBlank(minIOProperties.getSecretKey(), "MinIO secretKey为空");
         this.client = new MinioClient.Builder()
                 .endpoint(minIOProperties.getEndpoint())
                 .credentials(minIOProperties.getAccessKey(), minIOProperties.getSecretKey())
@@ -53,7 +53,7 @@ public class MinIOService implements InitializingBean {
         PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                 .bucket(bucketName)
                 .object(objectName)
-                .contentType(MediaType.IMAGE_JPEG_VALUE)
+                .contentType(MediaType.ALL_VALUE)
                 .stream(inputStream, inputStream.available(), -1)
                 .build();
         client.putObject(putObjectArgs);
