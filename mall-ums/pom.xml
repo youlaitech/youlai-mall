@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mall-ums</artifactId>
+
     <packaging>pom</packaging>
     <modules>
         <module>mall-ums-api</module>

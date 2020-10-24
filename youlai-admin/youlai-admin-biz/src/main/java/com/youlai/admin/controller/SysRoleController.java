@@ -98,7 +98,6 @@ public class SysRoleController {
     })
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, Integer mode, @RequestBody SysRole role) {
-        Assert.notNull(mode, "未指定操作模式");
         if (mode.equals(1)) { //状态更新
             LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<SysRole>()
                     .eq(SysRole::getId, id)
