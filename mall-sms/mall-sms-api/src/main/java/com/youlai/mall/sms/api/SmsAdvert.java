@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -26,8 +28,6 @@ public class SmsAdvert extends BaseEntity {
     private Integer sort;
 
     private  String url;
-
-    private Integer clickCount;
 
     private String remark;
 
