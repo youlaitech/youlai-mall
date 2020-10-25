@@ -48,7 +48,7 @@ public class MinIOController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "path", value = "文件路径", required = true, paramType = "query"),
     })
-    public Result removeFile(String path) {
+    public Result removeFile(@RequestParam String path) {
         try {
             int lastIndex = path.lastIndexOf("/");
             String bucketName = path.substring(path.lastIndexOf("/", lastIndex - 1) + 1, lastIndex);
