@@ -71,7 +71,7 @@ youlai-mall
 
 ### 2. 启动管理后台前端
 
-1. 拉取[youlai-mall-admin-web](https://github.com/hxrui/youlai-mall-admin) 代码并导入IDEA
+1. 拉取[youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin.git) 代码并导入IDEA
 2. npm install  
 3. npm run dev
 4. 浏览器打开 http://localhost:9527, 输入用户名/密码: admin/123456 登录管理平台
