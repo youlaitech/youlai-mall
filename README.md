@@ -27,9 +27,10 @@ youlai-mall
 ├── youlai-admin 
     ├── youlai-admin-api -- 后台管理微服务的远程调用客户端
     ├── youlai-admin-biz -- 后台管理微服务
-├── youlai-auth    -- 认证中心
-├── youlai-common  -- 公共模块
-└── youlai-gateway -- API网关
+├── youlai-auth     -- 认证中心
+├── youlai-common   -- 公共模块
+└── youlai-gateway  -- API网关
+└── youlai-registry -- 注册中心 
 ```
 
 ## **技术栈**
