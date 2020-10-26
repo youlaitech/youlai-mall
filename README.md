@@ -10,14 +10,25 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 ``` lua
 youlai-mall
 ├── document
-    ├── DEFAULT_GROUP.zip  -- Nacos配置中心存储的配置
-    ├── youlai.sql -- 数据库初始化脚本
+    ├── youlai.sql      -- 数据库初始化脚本
     ├── youlai-mall.sql -- 数据库初始化脚本
+├── mall-oms
+    ├── mall-oms-api -- 订单微服务的远程调用客户端
+    ├── mall-oms-biz -- 订单微服务
+├── mall-pms
+    ├── mall-pms-api -- 商品微服务的远程调用客户端
+    ├── mall-pms-biz -- 商品微服务
+├── mall-sms
+    ├── mall-sms-api -- 营销微服务的远程调用客户端
+    ├── mall-sms-biz -- 营销微服务
+├── mall-ums
+    ├── mall-ums-api -- 会员微服务的远程调用客户端
+    ├── mall-ums-biz -- 会员微服务
 ├── youlai-admin 
-    ├── youlai-admin-api -- 后台管理服务的远程调用客户端
-    ├── youlai-admin-biz -- 后台管理服务
-├── youlai-auth -- 认证中心
-├── youlai-common -- 公共模块
+    ├── youlai-admin-api -- 后台管理微服务的远程调用客户端
+    ├── youlai-admin-biz -- 后台管理微服务
+├── youlai-auth    -- 认证中心
+├── youlai-common  -- 公共模块
 └── youlai-gateway -- API网关
 ```
 
@@ -49,12 +60,12 @@ youlai-mall
 
 ### 1. 启动管理后台服务
 
-1. 拉取[youlai-mall](https://github.com/hxrui/youlai-mall)代码并导入，项目依赖Lombok插件，如果IDEA未安装请至插件市场安装后重启IDEA。
-2. 创建数据库youlai，导入项目包下的doc/youlai.sql完成数据表的创建和初始化。
-3. 创建数据库youlai-mall，导入项目包下的doc/youlai-mall.sql完成数据表的创建和初始化。
-4. 启动nacos-server，Windows下如何搭建请参考我的这篇文章 [SpringCloud实战 | 第一篇：Windows搭建Nacos服务](https://www.cnblogs.com/haoxianrui/p/13581881.html) 
-5. 进入Nacos管控台，依次点击配置管理->配置列表->导入配置，然后选择项目文件下conf/DEFAULT_GROUP.zip完成项目配置文件导入，成功后 编辑配置文件修改数据库连接信息。
-6. 分别启动youlai-admin,youlai-auth,youlai-gateway服务。
+1. 拉取[youlai-mall](https://github.com/hxrui/youlai-mall) 代码并导入，项目依赖Lombok插件，如果IDEA未安装请至插件市场安装后重启IDEA。
+2. 创建数据库youlai、youlai-mall数据库，导入document下对应的sql脚本文件完成表结构和数据的初始化，数据库版本MySQL8.0，低版本修改脚本即可。 
+3. 创建数据库nacos，导入youlai-registry/nacos/conf/nacos-mysql.sql脚本文件 ，并修改youlai-registry/nacos/conf/application.properties的数据库连接信息
+4. 修改微服务数据库连接信息，打开youlai-registry/data/config-data/DEFAULT_GROUP目录修改对应yaml文件的数据库连接信息，MySQL默认用户名/密码是root/123456,一致请忽略此步骤。
+5. 启动nacos服务，cmd切换到youlai-registry/nacos/bin，执行命令 startup -m standalone。
+6. 启动youlai-gateway、youlai-auth,youlai-admin等微服务。
 
 
 ### 2. 启动管理后台前端
@@ -63,12 +74,6 @@ youlai-mall
 2. npm install  
 3. npm run dev
 4. 浏览器打开 http://localhost:9527, 输入用户名/密码: admin/123456 登录管理平台
-
-
-## 开发计划
-
-> V 1.0.0 完成以下目标：
-
 
 ## 项目文档
 
@@ -81,7 +86,6 @@ youlai-mall
 7. [Spring Cloud实战 | 最终篇：Spring Cloud Gateway+Spring Security OAuth2集成统一认证授权平台下实现注销使JWT失效方案](https://www.cnblogs.com/haoxianrui/p/13740264.html)
 8. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
 9. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html)
-
 
 ## 问题
 
