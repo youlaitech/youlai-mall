@@ -48,7 +48,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
 
-    @ApiOperation("Oauth2获取token")
+    @ApiOperation("OAuth2认证生成token")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
             @ApiImplicitParam(name = "client_id", defaultValue = "client", value = "Oauth2客户端ID", required = true),
@@ -148,6 +148,7 @@ public class AuthController {
             username = memberDTO.getUsername();
         }
 
+        // oauth2认证参数对应授权登录时注册会员的username、password信息，模拟通过oauth2的密码模式认证
         parameters.put("username", username);
         parameters.put("password", username);
 
