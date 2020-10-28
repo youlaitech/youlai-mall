@@ -11,18 +11,49 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 26/10/2020 01:04:14
+ Date: 29/10/2020 01:14:42
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
+-- Table structure for pms_brand
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_brand`;
+CREATE TABLE `pms_brand`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '品牌名称',
+  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '品牌logo图片地址',
+  `first_letter` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '检索首字母',
+  `sort` tinyint(1) NULL DEFAULT NULL COMMENT '排序',
+  `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态: 1-启用 0-关闭',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for pms_category
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_category`;
+CREATE TABLE `pms_category`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称',
+  `parent_id` bigint(20) NOT NULL,
+  `level` int(11) NULL DEFAULT NULL COMMENT '层级',
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标地址',
+  `sort` int(11) NULL DEFAULT NULL COMMENT '排序',
+  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '单位',
+  `count` int(11) NULL DEFAULT NULL COMMENT '商品数量',
+  `visible` tinyint(1) NULL DEFAULT NULL COMMENT '显示状态: 0-隐藏 1-显示',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for sms_advert
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_advert`;
 CREATE TABLE `sms_advert`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '广告名称',
   `pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片地址',
   `start_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时间',
@@ -36,7 +67,7 @@ CREATE TABLE `sms_advert`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sms_advert
