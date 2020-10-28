@@ -8,7 +8,6 @@
  Source Schema         : youlai-mall
 
  Target Server Type    : MySQL
- Target Server Version : 80011
  File Encoding         : 65001
 
  Date: 29/10/2020 01:14:42
