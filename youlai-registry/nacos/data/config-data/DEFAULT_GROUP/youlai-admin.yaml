@@ -3,7 +3,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/youlai?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    url: jdbc:mysql://www.youlai.store:3306/youlai?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
   redis:
@@ -21,6 +21,3 @@ minio:
   endpoint: http://101.37.69.49:9000/
   access-key: minioadmin
   secret-key: minioadmin
-auth:
-  token:
-    endpoint: http://localhost:8000/oauth/token
