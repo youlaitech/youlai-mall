@@ -34,4 +34,3 @@ whitelist:
   urls:
       - "/youlai-auth/oauth/token"
       - "/youlai-auth/rsa/publicKey"
-      - "/youlai-mall-sms/**"
