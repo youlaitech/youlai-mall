@@ -13,26 +13,20 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>youlai-admin-api</module>
-        <module>youlai-admin-biz</module>
+        <module>admin-api</module>
+        <module>admin-biz</module>
     </modules>
 
     <properties>
-        <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
+        <youlai.version>1.0.0-SNAPSHOT</youlai.version>
     </properties>
 
     <dependencies>
-
-
-
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>youlai-common-core</artifactId>
-            <version>${youlai-common.version}</version>
+            <version>${youlai.version}</version>
         </dependency>
-
-
-
     </dependencies>
 
 </project>
