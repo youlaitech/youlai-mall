@@ -14,7 +14,7 @@
     <artifactId>youlai-gateway</artifactId>
 
     <properties>
-        <youlai-common.version>1.0.0-SNAPSHOT</youlai-common.version>
+        <youlai.version>1.0.0-SNAPSHOT</youlai.version>
     </properties>
 
     <dependencies>
@@ -22,13 +22,13 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>youlai-common-core</artifactId>
-            <version>${youlai-common.version}</version>
+            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>youlai-common-redis</artifactId>
-            <version>${youlai-common.version}</version>
+            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
