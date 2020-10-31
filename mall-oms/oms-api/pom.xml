@@ -3,29 +3,27 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>youlai-mall</artifactId>
+        <artifactId>mall-oms</artifactId>
         <groupId>com.youlai</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mall-ums</artifactId>
-
-    <packaging>pom</packaging>
-    <modules>
-        <module>ums-api</module>
-        <module>ums-biz</module>
-    </modules>
-
-    <properties>
-        <youlai.version>1.0.0-SNAPSHOT</youlai.version>
-    </properties>
+    <artifactId>oms-api</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
-            <version>${youlai.version}</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
         </dependency>
     </dependencies>
+
 </project>
