@@ -54,8 +54,4 @@ public class OmsOrder extends BaseEntity {
     private String shipSn;
 
 
-
-
-
-
 }
