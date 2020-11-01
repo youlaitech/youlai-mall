@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 8603
 
 spring:
   application:
-    name: youlai-admin
+    name: mall-oms
   cloud:
     nacos:
       discovery:
@@ -11,3 +11,4 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
+
