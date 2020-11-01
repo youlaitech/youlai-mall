@@ -25,7 +25,5 @@ public class PmsCategory extends BaseEntity {
 
     private String unit;
 
-    private Integer count;
-
     private Integer status;
 }
