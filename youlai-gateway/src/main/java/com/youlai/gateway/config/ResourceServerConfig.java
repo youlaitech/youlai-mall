@@ -7,6 +7,7 @@ import com.youlai.gateway.component.AuthorizationManager;
 import com.youlai.gateway.component.CustomServerAuthenticationEntryPoint;
 import com.youlai.gateway.component.CustomServerAccessDeniedHandler;
 import lombok.AllArgsConstructor;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -52,7 +53,7 @@ public class ResourceServerConfig {
     }
 
     /**
-     * @linkhttps://blog.csdn.net/qq_24230139/article/details/105091273
+     * @link https://blog.csdn.net/qq_24230139/article/details/105091273
      * ServerHttpSecurity没有将jwt中authorities的负载部分当做Authentication
      * 需要把jwt的Claim中的authorities加入
      * 方案：重新定义ReactiveAuthenticationManager权限管理器，默认转换器JwtGrantedAuthoritiesConverter
