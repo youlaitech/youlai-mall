@@ -23,7 +23,5 @@ public class PmsCategory extends BaseEntity {
 
     private Integer sort;
 
-    private String unit;
-
     private Integer status;
 }
