@@ -8,6 +8,7 @@ import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.entity.PmsCategory;
 import com.youlai.mall.pms.service.IPmsCategoryService;
+import com.youlai.mall.pms.vo.PmsCategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,18 +35,8 @@ public class PmsCategoryController {
             @ApiImplicitParam(name = "category", value = "商品分类信息", paramType = "query", dataType = "PmsCategory")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, PmsCategory category) {
-        LambdaQueryWrapper<PmsCategory> queryWrapper = new LambdaQueryWrapper<PmsCategory>()
-                .like(StrUtil.isNotBlank(category.getName()), PmsCategory::getName, category.getName())
-                .orderByDesc(PmsCategory::getGmtModified)
-                .orderByDesc(PmsCategory::getGmtCreate);
-        if (page != null && limit != null) {
-            Page<PmsCategory> result = iPmsCategoryService.page(new Page<>(page, limit), queryWrapper);
-            return PageResult.success(result.getRecords(), result.getTotal());
-        } else if (limit != null) {
-            queryWrapper.last("LIMIT " + limit);
-        }
-        List<PmsCategory> list = iPmsCategoryService.list(queryWrapper);
+    public Result list(PmsCategory category) {
+        List<PmsCategoryVO> list = iPmsCategoryService.list(category);
         return Result.success(list);
     }
 

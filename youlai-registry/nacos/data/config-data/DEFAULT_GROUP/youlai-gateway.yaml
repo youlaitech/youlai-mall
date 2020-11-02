@@ -28,13 +28,6 @@ spring:
             - Path=/youlai-admin/**
           filters:
             - StripPrefix=1
-        # 会员服务路由配置     
-        - id: youlai-mall-ums
-          uri: lb://youlai-mall-ums
-          predicates:
-            - Path=/youlai-mall-ums/**
-          filters:
-            - StripPrefix=1
 
 # 配置白名单路径
 white-list:
