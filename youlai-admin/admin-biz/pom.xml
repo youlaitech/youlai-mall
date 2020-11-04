@@ -24,7 +24,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-redis</artifactId>
+            <artifactId>common-redis</artifactId>
             <version>${youlai.version}</version>
         </dependency>
 

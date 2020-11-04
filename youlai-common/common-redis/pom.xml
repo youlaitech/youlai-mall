@@ -9,19 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>youlai-common-web</artifactId>
-
+    <artifactId>common-redis</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
-        </dependency>
-
-        <!-- spring boot web -->
+        <!-- spring boot redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
-
 </project>
