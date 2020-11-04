@@ -2,6 +2,7 @@ package com.youlai.mall.pms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.core.result.Result;
+import com.youlai.common.web.vo.CascaderVO;
 import com.youlai.mall.pms.entity.PmsCategory;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import com.youlai.mall.pms.vo.PmsCategoryVO;
@@ -26,14 +27,18 @@ public class PmsCategoryController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "_qm", value = "查询模式（1-树形列表 2-级联列表）", defaultValue = "1", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "category", value = "商品分类信息", paramType = "query", dataType = "PmsCategory")
     })
     @GetMapping
-    public Result list(PmsCategory category) {
-        List<PmsCategoryVO> list = iPmsCategoryService.list(category);
-        return Result.success(list);
+    public Result list(Integer _qm, PmsCategory category) {
+        if (_qm.equals(2)) {
+            List<CascaderVO> list = iPmsCategoryService.listForCascader(category);
+            return Result.success(list);
+        } else {
+            List<PmsCategoryVO> list = iPmsCategoryService.listForTree(category);
+            return Result.success(list);
+        }
     }
 
     @ApiOperation(value = "商品分类详情", httpMethod = "GET")

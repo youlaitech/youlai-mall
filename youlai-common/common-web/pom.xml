@@ -9,12 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>youlai-common-knife4j</artifactId>
+    <artifactId>common-web</artifactId>
+
+    <properties>
+        <youlai.version>1.0.0-SNAPSHOT</youlai.version>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-core</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <!-- spring boot web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
+
 </project>

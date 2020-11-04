@@ -30,37 +30,37 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-db</artifactId>
+            <artifactId>common-db</artifactId>
             <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-web</artifactId>
+            <artifactId>common-web</artifactId>
             <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-knife4j</artifactId>
+            <artifactId>common-knife4j</artifactId>
             <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
+            <artifactId>common-core</artifactId>
             <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-redis</artifactId>
+            <artifactId>common-redis</artifactId>
             <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-web</artifactId>
+            <artifactId>common-web</artifactId>
             <version>${youlai.version}</version>
         </dependency>
 
