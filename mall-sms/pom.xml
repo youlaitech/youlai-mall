@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>youlai-common-core</artifactId>
+            <artifactId>common-core</artifactId>
             <version>${youlai.version}</version>
         </dependency>
     </dependencies>

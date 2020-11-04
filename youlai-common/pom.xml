@@ -14,11 +14,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>youlai-common-core</module>
-        <module>youlai-common-knife4j</module>
-        <module>youlai-common-redis</module>
-        <module>youlai-common-web</module>
-        <module>youlai-common-db</module>
+        <module>common-core</module>
+        <module>common-knife4j</module>
+        <module>common-redis</module>
+        <module>common-web</module>
+        <module>common-db</module>
     </modules>
 
     <properties>
@@ -94,37 +94,31 @@
             <!-- common -->
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>youlai-common-core</artifactId>
+                <artifactId>common-core</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>youlai-common-knife4j</artifactId>
+                <artifactId>common-knife4j</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>youlai-common-redis</artifactId>
+                <artifactId>common-redis</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>youlai-common-web</artifactId>
+                <artifactId>common-web</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>youlai-common-db</artifactId>
-                <version>${youlai.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.youlai</groupId>
-                <artifactId>youlai-common-auth</artifactId>
+                <artifactId>common-db</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
 
