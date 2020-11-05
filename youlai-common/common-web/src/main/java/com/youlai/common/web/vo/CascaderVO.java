@@ -1,5 +1,6 @@
 package com.youlai.common.web.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,5 +21,6 @@ public class CascaderVO {
     private String label;
 
     @ApiModelProperty(name="子节点")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<CascaderVO> children;
 }
