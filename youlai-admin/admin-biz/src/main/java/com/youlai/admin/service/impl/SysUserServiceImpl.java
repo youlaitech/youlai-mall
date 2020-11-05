@@ -14,8 +14,8 @@ import java.util.List;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     @Override
-    public IPage<SysUser> list(Page<SysUser> page,SysUser sysUser ) {
-        List<SysUser> list = this.baseMapper.list(page,sysUser);
+    public IPage<SysUser> list(Page<SysUser> page,SysUser user ) {
+        List<SysUser> list = this.baseMapper.list(page,user);
         page.setRecords(list);
         return page;
     }
