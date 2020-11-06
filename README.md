@@ -10,23 +10,24 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 ``` lua
 youlai-mall
 ├── document
+    ├── DEFAULT_GROUP.zip
     ├── youlai.sql      -- 数据库初始化脚本
     ├── youlai-mall.sql -- 数据库初始化脚本
 ├── mall-oms
-    ├── mall-oms-api -- 订单微服务的远程调用客户端
-    ├── mall-oms-biz -- 订单微服务
+    ├── oms-api -- 订单微服务的远程调用客户端
+    ├── oms-biz -- 订单微服务
 ├── mall-pms
-    ├── mall-pms-api -- 商品微服务的远程调用客户端
-    ├── mall-pms-biz -- 商品微服务
+    ├── pms-api -- 商品微服务的远程调用客户端
+    ├── pms-biz -- 商品微服务
 ├── mall-sms
-    ├── mall-sms-api -- 营销微服务的远程调用客户端
-    ├── mall-sms-biz -- 营销微服务
+    ├── sms-api -- 营销微服务的远程调用客户端
+    ├── sms-biz -- 营销微服务
 ├── mall-ums
-    ├── mall-ums-api -- 会员微服务的远程调用客户端
-    ├── mall-ums-biz -- 会员微服务
+    ├── ums-api -- 会员微服务的远程调用客户端
+    ├── ums-biz -- 会员微服务
 ├── youlai-admin 
-    ├── youlai-admin-api -- 后台管理微服务的远程调用客户端
-    ├── youlai-admin-biz -- 后台管理微服务
+    ├── admin-api -- 后台管理微服务的远程调用客户端
+    ├── admin-biz -- 后台管理微服务
 ├── youlai-auth     -- 认证中心
 ├── youlai-common   -- 公共模块
 └── youlai-gateway  -- API网关
@@ -62,8 +63,8 @@ youlai-mall
 ### 1. 启动管理后台服务
 
 1. 拉取[youlai-mall](https://github.com/hxrui/youlai-mall) 代码并导入，项目依赖Lombok插件，如果IDEA未安装请至插件市场安装后重启IDEA。
-2. 创建数据库youlai、youlai-mall数据库，导入document下对应的sql脚本文件完成表结构和数据的初始化，数据库版本MySQL8.0，低版本修改脚本即可。 
-3. 创建数据库nacos，导入youlai-registry/nacos/conf/nacos-mysql.sql脚本文件 ，并修改youlai-registry/nacos/conf/application.properties的数据库连接信息
+2. 【可省】创建数据库youlai、youlai-mall数据库，导入document下对应的sql脚本文件完成表结构和数据的初始化，数据库版本MySQL8.0，低版本修改脚本即可。 
+3. 【可省】创建数据库nacos，导入youlai-registry/nacos/conf/nacos-mysql.sql脚本文件 ，并修改youlai-registry/nacos/conf/application.properties的数据库连接信息
 4. 修改微服务数据库连接信息，打开youlai-registry/data/config-data/DEFAULT_GROUP目录修改对应yaml文件的数据库连接信息，MySQL默认用户名/密码是root/123456,一致请忽略此步骤。
 5. 启动nacos服务，cmd切换到youlai-registry/nacos/bin，执行命令 startup -m standalone。nacos启动后在控制台导入配置document/DEFAULT_GROUP.zip。
 6. 启动youlai-gateway、youlai-auth,youlai-admin等微服务。
@@ -78,7 +79,8 @@ youlai-mall
 
 ## 项目文档
 
-> 后台
+> 后端
+
 1. [Spring Cloud实战 | 第一篇：Windows搭建Nacos服务 ](https://www.cnblogs.com/haoxianrui/p/13581881.html)
 2. [Spring Cloud实战 | 第二篇：Spring Cloud整合Nacos实现注册中心](https://www.cnblogs.com/haoxianrui/p/13584204.html)
 3. [Spring Cloud实战 | 第三篇：Spring Cloud整合Nacos实现配置中心](https://www.cnblogs.com/haoxianrui/p/13585125.html)
@@ -88,8 +90,13 @@ youlai-mall
 7. [Spring Cloud实战 | 最终篇：Spring Cloud Gateway+Spring Security OAuth2集成统一认证授权平台下实现注销使JWT失效方案](https://www.cnblogs.com/haoxianrui/p/13740264.html)
 
 > 管理前端
+
 1. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
 2. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html)
+
+> 微信小程序
+
+1. [vue+uniapp商城实战 | 第一篇：【有来小店】微信小程序快速开发接入Spring Cloud OAuth2认证中心完成授权登录]()
 
 ## 问题
 
