@@ -63,8 +63,8 @@ youlai-mall
 ### 1. 启动管理后台服务
 
 1. 拉取[youlai-mall](https://github.com/hxrui/youlai-mall) 代码并导入，项目依赖Lombok插件，如果IDEA未安装请至插件市场安装后重启IDEA。
-2. 【可省】创建数据库youlai、youlai-mall数据库，导入document下对应的sql脚本文件完成表结构和数据的初始化，数据库版本MySQL8.0，低版本修改脚本即可。 
-3. 【可省】创建数据库nacos，导入youlai-registry/nacos/conf/nacos-mysql.sql脚本文件 ，并修改youlai-registry/nacos/conf/application.properties的数据库连接信息
+2. 创建数据库youlai、youlai-mall数据库，导入document下对应的sql脚本文件完成表结构和数据的初始化，数据库版本MySQL8.0，低版本修改脚本即可。 
+3. 创建数据库nacos，导入youlai-registry/nacos/conf/nacos-mysql.sql脚本文件 ，并修改youlai-registry/nacos/conf/application.properties的数据库连接信息
 4. 修改微服务数据库连接信息，打开youlai-registry/data/config-data/DEFAULT_GROUP目录修改对应yaml文件的数据库连接信息，MySQL默认用户名/密码是root/123456,一致请忽略此步骤。
 5. 启动nacos服务，cmd切换到youlai-registry/nacos/bin，执行命令 startup -m standalone。nacos启动后在控制台导入配置document/DEFAULT_GROUP.zip。
 6. 启动youlai-gateway、youlai-auth,youlai-admin等微服务。
