@@ -7,23 +7,22 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author haoxr
+ * @date 2020-11-06
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouterVO {
 
-    @ApiModelProperty(example = "/admin")
     private String path;
 
-    @ApiModelProperty(example = "Layout")
     private String component;
 
-    @ApiModelProperty(example = "/admin/user")
     private String redirect;
 
-    @ApiModelProperty(example = "true")
     private boolean alwaysShow;
 
-    @ApiModelProperty(example = "Admin")
     private String name;
 
     private Meta meta;

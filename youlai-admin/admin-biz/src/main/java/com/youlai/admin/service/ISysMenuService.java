@@ -8,7 +8,10 @@ import com.youlai.admin.vo.MenuVO;
 import com.youlai.admin.vo.TreeSelectVO;
 
 import java.util.List;
-
+/**
+ * @author haoxr
+ * @date 2020-11-06
+ */
 public interface ISysMenuService extends IService<SysMenu> {
 
     List<MenuVO> listForTableData(LambdaQueryWrapper<SysMenu> baseQuery);

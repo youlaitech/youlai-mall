@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 02/11/2020 13:43:06
+ Date: 06/11/2020 16:32:21
 */
 
 SET NAMES utf8mb4;
@@ -93,7 +93,7 @@ CREATE TABLE `pms_brand`  (
 -- ----------------------------
 -- Records of pms_brand
 -- ----------------------------
-INSERT INTO `pms_brand` VALUES (1, '小米', 'X', 'http://101.37.69.49:9000/default/489eeda371ec4333a4db00882ad462a5.jpg', 1, 1, NULL, NULL);
+INSERT INTO `pms_brand` VALUES (1, '小米', 'X', 'http://101.37.69.49:9000/default/1e5d01a4b332445fa8bc554d2d63e163.png', 1, 1, NULL, NULL);
 INSERT INTO `pms_brand` VALUES (2, '华为', 'H', 'http://101.37.69.49:9000/default/adfc8aec667744a989f5d84bac8bc3a7.jpg', 2, 1, NULL, NULL);
 
 -- ----------------------------
@@ -107,12 +107,23 @@ CREATE TABLE `pms_category`  (
   `level` int(0) DEFAULT NULL COMMENT '层级',
   `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图标地址',
   `sort` int(0) DEFAULT NULL COMMENT '排序',
-  `unit` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '单位',
-  `status` tinyint(1) DEFAULT NULL COMMENT '状态: 0-关闭 1-开启',
+  `status` tinyint(1) DEFAULT NULL COMMENT '显示状态: 0-隐藏 1-显示',
   `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pms_category
+-- ----------------------------
+INSERT INTO `pms_category` VALUES (1, '男装', 0, 0, '', NULL, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (2, '衣服', 1, 1, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (3, '裤子', 1, 1, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (4, 'T恤2', 2, 2, 'https://i.loli.net/2020/05/08/dVvpaQ8NHkWAC2c.jpg', 1, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (5, '夹克', 2, 2, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (6, '西裤', 3, 2, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (7, '牛仔裤', 3, 2, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (8, '手机', 0, 0, NULL, NULL, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for pms_sku
@@ -124,15 +135,19 @@ CREATE TABLE `pms_sku`  (
   `specification` json NOT NULL COMMENT '商品规格',
   `bar_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品码',
   `pic` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '商品SKU图片',
-  `origin_price` decimal(10, 2) NOT NULL COMMENT '原价',
-  `price` decimal(10, 2) NOT NULL COMMENT '现价',
-  `vip_price` decimal(10, 2) DEFAULT NULL COMMENT '会员价',
+  `origin_price` int(0) NOT NULL COMMENT '原价',
+  `price` int(0) NOT NULL COMMENT '现价',
   `stock` int(0) NOT NULL DEFAULT 0 COMMENT '库存',
   `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `pms_sku_bar_code_uindex`(`bar_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '货品表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '货品表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pms_sku
+-- ----------------------------
+INSERT INTO `pms_sku` VALUES (1, 1, '{\"存储\": \"8+256G\", \"颜色\": \"灰色\"}', '10001', NULL, 1, 1, 0, '2020-11-05 16:13:16', NULL);
 
 -- ----------------------------
 -- Table structure for pms_spu
@@ -145,7 +160,6 @@ CREATE TABLE `pms_spu`  (
   `brand_id` bigint(0) DEFAULT NULL COMMENT '商品品牌id',
   `origin_price` decimal(10, 2) NOT NULL COMMENT '原价',
   `price` decimal(10, 2) NOT NULL COMMENT '现价',
-  `vip_price` decimal(10, 2) DEFAULT NULL COMMENT '会员价',
   `sale` int(0) DEFAULT NULL COMMENT '销量',
   `pic` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '商品主图',
   `album` json COMMENT '商品相册',
@@ -156,7 +170,12 @@ CREATE TABLE `pms_spu`  (
   `gmt_create` datetime(0) DEFAULT NULL,
   `gmt_modified` datetime(0) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pms_spu
+-- ----------------------------
+INSERT INTO `pms_spu` VALUES (1, 'Redmi K30S', 1, 1, 1.00, 1.00, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for pms_spu_attribute
@@ -178,8 +197,10 @@ CREATE TABLE `pms_spu_attribute`  (
 DROP TABLE IF EXISTS `pms_spu_specification`;
 CREATE TABLE `pms_spu_specification`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
-  `spu_id` bigint(0) DEFAULT NULL COMMENT '商品id',
+  `spu_id` bigint(0) NOT NULL COMMENT '商品id',
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品规格名称',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品规格表' ROW_FORMAT = Dynamic;
 

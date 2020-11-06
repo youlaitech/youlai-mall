@@ -9,6 +9,10 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author haoxr
+ * @date 2020-11-06
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SysMenu extends BaseEntity {
@@ -16,27 +20,25 @@ public class SysMenu extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    private String name;
+    private String title;
 
     private Integer parentId;
+
+    private String name;
+
+    private String path;
 
     private String icon;
 
     private Integer sort;
 
-    private Integer visible;
-
-    private Integer status;
-
-    private String path;
-
     private String component;
-
-    private String perms;
 
     private String redirect;
 
-    private Integer type;
+    private Integer visible;
+
+    private Integer status;
 
     @TableField(exist = false)
     private List<Integer> roles;
