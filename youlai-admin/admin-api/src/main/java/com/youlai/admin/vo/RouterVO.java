@@ -25,6 +25,8 @@ public class RouterVO {
 
     private String name;
 
+    private Boolean hidden;
+
     private Meta meta;
 
     @Data
