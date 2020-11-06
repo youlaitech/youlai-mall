@@ -17,9 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * @author haoxr
+ * @date 2020-11-06
+ */
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
-
 
     @Override
     public List<MenuVO> listForTableData(LambdaQueryWrapper<SysMenu> baseQuery) {
@@ -45,9 +49,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     // 递归生成路由
     private List<RouterVO> recursionForRoutes(int parentId, List<SysMenu> menuList) {
         List<RouterVO> list = new ArrayList<>();
-        Optional.ofNullable(menuList).orElse(new ArrayList<>())
-                .stream()
-                .filter(menu -> menu.getParentId().equals(parentId))
+        Optional.ofNullable(menuList).ifPresent(menus -> menus.stream().filter(menu -> menu.getParentId().equals(parentId))
                 .forEach(menu -> {
                     RouterVO routerVO = new RouterVO();
                     routerVO.setName(menu.getName());
@@ -64,14 +66,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                                     "Layout");
 
                     routerVO.setMeta(routerVO.new Meta(
-                            menu.getName(),
+                            menu.getTitle(),
                             menu.getIcon(),
                             menu.getRoles()
                     ));
                     List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
                     list.add(routerVO);
-                });
+                }));
         return list;
     }
 
@@ -114,7 +116,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .forEach(menu -> {
                     TreeSelectVO treeSelectVO = new TreeSelectVO();
                     treeSelectVO.setId(menu.getId());
-                    treeSelectVO.setLabel(menu.getName());
+                    treeSelectVO.setLabel(menu.getTitle());
                     List<TreeSelectVO> children = recursionForTreeSelect(menu.getId(), menuList);
                     treeSelectVO.setChildren(children);
                     list.add(treeSelectVO);

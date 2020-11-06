@@ -34,10 +34,7 @@ public class PmsSpuController {
             @ApiImplicitParam(name = "spu", value = "商品信息", paramType = "query", dataType = "PmsSpu")
     })
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "1") Integer queryMode,
-                       Integer page,
-                       Integer limit,
-                       PmsSpu spu) {
+    public Result list(@RequestParam(defaultValue = "1") Integer queryMode, Integer page, Integer limit, PmsSpu spu) {
         IPage<PmsSpu> result = iPmsSpuService.list(new Page<>(page, limit), spu);
         return PageResult.success(result.getRecords(), result.getTotal());
     }

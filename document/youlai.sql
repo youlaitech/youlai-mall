@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 02/11/2020 13:43:25
+ Date: 06/11/2020 16:32:38
 */
 
 SET NAMES utf8mb4;
@@ -126,43 +126,43 @@ INSERT INTO `sys_dict_type` VALUES (11, 'grant_type', '授权方式', 1, NULL, '
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '菜单名称',
+  `title` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '菜单名称',
   `parent_id` int(0) DEFAULT NULL COMMENT '父菜单ID',
-  `path` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '路由地址',
-  `component` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件路径',
-  `redirect` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '跳转路径',
-  `perms` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限标识',
-  `type` tinyint(1) DEFAULT NULL COMMENT '菜单类型 (0 目录，1 菜单，2 按钮)',
-  `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '#' COMMENT '菜单图标',
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '路由名称',
+  `path` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '路由路径',
+  `component` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '组件路径',
+  `redirect` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '跳转路径',
+  `icon` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '菜单图标',
   `sort` int(0) DEFAULT 0 COMMENT '排序',
-  `visible` tinyint(1) DEFAULT 1 COMMENT '是否可见',
-  `status` tinyint(1) DEFAULT 1 COMMENT '状态（0 禁用，1 开启）',
+  `visible` tinyint(1) DEFAULT 1 COMMENT '是否可见：0-隐藏 1-显示',
+  `status` tinyint(1) DEFAULT 1 COMMENT '状态：0-禁用 1-开启',
   `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 'admin', '', '/admin/user', NULL, 0, 'component', 6, 1, 1, '2020-09-23 09:12:21', '2020-09-15 13:10:45');
-INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'user', 'admin/user', NULL, NULL, 1, 'user', 0, 1, 1, '2020-09-23 09:12:26', '2020-09-15 13:12:05');
-INSERT INTO `sys_menu` VALUES (3, '角色管理', 1, 'role', 'admin/role', NULL, NULL, 1, 'peoples', 0, 1, 1, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (4, '菜单管理', 1, 'menu', 'admin/menu', NULL, NULL, 1, 'tree-table', 8, 1, 1, NULL, '2020-09-15 13:12:20');
-INSERT INTO `sys_menu` VALUES (5, '字典管理', 1, 'dict', 'admin/dict', NULL, NULL, 1, 'education', 10, 1, 1, NULL, '2020-09-15 13:11:37');
-INSERT INTO `sys_menu` VALUES (6, '部门管理', 1, 'dept', 'admin/dept', NULL, NULL, 1, 'tree', 0, 1, 1, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (7, '资源管理', 1, 'resource', 'admin/resource', NULL, NULL, 1, 'list', 9, 1, 1, '2020-09-22 17:00:01', '2020-09-22 17:00:01');
-INSERT INTO `sys_menu` VALUES (8, '客户端管理', 1, 'client', 'admin/client', NULL, NULL, 1, 'tab', 11, 1, 1, '2020-10-17 08:04:08', '2020-10-17 08:04:08');
-INSERT INTO `sys_menu` VALUES (9, '营销管理', 0, 'sms', NULL, '', NULL, 0, 'list', 1, 1, 1, '2020-10-24 15:24:04', '2020-10-31 10:51:53');
-INSERT INTO `sys_menu` VALUES (10, '广告管理', 9, 'advert', 'sms/advert', NULL, NULL, 1, 'documentation', 1, 1, 1, '2020-10-24 15:25:15', '2020-10-24 15:25:15');
-INSERT INTO `sys_menu` VALUES (11, '商品管理', 0, 'pms', '', NULL, NULL, 0, 'list', 2, 1, 1, '2020-10-31 10:44:58', '2020-10-31 10:51:57');
-INSERT INTO `sys_menu` VALUES (12, '商品列表', 11, 'spu', 'pms/spu', NULL, NULL, 1, 'component', 1, 1, 1, '2020-10-31 10:47:56', '2020-10-31 10:48:19');
-INSERT INTO `sys_menu` VALUES (13, '订单管理', 0, 'oms', NULL, NULL, NULL, 0, 'list', 3, 1, 1, '2020-10-31 10:49:46', '2020-10-31 10:52:01');
-INSERT INTO `sys_menu` VALUES (14, '订单列表', 13, 'order', 'oms/order', NULL, NULL, 1, 'component', 3, 1, 1, '2020-10-31 10:50:23', '2020-10-31 10:50:38');
-INSERT INTO `sys_menu` VALUES (15, '会员管理', 0, 'ums', NULL, NULL, NULL, 0, 'list', 4, 1, 1, '2020-10-31 10:51:07', '2020-10-31 10:51:07');
-INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 'member', 'ums/member', NULL, NULL, 1, 'component', 1, 1, 1, '2020-10-31 10:51:43', '2020-10-31 10:51:43');
-INSERT INTO `sys_menu` VALUES (17, '品牌管理', 11, 'brand', 'pms/brand', NULL, NULL, 1, 'component', 2, 1, 1, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (18, '类目管理', 11, 'category', 'pms/category', NULL, NULL, 1, 'component', 3, 1, 1, NULL, NULL);
+INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 'Admin', 'admin', '', '', 'component', 6, 1, 1, '2020-09-23 09:12:21', '2020-09-15 13:10:45');
+INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'User', 'user', 'admin/user', NULL, 'user', 0, 1, 1, '2020-09-23 09:12:26', '2020-09-15 13:12:05');
+INSERT INTO `sys_menu` VALUES (3, '角色管理', 1, 'Role', 'role', 'admin/role', NULL, 'peoples', 0, 1, 1, '2020-09-23 09:12:21', '2020-09-23 09:12:21');
+INSERT INTO `sys_menu` VALUES (4, '菜单管理', 1, 'Menu', 'menu', 'admin/menu', NULL, 'tree-table', 8, 1, 1, '2020-09-23 09:12:21', '2020-09-15 13:12:20');
+INSERT INTO `sys_menu` VALUES (5, '字典管理', 1, 'Dict', 'dict', 'admin/dict', NULL, 'education', 10, 1, 1, '2020-09-23 09:12:21', '2020-09-15 13:11:37');
+INSERT INTO `sys_menu` VALUES (6, '部门管理', 1, 'Dept', 'dept', 'admin/dept', NULL, 'tree', 0, 1, 1, '2020-09-23 09:12:21', '2020-09-23 09:12:21');
+INSERT INTO `sys_menu` VALUES (7, '资源管理', 1, 'Resource', 'resource', 'admin/resource', NULL, 'list', 9, 1, 1, '2020-09-22 17:00:01', '2020-09-22 17:00:01');
+INSERT INTO `sys_menu` VALUES (8, '客户端管理', 1, 'Client', 'client', 'admin/client', NULL, 'tab', 11, 1, 1, '2020-10-17 08:04:08', '2020-10-17 08:04:08');
+INSERT INTO `sys_menu` VALUES (9, '营销管理', 0, 'Sms', 'sms', NULL, '', 'list', 1, 1, 1, '2020-10-24 15:24:04', '2020-10-31 10:51:53');
+INSERT INTO `sys_menu` VALUES (10, '广告管理', 9, 'Advert', 'advert', 'sms/advert', NULL, 'documentation', 1, 1, 1, '2020-10-24 15:25:15', '2020-10-24 15:25:15');
+INSERT INTO `sys_menu` VALUES (11, '商品管理', 0, 'Pms', 'pms', '', NULL, 'list', 2, 1, 1, '2020-10-31 10:44:58', '2020-10-31 10:51:57');
+INSERT INTO `sys_menu` VALUES (12, '商品列表', 11, 'Goods', 'goods', 'pms/goods', NULL, 'component', 1, 1, 1, '2020-11-06 11:54:37', '2020-10-31 10:48:19');
+INSERT INTO `sys_menu` VALUES (13, '订单管理', 0, 'Oms', 'oms', NULL, NULL, 'list', 3, 1, 1, '2020-10-31 10:49:46', '2020-10-31 10:52:01');
+INSERT INTO `sys_menu` VALUES (14, '订单列表', 13, 'Order', 'order', 'oms/order', NULL, 'component', 3, 1, 1, '2020-10-31 10:50:23', '2020-10-31 10:50:38');
+INSERT INTO `sys_menu` VALUES (15, '会员管理', 0, 'Ums', 'ums', NULL, NULL, 'list', 4, 1, 1, '2020-10-31 10:51:07', '2020-10-31 10:51:07');
+INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 'Member', 'member', 'ums/member', NULL, 'component', 1, 1, 1, '2020-10-31 10:51:43', '2020-10-31 10:51:43');
+INSERT INTO `sys_menu` VALUES (17, '品牌管理', 11, 'Brand', 'brand', 'pms/brand', NULL, 'component', 2, 1, 1, '2020-09-23 09:12:21', '2020-09-23 09:12:21');
+INSERT INTO `sys_menu` VALUES (18, '类目管理', 11, 'Category', 'category', 'pms/category', NULL, 'component', 3, 1, 1, '2020-09-23 09:12:21', '2020-09-23 09:12:21');
+INSERT INTO `sys_menu` VALUES (19, '商品详情', 11, 'GoodsDetail', 'goodsDetail', 'pms/goods/detail', NULL, 'component', 2, 0, 1, '2020-11-06 13:16:26', '2020-11-06 11:57:22');
 
 -- ----------------------------
 -- Table structure for sys_resource
@@ -244,6 +244,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 9);
 INSERT INTO `sys_role_menu` VALUES (1, 10);
 INSERT INTO `sys_role_menu` VALUES (1, 11);
 INSERT INTO `sys_role_menu` VALUES (1, 12);
+INSERT INTO `sys_role_menu` VALUES (1, 19);
 INSERT INTO `sys_role_menu` VALUES (1, 17);
 INSERT INTO `sys_role_menu` VALUES (1, 18);
 INSERT INTO `sys_role_menu` VALUES (1, 13);

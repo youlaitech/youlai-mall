@@ -9,6 +9,10 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * @author haoxr
+ * @date 2020-11-06
+ */
 @Data
 public class PmsSpu extends BaseEntity {
 
@@ -19,7 +23,6 @@ public class PmsSpu extends BaseEntity {
     private Long brandId;
     private BigDecimal originPrice;
     private BigDecimal price;
-    private BigDecimal vipPrice;
     private Integer sale;
     private String pic;
     private String album;
@@ -28,9 +31,11 @@ public class PmsSpu extends BaseEntity {
     private String detail;
     private Integer status;
 
-
     @TableField(exist = false)
     private String categoryName;
+
+    @TableField(exist = false)
+    private String brandName;
 
     @TableField(exist = false)
     private List<PmsSku> skuList;

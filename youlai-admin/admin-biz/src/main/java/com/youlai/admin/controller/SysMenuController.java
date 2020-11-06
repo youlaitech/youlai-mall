@@ -21,6 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @author haoxr
+ * @date 2020-11-06
+ */
 @Api(tags = "菜单接口")
 @RestController
 @RequestMapping("/menus")
@@ -35,19 +39,19 @@ public class SysMenuController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "mode", value = "查询模式: 1-表格数据 2-树形数据 3-菜单路由", paramType = "query", dataType = "Integer")
+            @ApiImplicitParam(name = "queryMode", value = "查询模式: 1-表格数据 2-树形数据 3-菜单路由", paramType = "query", dataType = "Integer")
     })
     @GetMapping
-    public Result list(String name, Integer roleId, Integer mode) {
+    public Result list(Integer queryMode,String name, Integer roleId) {
         LambdaQueryWrapper<SysMenu> baseQuery = new LambdaQueryWrapper<SysMenu>()
                 .orderByAsc(SysMenu::getSort)
                 .orderByDesc(SysMenu::getGmtModified)
                 .orderByDesc(SysMenu::getGmtCreate);
         List list;
-        if (mode.equals(1)) { // 表格数据
+        if (queryMode.equals(1)) { // 表格数据
             baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysMenu::getName, name);
             list = iSysMenuService.listForTableData(baseQuery);
-        } else if (mode.equals(2)) { // 树形数据
+        } else if (queryMode.equals(2)) { // 树形数据
             list = iSysMenuService.listForTreeSelect(baseQuery);
             if (roleId != null) { // 菜单树形 + 角色权限
                 Map<String, Object> map = new HashMap<>();
@@ -60,7 +64,7 @@ public class SysMenuController {
                 map.put("checkedKeys", checkedKeys);
                 return Result.success(map);
             }
-        } else if (mode.equals(3)) {
+        } else if (queryMode.equals(3)) {
             list = iSysMenuService.listForRouter();
         } else {
             list = iSysMenuService.list(baseQuery);
