@@ -27,15 +27,15 @@ public class PmsCategoryController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", value = "查询模式（1-树形列表 2-级联列表）", defaultValue = "1", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "queryMode", value = "查询模式（1-树形数据 2-级联下拉）", defaultValue = "1", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "category", value = "商品分类信息", paramType = "query", dataType = "PmsCategory")
     })
     @GetMapping
     public Result list(@RequestParam(defaultValue = "1") Integer queryMode, PmsCategory category) {
-        if (queryMode.equals(2)) {
+        if (queryMode.equals(2)) { // 级联下拉
             List<CascaderVO> list = iPmsCategoryService.listForCascader(category);
             return Result.success(list);
-        } else {
+        } else { // 树形数据
             List<PmsCategoryVO> list = iPmsCategoryService.listForTree(category);
             return Result.success(list);
         }

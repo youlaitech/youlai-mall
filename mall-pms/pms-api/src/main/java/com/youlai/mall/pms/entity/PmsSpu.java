@@ -21,8 +21,8 @@ public class PmsSpu extends BaseEntity {
     private String name;
     private Long categoryId;
     private Long brandId;
-    private BigDecimal originPrice;
-    private BigDecimal price;
+    private Integer originPrice;
+    private Integer price;
     private Integer sale;
     private String pic;
     private String album;

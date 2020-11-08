@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/goods")
 @Slf4j
 @AllArgsConstructor
-public class PmsSpuController {
+public class PmsGoodsController {
 
     private IPmsSpuService iPmsSpuService;
 
