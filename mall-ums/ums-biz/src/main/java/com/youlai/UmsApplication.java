@@ -11,7 +11,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @MapperScan("com.youlai.mall.ums.mapper")
 @EnableSwagger2
 public class UmsApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(UmsApplication.class);
     }
