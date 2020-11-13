@@ -1,28 +1,33 @@
-package com.youlai.admin.entity;
+package com.youlai.mall.sms.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class SysDict  extends BaseEntity {
+public class SmsAdvert extends BaseEntity {
 
     @TableId(type= IdType.AUTO)
     private Integer id;
 
     private String name;
 
-    private String value;
+    private String pic;
 
-    private String typeCode;
+    private Date startTime;
 
-    private String sort;
+    private Date endTime;
 
     private Integer status;
 
-    private Integer defaulted;
+    private Integer sort;
+
+    private  String url;
 
     private String remark;
+
 
 }

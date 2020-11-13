@@ -15,6 +15,7 @@
     <modules>
         <module>pms-api</module>
         <module>pms-biz</module>
+        <module>pms-search</module>
     </modules>
 
     <properties>
