@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.bo.PmsSpuBO;
-import com.youlai.mall.pms.entity.PmsSpu;
+import com.youlai.mall.pms.pojo.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,9 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Api(tags = "商品接口")
 @RestController

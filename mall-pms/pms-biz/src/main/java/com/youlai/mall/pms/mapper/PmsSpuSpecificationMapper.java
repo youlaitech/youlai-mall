@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.entity.PmsSpuSpecification;
+import com.youlai.mall.pms.pojo.PmsSpuSpecification;
 import org.mapstruct.Mapper;
 
 /**

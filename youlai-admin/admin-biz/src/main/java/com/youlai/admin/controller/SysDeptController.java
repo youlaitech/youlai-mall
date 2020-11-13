@@ -3,7 +3,7 @@ package com.youlai.admin.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.admin.common.AdminConstant;
-import com.youlai.admin.entity.SysDept;
+import com.youlai.admin.pojo.SysDept;
 import com.youlai.admin.service.ISysDeptService;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;

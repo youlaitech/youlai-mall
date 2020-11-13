@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.oms.entity.OmsOrder;
+import com.youlai.mall.oms.pojo.OmsOrder;
 import org.mapstruct.Mapper;
 
 @Mapper

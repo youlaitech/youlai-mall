@@ -1,11 +1,9 @@
-package com.youlai.mall.pms.entity;
+package com.youlai.mall.pms.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
-
-import java.util.Date;
 
 @Data
 public class PmsCategory extends BaseEntity {

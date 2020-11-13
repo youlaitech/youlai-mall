@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.constant.Constants;
 import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
-import com.youlai.mall.pms.entity.PmsBrand;
+import com.youlai.mall.pms.pojo.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

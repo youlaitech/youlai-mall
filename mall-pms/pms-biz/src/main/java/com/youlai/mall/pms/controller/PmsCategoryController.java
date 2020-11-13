@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.web.vo.CascaderVO;
-import com.youlai.mall.pms.entity.PmsCategory;
+import com.youlai.mall.pms.pojo.PmsCategory;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import com.youlai.mall.pms.vo.PmsCategoryVO;
 import io.swagger.annotations.Api;

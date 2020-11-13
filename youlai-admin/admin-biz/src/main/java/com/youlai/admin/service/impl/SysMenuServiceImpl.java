@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.AdminConstant;
-import com.youlai.admin.entity.SysMenu;
+import com.youlai.admin.pojo.SysMenu;
 import com.youlai.admin.vo.MenuVO;
 import com.youlai.admin.vo.RouterVO;
 import com.youlai.admin.vo.TreeSelectVO;

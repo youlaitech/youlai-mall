@@ -8,7 +8,7 @@ import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.mall.ums.dto.MemberDTO;
-import com.youlai.mall.ums.entity.UmsMember;
+import com.youlai.mall.ums.pojo.UmsMember;
 import com.youlai.mall.ums.vo.MemberVO;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;

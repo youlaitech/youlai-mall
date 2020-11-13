@@ -1,4 +1,4 @@
-package com.youlai.admin.entity;
+package com.youlai.admin.pojo;
 
 import lombok.Data;
 

@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.oms.service.IOmsOrderService;
-import com.youlai.mall.oms.entity.OmsOrder;
+import com.youlai.mall.oms.pojo.OmsOrder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
