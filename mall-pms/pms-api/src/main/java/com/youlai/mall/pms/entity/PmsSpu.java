@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -14,6 +14,7 @@ import java.util.List;
  * @date 2020-11-06
  */
 @Data
+@Accessors(chain = true)
 public class PmsSpu extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
