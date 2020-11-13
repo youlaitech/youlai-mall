@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
-import com.youlai.mall.sms.entity.SmsAdvert;
+import com.youlai.mall.sms.pojo.SmsAdvert;
 import com.youlai.mall.sms.service.ISmsAdvertService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

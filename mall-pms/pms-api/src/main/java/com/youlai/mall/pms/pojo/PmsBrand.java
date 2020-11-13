@@ -1,32 +1,24 @@
-package com.youlai.admin.entity;
+package com.youlai.mall.pms.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
+
 @Data
-public class SysDept extends BaseEntity {
+public class PmsBrand extends BaseEntity {
 
     @TableId(type= IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 
-    private Integer parentId;
+    private String logo;
 
-    private String treePath;
+    private String firstLetter;
 
     private Integer sort;
 
     private Integer status;
-
-    private Integer deleted;
-
-    private String leader;
-
-    private String mobile;
-
-    private String email;
-
 }

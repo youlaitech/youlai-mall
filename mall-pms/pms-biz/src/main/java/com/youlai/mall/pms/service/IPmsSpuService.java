@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.bo.PmsSpuBO;
-import com.youlai.mall.pms.entity.PmsSpu;
+import com.youlai.mall.pms.pojo.PmsSpu;
 
 
 public interface IPmsSpuService extends IService<PmsSpu> {

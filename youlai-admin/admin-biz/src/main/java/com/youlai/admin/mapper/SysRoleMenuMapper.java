@@ -1,7 +1,7 @@
 package com.youlai.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.admin.entity.SysRoleMenu;
+import com.youlai.admin.pojo.SysRoleMenu;
 import org.apache.ibatis.annotations.Select;
 import org.mapstruct.Mapper;
 

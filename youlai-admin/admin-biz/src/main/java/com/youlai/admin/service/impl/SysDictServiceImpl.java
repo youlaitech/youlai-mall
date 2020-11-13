@@ -3,7 +3,7 @@ package com.youlai.admin.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.entity.SysDict;
+import com.youlai.admin.pojo.SysDict;
 import com.youlai.admin.mapper.SysDictMapper;
 import com.youlai.admin.service.ISysDictService;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.youlai.mall.sms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.sms.entity.SmsAdvert;
+import com.youlai.mall.sms.pojo.SmsAdvert;
 import org.mapstruct.Mapper;
 
 @Mapper

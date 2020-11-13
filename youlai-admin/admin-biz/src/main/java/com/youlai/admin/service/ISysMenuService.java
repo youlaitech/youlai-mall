@@ -3,7 +3,7 @@ package com.youlai.admin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.admin.entity.SysMenu;
+import com.youlai.admin.pojo.SysMenu;
 import com.youlai.admin.vo.MenuVO;
 import com.youlai.admin.vo.TreeSelectVO;
 

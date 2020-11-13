@@ -2,7 +2,7 @@ package com.youlai.admin.component;
 
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.youlai.admin.entity.SysResource;
+import com.youlai.admin.pojo.SysResource;
 import com.youlai.admin.service.ISysResourceService;
 import com.youlai.common.core.constant.AuthConstants;
 import lombok.AllArgsConstructor;
