@@ -1,8 +1,8 @@
-package com.youlai.common.db.config;
+package com.youlai.common.database.config;
 
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.youlai.common.db.handler.MetaHandler;
+import com.youlai.common.database.handler.MetaHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

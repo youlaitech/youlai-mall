@@ -1,4 +1,4 @@
-package com.youlai;
+package com.youlai.admin;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -8,10 +8,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("com.youlai.mall.pms.mapper")
+@MapperScan("com.youlai.admin.mapper")
 @EnableSwagger2
-public class PmsApplication {
+public class AdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(PmsApplication.class);
+        SpringApplication.run(AdminApplication.class);
     }
 }
