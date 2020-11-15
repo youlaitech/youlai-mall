@@ -1,4 +1,4 @@
-package com.youlai;
+package com.youlai.mall.pms;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -8,10 +8,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("com.youlai.mall.oms.mapper")
+@MapperScan("com.youlai.mall.pms.mapper")
 @EnableSwagger2
-public class OmsApplication {
+public class PmsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OmsApplication.class);
+        SpringApplication.run(PmsApplication.class);
     }
 }

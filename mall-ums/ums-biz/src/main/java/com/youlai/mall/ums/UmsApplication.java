@@ -1,4 +1,4 @@
-package com.youlai;
+package com.youlai.mall.ums;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

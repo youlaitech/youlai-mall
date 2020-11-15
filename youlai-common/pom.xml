@@ -18,7 +18,7 @@
         <module>common-knife4j</module>
         <module>common-redis</module>
         <module>common-web</module>
-        <module>common-db</module>
+        <module>common-database</module>
     </modules>
 
     <properties>
@@ -118,7 +118,7 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-db</artifactId>
+                <artifactId>common-database</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
 
