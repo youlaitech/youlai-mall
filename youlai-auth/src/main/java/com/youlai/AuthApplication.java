@@ -1,4 +1,4 @@
-package com.youlai.auth;
+package com.youlai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
