@@ -1,6 +1,5 @@
 package com.youlai.gateway.config;
 
-
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.core.constant.AuthConstants;
@@ -21,7 +20,6 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
@@ -48,15 +46,14 @@ public class ResourceServerConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.oauth2ResourceServer().jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
-        http.oauth2ResourceServer().authenticationEntryPoint(serverAuthenticationEntryPoint());
-        //http.formLogin().authenticationFailureHandler(serverAuthenticationFailureHandler());
+        http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         http.authorizeExchange()
                 .pathMatchers(ArrayUtil.toArray(whiteListConfig.getUrls(), String.class)).permitAll()
                 .anyExchange().access(authorizationManager)
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler()) // 处理未授权
-                .authenticationEntryPoint(serverAuthenticationEntryPoint()) //处理未认证
+                .authenticationEntryPoint(authenticationEntryPoint()) //处理未认证
                 .and().csrf().disable();
 
         return http.build();
@@ -87,37 +84,17 @@ public class ResourceServerConfig {
         };
     }
 
-
     /**
      * token无效或者已过期
      *
      * @return
      */
     @Bean
-    ServerAuthenticationEntryPoint serverAuthenticationEntryPoint() {
+    ServerAuthenticationEntryPoint authenticationEntryPoint() {
         return (exchange, e) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
                     .flatMap(response -> {
-                        response.setStatusCode(HttpStatus.OK);
-                        response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                        response.getHeaders().set("Access-Control-Allow-Origin", "*");
-                        response.getHeaders().set("Cache-Control", "no-cache");
-                        String body = JSONUtil.toJsonStr(Result.custom(ResultCode.TOKEN_INVALID_OR_EXPIRED));
-                        DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
-                        return response.writeWith(Mono.just(buffer))
-                                .doOnError(error -> DataBufferUtils.release(buffer));
-                    });
-
-            return mono;
-        };
-    }
-
-    @Bean
-    ServerAuthenticationFailureHandler serverAuthenticationFailureHandler() {
-        return (exchange, e) -> {
-            Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getExchange().getResponse()))
-                    .flatMap(response -> {
-                        response.setStatusCode(HttpStatus.OK);
+                        response.setStatusCode(HttpStatus.UNAUTHORIZED);
                         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
                         response.getHeaders().set("Access-Control-Allow-Origin", "*");
                         response.getHeaders().set("Cache-Control", "no-cache");
@@ -129,6 +106,7 @@ public class ResourceServerConfig {
             return mono;
         };
     }
+
 
 
     /**
@@ -148,6 +126,4 @@ public class ResourceServerConfig {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
     }
-
-
 }
