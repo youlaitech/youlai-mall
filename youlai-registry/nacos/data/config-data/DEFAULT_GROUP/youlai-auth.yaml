@@ -1,3 +1,4 @@
+# 版本同步
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -10,8 +11,3 @@ spring:
     host: localhost
     port: 6379
     password:
-feign:
-  httpclient:
-    enabled: false
-  okhttp:
-    enabled: true
