@@ -1,4 +1,4 @@
-package com.youlai.gateway.component;
+package com.youlai.gateway.security;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
