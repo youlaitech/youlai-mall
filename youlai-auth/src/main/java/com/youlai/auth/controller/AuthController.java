@@ -6,6 +6,8 @@ import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.constant.Constants;
@@ -20,6 +22,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -31,7 +34,9 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.KeyPair;
 import java.security.Principal;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +44,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/oauth")
 @AllArgsConstructor
+@Slf4j
 public class AuthController {
 
     private TokenEndpoint tokenEndpoint;
@@ -46,6 +52,7 @@ public class AuthController {
     private WxMaService wxService;
     private UmsMemberFeignClient umsMemberFeignClient;
     private PasswordEncoder passwordEncoder;
+    private KeyPair keyPair;
 
 
     @ApiOperation("OAuth2认证生成token")
@@ -66,7 +73,7 @@ public class AuthController {
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
     ) throws HttpRequestMethodNotSupportedException, WxErrorException {
-
+        log.info("生成token开始");
         String clientId = parameters.get("client_id");
 
         if (StrUtil.isBlank(clientId)) {
@@ -74,8 +81,8 @@ public class AuthController {
         }
 
         // 微信小程序端认证处理
-        if(AuthConstants.WEAPP_CLIENT_ID.equals(clientId)){
-            return this.handleForWxAppAuth(principal,parameters);
+        if (AuthConstants.WEAPP_CLIENT_ID.equals(clientId)) {
+            return this.handleForWxAppAuth(principal, parameters);
         }
 
         OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
@@ -160,6 +167,13 @@ public class AuthController {
                 .build();
         return Result.success(oauth2Token);
 
+    }
+
+    @GetMapping("/public_key")
+    public Map<String, Object> getKey() {
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAKey key = new RSAKey.Builder(publicKey).build();
+        return new JWKSet(key).toJSONObject();
     }
 
 }
