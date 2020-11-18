@@ -39,7 +39,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
                 Result<UserDTO> userResult = adminUserFeignClient.loadUserByUsername(username);
-                if (userResult == null || !ResultCode.SUCCESS.getCode().equals(userResult.getCode())) {
+                if (userResult == null || !ResultCode.SUCCESS.getCode().equals(userResult.getCode())
+                        || userResult.getData() == null
+                ) {
                     throw new UsernameNotFoundException("用户不存在");
                 }
                 UserDTO userDTO = userResult.getData();
@@ -48,7 +50,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 break;
             case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
                 Result<MemberDTO> memberResult = umsMemberFeignClient.loadMemberByOpenid(username);
-                if (memberResult == null || !ResultCode.SUCCESS.getCode().equals(memberResult.getCode())) {
+                if (memberResult == null || !ResultCode.SUCCESS.getCode().equals(memberResult.getCode())
+                ||memberResult.getData()==null) {
                     throw new UsernameNotFoundException("会员不存在");
                 }
                 MemberDTO memberDTO = memberResult.getData();
