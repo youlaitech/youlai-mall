@@ -37,7 +37,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-database</artifactId>
+            <artifactId>common-mybatis</artifactId>
             <version>${youlai.version}</version>
         </dependency>
 
