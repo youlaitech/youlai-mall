@@ -66,8 +66,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new CredentialsExpiredException("该账户的登录凭证已过期，请重新登录!");
         }
         return user;
-
-
     }
 
 }
