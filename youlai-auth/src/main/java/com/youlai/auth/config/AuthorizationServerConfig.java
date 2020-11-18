@@ -1,6 +1,7 @@
 package com.youlai.auth.config;
 
 import com.youlai.auth.domain.User;
+import com.youlai.auth.exception.CustomOAuth2ExceptionTranslator;
 import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
 import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.core.constant.AuthConstants;
@@ -70,7 +71,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
                 //      1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
                 //      2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
-                .reuseRefreshTokens(false);
+                .reuseRefreshTokens(false)
+                .exceptionTranslator(new CustomOAuth2ExceptionTranslator());
+
     }
 
     /**
