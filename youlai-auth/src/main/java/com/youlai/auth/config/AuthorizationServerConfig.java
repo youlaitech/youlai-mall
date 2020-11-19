@@ -1,7 +1,6 @@
 package com.youlai.auth.config;
 
 import com.youlai.auth.domain.User;
-import com.youlai.auth.exception.CustomOAuth2ExceptionTranslator;
 import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
 import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.core.constant.AuthConstants;
@@ -11,15 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -74,9 +71,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
                 //      1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
                 //      2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
-                .reuseRefreshTokens(false)
-                .exceptionTranslator(new CustomOAuth2ExceptionTranslator());
-
+                .reuseRefreshTokens(false);
     }
 
     /**
@@ -125,11 +120,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         };
     }
 
-    @Bean
+/*    @Bean
     public AuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider impl = new DaoAuthenticationProvider();
         impl.setUserDetailsService(userDetailsService);
         impl.setHideUserNotFoundExceptions(false) ;
         return impl ;
-    }
+    }*/
 }
