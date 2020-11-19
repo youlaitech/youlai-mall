@@ -6,10 +6,14 @@ import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.core.constant.AuthConstants;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -119,12 +123,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             return accessToken;
         };
     }
-
-/*    @Bean
-    public AuthenticationProvider daoAuthenticationProvider(){
-        DaoAuthenticationProvider impl = new DaoAuthenticationProvider();
-        impl.setUserDetailsService(userDetailsService);
-        impl.setHideUserNotFoundExceptions(false) ;
-        return impl ;
-    }*/
 }
