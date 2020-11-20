@@ -94,7 +94,7 @@ public class ResourceServerConfig {
         return (exchange, e) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
                     .flatMap(response -> {
-                        response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                        response.setStatusCode(HttpStatus.OK);
                         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
                         response.getHeaders().set("Access-Control-Allow-Origin", "*");
                         response.getHeaders().set("Cache-Control", "no-cache");
