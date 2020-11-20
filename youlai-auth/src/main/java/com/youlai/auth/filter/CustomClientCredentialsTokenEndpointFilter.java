@@ -10,13 +10,13 @@ public class CustomClientCredentialsTokenEndpointFilter extends ClientCredential
     private AuthorizationServerSecurityConfigurer configurer;
     private AuthenticationEntryPoint authenticationEntryPoint;
 
+
     public CustomClientCredentialsTokenEndpointFilter(AuthorizationServerSecurityConfigurer configurer) {
         this.configurer = configurer;
     }
 
     @Override
     public void setAuthenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {
-        // 把父类的干掉
         super.setAuthenticationEntryPoint(null);
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
@@ -28,9 +28,8 @@ public class CustomClientCredentialsTokenEndpointFilter extends ClientCredential
 
     @Override
     public void afterPropertiesSet() {
-        setAuthenticationFailureHandler((httpServletRequest, httpServletResponse, e) -> authenticationEntryPoint.commence(httpServletRequest, httpServletResponse, e));
-        setAuthenticationSuccessHandler((httpServletRequest, httpServletResponse, authentication) -> {
-            // 无操作-仅允许过滤器链继续到令牌端点
+        setAuthenticationFailureHandler((request, response, e) -> authenticationEntryPoint.commence(request, response, e));
+        setAuthenticationSuccessHandler((request, response, authentication) -> {
         });
     }
 

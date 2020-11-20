@@ -1,15 +1,22 @@
 package com.youlai.auth.config;
 
+import cn.hutool.http.HttpStatus;
+import cn.hutool.json.JSONUtil;
 import com.youlai.auth.domain.User;
 import com.youlai.auth.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
 import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.core.result.Result;
+import com.youlai.common.core.result.ResultCode;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -24,6 +31,7 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
+import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +49,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private DataSource dataSource;
     private AuthenticationManager authenticationManager;
     private UserDetailsServiceImpl userDetailsService;
-
-    private AuthenticationEntryPoint authenticationEntryPoint;
 
     /**
      * 配置客户端详情(数据库)
@@ -79,20 +85,31 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .reuseRefreshTokens(false);
     }
 
-    /**
-     * 允许表单认证
-     */
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-
         CustomClientCredentialsTokenEndpointFilter endpointFilter = new CustomClientCredentialsTokenEndpointFilter(security);
         endpointFilter.afterPropertiesSet();
-        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint);
+        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
         security.addTokenEndpointAuthenticationFilter(endpointFilter);
-        //security.allowFormAuthenticationForClients();
-        security.authenticationEntryPoint(authenticationEntryPoint)
+
+        security.authenticationEntryPoint(authenticationEntryPoint())
                 .tokenKeyAccess("isAuthenticated()")
                 .checkTokenAccess("permitAll()");
+    }
+
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, e) -> {
+            response.setStatus(HttpStatus.HTTP_OK);
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Cache-Control", "no-cache");
+            Result result = Result.custom(ResultCode.CLIENT_AUTHENTICATION_FAILED);
+            response.getWriter().print(JSONUtil.toJsonStr(result));
+            response.getWriter().flush();
+        };
     }
 
 
