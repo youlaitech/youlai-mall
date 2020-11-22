@@ -1,0 +1,22 @@
+server:
+  port: 8605
+
+spring:
+  application:
+    name: mall-pms-search
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+  data:
+    elasticsearch:
+
+      client:
+        reactive:
+          endpoints: www.gorun996.com:9200
+      cluster-nodes: www.gorun996.com:9200
+      cluster-name: docker-cluster
+
