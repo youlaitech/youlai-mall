@@ -59,13 +59,13 @@ public interface AuthConstants {
     /**
      * 有来商城后台管理客户端ID
      */
-    String ADMIN_CLIENT_ID="youlai-mall-admin";
+    String ADMIN_CLIENT_ID="youlai-admin";
 
 
     /**
      * 有来商城微信小程序客户端ID
      */
-    String WEAPP_CLIENT_ID="youlai-mall-weapp";
+    String WEAPP_CLIENT_ID="mall-weapp";
 
     /**
      * 后台管理接口路径匹配
