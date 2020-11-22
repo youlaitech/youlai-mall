@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.SysDictType;
+import com.youlai.admin.service.ISysDictService;
 import com.youlai.admin.service.ISysDictTypeService;
 import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
@@ -12,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +23,13 @@ import java.util.List;
 @Api(tags = "字典类型接口")
 @RestController
 @RequestMapping("/dict-types")
+@AllArgsConstructor
 @Slf4j
 public class SysDictTypeController {
 
-
-    @Autowired
     private ISysDictTypeService iSysDictTypeService;
+
+    private ISysDictService iSysDictService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -37,7 +40,7 @@ public class SysDictTypeController {
     @GetMapping
     public Result list(Integer page, Integer limit, String name) {
         LambdaQueryWrapper<SysDictType> queryWrapper = new LambdaQueryWrapper<SysDictType>()
-                .like(StrUtil.isNotBlank(name), SysDictType::getName, name)
+                .like(StrUtil.isNotBlank(name), SysDictType::getName, StrUtil.trimToNull(name))
                 .orderByDesc(SysDictType::getGmtModified)
                 .orderByDesc(SysDictType::getGmtCreate);
 
@@ -76,7 +79,11 @@ public class SysDictTypeController {
     public Result update(
             @PathVariable Integer id,
             @RequestBody SysDictType dictType) {
+        SysDictType beforeDictType = iSysDictTypeService.getById(id);
         boolean status = iSysDictTypeService.updateById(dictType);
+        if (!StrUtil.equals(beforeDictType.getCode(),dictType.getCode())){
+            iSysDictService.updateTypeCode(beforeDictType.getCode(),dictType.getCode());
+        }
         return Result.status(status);
     }
 
@@ -84,6 +91,10 @@ public class SysDictTypeController {
     @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
+        Integer dictCount = iSysDictService.countByDictTypeIds(ids);
+        if (dictCount != null && dictCount > 0){
+            return Result.error("删除字典类型失败，请先删除关联字典数据");
+        }
         boolean status = iSysDictTypeService.removeByIds(ids);
         return Result.status(status);
     }
