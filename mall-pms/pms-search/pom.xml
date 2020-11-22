@@ -11,5 +11,74 @@
 
     <artifactId>pms-search</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>pms-api</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-database</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-knife4j</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-web</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-redis</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- nacos 依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>sms-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>
