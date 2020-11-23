@@ -65,7 +65,7 @@ public interface AuthConstants {
     /**
      * 有来商城微信小程序客户端ID
      */
-    String WEAPP_CLIENT_ID="mall-weapp";
+    String WEAPP_CLIENT_ID="youlai-mall-weapp";
 
     /**
      * 后台管理接口路径匹配
