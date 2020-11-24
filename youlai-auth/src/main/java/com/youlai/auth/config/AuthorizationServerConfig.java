@@ -14,7 +14,6 @@ import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,7 +30,6 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
-import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,6 +86,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
+        /*security.allowFormAuthenticationForClients();*/
         CustomClientCredentialsTokenEndpointFilter endpointFilter = new CustomClientCredentialsTokenEndpointFilter(security);
         endpointFilter.afterPropertiesSet();
         endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
@@ -99,6 +98,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
 
+    /**
+     * 自定义认证异常响应数据
+     * @return
+     */
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, e) -> {

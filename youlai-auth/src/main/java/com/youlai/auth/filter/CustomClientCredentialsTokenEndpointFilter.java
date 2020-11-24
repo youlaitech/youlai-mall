@@ -13,7 +13,6 @@ public class CustomClientCredentialsTokenEndpointFilter extends ClientCredential
     private AuthorizationServerSecurityConfigurer configurer;
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-
     public CustomClientCredentialsTokenEndpointFilter(AuthorizationServerSecurityConfigurer configurer) {
         this.configurer = configurer;
     }
@@ -35,5 +34,4 @@ public class CustomClientCredentialsTokenEndpointFilter extends ClientCredential
         setAuthenticationSuccessHandler((request, response, authentication) -> {
         });
     }
-
 }
