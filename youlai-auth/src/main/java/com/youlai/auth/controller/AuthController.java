@@ -73,7 +73,6 @@ public class AuthController {
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
     ) throws HttpRequestMethodNotSupportedException, WxErrorException {
-        log.info("生成token开始");
         String clientId = parameters.get("client_id");
 
         if (StrUtil.isBlank(clientId)) {
