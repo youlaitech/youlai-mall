@@ -65,8 +65,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new LockedException("该账号已被锁定!");
         } else if (!user.isAccountNonExpired()) {
             throw new AccountExpiredException("该账号已过期!");
-        } else if (!user.isCredentialsNonExpired()) {
-            throw new CredentialsExpiredException("该账户的登录凭证已过期，请重新登录!");
         }
         return user;
     }
