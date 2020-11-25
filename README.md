@@ -10,7 +10,7 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 ``` lua
 youlai-mall
 ├── document
-    ├── DEFAULT_GROUP.zip
+    ├── DEFAULT_GROUP.zip -- Nacos配置包
     ├── youlai.sql      -- 数据库初始化脚本
     ├── youlai-mall.sql -- 数据库初始化脚本
 ├── mall-oms
@@ -19,6 +19,7 @@ youlai-mall
 ├── mall-pms
     ├── pms-api -- 商品微服务的远程调用客户端
     ├── pms-biz -- 商品微服务
+    ├── pms-search -- 商品搜索微服务
 ├── mall-sms
     ├── sms-api -- 营销微服务的远程调用客户端
     ├── sms-biz -- 营销微服务
@@ -30,8 +31,8 @@ youlai-mall
     ├── admin-biz -- 后台管理微服务
 ├── youlai-auth     -- 认证中心
 ├── youlai-common   -- 公共模块
-└── youlai-gateway  -- API网关
-└── youlai-registry -- 注册中心 
+└── youlai-gateway  -- Spring Cloud Gateway网关
+└── youlai-registry -- Nacos注册中心 
 ```
 
 ## **技术栈**
@@ -80,7 +81,6 @@ youlai-mall
 
 请参考 [vue+uniapp商城实战 | 第一篇：【有来小店】微信小程序快速开发接入Spring Cloud OAuth2认证中心完成授权登录](https://www.cnblogs.com/haoxianrui/p/13882310.html)
 
-
 ## 项目文档
 
 > 后端
@@ -95,15 +95,6 @@ youlai-mall
 8. [Spring Cloud实战 | 最八篇：Spring Cloud +Spring Security OAuth2+ Vue前后端分离模式下无感知刷新实现JWT续期](https://www.cnblogs.com/haoxianrui/p/14022632.html)
 9. [Spring Cloud实战 | 最九篇：Spring Security OAuth2认证服务器统一认证自定义异常处理](https://www.cnblogs.com/haoxianrui/p/14028366.html)
 
-
-> 管理前端
-
-1. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
-2. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html)
-
-> 微信小程序
-
-1. [vue+uniapp商城实战 | 第一篇：【有来小店】微信小程序快速开发接入Spring Cloud OAuth2认证中心完成授权登录](https://www.cnblogs.com/haoxianrui/p/13882310.html)
 > 管理前端
 
 1. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
