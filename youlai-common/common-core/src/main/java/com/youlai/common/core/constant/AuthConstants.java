@@ -59,7 +59,7 @@ public interface AuthConstants {
     /**
      * 有来商城后台管理客户端ID
      */
-    String ADMIN_CLIENT_ID="youlai-mall-admin";
+    String ADMIN_CLIENT_ID="youlai-admin";
 
 
     /**
