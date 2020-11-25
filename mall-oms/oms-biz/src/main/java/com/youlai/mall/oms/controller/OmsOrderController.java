@@ -31,12 +31,12 @@ public class OmsOrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "order", value = "订单信息", paramType = "query", dataType = "OmsOrder")
+            @ApiImplicitParam(name = "orderSn", value = "订单编号", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, OmsOrder order) {
+    public Result list(Integer page, Integer limit, String orderSn) {
         LambdaQueryWrapper<OmsOrder> queryWrapper = new LambdaQueryWrapper<OmsOrder>()
-                .like(StrUtil.isNotBlank(order.getOrderSn()), OmsOrder::getOrderSn, order.getOrderSn())
+                .like(StrUtil.isNotBlank(orderSn), OmsOrder::getOrderSn, orderSn)
                 .orderByDesc(OmsOrder::getGmtModified)
                 .orderByDesc(OmsOrder::getGmtCreate);
         if (page != null && limit != null) {

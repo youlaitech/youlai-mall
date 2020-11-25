@@ -21,7 +21,7 @@ public class OmsOrder extends BaseEntity {
 
     private Integer status;
 
-    private Integer sourceType;
+    private Integer source;
 
     private String consignee;
 
