@@ -60,22 +60,26 @@ youlai-mall
 
 ## **快速启动**
 
-### 1. 启动管理后台服务
+### 1. 启动后端微服务
 
-1. 拉取[youlai-mall](https://github.com/hxrui/youlai-mall) 代码并导入，项目依赖Lombok插件，如果IDEA未安装请至插件市场安装后重启IDEA。
-2. 创建数据库youlai、youlai-mall数据库，导入document下对应的sql脚本文件完成表结构和数据的初始化，数据库版本MySQL8.0，低版本修改脚本即可。 
-3. 创建数据库nacos，导入youlai-registry/nacos/conf/nacos-mysql.sql脚本文件 ，并修改youlai-registry/nacos/conf/application.properties的数据库连接信息
-4. 修改微服务数据库连接信息，打开youlai-registry/data/config-data/DEFAULT_GROUP目录修改对应yaml文件的数据库连接信息，MySQL默认用户名/密码是root/123456,一致请忽略此步骤。
-5. 启动nacos服务，cmd切换到youlai-registry/nacos/bin，执行命令 startup -m standalone。nacos启动后在控制台导入配置document/DEFAULT_GROUP.zip。
-6. 启动youlai-gateway、youlai-auth,youlai-admin等微服务。
+1. 本机安装Redis，IDEA安装Lombok插件。
+2. 拉取并导入 [youlai-mall](https://github.com/hxrui/youlai-mall) 。
+3. 启动nacos服务。 IDEA进入Terminal命令终端切到youlai-registry/nacos/bin目录，执行命令 startup -m standalone。nacos启动后在控制台导入项目下的document/DEFAULT_GROUP.zip配置。
+4. 启动youlai-gateway、youlai-auth,youlai-admin微服务。
+注：默认使用云数据库无需修改数据库连接配置，如果需要搭建本地请修改对应配置信息即可。
 
+### 2. 启动管理前端
 
-### 2. 启动管理后台前端
-
-1. 拉取[youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin.git) 代码并导入IDEA
+1. 本机安装Python和Node.js
+1. 拉取并导入 [youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin.git) 。
 2. npm install  
 3. npm run dev
 4. 浏览器打开 http://localhost:9527, 输入用户名/密码: admin/123456 登录管理平台
+
+### 3. 启动微信小程序
+
+请参考 [vue+uniapp商城实战 | 第一篇：【有来小店】微信小程序快速开发接入Spring Cloud OAuth2认证中心完成授权登录](https://www.cnblogs.com/haoxianrui/p/13882310.html)
+
 
 ## 项目文档
 
@@ -87,8 +91,19 @@ youlai-mall
 4. [Spring Cloud实战 | 第四篇：Spring Cloud整合Gateway实现API网关](https://www.cnblogs.com/haoxianrui/p/13608650.html)
 5. [Spring Cloud实战 | 第五篇：Spring Cloud整合OpenFeign实现微服务之间的调用](https://www.cnblogs.com/haoxianrui/p/13615592.html)
 6. [Spring Cloud实战 | 第六篇：Spring Cloud Gateway+Spring Security OAuth2+JWT实现微服务统一认证授权](https://www.cnblogs.com/haoxianrui/p/13719356.html)
-7. [Spring Cloud实战 | 最终篇：Spring Cloud Gateway+Spring Security OAuth2集成统一认证授权平台下实现注销使JWT失效方案](https://www.cnblogs.com/haoxianrui/p/13740264.html)
+7. [Spring Cloud实战 | 最七篇：Spring Cloud Gateway+Spring Security OAuth2集成统一认证授权平台下实现注销使JWT失效方案](https://www.cnblogs.com/haoxianrui/p/13740264.html)
+8. [Spring Cloud实战 | 最八篇：Spring Cloud +Spring Security OAuth2+ Vue前后端分离模式下无感知刷新实现JWT续期](https://www.cnblogs.com/haoxianrui/p/14022632.html)
+9. [Spring Cloud实战 | 最九篇：Spring Security OAuth2认证服务器统一认证自定义异常处理](https://www.cnblogs.com/haoxianrui/p/14028366.html)
 
+
+> 管理前端
+
+1. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
+2. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html)
+
+> 微信小程序
+
+1. [vue+uniapp商城实战 | 第一篇：【有来小店】微信小程序快速开发接入Spring Cloud OAuth2认证中心完成授权登录](https://www.cnblogs.com/haoxianrui/p/13882310.html)
 > 管理前端
 
 1. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
