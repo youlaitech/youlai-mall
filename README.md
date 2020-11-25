@@ -67,6 +67,7 @@ youlai-mall
 2. 拉取并导入 [youlai-mall](https://github.com/hxrui/youlai-mall) 。
 3. 启动nacos服务。 IDEA进入Terminal命令终端切到youlai-registry/nacos/bin目录，执行命令 startup -m standalone。nacos启动后在控制台导入项目下的document/DEFAULT_GROUP.zip配置。
 4. 启动youlai-gateway、youlai-auth,youlai-admin微服务。
+
 注：默认使用云数据库无需修改数据库连接配置，如果需要搭建本地请修改对应配置信息即可。
 
 ### 2. 启动管理前端
