@@ -1,14 +1,21 @@
 package com.youlai.auth.config;
 
+import cn.hutool.http.HttpStatus;
+import cn.hutool.json.JSONUtil;
 import com.youlai.auth.domain.User;
+import com.youlai.auth.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
 import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.core.result.Result;
+import com.youlai.common.core.result.ResultCode;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -20,6 +27,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
 import java.security.KeyPair;
@@ -63,22 +71,48 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenEnhancers.add(jwtAccessTokenConverter());
         tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
 
-        endpoints.authenticationManager(authenticationManager)
+        endpoints
+
+                .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
                 .userDetailsService(userDetailsService)
                 // refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
                 //      1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
                 //      2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
-                .reuseRefreshTokens(false);
+                .reuseRefreshTokens(true);
     }
 
-    /**
-     * 允许表单认证
-     */
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        security.allowFormAuthenticationForClients();
+        /*security.allowFormAuthenticationForClients();*/
+        CustomClientCredentialsTokenEndpointFilter endpointFilter = new CustomClientCredentialsTokenEndpointFilter(security);
+        endpointFilter.afterPropertiesSet();
+        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
+        security.addTokenEndpointAuthenticationFilter(endpointFilter);
+
+        security.authenticationEntryPoint(authenticationEntryPoint())
+                .tokenKeyAccess("isAuthenticated()")
+                .checkTokenAccess("permitAll()");
+    }
+
+
+    /**
+     * 自定义认证异常响应数据
+     * @return
+     */
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, e) -> {
+            response.setStatus(HttpStatus.HTTP_OK);
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Cache-Control", "no-cache");
+            Result result = Result.custom(ResultCode.CLIENT_AUTHENTICATION_FAILED);
+            response.getWriter().print(JSONUtil.toJsonStr(result));
+            response.getWriter().flush();
+        };
     }
 
 
