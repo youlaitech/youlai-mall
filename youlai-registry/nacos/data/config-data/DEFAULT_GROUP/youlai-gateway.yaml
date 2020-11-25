@@ -3,7 +3,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: 'http://localhost:9999/youlai-auth/rsa/publicKey'
+          jwk-set-uri: 'http://localhost:9999/youlai-auth/oauth/public_key'
   redis:
     database: 0
     host: localhost
@@ -33,4 +33,4 @@ spring:
 whitelist:
   urls:
       - "/youlai-auth/oauth/token"
-      - "/youlai-auth/rsa/publicKey"
+      - "/youlai-auth/oauth/public_key"
