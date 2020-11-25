@@ -73,10 +73,10 @@ youlai-mall
 ### 2. 启动管理前端
 
 1. 本机安装Python和Node.js
-1. 拉取并导入 [youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin.git) 。
+1. 拉取并导入 [youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin.git)
 2. npm install  
 3. npm run dev
-4. 浏览器打开 http://localhost:9527, 输入用户名/密码: admin/123456 登录管理平台
+4. 浏览器打开 http://localhost:9527
 
 ### 3. 启动微信小程序
 
