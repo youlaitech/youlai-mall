@@ -7,7 +7,6 @@ import com.youlai.admin.pojo.SysResource;
 import com.youlai.admin.pojo.SysRoleResource;
 import com.youlai.admin.service.ISysResourceService;
 import com.youlai.admin.service.ISysRoleResourceService;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -71,7 +70,7 @@ public class SysResourceController {
         } else {
             if (page != null && limit != null) {
                 Page<SysResource> result = iSysResourceService.page(new Page<>(page, limit), baseQuery);
-                return PageResult.success(result.getRecords(), result.getTotal());
+                return Result.success(result.getRecords(), result.getTotal());
             } else if (limit != null) {
                 baseQuery.last("LIMIT " + limit);
             }

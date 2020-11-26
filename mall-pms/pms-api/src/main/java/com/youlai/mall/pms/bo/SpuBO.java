@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PmsSpuBO {
+public class SpuBO {
 
     private PmsSpu spu;
 

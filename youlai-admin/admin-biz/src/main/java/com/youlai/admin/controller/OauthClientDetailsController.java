@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.OauthClientDetails;
 import com.youlai.admin.service.IOauthClientDetailsService;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -40,7 +39,7 @@ public class OauthClientDetailsController {
                 new LambdaQueryWrapper<OauthClientDetails>()
                         .like(StrUtil.isNotBlank(client.getClientId()),
                                 OauthClientDetails::getClientId, client.getClientId()));
-        return PageResult.success(result.getRecords(), result.getTotal());
+        return Result.success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "客户端详情", httpMethod = "GET")

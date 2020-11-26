@@ -3,7 +3,7 @@ package com.youlai.mall.pms.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.bo.PmsSpuBO;
+import com.youlai.mall.pms.bo.SpuBO;
 import com.youlai.mall.pms.pojo.PmsSku;
 import com.youlai.mall.pms.pojo.PmsSpu;
 import com.youlai.mall.pms.pojo.PmsSpuAttribute;
@@ -39,7 +39,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public void add(PmsSpuBO spuBO) {
+    public void add(SpuBO spuBO) {
         PmsSpu spu = spuBO.getSpu();
         List<PmsSpuAttribute> attributes = spuBO.getAttributes();
         List<PmsSpuSpecification> specifications = spuBO.getSpecifications();

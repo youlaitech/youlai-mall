@@ -1,5 +1,6 @@
 package com.youlai.common.core.result;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,6 +18,8 @@ public class Result<T> implements Serializable {
 
     private String msg;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long total;
 
     public static <T> Result<T> success() {
         return success(null);
@@ -51,7 +54,6 @@ public class Result<T> implements Serializable {
         return result(resultCode.getCode(), resultCode.getMsg(), null);
     }
 
-
     private static <T> Result<T> result(IResultCode resultCode, T data) {
         return result(resultCode.getCode(), resultCode.getMsg(), data);
     }
@@ -61,6 +63,15 @@ public class Result<T> implements Serializable {
         result.setCode(code);
         result.setData(data);
         result.setMsg(msg);
+        return result;
+    }
+
+    public static <T> Result<T> success(T data, Long total) {
+        Result<T> result = new Result();
+        result.setCode(ResultCode.SUCCESS.getCode());
+        result.setMsg(ResultCode.SUCCESS.getMsg());
+        result.setData(data);
+        result.setTotal(total);
         return result;
     }
 

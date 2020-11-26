@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.constant.Constants;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.pojo.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
@@ -41,7 +40,7 @@ public class PmsBrandController {
                 .orderByDesc(PmsBrand::getGmtCreate);
         if (queryMode.equals(1)) { // 分页查询
             Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
-            return PageResult.success(result.getRecords(), result.getTotal());
+            return Result.success(result.getRecords(), result.getTotal());
         } else if (queryMode.equals(2)) { // 下拉列表
             queryWrapper
                     .eq(PmsBrand::getStatus, Constants.STATUS_NORMAL_VALUE)
