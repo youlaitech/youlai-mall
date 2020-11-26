@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.SysRole;
 import com.youlai.admin.service.ISysRoleService;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.web.exception.BizException;
 import io.swagger.annotations.Api;
@@ -43,7 +42,7 @@ public class SysRoleController {
 
         if (page != null && limit != null) {
             Page<SysRole> result = iSysRoleService.page(new Page<>(page, limit), queryWrapper);
-            return PageResult.success(result.getRecords(), result.getTotal());
+            return Result.success(result.getRecords(), result.getTotal());
         } else if (limit != null) {
             queryWrapper.last("LIMIT " + limit);
         }

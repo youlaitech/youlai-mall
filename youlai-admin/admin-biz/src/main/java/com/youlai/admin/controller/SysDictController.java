@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.SysDict;
 import com.youlai.admin.service.ISysDictService;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,19 +30,29 @@ public class SysDictController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "dict", value = "用户信息", paramType = "query", dataType = "SysDict")
+            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "queryMode", defaultValue = "1", value = "查询模式：1-常规列表 2-表格列表", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "typeCode", value = "字典类型编码", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, SysDict dict) {
-        if (page != null && limit != null) {
-            IPage<SysDict> result = iSysDictService.list(new Page<>(page, limit), dict);
-            return PageResult.success(result.getRecords(), result.getTotal());
+    public Result list(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(defaultValue = "1") Integer queryMode,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String typeCode
+    ) {
+
+        if (queryMode.equals(2)) {
+            IPage<SysDict> result = iSysDictService.list(new Page<>(page, limit), new SysDict().setName(name).setTypeCode(typeCode));
+            return Result.success(result.getRecords(), result.getTotal());
         } else {
             List<SysDict> list = iSysDictService.list(new LambdaQueryWrapper<SysDict>()
-                    .eq(StrUtil.isNotBlank(dict.getTypeCode()), SysDict::getTypeCode, dict.getTypeCode())
-                    .select(SysDict::getName,SysDict::getValue)
+                    .like(StrUtil.isNotBlank(name), SysDict::getName, name)
+                    .eq(StrUtil.isNotBlank(typeCode), SysDict::getTypeCode, typeCode)
+                    .select(SysDict::getName, SysDict::getValue)
                     .orderByAsc(SysDict::getSort)
             );
             return Result.success(list);

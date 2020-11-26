@@ -6,8 +6,11 @@ import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
 
+/**
+ * 订单明细
+ */
 @Data
-public class OmsOrderSku extends BaseEntity {
+public class OmsOrderItem extends BaseEntity {
 
     @TableId(type= IdType.AUTO)
     private Long id;
@@ -19,6 +22,8 @@ public class OmsOrderSku extends BaseEntity {
     private Long spuId;
 
     private String spuName;
+
+    private String skuId;
 
     private String skuBarCode;
 

@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.SysDictType;
 import com.youlai.admin.service.ISysDictService;
 import com.youlai.admin.service.ISysDictTypeService;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,7 +14,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +44,7 @@ public class SysDictTypeController {
 
         if (page != null && limit != null) {
             Page<SysDictType> result = iSysDictTypeService.page(new Page<>(page, limit) ,queryWrapper);
-            return PageResult.success(result.getRecords(), result.getTotal());
+            return Result.success(result.getRecords(), result.getTotal());
         } else if (limit != null) {
             queryWrapper.last("LIMIT " + limit);
         }

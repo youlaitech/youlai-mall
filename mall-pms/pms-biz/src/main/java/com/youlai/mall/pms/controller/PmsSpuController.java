@@ -3,9 +3,8 @@ package com.youlai.mall.pms.controller;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
-import com.youlai.mall.pms.bo.PmsSpuBO;
+import com.youlai.mall.pms.bo.SpuBO;
 import com.youlai.mall.pms.pojo.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
@@ -45,7 +44,7 @@ public class PmsSpuController {
                 new Page<>(page, limit),
                 new PmsSpu().setName(name).setCategoryId(categoryId)
         );
-        return PageResult.success(result.getRecords(), result.getTotal());
+        return Result.success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "商品详情", httpMethod = "GET")
@@ -57,9 +56,9 @@ public class PmsSpuController {
     }
 
     @ApiOperation(value = "新增商品", httpMethod = "POST")
-    @ApiImplicitParam(name = "spuBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpuBO")
+    @ApiImplicitParam(name = "spuBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "SpuBO")
     @PostMapping
-    public Result add(@RequestBody PmsSpuBO spuBO) {
+    public Result add(@RequestBody SpuBO spuBO) {
         iPmsSpuService.add(spuBO);
         return Result.success();
     }

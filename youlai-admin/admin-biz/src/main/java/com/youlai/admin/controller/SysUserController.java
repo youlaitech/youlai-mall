@@ -16,7 +16,6 @@ import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -53,7 +52,7 @@ public class SysUserController {
     @GetMapping
     public Result list(Integer page, Integer limit, SysUser user) {
         IPage<SysUser> result = iSysUserService.list(new Page<>(page, limit), user);
-        return PageResult.success(result.getRecords(), result.getTotal());
+        return Result.success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "用户详情", httpMethod = "GET")

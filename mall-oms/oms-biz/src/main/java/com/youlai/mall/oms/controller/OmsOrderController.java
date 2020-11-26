@@ -4,8 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.result.PageResult;
 import com.youlai.common.core.result.Result;
+import com.youlai.mall.oms.bo.OrderBO;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.oms.pojo.OmsOrder;
 import io.swagger.annotations.Api;
@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Api(tags = "订单接口")
@@ -31,22 +30,39 @@ public class OmsOrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "orderSn", value = "订单编号", paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "Integer", defaultValue = "1"),
+            @ApiImplicitParam(name = "orderSn", value = "订单编号", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "status", value = "订单状态", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "startDate", value = "开始日期", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "endDate", value = "结束日期", paramType = "query", dataType = "String"),
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, String orderSn) {
+    public Result list(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(defaultValue = "1") Integer queryMode,
+            @RequestParam(required = false) String orderSn,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate
+    ) {
         LambdaQueryWrapper<OmsOrder> queryWrapper = new LambdaQueryWrapper<OmsOrder>()
                 .like(StrUtil.isNotBlank(orderSn), OmsOrder::getOrderSn, orderSn)
+                .eq(status != null, OmsOrder::getStatus, status)
+                .apply(StrUtil.isNotBlank(startDate),
+                        "date_format (gmt_crate,'%Y-%m-%d') >= date_format('" + startDate + "','%Y-%m-%d')")
+                .apply(StrUtil.isNotBlank(endDate),
+                        "date_format (gmt_crate,'%Y-%m-%d') <= date_format('" + endDate + "','%Y-%m-%d')")
                 .orderByDesc(OmsOrder::getGmtModified)
                 .orderByDesc(OmsOrder::getGmtCreate);
-        if (page != null && limit != null) {
+
+        if (queryMode.equals(1)) { // 分页列表
             Page<OmsOrder> result = iOmsOrderService.page(new Page<>(page, limit), queryWrapper);
-            return PageResult.success(result.getRecords(), result.getTotal());
-        } else if (limit != null) {
-            queryWrapper.last("LIMIT " + limit);
+            return Result.success(result.getRecords(), result.getTotal());
+        } else { // 常规列表
+            List<OmsOrder> list = iOmsOrderService.list(queryWrapper);
+            return Result.success(list);
         }
-        List<OmsOrder> list = iOmsOrderService.list(queryWrapper);
-        return Result.success(list);
     }
 
     @ApiOperation(value = "订单详情", httpMethod = "GET")
@@ -57,11 +73,11 @@ public class OmsOrderController {
         return Result.success(order);
     }
 
-    @ApiOperation(value = "新增订单", httpMethod = "POST")
-    @ApiImplicitParam(name = "order", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
+    @ApiOperation(value = "订单提交", httpMethod = "POST")
+    @ApiImplicitParam(name = "orderBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "OrderBO")
     @PostMapping
-    public Result add(@RequestBody OmsOrder order) {
-        boolean status = iOmsOrderService.save(order);
+    public Result add(@RequestBody OrderBO orderBO) {
+        boolean status = iOmsOrderService.save(orderBO);
         return Result.status(status);
     }
 
