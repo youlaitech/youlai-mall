@@ -5,14 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.Date;
-
 
 @Data
 public class OmsOrder extends BaseEntity {
 
-    @TableId(type= IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     private String orderSn;
@@ -33,25 +31,28 @@ public class OmsOrder extends BaseEntity {
 
     private Long couponId;
 
-    private BigDecimal skuPrice;
+    private Long skuPrice;
 
-    private BigDecimal freightPrice;
+    private Long freightPrice;
 
-    private BigDecimal couponPrice;
+    private Long couponPrice;
 
-    private BigDecimal orderPrice;
+    private Long orderPrice;
 
-    private BigDecimal integrationPrice;
+    private Long integrationPrice;
 
-    private BigDecimal payPrice;
+    private Long payPrice;
 
     private String payId;
 
-    private Integer payType;
+    private Integer payChannel;
 
     private Date payTime;
 
-    private String shipSn;
+    private String logisticsChannel;
 
+    private String logisticsNo;
+
+    private Date deliveryTime;
 
 }
