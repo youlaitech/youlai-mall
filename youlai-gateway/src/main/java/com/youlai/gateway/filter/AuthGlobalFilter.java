@@ -59,7 +59,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             response.getHeaders().set("Access-Control-Allow-Origin", "*");
             response.getHeaders().set("Cache-Control", "no-cache");
-            String body = JSONUtil.toJsonStr(Result.custom(ResultCode.TOKEN_INVALID_OR_EXPIRED));
+            String body = JSONUtil.toJsonStr(Result.failed(ResultCode.TOKEN_INVALID_OR_EXPIRED));
             DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
             return response.writeWith(Mono.just(buffer));
         }

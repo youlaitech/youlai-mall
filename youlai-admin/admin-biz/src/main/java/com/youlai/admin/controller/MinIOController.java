@@ -57,7 +57,7 @@ public class MinIOController {
             return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.error(e.getLocalizedMessage());
+            return Result.failed(e.getLocalizedMessage());
         }
     }
 

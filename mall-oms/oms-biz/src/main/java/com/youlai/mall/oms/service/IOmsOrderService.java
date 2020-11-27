@@ -7,4 +7,6 @@ import com.youlai.mall.oms.pojo.OmsOrder;
 public interface IOmsOrderService extends IService<OmsOrder> {
 
     boolean save(OrderBO orderBO);
+
+    OrderBO getByOrderId(Long id);
 }

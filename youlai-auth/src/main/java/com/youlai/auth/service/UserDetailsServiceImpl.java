@@ -1,16 +1,15 @@
 package com.youlai.auth.service;
 
 import com.youlai.admin.dto.UserDTO;
-import com.youlai.admin.api.AdminUserFeignClient;
+import com.youlai.admin.api.UserFeignService;
 import com.youlai.auth.domain.User;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.mall.ums.dto.MemberDTO;
-import com.youlai.mall.ums.api.UmsMemberFeignClient;
+import com.youlai.mall.ums.api.MemberFeignService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,8 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private AdminUserFeignClient adminUserFeignClient;
-    private UmsMemberFeignClient umsMemberFeignClient;
+    private UserFeignService userFeignService;
+    private MemberFeignService memberFeignService;
     private HttpServletRequest request;
 
     @Override
@@ -38,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = null;
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
-                Result<UserDTO> userResult = adminUserFeignClient.loadUserByUsername(username);
+                Result<UserDTO> userResult = userFeignService.loadUserByUsername(username);
                 if (userResult == null || !ResultCode.SUCCESS.getCode().equals(userResult.getCode())
                         || userResult.getData() == null
                 ) {
@@ -49,7 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user = new User(userDTO);
                 break;
             case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
-                Result<MemberDTO> memberResult = umsMemberFeignClient.loadMemberByOpenid(username);
+                Result<MemberDTO> memberResult = memberFeignService.getMember(username,2);
                 if (memberResult == null || !ResultCode.SUCCESS.getCode().equals(memberResult.getCode())
                 ||memberResult.getData()==null) {
                     throw new UsernameNotFoundException("会员不存在");

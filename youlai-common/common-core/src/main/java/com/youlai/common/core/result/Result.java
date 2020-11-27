@@ -34,11 +34,11 @@ public class Result<T> implements Serializable {
     }
 
 
-    public static <T> Result<T> error() {
+    public static <T> Result<T> failed() {
         return result(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), ResultCode.SYSTEM_EXECUTION_ERROR.getMsg(), null);
     }
 
-    public static <T> Result<T> error(String msg) {
+    public static <T> Result<T> failed(String msg) {
         return result(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), msg, null);
     }
 
@@ -46,11 +46,11 @@ public class Result<T> implements Serializable {
         if (status) {
             return success();
         } else {
-            return error();
+            return failed();
         }
     }
 
-    public static <T> Result<T> custom(IResultCode resultCode) {
+    public static <T> Result<T> failed(IResultCode resultCode) {
         return result(resultCode.getCode(), resultCode.getMsg(), null);
     }
 

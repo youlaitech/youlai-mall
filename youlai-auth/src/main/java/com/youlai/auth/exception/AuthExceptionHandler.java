@@ -20,7 +20,7 @@ public class AuthExceptionHandler {
      */
     @ExceptionHandler(InvalidGrantException.class)
     public Result handleInvalidGrantException(InvalidGrantException e) {
-        return Result.custom(ResultCode.USERNAME_OR_PASSWORD_ERROR);
+        return Result.failed(ResultCode.USERNAME_OR_PASSWORD_ERROR);
     }
 
 
@@ -32,7 +32,7 @@ public class AuthExceptionHandler {
      */
     @ExceptionHandler({InternalAuthenticationServiceException.class})
     public Result handleInternalAuthenticationServiceException(InternalAuthenticationServiceException e) {
-        return Result.error(e.getMessage());
+        return Result.failed(e.getMessage());
     }
 
 }

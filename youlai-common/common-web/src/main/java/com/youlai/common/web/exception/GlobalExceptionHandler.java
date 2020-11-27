@@ -18,21 +18,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public Result handleIllegalArgumentException(IllegalArgumentException e) {
-        return Result.error(e.getMessage());
+        return Result.failed(e.getMessage());
     }
 
 
     @ExceptionHandler(JsonProcessingException.class)
     public Result handleJsonProcessingException(JsonProcessingException e) {
-        return Result.error(e.getMessage());
+        return Result.failed(e.getMessage());
     }
 
     @ExceptionHandler(BizException.class)
     public Result handleBizException(BizException e) {
         if (e.getResultCode() != null) {
-            return Result.custom(e.getResultCode());
+            return Result.failed(e.getResultCode());
         }
-        return Result.error(e.getMessage());
+        return Result.failed(e.getMessage());
     }
 
 }

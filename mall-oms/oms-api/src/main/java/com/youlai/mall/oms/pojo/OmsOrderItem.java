@@ -17,8 +17,6 @@ public class OmsOrderItem extends BaseEntity {
 
     private Long orderId;
 
-    private String orderSn;
-
     private Long spuId;
 
     private String spuName;
@@ -33,6 +31,6 @@ public class OmsOrderItem extends BaseEntity {
 
     private Integer skuQuantity;
 
-    private String pic;
+    private String skuPic;
 
 }

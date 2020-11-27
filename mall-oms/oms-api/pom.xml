@@ -24,6 +24,11 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>ums-api</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
