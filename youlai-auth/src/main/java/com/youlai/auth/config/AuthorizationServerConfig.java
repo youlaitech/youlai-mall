@@ -109,7 +109,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Cache-Control", "no-cache");
-            Result result = Result.custom(ResultCode.CLIENT_AUTHENTICATION_FAILED);
+            Result result = Result.failed(ResultCode.CLIENT_AUTHENTICATION_FAILED);
             response.getWriter().print(JSONUtil.toJsonStr(result));
             response.getWriter().flush();
         };

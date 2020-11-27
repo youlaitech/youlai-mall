@@ -16,7 +16,7 @@ import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.pojo.UmsMember;
-import com.youlai.mall.ums.api.UmsMemberFeignClient;
+import com.youlai.mall.ums.api.MemberFeignService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -50,7 +50,7 @@ public class AuthController {
     private TokenEndpoint tokenEndpoint;
     private RedisTemplate redisTemplate;
     private WxMaService wxService;
-    private UmsMemberFeignClient umsMemberFeignClient;
+    private MemberFeignService memberFeignService;
     private PasswordEncoder passwordEncoder;
     private KeyPair keyPair;
 
@@ -122,13 +122,10 @@ public class AuthController {
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
-        Result<MemberDTO> result = umsMemberFeignClient.loadMemberByOpenid(openid);
-        if (!ResultCode.SUCCESS.getCode().equals(result.getCode())) {
-            throw new BizException("获取会员信息失败");
-        }
-        MemberDTO memberDTO = result.getData();
+        Result<MemberDTO> result = memberFeignService.getMember(openid, 1);
+
         String username;
-        if (memberDTO == null) { // 微信授权登录 会员信息不存在时 注册会员
+        if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) { // 微信授权登录 会员信息不存在时 注册会员
             String encryptedData = parameters.get("encryptedData");
             String iv = parameters.get("iv");
 
@@ -145,12 +142,13 @@ public class AuthController {
                     .setPassword(passwordEncoder.encode(openid).replace(AuthConstants.BCRYPT, Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
                     .setStatus(Constants.STATUS_NORMAL_VALUE);
 
-            Result res = umsMemberFeignClient.add(member);
+            Result res = memberFeignService.add(member);
             if (!ResultCode.SUCCESS.getCode().equals(res.getCode())) {
                 throw new BizException("注册会员失败");
             }
             username = openid;
         } else {
+            MemberDTO memberDTO = result.getData();
             username = memberDTO.getUsername();
         }
 

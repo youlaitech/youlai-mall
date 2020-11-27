@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient("youlai-admin")
-public interface AdminUserFeignClient {
+public interface UserFeignService {
 
     @GetMapping("/users/user/{username}")
     Result<UserDTO> loadUserByUsername(@PathVariable String username);
