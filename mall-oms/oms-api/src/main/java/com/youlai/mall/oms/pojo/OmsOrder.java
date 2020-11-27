@@ -31,28 +31,38 @@ public class OmsOrder extends BaseEntity {
 
     private Long couponId;
 
+    private Long orderPrice;
+
     private Long skuPrice;
 
     private Long freightPrice;
 
     private Long couponPrice;
 
-    private Long orderPrice;
-
     private Long integrationPrice;
-
-    private Long payPrice;
 
     private String payId;
 
+    private Long payPrice;
+
     private Integer payChannel;
 
-    private Date payTime;
+    private Date gmtPay;
 
     private String logisticsChannel;
 
     private String logisticsNo;
 
-    private Date deliveryTime;
+    private Date gmtDelivery;
+
+    private Long refundAmount;
+
+    private Integer refundType;
+
+    private String refundNote;
+
+    private Date gmtRefund;
+
+    private Date gmtConfirm;
 
 }

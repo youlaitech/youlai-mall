@@ -91,7 +91,7 @@ public class SysDictTypeController {
     public Result delete(@RequestParam("ids") List<Long> ids) {
         Integer dictCount = iSysDictService.countByDictTypeIds(ids);
         if (dictCount != null && dictCount > 0){
-            return Result.error("删除字典类型失败，请先删除关联字典数据");
+            return Result.failed("删除字典类型失败，请先删除关联字典数据");
         }
         boolean status = iSysDictTypeService.removeByIds(ids);
         return Result.status(status);

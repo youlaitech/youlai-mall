@@ -68,8 +68,8 @@ public class OmsOrderController {
     @ApiOperation(value = "订单详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Integer id) {
-        OmsOrder order = iOmsOrderService.getById(id);
+    public Result detail(@PathVariable Long id) {
+        OrderBO order = iOmsOrderService.getByOrderId(id);
         return Result.success(order);
     }
 

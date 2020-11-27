@@ -18,7 +18,7 @@ public enum ResultCode implements  IResultCode, Serializable {
     USER_ERROR("A0001","用户端错误"),
     USER_LOGIN_ERROR("A0200","用户登录异常"),
 
-    USER_ACCOUNT_NOT_EXIST("A0201","用户账户不存在"),
+    USER_NOT_EXIST("A0201","用户不存在"),
     USER_ACCOUNT_LOCKED("A0202","用户账户被冻结"),
     USER_ACCOUNT_INVALID("A0203","用户账户已作废"),
 
