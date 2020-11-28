@@ -37,23 +37,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = null;
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
-                Result<UserDTO> userResult = userFeignService.loadUserByUsername(username);
-                if (userResult == null || !ResultCode.SUCCESS.getCode().equals(userResult.getCode())
-                        || userResult.getData() == null
-                ) {
-                    throw new UsernameNotFoundException("用户不存在");
+                Result<UserDTO> userRes = userFeignService.loadUserByUsername(username, 2);
+                if (ResultCode.USER_NOT_EXIST.getCode().equals(userRes.getCode())) {
+                    throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
                 }
-                UserDTO userDTO = userResult.getData();
+                UserDTO userDTO = userRes.getData();
                 userDTO.setClientId(clientId);
                 user = new User(userDTO);
                 break;
             case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
-                Result<MemberDTO> memberResult = memberFeignService.getMember(username,2);
-                if (memberResult == null || !ResultCode.SUCCESS.getCode().equals(memberResult.getCode())
-                ||memberResult.getData()==null) {
-                    throw new UsernameNotFoundException("会员不存在");
+                Result<MemberDTO> memberRes = memberFeignService.loadMemberByOpenid(username, 1);
+                if (ResultCode.USER_NOT_EXIST.getCode().equals(memberRes.getCode())) {
+                    throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
                 }
-                MemberDTO memberDTO = memberResult.getData();
+                MemberDTO memberDTO = memberRes.getData();
                 memberDTO.setClientId(clientId);
                 user = new User(memberDTO);
                 break;
