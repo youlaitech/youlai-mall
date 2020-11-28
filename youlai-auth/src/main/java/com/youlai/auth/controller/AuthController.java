@@ -122,7 +122,7 @@ public class AuthController {
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
-        Result<MemberDTO> result = memberFeignService.getMember(openid, 1);
+        Result<MemberDTO> result = memberFeignService.loadMemberByOpenid(openid, 1);
 
         String username;
         if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) { // 微信授权登录 会员信息不存在时 注册会员

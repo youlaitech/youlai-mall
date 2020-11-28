@@ -35,7 +35,7 @@ public class UmsMemberController {
 
     @ApiOperation(value = "获取会员信息", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户唯一标识", required = true, paramType = "path", dataType = "Object"),
+            @ApiImplicitParam(name = "id", value = "会员唯一标识", required = true, paramType = "path", dataType = "Object"),
             @ApiImplicitParam(name = "queryMode", defaultValue = "1", value = "查询模式：1-认证会员 2-订单会员", paramType = "query", dataType = "Integer")
     })
 
@@ -53,7 +53,6 @@ public class UmsMemberController {
             MemberDTO memberDTO = new MemberDTO();
             BeanUtil.copyProperties(member, memberDTO);
             return Result.success(memberDTO);
-
         } else if (queryMode.equals(2)) { // 订单会员信息
             MemberInfoDTO memberInfoDTO = new MemberInfoDTO();
             UmsMember member = iUmsMemberService.getOne(

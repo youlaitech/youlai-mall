@@ -17,6 +17,7 @@ import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
+import com.youlai.common.core.result.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -27,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,11 +58,41 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "用户详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户唯一标识", required = true, paramType = "path", dataType = "Object"),
+            @ApiImplicitParam(name = "queryMode", defaultValue = "1", value = "查询模式：1-根据id查询 2-根据username查询", paramType = "query", dataType = "Integer")
+    })
+
+
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Integer id) {
-        SysUser user = iSysUserService.getById(id);
-        return Result.success(user);
+    public Result detail(
+            @PathVariable Object id,
+            @RequestParam Integer queryMode
+    ) {
+
+        if (queryMode.equals(1)) {
+            SysUser user = iSysUserService.getById((Serializable) id);
+            return Result.success(user);
+        } else {
+
+            SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
+                    .eq(SysUser::getUsername, id));
+
+            if (user == null) {
+                return Result.failed(ResultCode.USER_NOT_EXIST);
+            }
+            UserDTO userDTO = new UserDTO();
+            BeanUtil.copyProperties(user, userDTO);
+            List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
+                    .eq(SysUserRole::getUserId, user.getId())
+            ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
+            if (CollectionUtil.isNotEmpty(roleIds)) {
+                List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
+                        .map(role -> role.getId()).collect(Collectors.toList());
+                userDTO.setRoles(roles);
+            }
+            return Result.success(userDTO);
+        }
     }
 
 
@@ -92,28 +124,6 @@ public class SysUserController {
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysUserService.removeByIds(ids);
         return Result.status(status);
-    }
-
-    @ApiOperation(value = "用户名获取用户信息", httpMethod = "GET")
-    @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
-    @GetMapping("/user/{username}")
-    public Result<UserDTO> loadUserByUsername(@PathVariable String username) {
-        UserDTO userDTO = null;
-        SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUsername, username));
-        if (user != null) {
-            userDTO = new UserDTO();
-            BeanUtil.copyProperties(user, userDTO);
-            List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                    .eq(SysUserRole::getUserId, user.getId())
-            ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
-            if (CollectionUtil.isNotEmpty(roleIds)) {
-                List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
-                        .map(role -> role.getId()).collect(Collectors.toList());
-                userDTO.setRoles(roles);
-            }
-        }
-        return Result.success(userDTO);
     }
 
 
