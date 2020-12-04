@@ -1,0 +1,32 @@
+server:
+  port: 9999
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: youlai-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+      config:
+        # docker启动nacos-server需要配置
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000
