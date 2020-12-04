@@ -63,6 +63,7 @@
         <youlai.version>1.0.0-SNAPSHOT</youlai.version>
         <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
     </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -80,10 +81,25 @@
                 </executions>
                 <configuration>
                     <repository>${project.artifactId}</repository>
-                    <tag>${project.version}</tag>
+                    <tag>latest</tag>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>
         </plugins>
