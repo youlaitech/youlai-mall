@@ -1,13 +1,3 @@
-server:
-  port: 8080
-
 spring:
-  application:
-    name: youlai-admin
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://localhost:8848
-      config:
-        server-addr: ${spring.cloud.nacos.discovery.server-addr}
-        file-extension: yaml
+  profiles:
+    active: dev
