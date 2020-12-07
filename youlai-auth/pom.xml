@@ -136,7 +136,9 @@
                     <entryPoint>["java","-jar","${project.build.finalName}.jar"]</entryPoint>
 
                     <!-- 指定远程 Docker API地址  -->
-                    <dockerHost>http://101.132.25.57:2375</dockerHost>
+                    <dockerHost>https://b.youlai.store:2376</dockerHost>
+                    <!-- 指定tls证书的目录 -->
+                    <dockerCertPath>C:\certs\docker\b.youlai.store</dockerCertPath>
 
                     <!-- 复制 jar包到docker容器指定目录-->
                     <resources>
