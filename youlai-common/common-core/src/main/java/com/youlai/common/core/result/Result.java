@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 /**
  * @author haoxr
@@ -19,7 +20,7 @@ public class Result<T> implements Serializable {
     private String msg;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Long total;
+    private long total;
 
     public static <T> Result<T> success() {
         return success(null);
@@ -66,7 +67,7 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static <T> Result<T> success(T data, Long total) {
+    public static <T> Result<T> success(T data, long total) {
         Result<T> result = new Result();
         result.setCode(ResultCode.SUCCESS.getCode());
         result.setMsg(ResultCode.SUCCESS.getMsg());
