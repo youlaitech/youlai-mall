@@ -44,7 +44,8 @@ public class PmsSpuController {
                 new Page<>(page, limit),
                 new PmsSpu().setName(name).setCategoryId(categoryId)
         );
-        return Result.success(result.getRecords(), result.getTotal());
+        return Result
+                .success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "商品详情", httpMethod = "GET")
