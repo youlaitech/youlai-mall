@@ -6,6 +6,7 @@ import com.youlai.auth.domain.User;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.api.MemberFeignService;
 import lombok.AllArgsConstructor;
@@ -29,11 +30,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserFeignService userFeignService;
     private MemberFeignService memberFeignService;
+
     private HttpServletRequest request;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String clientId = request.getParameter("client_id");
+        String clientId = request.getParameter(AuthConstants.JWT_CLIENT_ID_KEY);
         User user = null;
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
