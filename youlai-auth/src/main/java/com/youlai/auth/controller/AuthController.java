@@ -14,6 +14,7 @@ import com.youlai.common.core.constant.Constants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
+import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.pojo.UmsMember;
 import com.youlai.mall.ums.api.MemberFeignService;
@@ -95,10 +96,8 @@ public class AuthController {
     }
 
     @DeleteMapping("/logout")
-    public Result logout(HttpServletRequest request) {
-        String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
-        JSONObject jsonObject = JSONUtil.parseObj(payload);
-
+    public Result logout() {
+        JSONObject jsonObject = WebUtils.getJwtPayload();
         String jti = jsonObject.getStr("jti"); // JWT唯一标识
         long exp = jsonObject.getLong("exp"); // JWT过期时间戳
 
