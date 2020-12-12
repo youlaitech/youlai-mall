@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/SpringBoot-2.3.3-brightgreen.svg)
+![](https://img.shields.io/badge/SpringBoot-2.3.4-brightgreen.svg)
 ![](https://img.shields.io/badge/SpringCloud-Hoxton.SR8-green.svg)
 
 ## **项目简介**
