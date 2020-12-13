@@ -5,7 +5,7 @@ import com.youlai.common.core.result.Result;
 import com.youlai.common.web.vo.CascaderVO;
 import com.youlai.mall.pms.pojo.PmsCategory;
 import com.youlai.mall.pms.service.IPmsCategoryService;
-import com.youlai.mall.pms.vo.PmsCategoryVO;
+import com.youlai.mall.pms.pojo.vo.PmsCategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
