@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.vo;
+package com.youlai.mall.pms.pojo.vo;
 
 import lombok.Data;
 

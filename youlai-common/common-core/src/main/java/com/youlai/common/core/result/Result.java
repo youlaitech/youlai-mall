@@ -19,7 +19,7 @@ public class Result<T> implements Serializable {
 
     private String msg;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private long total;
 
     public static <T> Result<T> success() {
