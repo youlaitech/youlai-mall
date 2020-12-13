@@ -143,24 +143,28 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             String album = JSONUtil.toJsonStr(spuDTO.getPics());
             spu.setAlbum(album);
         }
-        this.save(spu);
+        this.updateById(spu);
 
-        // 属性
+        // 属性保存
         List<PmsSpuAttribute> attributes = spuBO.getAttributes();
-        if(CollectionUtil.isNotEmpty(attributes)){
-            iPmsSpuAttributeService.saveOrUpdateBatch(attributes);
-        }
+        Optional.ofNullable(attributes).ifPresent(list -> {
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSpuAttributeService.saveBatch(attributes);
+        });
 
-        // 规格
+        // 规格保存
         List<PmsSpuSpecification> specifications = spuBO.getSpecifications();
-        if(CollectionUtil.isNotEmpty(specifications)){
-            iPmsSpuSpecificationService.updateBatchById(specifications);
-        }
-        // sku
+        Optional.ofNullable(specifications).ifPresent(list -> {
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSpuSpecificationService.saveBatch(specifications);
+        });
+
+        // sku保存
         List<PmsSku> skuList = spuBO.getSkuList();
-        if(CollectionUtil.isNotEmpty(skuList)){
-            iPmsSkuService.updateBatchById(skuList);
-        }
+        Optional.ofNullable(skuList).ifPresent(list -> {
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSkuService.saveBatch(skuList);
+        });
         return true;
     }
 }
