@@ -3,6 +3,7 @@ package com.youlai.mall.pms.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.mall.pms.bo.AppSpuBO;
 import com.youlai.mall.pms.bo.PmsSpuBO;
 import com.youlai.mall.pms.pojo.PmsSpu;
 
@@ -20,4 +21,6 @@ public interface IPmsSpuService extends IService<PmsSpu> {
     boolean removeBySpuIds(List<Long> spuIds);
 
     boolean updateById(PmsSpuBO spuBO);
+
+    AppSpuBO getBySpuIdForApp(Long id);
 }

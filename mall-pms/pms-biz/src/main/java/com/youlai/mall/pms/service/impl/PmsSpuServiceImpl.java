@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
+import com.youlai.mall.pms.bo.AppSpuBO;
 import com.youlai.mall.pms.bo.PmsSpuBO;
 import com.youlai.mall.pms.pojo.PmsSku;
 import com.youlai.mall.pms.pojo.PmsSpu;
@@ -166,5 +167,10 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             iPmsSkuService.saveBatch(skuList);
         });
         return true;
+    }
+
+    @Override
+    public AppSpuBO getBySpuIdForApp(Long id) {
+        return null;
     }
 }
