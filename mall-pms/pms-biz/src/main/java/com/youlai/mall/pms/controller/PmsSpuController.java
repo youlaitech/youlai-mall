@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.web.util.WebUtils;
+import com.youlai.mall.pms.bo.AppSpuBO;
 import com.youlai.mall.pms.bo.PmsSpuBO;
 import com.youlai.mall.pms.pojo.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
@@ -58,13 +59,14 @@ public class PmsSpuController {
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
         String clientId = WebUtils.getClientId();
-        if (AuthConstants.ADMIN_CLIENT_ID.equals(clientId)) {
-            PmsSpuBO spu = iPmsSpuService.getBySpuId(id);
-            return Result.success(spu);
-        } else if (AuthConstants.WEAPP_CLIENT_ID.equals(clientId)) {
-
+        switch (clientId) {
+            case AuthConstants.ADMIN_CLIENT_ID:
+                PmsSpuBO spu = iPmsSpuService.getBySpuId(id);
+                return Result.success(spu);
+            default:
+                AppSpuBO appSpuBO = iPmsSpuService.getBySpuIdForApp(id);
+                return Result.success(appSpuBO);
         }
-        return Result.failed();
     }
 
     @ApiOperation(value = "新增商品", httpMethod = "POST")
@@ -92,7 +94,7 @@ public class PmsSpuController {
     @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", allowMultiple = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
-        boolean status = iPmsSpuService.removeBySpuIds(Arrays.asList(ids.split(",")).stream().map(id->Long.parseLong(id)).collect(Collectors.toList()));
+        boolean status = iPmsSpuService.removeBySpuIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         return Result.status(status);
     }
 

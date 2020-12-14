@@ -81,7 +81,7 @@ public class UmsMemberController {
 
     @ApiOperation(value = "获取当前请求的会员信息", httpMethod = "GET")
     @GetMapping("/me")
-    public Result getCurrentMemberInfo() {
+    public Result getMemberInfo() {
         Long memberId = WebUtils.getUserId();
         UmsMember member = iUmsMemberService.getById(memberId);
 
