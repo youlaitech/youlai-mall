@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.pojo.UmsMember;
@@ -80,11 +81,9 @@ public class UmsMemberController {
 
     @ApiOperation(value = "获取当前请求的会员信息", httpMethod = "GET")
     @GetMapping("/me")
-    public Result getCurrentMemberInfo(HttpServletRequest request) {
-        String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
-        JSONObject jsonObject = JSONUtil.parseObj(payload);
-        Long id = jsonObject.getLong("id");
-        UmsMember member = iUmsMemberService.getById(id);
+    public Result getCurrentMemberInfo() {
+        Long memberId = WebUtils.getUserId();
+        UmsMember member = iUmsMemberService.getById(memberId);
 
         if (member == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
