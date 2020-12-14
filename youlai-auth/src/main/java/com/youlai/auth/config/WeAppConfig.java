@@ -8,13 +8,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 微信小程序配置
+ */
 @Configuration
-public class WxConfig {
+public class WeAppConfig {
 
-    @Value("${wx.miniapp.appid}")
+    @Value("${weapp.appid}")
     private String appid;
 
-    @Value("${wx.miniapp.secret}")
+    @Value("${weapp.secret}")
     private String secret;
 
     @Bean

@@ -1,0 +1,27 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: youlai-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://c.youlai.store:8848
+      config:
+        # docker启动nacos-server需要配置
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        prefix: ${spring.application.name}
+weapp:
+  appid: wx99a151dc43d2637b
+  secret: a09605af8ad29ca5d18ff31c19828f37
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1

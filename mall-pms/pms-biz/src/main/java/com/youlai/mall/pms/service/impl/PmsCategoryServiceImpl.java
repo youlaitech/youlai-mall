@@ -7,7 +7,7 @@ import com.youlai.common.web.vo.CascaderVO;
 import com.youlai.mall.pms.pojo.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
 import com.youlai.mall.pms.service.IPmsCategoryService;
-import com.youlai.mall.pms.vo.PmsCategoryVO;
+import com.youlai.mall.pms.pojo.vo.PmsCategoryVO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

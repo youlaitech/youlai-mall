@@ -1,9 +1,13 @@
-![](https://img.shields.io/badge/SpringBoot-2.3.3-brightgreen.svg)
+![](https://img.shields.io/badge/SpringBoot-2.3.4-brightgreen.svg)
 ![](https://img.shields.io/badge/SpringCloud-Hoxton.SR8-green.svg)
 
 ## **项目简介**
 
 youlai-mall是集成当前最新主流技术一套开源的商城系统。整个系统采用微服务架构，前后端分离交互模式。业务模块包括了商品管理、订单管理、营销管理、会员管理等。
+
+## **项目预览**
+
+**线上地址:** [www.youlai.store](http://www.youlai.store)
 
 ## **项目结构**
 

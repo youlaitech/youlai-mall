@@ -15,9 +15,11 @@ import com.youlai.admin.vo.UserVO;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
+import com.youlai.common.core.base.BaseController;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.web.util.WebUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -38,7 +40,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/users")
 @Slf4j
 @AllArgsConstructor
-public class SysUserController {
+public class SysUserController extends BaseController {
 
     private final ISysUserService iSysUserService;
     private final ISysUserRoleService iSysUserRoleService;
@@ -129,11 +131,9 @@ public class SysUserController {
 
     @ApiOperation(value = "获取当前请求的用户信息", httpMethod = "GET")
     @GetMapping("/me")
-    public Result getCurrentUserInfo(HttpServletRequest request) {
-        String payload = request.getHeader(AuthConstants.JWT_PAYLOAD_KEY);
-        JSONObject jsonObject = JSONUtil.parseObj(payload);
-        Long id = jsonObject.getLong("id");
-        SysUser user = iSysUserService.getById(id);
+    public Result getCurrentUser(){
+        Long userId = WebUtils.getUserId();
+        SysUser user = iSysUserService.getById(userId);
         UserVO userVO = new UserVO();
         BeanUtil.copyProperties(user, userVO);
         List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
