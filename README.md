@@ -43,10 +43,10 @@ youlai-mall
 
 | 后端技术 |  版本号                     
 | -------------------- |  -------------------- |                             
-| SpringBoot|2.3.3.RELEASE                      
+| SpringBoot|2.3.4.RELEASE                      
 | SpringCloud|Hoxton.SR8
-| SpringCloud Alibaba|  2.2.1.RELEASE
-| Spring Security OAuth2| 2.2.2.RELEASE
+| SpringCloud Alibaba|  2.2.2.RELEASE
+| Spring Security OAuth2| 2.2.4.RELEASE
 | MyBatis Plus|3.4.0
 | Druid| 1.1.23
 | Lombok |1.18.12
@@ -72,8 +72,9 @@ youlai-mall
 3. 启动nacos服务。 IDEA进入Terminal命令终端切到youlai-registry/nacos/bin目录，执行命令 startup -m standalone。nacos启动后在控制台导入项目下的document/DEFAULT_GROUP.zip配置。
 4. 启动youlai-gateway、youlai-auth,youlai-admin微服务。
 
-注：默认使用云数据库无需修改数据库连接配置，如果需要搭建本地请修改对应配置信息即可。
+注：默认使用云数据库无需修改数据库连接配置和redis配置，如果需要搭建本地请修改对应配置信息即可。
 
+重要提示： 求大家别在云环境修改数据库和相关配置！自己这套环境开放出来供大家学习本来就冒着很大风险，精力也有限，望大家理解，谢谢了。
 ### 2. 启动管理前端
 
 1. 本机安装Python和Node.js
@@ -111,5 +112,8 @@ youlai-mall
 
 ## 问题
 
-项目在搭建的过程中如您遇到任何问题，都可以联系我（微信号：haoxianrui）。
+项目在搭建的过程中如您遇到任何问题，可以联系我（微信号：haoxianrui），不能及时回复也可以在github提issue。
+
+
+
 
