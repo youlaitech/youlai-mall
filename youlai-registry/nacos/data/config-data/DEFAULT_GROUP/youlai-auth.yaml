@@ -7,7 +7,7 @@ spring:
     password: 123456
   redis:
     database: 0
-    host: localhost
+    host: www.youlai.store
     port: 6379
     password:
 feign:

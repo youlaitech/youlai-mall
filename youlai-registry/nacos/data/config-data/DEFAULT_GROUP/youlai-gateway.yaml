@@ -6,9 +6,9 @@ spring:
           jwk-set-uri: 'http://localhost:9999/youlai-auth/oauth/public_key'
   redis:
     database: 0
-    host: localhost
+    host: www.youlai.store
     port: 6379
-    password:
+    password: 
   cloud:
     gateway:
       discovery:
