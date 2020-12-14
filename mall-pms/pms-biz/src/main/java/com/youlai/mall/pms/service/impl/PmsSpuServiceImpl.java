@@ -150,21 +150,21 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSpuAttribute> attributes = spuBO.getAttributes();
         Optional.ofNullable(attributes).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSpuAttributeService.saveBatch(attributes);
+            iPmsSpuAttributeService.updateBatchById(attributes);
         });
 
         // 规格保存
         List<PmsSpuSpecification> specifications = spuBO.getSpecifications();
         Optional.ofNullable(specifications).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSpuSpecificationService.saveBatch(specifications);
+            iPmsSpuSpecificationService.updateBatchById(specifications);
         });
 
         // sku保存
         List<PmsSku> skuList = spuBO.getSkuList();
         Optional.ofNullable(skuList).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSkuService.saveBatch(skuList);
+            iPmsSkuService.updateBatchById(skuList);
         });
         return true;
     }
