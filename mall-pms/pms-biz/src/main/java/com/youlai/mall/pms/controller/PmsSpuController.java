@@ -58,16 +58,13 @@ public class PmsSpuController {
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
-        String clientId = WebUtils.getClientId();
-        switch (clientId) {
-            case AuthConstants.ADMIN_CLIENT_ID:
-                PmsSpuBO spu = iPmsSpuService.getBySpuId(id);
-                return Result.success(spu);
-            default:
-                AppSpuBO appSpuBO = iPmsSpuService.getBySpuIdForApp(id);
-                return Result.success(appSpuBO);
-        }
+
+        /*PmsSpuBO spu = iPmsSpuService.getSpuById(id);
+        return Result.success(spu);*/
+        AppSpuBO appSpu = iPmsSpuService.getAppSpuById(id);
+        return Result.success(appSpu);
     }
+
 
     @ApiOperation(value = "新增商品", httpMethod = "POST")
     @ApiImplicitParam(name = "spuBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpuBO")

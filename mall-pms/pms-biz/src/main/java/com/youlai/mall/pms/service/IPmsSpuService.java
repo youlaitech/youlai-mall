@@ -16,11 +16,11 @@ public interface IPmsSpuService extends IService<PmsSpu> {
 
     boolean add(PmsSpuBO spuBO);
 
-    PmsSpuBO getBySpuId(Long id);
+    PmsSpuBO getSpuById(Long id);
 
     boolean removeBySpuIds(List<Long> spuIds);
 
     boolean updateById(PmsSpuBO spuBO);
 
-    AppSpuBO getBySpuIdForApp(Long id);
+    AppSpuBO getAppSpuById(Long id);
 }

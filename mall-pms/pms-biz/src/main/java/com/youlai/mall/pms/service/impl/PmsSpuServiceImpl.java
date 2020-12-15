@@ -24,8 +24,7 @@ import com.youlai.mall.pms.pojo.dto.PmsSpuDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author haoxr
@@ -85,16 +84,16 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public PmsSpuBO getBySpuId(Long id) {
+    public PmsSpuBO getSpuById(Long id) {
         // spu
-        PmsSpuDTO spuVO = new PmsSpuDTO();
+        PmsSpuDTO spuDTO = new PmsSpuDTO();
         PmsSpu spu = this.getById(id);
-        BeanUtil.copyProperties(spu, spuVO);
+        BeanUtil.copyProperties(spu, spuDTO);
 
         if (StrUtil.isNotBlank(spu.getAlbum())) {
             // spu专辑图片转换处理 json字符串 -> List
             List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getAlbum()), String.class);
-            spuVO.setPics(pics);
+            spuDTO.setPics(pics);
         }
 
         // 属性
@@ -110,7 +109,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-        PmsSpuBO spuBO = new PmsSpuBO(spuVO, attributes, specifications, skuList);
+        PmsSpuBO spuBO = new PmsSpuBO(spuDTO, attributes, specifications, skuList);
         return spuBO;
     }
 
@@ -170,7 +169,43 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public AppSpuBO getBySpuIdForApp(Long id) {
-        return null;
+    public AppSpuBO getAppSpuById(Long id) {
+
+        // spu
+        PmsSpuDTO spuDTO = new PmsSpuDTO();
+        PmsSpu spu = this.getById(id);
+        BeanUtil.copyProperties(spu, spuDTO);
+
+        if (StrUtil.isNotBlank(spu.getAlbum())) {
+            // spu专辑图片转换处理 json字符串 -> List
+            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getAlbum()), String.class);
+            spuDTO.setPics(pics);
+        }
+
+        // 属性
+        List<PmsSpuAttribute> attributes = iPmsSpuAttributeService.list(
+                new LambdaQueryWrapper<PmsSpuAttribute>().eq(PmsSpuAttribute::getSpuId, id));
+
+        // 规格
+        Map<String, Set<String>> specifications = new HashMap<>();
+        List<PmsSpuSpecification> specificationList = iPmsSpuSpecificationService.list(
+                new LambdaQueryWrapper<PmsSpuSpecification>()
+                        .eq(PmsSpuSpecification::getSpuId, id)
+        );
+        if (CollectionUtil.isNotEmpty(specificationList)) {
+            for (PmsSpuSpecification s : specificationList) {
+                String name = s.getName();
+                Set<String> values = specifications.getOrDefault(name, new HashSet<>());
+                values.add(s.getValue());
+                specifications.put(name, values);
+            }
+        }
+
+        // sku
+        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>()
+                .eq(PmsSku::getSpuId, id)
+        );
+        AppSpuBO spuBO = new AppSpuBO(spuDTO, attributes, specifications, skuList);
+        return spuBO;
     }
 }
