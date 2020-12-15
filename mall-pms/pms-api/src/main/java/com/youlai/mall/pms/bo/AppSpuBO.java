@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class AppSpuBO {
 
     private List<PmsSpuAttribute> attributes;
 
-    private Map<String,List<String>> specifications;
+    private Map<String, Set<String>> specifications;
 
     private List<PmsSku> skuList;
 }
