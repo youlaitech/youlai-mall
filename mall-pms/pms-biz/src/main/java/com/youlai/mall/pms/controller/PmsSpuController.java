@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.core.enums.SystemTypeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.pms.bo.AppSpuBO;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "商品接口")
 @RestController
-@RequestMapping("/goods")
+@RequestMapping("/products")
 @Slf4j
 @AllArgsConstructor
 public class PmsSpuController {
@@ -58,11 +59,15 @@ public class PmsSpuController {
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
-
-        /*PmsSpuBO spu = iPmsSpuService.getSpuById(id);
-        return Result.success(spu);*/
-        AppSpuBO appSpu = iPmsSpuService.getAppSpuById(id);
-        return Result.success(appSpu);
+        SystemTypeEnum systemType = SystemTypeEnum.getValue(WebUtils.getSystemType());
+        switch (systemType) {
+            case WEAPP:
+                AppSpuBO appSpu = iPmsSpuService.getAppSpuById(id);
+                return Result.success(appSpu);
+            default:
+                PmsSpuBO spu = iPmsSpuService.getSpuById(id);
+                return Result.success(spu);
+        }
     }
 
 
