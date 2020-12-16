@@ -21,7 +21,14 @@ public class AppSpuBO {
 
     private List<PmsSpuAttribute> attributes;
 
-    private Map<String, Set<String>> specifications;
+    private List<SpecItem> specs;
 
     private List<PmsSku> skuList;
+
+
+    @Data
+   public static class SpecItem {
+        private String key;
+        private Set<String> values;
+    }
 }

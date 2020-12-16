@@ -1,11 +1,10 @@
 package com.youlai.common.web.util;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.common.core.constant.Constants;
+import com.youlai.common.core.constant.SystemConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -38,7 +37,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
     }
 
     public static Integer getSystemType() {
-        String systemType = getHttpServletRequest().getHeader(Constants.SYSTEM_TYPE_KEY);
+        String systemType = getHttpServletRequest().getHeader(SystemConstants.SYSTEM_TYPE_KEY);
         if (StrUtil.isNotBlank(systemType)) {
             return Integer.valueOf(systemType);
         }

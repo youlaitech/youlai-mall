@@ -5,12 +5,11 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.common.core.constant.Constants;
+import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
@@ -34,7 +33,6 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.KeyPair;
 import java.security.Principal;
 import java.security.interfaces.RSAPublicKey;
@@ -139,7 +137,7 @@ public class AuthController {
                     .setOpenid(openid)
                     .setUsername(openid)
                     .setPassword(passwordEncoder.encode(openid).replace(AuthConstants.BCRYPT, Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
-                    .setStatus(Constants.STATUS_NORMAL_VALUE);
+                    .setStatus(SystemConstants.STATUS_NORMAL_VALUE);
 
             Result res = memberFeignService.add(member);
             if (!ResultCode.SUCCESS.getCode().equals(res.getCode())) {
