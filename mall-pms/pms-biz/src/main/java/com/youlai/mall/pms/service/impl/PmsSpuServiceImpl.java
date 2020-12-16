@@ -187,7 +187,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 new LambdaQueryWrapper<PmsSpuAttribute>().eq(PmsSpuAttribute::getSpuId, id));
 
         // 规格
-        Map<String, Set<String>> specifications = new HashMap<>();
+        List<AppSpuBO.SpecItem> specs = new ArrayList<>();
         List<PmsSpuSpecification> specificationList = iPmsSpuSpecificationService.list(
                 new LambdaQueryWrapper<PmsSpuSpecification>()
                         .eq(PmsSpuSpecification::getSpuId, id)
@@ -195,9 +195,18 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         if (CollectionUtil.isNotEmpty(specificationList)) {
             for (PmsSpuSpecification s : specificationList) {
                 String name = s.getName();
-                Set<String> values = specifications.getOrDefault(name, new HashSet<>());
-                values.add(s.getValue());
-                specifications.put(name, values);
+                AppSpuBO.SpecItem specItem = specs.stream().filter(item -> item.getKey().equals(name)).findFirst().orElse(null);
+
+                if (specItem != null) {
+                    specItem.getValues().add(s.getValue());
+                } else {
+                    specItem = new AppSpuBO.SpecItem();
+                    specItem.setKey(name);
+                    specItem.setValues(new HashSet<String>() {{
+                        add(s.getValue());
+                    }});
+                    specs.add(specItem);
+                }
             }
         }
 
@@ -205,7 +214,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>()
                 .eq(PmsSku::getSpuId, id)
         );
-        AppSpuBO spuBO = new AppSpuBO(spuDTO, attributes, specifications, skuList);
+        AppSpuBO spuBO = new AppSpuBO(spuDTO, attributes, specs, skuList);
         return spuBO;
     }
 }

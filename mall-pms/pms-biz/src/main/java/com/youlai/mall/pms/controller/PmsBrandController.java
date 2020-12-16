@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.constant.Constants;
+import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.pojo.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
@@ -43,7 +43,7 @@ public class PmsBrandController {
             return Result.success(result.getRecords(), result.getTotal());
         } else if (queryMode.equals(2)) { // 下拉列表
             queryWrapper
-                    .eq(PmsBrand::getStatus, Constants.STATUS_NORMAL_VALUE)
+                    .eq(PmsBrand::getStatus, SystemConstants.STATUS_NORMAL_VALUE)
                     .select(PmsBrand::getId, PmsBrand::getName);
         }
         List<PmsBrand> list = iPmsBrandService.list(queryWrapper);
