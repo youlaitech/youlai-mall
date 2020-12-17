@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo;
+package com.youlai.mall.pms.search.pojo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -19,7 +19,7 @@ public enum SystemTypeEnum {
         this.code = code;
     }
 
-  public  static SystemTypeEnum getValue(Integer code) {
+    public static SystemTypeEnum getValue(Integer code) {
         for (SystemTypeEnum value : values()) {
             if (value.getCode().equals(code)) {
                 return value;

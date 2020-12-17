@@ -17,7 +17,7 @@ public class PmsCategory extends BaseEntity {
 
     private Integer level;
 
-    private String icon;
+    private String iconUrl;
 
     private Integer sort;
 
