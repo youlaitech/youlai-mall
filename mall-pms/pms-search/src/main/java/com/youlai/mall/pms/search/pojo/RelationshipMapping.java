@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo;
+package com.youlai.mall.pms.search.pojo;
 
 import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
