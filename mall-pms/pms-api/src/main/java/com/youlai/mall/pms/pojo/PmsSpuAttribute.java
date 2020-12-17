@@ -15,7 +15,7 @@ public class PmsSpuAttribute extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long spuId;
-    private String name;
+    private Long attributeId;
     private String value;
 
 }

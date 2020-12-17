@@ -14,7 +14,7 @@ public class PmsBrand extends BaseEntity {
 
     private String name;
 
-    private String logo;
+    private String logoUrl;
 
     private String firstLetter;
 

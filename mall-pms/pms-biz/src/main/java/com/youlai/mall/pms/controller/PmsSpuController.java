@@ -96,8 +96,8 @@ public class PmsSpuController {
     @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", allowMultiple = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
-        boolean status = iPmsSpuService.removeBySpuIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
-        return Result.status(status);
+        iPmsSpuService.removeBySpuIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
+        return Result.success();
     }
 
     @ApiOperation(value = "修改商品(部分更新)", httpMethod = "PATCH")

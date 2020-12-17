@@ -1,11 +1,10 @@
 package com.youlai.mall.pms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
-import com.youlai.common.web.vo.CascaderVO;
 import com.youlai.mall.pms.pojo.PmsCategory;
 import com.youlai.mall.pms.service.IPmsCategoryService;
-import com.youlai.mall.pms.pojo.vo.PmsCategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -14,7 +13,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(tags = "商品分类接口")
 @RestController
@@ -27,17 +28,20 @@ public class PmsCategoryController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", value = "查询模式（1-树形数据 2-级联下拉）", defaultValue = "1", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "category", value = "商品分类信息", paramType = "query", dataType = "PmsCategory")
+            @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
     })
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "1") Integer queryMode, PmsCategory category) {
-        if (queryMode.equals(2)) { // 级联下拉
-            List<CascaderVO> list = iPmsCategoryService.listForCascader(category);
-            return Result.success(list);
-        } else { // 树形数据
-            List<PmsCategoryVO> list = iPmsCategoryService.listForTree(category);
-            return Result.success(list);
+    public Result list(String queryMode) {
+        PmsCategory category = new PmsCategory();
+        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        List list;
+        switch (queryModeEnum) {
+            case CASCADER:
+                list = iPmsCategoryService.listForCascader(category);
+                return Result.success(list);
+            default:
+                list = iPmsCategoryService.listForTree(category);
+                return Result.success(list);
         }
     }
 
@@ -53,8 +57,8 @@ public class PmsCategoryController {
     @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     @PostMapping
     public Result add(@RequestBody PmsCategory category) {
-        boolean status = iPmsCategoryService.save(category);
-        return Result.status(status);
+        iPmsCategoryService.save(category);
+        return Result.success(category);
     }
 
     @ApiOperation(value = "修改商品分类", httpMethod = "PUT")
@@ -66,16 +70,16 @@ public class PmsCategoryController {
     public Result update(
             @PathVariable Integer id,
             @RequestBody PmsCategory category) {
-        boolean status = iPmsCategoryService.updateById(category);
-        return Result.status(status);
+        iPmsCategoryService.updateById(category);
+        return Result.success(category);
     }
 
     @ApiOperation(value = "删除商品分类", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
-    @DeleteMapping
-    public Result delete(@RequestParam("ids") List<Long> ids) {
-        boolean status = iPmsCategoryService.removeByIds(ids);
-        return Result.status(status);
+    @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable String ids) {
+        iPmsCategoryService.removeByIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
+        return Result.success();
     }
 
     @ApiOperation(value = "修改商品分类(部分更新)", httpMethod = "PATCH")

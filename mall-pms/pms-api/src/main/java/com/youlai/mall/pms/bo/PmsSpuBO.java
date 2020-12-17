@@ -2,7 +2,7 @@ package com.youlai.mall.pms.bo;
 
 import com.youlai.mall.pms.pojo.PmsSku;
 import com.youlai.mall.pms.pojo.PmsSpuAttribute;
-import com.youlai.mall.pms.pojo.PmsSpuSpecification;
+import com.youlai.mall.pms.pojo.PmsSkuSpecification;
 import com.youlai.mall.pms.pojo.dto.PmsSpuDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class PmsSpuBO {
 
     private List<PmsSpuAttribute> attributes;
 
-    private List<PmsSpuSpecification> specifications;
+    private List<PmsSkuSpecification> specifications;
 
     private List<PmsSku> skuList;
 }
