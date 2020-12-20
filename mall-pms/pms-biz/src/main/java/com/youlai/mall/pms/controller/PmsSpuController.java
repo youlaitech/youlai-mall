@@ -3,11 +3,10 @@ package com.youlai.mall.pms.controller;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.enums.SystemTypeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.web.util.WebUtils;
-import com.youlai.mall.pms.bo.AppSpuBO;
+import com.youlai.mall.pms.bo.PmsAppSpuBO;
 import com.youlai.mall.pms.bo.PmsSpuBO;
 import com.youlai.mall.pms.pojo.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
@@ -62,7 +61,7 @@ public class PmsSpuController {
         SystemTypeEnum systemType = SystemTypeEnum.getValue(WebUtils.getSystemType());
         switch (systemType) {
             case WEAPP:
-                AppSpuBO appSpu = iPmsSpuService.getAppSpuById(id);
+                PmsAppSpuBO appSpu = iPmsSpuService.getAppSpuById(id);
                 return Result.success(appSpu);
             default:
                 PmsSpuBO spu = iPmsSpuService.getSpuById(id);

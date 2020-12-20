@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.bo.AppSpuBO;
+import com.youlai.mall.pms.bo.PmsAppSpuBO;
 import com.youlai.mall.pms.bo.PmsSpuBO;
 import com.youlai.mall.pms.pojo.PmsSku;
 import com.youlai.mall.pms.pojo.PmsSpu;
@@ -168,7 +168,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public AppSpuBO getAppSpuById(Long id) {
+    public PmsAppSpuBO getAppSpuById(Long id) {
 
         // spu
         PmsSpuDTO spuDTO = new PmsSpuDTO();
@@ -186,7 +186,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 new LambdaQueryWrapper<PmsSpuAttribute>().eq(PmsSpuAttribute::getSpuId, id));
 
         // 规格
-        List<AppSpuBO.SpecItem> specs = new ArrayList<>();
+        List<PmsAppSpuBO.SpecItem> specs = new ArrayList<>();
         List<PmsSkuSpecification> specificationList = iPmsSpuSpecificationService.list(
                 new LambdaQueryWrapper<PmsSkuSpecification>()
                         .eq(PmsSkuSpecification::getSpuId, id)
@@ -194,12 +194,12 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         if (CollectionUtil.isNotEmpty(specificationList)) {
             for (PmsSkuSpecification s : specificationList) {
                 String name = s.getName();
-                AppSpuBO.SpecItem specItem = specs.stream().filter(item -> item.getKey().equals(name)).findFirst().orElse(null);
+                PmsAppSpuBO.SpecItem specItem = specs.stream().filter(item -> item.getKey().equals(name)).findFirst().orElse(null);
 
                 if (specItem != null) {
                     specItem.getValues().add(s.getValue());
                 } else {
-                    specItem = new AppSpuBO.SpecItem();
+                    specItem = new PmsAppSpuBO.SpecItem();
                     specItem.setKey(name);
                     specItem.setValues(new HashSet<String>() {{
                         add(s.getValue());
@@ -213,7 +213,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>()
                 .eq(PmsSku::getSpuId, id)
         );
-        AppSpuBO spuBO = new AppSpuBO(spuDTO, attributes, specs, skuList);
+        PmsAppSpuBO spuBO = new PmsAppSpuBO(spuDTO, attributes, specs, skuList);
         return spuBO;
     }
 }

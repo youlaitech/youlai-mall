@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppSpuBO {
+public class PmsAppSpuBO {
 
     private PmsSpuDTO spu;
 
