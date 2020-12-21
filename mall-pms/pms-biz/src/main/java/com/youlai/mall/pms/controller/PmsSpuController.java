@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.enums.SystemTypeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.web.util.WebUtils;
-import com.youlai.mall.pms.bo.PmsAppSpuBO;
-import com.youlai.mall.pms.bo.PmsSpuBO;
+import com.youlai.mall.pms.bo.PmsAppProductBO;
+import com.youlai.mall.pms.bo.PmsProductBO;
 import com.youlai.mall.pms.pojo.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
@@ -61,10 +61,10 @@ public class PmsSpuController {
         SystemTypeEnum systemType = SystemTypeEnum.getValue(WebUtils.getSystemType());
         switch (systemType) {
             case WEAPP:
-                PmsAppSpuBO appSpu = iPmsSpuService.getAppSpuById(id);
+                PmsAppProductBO appSpu = iPmsSpuService.getAppSpuById(id);
                 return Result.success(appSpu);
             default:
-                PmsSpuBO spu = iPmsSpuService.getSpuById(id);
+                PmsProductBO spu = iPmsSpuService.getSpuById(id);
                 return Result.success(spu);
         }
     }
@@ -73,7 +73,7 @@ public class PmsSpuController {
     @ApiOperation(value = "新增商品", httpMethod = "POST")
     @ApiImplicitParam(name = "spuBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpuBO")
     @PostMapping
-    public Result add(@RequestBody PmsSpuBO spuBO) {
+    public Result add(@RequestBody PmsProductBO spuBO) {
         boolean status = iPmsSpuService.add(spuBO);
         return Result.status(status);
     }
@@ -86,7 +86,7 @@ public class PmsSpuController {
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Long id,
-            @RequestBody PmsSpuBO spu) {
+            @RequestBody PmsProductBO spu) {
         boolean status = iPmsSpuService.updateById(spu);
         return Result.status(status);
     }

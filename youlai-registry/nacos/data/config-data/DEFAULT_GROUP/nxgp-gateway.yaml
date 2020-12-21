@@ -1,0 +1,36 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://localhost:9999/nxgp-auth/oauth/public_key'
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: 
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 启用服务发现
+          lower-case-service-id: true
+      routes:
+        - id: nxgp-auth
+          uri: lb://nxgp-auth
+          predicates:
+            - Path=/nxgp-auth/**
+          filters:
+            - StripPrefix=1
+        - id: nxgp-upms
+          uri: lb://nxgp-upms
+          predicates:
+            - Path=/nxgp-upms/**
+          filters:
+            - StripPrefix=1
+
+# 配置白名单路径
+whitelist:
+  urls:
+      - "/nxgp-auth/oauth/token"
+      - "/nxgp-auth/oauth/public_key"

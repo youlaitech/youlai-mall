@@ -1,7 +1,10 @@
 package com.youlai.mall.pms.controller;
 
 import com.youlai.common.core.result.ResultCode;
+import com.youlai.mall.pms.pojo.PmsSpecification;
+import com.youlai.mall.pms.service.IPmsSpecificationService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -42,5 +47,16 @@ public class PmsSpuControllerTest {
                 .andReturn();
 
         log.info(result.getResponse().getContentAsString());
+
+    }
+
+    @Autowired
+    public IPmsSpecificationService iPmsSpecificationService;
+
+    @Test
+    public void getSpecifications() {
+        List<PmsSpecification> specifications = iPmsSpecificationService.listBySpuId(1l);
+        Assert.assertTrue(specifications != null && specifications.size() > 0);
+        System.out.println(specifications.toString());
     }
 }
