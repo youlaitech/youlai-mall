@@ -10,6 +10,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.enums.SystemTypeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;

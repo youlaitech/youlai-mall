@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.PmsSpuAttribute;
+import com.youlai.mall.pms.pojo.PmsAttribute;
 import org.mapstruct.Mapper;
 
 /**
@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
  * @date 2020-11-06
  */
 @Mapper
-public interface PmsSpuAttributeMapper extends BaseMapper<PmsSpuAttribute> {
+public interface PmsAttributeMapper extends BaseMapper<PmsAttribute> {
+
+
 
 }
