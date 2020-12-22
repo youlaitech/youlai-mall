@@ -3,7 +3,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: 'http://localhost:9999/nxgp-auth/oauth/public_key'
+          jwk-set-uri: 'http://localhost:10000/nxgp-auth/oauth/public_key'
   redis:
     database: 0
     host: 127.0.0.1

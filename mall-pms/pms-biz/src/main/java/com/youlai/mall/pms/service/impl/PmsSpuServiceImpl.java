@@ -8,22 +8,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.bo.PmsAppProductBO;
-import com.youlai.mall.pms.bo.PmsProductBO;
-import com.youlai.mall.pms.pojo.PmsSku;
-import com.youlai.mall.pms.pojo.PmsSpu;
-import com.youlai.mall.pms.pojo.PmsAttributeValue;
-import com.youlai.mall.pms.pojo.PmsSpecificationValue;
+import com.youlai.mall.pms.bo.AppProductBO;
+import com.youlai.mall.pms.bo.ProductBO;
+import com.youlai.mall.pms.pojo.*;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
-import com.youlai.mall.pms.service.IPmsSkuService;
-import com.youlai.mall.pms.service.IPmsAttributeValueService;
-import com.youlai.mall.pms.service.IPmsSpuService;
-import com.youlai.mall.pms.service.IPmsSpecificationValueService;
-import com.youlai.mall.pms.pojo.dto.PmsSpuDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.service.*;
+import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import lombok.AllArgsConstructor;
+import org.omg.CORBA.LongHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author haoxr
@@ -34,8 +31,8 @@ import java.util.*;
 public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
 
     private IPmsSkuService iPmsSkuService;
-    private IPmsAttributeValueService iPmsAttributeValueService;
-    private IPmsSpecificationValueService iPmsSpecificationValueService;
+    private IPmsAttrValueService iPmsAttrValueService;
+    private IPmsSpecCategoryService iPmsSpecCategoryService;
 
 
     @Override
@@ -46,10 +43,10 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public boolean add(PmsProductBO spuBO) {
-        PmsSpuDTO spuDTO = spuBO.getSpu();
-        List<PmsAttributeValue> attributes = spuBO.getAttributes();
-        List<PmsSpecificationValue> specifications = null;
+    public boolean add(ProductBO spuBO) {
+        SpuDTO spuDTO = spuBO.getSpu();
+        List<PmsAttrValue> attributes = spuBO.getAttributes();
+        List<PmsSpecValue> specifications = null;
         List<PmsSku> skuList = spuBO.getSkuList();
 
         // spu保存
@@ -64,12 +61,12 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 属性保存
         Optional.ofNullable(attributes).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsAttributeValueService.saveBatch(attributes);
+            iPmsAttrValueService.saveBatch(attributes);
         });
 
         // 规格保存
         Optional.ofNullable(specifications).ifPresent(list -> {
-            iPmsSpecificationValueService.saveBatch(specifications);
+            //iPmsSpecValueService.saveBatch(specifications);
         });
 
         // sku保存
@@ -82,9 +79,9 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public PmsProductBO getSpuById(Long id) {
+    public ProductBO getSpuById(Long id) {
         // spu
-        PmsSpuDTO spuDTO = new PmsSpuDTO();
+        SpuDTO spuDTO = new SpuDTO();
         PmsSpu spu = this.getById(id);
         BeanUtil.copyProperties(spu, spuDTO);
 
@@ -95,19 +92,19 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         }
 
         // 属性
-        List<PmsAttributeValue> attributes = iPmsAttributeValueService.
-                list(new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, id));
+        List<PmsAttrValue> attributes = iPmsAttrValueService.
+                list(new LambdaQueryWrapper<PmsAttrValue>().eq(PmsAttrValue::getSpuId, id));
 
         // 规格
-        List<PmsSpecificationValue> specifications = iPmsSpecificationValueService.list(
-                new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getId, id)
-        );
+      /*  List<PmsSpecValue> specifications = iPmsSpecValueService.list(
+                new LambdaQueryWrapper<PmsSpecValue>().eq(PmsSpecValue::getId, id)
+        );*/
 
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-        PmsProductBO spuBO = new PmsProductBO(spuDTO, attributes, null, skuList);
+        ProductBO spuBO = new ProductBO(spuDTO, attributes, null, skuList);
         return spuBO;
     }
 
@@ -119,10 +116,10 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                     iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
 
                     // 规格
-                    iPmsSpecificationValueService.remove(new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getId, spuId));
+                    //iPmsSpecValueService.remove(new LambdaQueryWrapper<PmsSpecValue>().eq(PmsSpecValue::getId, spuId));
 
                     // 属性
-                    iPmsAttributeValueService.remove(new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, spuId));
+                    iPmsAttrValueService.remove(new LambdaQueryWrapper<PmsAttrValue>().eq(PmsAttrValue::getSpuId, spuId));
 
                     // spu
                     this.removeById(spuId);
@@ -132,9 +129,9 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public boolean updateById(PmsProductBO spuBO) {
+    public boolean updateById(ProductBO spuBO) {
         // spu
-        PmsSpuDTO spuDTO = spuBO.getSpu();
+        SpuDTO spuDTO = spuBO.getSpu();
         PmsSpu spu = new PmsSpu();
         BeanUtil.copyProperties(spuDTO, spu);
         if (CollectionUtil.isNotEmpty(spuDTO.getPics())) {
@@ -144,16 +141,16 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         this.updateById(spu);
 
         // 属性保存
-        List<PmsAttributeValue> attributes = spuBO.getAttributes();
+        List<PmsAttrValue> attributes = spuBO.getAttributes();
         Optional.ofNullable(attributes).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsAttributeValueService.updateBatchById(attributes);
+            iPmsAttrValueService.updateBatchById(attributes);
         });
 
         // 规格保存
-        List<PmsSpecificationValue> specifications =null;
+        List<PmsSpecValue> specifications = null;
         Optional.ofNullable(specifications).ifPresent(list -> {
-            iPmsSpecificationValueService.updateBatchById(specifications);
+            //iPmsSpecValueService.updateBatchById(specifications);
         });
 
         // sku保存
@@ -166,52 +163,38 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public PmsAppProductBO getAppSpuById(Long id) {
-
+    public AppProductBO getAppProductBySpuId(Long spuId) {
         // spu
-        PmsSpuDTO spuDTO = new PmsSpuDTO();
-        PmsSpu spu = this.getById(id);
+        PmsSpu spu = this.getById(spuId);
+        SpuDTO spuDTO = new SpuDTO();
         BeanUtil.copyProperties(spu, spuDTO);
-
         if (StrUtil.isNotBlank(spu.getPicUrls())) {
             // spu专辑图片转换处理 json字符串 -> List
             List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPicUrls()), String.class);
             spuDTO.setPics(pics);
         }
-
         // 属性
-        List<PmsAttributeValue> attributes = iPmsAttributeValueService.list(
-                new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, id));
+        List<PmsAttrValue> attributes = iPmsAttrValueService.listBySpuId(spuId);
 
         // 规格
-        /*List<PmsAppProductBO.SpecItem> specs = new ArrayList<>();
-        List<PmsSpecificationValue> specificationList = iPmsSpecificationValueService.list(
-                new LambdaQueryWrapper<PmsSpecificationValue>()
-                        .eq(PmsSpecificationValue::getSpuId, id)
-        );
-        if (CollectionUtil.isNotEmpty(specificationList)) {
-            for (PmsSpecificationValue s : specificationList) {
-                String name = s.getName();
-                PmsAppProductBO.SpecItem specItem = specs.stream().filter(item -> item.getKey().equals(name)).findFirst().orElse(null);
-
-                if (specItem != null) {
-                    specItem.getValues().add(s.getValue());
-                } else {
-                    specItem = new PmsAppProductBO.SpecItem();
-                    specItem.setKey(name);
-                    specItem.setValues(new HashSet<String>() {{
-                        add(s.getValue());
-                    }});
-                    specs.add(specItem);
-                }
-            }
-        }
+        List<PmsSpecCategory> specifications = iPmsSpecCategoryService.listBySpuId(spuId);
 
         // sku
-        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>()
-                .eq(PmsSku::getSpuId, id)
-        );
-        PmsAppProductBO spuBO = new PmsAppProductBO(spuDTO, attributes, specs, skuList);*/
-        return null;
+        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
+        List<SkuDTO> skuDTOList = new ArrayList<>();
+        Optional.ofNullable(skuList).ifPresent(list -> {
+            list.forEach(sku -> {
+                SkuDTO skuDTO = new SkuDTO();
+                BeanUtil.copyProperties(sku, skuDTO, "specValueIds");
+                if (StrUtil.isNotBlank(sku.getSpecValueIds())) {
+                    List<Long> specValueIds = Arrays.stream(sku.getSpecValueIds().split(","))
+                            .map(id -> Long.parseLong(id)).collect(Collectors.toList());
+                    skuDTO.setSpecValueIds(specValueIds);
+                }
+                skuDTOList.add(skuDTO);
+            });
+        });
+        AppProductBO product = new AppProductBO(spuDTO, skuDTOList, attributes, specifications);
+        return product;
     }
 }

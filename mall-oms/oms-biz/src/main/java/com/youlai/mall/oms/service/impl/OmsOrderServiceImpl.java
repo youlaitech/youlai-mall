@@ -13,7 +13,7 @@ import com.youlai.mall.oms.pojo.OmsOrderItem;
 import com.youlai.mall.oms.service.IOmsOrderItemService;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.ums.api.MemberFeignService;
-import com.youlai.mall.ums.dto.MemberInfoDTO;
+import com.youlai.mall.ums.pojo.dto.MemberInfoDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

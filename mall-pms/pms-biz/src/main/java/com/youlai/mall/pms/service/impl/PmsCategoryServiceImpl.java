@@ -7,7 +7,7 @@ import com.youlai.common.web.vo.CascaderVO;
 import com.youlai.mall.pms.pojo.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
 import com.youlai.mall.pms.service.IPmsCategoryService;
-import com.youlai.mall.pms.pojo.vo.PmsCategoryVO;
+import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,25 +18,25 @@ import java.util.Optional;
 public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCategory> implements IPmsCategoryService {
 
     @Override
-    public List<PmsCategoryVO> listForTree(PmsCategory category) {
+    public List<CategoryVO> listForTree(PmsCategory category) {
         List<PmsCategory> categoryList = this.list(
                 new LambdaQueryWrapper<PmsCategory>()
                         .eq(category.getStatus() != null, PmsCategory::getStatus, category.getStatus())
         );
-        List<PmsCategoryVO> list = recursionForTreeList(0l, categoryList);
+        List<CategoryVO> list = recursionForTreeList(0l, categoryList);
         return list;
     }
 
-    private static List<PmsCategoryVO> recursionForTreeList(Long parentId, List<PmsCategory> categoryList) {
-        List<PmsCategoryVO> list = new ArrayList<>();
+    private static List<CategoryVO> recursionForTreeList(Long parentId, List<PmsCategory> categoryList) {
+        List<CategoryVO> list = new ArrayList<>();
         Optional.ofNullable(categoryList)
                 .ifPresent(categories ->
                         categories.stream().filter(category ->
                                 category.getParentId().equals(parentId))
                                 .forEach(category -> {
-                                    PmsCategoryVO categoryVO = new PmsCategoryVO();
+                                    CategoryVO categoryVO = new CategoryVO();
                                     BeanUtil.copyProperties(category, categoryVO);
-                                    List<PmsCategoryVO> children = recursionForTreeList(category.getId(), categoryList);
+                                    List<CategoryVO> children = recursionForTreeList(category.getId(), categoryList);
                                     categoryVO.setChildren(children);
                                     list.add(categoryVO);
                                 }));
