@@ -1,6 +1,7 @@
 package com.youlai.mall.pms.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
@@ -10,11 +11,14 @@ import lombok.Data;
  * @date 2020-11-06
  */
 @Data
-public class PmsSpecificationValue extends BaseEntity {
+public class PmsAttrValue extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    private Long skuId;
-    private Long specificationId;
+    private Long spuId;
+    private Long attrCategoryId;
     private String value;
+
+    @TableField(exist = false)
+    private String name;
 }

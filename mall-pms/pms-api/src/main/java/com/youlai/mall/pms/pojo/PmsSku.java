@@ -14,12 +14,11 @@ public class PmsSku extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long spuId;
+    private String name;
     private String code;
     private String picUrl;
     private Long originPrice;
     private Long price;
     private Integer stock;
-
-    @TableField(exist = false)
-    private List<Long> specificationValueIds;
+    private String specValueIds;
 }

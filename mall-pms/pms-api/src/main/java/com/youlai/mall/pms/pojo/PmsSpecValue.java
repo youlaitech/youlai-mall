@@ -10,11 +10,11 @@ import lombok.Data;
  * @date 2020-11-06
  */
 @Data
-public class PmsAttributeValue extends BaseEntity {
+public class PmsSpecValue extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long spuId;
-    private Long attributeId;
+    private Long specCategoryId;
     private String value;
 }

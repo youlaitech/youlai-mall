@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PmsSpecification {
+public class PmsSpecCategory {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -16,6 +16,6 @@ public class PmsSpecification {
     private String name;
 
     @TableField(exist = false)
-    private List<PmsSpecificationValue> values;
+    private List<PmsSpecValue> values;
 
 }

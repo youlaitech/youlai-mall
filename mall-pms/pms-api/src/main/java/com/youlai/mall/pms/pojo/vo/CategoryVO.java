@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PmsCategoryVO {
+public class CategoryVO {
 
     private Long id;
 
@@ -15,7 +15,7 @@ public class PmsCategoryVO {
 
     private Integer level;
 
-    private String icon;
+    private String iconUrl;
 
     private Integer sort;
 
@@ -23,6 +23,6 @@ public class PmsCategoryVO {
 
     private Integer status;
 
-    private List<PmsCategoryVO> children;
+    private List<CategoryVO> children;
 
 }
