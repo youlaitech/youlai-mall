@@ -28,7 +28,7 @@ public class AdminCategoryController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
+            @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "String"),
     })
     @GetMapping
     public Result list(String queryMode) {
