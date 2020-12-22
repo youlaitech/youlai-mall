@@ -48,7 +48,6 @@ public class AdminAttrCategoryController {
 
         Long categoryId = attrCategories.get(0).getCategoryId();
 
-
         List<Long> formIds = attrCategories.stream().map(item -> item.getId()).collect(Collectors.toList());
 
         List<Long> databaseIds = iPmsAttrCategoryService
