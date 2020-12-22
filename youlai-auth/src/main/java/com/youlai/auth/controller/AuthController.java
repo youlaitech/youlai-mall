@@ -4,19 +4,15 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.util.WebUtils;
-import com.youlai.mall.ums.pojo.dto.MemberDTO;
-import com.youlai.mall.ums.pojo.UmsMember;
 import com.youlai.mall.ums.api.MemberFeignService;
+import com.youlai.mall.ums.pojo.UmsMember;
+import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,19 +21,18 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.security.KeyPair;
 import java.security.Principal;
-import java.security.interfaces.RSAPublicKey;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Api(tags = "认证中心")
 @RestController
@@ -47,12 +42,6 @@ import java.util.concurrent.TimeUnit;
 public class AuthController {
 
     private TokenEndpoint tokenEndpoint;
-    private RedisTemplate redisTemplate;
-    private WxMaService wxService;
-    private MemberFeignService memberFeignService;
-    private PasswordEncoder passwordEncoder;
-    private KeyPair keyPair;
-
 
     @ApiOperation("OAuth2认证生成token")
     @ApiImplicitParams({
@@ -71,51 +60,47 @@ public class AuthController {
     public Result postAccessToken(
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
-    ) throws HttpRequestMethodNotSupportedException, WxErrorException {
+    ) throws HttpRequestMethodNotSupportedException {
         String clientId = parameters.get("client_id");
-
-        if (StrUtil.isBlank(clientId)) {
-            throw new BizException("客户端ID不能为空");
+        switch (clientId) {
+            case AuthConstants.WEAPP_CLIENT_ID:  // 微信认证
+                return this.handleForWxAuth(principal, parameters);
+            default:
+                OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+                Oauth2Token oauth2Token = Oauth2Token.builder()
+                        .token(oAuth2AccessToken.getValue())
+                        .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
+                        .expiresIn(oAuth2AccessToken.getExpiresIn())
+                        .build();
+                return Result.success(oauth2Token);
         }
-
-        // 微信小程序端认证处理
-        if (AuthConstants.WEAPP_CLIENT_ID.equals(clientId)) {
-            return this.handleForWxAppAuth(principal, parameters);
-        }
-
-        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-        Oauth2Token oauth2Token = Oauth2Token.builder()
-                .token(oAuth2AccessToken.getValue())
-                .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
-                .expiresIn(oAuth2AccessToken.getExpiresIn())
-                .build();
-
-        return Result.success(oauth2Token);
     }
 
-    @DeleteMapping("/logout")
-    public Result logout() {
-        JSONObject jsonObject = WebUtils.getJwtPayload();
-        String jti = jsonObject.getStr("jti"); // JWT唯一标识
-        long exp = jsonObject.getLong("exp"); // JWT过期时间戳
 
-        long currentTimeSeconds = System.currentTimeMillis() / 1000;
 
-        if (exp < currentTimeSeconds) { // token已过期，无需加入黑名单
-            return Result.success();
-        }
-        redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (exp - currentTimeSeconds), TimeUnit.SECONDS);
-        return Result.success();
-    }
 
-    private Result handleForWxAppAuth(Principal principal, Map<String, String> parameters) throws WxErrorException, HttpRequestMethodNotSupportedException {
+
+
+
+
+    private WxMaService wxService;
+    private MemberFeignService memberFeignService;
+    private PasswordEncoder passwordEncoder;
+
+    public Result handleForWxAuth(Principal principal, Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
 
         String code = parameters.get("code");
+
         if (StrUtil.isBlank(code)) {
             throw new BizException("code不能为空");
         }
 
-        WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+        WxMaJscode2SessionResult session = null;
+        try {
+            session = wxService.getUserService().getSessionInfo(code);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
@@ -160,14 +145,7 @@ public class AuthController {
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
                 .build();
         return Result.success(oauth2Token);
-
     }
 
-    @GetMapping("/public_key")
-    public Map<String, Object> getKey() {
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAKey key = new RSAKey.Builder(publicKey).build();
-        return new JWKSet(key).toJSONObject();
-    }
 
 }

@@ -42,7 +42,7 @@ public class AdminSpecCategoryController {
     public Result save(@RequestBody List<PmsSpecCategory> specCategories) {
 
         if (CollectionUtil.isEmpty(specCategories)) {
-            return Result.failed("至少提交一条属性");
+            return Result.failed("至少提交一条规格");
         }
 
         Long categoryId = specCategories.get(0).getCategoryId();
