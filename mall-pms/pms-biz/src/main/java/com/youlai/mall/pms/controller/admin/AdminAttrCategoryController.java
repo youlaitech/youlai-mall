@@ -2,6 +2,7 @@ package com.youlai.mall.pms.controller.admin;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.pojo.PmsAttrCategory;
 import com.youlai.mall.pms.service.IPmsAttrCategoryService;
@@ -28,6 +29,7 @@ public class AdminAttrCategoryController {
     @ApiOperation(value = "属性分类列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "categoryId", value = "分类ID", paramType = "query", dataType = "Long")
+
     })
     @GetMapping
     public Result list(Long categoryId) {
