@@ -10,16 +10,21 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.bo.AppProductBO;
 import com.youlai.mall.pms.bo.ProductBO;
-import com.youlai.mall.pms.pojo.*;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
+import com.youlai.mall.pms.pojo.*;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.service.*;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
+import com.youlai.mall.pms.service.IPmsAttrValueService;
+import com.youlai.mall.pms.service.IPmsSkuService;
+import com.youlai.mall.pms.service.IPmsSpecCategoryService;
+import com.youlai.mall.pms.service.IPmsSpuService;
 import lombok.AllArgsConstructor;
-import org.omg.CORBA.LongHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
