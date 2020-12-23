@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.PmsSpecValue;
+import com.youlai.mall.pms.pojo.PmsSpuSpec;
 import org.apache.ibatis.annotations.Select;
 import org.mapstruct.Mapper;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  * @date 2020-11-06
  */
 @Mapper
-public interface PmsSpecValueMapper extends BaseMapper<PmsSpecValue> {
+public interface PmsSpuSpecMapper extends BaseMapper<PmsSpuSpec> {
 
 
     @Select("<script>" +
@@ -28,6 +28,6 @@ public interface PmsSpecValueMapper extends BaseMapper<PmsSpecValue> {
             "   spu_id = #{spuId}  " +
             "   AND spec_category_id = #{specCategoryId} " +
             "</script>")
-    List<PmsSpecValue> listBySpuIdAndSpecId(Map<String, String> param);
+    List<PmsSpuSpec> listBySpuIdAndSpecId(Map<String, String> param);
 
 }

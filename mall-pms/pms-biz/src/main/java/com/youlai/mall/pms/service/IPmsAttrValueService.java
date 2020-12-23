@@ -1,12 +1,12 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.pojo.PmsAttrValue;
+import com.youlai.mall.pms.pojo.PmsSpuAttr;
 
 import java.util.List;
 
-public interface IPmsAttrValueService extends IService<PmsAttrValue> {
+public interface IPmsAttrValueService extends IService<PmsSpuAttr> {
 
-    List<PmsAttrValue> listBySpuId(Long spuId);
+    List<PmsSpuAttr> listBySpuId(Long spuId);
 
 }

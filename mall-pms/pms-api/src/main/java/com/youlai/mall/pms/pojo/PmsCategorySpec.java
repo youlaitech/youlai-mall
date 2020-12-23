@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PmsSpecCategory {
+public class PmsCategorySpec {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -17,6 +17,6 @@ public class PmsSpecCategory {
     private String name;
 
     @TableField(exist = false)
-    private List<PmsSpecValue> values = new ArrayList<>();
+    private List<PmsSpuSpec> values = new ArrayList<>();
 
 }
