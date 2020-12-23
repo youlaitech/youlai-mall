@@ -3,8 +3,8 @@ package com.youlai.mall.pms.controller.admin;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.core.result.Result;
-import com.youlai.mall.pms.pojo.PmsSpecCategory;
-import com.youlai.mall.pms.service.IPmsSpecCategoryService;
+import com.youlai.mall.pms.pojo.PmsCategorySpec;
+import com.youlai.mall.pms.service.IPmsCategorySpecService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AdminSpecCategoryController {
 
-    private IPmsSpecCategoryService iPmsSpecCategoryService;
+    private IPmsCategorySpecService iPmsCategorySpecService;
 
     @ApiOperation(value = "规格分类列表", httpMethod = "GET")
     @ApiImplicitParams({
@@ -31,15 +31,15 @@ public class AdminSpecCategoryController {
     })
     @GetMapping
     public Result list(Long categoryId) {
-        List<PmsSpecCategory> list = iPmsSpecCategoryService
-                .list(new LambdaQueryWrapper<PmsSpecCategory>().eq(PmsSpecCategory::getCategoryId, categoryId));
+        List<PmsCategorySpec> list = iPmsCategorySpecService
+                .list(new LambdaQueryWrapper<PmsCategorySpec>().eq(PmsCategorySpec::getCategoryId, categoryId));
         return Result.success(list);
     }
 
     @ApiOperation(value = "新增规格", httpMethod = "POST")
     @ApiImplicitParam(name = "specCategories", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpecCategory")
     @PostMapping
-    public Result save(@RequestBody List<PmsSpecCategory> specCategories) {
+    public Result save(@RequestBody List<PmsCategorySpec> specCategories) {
 
         if (CollectionUtil.isEmpty(specCategories)) {
             return Result.failed("至少提交一条规格");
@@ -50,10 +50,10 @@ public class AdminSpecCategoryController {
 
         List<Long> formIds = specCategories.stream().map(item -> item.getId()).collect(Collectors.toList());
 
-        List<Long> databaseIds = iPmsSpecCategoryService
-                .list(new LambdaQueryWrapper<PmsSpecCategory>()
-                        .eq(PmsSpecCategory::getCategoryId, categoryId)
-                        .select(PmsSpecCategory::getId)
+        List<Long> databaseIds = iPmsCategorySpecService
+                .list(new LambdaQueryWrapper<PmsCategorySpec>()
+                        .eq(PmsCategorySpec::getCategoryId, categoryId)
+                        .select(PmsCategorySpec::getId)
                 ).stream()
                 .map(item -> item.getId())
                 .collect(Collectors.toList());
@@ -64,10 +64,10 @@ public class AdminSpecCategoryController {
                     .filter(id -> CollectionUtil.isEmpty(formIds) || !formIds.contains(id))
                     .collect(Collectors.toList());
             if (CollectionUtil.isNotEmpty(removeIds)) {
-                iPmsSpecCategoryService.removeByIds(removeIds);
+                iPmsCategorySpecService.removeByIds(removeIds);
             }
         }
-        boolean result = iPmsSpecCategoryService.saveOrUpdateBatch(specCategories);
+        boolean result = iPmsCategorySpecService.saveOrUpdateBatch(specCategories);
         return Result.status(result);
     }
 }

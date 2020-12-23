@@ -11,7 +11,7 @@ import lombok.Data;
  * @date 2020-11-06
  */
 @Data
-public class PmsAttrValue extends BaseEntity {
+public class PmsSpuAttr extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
