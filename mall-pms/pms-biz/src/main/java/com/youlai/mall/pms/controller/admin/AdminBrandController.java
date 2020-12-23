@@ -1,9 +1,11 @@
 package com.youlai.mall.pms.controller.admin;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.pojo.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
@@ -28,26 +30,26 @@ public class AdminBrandController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", value = "查询模式（1-分页查询 2-下拉列表）", defaultValue = "1", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "品牌名称", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "1") Integer queryMode, Integer page, Integer limit, String name) {
-        LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<PmsBrand>()
-                .orderByDesc(PmsBrand::getGmtModified)
-                .orderByDesc(PmsBrand::getGmtCreate);
-        if (queryMode.equals(1)) { // 分页查询
-            Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
-            return Result.success(result.getRecords(), result.getTotal());
-        } else if (queryMode.equals(2)) { // 下拉列表
-            queryWrapper
-                    .eq(PmsBrand::getStatus, SystemConstants.STATUS_NORMAL_VALUE)
-                    .select(PmsBrand::getId, PmsBrand::getName);
+    public Result list(String queryMode, Integer page, Integer limit, String name) {
+        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<>();
+        switch (queryModeEnum) {
+            case LIST:
+                queryWrapper.eq(PmsBrand::getStatus, SystemConstants.STATUS_NORMAL_VALUE)
+                        .select(PmsBrand::getId, PmsBrand::getName);
+                List<PmsBrand> list = iPmsBrandService.list(queryWrapper);
+                return Result.success(list);
+            default:
+                queryWrapper.like(StrUtil.isNotBlank(name), PmsBrand::getName, name);
+                Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
+                return Result.success(result.getRecords(), result.getTotal());
         }
-        List<PmsBrand> list = iPmsBrandService.list(queryWrapper);
-        return Result.success(list);
     }
 
     @ApiOperation(value = "品牌详情", httpMethod = "GET")
