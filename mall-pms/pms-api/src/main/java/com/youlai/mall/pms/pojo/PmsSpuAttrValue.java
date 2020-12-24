@@ -11,14 +11,13 @@ import lombok.Data;
  * @date 2020-11-06
  */
 @Data
-public class PmsSpuAttr extends BaseEntity {
+public class PmsSpuAttrValue extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long spuId;
-    private Long attrCategoryId;
+    private Long attrId;
+    private String name;
     private String value;
 
-    @TableField(exist = false)
-    private String name;
 }

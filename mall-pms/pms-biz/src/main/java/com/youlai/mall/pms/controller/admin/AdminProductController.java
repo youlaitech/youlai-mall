@@ -3,6 +3,7 @@ package com.youlai.mall.pms.controller.admin;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.bo.ProductBO;
 import com.youlai.mall.pms.pojo.PmsSpu;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "商品接口")
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/admin-api/v1/products")
 @Slf4j
 @AllArgsConstructor
 public class AdminProductController {
@@ -29,7 +30,7 @@ public class AdminProductController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", value = "查询模式（1-表格列表）", defaultValue = "1", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String"),
@@ -37,25 +38,28 @@ public class AdminProductController {
     })
     @GetMapping
     public Result list(
-            @RequestParam(defaultValue = "1") Integer queryMode,
+            String queryMode,
             Integer page,
             Integer limit,
             String name,
             Long categoryId
     ) {
-        IPage<PmsSpu> result = iPmsSpuService.list(
-                new Page<>(page, limit),
-                new PmsSpu().setName(name).setCategoryId(categoryId)
-        );
-        return Result
-                .success(result.getRecords(), result.getTotal());
+        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        switch (queryModeEnum) {
+            default:
+                IPage<PmsSpu> result = iPmsSpuService.list(
+                        new Page<>(page, limit),
+                        new PmsSpu().setName(name).setCategoryId(categoryId)
+                );
+                return Result.success(result.getRecords(), result.getTotal());
+        }
     }
 
     @ApiOperation(value = "商品详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
-        ProductBO spu = iPmsSpuService.getSpuById(id);
+        ProductBO spu = iPmsSpuService.getBySpuId(id);
         return Result.success(spu);
     }
 

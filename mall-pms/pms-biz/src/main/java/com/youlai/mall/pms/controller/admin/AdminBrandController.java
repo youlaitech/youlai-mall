@@ -45,7 +45,7 @@ public class AdminBrandController {
                         .select(PmsBrand::getId, PmsBrand::getName);
                 List<PmsBrand> list = iPmsBrandService.list(queryWrapper);
                 return Result.success(list);
-            default:
+            default: // PAGE
                 queryWrapper.like(StrUtil.isNotBlank(name), PmsBrand::getName, name);
                 Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());

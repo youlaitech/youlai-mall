@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.PmsSpuAttr;
+import com.youlai.mall.pms.pojo.PmsSpuAttrValue;
 import org.apache.ibatis.annotations.Select;
 import org.mapstruct.Mapper;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2020-11-06
  */
 @Mapper
-public interface PmsSpuAttrMapper extends BaseMapper<PmsSpuAttr> {
+public interface PmsSpuAttrValueMapper extends BaseMapper<PmsSpuAttrValue> {
 
 
     @Select("<script>" +
@@ -24,5 +24,5 @@ public interface PmsSpuAttrMapper extends BaseMapper<PmsSpuAttr> {
             " WHERE " +
             "   t1.spu_id =#{spuId} " +
             "</script>")
-    List<PmsSpuAttr> listBySpuId(Long spuId);
+    List<PmsSpuAttrValue> listBySpuId(Long spuId);
 }
