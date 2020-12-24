@@ -13,8 +13,7 @@ public class SpuDTO {
     private Long brandId;
     private Long originPrice;
     private Long price;
-    private String pic;
-    private List<String> pics;
+    private List<String> picUrls;
     private String unit;
     private String description;
     private String detail;
