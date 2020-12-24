@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
-public class PmsCategoryAttr {
+public class PmsAttr {
 
     @TableId(type=IdType.AUTO)
     private Long id;

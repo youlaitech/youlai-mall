@@ -32,8 +32,8 @@ public class AdminCategoryController {
     })
     @GetMapping
     public Result list(String queryMode) {
-        PmsCategory category = new PmsCategory();
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        PmsCategory category = new PmsCategory();
         List list;
         switch (queryModeEnum) {
             case CASCADER:

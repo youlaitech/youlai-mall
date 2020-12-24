@@ -15,7 +15,7 @@ public interface IPmsSpuService extends IService<PmsSpu> {
 
     boolean add(ProductBO spuBO);
 
-    ProductBO getSpuById(Long id);
+    ProductBO getBySpuId(Long id);
 
     boolean removeBySpuIds(List<Long> spuIds);
 

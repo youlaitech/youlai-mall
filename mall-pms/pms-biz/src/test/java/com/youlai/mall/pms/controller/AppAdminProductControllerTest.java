@@ -3,10 +3,10 @@ package com.youlai.mall.pms.controller;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.mall.pms.bo.AppProductBO;
 import com.youlai.mall.pms.controller.admin.AdminProductController;
-import com.youlai.mall.pms.pojo.PmsSpuAttr;
-import com.youlai.mall.pms.pojo.PmsCategorySpec;
-import com.youlai.mall.pms.service.IPmsAttrValueService;
-import com.youlai.mall.pms.service.IPmsCategorySpecService;
+import com.youlai.mall.pms.pojo.PmsSpuAttrValue;
+import com.youlai.mall.pms.pojo.PmsSpec;
+import com.youlai.mall.pms.service.IPmsSpuAttrValueService;
+import com.youlai.mall.pms.service.IPmsSpecService;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -56,22 +56,22 @@ public class AppAdminProductControllerTest {
     }
 
     @Autowired
-    public IPmsCategorySpecService iPmsCategorySpecService;
+    public IPmsSpecService iPmsSpecService;
 
     @Test
     public void getProductSpecList() {
-        List<PmsCategorySpec> specifications = iPmsCategorySpecService.listBySpuId(1l);
+        List<PmsSpec> specifications = iPmsSpecService.listBySpuId(1l);
         Assert.assertTrue(specifications != null && specifications.size() > 0);
         log.info(specifications.toString());
     }
 
     @Autowired
-    public IPmsAttrValueService iPmsAttrValueService;
+    public IPmsSpuAttrValueService iPmsSpuAttrValueService;
 
 
     @Test
     public void getProductAttrList() {
-        List<PmsSpuAttr> attrs = iPmsAttrValueService.listBySpuId(1l);
+        List<PmsSpuAttrValue> attrs = iPmsSpuAttrValueService.listBySpuId(1l);
         Assert.assertTrue(attrs != null && attrs.size() > 0);
         log.info(attrs.toString());
     }
