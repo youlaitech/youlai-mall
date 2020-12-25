@@ -95,6 +95,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPicUrls()), String.class);
             spuDTO.setPicUrls(pics);
         }
+
         // 属性
         List<PmsSpuAttrValue> attrs = iPmsSpuAttrValueService.
                 list(new LambdaQueryWrapper<PmsSpuAttrValue>().eq(PmsSpuAttrValue::getSpuId, id));
@@ -106,6 +107,44 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 组合
         ProductBO spuBO = new ProductBO(spuDTO, attrs, specs, skuList);
         return spuBO;
+    }
+
+
+
+    @Override
+    public boolean updateById(ProductBO spuBO) {
+        SpuDTO spuDTO = spuBO.getSpu();
+        List<PmsSpuAttrValue> attrs = spuBO.getAttrs();
+        List<PmsSpuSpecValue> specs = spuBO.getSpecs();
+        List<PmsSku> skuList = spuBO.getSkuList();
+
+        // spu保存
+        PmsSpu spu = new PmsSpu();
+        BeanUtil.copyProperties(spuDTO, spu);
+        if (spuDTO.getPicUrls() != null) {
+            String picUrls = JSONUtil.toJsonStr(spuDTO.getPicUrls());
+            spu.setPicUrls(picUrls);
+        }
+        this.updateById(spu);
+
+        // 属性保存
+        Optional.ofNullable(attrs).ifPresent(list -> {
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSpuAttrValueService.saveOrUpdateBatch(list);
+        });
+
+        // 规格保存
+        Optional.ofNullable(specs).ifPresent(list -> {
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSpuSpecValueService.saveOrUpdateBatch(list);
+        });
+
+        // sku保存
+        Optional.ofNullable(skuList).ifPresent(list -> {
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSkuService.saveOrUpdateBatch(skuList);
+        });
+        return true;
     }
 
     @Override
@@ -125,40 +164,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                     this.removeById(spuId);
                 })
         );
-        return true;
-    }
-
-    @Override
-    public boolean updateById(ProductBO spuBO) {
-        // spu
-        SpuDTO spuDTO = spuBO.getSpu();
-        PmsSpu spu = new PmsSpu();
-        BeanUtil.copyProperties(spuDTO, spu);
-        if (CollectionUtil.isNotEmpty(spuDTO.getPicUrls())) {
-            String picUrls = JSONUtil.toJsonStr(spuDTO.getPicUrls());
-            spu.setPicUrls(picUrls);
-        }
-        this.updateById(spu);
-
-        // 属性保存
-        List<PmsSpuAttrValue> attributes = spuBO.getAttrs();
-        Optional.ofNullable(attributes).ifPresent(list -> {
-            list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSpuAttrValueService.updateBatchById(attributes);
-        });
-
-        // 规格保存
-        List<PmsSpuSpecValue> specifications = null;
-        Optional.ofNullable(specifications).ifPresent(list -> {
-            //iPmsSpecValueService.updateBatchById(specifications);
-        });
-
-        // sku保存
-        List<PmsSku> skuList = spuBO.getSkuList();
-        Optional.ofNullable(skuList).ifPresent(list -> {
-            list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSkuService.updateBatchById(skuList);
-        });
         return true;
     }
 
