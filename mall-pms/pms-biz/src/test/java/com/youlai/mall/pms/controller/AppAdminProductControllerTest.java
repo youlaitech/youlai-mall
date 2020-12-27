@@ -69,20 +69,13 @@ public class AppAdminProductControllerTest {
     public IPmsSpuAttrValueService iPmsSpuAttrValueService;
 
 
-    @Test
-    public void getProductAttrList() {
-        List<PmsSpuAttrValue> attrs = iPmsSpuAttrValueService.listBySpuId(1l);
-        Assert.assertTrue(attrs != null && attrs.size() > 0);
-        log.info(attrs.toString());
-    }
-
 
     @Autowired
     private IPmsSpuService iPmsSpuService;
 
     @Test
     public void getProduct() {
-        AppProductBO product = iPmsSpuService.getAppProductBySpuId(1l);
+        AppProductBO product = iPmsSpuService.getProductByIdForApp(1l);
         log.info(product.toString());
     }
 }

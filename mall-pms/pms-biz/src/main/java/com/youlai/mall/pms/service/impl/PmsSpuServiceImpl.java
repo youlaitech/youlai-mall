@@ -11,15 +11,12 @@ import com.youlai.mall.pms.bo.AppProductBO;
 import com.youlai.mall.pms.bo.ProductBO;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.*;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,6 +32,8 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     private IPmsSkuService iPmsSkuService;
     private IPmsSpuAttrValueService iPmsSpuAttrValueService;
     private IPmsSpuSpecValueService iPmsSpuSpecValueService;
+
+    private IPmsSpecService iPmsSpecService;
 
 
     @Override
@@ -198,7 +197,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public AppProductBO getAppProductBySpuId(Long spuId) {
+    public AppProductBO getProductByIdForApp(Long spuId) {
         // spu
         PmsSpu spu = this.getById(spuId);
         SpuDTO spuDTO = new SpuDTO();
@@ -209,27 +208,18 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             spuDTO.setPicUrls(pics);
         }
         // 属性
-        List<PmsSpuAttrValue> attributes = iPmsSpuAttrValueService.listBySpuId(spuId);
+        List<PmsSpuAttrValue> attrs = iPmsSpuAttrValueService.list(
+                new LambdaQueryWrapper<PmsSpuAttrValue>(
+                ).eq(PmsSpuAttrValue::getSpuId, spuId)
+        );
 
         // 规格
-        //List<PmsSpec> specifications = iPmsSpuSpecValueService.listBySpuId(spuId);
+        List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
 
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
-        List<SkuDTO> skuDTOList = new ArrayList<>();
-        Optional.ofNullable(skuList).ifPresent(list -> {
-            list.forEach(sku -> {
-                SkuDTO skuDTO = new SkuDTO();
-                BeanUtil.copyProperties(sku, skuDTO, "specValueIds");
-                if (StrUtil.isNotBlank(sku.getSpecValueIds())) {
-                    List<Long> specValueIds = Arrays.stream(sku.getSpecValueIds().split(","))
-                            .map(id -> Long.parseLong(id)).collect(Collectors.toList());
-                    skuDTO.setSpecValueIds(specValueIds);
-                }
-                skuDTOList.add(skuDTO);
-            });
-        });
-        AppProductBO product = new AppProductBO(spuDTO, skuDTOList, attributes, null);
+
+        AppProductBO product = new AppProductBO(spuDTO, attrs, specs, skuList);
         return product;
     }
 }

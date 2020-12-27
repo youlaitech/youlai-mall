@@ -1,9 +1,11 @@
 package com.youlai.mall.pms.controller.admin;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.pojo.PmsCategory;
+import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -58,7 +60,9 @@ public class AdminCategoryController {
     @PostMapping
     public Result add(@RequestBody PmsCategory category) {
         iPmsCategoryService.save(category);
-        return Result.success(category);
+        CategoryVO categoryVO = new CategoryVO();
+        BeanUtil.copyProperties(category, categoryVO);
+        return Result.success(categoryVO);
     }
 
     @ApiOperation(value = "修改商品分类", httpMethod = "PUT")
