@@ -21,5 +21,5 @@ public interface IPmsSpuService extends IService<PmsSpu> {
 
     boolean updateById(ProductBO spuBO);
 
-    AppProductBO getAppProductBySpuId(Long id);
+    AppProductBO getProductByIdForApp(Long id);
 }

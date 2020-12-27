@@ -9,6 +9,13 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 
 **线上地址:** [www.youlai.store](http://www.youlai.store)
 
+### 后台
+
+![](https://i.loli.net/2020/12/27/iLw3jEgVGQSf61F.png)
+### 小程序
+
+![](https://i.loli.net/2020/12/27/cX6wEUFmndg4LhO.png)
+
 ## **项目结构**
 
 ``` lua

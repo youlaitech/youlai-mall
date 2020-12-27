@@ -2,6 +2,7 @@ package com.youlai.mall.pms.pojo.vo;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,6 +24,6 @@ public class CategoryVO {
 
     private Integer status;
 
-    private List<CategoryVO> children;
+    private List<CategoryVO> children=new ArrayList<>();
 
 }

@@ -15,8 +15,5 @@ import java.util.List;
 @Service
 public class PmsSpuAttrValueServiceImpl extends ServiceImpl<PmsSpuAttrValueMapper, PmsSpuAttrValue> implements IPmsSpuAttrValueService {
 
-    @Override
-    public List<PmsSpuAttrValue> listBySpuId(Long spuId) {
-        return this.baseMapper.listBySpuId(spuId);
-    }
+
 }
