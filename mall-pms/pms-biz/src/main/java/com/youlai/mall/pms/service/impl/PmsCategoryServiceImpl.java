@@ -22,6 +22,8 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
         List<PmsCategory> categoryList = this.list(
                 new LambdaQueryWrapper<PmsCategory>()
                         .eq(category.getStatus() != null, PmsCategory::getStatus, category.getStatus())
+                        .orderByAsc(PmsCategory::getSort)
+
         );
         List<CategoryVO> list = recursionForTreeList(0l, categoryList);
         return list;
