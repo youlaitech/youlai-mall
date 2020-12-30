@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.controller;
+package com.youlai.mall.oms.controller.app;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youlai.mall.oms.dao.OrderSettingDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.youlai.mall.oms.pojo.entity.OrderSettingEntity" id="orderSettingMap">
+        <result property="id" column="id"/>
+        <result property="flashOrderOvertime" column="flash_order_overtime"/>
+        <result property="normalOrderOvertime" column="normal_order_overtime"/>
+        <result property="confirmOvertime" column="confirm_overtime"/>
+        <result property="finishOvertime" column="finish_overtime"/>
+        <result property="commentOvertime" column="comment_overtime"/>
+        <result property="memberLevel" column="member_level"/>
+        <result property="deleted" column="deleted"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
+
+
+</mapper>

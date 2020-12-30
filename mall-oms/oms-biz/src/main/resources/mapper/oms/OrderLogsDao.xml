@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youlai.mall.oms.dao.OrderLogsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.youlai.mall.oms.pojo.entity.OrderLogsEntity" id="orderLogsMap">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="user" column="user"/>
+        <result property="detail" column="detail"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="remark" column="remark"/>
+        <result property="deleted" column="deleted"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
+
+
+</mapper>

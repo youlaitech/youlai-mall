@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youlai.mall.oms.dao.OrderDeliveryDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.youlai.mall.oms.pojo.entity.OrderDeliveryEntity" id="orderDeliveryMap">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="deliveryCompany" column="delivery_company"/>
+        <result property="deliverySn" column="delivery_sn"/>
+        <result property="receiverName" column="receiver_name"/>
+        <result property="receiverPhone" column="receiver_phone"/>
+        <result property="receiverPostCode" column="receiver_post_code"/>
+        <result property="receiverProvince" column="receiver_province"/>
+        <result property="receiverCity" column="receiver_city"/>
+        <result property="receiverRegion" column="receiver_region"/>
+        <result property="receiverDetailAddress" column="receiver_detail_address"/>
+        <result property="remark" column="remark"/>
+        <result property="deliveryStatus" column="delivery_status"/>
+        <result property="deliveryTime" column="delivery_time"/>
+        <result property="receiveTime" column="receive_time"/>
+        <result property="deleted" column="deleted"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
+
+
+</mapper>
