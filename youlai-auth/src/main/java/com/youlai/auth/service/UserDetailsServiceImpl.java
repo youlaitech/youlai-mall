@@ -34,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         String clientId = request.getParameter(AuthConstants.JWT_CLIENT_ID_KEY);
         User user = null;
         switch (clientId) {
