@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youlai.mall.oms.dao.OrderPayDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.youlai.mall.oms.pojo.entity.OrderPayEntity" id="orderPayMap">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="paySn" column="pay_sn"/>
+        <result property="payAmount" column="pay_amount"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="payType" column="pay_type"/>
+        <result property="payStatus" column="pay_status"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="callbackContent" column="callback_content"/>
+        <result property="callbackTime" column="callback_time"/>
+        <result property="paySubject" column="pay_subject"/>
+        <result property="deleted" column="deleted"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
+
+
+</mapper>
