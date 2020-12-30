@@ -23,9 +23,15 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
                 new LambdaQueryWrapper<PmsCategory>()
                         .eq(category.getStatus() != null, PmsCategory::getStatus, category.getStatus())
                         .orderByAsc(PmsCategory::getSort)
-
         );
-        List<CategoryVO> list = recursionForTreeList(0l, categoryList);
+
+        Long parentId = 0l;
+
+        if (category.getParentId() != null) {
+            parentId = category.getParentId();
+        }
+
+        List<CategoryVO> list = recursionForTreeList(parentId, categoryList);
         return list;
     }
 
