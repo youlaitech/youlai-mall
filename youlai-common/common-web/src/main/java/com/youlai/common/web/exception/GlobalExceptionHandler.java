@@ -35,4 +35,8 @@ public class GlobalExceptionHandler {
         return Result.failed(e.getMessage());
     }
 
+    @ExceptionHandler(Exception.class)
+    public Result handleException(Exception e) {
+        return Result.failed(e.getMessage());
+    }
 }
