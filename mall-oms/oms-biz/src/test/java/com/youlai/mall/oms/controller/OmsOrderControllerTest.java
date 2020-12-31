@@ -1,6 +1,7 @@
 package com.youlai.mall.oms.controller;
 
 import com.youlai.common.core.result.ResultCode;
+import com.youlai.mall.oms.controller.app.OmsOrderController;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
