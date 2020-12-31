@@ -9,7 +9,7 @@ spring:
           jwk-set-uri: 'http://localhost:8000/getPublicKey'
   redis:
     database: 0
-    host: www.youlai.store
+    host: localhost
     port: 6379
     password: 
   cloud:
@@ -32,7 +32,8 @@ spring:
           filters:
             - StripPrefix=1
 
-# 配置白名单路径(无需鉴权)
+# 配置白名单路径(无需登录)
 whitelist:
   urls:
       - "/youlai-auth/oauth/token"
+      - "/youlai-auth/oauth/authorize"

@@ -31,13 +31,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public boolean add(SysRole role) {
         List<Integer> menuIds = role.getMenuIds();
+        this.save(role);
         Integer roleId = role.getId();
         List<SysRoleMenu> roleMenus = new ArrayList<>();
         Optional.ofNullable(menuIds).ifPresent(list -> list.stream().forEach(menuId ->
                 roleMenus.add(new SysRoleMenu().setRoleId(roleId).setMenuId(menuId)))
         );
-        iSysRoleMenuService.saveBatch(roleMenus);
-        return this.save(role);
+        boolean result = iSysRoleMenuService.saveBatch(roleMenus);
+        return result;
     }
 
 
