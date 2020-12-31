@@ -61,7 +61,7 @@ public class AuthController {
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
     ) throws HttpRequestMethodNotSupportedException {
-        String clientId = parameters.get("client_id");
+        String clientId = parameters.get(AuthConstants.JWT_CLIENT_ID_KEY);
         switch (clientId) {
             case AuthConstants.WEAPP_CLIENT_ID:  // 微信认证
                 return this.handleForWxAuth(principal, parameters);
