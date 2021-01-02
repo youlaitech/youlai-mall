@@ -27,8 +27,9 @@ public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
             "  pms_spu t1" +
             " LEFT JOIN pms_category t2 ON t1.category_id = t2.id " +
             " LEFT JOIN pms_brand t3 ON t1.brand_id = t3.id " +
+            " WHERE 1=1 " +
             " <if test ='spu.categoryId !=null and spu.categoryId > 0' >" +
-            "       AND t2.category_id = #{spu.categoryId} " +
+            "       AND t2.id = #{spu.categoryId} " +
             " </if>" +
             " ORDER BY t1.gmt_create DESC" +
             "</script>")

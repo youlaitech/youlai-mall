@@ -33,7 +33,7 @@ public class AppProductController {
     @GetMapping
     public Result list(
             Integer page,
-            Integer limit,
+            @RequestParam(required = false, defaultValue = "10") Integer limit,
             String name,
             Long categoryId
     ) {

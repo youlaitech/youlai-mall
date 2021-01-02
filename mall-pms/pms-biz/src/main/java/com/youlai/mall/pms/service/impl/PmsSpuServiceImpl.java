@@ -32,7 +32,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     private IPmsSkuService iPmsSkuService;
     private IPmsSpuAttrValueService iPmsSpuAttrValueService;
     private IPmsSpuSpecValueService iPmsSpuSpecValueService;
-
     private IPmsSpecService iPmsSpecService;
 
 

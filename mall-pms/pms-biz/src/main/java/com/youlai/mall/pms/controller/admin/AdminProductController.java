@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "商品接口")
 @RestController
-@RequestMapping("/admin-api/v1/products")
+@RequestMapping("/api.admin/v1/products")
 @Slf4j
 @AllArgsConstructor
 public class AdminProductController {

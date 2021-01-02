@@ -1,9 +1,11 @@
-package com.youlai.mall.sms.controller;
+package com.youlai.mall.sms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.sms.pojo.SmsAdvert;
 import com.youlai.mall.sms.service.ISmsAdvertService;
@@ -20,34 +22,38 @@ import java.util.List;
 
 @Api(tags = "广告接口")
 @RestController
-@RequestMapping("/adverts")
+@RequestMapping("/api.admin/v1/adverts")
 @Slf4j
 @AllArgsConstructor
-public class SmsAdvertController {
+public class AdminAdvertController {
 
     private ISmsAdvertService iSmsAdvertService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "advert", value = "广告信息", paramType = "query", dataType = "SmsAdvert")
+            @ApiImplicitParam(name = "name", value = "广告名称", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, SmsAdvert advert) {
-        LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
-                .like(StrUtil.isNotBlank(advert.getName()), SmsAdvert::getName, advert.getName())
-                .orderByDesc(SmsAdvert::getGmtModified)
-                .orderByDesc(SmsAdvert::getGmtCreate);
+    public Result list(
+            String queryMode,
+            Integer page,
+            Integer limit,
+            String name) {
+        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        switch (queryModeEnum) {
+            default:
+                LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
+                        .like(StrUtil.isNotBlank(name), SmsAdvert::getName, name)
+                        .orderByAsc(SmsAdvert::getSort)
+                        .orderByDesc(SmsAdvert::getGmtModified)
+                        .orderByDesc(SmsAdvert::getGmtCreate);
 
-        if (page != null && limit != null) {
-            Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(page, limit), queryWrapper);
-            return Result.success(result.getRecords(), result.getTotal());
-        } else if (limit != null) {
-            queryWrapper.last("LIMIT " + limit);
+                Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(page, limit), queryWrapper);
+                return Result.success(result.getRecords(), result.getTotal());
         }
-        List<SmsAdvert> list = iSmsAdvertService.list(queryWrapper);
-        return Result.success(list);
     }
 
     @ApiOperation(value = "广告详情", httpMethod = "GET")
@@ -88,7 +94,7 @@ public class SmsAdvertController {
         return Result.status(status);
     }
 
-    @ApiOperation(value = "修改广告(部分更新)", httpMethod = "PATCH")
+    @ApiOperation(value = "修改广告(局部更新)", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")
