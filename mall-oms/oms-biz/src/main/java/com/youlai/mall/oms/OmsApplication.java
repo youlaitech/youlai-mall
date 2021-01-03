@@ -11,7 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableDiscoveryClient
 @MapperScan({"com.youlai.mall.oms.mapper","com.youlai.mall.oms.dao"})
 @EnableSwagger2
-@EnableFeignClients(basePackages = {"com.youlai.mall.ums.api"})
+@EnableFeignClients(basePackages = {"com.youlai.mall.ums.api","com.youlai.mall.oms.api"})
 public class OmsApplication {
     public static void main(String[] args) {
         SpringApplication.run(OmsApplication.class);

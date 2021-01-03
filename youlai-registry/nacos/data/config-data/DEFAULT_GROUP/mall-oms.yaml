@@ -8,6 +8,11 @@ spring:
     url: jdbc:mysql://www.youlai.store:3306/youlai-mall?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
+  redis:
+    database: 0
+    host: www.youlai.store
+    port: 6379
+    password:
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
