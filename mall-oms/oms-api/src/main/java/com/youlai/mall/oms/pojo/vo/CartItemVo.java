@@ -32,10 +32,12 @@ public class CartItemVo implements Serializable {
      */
     private String skuName;
 
+    private Integer stock;
+
     /**
      * 商品数量
      */
-    private Integer num;
+    private Integer number;
 
     /**
      * 商品单价
@@ -55,7 +57,7 @@ public class CartItemVo implements Serializable {
     /**
      * 是否选择
      */
-    private boolean choose;
+    private boolean checked;
 
     private List<String> skuAttrs;
 
@@ -83,12 +85,20 @@ public class CartItemVo implements Serializable {
         this.skuName = skuName;
     }
 
-    public Integer getNum() {
-        return num;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setNum(Integer num) {
-        this.num = num;
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public Long getPrice() {
@@ -101,8 +111,8 @@ public class CartItemVo implements Serializable {
 
     public Long getSubTotal() {
         long total = 0;
-        if (price != null && num != null) {
-            total = price * num;
+        if (price != null && number != null) {
+            total = price * number;
         }
         return total;
     }
@@ -120,12 +130,12 @@ public class CartItemVo implements Serializable {
         this.hasStock = hasStock;
     }
 
-    public boolean isChoose() {
-        return choose;
+    public boolean isChecked() {
+        return checked;
     }
 
-    public void setChoose(boolean choose) {
-        this.choose = choose;
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public List<String> getSkuAttrs() {

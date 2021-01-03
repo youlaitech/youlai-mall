@@ -17,7 +17,7 @@ import java.util.List;
 
 @Api(tags = "购物车接口")
 @RestController
-@RequestMapping("/api.app/v1/cart")
+@RequestMapping("/api.app/v1/carts")
 @Slf4j
 @AllArgsConstructor
 public class CartController {
@@ -58,7 +58,7 @@ public class CartController {
     @ApiOperation(value = "批量删除购物车", httpMethod = "DELETE")
     @ApiImplicitParam(name = "skuIds", value = "商品sku id集合", required = true, paramType = "param", dataType = "List")
     @DeleteMapping
-    public Result<Boolean> deleteBatch(@RequestParam("skuIds") List<String> skuIds) {
+    public Result<Boolean> delete(@RequestParam("skuIds") List<String> skuIds) {
         cartService.deleteBatch(skuIds);
         return Result.success();
     }

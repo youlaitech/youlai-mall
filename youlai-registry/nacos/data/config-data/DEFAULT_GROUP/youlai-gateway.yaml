@@ -6,7 +6,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: 'http://localhost:8000/getPublicKey'
+          jwk-set-uri: 'http://localhost:8000/getPublicKey' # JWT验签公钥地址
   redis:
     database: 0
     host: www.youlai.store
@@ -19,20 +19,50 @@ spring:
           enabled: true # 启用服务发现
           lower-case-service-id: true
       routes:
+        # 认证中心
         - id: youlai-auth
           uri: lb://youlai-auth
           predicates:
             - Path=/youlai-auth/**
           filters:
             - StripPrefix=1
+        # 管理
         - id: youlai-admin
           uri: lb://youlai-admin
           predicates:
             - Path=/youlai-admin/**
           filters:
             - StripPrefix=1
+        # 商品
+        - id: mall-pms
+          uri: lb://mall-pms
+          predicates:
+            - Path=/mall-pms/**
+          filters:
+            - StripPrefix=1
+        # 会员
+        - id: mall-ums
+          uri: lb://mall-ums
+          predicates:
+            - Path=/mall-ums/**
+          filters:
+            - StripPrefix=1
+        # 营销
+        - id: mall-sms
+          uri: lb://mall-sms
+          predicates:
+            - Path=/mall-sms/**
+          filters:
+            - StripPrefix=1
+        # 订单
+        - id: mall-oms
+          uri: lb://mall-oms
+          predicates:
+            - Path=/mall-oms/**
+          filters:
+            - StripPrefix=1
 
-# 配置白名单路径(无需登录)
+# 配置白名单路径(无需鉴权)
 whitelist:
   urls:
       - "/youlai-auth/oauth/token"

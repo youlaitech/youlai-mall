@@ -1,6 +1,7 @@
 package com.youlai.mall.oms.service.impl;
 
 import com.youlai.common.core.result.Result;
+import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.oms.api.ProductFeignService;
 import com.youlai.mall.oms.bo.CartItemBo;
 import com.youlai.mall.oms.bo.CartItemChooseBo;
@@ -46,11 +47,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void save(CartItemBo cartItemBo) {
-        log.info("添加商品到购物车，form:{}",cartItemBo);
+        log.info("添加商品到购物车，form:{}", cartItemBo);
         BoundHashOperations cartOps = getCartOps();
         if (cartOps.get(cartItemBo.getSkuId().toString()) != null) {
             CartItemVo cartItem = (CartItemVo) cartOps.get(cartItemBo.getSkuId().toString());
-            cartItem.setNum(cartItem.getNum() + cartItemBo.getNum());
+            cartItem.setNumber(cartItem.getNumber() + cartItemBo.getNum());
             cartOps.put(cartItemBo.getSkuId().toString(), cartItem);
             return;
         }
@@ -58,15 +59,15 @@ public class CartServiceImpl implements CartService {
         CartItemVo cartItem = new CartItemVo();
         // 添加新商品到购物车
 //        CompletableFuture<Void> skuInfoFuture = CompletableFuture.runAsync(() -> {
-            //1、远程查询商品详情
-            Result<SkuInfoDto> skuInfo = productFeignService.getSkuInfo(cartItemBo.getSkuId());
-            SkuInfoDto data = skuInfo.getData();
-            cartItem.setSkuId(cartItemBo.getSkuId());
-            cartItem.setChoose(true);
-            cartItem.setSkuName(data.getName());
-            cartItem.setSkuImg(data.getPicUrl());
-            cartItem.setNum(cartItemBo.getNum());
-            cartItem.setPrice(data.getPrice());
+        //1、远程查询商品详情
+        Result<SkuInfoDto> skuInfo = productFeignService.getSkuInfo(cartItemBo.getSkuId());
+        SkuInfoDto data = skuInfo.getData();
+        cartItem.setSkuId(cartItemBo.getSkuId());
+        cartItem.setChecked(true);
+        cartItem.setSkuName(data.getName());
+        cartItem.setSkuImg(data.getPicUrl());
+        cartItem.setNumber(cartItemBo.getNum());
+        cartItem.setPrice(data.getPrice());
 
 //        });
         //2、远程查询商品属性
@@ -83,7 +84,7 @@ public class CartServiceImpl implements CartService {
         if (cartItem == null) {
             return;
         }
-        cartItem.setNum(cartItemBo.getNum());
+        cartItem.setNumber(cartItemBo.getNum());
         cartOps.put(cartItemBo.getSkuId().toString(), cartItem);
     }
 
@@ -95,7 +96,7 @@ public class CartServiceImpl implements CartService {
         if (cartItem == null) {
             return;
         }
-        cartItem.setChoose(cartItemChooseBo.getChoose() == 1);
+        cartItem.setChecked(cartItemChooseBo.getChoose() == 1);
         cartOps.put(cartItemChooseBo.getSkuId().toString(), cartItem);
     }
 
@@ -126,7 +127,7 @@ public class CartServiceImpl implements CartService {
     }
 
     private BoundHashOperations getCartOps() {
-        Long userId = 1L;
+        Long userId = WebUtils.getUserId();
         String cartKey = MALL_CART_KEY + userId;
         BoundHashOperations operations = redisTemplate.boundHashOps(cartKey);
         return operations;
