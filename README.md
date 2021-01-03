@@ -9,9 +9,7 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 
 **线上地址:** [www.youlai.store](http://www.youlai.store)
 
-### 后台
-
-体验码，加我微信（微信号:haoxianrui）备注“体验”获取体验资格
+### 管理后台
 
 ![](https://i.loli.net/2021/01/02/7t9TlgCHSnam64E.png)
 
@@ -20,15 +18,18 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 ![](https://i.loli.net/2020/12/27/iLw3jEgVGQSf61F.png)
 
 
-### 小程序
-
-![](https://i.loli.net/2021/01/02/ZesKNr17FBUlWGE.jpg)
+### 微信小程序
 
 ![](https://i.loli.net/2021/01/02/OugrUpPVl9d5w14.png)
 
 ![](https://i.loli.net/2021/01/02/vdeaIS78yRHUkBm.png)
 
 ![](https://i.loli.net/2021/01/02/QDU9okJbvuVrxwc.png)
+
+
+**体验码，加我微信（微信号:haoxianrui）备注“体验”获取体验**
+
+![](https://i.loli.net/2021/01/02/ZesKNr17FBUlWGE.jpg)
 
 ## **项目结构**
 
