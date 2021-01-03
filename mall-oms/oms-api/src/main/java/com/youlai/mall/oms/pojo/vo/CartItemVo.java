@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 购物车项目项实体类
@@ -55,6 +56,8 @@ public class CartItemVo implements Serializable {
      * 是否选择
      */
     private boolean choose;
+
+    private List<String> skuAttrs;
 
     public Long getSkuId() {
         return skuId;
@@ -123,5 +126,13 @@ public class CartItemVo implements Serializable {
 
     public void setChoose(boolean choose) {
         this.choose = choose;
+    }
+
+    public List<String> getSkuAttrs() {
+        return skuAttrs;
+    }
+
+    public void setSkuAttrs(List<String> skuAttrs) {
+        this.skuAttrs = skuAttrs;
     }
 }

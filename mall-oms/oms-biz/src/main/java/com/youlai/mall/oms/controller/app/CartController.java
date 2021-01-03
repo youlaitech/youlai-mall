@@ -1,25 +1,66 @@
 package com.youlai.mall.oms.controller.app;
 
+import com.youlai.common.core.result.Result;
+import com.youlai.mall.oms.bo.CartItemBo;
+import com.youlai.mall.oms.bo.CartItemChooseBo;
+import com.youlai.mall.oms.pojo.vo.CartVo;
+import com.youlai.mall.oms.service.CartService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "购物车接口")
 @RestController
-@RequestMapping("oms/cart")
+@RequestMapping("/api.app/v1/cart")
 @Slf4j
 @AllArgsConstructor
 public class CartController {
 
-    // 添加购物车
+    private CartService cartService;
 
-    // 删除购物车
+    @ApiOperation(value = "查询购物车", httpMethod = "GET")
+    @GetMapping
+    public Result<CartVo> detail() {
+        CartVo cart = cartService.detail();
+        return Result.success(cart);
+    }
 
-    // 批量删除购物车
+    @ApiOperation(value = "添加购物车", httpMethod = "POST")
+    @ApiImplicitParam(name = "cartItemBo", value = "实体JSON对象", required = true, paramType = "body", dataType = "CartItemBo")
+    @PostMapping
+    public Result<Object> save(@Validated @RequestBody CartItemBo cartItemBo) {
+        cartService.save(cartItemBo);
+        return Result.success();
+    }
 
-    // 修改购物车
+    @ApiOperation(value = "修改购物车商品数量", httpMethod = "PUT")
+    @ApiImplicitParam(name = "cartItemBo", value = "实体JSON对象", required = true, paramType = "body", dataType = "CartItemBo")
+    @PutMapping
+    public Result<Object> update(@Validated @RequestBody CartItemBo cartItemBo) {
+        cartService.update(cartItemBo);
+        return Result.success();
+    }
 
-    // 查询购物车
+    @ApiOperation(value = "是否选择购物车中商品", httpMethod = "PUT")
+    @ApiImplicitParam(name = "cartItemChooseBo", value = "实体JSON对象", required = true, paramType = "body", dataType = "CartItemChooseBo")
+    @PutMapping("/choose")
+    public Result<Object> choose(@Validated @RequestBody CartItemChooseBo cartItemChooseBo) {
+        cartService.choose(cartItemChooseBo);
+        return Result.success();
+    }
+
+    @ApiOperation(value = "批量删除购物车", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "skuIds", value = "商品sku id集合", required = true, paramType = "param", dataType = "List")
+    @DeleteMapping
+    public Result<Boolean> deleteBatch(@RequestParam("skuIds") List<String> skuIds) {
+        cartService.deleteBatch(skuIds);
+        return Result.success();
+    }
+
 }
