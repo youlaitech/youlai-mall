@@ -42,6 +42,8 @@
         <minio.version>7.1.0</minio.version>
         <knife4j.version>2.0.4</knife4j.version>
         <weixin-java-miniapp.version>3.9.4.B</weixin-java-miniapp.version>
+        <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
+        <jackson.version>2.9.3</jackson.version>
     </properties>
 
     <dependencies>
@@ -101,6 +103,32 @@
                 <artifactId>weixin-java-miniapp</artifactId>
                 <version>${weixin-java-miniapp.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
