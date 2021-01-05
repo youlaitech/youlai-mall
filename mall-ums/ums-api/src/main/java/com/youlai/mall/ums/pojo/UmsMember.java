@@ -32,5 +32,7 @@ public class UmsMember {
 
     private Integer status;
 
+    private Integer integration;
+
 
 }
