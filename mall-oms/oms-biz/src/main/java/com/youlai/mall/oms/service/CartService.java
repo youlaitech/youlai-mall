@@ -1,10 +1,11 @@
 package com.youlai.mall.oms.service;
 
 import com.youlai.mall.oms.bo.CartItemBo;
-import com.youlai.mall.oms.bo.CartItemChooseBo;
+import com.youlai.mall.oms.bo.CartItemCheckBo;
 import com.youlai.mall.oms.pojo.vo.CartVo;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 购物车业务接口
@@ -13,9 +14,9 @@ public interface CartService {
 
     /**
      * 添加商品到购物车
-     * @param cartItemBo 商品模型
+     * @param skuId 商品模型
      */
-    void save(CartItemBo cartItemBo);
+    void save(String skuId) throws ExecutionException, InterruptedException;
 
     /**
      * 修改购物车商品数量
@@ -25,9 +26,15 @@ public interface CartService {
 
     /**
      * 修改购物车中商品是否选中状态
-     * @param cartItemChooseBo
+     * @param cartItemCheckBo
      */
-    void choose(CartItemChooseBo cartItemChooseBo);
+    void check(CartItemCheckBo cartItemCheckBo);
+
+    /**
+     * 全选/全不选购物车
+     * @param check
+     */
+    void checkAll(Integer check);
 
     /**
      * 删除购物车中的商品
@@ -46,4 +53,11 @@ public interface CartService {
      * @return
      */
     CartVo detail();
+
+    /**
+     * 清空购物车
+     */
+    void clear();
+
+
 }
