@@ -5,14 +5,37 @@ spring:
   application:
     name: mall-oms
   cloud:
+
     nacos:
       discovery:
-        server-addr: http://c.youlai.store:8848
+        server-addr: http://localhost:8848
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
 
 
+
+# 分布式事务配置
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: mall_tx_group
+  enable-auto-data-source-proxy: true
+  data-source-proxy-mode: AT
+  use-jdk-proxy: true
+  config:
+    type: nacos
+    nacos:
+      namespace: seata_id
+      server-addr: c.youlai.store:8848
+      group: SEATA_GROUP
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      namespace: seata_id
+      server-addr: c.youlai.store:8848
+      group: SEATA_GROUP
 
 
 
