@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Accessors(chain = true)
-public class CartItemChooseBo {
+public class CartItemCheckBo {
 
     /**
      * 商品sku id
@@ -18,6 +18,6 @@ public class CartItemChooseBo {
     /**
      * 商品数量
      */
-    private Integer choose = 1;
+    private Integer check = 1;
 
 }
