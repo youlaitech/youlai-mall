@@ -43,7 +43,7 @@
         <knife4j.version>2.0.4</knife4j.version>
         <weixin-java-miniapp.version>3.9.4.B</weixin-java-miniapp.version>
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
-        <seata.version>1.4.1</seata.version>
+        <seata.version>1.4.0</seata.version>
     </properties>
 
     <dependencies>
