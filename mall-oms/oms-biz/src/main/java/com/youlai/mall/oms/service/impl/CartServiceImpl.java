@@ -4,7 +4,7 @@ import com.youlai.common.core.result.Result;
 import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.oms.api.ProductFeignService;
 import com.youlai.mall.oms.bo.CartItemBo;
-import com.youlai.mall.oms.bo.CartItemChooseBo;
+import com.youlai.mall.oms.bo.CartItemCheckBo;
 import com.youlai.mall.oms.dto.SkuInfoDto;
 import com.youlai.mall.oms.pojo.vo.CartItemVo;
 import com.youlai.mall.oms.pojo.vo.CartVo;
@@ -16,6 +16,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static com.youlai.common.core.constant.RedisKeyConstants.MALL_CART_KEY;
 
@@ -46,32 +48,37 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public void save(CartItemBo cartItemBo) {
-        log.info("添加商品到购物车，form:{}", cartItemBo);
+    public void save(String skuId) throws ExecutionException, InterruptedException {
+        log.info("添加商品到购物车，form:{}", skuId);
         BoundHashOperations cartOps = getCartOps();
-        if (cartOps.get(cartItemBo.getSkuId().toString()) != null) {
-            CartItemVo cartItem = (CartItemVo) cartOps.get(cartItemBo.getSkuId().toString());
-            cartItem.setNumber(cartItem.getNumber() + cartItemBo.getNum());
-            cartOps.put(cartItemBo.getSkuId().toString(), cartItem);
+        if (cartOps.get(skuId) != null) {
+            CartItemVo cartItem = (CartItemVo) cartOps.get(skuId);
+            Integer number = cartItem.getNumber() +1;
+            cartItem.setNumber(number);
+            cartOps.put(skuId, cartItem);
             return;
         }
 
         CartItemVo cartItem = new CartItemVo();
         // 添加新商品到购物车
-//        CompletableFuture<Void> skuInfoFuture = CompletableFuture.runAsync(() -> {
-        //1、远程查询商品详情
-        Result<SkuInfoDto> skuInfo = productFeignService.getSkuInfo(cartItemBo.getSkuId());
-        SkuInfoDto data = skuInfo.getData();
-        cartItem.setSkuId(cartItemBo.getSkuId());
-        cartItem.setChecked(true);
-        cartItem.setSkuName(data.getName());
-        cartItem.setSkuImg(data.getPicUrl());
-        cartItem.setNumber(cartItemBo.getNum());
-        cartItem.setPrice(data.getPrice());
+        CompletableFuture<Void> skuInfoFuture = CompletableFuture.runAsync(() -> {
+            //1、远程查询商品详情
+            Result<SkuInfoDto> skuInfo = productFeignService.getSkuInfo(Long.parseLong(skuId));
+            SkuInfoDto data = skuInfo.getData();
+            cartItem.setSkuId(Long.parseLong(skuId));
+            cartItem.setChecked(true);
+            cartItem.setSkuName(data.getName());
+            cartItem.setSkuImg(data.getPicUrl());
+            cartItem.setNumber(1);
+            cartItem.setPrice(data.getPrice());
+            cartItem.setStock(data.getStock());
 
-//        });
+        });
         //2、远程查询商品属性
-        cartOps.put(cartItemBo.getSkuId().toString(), cartItem);
+        //3、远程查询库存
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(skuInfoFuture);
+        allOf.get();
+        cartOps.put(skuId, cartItem);
 
 
     }
@@ -84,20 +91,31 @@ public class CartServiceImpl implements CartService {
         if (cartItem == null) {
             return;
         }
-        cartItem.setNumber(cartItemBo.getNum());
+        cartItem.setNumber(cartItemBo.getNumber());
         cartOps.put(cartItemBo.getSkuId().toString(), cartItem);
     }
 
     @Override
-    public void choose(CartItemChooseBo cartItemChooseBo) {
-        log.info("修改购物车商品选中状态，form:{}", cartItemChooseBo);
+    public void check(CartItemCheckBo cartItemCheckBo) {
+        log.info("修改购物车商品选中状态，form:{}", cartItemCheckBo);
         BoundHashOperations cartOps = getCartOps();
-        CartItemVo cartItem = (CartItemVo) cartOps.get(cartItemChooseBo.getSkuId().toString());
+        CartItemVo cartItem = (CartItemVo) cartOps.get(cartItemCheckBo.getSkuId().toString());
         if (cartItem == null) {
             return;
         }
-        cartItem.setChecked(cartItemChooseBo.getChoose() == 1);
-        cartOps.put(cartItemChooseBo.getSkuId().toString(), cartItem);
+        cartItem.setChecked(cartItemCheckBo.getCheck() == 1);
+        cartOps.put(cartItemCheckBo.getSkuId().toString(), cartItem);
+    }
+
+    @Override
+    public void checkAll(Integer check) {
+        log.info("全选/全不选购物车商品状态，check:{}", check);
+        BoundHashOperations cartOps = getCartOps();
+        for (Object value : cartOps.values()) {
+            CartItemVo cartItem = (CartItemVo) value;
+            cartItem.setChecked(check == 1);
+            cartOps.put(cartItem.getSkuId().toString(), cartItem);
+        }
     }
 
     @Override
@@ -126,8 +144,18 @@ public class CartServiceImpl implements CartService {
         return cartVo;
     }
 
+    @Override
+    public void clear() {
+        log.info("清空购物车");
+        Long userId = WebUtils.getUserId();
+        String cartKey = MALL_CART_KEY + userId;
+        redisTemplate.delete(cartKey);
+
+    }
+
     private BoundHashOperations getCartOps() {
         Long userId = WebUtils.getUserId();
+//        Long userId = 1343913824748593153L;
         String cartKey = MALL_CART_KEY + userId;
         BoundHashOperations operations = redisTemplate.boundHashOps(cartKey);
         return operations;

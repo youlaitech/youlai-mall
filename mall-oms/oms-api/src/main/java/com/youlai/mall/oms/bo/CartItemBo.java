@@ -21,6 +21,6 @@ public class CartItemBo {
      */
     @NotNull(message = "商品数量不能为空")
     @Min(value = 0, message = "商品数量不能为负数")
-    private Integer num;
+    private Integer number;
 
 }

@@ -44,6 +44,8 @@ public class CartItemVo implements Serializable {
      */
     private Long price;
 
+    private Long coupon = 0L;
+
     /**
      * 小计
      */
@@ -107,6 +109,14 @@ public class CartItemVo implements Serializable {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public Long getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(Long coupon) {
+        this.coupon = coupon;
     }
 
     public Long getSubTotal() {
