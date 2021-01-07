@@ -3,7 +3,7 @@ package com.youlai.mall.oms.bo;
 
 import com.youlai.mall.oms.pojo.OmsOrder;
 import com.youlai.mall.oms.pojo.OmsOrderItem;
-import com.youlai.mall.ums.pojo.dto.MemberInfoDTO;
+import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -17,6 +17,6 @@ public class OrderBO {
 
     private List<OmsOrderItem> orderItems;
 
-    private MemberInfoDTO member;
+    private MemberDTO member;
 
 }
