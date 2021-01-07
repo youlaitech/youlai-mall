@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "商品接口【移动端】")
+@Api(tags = "商品接口")
 @RestController
 @RequestMapping("/api.app/v1/products")
 @Slf4j
