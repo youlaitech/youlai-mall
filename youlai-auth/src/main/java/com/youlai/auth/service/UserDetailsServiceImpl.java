@@ -1,12 +1,12 @@
 package com.youlai.auth.service;
 
-import com.youlai.admin.dto.UserDTO;
+import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.admin.api.UserFeignService;
 import com.youlai.auth.domain.User;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
-import com.youlai.mall.ums.pojo.dto.MemberDTO;
+import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.api.MemberFeignService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -39,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = null;
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
-                Result<UserDTO> userRes = userFeignService.loadUserByUsername(username, 2);
+                Result<UserDTO> userRes = userFeignService.getUserByUsername(username);
                 if (ResultCode.USER_NOT_EXIST.getCode().equals(userRes.getCode())) {
                     throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
                 }
@@ -48,13 +47,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user = new User(userDTO);
                 break;
             case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
-                Result<MemberDTO> memberRes = memberFeignService.loadMemberByOpenid(username, 1);
+                Result<AuthMemberDTO> memberRes = memberFeignService.getMemberByOpenid(username);
                 if (ResultCode.USER_NOT_EXIST.getCode().equals(memberRes.getCode())) {
                     throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
                 }
-                MemberDTO memberDTO = memberRes.getData();
-                memberDTO.setClientId(clientId);
-                user = new User(memberDTO);
+                AuthMemberDTO authMemberDTO = memberRes.getData();
+                authMemberDTO.setClientId(clientId);
+                user = new User(authMemberDTO);
                 break;
         }
         if (!user.isEnabled()) {

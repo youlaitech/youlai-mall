@@ -14,7 +14,7 @@ import java.util.List;
 public class SysResource extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
     private String name;
     private String url;
 

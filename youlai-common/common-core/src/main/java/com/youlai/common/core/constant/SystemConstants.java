@@ -6,6 +6,5 @@ public interface SystemConstants {
 
     Integer VISIBLE_SHOW_VALUE = 1;
 
-    String SYSTEM_TYPE_KEY = "SystemType";
 
 }

@@ -1,15 +1,15 @@
 package com.youlai.common.web.util;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.common.core.constant.SystemConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class WebUtils extends org.springframework.web.util.WebUtils {
@@ -36,12 +36,9 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return clientId;
     }
 
-    public static Integer getSystemType() {
-        String systemType = getHttpServletRequest().getHeader(SystemConstants.SYSTEM_TYPE_KEY);
-        if (StrUtil.isNotBlank(systemType)) {
-            return Integer.valueOf(systemType);
-        }
-        return null;
+    public static List<Long> getAuthorities() {
+        List<String> list = getJwtPayload().get(AuthConstants.JWT_AUTHORITIES_KEY, List.class);
+        List<Long> authorities = list.stream().map(Long::valueOf).collect(Collectors.toList());
+        return authorities;
     }
-
 }

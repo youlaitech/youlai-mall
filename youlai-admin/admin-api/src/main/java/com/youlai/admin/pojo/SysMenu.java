@@ -18,11 +18,11 @@ import java.util.List;
 public class SysMenu extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String title;
 
-    private Integer parentId;
+    private Long parentId;
 
     private String name;
 
