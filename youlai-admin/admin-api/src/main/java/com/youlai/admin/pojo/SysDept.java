@@ -13,7 +13,7 @@ public class SysDept extends BaseEntity {
 
     private String name;
 
-    private Integer parentId;
+    private Long parentId;
 
     private String treePath;
 

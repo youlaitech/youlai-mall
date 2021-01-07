@@ -112,7 +112,7 @@ public class DeptController {
     }
 
     private String getDeptTreePath(SysDept sysDept) {
-        Integer parentId = sysDept.getParentId();
+        Long parentId = sysDept.getParentId();
         String treePath;
         if (parentId.equals(AdminConstant.ROOT_DEPT_ID)) {
             treePath = String.valueOf(AdminConstant.ROOT_DEPT_ID);
