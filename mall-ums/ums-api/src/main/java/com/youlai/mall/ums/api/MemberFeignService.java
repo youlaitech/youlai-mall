@@ -5,10 +5,7 @@ import com.youlai.mall.ums.pojo.UmsMember;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient("mall-ums")
 public interface MemberFeignService {
@@ -28,6 +25,14 @@ public interface MemberFeignService {
      */
     @GetMapping("/api.app/v1/members/openid/{openid}")
     Result<AuthMemberDTO> getMemberByOpenid(@PathVariable String openid);
+
+
+    /**
+     * 修改会员积分
+     */
+    @PutMapping("/api.app/v1/members/{id}/point")
+    Result updatePoint(@PathVariable Long id, @RequestParam Integer point);
+
 }
 
 
