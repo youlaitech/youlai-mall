@@ -13,7 +13,7 @@ import com.youlai.mall.oms.pojo.OmsOrderItem;
 import com.youlai.mall.oms.service.IOmsOrderItemService;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.ums.api.MemberFeignService;
-import com.youlai.mall.ums.pojo.dto.MemberInfoDTO;
+import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -70,8 +70,8 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         orderItems = Optional.ofNullable(orderItems).orElse(new ArrayList<>());
 
         // 会员明细
-        Result<MemberInfoDTO> result = memberFeignService.getMember(order.getMemberId(), 2);
-        MemberInfoDTO member = result.getData();
+        Result<MemberDTO> result = memberFeignService.getMemberById(order.getMemberId());
+        MemberDTO member = result.getData();
         orderBO.setOrder(order).setOrderItems(orderItems).setMember(member);
         return orderBO;
     }
