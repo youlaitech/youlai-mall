@@ -12,7 +12,7 @@ import java.util.List;
 public class SysRole extends BaseEntity {
 
     @TableId(type= IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -27,9 +27,9 @@ public class SysRole extends BaseEntity {
     private String remark;
 
     @TableField(exist = false)
-    private List<Integer> menuIds;
+    private List<Long> menuIds;
 
     @TableField(exist = false)
-    private List<Integer> resourceIds;
+    private List<Long> resourceIds;
 
 }

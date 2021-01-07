@@ -10,9 +10,9 @@ public interface ISysRoleService extends IService<SysRole> {
 
     boolean update(SysRole role);
 
-    boolean delete(List<Integer> ids);
+    boolean delete(List<Long> ids);
 
     boolean add(SysRole role);
 
-    boolean update(Integer id, List<Integer> resourceIds);
+    boolean update(Long id, List<Long> resourceIds);
 }

@@ -5,9 +5,9 @@ package com.youlai.admin.common;
  */
 public interface AdminConstant {
 
-    int ROOT_DEPT_ID = 0; // 根部门ID
+    Long ROOT_DEPT_ID = 0l; // 根部门ID
 
-    int ROOT_MENU_ID = 0; // 根菜单ID
+    Long ROOT_MENU_ID = 0l; // 根菜单ID
 
-    int ROOT_ROLE_ID = 1;  // 超级管理员角色ID
+    Long ROOT_ROLE_ID = 1l;  // 超级管理员角色ID
 }

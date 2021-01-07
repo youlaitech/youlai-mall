@@ -1,8 +1,8 @@
 package com.youlai.auth.domain;
 
-import com.youlai.admin.dto.UserDTO;
+import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.mall.ums.pojo.dto.MemberDTO;
+import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,7 +44,7 @@ public class User implements UserDetails {
         }
     }
 
-    public User(MemberDTO member){
+    public User(AuthMemberDTO member){
         this.setId(member.getId());
         this.setUsername(member.getUsername());
         this.setPassword(AuthConstants.BCRYPT + member.getPassword());

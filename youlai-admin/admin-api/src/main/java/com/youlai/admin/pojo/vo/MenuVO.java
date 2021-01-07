@@ -1,4 +1,4 @@
-package com.youlai.admin.vo;
+package com.youlai.admin.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.youlai.common.core.base.BaseEntity;

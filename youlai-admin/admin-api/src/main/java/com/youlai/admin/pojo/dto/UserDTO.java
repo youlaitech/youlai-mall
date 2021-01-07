@@ -1,4 +1,4 @@
-package com.youlai.admin.dto;
+package com.youlai.admin.pojo.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +14,6 @@ public class UserDTO {
     private String password;
     private Integer status;
     private String clientId;
-    private List<Integer> roles;
+    private List<Long> roles;
 
 }

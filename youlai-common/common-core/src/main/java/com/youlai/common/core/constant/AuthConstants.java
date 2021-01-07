@@ -2,15 +2,8 @@ package com.youlai.common.core.constant;
 
 public interface AuthConstants {
 
-    /**
-     * JWT存储权限前缀
-     */
-    String AUTHORITY_PREFIX = "ROLE_";
 
-    /**
-     * JWT存储权限属性
-     */
-    String AUTHORITY_CLAIM_NAME = "authorities";
+
 
     /**
      * 认证信息Http请求头
@@ -55,6 +48,17 @@ public interface AuthConstants {
     String JWT_USER_ID_KEY = "id";
 
     String JWT_CLIENT_ID_KEY = "client_id";
+
+    /**
+     * JWT存储权限前缀
+     */
+    String AUTHORITY_PREFIX = "ROLE_";
+
+    /**
+     * JWT存储权限属性
+     */
+    String JWT_AUTHORITIES_KEY = "authorities";
+
 
     /**
      * 有来商城后台管理客户端ID

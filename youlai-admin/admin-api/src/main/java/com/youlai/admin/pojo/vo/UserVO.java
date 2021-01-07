@@ -1,4 +1,4 @@
-package com.youlai.admin.vo;
+package com.youlai.admin.pojo.vo;
 
 import lombok.Data;
 
@@ -7,12 +7,12 @@ import java.util.List;
 @Data
 public class UserVO {
 
-    private Integer id;
+    private Long id;
 
     private String nickname;
 
     private String avatar;
 
-    private List<Integer> roles;
+    private List<Long> roles;
 
 }

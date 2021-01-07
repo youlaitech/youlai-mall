@@ -30,9 +30,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public boolean add(SysRole role) {
-        List<Integer> menuIds = role.getMenuIds();
+        List<Long> menuIds = role.getMenuIds();
         this.save(role);
-        Integer roleId = role.getId();
+        Long roleId = role.getId();
         List<SysRoleMenu> roleMenus = new ArrayList<>();
         Optional.ofNullable(menuIds).ifPresent(list -> list.stream().forEach(menuId ->
                 roleMenus.add(new SysRoleMenu().setRoleId(roleId).setMenuId(menuId)))
@@ -44,9 +44,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public boolean update(SysRole role) {
-        Integer roleId = role.getId();
-        List<Integer> menuIds = role.getMenuIds();
-        List<Integer> dbMenuIds = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
+        Long roleId = role.getId();
+        List<Long> menuIds = role.getMenuIds();
+        List<Long> dbMenuIds = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getRoleId, roleId)).stream()
                 .map(item -> item.getMenuId()).collect(Collectors.toList()); // 数据库角色拥有菜单权限ID
 
@@ -68,7 +68,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public boolean delete(List<Integer> ids) {
+    public boolean delete(List<Long> ids) {
         Optional.ofNullable(ids).orElse(new ArrayList<>()).forEach(id -> {
             int count = iSysUserRoleService.count(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getRoleId, id));
             if (count > 0) {
@@ -81,8 +81,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public boolean update(Integer roleId, List<Integer> resourceIds) {
-        List<Integer> dbResourceIds = iSysRoleResourceService.list(
+    public boolean update(Long roleId, List<Long> resourceIds) {
+        List<Long> dbResourceIds = iSysRoleResourceService.list(
                 new LambdaQueryWrapper<SysRoleResource>()
                         .eq(SysRoleResource::getRoleId, roleId)).stream().map(item -> item.getResourceId()).collect(Collectors.toList());
 

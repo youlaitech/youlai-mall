@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 public class SysDict  extends BaseEntity {
 
     @TableId(type= IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 

@@ -7,8 +7,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class SysRoleMenu {
 
-    private Integer roleId;
+    private Long roleId;
 
-    private Integer menuId;
+    private Long menuId;
 
 }

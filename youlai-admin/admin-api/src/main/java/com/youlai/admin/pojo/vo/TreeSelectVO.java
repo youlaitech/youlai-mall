@@ -1,4 +1,4 @@
-package com.youlai.admin.vo;
+package com.youlai.admin.pojo.vo;
 
 
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class TreeSelectVO {
 
-    private Integer id;
+    private Long id;
 
     private String label;
 

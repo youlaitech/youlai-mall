@@ -2,21 +2,18 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.dto.UserDTO;
 import com.youlai.admin.pojo.SysUser;
 import com.youlai.admin.pojo.SysUserRole;
-import com.youlai.admin.vo.UserVO;
+import com.youlai.admin.pojo.dto.UserDTO;
+import com.youlai.admin.pojo.vo.UserVO;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.core.base.BaseController;
-import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.util.WebUtils;
@@ -29,8 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,43 +55,14 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation(value = "用户详情", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户唯一标识", required = true, paramType = "path", dataType = "Object"),
-            @ApiImplicitParam(name = "queryMode", defaultValue = "1", value = "查询模式：1-根据id查询 2-根据username查询", paramType = "query", dataType = "Integer")
-    })
-
-
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(
-            @PathVariable Object id,
-            @RequestParam Integer queryMode
+            @PathVariable Long id
     ) {
-
-        if (queryMode.equals(1)) {
-            SysUser user = iSysUserService.getById((Serializable) id);
-            return Result.success(user);
-        } else {
-
-            SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                    .eq(SysUser::getUsername, id));
-
-            if (user == null) {
-                return Result.failed(ResultCode.USER_NOT_EXIST);
-            }
-            UserDTO userDTO = new UserDTO();
-            BeanUtil.copyProperties(user, userDTO);
-            List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                    .eq(SysUserRole::getUserId, user.getId())
-            ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
-            if (CollectionUtil.isNotEmpty(roleIds)) {
-                List<Integer> roles = iSysRoleService.listByIds(roleIds).stream()
-                        .map(role -> role.getId()).collect(Collectors.toList());
-                userDTO.setRoles(roles);
-            }
-            return Result.success(userDTO);
-        }
+        SysUser user = iSysUserService.getById(id);
+        return Result.success(user);
     }
-
 
     @ApiOperation(value = "新增用户", httpMethod = "POST")
     @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
@@ -129,26 +95,6 @@ public class UserController extends BaseController {
     }
 
 
-    @ApiOperation(value = "获取当前请求的用户信息", httpMethod = "GET")
-    @GetMapping("/me")
-    public Result getCurrentUser(){
-        Long userId = WebUtils.getUserId();
-        SysUser user = iSysUserService.getById(userId);
-        UserVO userVO = new UserVO();
-        BeanUtil.copyProperties(user, userVO);
-        List<Integer> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                .eq(SysUserRole::getUserId, user.getId())
-        ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
-        if (CollectionUtil.isNotEmpty(roleIds)) {
-            List<Integer> roles = iSysRoleService.listByIds(roleIds)
-                    .stream()
-                    .map(role -> role.getId())
-                    .collect(Collectors.toList());
-            userVO.setRoles(roles);
-        }
-        return Result.success(userVO);
-    }
-
     @ApiOperation(value = "修改用户", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
@@ -156,17 +102,65 @@ public class UserController extends BaseController {
     })
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SysUser user) {
-        LambdaUpdateWrapper<SysUser> luw = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
+        LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
         if (user.getStatus() != null) { // 状态更新
-            luw.set(SysUser::getStatus, user.getStatus());
+            updateWrapper.set(SysUser::getStatus, user.getStatus());
         } else if (user.getPassword() != null) { // 密码重置
             String password = passwordEncoder.encode(user.getPassword());
-            luw.set(SysUser::getPassword, password);
+            updateWrapper.set(SysUser::getPassword, password);
         } else {
             return Result.success();
         }
-        boolean update = iSysUserService.update(luw);
+        boolean update = iSysUserService.update(updateWrapper);
         return Result.success(update);
     }
+
+
+    /**
+     * 提供用于用户登录认证需要的用户信息
+     *
+     * @param username
+     * @return
+     */
+    @ApiOperation(value = "根据用户名获取用户信息", httpMethod = "GET")
+    @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
+    @GetMapping("/username/{username}")
+    public Result getUserByUsername(
+            @PathVariable String username
+    ) {
+        SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUsername, username));
+
+        if (user == null) {
+            return Result.failed(ResultCode.USER_NOT_EXIST);
+        }
+        UserDTO userDTO = new UserDTO();
+        BeanUtil.copyProperties(user, userDTO);
+        List<Long> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
+                .eq(SysUserRole::getUserId, user.getId())
+        ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
+        if (CollectionUtil.isNotEmpty(roleIds)) {
+            List<Long> roles = iSysRoleService.listByIds(roleIds).stream()
+                    .map(role -> role.getId()).collect(Collectors.toList());
+            userDTO.setRoles(roles);
+        }
+        return Result.success(userDTO);
+    }
+
+
+
+    @ApiOperation(value = "获取当前用户信息", httpMethod = "GET")
+    @GetMapping("/me")
+    public Result getCurrentUser() {
+        Long userId = WebUtils.getUserId();
+        SysUser user = iSysUserService.getById(userId);
+        UserVO userVO = new UserVO();
+        BeanUtil.copyProperties(user, userVO);
+
+        List<Long> authorities = WebUtils.getAuthorities();
+        userVO.setRoles(authorities);
+        return Result.success(userVO);
+    }
+
 
 }

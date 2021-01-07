@@ -1,37 +1,33 @@
 package com.youlai.mall.ums.api;
 
 import com.youlai.common.core.result.Result;
-import com.youlai.mall.ums.pojo.dto.MemberDTO;
-import com.youlai.mall.ums.pojo.dto.MemberInfoDTO;
 import com.youlai.mall.ums.pojo.UmsMember;
+import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
+import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient("mall-ums")
 public interface MemberFeignService {
 
-    @PostMapping("/members")
+    @PostMapping("/api.app/v1/members")
     Result add(@RequestBody UmsMember member);
 
-
     /**
      * 获取会员信息
-     * @param id
-     * @param queryMode 查询模式：2-订单会员
-     * @return
      */
-    @GetMapping("/members/{id}")
-    Result<MemberInfoDTO> getMember(@PathVariable Long id, @RequestParam(value = "queryMode") Integer queryMode);
+    @GetMapping("/api.app/v1/members/{id}")
+    Result<MemberDTO> getMemberById(@PathVariable Long id);
 
 
     /**
-     * 获取会员信息
-     * @param openid
-     * @param queryMode 查询模式：1-认证会员
-     * @return
+     * 获取认证会员信息
      */
-    @GetMapping("/members/{openid}")
-    Result<MemberDTO> loadMemberByOpenid(@PathVariable String openid, @RequestParam(value = "queryMode") Integer queryMode);
+    @GetMapping("/api.app/v1/members/openid/{openid}")
+    Result<AuthMemberDTO> getMemberByOpenid(@PathVariable String openid);
 }
 
 
