@@ -57,7 +57,7 @@ public class ResourceController {
             if (roleId != null) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("resources", list);
-                List<Integer> checkedKeys;
+                List<Long> checkedKeys;
                 checkedKeys = iSysRoleResourceService.list(new LambdaQueryWrapper<SysRoleResource>()
                         .eq(SysRoleResource::getRoleId, roleId))
                         .stream()

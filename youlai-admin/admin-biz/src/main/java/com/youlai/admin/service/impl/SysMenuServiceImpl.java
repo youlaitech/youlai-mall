@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.AdminConstant;
 import com.youlai.admin.pojo.SysMenu;
-import com.youlai.admin.vo.MenuVO;
-import com.youlai.admin.vo.RouterVO;
-import com.youlai.admin.vo.TreeSelectVO;
+import com.youlai.admin.pojo.vo.MenuVO;
+import com.youlai.admin.pojo.vo.RouterVO;
+import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.common.core.constant.SystemConstants;
@@ -27,9 +27,9 @@ import java.util.Optional;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
     @Override
-    public List<MenuVO> listForTableData(LambdaQueryWrapper<SysMenu> baseQuery) {
+    public List<MenuVO> listForTree(LambdaQueryWrapper<SysMenu> baseQuery) {
         List<SysMenu> menuList = this.baseMapper.selectList(baseQuery);
-        List<MenuVO> list = recursionForTableData(AdminConstant.ROOT_MENU_ID, menuList);
+        List<MenuVO> list = recursionForTree(AdminConstant.ROOT_MENU_ID, menuList);
         return list;
     }
 
@@ -48,13 +48,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     // 递归生成路由
-    private List<RouterVO> recursionForRoutes(int parentId, List<SysMenu> menuList) {
+    private List<RouterVO> recursionForRoutes(Long parentId, List<SysMenu> menuList) {
         List<RouterVO> list = new ArrayList<>();
         Optional.ofNullable(menuList).ifPresent(menus -> menus.stream().filter(menu -> menu.getParentId().equals(parentId))
                 .forEach(menu -> {
                     RouterVO routerVO = new RouterVO();
                     routerVO.setName(menu.getName());
-                    if (parentId == AdminConstant.ROOT_MENU_ID) {
+                    if ( AdminConstant.ROOT_MENU_ID.equals(parentId)) {
                         routerVO.setAlwaysShow(Boolean.TRUE);
                         routerVO.setPath("/" + menu.getPath());
                     } else {
@@ -87,7 +87,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList
      * @return
      */
-    public static List<MenuVO> recursionForTableData(int parentId, List<SysMenu> menuList) {
+    public static List<MenuVO> recursionForTree(Long parentId, List<SysMenu> menuList) {
         List<MenuVO> list = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
@@ -95,7 +95,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .forEach(menu -> {
                     MenuVO menuVO = new MenuVO();
                     BeanUtil.copyProperties(menu, menuVO);
-                    List<MenuVO> children = recursionForTableData(menu.getId(), menuList);
+                    List<MenuVO> children = recursionForTree(menu.getId(), menuList);
                     menuVO.setChildren(children);
                     list.add(menuVO);
                 });
@@ -110,7 +110,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList
      * @return
      */
-    public static List<TreeSelectVO> recursionForTreeSelect(int parentId, List<SysMenu> menuList) {
+    public static List<TreeSelectVO> recursionForTreeSelect(Long parentId, List<SysMenu> menuList) {
         List<TreeSelectVO> list = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()

@@ -12,7 +12,7 @@ import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.ums.api.MemberFeignService;
 import com.youlai.mall.ums.pojo.UmsMember;
-import com.youlai.mall.ums.pojo.dto.MemberDTO;
+import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -80,9 +80,6 @@ public class AuthController {
 
 
 
-
-
-
     private WxMaService wxService;
     private MemberFeignService memberFeignService;
     private PasswordEncoder passwordEncoder;
@@ -104,7 +101,7 @@ public class AuthController {
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
-        Result<MemberDTO> result = memberFeignService.loadMemberByOpenid(openid, 1);
+        Result<AuthMemberDTO> result = memberFeignService.getMemberByOpenid(openid);
 
         String username;
         if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) { // 微信授权登录 会员信息不存在时 注册会员
@@ -130,8 +127,8 @@ public class AuthController {
             }
             username = openid;
         } else {
-            MemberDTO memberDTO = result.getData();
-            username = memberDTO.getUsername();
+            AuthMemberDTO authMemberDTO = result.getData();
+            username = authMemberDTO.getUsername();
         }
 
         // oauth2认证参数对应授权登录时注册会员的username、password信息，模拟通过oauth2的密码模式认证

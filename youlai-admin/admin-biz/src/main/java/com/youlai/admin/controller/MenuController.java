@@ -7,6 +7,7 @@ import com.youlai.admin.pojo.SysMenu;
 import com.youlai.admin.pojo.SysRoleMenu;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysRoleMenuService;
+import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,36 +40,45 @@ public class MenuController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "queryMode", value = "查询模式: 1-表格数据 2-树形数据 3-菜单路由", paramType = "query", dataType = "Integer")
+            @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum")
     })
     @GetMapping
-    public Result list(Integer queryMode,String name, Integer roleId) {
+    public Result list(String queryMode, String name, Integer roleId) {
+
+        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+
         LambdaQueryWrapper<SysMenu> baseQuery = new LambdaQueryWrapper<SysMenu>()
                 .orderByAsc(SysMenu::getSort)
                 .orderByDesc(SysMenu::getGmtModified)
                 .orderByDesc(SysMenu::getGmtCreate);
         List list;
-        if (queryMode.equals(1)) { // 表格数据
-            baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysMenu::getName, name);
-            list = iSysMenuService.listForTableData(baseQuery);
-        } else if (queryMode.equals(2)) { // 树形数据
-            list = iSysMenuService.listForTreeSelect(baseQuery);
-            if (roleId != null) { // 菜单树形 + 角色权限
-                Map<String, Object> map = new HashMap<>();
-                map.put("menus", list);
-                List<Integer> checkedKeys = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
-                        .eq(SysRoleMenu::getRoleId, roleId))
-                        .stream()
-                        .map(item -> item.getMenuId())
-                        .collect(Collectors.toList());
-                map.put("checkedKeys", checkedKeys);
-                return Result.success(map);
-            }
-        } else if (queryMode.equals(3)) {
-            list = iSysMenuService.listForRouter();
-        } else {
-            list = iSysMenuService.list(baseQuery);
+        switch (queryModeEnum) {
+            case TREE:
+                baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysMenu::getName, name);
+                list = iSysMenuService.listForTree(baseQuery);
+                break;
+            case TREESELECT:
+                list = iSysMenuService.listForTreeSelect(baseQuery);
+                if (roleId != null) { // 菜单树形 + 角色权限
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("menus", list);
+                    List<Long> checkedKeys = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
+                            .eq(SysRoleMenu::getRoleId, roleId))
+                            .stream()
+                            .map(item -> item.getMenuId())
+                            .collect(Collectors.toList());
+                    map.put("checkedKeys", checkedKeys);
+                    return Result.success(map);
+                }
+                break;
+            case ROUTER:
+                list = iSysMenuService.listForRouter();
+                break;
+            default:
+                list = iSysMenuService.list(baseQuery);
+                break;
         }
+
         return Result.success(list);
     }
 

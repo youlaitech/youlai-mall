@@ -3,7 +3,6 @@ package com.youlai.mall.ums.pojo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-
 import java.time.LocalDate;
 
 @Data

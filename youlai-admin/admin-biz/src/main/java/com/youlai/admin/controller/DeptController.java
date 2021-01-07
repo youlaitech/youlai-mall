@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.admin.common.AdminConstant;
 import com.youlai.admin.pojo.SysDept;
 import com.youlai.admin.service.ISysDeptService;
+import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,25 +33,33 @@ public class DeptController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "部门名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "status", value = "部门状态", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "mode", value = "查询模式(mode:1-表格数据 2-树形下拉)", defaultValue = "1", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum")
+
     })
     @GetMapping
-    public Result list(@RequestParam(required = false, defaultValue = "1") Integer mode,
+    public Result list(String queryMode,
                        Integer status,
                        String name) {
+
         LambdaQueryWrapper<SysDept> baseQuery = new LambdaQueryWrapper<SysDept>()
                 .orderByAsc(SysDept::getSort)
                 .orderByDesc(SysDept::getGmtModified)
                 .orderByDesc(SysDept::getGmtCreate);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+
         List list;
-        if (mode.equals(1)) { // 表格数据
-            baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysDept::getName, name)
-                    .eq(status != null, SysDept::getStatus, status);
-            list = iSysDeptService.listForTableData(baseQuery);
-        } else if (mode.equals(2)) { // tree-select 树形下拉数据
-            list = iSysDeptService.listForTreeSelect(baseQuery);
-        } else {
-            list = iSysDeptService.list(baseQuery);
+        switch (queryModeEnum){
+            case TREE:
+                baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysDept::getName, name)
+                        .eq(status != null, SysDept::getStatus, status);
+                list = iSysDeptService.listForTree(baseQuery);
+                break;
+            case TREESELECT:
+                list = iSysDeptService.listForTreeSelect(baseQuery);
+                break;
+            default:
+                list = iSysDeptService.list(baseQuery);
+                break;
         }
         return Result.success(list);
     }

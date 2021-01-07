@@ -4,8 +4,8 @@ package com.youlai.admin.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.SysMenu;
-import com.youlai.admin.vo.MenuVO;
-import com.youlai.admin.vo.TreeSelectVO;
+import com.youlai.admin.pojo.vo.MenuVO;
+import com.youlai.admin.pojo.vo.TreeSelectVO;
 
 import java.util.List;
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ISysMenuService extends IService<SysMenu> {
 
-    List<MenuVO> listForTableData(LambdaQueryWrapper<SysMenu> baseQuery);
+    List<MenuVO> listForTree(LambdaQueryWrapper<SysMenu> baseQuery);
 
     List<TreeSelectVO> listForTreeSelect(LambdaQueryWrapper<SysMenu> baseQuery);
 

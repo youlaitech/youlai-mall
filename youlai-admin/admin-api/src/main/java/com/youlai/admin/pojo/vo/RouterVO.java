@@ -1,7 +1,6 @@
-package com.youlai.admin.vo;
+package com.youlai.admin.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

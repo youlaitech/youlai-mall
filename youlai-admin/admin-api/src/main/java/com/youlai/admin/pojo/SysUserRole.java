@@ -7,6 +7,6 @@ public class SysUserRole {
 
     private Long userId;
 
-    private Integer roleId;
+    private Long roleId;
 
 }

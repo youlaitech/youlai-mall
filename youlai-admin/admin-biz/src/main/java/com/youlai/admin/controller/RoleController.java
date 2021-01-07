@@ -53,7 +53,7 @@ public class RoleController {
     @ApiOperation(value = "角色详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Integer")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Integer id) {
+    public Result detail(@PathVariable Long id) {
         SysRole sysRole = iSysRoleService.getById(id);
         return Result.success(sysRole);
     }
@@ -73,7 +73,7 @@ public class RoleController {
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Integer id,
+            @PathVariable Long id,
             @RequestBody SysRole role) {
         boolean status = iSysRoleService.update(role);
         return Result.status(status);
@@ -82,7 +82,7 @@ public class RoleController {
     @ApiOperation(value = "删除角色", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
     @DeleteMapping
-    public Result delete(@RequestParam("ids") List<Integer> ids) {
+    public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysRoleService.delete(ids);
         return Result.status(status);
     }
@@ -95,7 +95,7 @@ public class RoleController {
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     })
     @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Integer id, Integer mode, @RequestBody SysRole role) {
+    public Result patch(@PathVariable Long id, Integer mode, @RequestBody SysRole role) {
         if (mode.equals(1)) { //状态更新
             LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<SysRole>()
                     .eq(SysRole::getId, id)
