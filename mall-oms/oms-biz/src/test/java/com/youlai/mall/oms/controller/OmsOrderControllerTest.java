@@ -2,11 +2,10 @@ package com.youlai.mall.oms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.core.result.ResultCode;
-import com.youlai.mall.oms.api.ProductFeignService;
 import com.youlai.mall.oms.controller.app.OmsOrderController;
 import com.youlai.mall.oms.pojo.OmsOrder;
 import com.youlai.mall.oms.service.IOmsOrderService;
-import com.youlai.mall.pms.api.SkuFeignService;
+import com.youlai.mall.pms.api.ProductFeignService;
 import com.youlai.mall.ums.api.MemberFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -58,11 +57,13 @@ public class OmsOrderControllerTest {
 
 
 
-    private SkuFeignService skuFeignService;
+    @Autowired
+    private ProductFeignService productFeignService;
 
-
+    @Autowired
     private MemberFeignService memberFeignService;
 
+    @Autowired
     private IOmsOrderService iOmsOrderService;
 
 
@@ -70,9 +71,9 @@ public class OmsOrderControllerTest {
     public void submitOrder(){
 
         // 扣减库存
-        skuFeignService.updateStock(151l,-1);
+        productFeignService.updateStock(151l,-1);
         // 增加积分
-        memberFeignService.updatePoint(1341307159907938306l,10);
+        memberFeignService.updatePoint(1l,10);
         // 修改订单状态
         iOmsOrderService.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId,1l).set(OmsOrder::getStatus,901));
 
