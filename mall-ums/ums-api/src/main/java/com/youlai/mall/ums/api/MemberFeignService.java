@@ -31,7 +31,7 @@ public interface MemberFeignService {
      * 修改会员积分
      */
     @PutMapping("/api.app/v1/members/{id}/point")
-    Result updatePoint(@PathVariable Long id, @RequestParam Integer point);
+    Result updatePoint(@PathVariable Long id, @RequestParam Integer num);
 
 }
 
