@@ -38,6 +38,13 @@ seata:
       group: SEATA_GROUP
 
 
+# 全局参数设置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
 
 
 

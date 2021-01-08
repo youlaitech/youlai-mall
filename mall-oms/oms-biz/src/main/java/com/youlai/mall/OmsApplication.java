@@ -1,4 +1,5 @@
-package com.youlai.mall.oms;
+package com.youlai.mall;
+
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -9,11 +10,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan({"com.youlai.mall.oms.mapper","com.youlai.mall.oms.dao"})
 @EnableSwagger2
-@EnableFeignClients(basePackages = {"com.youlai.mall.ums.api","com.youlai.mall.oms.api"})
+@EnableFeignClients
+@MapperScan({"com.youlai.mall.oms.mapper","com.youlai.mall.oms.dao"})
 public class OmsApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(OmsApplication.class);
     }
+
 }

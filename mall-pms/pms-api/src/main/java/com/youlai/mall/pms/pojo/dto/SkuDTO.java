@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.dto;
+package com.youlai.mall.pms.pojo.dto;
 
 
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class SkuInfoDto implements Serializable {
+public class SkuDTO implements Serializable {
 
     private Long id;
     private Long spuId;

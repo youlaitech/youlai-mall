@@ -2,10 +2,10 @@ package com.youlai.mall.oms.service.impl;
 
 import com.youlai.common.core.result.Result;
 import com.youlai.common.web.util.WebUtils;
-import com.youlai.mall.oms.api.ProductFeignService;
+import com.youlai.mall.pms.api.ProductFeignService;
 import com.youlai.mall.oms.bo.CartItemBo;
 import com.youlai.mall.oms.bo.CartItemCheckBo;
-import com.youlai.mall.oms.dto.SkuInfoDto;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.oms.pojo.vo.CartItemVo;
 import com.youlai.mall.oms.pojo.vo.CartVo;
 import com.youlai.mall.oms.service.CartService;
@@ -63,8 +63,8 @@ public class CartServiceImpl implements CartService {
         // 添加新商品到购物车
         CompletableFuture<Void> skuInfoFuture = CompletableFuture.runAsync(() -> {
             //1、远程查询商品详情
-            Result<SkuInfoDto> skuInfo = productFeignService.getSkuInfo(Long.parseLong(skuId));
-            SkuInfoDto data = skuInfo.getData();
+            Result<SkuDTO> skuInfo = productFeignService.getSkuById(Long.parseLong(skuId));
+            SkuDTO data = skuInfo.getData();
             cartItem.setSkuId(Long.parseLong(skuId));
             cartItem.setChecked(true);
             cartItem.setSkuName(data.getName());
