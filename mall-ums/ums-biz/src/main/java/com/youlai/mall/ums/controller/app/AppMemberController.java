@@ -94,6 +94,14 @@ public class AppMemberController {
         UmsMember member = iUmsMemberService.getById(id);
         member.setPoint(member.getPoint() + num);
         boolean result = iUmsMemberService.updateById(member);
+
+        try {
+            Thread.sleep(15 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //throw new RuntimeException("增加会员积分失败");
+
         return Result.status(result);
     }
 }

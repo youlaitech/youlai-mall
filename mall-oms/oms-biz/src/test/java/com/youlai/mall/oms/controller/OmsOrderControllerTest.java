@@ -7,6 +7,7 @@ import com.youlai.mall.oms.pojo.OmsOrder;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.pms.api.ProductFeignService;
 import com.youlai.mall.ums.api.MemberFeignService;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,6 +69,7 @@ public class OmsOrderControllerTest {
 
 
     @Test
+    @GlobalTransactional( rollbackFor = Exception.class)
     public void submitOrder() {
         // 扣减库存
         productFeignService.updateStock(151l, -1);

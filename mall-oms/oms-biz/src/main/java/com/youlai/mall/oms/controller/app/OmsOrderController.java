@@ -116,4 +116,13 @@ public class OmsOrderController {
         boolean update = iOmsOrderService.update(luw);
         return Result.success(update);
     }
+
+
+    @ApiOperation(value = "订单提交", httpMethod = "POST")
+    @PostMapping("/submit")
+    public Result submit() {
+        boolean status = iOmsOrderService.submit();
+        return Result.status(status);
+    }
+
 }
