@@ -8,7 +8,7 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 ## **项目预览**
 
 **线上地址:** [www.youlai.store](http://www.youlai.store)
-
+ 
 ### 管理后台
 
 ![](https://i.loli.net/2021/01/02/7t9TlgCHSnam64E.png)
@@ -134,7 +134,7 @@ youlai-mall
 
 ## 问题
 
-项目在搭建的过程中如您遇到任何问题，可以联系我（微信号：haoxianrui），不能及时回复也可以在github提issue。
+项目在搭建的过程中如您遇到任何问题，可以联系我（微信号：haoxianrui），如果不能及时回复也可以在github提issue。
 
 
 
