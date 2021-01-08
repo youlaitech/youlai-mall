@@ -37,6 +37,7 @@ public class OmsOrderControllerTest {
 
     /**
      * 提交订单
+     *
      * @throws Exception
      */
     @Test
@@ -56,7 +57,6 @@ public class OmsOrderControllerTest {
     }
 
 
-
     @Autowired
     private ProductFeignService productFeignService;
 
@@ -68,14 +68,12 @@ public class OmsOrderControllerTest {
 
 
     @Test
-    public void submitOrder(){
-
+    public void submitOrder() {
         // 扣减库存
-        productFeignService.updateStock(151l,-1);
+        productFeignService.updateStock(151l, -1);
         // 增加积分
-        memberFeignService.updatePoint(1l,10);
+        memberFeignService.updatePoint(1l, 10);
         // 修改订单状态
-        iOmsOrderService.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId,1l).set(OmsOrder::getStatus,901));
-
+        iOmsOrderService.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, 1l).set(OmsOrder::getStatus, 901));
     }
 }

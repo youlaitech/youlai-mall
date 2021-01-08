@@ -5,15 +5,12 @@ spring:
   application:
     name: mall-oms
   cloud:
-
     nacos:
       discovery:
         server-addr: http://localhost:8848
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-
-
 
 # 分布式事务配置
 seata:
