@@ -24,6 +24,7 @@ ribbon:
 
 # 分布式事务配置
 seata:
+  enabled: true
   tx-service-group: mall_tx_group
   enable-auto-data-source-proxy: true
   registry:

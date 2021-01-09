@@ -22,7 +22,7 @@ public interface ProductFeignService {
     /**
      * 修改商品库存
      */
-    @PutMapping("/api.app/v1/sku/{id}/stock")
+    @PutMapping("/api.admin/v1/sku/{id}/stock")
     Result updateStock(@PathVariable Long id, @RequestParam Integer num);
 
 }

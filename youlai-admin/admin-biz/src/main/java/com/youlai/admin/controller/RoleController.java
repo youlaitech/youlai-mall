@@ -37,6 +37,7 @@ public class RoleController {
     public Result list(Integer page, Integer limit, String name) {
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<SysRole>()
                 .like(StrUtil.isNotBlank(name), SysRole::getName, name)
+                .orderByAsc(SysRole::getSort)
                 .orderByDesc(SysRole::getGmtModified)
                 .orderByDesc(SysRole::getGmtCreate);
 

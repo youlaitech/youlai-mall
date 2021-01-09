@@ -11,4 +11,6 @@ public interface IOmsOrderService extends IService<OmsOrder> {
     OrderBO getByOrderId(Long id);
 
     boolean submit();
+
+    boolean submitWithGlobalTransactional();
 }

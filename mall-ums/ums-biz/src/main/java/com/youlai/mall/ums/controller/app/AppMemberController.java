@@ -90,16 +90,10 @@ public class AppMemberController {
             @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Integer")
     })
     @PutMapping("/{id}/point")
-    public Result updatePoint(@PathVariable Long id, @RequestParam Integer num) {
+    public Result updatePoint(@PathVariable Long id, @RequestParam Integer num  ) {
         UmsMember member = iUmsMemberService.getById(id);
         member.setPoint(member.getPoint() + num);
         boolean result = iUmsMemberService.updateById(member);
-
-        try {
-            Thread.sleep(15 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return Result.status(result);
     }
 }

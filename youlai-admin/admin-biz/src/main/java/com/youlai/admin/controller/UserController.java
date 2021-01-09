@@ -14,6 +14,7 @@ import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.core.base.BaseController;
+import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.util.WebUtils;
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,6 +70,7 @@ public class UserController extends BaseController {
     @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     @PostMapping
     public Result add(@RequestBody SysUser user) {
+        user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
         boolean status = iSysUserService.save(user);
         return Result.status(status);
     }
@@ -87,10 +90,10 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation(value = "删除用户", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
-    @DeleteMapping
-    public Result delete(@RequestParam("ids") List<Long> ids) {
-        boolean status = iSysUserService.removeByIds(ids);
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable String ids) {
+        boolean status = iSysUserService.removeByIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         return Result.status(status);
     }
 
@@ -146,7 +149,6 @@ public class UserController extends BaseController {
         }
         return Result.success(userDTO);
     }
-
 
 
     @ApiOperation(value = "获取当前用户信息", httpMethod = "GET")
