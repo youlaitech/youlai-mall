@@ -31,7 +31,30 @@ spring:
             - Path=/youlai-admin/**
           filters:
             - StripPrefix=1
-
+        - id: mall-oms
+          uri: lb://mall-oms
+          predicates:
+            - Path=/mall-oms/**
+          filters:
+            - StripPrefix=1
+        - id: mall-pms
+          uri: lb://mall-pms
+          predicates:
+            - Path=/mall-pms/**
+          filters:
+            - StripPrefix=1
+        - id: mall-ums
+          uri: lb://mall-ums
+          predicates:
+            - Path=/mall-ums/**
+          filters:
+            - StripPrefix=1
+        - id: mall-sms
+          uri: lb://mall-sms
+          predicates:
+            - Path=/mall-sms/**
+          filters:
+            - StripPrefix=1
 # 配置白名单路径(无需登录)
 whitelist:
   urls:

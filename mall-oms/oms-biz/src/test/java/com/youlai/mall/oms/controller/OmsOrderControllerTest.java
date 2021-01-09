@@ -2,7 +2,7 @@ package com.youlai.mall.oms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.core.result.ResultCode;
-import com.youlai.mall.oms.controller.app.OmsOrderController;
+import com.youlai.mall.oms.controller.admin.OmsOrderController;
 import com.youlai.mall.oms.pojo.OmsOrder;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.pms.api.ProductFeignService;
