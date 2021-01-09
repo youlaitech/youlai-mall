@@ -19,9 +19,10 @@ public class OmsOrder extends BaseEntity {
 
     private Integer status;
 
-    private Integer source;
 
-    private String consignee;
+    private Integer sourceType;
+
+   /* private String consignee;
 
     private String mobile;
 
@@ -63,6 +64,6 @@ public class OmsOrder extends BaseEntity {
 
     private Date gmtRefund;
 
-    private Date gmtConfirm;
+    private Date gmtConfirm;*/
 
 }
