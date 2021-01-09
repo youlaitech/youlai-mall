@@ -2,7 +2,7 @@ package com.youlai.mall.oms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.core.result.ResultCode;
-import com.youlai.mall.oms.controller.admin.OmsOrderController;
+import com.youlai.mall.oms.controller.admin.AdminOrderController;
 import com.youlai.mall.oms.pojo.OmsOrder;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.pms.api.ProductFeignService;
@@ -28,12 +28,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @Slf4j
-public class OmsOrderControllerTest {
+public class AdminOrderControllerTest {
 
     @Autowired
     public MockMvc mockMvc;
     @Autowired
-    public OmsOrderController omsOrderController;
+    public AdminOrderController adminOrderController;
 
 
     /**
@@ -69,7 +69,7 @@ public class OmsOrderControllerTest {
 
 
     @Test
-    @GlobalTransactional( rollbackFor = Exception.class)
+    @GlobalTransactional(rollbackFor = Exception.class)
     public void submitOrder() {
         // 扣减库存
         productFeignService.updateStock(151l, -1);

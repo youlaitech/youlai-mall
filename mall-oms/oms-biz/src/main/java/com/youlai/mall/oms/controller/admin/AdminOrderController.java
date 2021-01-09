@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Api(tags = "订单接口")
@@ -22,7 +23,7 @@ import java.util.List;
 @RequestMapping("/api.admin/v1/orders")
 @Slf4j
 @AllArgsConstructor
-public class OmsOrderController {
+public class AdminOrderController {
 
     private IOmsOrderService iOmsOrderService;
 
@@ -38,11 +39,11 @@ public class OmsOrderController {
     })
     @GetMapping
     public Result list(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer limit,
-            @RequestParam(defaultValue = "1") Integer queryMode,
+            @RequestParam(defaultValue = "1") Long page,
+            @RequestParam(defaultValue = "10") Long limit,
+            @RequestParam(defaultValue = "1") Long queryMode,
             @RequestParam(required = false) String orderSn,
-            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) Long status,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate
     ) {
@@ -66,7 +67,7 @@ public class OmsOrderController {
     }
 
     @ApiOperation(value = "订单详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
         OrderBO order = iOmsOrderService.getByOrderId(id);
@@ -83,45 +84,35 @@ public class OmsOrderController {
 
     @ApiOperation(value = "修改订单", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "order", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Integer id,
+            @PathVariable Long id,
             @RequestBody OmsOrder order) {
         boolean status = iOmsOrderService.updateById(order);
         return Result.status(status);
     }
 
-    @ApiOperation(value = "删除订单", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
-    @DeleteMapping
-    public Result delete(@RequestParam("ids") List<Long> ids) {
-        boolean status = iOmsOrderService.removeByIds(ids);
-        return Result.status(status);
-    }
-
-    @ApiOperation(value = "修改订单(部分更新)", httpMethod = "PATCH")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
-            @ApiImplicitParam(name = "order", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
-    })
-    @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Integer id, @RequestBody OmsOrder order) {
-        LambdaUpdateWrapper<OmsOrder> luw = new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, id);
-        if (order.getStatus() != null) { // 状态更新
-            luw.set(OmsOrder::getStatus, order.getStatus());
-        }
-        boolean update = iOmsOrderService.update(luw);
-        return Result.success(update);
-    }
-
 
     @ApiOperation(value = "订单提交", httpMethod = "POST")
     @PostMapping("/submit")
-    public Result submit() {
-        boolean status = iOmsOrderService.submit();
+    public Result submit(Boolean openTransaction) {
+        boolean status;
+        if (openTransaction) {
+            status = iOmsOrderService.submitWithGlobalTransactional();
+        } else {
+            status = iOmsOrderService.submit();
+        }
         return Result.status(status);
+    }
+
+    @ApiOperation(value = "订单详情", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long")
+    @GetMapping("/{id}/detail")
+    public Result orderDetail(@PathVariable Long id) {
+        OmsOrder order = iOmsOrderService.getById(id);
+        return Result.success(order);
     }
 }

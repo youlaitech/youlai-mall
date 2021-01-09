@@ -84,7 +84,6 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     private ProductFeignService productFeignService;
 
     @Override
-    @GlobalTransactional(rollbackFor = Exception.class)
     public boolean submit() {
         log.info("扣减库存----begin");
         productFeignService.updateStock(1l, -1);
@@ -99,4 +98,22 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         log.info("修改订单状态----end");
         return result;
     }
+
+    @Override
+    @GlobalTransactional(rollbackFor = Exception.class)
+    public boolean submitWithGlobalTransactional() {
+        log.info("扣减库存----begin");
+        productFeignService.updateStock(1l, -1);
+        log.info("扣减库存----end");
+
+        log.info("增加积分----begin");
+        memberFeignService.updatePoint(1l, 10);
+        log.info("增加积分----end");
+
+        log.info("修改订单状态----begin");
+        boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, 1l).set(OmsOrder::getStatus, 901));
+        log.info("修改订单状态----end");
+        return result;
+    }
+
 }
