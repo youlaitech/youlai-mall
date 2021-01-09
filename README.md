@@ -1,5 +1,5 @@
-![](https://img.shields.io/badge/SpringBoot-2.3.4-brightgreen.svg)
-![](https://img.shields.io/badge/SpringCloud-Hoxton.SR8-green.svg)
+![](https://img.shields.io/badge/SpringBoot-2.4.0-brightgreen.svg)
+![](https://img.shields.io/badge/SpringCloud-Hoxton.SR9-green.svg)
 
 ## **项目简介**
 
@@ -65,8 +65,8 @@ youlai-mall
 
 | 后端技术 |  版本号                     
 | -------------------- |  -------------------- |                             
-| SpringBoot|2.3.4.RELEASE                      
-| SpringCloud|Hoxton.SR8
+| SpringBoot|2.4.0                      
+| SpringCloud|Hoxton.SR9
 | SpringCloud Alibaba|  2.2.2.RELEASE
 | Spring Security OAuth2| 2.2.4.RELEASE
 | MyBatis Plus|3.4.0
