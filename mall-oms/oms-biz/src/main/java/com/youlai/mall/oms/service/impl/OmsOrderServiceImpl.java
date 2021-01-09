@@ -19,7 +19,6 @@ import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -85,11 +84,10 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     private ProductFeignService productFeignService;
 
     @Override
-    @GlobalTransactional(rollbackFor =Exception.class)
+    @GlobalTransactional(rollbackFor = Exception.class)
     public boolean submit() {
-
         log.info("扣减库存----begin");
-        productFeignService.updateStock(151l, -1);
+        productFeignService.updateStock(1l, -1);
         log.info("扣减库存----end");
 
         log.info("增加积分----begin");
@@ -97,8 +95,8 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         log.info("增加积分----end");
 
         log.info("修改订单状态----begin");
-        this.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, 1l).set(OmsOrder::getStatus, 901));
+        boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, 1l).set(OmsOrder::getStatus, 901));
         log.info("修改订单状态----end");
-        return true;
+        return result;
     }
 }

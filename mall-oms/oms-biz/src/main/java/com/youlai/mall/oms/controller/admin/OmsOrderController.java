@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.controller.app;
+package com.youlai.mall.oms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api(tags = "订单接口")
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api.admin/v1/orders")
 @Slf4j
 @AllArgsConstructor
 public class OmsOrderController {
@@ -124,5 +124,4 @@ public class OmsOrderController {
         boolean status = iOmsOrderService.submit();
         return Result.status(status);
     }
-
 }

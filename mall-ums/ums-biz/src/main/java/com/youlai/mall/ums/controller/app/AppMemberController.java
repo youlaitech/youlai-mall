@@ -100,8 +100,6 @@ public class AppMemberController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //throw new RuntimeException("增加会员积分失败");
-
         return Result.status(result);
     }
 }
