@@ -43,7 +43,7 @@ public class MenuController {
             @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum")
     })
     @GetMapping
-    public Result list(String queryMode, String name, Integer roleId) {
+    public Result list(String queryMode, String name, Long roleId) {
 
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
 

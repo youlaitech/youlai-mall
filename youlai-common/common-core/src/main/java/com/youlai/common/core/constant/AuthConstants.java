@@ -23,7 +23,7 @@ public interface AuthConstants {
     /**
      * Redis缓存权限规则key
      */
-    String RESOURCE_ROLES_KEY = "auth:resourceRoles";
+    String PERMISSION_RULES_KEY = "auth:permission:rules";
 
     /**
      * 黑名单token前缀
