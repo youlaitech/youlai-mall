@@ -55,6 +55,7 @@ spring:
             - Path=/mall-sms/**
           filters:
             - StripPrefix=1
+
 # 配置白名单路径(无需登录)
 whitelist:
   urls:
