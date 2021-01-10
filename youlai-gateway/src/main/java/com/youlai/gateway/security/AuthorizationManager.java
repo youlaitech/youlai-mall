@@ -56,15 +56,15 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
 
         // 从缓存取资源权限角色关系列表
-        Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstants.RESOURCE_ROLES_KEY);
-        Iterator<Object> iterator = resourceRolesMap.keySet().iterator();
+        Map<Object, Object> permissionRoles = redisTemplate.opsForHash().entries(AuthConstants.PERMISSION_RULES_KEY);
+        Iterator<Object> iterator = permissionRoles.keySet().iterator();
 
         // 请求路径匹配到的资源需要的角色权限集合authorities统计
         Set<String> authorities = new HashSet<>();
         while (iterator.hasNext()) {
             String pattern = (String) iterator.next();
             if (pathMatcher.match(pattern, path)) {
-                authorities.addAll(Convert.toList(String.class, resourceRolesMap.get(pattern)));
+                authorities.addAll(Convert.toList(String.class, permissionRoles.get(pattern)));
             }
         }
 
