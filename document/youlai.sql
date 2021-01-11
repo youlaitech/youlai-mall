@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 12/01/2021 00:01:33
+ Date: 12/01/2021 01:43:33
 */
 
 SET NAMES utf8mb4;
@@ -207,31 +207,6 @@ INSERT INTO `sys_permission` VALUES (13, '会员管理', '/mall-ums/**', '2020-1
 INSERT INTO `sys_permission` VALUES (14, '商品管理', '/mall-pms/**', '2020-10-31 10:41:37', '2020-10-31 10:41:37');
 
 -- ----------------------------
--- Table structure for sys_resource
--- ----------------------------
-DROP TABLE IF EXISTS `sys_resource`;
-CREATE TABLE `sys_resource`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限名称',
-  `url` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源路径',
-  `gmt_create` datetime(0) NULL DEFAULT NULL,
-  `gmt_modified` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `id`(`id`, `name`) USING BTREE,
-  INDEX `id_2`(`id`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_resource
--- ----------------------------
-INSERT INTO `sys_resource` VALUES (1, '系统管理', '/youlai-admin/**', NULL, NULL);
-INSERT INTO `sys_resource` VALUES (9, '营销管理', '/mall-sms/**', '2020-10-24 15:29:01', '2020-10-24 15:29:09');
-INSERT INTO `sys_resource` VALUES (12, '订单管理', '/mall-oms/**', '2020-10-31 10:40:35', '2020-10-31 10:40:35');
-INSERT INTO `sys_resource` VALUES (13, '会员管理', '/mall-ums/**', '2020-10-31 10:41:08', '2020-10-31 10:41:08');
-INSERT INTO `sys_resource` VALUES (14, '商品管理', '/mall-pms/**', '2020-10-31 10:41:37', '2020-10-31 10:41:37');
-INSERT INTO `sys_resource` VALUES (15, '菜单管理', '/youlai-admin/menus/**', NULL, NULL);
-
--- ----------------------------
 -- Table structure for sys_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
@@ -333,39 +308,6 @@ INSERT INTO `sys_role_permission` VALUES (1, 9);
 INSERT INTO `sys_role_permission` VALUES (1, 1);
 INSERT INTO `sys_role_permission` VALUES (3, 14);
 INSERT INTO `sys_role_permission` VALUES (3, 13);
-
--- ----------------------------
--- Table structure for sys_role_resource
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role_resource`;
-CREATE TABLE `sys_role_resource`  (
-  `role_id` bigint(0) NULL DEFAULT NULL COMMENT '角色id',
-  `resource_id` bigint(0) NULL DEFAULT NULL COMMENT '资源id',
-  INDEX `role_id`(`role_id`) USING BTREE,
-  INDEX `permission_id`(`resource_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_role_resource
--- ----------------------------
-INSERT INTO `sys_role_resource` VALUES (4, 14);
-INSERT INTO `sys_role_resource` VALUES (4, 13);
-INSERT INTO `sys_role_resource` VALUES (4, 12);
-INSERT INTO `sys_role_resource` VALUES (4, 9);
-INSERT INTO `sys_role_resource` VALUES (4, 1);
-INSERT INTO `sys_role_resource` VALUES (1, 14);
-INSERT INTO `sys_role_resource` VALUES (1, 13);
-INSERT INTO `sys_role_resource` VALUES (1, 12);
-INSERT INTO `sys_role_resource` VALUES (1, 9);
-INSERT INTO `sys_role_resource` VALUES (1, 1);
-INSERT INTO `sys_role_resource` VALUES (3, 14);
-INSERT INTO `sys_role_resource` VALUES (3, 13);
-INSERT INTO `sys_role_resource` VALUES (3, 12);
-INSERT INTO `sys_role_resource` VALUES (3, 9);
-INSERT INTO `sys_role_resource` VALUES (3, 1);
-INSERT INTO `sys_role_resource` VALUES (2, 14);
-INSERT INTO `sys_role_resource` VALUES (2, 1);
-INSERT INTO `sys_role_resource` VALUES (1, 15);
 
 -- ----------------------------
 -- Table structure for sys_user
