@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/SpringBoot-2.4.0-brightgreen.svg)
+![](https://img.shields.io/badge/SpringBoot-2.3.6-brightgreen.svg)
 ![](https://img.shields.io/badge/SpringCloud-Hoxton.SR9-green.svg)
 
 ## **项目简介**
@@ -7,7 +7,7 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 
 ## **项目预览**
 
-**线上地址:** [www.youlai.store](http://www.youlai.store)
+**线上地址:** [www.youlai.store](https://www.youlai.store/)
  
 ### 管理后台
 
