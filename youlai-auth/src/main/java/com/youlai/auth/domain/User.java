@@ -1,5 +1,6 @@
 package com.youlai.auth.domain;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
@@ -38,7 +39,7 @@ public class User implements UserDetails {
         this.setPassword(AuthConstants.BCRYPT + user.getPassword());
         this.setEnabled(Integer.valueOf(1).equals(user.getStatus()));
         this.setClientId(user.getClientId());
-        if (user.getRoles() != null) {
+        if (CollectionUtil.isNotEmpty(user.getRoles())) {
             authorities = new ArrayList<>();
             user.getRoles().forEach(roleId -> authorities.add(new SimpleGrantedAuthority(String.valueOf(roleId))));
         }
