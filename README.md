@@ -65,7 +65,7 @@ youlai-mall
 
 | 后端技术 |  版本号                     
 | -------------------- |  -------------------- |                             
-| SpringBoot|2.4.0                      
+| SpringBoot|2.3.6                     
 | SpringCloud|Hoxton.SR9
 | SpringCloud Alibaba|  2.2.2.RELEASE
 | Spring Security OAuth2| 2.2.4.RELEASE

@@ -15,7 +15,7 @@ public class OmsOrder extends BaseEntity {
 
     private String orderSn;
 
-    private Long memberId;
+    private Long userId;
 
     private Integer status;
 
