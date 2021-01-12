@@ -2,15 +2,14 @@ package com.youlai.mall.ums.controller.app;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.util.WebUtils;
-import com.youlai.mall.ums.pojo.UmsMember;
+import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import com.youlai.mall.ums.pojo.vo.MemberVO;
-import com.youlai.mall.ums.service.IUmsMemberService;
+import com.youlai.mall.ums.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,12 +20,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "会员接口")
 @RestController
-@RequestMapping("/api.app/v1/members")
+@RequestMapping("/api.app/v1/users")
 @Slf4j
 @AllArgsConstructor
-public class AppMemberController {
+public class AppUserController {
 
-    private IUmsMemberService iUmsMemberService;
+    private IUmsUserService iUmsUserService;
 
     @ApiOperation(value = "获取会员信息", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
@@ -35,13 +34,13 @@ public class AppMemberController {
             @PathVariable Long id
     ) {
         MemberDTO memberDTO = new MemberDTO();
-        UmsMember member = iUmsMemberService.getOne(
-                new LambdaQueryWrapper<UmsMember>()
-                        .select(UmsMember::getId, UmsMember::getNickname, UmsMember::getMobile)
-                        .eq(UmsMember::getId, id)
+        UmsUser user = iUmsUserService.getOne(
+                new LambdaQueryWrapper<UmsUser>()
+                        .select(UmsUser::getId, UmsUser::getNickname, UmsUser::getMobile)
+                        .eq(UmsUser::getId, id)
         );
-        if (member != null) {
-            BeanUtil.copyProperties(member, memberDTO);
+        if (user != null) {
+            BeanUtil.copyProperties(user, memberDTO);
         }
         return Result.success(memberDTO);
     }
@@ -52,34 +51,34 @@ public class AppMemberController {
     public Result getMemberByOpenid(
             @PathVariable String openid
     ) {
-        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>()
-                .eq(UmsMember::getOpenid, openid));
-        if (member == null) {
+        UmsUser user = iUmsUserService.getOne(new LambdaQueryWrapper<UmsUser>()
+                .eq(UmsUser::getOpenid, openid));
+        if (user == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
         AuthMemberDTO authMemberDTO = new AuthMemberDTO();
-        BeanUtil.copyProperties(member, authMemberDTO);
+        BeanUtil.copyProperties(user, authMemberDTO);
         return Result.success(authMemberDTO);
     }
 
     @ApiOperation(value = "新增会员", httpMethod = "POST")
     @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     @PostMapping
-    public Result add(@RequestBody UmsMember member) {
-        boolean status = iUmsMemberService.save(member);
+    public Result add(@RequestBody UmsUser user) {
+        boolean status = iUmsUserService.save(user);
         return Result.status(status);
     }
 
     @ApiOperation(value = "获取当前请求的会员信息", httpMethod = "GET")
     @GetMapping("/me")
     public Result getMemberInfo() {
-        Long memberId = WebUtils.getUserId();
-        UmsMember member = iUmsMemberService.getById(memberId);
-        if (member == null) {
+        Long userId = WebUtils.getUserId();
+        UmsUser user = iUmsUserService.getById(userId);
+        if (user == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
         MemberVO memberVO = new MemberVO();
-        BeanUtil.copyProperties(member, memberVO);
+        BeanUtil.copyProperties(user, memberVO);
         return Result.success(memberVO);
     }
 
@@ -91,9 +90,9 @@ public class AppMemberController {
     })
     @PutMapping("/{id}/point")
     public Result updatePoint(@PathVariable Long id, @RequestParam Integer num  ) {
-        UmsMember member = iUmsMemberService.getById(id);
-        member.setPoint(member.getPoint() + num);
-        boolean result = iUmsMemberService.updateById(member);
+        UmsUser user = iUmsUserService.getById(id);
+        user.setPoint(user.getPoint() + num);
+        boolean result = iUmsUserService.updateById(user);
         return Result.status(result);
     }
 }

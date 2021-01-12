@@ -11,12 +11,12 @@ import java.time.LocalDate;
 
 @Data
 @Accessors(chain = true)
-public class UmsMemberAddress extends BaseEntity {
+public class UmsAddress extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private Long memberId;
+    private Long userId;
 
     private String receiverName;
 

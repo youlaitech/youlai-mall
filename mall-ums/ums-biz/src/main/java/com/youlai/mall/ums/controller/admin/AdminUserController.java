@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
-import com.youlai.mall.ums.pojo.UmsMember;
-import com.youlai.mall.ums.service.IUmsMemberService;
+import com.youlai.mall.ums.pojo.UmsUser;
+import com.youlai.mall.ums.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,12 +22,12 @@ import java.util.Arrays;
 
 @Api(tags = "会员接口")
 @RestController
-@RequestMapping("/api.admin/v1/members")
+@RequestMapping("/api.admin/v1/users")
 @Slf4j
 @AllArgsConstructor
-public class AdminMemberController {
+public class AdminUserController {
 
-    private IUmsMemberService iUmsMemberService;
+    private IUmsUserService iUmsUserService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -44,12 +44,12 @@ public class AdminMemberController {
             String nickname
     ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
-        LambdaQueryWrapper<UmsMember> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.ne(UmsMember::getDeleted, SystemConstants.DELETED_VALUE);
+        LambdaQueryWrapper<UmsUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.ne(UmsUser::getDeleted, SystemConstants.DELETED_VALUE);
         switch (queryModeEnum) {
             default: // PAGE
-                queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickname, nickname);
-                iUmsMemberService.list(new Page<>(page, limit), new UmsMember().setNickname(nickname))
+                queryWrapper.like(StrUtil.isNotBlank(nickname), UmsUser::getNickname, nickname);
+                IPage<UmsUser> result = iUmsUserService.list(new Page<>(page, limit), new UmsUser().setNickname(nickname));
                 return Result.success(result.getRecords(), result.getTotal());
         }
     }
@@ -60,8 +60,8 @@ public class AdminMemberController {
     public Result getMemberById(
             @PathVariable Long id
     ) {
-        UmsMember member = iUmsMemberService.getById(id);
-        return Result.success(member);
+        UmsUser user = iUmsUserService.getById(id);
+        return Result.success(user);
     }
 
     @ApiOperation(value = "修改会员", httpMethod = "PUT")
@@ -72,8 +72,8 @@ public class AdminMemberController {
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Integer id,
-            @RequestBody UmsMember member) {
-        boolean status = iUmsMemberService.updateById(member);
+            @RequestBody UmsUser user) {
+        boolean status = iUmsUserService.updateById(user);
         return Result.status(status);
     }
 
@@ -84,10 +84,10 @@ public class AdminMemberController {
             @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Long id, @RequestBody UmsMember member) {
-        LambdaUpdateWrapper<UmsMember> updateWrapper = new LambdaUpdateWrapper<UmsMember>().eq(UmsMember::getId, id);
-        updateWrapper.set(member.getStatus() != null, UmsMember::getStatus, member.getStatus());
-        boolean status = iUmsMemberService.update(updateWrapper);
+    public Result patch(@PathVariable Long id, @RequestBody UmsUser user) {
+        LambdaUpdateWrapper<UmsUser> updateWrapper = new LambdaUpdateWrapper<UmsUser>().eq(UmsUser::getId, id);
+        updateWrapper.set(user.getStatus() != null, UmsUser::getStatus, user.getStatus());
+        boolean status = iUmsUserService.update(updateWrapper);
         return Result.status(status);
     }
 
@@ -98,9 +98,9 @@ public class AdminMemberController {
     })
     @PutMapping("/{id}/point")
     public Result updatePoint(@PathVariable Long id, @RequestParam Integer num) {
-        UmsMember member = iUmsMemberService.getById(id);
-        member.setPoint(member.getPoint() + num);
-        boolean result = iUmsMemberService.updateById(member);
+        UmsUser user = iUmsUserService.getById(id);
+        user.setPoint(user.getPoint() + num);
+        boolean result = iUmsUserService.updateById(user);
         try {
             Thread.sleep(15 * 1000);
         } catch (InterruptedException e) {
@@ -113,9 +113,9 @@ public class AdminMemberController {
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
-        boolean status = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
-                .in(UmsMember::getId, Arrays.asList(ids.split(",")))
-                .set(UmsMember::getDeleted, SystemConstants.DELETED_VALUE));
+        boolean status = iUmsUserService.update(new LambdaUpdateWrapper<UmsUser>()
+                .in(UmsUser::getId, Arrays.asList(ids.split(",")))
+                .set(UmsUser::getDeleted, SystemConstants.DELETED_VALUE));
         return Result.status(status);
     }
 }

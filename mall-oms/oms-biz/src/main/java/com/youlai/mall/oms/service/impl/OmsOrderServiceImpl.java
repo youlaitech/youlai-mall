@@ -75,7 +75,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         orderItems = Optional.ofNullable(orderItems).orElse(new ArrayList<>());
 
         // 会员明细
-        Result<MemberDTO> result = memberFeignService.getMemberById(order.getMemberId());
+        Result<MemberDTO> result = memberFeignService.getUserById(order.getUserId());
         MemberDTO member = result.getData();
         orderBO.setOrder(order).setOrderItems(orderItems).setMember(member);
         return orderBO;

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class UmsMember {
+public class UmsUser {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -47,6 +47,6 @@ public class UmsMember {
     private Integer deleted;
 
     @TableField(exist = false)
-    private List<UmsMemberAddress> addressList;
+    private List<UmsAddress> addressList;
 
 }

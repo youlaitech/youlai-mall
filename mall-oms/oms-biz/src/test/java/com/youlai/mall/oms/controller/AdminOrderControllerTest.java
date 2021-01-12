@@ -44,7 +44,7 @@ public class AdminOrderControllerTest {
     @Test
     public void saveOrder() throws Exception {
 
-        String goods = "{\"order\":{\"memberId\":0,\"status\":10,\"source\":0,\"consignee\":\"str\",\"mobile\":\"str\",\"postcode\":\"str\",\"address\":\"str\",\"couponId\":0,\"skuPrice\":0,\"freightPrice\":0,\"couponPrice\":0,\"orderPrice\":0,\"integrationPrice\":0,\"payPrice\":0,\"payId\":\"str\",\"payType\":0,\"payTime\":1606379283562,\"shipSn\":\"str\",\"shipChannel\":\"str\"},\n" +
+        String goods = "{\"order\":{\"userId\":0,\"status\":10,\"source\":0,\"consignee\":\"str\",\"mobile\":\"str\",\"postcode\":\"str\",\"address\":\"str\",\"couponId\":0,\"skuPrice\":0,\"freightPrice\":0,\"couponPrice\":0,\"orderPrice\":0,\"integrationPrice\":0,\"payPrice\":0,\"payId\":\"str\",\"payType\":0,\"payTime\":1606379283562,\"shipSn\":\"str\",\"shipChannel\":\"str\"},\n" +
                 "        \"orderItems\":[{\"spuId\":0,\"spuName\":\"str\",\"skuId\":\"0\",\"skuBarCode\":\"str\",\"skuSpecifications\":\"str\",\"skuPrice\":0,\"skuQuantity\":0,\"pic\":\"str\"}]}";
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.request(HttpMethod.POST, "/orders")
                 .contentType("application/json")

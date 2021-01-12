@@ -4,9 +4,9 @@ package com.youlai.mall.ums.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.ums.pojo.UmsMember;
+import com.youlai.mall.ums.pojo.UmsUser;
 
-public interface IUmsMemberService extends IService<UmsMember> {
+public interface IUmsUserService extends IService<UmsUser> {
 
-    IPage<UmsMember> list(Page<UmsMember> page, UmsMember member);
+    IPage<UmsUser> list(Page<UmsUser> page, UmsUser user);
 }
