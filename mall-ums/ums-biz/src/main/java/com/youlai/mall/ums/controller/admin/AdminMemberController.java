@@ -1,5 +1,9 @@
 package com.youlai.mall.ums.controller.admin;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.ums.pojo.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
@@ -19,6 +23,31 @@ import org.springframework.web.bind.annotation.*;
 public class AdminMemberController {
 
     private IUmsMemberService iUmsMemberService;
+
+    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "nickname", value = "会员昵称", paramType = "query", dataType = "String")
+    })
+    @GetMapping
+    public Result list(
+            String queryMode,
+            Integer page,
+            Integer limit,
+            String nickname
+    ) {
+        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        LambdaQueryWrapper<UmsMember> queryWrapper = new LambdaQueryWrapper<>();
+        switch (queryModeEnum) {
+            default: // PAGE
+                queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickname, nickname);
+                Page<UmsMember> result = iUmsMemberService.page(new Page<>(page, limit), queryWrapper);
+                return Result.success(result.getRecords(), result.getTotal());
+        }
+    }
+
 
     @ApiOperation(value = "获取会员信息", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
