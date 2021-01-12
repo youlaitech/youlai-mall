@@ -6,7 +6,8 @@ public interface SystemConstants {
 
     Integer VISIBLE_SHOW_VALUE = 1;
 
-    String DEFAULT_USER_PASSWORD="123456";
+    String DEFAULT_USER_PASSWORD = "123456";
 
+    Integer DELETED_VALUE = 1;
 
 }

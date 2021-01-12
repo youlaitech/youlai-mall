@@ -13,6 +13,6 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
     @Select("<script>" +
             "  select * from pms_sku where spu_id=#{spuId} " +
             "</script>")
-    List<PmsSku> listBySpuId(Integer menuId);
+    List<PmsSku> listBySpuId(Long spuId);
 
 }
