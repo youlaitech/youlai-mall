@@ -2,7 +2,10 @@ package com.youlai.mall.ums.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.ums.pojo.UmsMember;
@@ -14,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 @Api(tags = "会员接口")
 @RestController
@@ -40,14 +45,14 @@ public class AdminMemberController {
     ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
         LambdaQueryWrapper<UmsMember> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.ne(UmsMember::getDeleted, SystemConstants.DELETED_VALUE);
         switch (queryModeEnum) {
             default: // PAGE
                 queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickname, nickname);
-                Page<UmsMember> result = iUmsMemberService.page(new Page<>(page, limit), queryWrapper);
+                iUmsMemberService.list(new Page<>(page, limit), new UmsMember().setNickname(nickname))
                 return Result.success(result.getRecords(), result.getTotal());
         }
     }
-
 
     @ApiOperation(value = "获取会员信息", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
@@ -72,6 +77,20 @@ public class AdminMemberController {
         return Result.status(status);
     }
 
+
+    @ApiOperation(value = "修改会员【部分更新】", httpMethod = "PATCH")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
+    })
+    @PatchMapping(value = "/{id}")
+    public Result patch(@PathVariable Long id, @RequestBody UmsMember member) {
+        LambdaUpdateWrapper<UmsMember> updateWrapper = new LambdaUpdateWrapper<UmsMember>().eq(UmsMember::getId, id);
+        updateWrapper.set(member.getStatus() != null, UmsMember::getStatus, member.getStatus());
+        boolean status = iUmsMemberService.update(updateWrapper);
+        return Result.status(status);
+    }
+
     @ApiOperation(value = "修改会员积分", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
@@ -88,5 +107,15 @@ public class AdminMemberController {
             e.printStackTrace();
         }
         return Result.status(result);
+    }
+
+    @ApiOperation(value = "删除会员【逻辑删除】", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable String ids) {
+        boolean status = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
+                .in(UmsMember::getId, Arrays.asList(ids.split(",")))
+                .set(UmsMember::getDeleted, SystemConstants.DELETED_VALUE));
+        return Result.status(status);
     }
 }

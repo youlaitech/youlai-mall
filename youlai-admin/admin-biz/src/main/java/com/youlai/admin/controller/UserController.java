@@ -90,15 +90,14 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation(value = "删除用户", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysUserService.removeByIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         return Result.status(status);
     }
 
-
-    @ApiOperation(value = "修改用户", httpMethod = "PATCH")
+    @ApiOperation(value = "修改用户【部分更新】", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
@@ -106,16 +105,10 @@ public class UserController extends BaseController {
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SysUser user) {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
-        if (user.getStatus() != null) { // 状态更新
-            updateWrapper.set(SysUser::getStatus, user.getStatus());
-        } else if (user.getPassword() != null) { // 密码重置
-            String password = passwordEncoder.encode(user.getPassword());
-            updateWrapper.set(SysUser::getPassword, password);
-        } else {
-            return Result.success();
-        }
-        boolean update = iSysUserService.update(updateWrapper);
-        return Result.success(update);
+        updateWrapper.set(user.getStatus() != null, SysUser::getStatus, user.getStatus());
+        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, user.getPassword());
+        boolean status = iSysUserService.update(updateWrapper);
+        return Result.status(status);
     }
 
 
