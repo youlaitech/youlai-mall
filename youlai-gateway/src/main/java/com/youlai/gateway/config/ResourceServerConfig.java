@@ -57,7 +57,6 @@ public class ResourceServerConfig {
         return http.build();
     }
 
-
     /**
      * 未授权
      *
