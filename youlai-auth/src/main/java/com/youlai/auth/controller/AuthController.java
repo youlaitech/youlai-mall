@@ -11,7 +11,7 @@ import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.ums.api.MemberFeignService;
-import com.youlai.mall.ums.pojo.UmsMember;
+import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -79,7 +79,6 @@ public class AuthController {
 
 
 
-
     private WxMaService wxService;
     private MemberFeignService memberFeignService;
     private PasswordEncoder passwordEncoder;
@@ -101,7 +100,7 @@ public class AuthController {
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
-        Result<AuthMemberDTO> result = memberFeignService.getMemberByOpenid(openid);
+        Result<AuthMemberDTO> result = memberFeignService.getUserByOpenid(openid);
 
         String username;
         if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) { // 微信授权登录 会员信息不存在时 注册会员
@@ -112,7 +111,7 @@ public class AuthController {
             if (userInfo == null) {
                 throw new BizException("获取用户信息失败");
             }
-            UmsMember member = new UmsMember()
+            UmsUser user = new UmsUser()
                     .setNickname(userInfo.getNickName())
                     .setAvatar(userInfo.getAvatarUrl())
                     .setGender(Integer.valueOf(userInfo.getGender()))
@@ -121,7 +120,7 @@ public class AuthController {
                     .setPassword(passwordEncoder.encode(openid).replace(AuthConstants.BCRYPT, Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
                     .setStatus(SystemConstants.STATUS_NORMAL_VALUE);
 
-            Result res = memberFeignService.add(member);
+            Result res = memberFeignService.add(user);
             if (!ResultCode.SUCCESS.getCode().equals(res.getCode())) {
                 throw new BizException("注册会员失败");
             }

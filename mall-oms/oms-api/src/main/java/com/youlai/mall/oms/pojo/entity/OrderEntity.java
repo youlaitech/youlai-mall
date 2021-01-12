@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * 订单详情表
- * 
+ *
  * @author huawei
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
@@ -51,7 +51,7 @@ public class OrderEntity extends BaseEntity {
 	/**
 	 * 会员id
 	 */
-	private Long memberId;
+	private Long userId;
 	/**
 	 * 使用的优惠券
 	 */

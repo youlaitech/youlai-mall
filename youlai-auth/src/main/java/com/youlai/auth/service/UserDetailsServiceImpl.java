@@ -47,7 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user = new User(userDTO);
                 break;
             case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
-                Result<AuthMemberDTO> memberRes = memberFeignService.getMemberByOpenid(username);
+                Result<AuthMemberDTO> memberRes = memberFeignService.getUserByOpenid(username);
                 if (ResultCode.USER_NOT_EXIST.getCode().equals(memberRes.getCode())) {
                     throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
                 }
