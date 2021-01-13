@@ -42,6 +42,15 @@ public class AppAddressController {
     @ApiImplicitParam(name = "address", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsAddress")
     @PostMapping
     public Result add(@RequestBody UmsAddress address) {
+        Long userId = WebUtils.getUserId();
+        address.setUserId(userId);
+        if (address.getDefaulted().equals(1)) { // 修改其他默认地址为非默认
+            iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
+                    .eq(UmsAddress::getUserId, userId)
+                    .eq(UmsAddress::getDefaulted, 1)
+                    .set(UmsAddress::getDefaulted, 0)
+            );
+        }
         boolean status = iUmsAddressService.save(address);
         return Result.status(status);
     }
@@ -56,6 +65,14 @@ public class AppAddressController {
     public Result update(
             @PathVariable Long id,
             @RequestBody UmsAddress address) {
+        Long userId = WebUtils.getUserId();
+        if (address.getDefaulted().equals(1)) { // 修改其他默认地址为非默认
+            iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
+                    .eq(UmsAddress::getUserId, userId)
+                    .eq(UmsAddress::getDefaulted, 1)
+                    .set(UmsAddress::getDefaulted, 0)
+            );
+        }
         boolean status = iUmsAddressService.updateById(address);
         return Result.status(status);
     }
