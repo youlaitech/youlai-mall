@@ -7,7 +7,6 @@ import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDate;
 
 @Data
 @Accessors(chain = true)
@@ -18,9 +17,9 @@ public class UmsAddress extends BaseEntity {
 
     private Long userId;
 
-    private String receiverName;
+    private String name;
 
-    private String receiverMobile;
+    private String mobile;
 
     private String province;
 
@@ -28,7 +27,7 @@ public class UmsAddress extends BaseEntity {
 
     private  String  area;
 
-    private String addressDetail;
+    private String address;
 
     private String zipCode;
 
