@@ -14,5 +14,5 @@ public interface ISysRoleService extends IService<SysRole> {
 
     boolean add(SysRole role);
 
-    boolean update(Long id, List<Long> resourceIds);
+    boolean update(Long id, List<Long> permissionIds);
 }

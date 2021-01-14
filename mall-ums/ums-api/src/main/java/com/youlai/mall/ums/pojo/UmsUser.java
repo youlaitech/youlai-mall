@@ -42,7 +42,7 @@ public class UmsUser {
 
     private Date gmtCreate;
 
-    private Date gmtUpdated;
+    private Date gmtModified;
 
     private Integer deleted;
 

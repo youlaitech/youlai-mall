@@ -17,14 +17,14 @@ public interface UmsUserMapper extends BaseMapper<UmsUser> {
 
 
     @Select("<script>" +
-            " SELECT * from ums_member " +
-            " <if test ='member.nickname !=null and member.nickname.trim() neq \"\" ' >" +
-            "       AND nickname like concat('%',#{member.nickname},'%')" +
+            " SELECT * from ums_user " +
+            " <if test ='user.nickname !=null and user.nickname.trim() neq \"\" ' >" +
+            "       AND nickname like concat('%',#{user.nickname},'%')" +
             " </if>" +
-            " ORDER BY gmt_updated DESC, gmt_create DESC" +
+            " ORDER BY gmt_modified DESC, gmt_create DESC" +
             "</script>")
     @Results({
-            @Result(property = "addressList", column = "id", many = @Many(select = "com.youlai.mall.ums.mapper.UmsMemberAddressMapper.listByMemberId"))
+            @Result(property = "addressList", column = "id", many = @Many(select = "com.youlai.mall.ums.mapper.UmsAddressMapper.listByUserId"))
     })
     List<UmsUser> list(Page<UmsUser> page, UmsUser user);
 

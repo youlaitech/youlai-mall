@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.pojo.SysRole;
 import com.youlai.admin.pojo.SysRoleMenu;
-import com.youlai.admin.pojo.SysRoleResource;
+import com.youlai.admin.pojo.SysRolePermission;
 import com.youlai.admin.pojo.SysUserRole;
 import com.youlai.admin.mapper.SysRoleMapper;
 import com.youlai.admin.service.ISysRoleMenuService;
-import com.youlai.admin.service.ISysRoleResourceService;
+import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.common.web.exception.BizException;
@@ -26,7 +26,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     private ISysRoleMenuService iSysRoleMenuService;
     private ISysUserRoleService iSysUserRoleService;
-    private ISysRoleResourceService iSysRoleResourceService;
+    private ISysRolePermissionService iSysRolePermissionService;
 
     @Override
     public boolean add(SysRole role) {
@@ -81,25 +81,25 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public boolean update(Long roleId, List<Long> resourceIds) {
-        List<Long> dbResourceIds = iSysRoleResourceService.list(
-                new LambdaQueryWrapper<SysRoleResource>()
-                        .eq(SysRoleResource::getRoleId, roleId)).stream().map(item -> item.getResourceId()).collect(Collectors.toList());
+    public boolean update(Long roleId, List<Long> permissionIds) {
+        List<Long> dbPermissionIds = iSysRolePermissionService.list(
+                new LambdaQueryWrapper<SysRolePermission>()
+                        .eq(SysRolePermission::getRoleId, roleId)).stream().map(item -> item.getPermissionId()).collect(Collectors.toList());
 
         // 删除角色资源
-        Optional.ofNullable(dbResourceIds)
-                .filter(item -> resourceIds == null || !resourceIds.contains(item))
-                .ifPresent(list -> list.stream().forEach(resourceId ->
-                        iSysRoleResourceService.remove(new LambdaQueryWrapper<SysRoleResource>()
-                                .eq(SysRoleResource::getRoleId, roleId)
-                                .eq(SysRoleResource::getResourceId, resourceId)))
+        Optional.ofNullable(dbPermissionIds)
+                .filter(item -> permissionIds == null || !permissionIds.contains(item))
+                .ifPresent(list -> list.stream().forEach(permissionId ->
+                        iSysRolePermissionService.remove(new LambdaQueryWrapper<SysRolePermission>()
+                                .eq(SysRolePermission::getRoleId, roleId)
+                                .eq(SysRolePermission::getPermissionId, permissionId)))
                 );
 
         // 新增角色资源
-        Optional.ofNullable(resourceIds)
-                .filter(item -> dbResourceIds == null || !dbResourceIds.contains(item))
-                .ifPresent(list -> list.stream().forEach(resourceId -> {
-                    iSysRoleResourceService.save(new SysRoleResource().setRoleId(roleId).setResourceId(resourceId));
+        Optional.ofNullable(permissionIds)
+                .filter(item -> dbPermissionIds == null || !dbPermissionIds.contains(item))
+                .ifPresent(list -> list.stream().forEach(permissionId -> {
+                    iSysRolePermissionService.save(new SysRolePermission().setRoleId(roleId).setPermissionId(permissionId));
                 }));
         return true;
     }

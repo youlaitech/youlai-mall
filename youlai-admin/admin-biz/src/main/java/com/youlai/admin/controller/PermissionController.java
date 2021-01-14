@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,9 +99,9 @@ public class PermissionController {
 
     @ApiOperation(value = "删除权限", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
-    @DeleteMapping
-    public Result delete(@RequestParam(value = "ids") List<Long> ids) {
-        boolean status = iSysPermissionService.removeByIds(ids);
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable String ids) {
+        boolean status = iSysPermissionService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.status(status);
     }
 }
