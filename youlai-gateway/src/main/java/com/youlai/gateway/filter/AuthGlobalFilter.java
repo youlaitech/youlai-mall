@@ -7,10 +7,10 @@ import com.nimbusds.jose.JWSObject;
 import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -32,9 +32,9 @@ import java.nio.charset.Charset;
  */
 @Component
 @Slf4j
+@AllArgsConstructor
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
-    @Autowired
     private RedisTemplate redisTemplate;
 
     @SneakyThrows

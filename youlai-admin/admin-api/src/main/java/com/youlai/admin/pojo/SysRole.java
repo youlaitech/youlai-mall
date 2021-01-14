@@ -30,6 +30,6 @@ public class SysRole extends BaseEntity {
     private List<Long> menuIds;
 
     @TableField(exist = false)
-    private List<Long> resourceIds;
+    private List<Long> permissionIds;
 
 }
