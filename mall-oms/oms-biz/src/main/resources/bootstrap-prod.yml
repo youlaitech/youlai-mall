@@ -36,3 +36,11 @@ ribbon:
   SocketTimeout: 10000
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 1
+
+
+# 站长支付API配置
+zzf:
+  AppKey: c35332f4d84646f7
+  AppSecret: 1c93baadf7544f5faa5b5c6e02ef4307
+  CreateOrderURL: https://admin.zhanzhangfu.com/order/createOrder
+  FindOrderURL: https://admin.zhanzhangfu.com/order/onlinePayFindResult
