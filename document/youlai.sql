@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 12/01/2021 01:43:33
+ Date: 17/01/2021 22:34:53
 */
 
 SET NAMES utf8mb4;
@@ -180,7 +180,7 @@ INSERT INTO `sys_menu` VALUES (22, '商品上架', 11, 'ProductAdd', 'productAdd
 INSERT INTO `sys_menu` VALUES (23, '角色管理', 1, 'Role', 'role', 'admin/role', '', 'example', 0, 1, 1, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (25, '实验室', 0, 'Laboratory', 'laboratory', '', '', 'component', 9, 1, 1, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (26, 'Seata分布式事务', 25, 'Seata', 'seata', 'laboratory/seata', '', 'component', 1, 1, 1, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (28, '权限管理', 1, 'Resource', 'resource', 'admin/resource', '', 'component', 9, 1, 1, NULL, NULL);
+INSERT INTO `sys_menu` VALUES (28, '权限管理', 1, 'Permission', 'permission', 'admin/permission', '', 'component', 9, 1, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -329,7 +329,7 @@ CREATE TABLE `sys_user`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `login_name`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1347555205861408771 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1348598723895689218 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
