@@ -91,8 +91,11 @@ youlai-mall
 
 1. 本机安装Redis，IDEA安装Lombok插件。
 2. 拉取并导入 [youlai-mall](https://github.com/hxrui/youlai-mall) 。
-3. 启动nacos服务。 IDEA进入Terminal命令终端切到youlai-registry/nacos/bin目录，执行命令 startup -m standalone。nacos启动后在控制台导入项目下的document/DEFAULT_GROUP.zip配置。
+3. 启动nacos服务。 IDEA进入Terminal命令终端切到youlai-registry/nacos/bin目录，执行命令 startup -m standalone。
 4. 启动youlai-gateway、youlai-auth,youlai-admin基础微服务。
+
+重要说明：因为会有人无视公告修改公有环境配置，所以大家启动在使用公共环境会报错，作为开发者的我们心也累。
+所以大家在启动报错的时候，麻烦在Nacos启动后在控制台删除原有配置重新导入项目下的document/DEFAULT_GROUP.zip配置尝试重新启动项目。
 
 注：默认使用云数据库无需修改数据库连接配置和redis配置，如果需要搭建本地请修改对应配置信息即可。
 
