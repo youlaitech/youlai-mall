@@ -1,6 +1,7 @@
 package com.youlai.mall.ums.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,17 +17,27 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Api(tags = "会员接口")
 @RestController
 @RequestMapping("/api.admin/v1/users")
 @Slf4j
-@AllArgsConstructor
 public class AdminUserController {
 
+    @Autowired
     private IUmsUserService iUmsUserService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
@@ -118,4 +129,54 @@ public class AdminUserController {
                 .set(UmsUser::getDeleted, SystemConstants.DELETED_VALUE));
         return Result.status(status);
     }
+
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+
+    @Value("${zzf.CreateOrderURL}")
+    private String createOrderURL;
+
+
+    @Value("${zzf.FindOrderURL}")
+    private String findOrderURL;
+
+    @Value("${zzf.AppKey}")
+    private String appKey;
+
+
+    @Value("${zzf.AppSecret}")
+    private String appSecret;
+
+
+    @ApiOperation(value = "会员充值", httpMethod = "POST")
+    @PostMapping("/{id}/recharge")
+    public Result recharge(@PathVariable Long id) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/json;charset=utf-8"));
+        headers.set("Payment-Key", appKey);
+        headers.set("Payment-Secret", appSecret);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("price", 0);
+        params.put("name", "");
+        //postMethod.addParameter("callbackurl", "用来通知指定地址");
+        //postMethod.addParameter("reurl", "跳转地址");
+        //postMethod.addParameter("thirduid", "用户存放您的用户ID");
+        //postMethod.addParameter("remarks", "备注");
+        //postMethod.addParameter("other", "其他信息");
+
+        HttpEntity<Map> httpEntity = new HttpEntity<>(params, headers);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(createOrderURL, httpEntity, String.class);
+        int statusCode = responseEntity.getStatusCode().value();
+        if (statusCode == HttpStatus.SC_OK) {
+            String responseBody = responseEntity.getBody();
+        }
+
+        return Result.success();
+    }
+
+
 }
