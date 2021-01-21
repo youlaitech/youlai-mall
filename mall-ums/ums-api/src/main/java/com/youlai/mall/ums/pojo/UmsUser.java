@@ -49,4 +49,6 @@ public class UmsUser {
     @TableField(exist = false)
     private List<UmsAddress> addressList;
 
+    private Integer balance;
+
 }
