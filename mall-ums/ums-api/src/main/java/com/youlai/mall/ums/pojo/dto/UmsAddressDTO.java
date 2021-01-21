@@ -1,18 +1,16 @@
-package com.youlai.mall.ums.pojo;
+package com.youlai.mall.ums.pojo.dto;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 
 @Data
 @Accessors(chain = true)
-public class UmsAddress extends BaseEntity {
+public class UmsAddressDTO implements Serializable {
 
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     private Long userId;

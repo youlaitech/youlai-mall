@@ -1,12 +1,10 @@
 package com.youlai.mall.oms.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 订单配置信息
@@ -22,7 +20,7 @@ public class OrderSettingEntity extends BaseEntity {
 	/**
 	 * id
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
 	 * 秒杀订单超时关闭时间(分)
