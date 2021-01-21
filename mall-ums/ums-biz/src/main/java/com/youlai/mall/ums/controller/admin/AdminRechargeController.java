@@ -33,7 +33,6 @@ public class AdminRechargeController {
     @Autowired
     private RestTemplate restTemplate;
 
-
     @Value("${zzf.CreateOrderURL}")
     private String createOrderURL;
 
@@ -94,5 +93,4 @@ public class AdminRechargeController {
         //处理自己的业务逻辑
         //例如开通会员、用户充值等等。。。
     }
-
 }
