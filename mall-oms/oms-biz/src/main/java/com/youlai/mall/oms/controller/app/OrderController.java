@@ -45,10 +45,11 @@ public class OrderController {
      *
      * @return
      */
-    @ApiOperation(value = "订单确认信息", httpMethod = "GET")
-    @GetMapping("/confirm")
-    public Result<OrderConfirmVO> confirm() {
-        return Result.success(orderService.confirm());
+    @ApiOperation(value = "订单确认信息", httpMethod = "POST")
+    @PostMapping("/confirm")
+    public Result<OrderConfirmVO> confirm(@RequestParam(value = "skuId",required = false) String skuId,
+                                          @RequestParam(value = "number",defaultValue = "1") Integer number) {
+        return Result.success(orderService.confirm(skuId,number));
     }
 
     @ApiOperation(value = "提交订单", httpMethod = "POST")

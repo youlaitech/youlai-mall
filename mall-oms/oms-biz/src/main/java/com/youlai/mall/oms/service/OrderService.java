@@ -24,9 +24,11 @@ public interface OrderService extends IService<OrderEntity> {
     /**
      * 订单确认页信息
      *
+     * @param skuId 商品id，非必填参数
+     * @param number 商品数量
      * @return
      */
-    OrderConfirmVO confirm();
+    OrderConfirmVO confirm(String skuId, Integer number);
 
     /**
      * 提交订单
