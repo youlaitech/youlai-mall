@@ -22,18 +22,22 @@ public class OrderSubmitVO extends BaseVO {
     private String addressId;
 
     /**
-     * 商品详情列表
      * 如果携带skuId则表示该订单通过直接下单方式生成
      * 否则从购物车中生成 -- 清空购物车
      */
     private String skuId;
 
     /**
+     * 直接下单时商品数量
+     */
+    private Integer skuNumber;
+
+    /**
      * 优惠券id
      */
     private String couponId;
 
-    @Size(max = 500,message = "订单备注长度不能超过500")
+    @Size(max = 500, message = "订单备注长度不能超过500")
     private String remark;
 
 

@@ -13,6 +13,7 @@ import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
+import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.oms.dao.OrderDao;
 import com.youlai.mall.oms.dao.OrderDeliveryDao;
 import com.youlai.mall.oms.dao.OrderGoodsDao;
@@ -39,10 +40,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
@@ -80,8 +78,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
     @Override
-    public OrderConfirmVO confirm() {
-        List<OrderItemVO> items = getOrderItemFromCart();
+    public OrderConfirmVO confirm(String skuId, Integer number) {
+        List<OrderItemVO> items = getOrderItemFromCart(skuId, number);
         if (CollectionUtil.isEmpty(items)) {
             log.info("订单商品列表为空，无法创建订单确认信息");
             return new OrderConfirmVO();
@@ -249,7 +247,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             orderGoods = new ArrayList<>();
             OrderGoodsEntity good = new OrderGoodsEntity();
             good.setSkuId(Long.valueOf(submit.getSkuId()));
-            good.setSkuQuantity(1);
+            good.setSkuQuantity(submit.getSkuNumber());
             orderGoods.add(good);
         }
 
@@ -286,8 +284,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         order.setRemark(submit.getRemark());
         order.setStatus(OrderStatusEnum.NEED_PAY.code);
         order.setSourceType(OrderTypeEnum.APP.code);
-//        order.setMemberId(WebUtils.getUserId());
-        order.setMemberId(1L);
+        order.setMemberId(WebUtils.getUserId());
         return order;
 
     }
@@ -325,7 +322,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
      *
      * @return
      */
-    private List<OrderItemVO> getOrderItemFromCart() {
+    private List<OrderItemVO> getOrderItemFromCart(String skuId, Integer number) {
+        if (!StrUtil.isEmpty(skuId)) {
+            log.info("请求携带商品id：{}，数量：{}，订单类型为用户直接购买", skuId, number);
+            OrderItemVO itemVO = OrderItemVO.builder().skuId(Long.parseLong(skuId)).number(number).build();
+            return Arrays.asList(itemVO);
+
+        }
         CartVo cartVo = cartService.detail();
         List<OrderItemVO> items = cartVo.getItems().stream().filter(CartItemVo::isChecked).map(cart -> OrderItemVO.builder().skuId(cart.getSkuId()).number(cart.getNumber()).build()).collect(Collectors.toList());
         return items;

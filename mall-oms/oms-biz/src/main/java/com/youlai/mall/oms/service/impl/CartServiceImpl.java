@@ -161,7 +161,7 @@ public class CartServiceImpl implements CartService {
             CartItemVo cartItem = (CartItemVo) value;
             if (cartItem.isChecked()) {
                 log.info("清空购物车中商品，商品id：{} | 名称：{}", cartItem.getSkuId(), cartItem.getSkuName());
-                cartOps.delete(cartItem.getSkuId());
+                cartOps.delete(cartItem.getSkuId().toString());
             }
         }
     }
