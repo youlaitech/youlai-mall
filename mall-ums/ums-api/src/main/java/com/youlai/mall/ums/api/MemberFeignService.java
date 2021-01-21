@@ -4,6 +4,7 @@ import com.youlai.common.core.result.Result;
 import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
+import com.youlai.mall.ums.pojo.dto.UmsAddressDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,15 @@ public interface MemberFeignService {
      */
     @PutMapping("/api.admin/v1/users/{id}/point")
     Result updatePoint(@PathVariable Long id, @RequestParam Integer num);
+
+    /**
+     * 获取地址详情
+     *
+     * @param id 地址id
+     * @return 地址详情
+     */
+    @GetMapping("/api.app/v1/addresses/{id}")
+    Result<UmsAddressDTO> getAddressById(@PathVariable("id") String id);
 
 }
 

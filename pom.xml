@@ -19,6 +19,7 @@
         <module>mall-ums</module>
         <module>mall-pms</module>
         <module>mall-oms</module>
+        <module>common-rabbitmq</module>
     </modules>
 
     <parent>
@@ -44,6 +45,7 @@
         <weixin-java-miniapp.version>3.9.4.B</weixin-java-miniapp.version>
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
         <seata.version>1.4.0</seata.version>
+
     </properties>
 
     <dependencies>
@@ -122,6 +124,7 @@
                 <artifactId>seata-spring-boot-starter</artifactId>
                 <version>${seata.version}</version>
             </dependency>
+
 
         </dependencies>
     </dependencyManagement>

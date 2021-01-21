@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static com.youlai.common.core.constant.RedisKeyConstants.MALL_CART_KEY;
+import static com.youlai.common.redis.constant.RedisKeyConstants.MALL_CART_KEY;
 
 /**
  * 购物车模块搭建步骤
@@ -53,7 +53,7 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations cartOps = getCartOps();
         if (cartOps.get(skuId) != null) {
             CartItemVo cartItem = (CartItemVo) cartOps.get(skuId);
-            Integer number = cartItem.getNumber() +1;
+            Integer number = cartItem.getNumber() + 1;
             cartItem.setNumber(number);
             cartOps.put(skuId, cartItem);
             return;
@@ -153,9 +153,21 @@ public class CartServiceImpl implements CartService {
 
     }
 
+    @Override
+    public void cleanSelected() {
+        log.info("清空购物车中已选择商品");
+        BoundHashOperations cartOps = getCartOps();
+        for (Object value : cartOps.values()) {
+            CartItemVo cartItem = (CartItemVo) value;
+            if (cartItem.isChecked()) {
+                log.info("清空购物车中商品，商品id：{} | 名称：{}", cartItem.getSkuId(), cartItem.getSkuName());
+                cartOps.delete(cartItem.getSkuId());
+            }
+        }
+    }
+
     private BoundHashOperations getCartOps() {
         Long userId = WebUtils.getUserId();
-//        Long userId = 1343913824748593153L;
         String cartKey = MALL_CART_KEY + userId;
         BoundHashOperations operations = redisTemplate.boundHashOps(cartKey);
         return operations;
