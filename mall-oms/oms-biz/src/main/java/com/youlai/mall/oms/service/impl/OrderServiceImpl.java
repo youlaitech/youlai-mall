@@ -36,6 +36,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,11 +111,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Override
     @GlobalTransactional
-    public void submit(OrderSubmitVO submit) throws ExecutionException, InterruptedException {
+    public OrderSubmitResultVO submit(OrderSubmitVO submit) throws ExecutionException, InterruptedException {
         log.info("开始创建订单：{}", submit);
         threadOrderSubmit.set(submit);
+        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
         OrderVO orderVO = new OrderVO();
         CompletableFuture<Void> orderFuture = CompletableFuture.runAsync(() -> {
+            RequestContextHolder.setRequestAttributes(attributes);
             threadOrderSubmit.set(submit);
             OrderEntity order = createOrder();
             orderVO.setOrderEntity(order);
@@ -121,6 +125,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
         CompletableFuture<Void> orderGoodsFuture = CompletableFuture.runAsync(() -> {
             // 生成订单商品信息
+            RequestContextHolder.setRequestAttributes(attributes);
             threadOrderSubmit.set(submit);
             List<OrderGoodsEntity> orderGoods = createOrderGoods();
             orderVO.setOrderGoods(orderGoods);
@@ -128,6 +133,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
         CompletableFuture<Void> orderDeliveryFuture = CompletableFuture.runAsync(() -> {
             threadOrderSubmit.set(submit);
+            RequestContextHolder.setRequestAttributes(attributes);
             // 生成订单地址信息
             OrderDeliveryEntity orderDelivery = createOrderDelivery();
             if (orderDelivery == null) {
@@ -163,6 +169,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         if (ObjectUtil.isNull(submit.getSkuId())) {
             cartService.cleanSelected();
         }
+
+        OrderSubmitResultVO result = new OrderSubmitResultVO();
+        result.setId(orderId);
+        result.setOrderSn(orderVO.getOrderEntity().getOrderSn());
+        return result;
     }
 
     private void lockStock(List<OrderGoodsEntity> orderGoods) {
@@ -175,7 +186,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         WareSkuStockVO wareSkuStock = new WareSkuStockVO();
         wareSkuStock.setItems(items);
         Result result = productFeignService.lockStock(wareSkuStock);
-        if (result == null || StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
+        if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
             log.error("锁定库存异常，商品列表={}", items);
             throw new BizException("下单失败，锁定库存错误");
         }

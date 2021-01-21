@@ -42,7 +42,7 @@ public interface ProductFeignService {
      * @param skuStockVO
      * @return
      */
-    @PostMapping("/api.admin/v1/sku/stock/lock")
+    @PostMapping("/api.app/v1/sku/stock/lock")
     Result lockStock(@RequestBody WareSkuStockVO skuStockVO);
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.mall.oms.pojo.entity.OrderEntity;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
+import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 
 import java.util.Map;
@@ -32,7 +33,7 @@ public interface OrderService extends IService<OrderEntity> {
      *
      * @param submit 订单提交参数
      */
-    void submit(OrderSubmitVO submit) throws ExecutionException, InterruptedException;
+    OrderSubmitResultVO submit(OrderSubmitVO submit) throws ExecutionException, InterruptedException;
 
 }
 
