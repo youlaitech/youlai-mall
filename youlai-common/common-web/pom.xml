@@ -23,10 +23,24 @@
         </dependency>
 
         <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-redis</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+            <version>6.2.0</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

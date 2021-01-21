@@ -16,6 +16,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * 购物车
+ *
+ * @author huawei
+ * @email huawei_code@163.com
+ * @date 2020-12-30 22:31:10
+ */
+
 @Api(tags = "购物车接口")
 @RestController
 @RequestMapping("/api.app/v1/carts")

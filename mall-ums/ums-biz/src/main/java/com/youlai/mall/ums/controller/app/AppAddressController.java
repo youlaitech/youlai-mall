@@ -110,4 +110,11 @@ public class AppAddressController {
         boolean status = iUmsAddressService.update(updateWrapper);
         return Result.status(status);
     }
+
+    @ApiOperation(value = "根据id查询收货地址详情", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "地址 id", required = true, paramType = "path", dataType = "String")
+    @GetMapping("/{id}")
+    public Result<UmsAddress> getAddressById(@PathVariable("id") String id) {
+        return Result.success(iUmsAddressService.getById(id));
+    }
 }
