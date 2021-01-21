@@ -4,6 +4,7 @@ import com.youlai.common.core.result.Result;
 import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.mall.oms.pojo.entity.OrderEntity;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
+import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.OrderService;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -53,10 +54,9 @@ public class OrderController {
     @ApiOperation(value = "提交订单", httpMethod = "POST")
     @ApiImplicitParam(name = "submit", value = "提交订单参数", required = true, paramType = "body", dataType = "OrderSubmitVO")
     @PostMapping("/submit")
-    public Result submit(@Valid @RequestBody OrderSubmitVO submit) throws ExecutionException, InterruptedException {
+    public Result<OrderSubmitResultVO> submit(@Valid @RequestBody OrderSubmitVO submit) throws ExecutionException, InterruptedException {
         log.info("提交订单：{}", submit);
-        orderService.submit(submit);
-        return Result.success();
+        return Result.success(orderService.submit(submit));
     }
 
 
