@@ -24,6 +24,7 @@ public interface UmsUserMapper extends BaseMapper<UmsUser> {
             " ORDER BY gmt_modified DESC, gmt_create DESC" +
             "</script>")
     @Results({
+            @Result(id = true, column = "id", property = "id"),
             @Result(property = "addressList", column = "id", many = @Many(select = "com.youlai.mall.ums.mapper.UmsAddressMapper.listByUserId"))
     })
     List<UmsUser> list(Page<UmsUser> page, UmsUser user);

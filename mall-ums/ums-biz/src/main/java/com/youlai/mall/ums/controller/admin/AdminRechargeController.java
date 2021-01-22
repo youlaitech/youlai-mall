@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,28 +50,24 @@ public class AdminRechargeController {
 
 
     @ApiOperation(value = "账户余额充值订单", httpMethod = "POST")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "query", dataType = "Long"),
-    })
     @PostMapping
     public Result recharge(@RequestBody RechargeDTO rechargeDTO) {
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/json;charset=utf-8"));
+        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
         headers.set("Payment-Key", appKey);
         headers.set("Payment-Secret", appSecret);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("price", 0);
-        params.put("name", "账户余额充值");
         //postMethod.addParameter("callbackurl", "用来通知指定地址");
         //postMethod.addParameter("reurl", "跳转地址");
         //postMethod.addParameter("thirduid", "用户存放您的用户ID");
         //postMethod.addParameter("remarks", "备注");
         //postMethod.addParameter("other", "其他信息");
 
-        HttpEntity<Map> httpEntity = new HttpEntity<>(params, headers);
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(createOrderURL, httpEntity, String.class);
+        HttpEntity<Map> httpEntity = new HttpEntity<>(null, headers);
+        String url = createOrderURL + "?price=" + rechargeDTO.getPrice() + "&name=" + rechargeDTO.getName() + "&thirduid=" + rechargeDTO.getThirduid();
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         int statusCode = responseEntity.getStatusCode().value();
         if (statusCode == HttpStatus.SC_OK) {
             String responseBody = responseEntity.getBody();
@@ -78,9 +75,11 @@ public class AdminRechargeController {
             if (jsonObject.getStr("code").equals("10001")) {
                 Map<String, Object> resultMap = new HashMap<>();
                 resultMap.put("name", jsonObject.getStr("name"));
-                resultMap.put("price", jsonObject.getStr("price"));
+                resultMap.put("price", Double.valueOf(jsonObject.getStr("price")) * 1000);
                 resultMap.put("orderId", jsonObject.getStr("orderId"));
                 return Result.success(resultMap);
+            } else {
+                return Result.failed(jsonObject.getStr("msg"));
             }
         }
         return Result.failed();
