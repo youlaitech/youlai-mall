@@ -4,12 +4,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @ApiModel
 @Data
 public class RechargeDTO {
 
     @ApiModelProperty(value = "充值金额")
-    private Integer price;
+    private String price;
 
     @ApiModelProperty(value = "充值说明")
     private String name;
