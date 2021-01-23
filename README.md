@@ -146,7 +146,9 @@ youlai-mall
 
 ## 问题
 
-项目在搭建的过程中如您遇到任何问题，可以联系我（微信号：haoxianrui），如果不能及时回复也可以在github提issue。
+- 如果github环境拉取不了代码请移步到码云[https://gitee.com/haoxr](https://gitee.com/haoxr),代码是同步的。
+
+- 项目在搭建的过程中如您遇到任何问题，可以联系我（微信号：haoxianrui），如果不能及时回复也可以在github提issue。
 
 
 
