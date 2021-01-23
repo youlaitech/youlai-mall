@@ -2,10 +2,6 @@
 # 如果要改配置搭建下本地环境哈，步骤在项目说明README
 # 项目对你有帮助麻烦给个❤，感激不尽！https://github.com/hxrui
 spring:
-  cloud:
-    nacos:
-      discovery:
-        ip: c.youlai.store
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver

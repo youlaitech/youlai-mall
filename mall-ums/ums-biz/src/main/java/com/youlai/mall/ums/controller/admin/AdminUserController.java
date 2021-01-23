@@ -132,9 +132,4 @@ public class AdminUserController {
                 .set(UmsUser::getDeleted, SystemConstants.DELETED_VALUE));
         return Result.status(status);
     }
-
-
-
-
-
 }
