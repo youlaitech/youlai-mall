@@ -11,4 +11,4 @@ target
 *.log
 
 logs
-!**/nacos
+!youlai-registry/nacos/**
