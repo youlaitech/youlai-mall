@@ -1,0 +1,28 @@
+2021-01-24 09:28:02,721 WARN clearConfigHistory start
+
+2021-01-24 09:28:13,657 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13h53m45s74ms647µs700ns).
+
+2021-01-24 09:28:40,059 ERROR clearConfigHistory error : org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30001ms.
+
+2021-01-24 09:31:04,525 INFO [capacityManagement] start correct usage
+
+2021-01-24 09:31:04,576 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-01-24 09:38:42,880 WARN clearConfigHistory start
+
+2021-01-24 09:39:50,059 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@15ab71f0 (Communications link failure
+
+The last packet successfully received from the server was 632,146 milliseconds ago.  The last packet sent successfully to the server was 632,179 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2021-01-24 09:41:04,579 INFO [capacityManagement] start correct usage
+
+2021-01-24 09:41:04,703 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-01-24 09:48:42,939 WARN clearConfigHistory start
+
+2021-01-24 09:51:04,705 INFO [capacityManagement] start correct usage
+
+2021-01-24 09:51:04,853 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-01-24 09:58:43,023 WARN clearConfigHistory start
+
