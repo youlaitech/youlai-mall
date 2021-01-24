@@ -1,0 +1,34 @@
+2021-01-24 09:28:19,099 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,113 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,114 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,114 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,114 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,114 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,114 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,115 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,115 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,115 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,115 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,116 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,116 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,116 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,117 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:19,117 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-24 09:28:20,404 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@youlai-auth
+
