@@ -24,3 +24,5 @@ The last packet successfully received from the server was 632,146 milliseconds a
 
 2021-01-24 09:51:04,853 INFO [capacityManagement] end correct usage, cost: 0s
 
+2021-01-24 09:58:43,023 WARN clearConfigHistory start
+
