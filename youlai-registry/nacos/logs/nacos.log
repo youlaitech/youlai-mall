@@ -30,3 +30,9 @@ The last packet successfully received from the server was 632,146 milliseconds a
 
 2021-01-24 10:01:04,965 INFO [capacityManagement] end correct usage, cost: 0s
 
+2021-01-24 10:08:43,066 WARN clearConfigHistory start
+
+2021-01-24 10:09:38,046 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@60b4a5e (Communications link failure
+
+The last packet successfully received from the server was 261,570 milliseconds ago.  The last packet sent successfully to the server was 261,601 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
