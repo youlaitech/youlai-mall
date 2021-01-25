@@ -89,23 +89,23 @@ youlai-mall
 
 ### 1. 启动后端微服务
 
-1. 本机安装Redis，IDEA安装Lombok插件。
-2. 拉取并导入 [youlai-mall](https://github.com/hxrui/youlai-mall) 。
-3. 启动nacos服务。 IDEA进入Terminal命令终端切到youlai-registry/nacos/bin目录，执行命令 startup -m standalone。
-4. 启动youlai-gateway、youlai-auth,youlai-admin基础微服务。
+1. 拉取并导入 [youlai-mall](https://github.com/hxrui/youlai-mall) 。
+2. 启动nacos服务，进入Terminal命令终端切到youlai-registry/nacos/bin目录，执行命令 startup -m standalone。
+3. 启动youlai-gateway、youlai-auth,youlai-admin项目基础服务。
+
+备注：如果本地搭建请安装Redis、MySQL8、Nacos、MinIO环境，再修改对应的Nacos相关配置信息即可。线上生产部署请参考部署篇的文章。
 
 重要说明：因为会有人无视公告修改公有环境配置，所以大家启动在使用公共环境会报错，作为开发者的我们心也累。
 所以大家在启动报错的时候，麻烦在Nacos启动后在控制台删除原有配置重新导入项目下的document/DEFAULT_GROUP.zip配置尝试重新启动项目。
 
-注：默认使用云数据库无需修改数据库连接配置和redis配置，如果需要搭建本地请修改对应配置信息即可。
-
 重要提示： 求大家别在云环境修改数据库和相关配置！自己这套环境开放出来供大家学习本来就冒着很大风险，精力也有限，望大家理解，谢谢了。
+
 ### 2. 启动管理前端
 
 1. 本机安装Python和Node.js
 1. 拉取并导入 [youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin.git)
 2. npm install  
-3. npm run dev
+3. npm run dev  
 4. 浏览器打开 http://localhost:9527
 
 ### 3. 启动微信小程序
@@ -114,7 +114,7 @@ youlai-mall
 
 ## 项目文档
 
-> 后端
+> 微服务
 
 1. [Spring Cloud实战 | 第一篇：Windows搭建Nacos服务 ](https://www.cnblogs.com/haoxianrui/p/13581881.html)
 2. [Spring Cloud实战 | 第二篇：Spring Cloud整合Nacos实现注册中心](https://www.cnblogs.com/haoxianrui/p/13584204.html)
@@ -124,7 +124,8 @@ youlai-mall
 6. [Spring Cloud实战 | 第六篇：Spring Cloud Gateway+Spring Security OAuth2+JWT实现微服务统一认证授权](https://www.cnblogs.com/haoxianrui/p/13719356.html)
 7. [Spring Cloud实战 | 最七篇：Spring Cloud Gateway+Spring Security OAuth2集成统一认证授权平台下实现注销使JWT失效方案](https://www.cnblogs.com/haoxianrui/p/13740264.html)
 8. [Spring Cloud实战 | 最八篇：Spring Cloud +Spring Security OAuth2+ Vue前后端分离模式下无感知刷新实现JWT续期](https://www.cnblogs.com/haoxianrui/p/14022632.html)
-9. [Spring Cloud实战 | 最九篇：Spring Security OAuth2认证服务器统一认证自定义异常处理](https://www.cnblogs.com/haoxianrui/p/14028366.html)
+9. [Spring Cloud实战 | 最九篇：Spring Security OAuth2认证服务器统一认证自定义异常处理](https://www.cnblogs.com/haoxianrui/p/14022632.html)
+10. [Spring Cloud实战 | 第十篇 ：Spring Cloud + Nacos整合Seata 1.4.1最新版本实现微服务架构中的分布式事务，进阶之路必须要迈过的槛](https://www.cnblogs.com/haoxianrui/p/14280184.html)
 
 > 管理前端
 
@@ -135,9 +136,19 @@ youlai-mall
 
 1. [vue+uniapp商城实战 | 第一篇：【有来小店】微信小程序快速开发接入Spring Cloud OAuth2认证中心完成授权登录](https://www.cnblogs.com/haoxianrui/p/13882310.html)
 
+> 部署篇
+
+1. [Docker实战 | 第一篇：Linux 安装 Docker](https://www.cnblogs.com/haoxianrui/p/14067423.html)
+2. [Docker实战 | 第二篇：Docker部署nacos-server:1.4.0](https://www.cnblogs.com/haoxianrui/p/14059009.html)
+3. [Docker实战 | 第三篇：IDEA集成Docker插件实现一键自动打包部署微服务项目，一劳永逸的技术手段值得一试](https://www.cnblogs.com/haoxianrui/p/14088400.html)
+4. [Docker实战 | 第四篇：Docker安装Nginx，实现基于vue-element-admin框架构建的项目线上部署](https://www.cnblogs.com/haoxianrui/p/14091762.html)
+5. [Docker实战 | 第五篇：Docker启用TLS加密解决暴露2375端口引发的安全漏洞，被黑掉三台云主机的教训总结](https://www.cnblogs.com/haoxianrui/p/14095306.html)
+
 ## 问题
 
-项目在搭建的过程中如您遇到任何问题，可以联系我（微信号：haoxianrui），如果不能及时回复也可以在github提issue。
+- 如果github环境拉取不了代码请移步到码云[https://gitee.com/haoxr](https://gitee.com/haoxr),代码是同步的。
+
+- 项目在搭建的过程中如您遇到任何问题，可以联系我（微信号：haoxianrui），如果不能及时回复也可以在github提issue。
 
 
 
