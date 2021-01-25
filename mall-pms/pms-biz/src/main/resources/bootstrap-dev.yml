@@ -39,3 +39,5 @@ seata:
       server-addr: c.youlai.store:8848
       namespace: seata_namespace_id
       group: SEATA_GROUP
+
+

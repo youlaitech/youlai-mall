@@ -4,6 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.pojo.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
+import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -12,6 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "商品SKU")
 @RestController
@@ -45,6 +49,28 @@ public class AppSkuController {
         sku.setStock(sku.getStock() + num);
         boolean result = iPmsSkuService.updateById(sku);
         return Result.status(result);
+    }
+
+    @ApiOperation(value = "批量获取商品详情", httpMethod = "GET")
+    @ApiImplicitParam(name = "skuIds", value = "Sku ID 集合", required = true, paramType = "param", dataType = "List")
+    @GetMapping("/infos")
+    public Result<List<SkuInfoVO>> infos(@RequestParam("skuId") List<String> skuIds) {
+        List<SkuInfoVO> infos = iPmsSkuService.getSkuInfoByIds(skuIds);
+        return Result.success(infos);
+    }
+
+
+    @ApiOperation(value = "订单下单锁定库存", httpMethod = "POST")
+    @ApiImplicitParam(name = "skuStockVO", value = "订单库存信息", required = true, paramType = "body", dataType = "WareSkuStockVO")
+    @PostMapping("/stock/lock")
+    public Result<Boolean> lockStock(@RequestBody WareSkuStockVO skuStockVO) {
+
+        try {
+            iPmsSkuService.lockStock(skuStockVO);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.failed();
+        }
     }
 
 }

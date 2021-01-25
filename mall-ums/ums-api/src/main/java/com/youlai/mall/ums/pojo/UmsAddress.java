@@ -25,7 +25,7 @@ public class UmsAddress extends BaseEntity {
 
     private String city;
 
-    private  String  area;
+    private String area;
 
     private String address;
 
