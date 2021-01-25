@@ -3,11 +3,11 @@ package com.youlai.mall.ums.controller.admin;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.core.result.Result;
+import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.pojo.dto.RechargeDTO;
 import com.youlai.mall.ums.pojo.dto.ResultPayDTO;
+import com.youlai.mall.ums.service.IUmsUserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -20,14 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 
 @Api(tags = "会员充值接口")
 @RestController
-@RequestMapping("/api.admin/v1/recharge")
+@RequestMapping("/api.admin/v1/recharge_orders")
 @Slf4j
 public class AdminRechargeController {
 
@@ -58,12 +57,6 @@ public class AdminRechargeController {
         headers.set("Payment-Key", appKey);
         headers.set("Payment-Secret", appSecret);
 
-        //postMethod.addParameter("callbackurl", "用来通知指定地址");
-        //postMethod.addParameter("reurl", "跳转地址");
-        //postMethod.addParameter("thirduid", "用户存放您的用户ID");
-        //postMethod.addParameter("remarks", "备注");
-        //postMethod.addParameter("other", "其他信息");
-
         HttpEntity<Map> httpEntity = new HttpEntity<>(null, headers);
         String url = createOrderURL + "?price=" + rechargeDTO.getPrice() + "&name=" + rechargeDTO.getName() + "&thirduid=" + rechargeDTO.getThirduid();
 
@@ -75,7 +68,7 @@ public class AdminRechargeController {
             if (jsonObject.getStr("code").equals("10001")) {
                 Map<String, Object> resultMap = new HashMap<>();
                 resultMap.put("name", jsonObject.getStr("name"));
-                resultMap.put("price", Double.valueOf(jsonObject.getStr("price")) * 1000);
+                resultMap.put("price", jsonObject.getStr("price"));
                 resultMap.put("orderId", jsonObject.getStr("orderId"));
                 return Result.success(resultMap);
             } else {
@@ -86,10 +79,45 @@ public class AdminRechargeController {
     }
 
 
+    /**
+     * 订单支付状态查询
+     */
+    @ResponseBody
+    @GetMapping("/{id}")
+    public Object findOrderState(@PathVariable String id) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+        headers.set("Payment-Key", appKey);
+        headers.set("Payment-Secret", appSecret);
+
+        String url = findOrderURL + "?orderId=" + id;
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        int statusCode = responseEntity.getStatusCode().value();
+        if (statusCode == HttpStatus.SC_OK) {
+            String responseBody = responseEntity.getBody();
+            JSONObject jsonObject = JSONUtil.parseObj(responseBody);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("code", jsonObject.getStr("code"));
+            resultMap.put("msg", jsonObject.getStr("msg"));
+            return Result.success(resultMap);
+
+        }
+        return Result.failed();
+    }
+
+    private IUmsUserService iUmsUserService;
+
     @PostMapping(value = "/callback")
     public void receiveCallBack(@RequestBody ResultPayDTO resultPay) {
         log.info("recharge callback：{}", resultPay.toString());
         //处理自己的业务逻辑
         //例如开通会员、用户充值等等。。。
+        String thirduid = resultPay.getThirduid();
+        UmsUser user = iUmsUserService.getById(thirduid);
+        if (user != null) {
+            user.setBalance((int) (user.getBalance() + Float.valueOf(resultPay.getPrice()) * 100 * 10000));
+        }
+        iUmsUserService.updateById(user);
     }
 }

@@ -165,3 +165,7 @@ Caused by: java.net.UnknownHostException: www.youlai.store
 
 2021-01-24 09:29:15,632 ERROR [master-db] master db not found.
 
+2021-01-25 12:56:48,117 WARN [master-db] jdbc:mysql://www.youlai.store:3306/nacos_config_dev?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+
+2021-01-25 12:56:49,929 WARN isQuickStart:false
+
