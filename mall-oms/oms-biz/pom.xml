@@ -96,11 +96,10 @@
             <artifactId>seata-all</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-        </dependency>
-
+<!--        <dependency>-->
+<!--            <groupId>io.seata</groupId>-->
+<!--            <artifactId>seata-spring-boot-starter</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
 
@@ -116,13 +115,13 @@
                 <version>1.0.0</version>
                 <executions>
                     <!--执行mvn package,即执行 mvn clean package docker:build-->
-                   <!-- <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>-->
+                    <!-- <execution>
+                         <id>build-image</id>
+                         <phase>package</phase>
+                         <goals>
+                             <goal>build</goal>
+                         </goals>
+                     </execution>-->
                 </executions>
 
                 <configuration>

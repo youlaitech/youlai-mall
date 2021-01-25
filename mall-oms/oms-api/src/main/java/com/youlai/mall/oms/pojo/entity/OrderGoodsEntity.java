@@ -1,11 +1,10 @@
 package com.youlai.mall.oms.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * 订单商品信息表
@@ -21,7 +20,7 @@ public class OrderGoodsEntity extends BaseEntity {
     /**
      * id
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * order_id

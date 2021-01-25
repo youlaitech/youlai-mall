@@ -59,5 +59,10 @@ public interface CartService {
      */
     void clear();
 
+    /**
+     * 清空购物车中已选择商品
+     */
+    void cleanSelected();
+
 
 }

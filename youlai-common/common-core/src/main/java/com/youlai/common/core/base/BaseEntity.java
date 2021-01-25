@@ -17,6 +17,8 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
+
+
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间", example = "2020-01-01 00:00:00")
     @JsonInclude(value = JsonInclude.Include.NON_NULL)

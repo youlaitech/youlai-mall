@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.pms.mapper.PmsSkuMapper">
+
+    <update id="lockStock">
+        update pms_sku
+        set stock_locked = stock_locked + #{number}
+        where id = #{skuId}
+          and stock >= stock_locked + #{number}
+    </update>
+
+
+    <!--  批量获取商品详情  -->
+    <select id="getSkuInfoByIds" resultType="com.youlai.mall.pms.pojo.vo.SkuInfoVO">
+        select
+        psk.id,
+        psk.id skuId,
+        psk.code skuCode,
+        psk.name skuName,
+        psk.pic_url skuPic,
+        psk.origin_price skuOriginPrice,
+        psk.price skuPrice,
+        psk.stock stock,
+        psp.id spuId,
+        psp.name spuName,
+        psp.pic_url spuPic,
+        pc.id categoryId,
+        pc.name categoryName,
+        pb.id brandId,
+        pb.name brandName
+        from pms_sku psk
+        left join pms_spu psp on psk.spu_id = psp.id
+        left join pms_category pc on psp.category_id = pc.id
+        left join pms_brand pb on psp.brand_id = pb.id
+        <where>
+            psk.id in
+            <foreach collection="skuIds" item="skuId" open="(" close=")" separator=",">
+                #{skuId}
+            </foreach>
+        </where>
+    </select>
+</mapper>

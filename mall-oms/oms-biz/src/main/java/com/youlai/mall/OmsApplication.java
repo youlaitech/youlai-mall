@@ -13,7 +13,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableDiscoveryClient
 @EnableSwagger2
 @EnableFeignClients
-@MapperScan({"com.youlai.mall.oms.mapper","com.youlai.mall.oms.dao"})
+//@EnableConfigurationProperties({ThreadPoolProperties.class})
+@MapperScan({"com.youlai.mall.oms.mapper", "com.youlai.mall.oms.dao"})
 public class OmsApplication {
 
     public static void main(String[] args) {
