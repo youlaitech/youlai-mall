@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
+import java.util.List;
+
 
 @Data
 public class SysUser extends BaseEntity {
@@ -32,5 +34,11 @@ public class SysUser extends BaseEntity {
 
     @TableField(exist = false)
     private String deptName;
+
+    @TableField(exist = false)
+    private List<Long> roleIds;
+
+    @TableField(exist = false)
+    private String roleNames;
 
 }
