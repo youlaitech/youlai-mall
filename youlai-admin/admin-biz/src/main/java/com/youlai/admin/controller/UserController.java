@@ -48,10 +48,24 @@ public class UserController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "user", value = "用户信息", paramType = "query", dataType = "SysUser")
+            @ApiImplicitParam(name = "nickname", value = "用户昵称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "mobile", value = "手机号码", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "status", value = "状态", paramType = "query", dataType = "Integer"),
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, SysUser user) {
+    public Result list(
+            Integer page,
+            Integer limit,
+            String nickname,
+            String mobile,
+            Integer status
+    ) {
+
+        SysUser user = new SysUser();
+        user.setNickname(nickname);
+        user.setMobile(mobile);
+        user.setStatus(status);
+
         IPage<SysUser> result = iSysUserService.list(new Page<>(page, limit), user);
         return Result.success(result.getRecords(), result.getTotal());
     }
@@ -63,6 +77,13 @@ public class UserController extends BaseController {
             @PathVariable Long id
     ) {
         SysUser user = iSysUserService.getById(id);
+        if (user != null) {
+            List<Long> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
+                    .eq(SysUserRole::getUserId, user.getId())
+                    .select(SysUserRole::getRoleId)
+            ).stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
+            user.setRoleIds(roleIds);
+        }
         return Result.success(user);
     }
 
