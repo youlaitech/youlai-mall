@@ -19,6 +19,7 @@
         <module>common-redis</module>
         <module>common-web</module>
         <module>common-mybatis</module>
+        <module>common-rabbitmq</module>
     </modules>
 
     <properties>
@@ -31,6 +32,7 @@
         <redisson.version>3.12.5</redisson.version>
         <common-pools.version>2.8.0</common-pools.version>
         <youlai.version>1.0.0-SNAPSHOT</youlai.version>
+        <dozer.version>6.2.0</dozer.version>
     </properties>
 
     <dependencyManagement>
@@ -121,6 +123,13 @@
                 <artifactId>common-mybatis</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.dozermapper</groupId>
+                <artifactId>dozer-core</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

@@ -29,6 +29,7 @@
             <artifactId>ums-api</artifactId>
             <version>${youlai.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>

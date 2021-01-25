@@ -1,31 +1,19 @@
-package com.youlai.mall.oms.pojo.entity;
+package com.youlai.mall.pms.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.youlai.common.core.base.BaseEntity;
+import com.youlai.common.core.base.BaseVO;
 import lombok.Data;
 
 /**
- * 订单商品信息表
- *
  * @author huawei
+ * @desc
  * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @date 2021/1/13
  */
 @Data
-@TableName("oms_order_goods")
-public class OrderGoodsEntity extends BaseEntity {
+public class SkuInfoVO extends BaseVO {
 
-    /**
-     * id
-     */
-    @TableId(type = IdType.AUTO)
     private Long id;
-    /**
-     * order_id
-     */
-    private Long orderId;
+
     /**
      * 商品sku id
      */
@@ -42,18 +30,21 @@ public class OrderGoodsEntity extends BaseEntity {
      * 商品sku图片
      */
     private String skuPic;
+
+    /**
+     * 商品原始价格
+     */
+    private Long skuOriginPrice;
     /**
      * 商品sku价格(分)
      */
     private Long skuPrice;
+
     /**
-     * 商品购买的数量
+     * 商品库存
      */
-    private Integer skuQuantity;
-    /**
-     * 商品sku总价格(分)
-     */
-    private Long skuTotalPrice;
+    private Integer stock;
+
     /**
      * spu_id
      */
@@ -82,9 +73,5 @@ public class OrderGoodsEntity extends BaseEntity {
      * 商品分类名称
      */
     private String categoryName;
-    /**
-     * 逻辑删除【0->正常；1->已删除】
-     */
-    private Integer deleted;
 
 }
