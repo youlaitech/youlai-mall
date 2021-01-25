@@ -1,0 +1,52 @@
+2021-01-23 16:47:33,015 INFO raft peers changed: [Member{ip='192.168.137.1', port=8848, state=UP, extendInfo={raftPort=7848}}]
+
+2021-01-23 16:47:33,170 INFO initializing Raft sub-system
+
+2021-01-23 16:47:33,173 INFO finish loading all datums, size: 0 cost 3 ms.
+
+2021-01-23 16:47:33,186 INFO cache loaded, datum count: 0, current term: 0
+
+2021-01-23 16:47:33,186 INFO finish to load data from disk, cost: 16 ms.
+
+2021-01-23 16:47:33,191 INFO timer started: leader timeout ms: 15000, heart-beat timeout ms: 5000
+
+2021-01-23 16:47:35,376 INFO leader timeout, start voting,leader: {"ip":"192.168.137.1:8848","term":0,"leaderDueMs":15158,"heartbeatDueMs":4500,"state":"FOLLOWER"}, term: 0
+
+2021-01-23 16:47:36,404 INFO add listener: com.alibaba.nacos.naming.domains.meta.00-00---000-NACOS_SWITCH_DOMAIN-000---00-00
+
+2021-01-23 16:47:43,948 WARN start to close old raft protocol!!!
+
+2021-01-23 16:47:43,949 WARN stop old raft protocol task for notifier
+
+2021-01-23 16:47:43,949 WARN stop old raft protocol task for master task
+
+2021-01-23 16:47:43,949 WARN stop old raft protocol task for heartbeat task
+
+2021-01-23 16:47:43,950 WARN clean old cache datum for old raft
+
+2021-01-23 16:47:43,950 WARN start to close old raft protocol!!!
+
+2021-01-23 16:47:43,950 WARN stop old raft protocol task for notifier
+
+2021-01-23 16:47:43,950 WARN stop old raft protocol task for master task
+
+2021-01-23 16:47:43,950 WARN stop old raft protocol task for heartbeat task
+
+2021-01-23 16:47:43,950 WARN clean old cache datum for old raft
+
+2021-01-23 16:47:43,950 WARN start to move old raft protocol metadata
+
+2021-01-23 16:47:43,965 INFO add listener: com.alibaba.nacos.naming.domains.meta.
+
+2021-01-23 16:47:44,528 WARN start to move old raft protocol metadata
+
+2021-01-23 16:47:44,577 INFO raft peers changed: [Member{ip='192.168.137.1', port=8848, state=UP, extendInfo={lastRefreshTime=1611391664528, raftPort=7848, version=1.4.1}}]
+
+2021-01-23 18:24:36,491 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@youlai-admin
+
+2021-01-23 18:24:38,311 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@youlai-gateway
+
+2021-01-23 18:24:56,428 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@youlai-auth
+
+2021-01-23 18:25:12,317 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@mall-ums
+

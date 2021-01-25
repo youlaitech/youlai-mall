@@ -1,0 +1,4 @@
+2021-01-23 16:47:27,881 WARN [master-db] jdbc:mysql://www.youlai.store:3306/nacos_config_dev?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+
+2021-01-23 16:47:44,700 WARN isQuickStart:false
+

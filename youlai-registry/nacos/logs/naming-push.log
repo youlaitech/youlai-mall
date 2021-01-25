@@ -1,0 +1,318 @@
+2021-01-24 09:27:59,591 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-01-24 09:28:10,167 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.137.1:55163, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,55163,1297088219170900
+
+2021-01-24 09:28:10,168 INFO send udp packet: 192.168.137.1,55163,1297088219170900
+
+2021-01-24 09:28:10,170 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"dom":"DEFAULT_GROUP@@youlai-auth","name":"DEFAULT_GROUP@@youlai-auth","cacheMillis":10000,"lastRefTime":1611451690165,"checksum":"1f627162d12536282a49091fe3bf9c27","useSpecifiedURL":false,"clusters":"DEFAULT","env":"","hosts":[],"metadata":{}}, lastRefTime=1297088219170900} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:10,174 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297088219170900
+
+2021-01-24 09:28:10,174 INFO send udp packet: 192.168.137.1,62898,1297088219170900
+
+2021-01-24 09:28:10,174 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"dom":"DEFAULT_GROUP@@youlai-auth","name":"DEFAULT_GROUP@@youlai-auth","cacheMillis":10000,"lastRefTime":1611451690172,"checksum":"1f627162d12536282a49091fe3bf9c27","useSpecifiedURL":false,"clusters":"","env":"","hosts":[],"metadata":{}}, lastRefTime=1297088219170900} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:10,175 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-01-24 09:28:10,175 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.137.1:51345, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,51345,1297088228921500
+
+2021-01-24 09:28:10,175 INFO send udp packet: 192.168.137.1,51345,1297088228921500
+
+2021-01-24 09:28:10,175 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"dom":"DEFAULT_GROUP@@youlai-admin","name":"DEFAULT_GROUP@@youlai-admin","cacheMillis":10000,"lastRefTime":1611451690175,"checksum":"8e1c28a1c4486b18c8fbf5688a54e4f5","useSpecifiedURL":false,"clusters":"DEFAULT","env":"","hosts":[],"metadata":{}}, lastRefTime=1297088228921500} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:10,177 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.137.1:55163, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,55163,1297088228921500
+
+2021-01-24 09:28:10,177 INFO send udp packet: 192.168.137.1,55163,1297088228921500
+
+2021-01-24 09:28:10,178 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"dom":"DEFAULT_GROUP@@youlai-admin","name":"DEFAULT_GROUP@@youlai-admin","cacheMillis":10000,"lastRefTime":1611451690176,"checksum":"8e1c28a1c4486b18c8fbf5688a54e4f5","useSpecifiedURL":false,"clusters":"","env":"","hosts":[],"metadata":{}}, lastRefTime=1297088228921500} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:10,178 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297088228921500
+
+2021-01-24 09:28:10,178 INFO send udp packet: 192.168.137.1,62898,1297088228921500
+
+2021-01-24 09:28:10,178 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"dom":"DEFAULT_GROUP@@youlai-admin","name":"DEFAULT_GROUP@@youlai-admin","cacheMillis":10000,"lastRefTime":1611451690178,"checksum":"8e1c28a1c4486b18c8fbf5688a54e4f5","useSpecifiedURL":false,"clusters":"","env":"","hosts":[],"metadata":{}}, lastRefTime=1297088228921500} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:11,171 INFO DEFAULT_GROUP@@mall-ums is changed, add it to push queue.
+
+2021-01-24 09:28:11,171 INFO serviceName: DEFAULT_GROUP@@mall-ums changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297089225402800
+
+2021-01-24 09:28:12,197 INFO send udp packet: 192.168.137.1,62898,1297089225402800
+
+2021-01-24 09:28:12,197 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":8601,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#8601#DEFAULT#DEFAULT_GROUP@@mall-ums","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@mall-ums","ephemeral":true}],"dom":"DEFAULT_GROUP@@mall-ums","name":"DEFAULT_GROUP@@mall-ums","cacheMillis":10000,"lastRefTime":1611451691171,"checksum":"6bcd14776da9472a1e3038eb38bff864","useSpecifiedURL":false,"clusters":"","env":"","metadata":{}}, lastRefTime=1297089225402800} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:12,198 INFO serviceName: DEFAULT_GROUP@@mall-ums changed, schedule push for: 192.168.137.1:59720, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,59720,1297089225402800
+
+2021-01-24 09:28:12,198 INFO send udp packet: 192.168.137.1,59720,1297089225402800
+
+2021-01-24 09:28:12,198 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":8601,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#8601#DEFAULT#DEFAULT_GROUP@@mall-ums","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@mall-ums","ephemeral":true}],"dom":"DEFAULT_GROUP@@mall-ums","name":"DEFAULT_GROUP@@mall-ums","cacheMillis":10000,"lastRefTime":1611451692197,"checksum":"6bcd14776da9472a1e3038eb38bff864","useSpecifiedURL":false,"clusters":"DEFAULT","env":"","metadata":{}}, lastRefTime=1297089225402800} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:12,198 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-01-24 09:28:12,198 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297090252006000
+
+2021-01-24 09:28:12,199 INFO send udp packet: 192.168.137.1,62898,1297090252006000
+
+2021-01-24 09:28:12,199 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"dom":"DEFAULT_GROUP@@youlai-gateway","name":"DEFAULT_GROUP@@youlai-gateway","cacheMillis":10000,"lastRefTime":1611451692198,"checksum":"5127f476ef3091598aba973961fa8c74","useSpecifiedURL":false,"clusters":"","env":"","hosts":[],"metadata":{}}, lastRefTime=1297090252006000} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:12,199 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297090252006000
+
+2021-01-24 09:28:12,199 INFO send udp packet: 192.168.137.1,62898,1297090252006000
+
+2021-01-24 09:28:12,199 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"dom":"DEFAULT_GROUP@@youlai-gateway","name":"DEFAULT_GROUP@@youlai-gateway","cacheMillis":10000,"lastRefTime":1611451692199,"checksum":"5127f476ef3091598aba973961fa8c74","useSpecifiedURL":false,"clusters":"DEFAULT","env":"","hosts":[],"metadata":{}}, lastRefTime=1297090252006000} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:16,075 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-01-24 09:28:16,094 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297094148285700
+
+2021-01-24 09:28:16,094 INFO send udp packet: 192.168.137.1,62898,1297094148285700
+
+2021-01-24 09:28:16,095 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":9999,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#9999#DEFAULT#DEFAULT_GROUP@@youlai-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@youlai-gateway","ephemeral":true}],"dom":"DEFAULT_GROUP@@youlai-gateway","name":"DEFAULT_GROUP@@youlai-gateway","cacheMillis":10000,"lastRefTime":1611451696094,"checksum":"684a097b82824a7da2f3794cf6defd38","useSpecifiedURL":false,"clusters":"","env":"","metadata":{}}, lastRefTime=1297094148285700} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:16,124 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297094148285700
+
+2021-01-24 09:28:16,124 INFO send udp packet: 192.168.137.1,62898,1297094148285700
+
+2021-01-24 09:28:16,124 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":9999,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#9999#DEFAULT#DEFAULT_GROUP@@youlai-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@youlai-gateway","ephemeral":true}],"dom":"DEFAULT_GROUP@@youlai-gateway","name":"DEFAULT_GROUP@@youlai-gateway","cacheMillis":10000,"lastRefTime":1611451696122,"checksum":"684a097b82824a7da2f3794cf6defd38","useSpecifiedURL":false,"clusters":"DEFAULT","env":"","metadata":{}}, lastRefTime=1297094148285700} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:16,388 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-01-24 09:28:16,388 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.137.1:51345, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,51345,1297094442494700
+
+2021-01-24 09:28:16,388 INFO send udp packet: 192.168.137.1,51345,1297094442494700
+
+2021-01-24 09:28:16,388 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":8080,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#8080#DEFAULT#DEFAULT_GROUP@@youlai-admin","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@youlai-admin","ephemeral":true}],"dom":"DEFAULT_GROUP@@youlai-admin","name":"DEFAULT_GROUP@@youlai-admin","cacheMillis":10000,"lastRefTime":1611451696388,"checksum":"93f7b197c5941c049563c76e0a43765f","useSpecifiedURL":false,"clusters":"DEFAULT","env":"","metadata":{}}, lastRefTime=1297094442494700} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:16,389 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.137.1:55163, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,55163,1297094442494700
+
+2021-01-24 09:28:16,392 INFO send udp packet: 192.168.137.1,55163,1297094442494700
+
+2021-01-24 09:28:16,393 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":8080,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#8080#DEFAULT#DEFAULT_GROUP@@youlai-admin","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@youlai-admin","ephemeral":true}],"dom":"DEFAULT_GROUP@@youlai-admin","name":"DEFAULT_GROUP@@youlai-admin","cacheMillis":10000,"lastRefTime":1611451696389,"checksum":"93f7b197c5941c049563c76e0a43765f","useSpecifiedURL":false,"clusters":"","env":"","metadata":{}}, lastRefTime=1297094442494700} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:16,419 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297094442494700
+
+2021-01-24 09:28:16,419 INFO send udp packet: 192.168.137.1,62898,1297094442494700
+
+2021-01-24 09:28:16,419 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":8080,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#8080#DEFAULT#DEFAULT_GROUP@@youlai-admin","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@youlai-admin","ephemeral":true}],"dom":"DEFAULT_GROUP@@youlai-admin","name":"DEFAULT_GROUP@@youlai-admin","cacheMillis":10000,"lastRefTime":1611451696393,"checksum":"93f7b197c5941c049563c76e0a43765f","useSpecifiedURL":false,"clusters":"","env":"","metadata":{}}, lastRefTime=1297094442494700} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:21,419 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-01-24 09:28:21,438 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.137.1:55163, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,55163,1297099491930800
+
+2021-01-24 09:28:21,438 INFO send udp packet: 192.168.137.1,55163,1297099491930800
+
+2021-01-24 09:28:21,444 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":8000,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#8000#DEFAULT#DEFAULT_GROUP@@youlai-auth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@youlai-auth","ephemeral":true}],"dom":"DEFAULT_GROUP@@youlai-auth","name":"DEFAULT_GROUP@@youlai-auth","cacheMillis":10000,"lastRefTime":1611451701438,"checksum":"7793d88638f8e17cf20c501f76f836c1","useSpecifiedURL":false,"clusters":"DEFAULT","env":"","metadata":{}}, lastRefTime=1297099491930800} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2021-01-24 09:28:21,445 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.137.1:62898, agent: Nacos-Java-Client:v1.3.2, key: 192.168.137.1,62898,1297099491930800
+
+2021-01-24 09:28:21,445 INFO send udp packet: 192.168.137.1,62898,1297099491930800
+
+2021-01-24 09:28:21,445 ERROR [NACOS-PUSH] failed to push data: {type=dom, data={"hosts":[{"ip":"192.168.137.1","port":8000,"valid":true,"healthy":true,"marked":false,"instanceId":"192.168.137.1#8000#DEFAULT#DEFAULT_GROUP@@youlai-auth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"enabled":true,"weight":1.0,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@youlai-auth","ephemeral":true}],"dom":"DEFAULT_GROUP@@youlai-auth","name":"DEFAULT_GROUP@@youlai-auth","cacheMillis":10000,"lastRefTime":1611451701445,"checksum":"7793d88638f8e17cf20c501f76f836c1","useSpecifiedURL":false,"clusters":"","env":"","metadata":{}}, lastRefTime=1297099491930800} to client: 192.168.137.1, error: {}
+
+java.net.SocketException: Network is unreachable: Datagram send failed
+	at java.net.DualStackPlainDatagramSocketImpl.socketSend(Native Method)
+	at java.net.DualStackPlainDatagramSocketImpl.send(DualStackPlainDatagramSocketImpl.java:136)
+	at java.net.DatagramSocket.send(DatagramSocket.java:693)
+	at com.alibaba.nacos.naming.push.PushService.udpPush(PushService.java:615)
+	at com.alibaba.nacos.naming.push.PushService.lambda$onApplicationEvent$1(PushService.java:170)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
