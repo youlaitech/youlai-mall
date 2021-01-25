@@ -19,7 +19,6 @@
         <module>mall-ums</module>
         <module>mall-pms</module>
         <module>mall-oms</module>
-        <module>common-rabbitmq</module>
     </modules>
 
     <parent>
