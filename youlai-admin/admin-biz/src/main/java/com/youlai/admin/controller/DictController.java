@@ -30,9 +30,9 @@ public class DictController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "queryMode", defaultValue = "1", value = "查询模式：1-常规列表 2-表格列表", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "queryMode", defaultValue = "1", value = "查询模式：1-常规列表 2-表格列表", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "typeCode", value = "字典类型编码", paramType = "query", dataType = "String")
     })
@@ -60,7 +60,7 @@ public class DictController {
     }
 
     @ApiOperation(value = "字典详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
         SysDict dict = iSysDictService.getById(id);
@@ -77,7 +77,7 @@ public class DictController {
 
     @ApiOperation(value = "修改字典", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dict", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDict")
     })
     @PutMapping(value = "/{id}")
@@ -90,7 +90,7 @@ public class DictController {
     }
 
     @ApiOperation(value = "删除字典", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
+    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysDictService.removeByIds(ids);
@@ -100,7 +100,7 @@ public class DictController {
 
     @ApiOperation(value = "修改字典(部分更新)", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dict", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDict")
     })
     @PatchMapping(value = "/{id}")

@@ -48,7 +48,7 @@ public class AdminCategoryController {
     }
 
     @ApiOperation(value = "商品分类详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "商品分类id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "商品分类id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
         PmsCategory category = iPmsCategoryService.getById(id);
@@ -67,7 +67,7 @@ public class AdminCategoryController {
 
     @ApiOperation(value = "修改商品分类", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品分类id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "商品分类id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     })
     @PutMapping(value = "/{id}")
@@ -88,7 +88,7 @@ public class AdminCategoryController {
 
     @ApiOperation(value = "修改商品分类(部分更新)", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     })
     @PatchMapping(value = "/{id}")

@@ -29,11 +29,11 @@ public class AdminOrderController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "Integer", defaultValue = "1"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "Long", defaultValue = "1"),
             @ApiImplicitParam(name = "orderSn", value = "订单编号", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "status", value = "订单状态", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "status", value = "订单状态", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "startDate", value = "开始日期", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "endDate", value = "结束日期", paramType = "query", dataType = "String"),
     })

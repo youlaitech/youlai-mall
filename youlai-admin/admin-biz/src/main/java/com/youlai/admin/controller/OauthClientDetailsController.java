@@ -28,8 +28,8 @@ public class OauthClientDetailsController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "client", value = "客户端信息", paramType = "query", dataType = "OauthClientDetails")
     })
     @GetMapping
@@ -72,7 +72,7 @@ public class OauthClientDetailsController {
     }
 
     @ApiOperation(value = "删除客户端", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
+    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<String> ids) {
         boolean status = iOauthClientDetailsService.removeByIds(ids);

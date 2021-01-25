@@ -86,7 +86,7 @@ public class AppUserController {
     @ApiOperation(value = "修改会员积分", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Integer")
+            @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Long")
     })
     @PutMapping("/{id}/point")
     public Result updatePoint(@PathVariable Long id, @RequestParam Integer num  ) {

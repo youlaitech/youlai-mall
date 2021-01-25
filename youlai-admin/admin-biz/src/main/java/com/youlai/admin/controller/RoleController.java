@@ -33,8 +33,8 @@ public class RoleController {
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query", dataType = "String"),
     })
     @GetMapping
@@ -60,7 +60,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "角色详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
         SysRole sysRole = iSysRoleService.getById(id);

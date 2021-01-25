@@ -32,8 +32,8 @@ public class AdminAdvertController {
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum"),
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "广告名称", paramType = "query", dataType = "String")
     })
     @GetMapping
@@ -57,7 +57,7 @@ public class AdminAdvertController {
     }
 
     @ApiOperation(value = "广告详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
         SmsAdvert advert = iSmsAdvertService.getById(id);
@@ -74,7 +74,7 @@ public class AdminAdvertController {
 
     @ApiOperation(value = "修改广告", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")
     })
     @PutMapping(value = "/{id}")
@@ -87,7 +87,7 @@ public class AdminAdvertController {
     }
 
     @ApiOperation(value = "删除广告", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
+    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSmsAdvertService.removeByIds(ids);
@@ -96,7 +96,7 @@ public class AdminAdvertController {
 
     @ApiOperation(value = "修改广告(局部更新)", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")
     })
     @PatchMapping(value = "/{id}")

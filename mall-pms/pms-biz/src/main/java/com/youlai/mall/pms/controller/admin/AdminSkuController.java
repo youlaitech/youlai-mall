@@ -50,7 +50,7 @@ public class AdminSkuController {
     @ApiOperation(value = "修改库存", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Sku ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "num", value = "库存数量", required = true, paramType = "query", dataType = "Integer")
+            @ApiImplicitParam(name = "num", value = "库存数量", required = true, paramType = "query", dataType = "Long")
     })
     @PutMapping("/{id}/stock")
     public Result updateStock(@PathVariable Long id, @RequestParam Integer num) {
