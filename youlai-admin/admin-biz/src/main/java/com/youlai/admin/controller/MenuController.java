@@ -39,7 +39,7 @@ public class MenuController {
     @ApiOperation(value = "菜单列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum")
     })
     @GetMapping
@@ -83,7 +83,7 @@ public class MenuController {
     }
 
     @ApiOperation(value = "菜单详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
         SysMenu menu = iSysMenuService.getById(id);
@@ -100,7 +100,7 @@ public class MenuController {
 
     @ApiOperation(value = "修改菜单", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
     })
     @PutMapping(value = "/{id}")
@@ -112,7 +112,7 @@ public class MenuController {
     }
 
     @ApiOperation(value = "删除菜单", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
+    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysMenuService.removeByIds(ids);
@@ -121,7 +121,7 @@ public class MenuController {
 
     @ApiOperation(value = "修改菜单【局部更新】", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
     })
     @PatchMapping(value = "/{id}")

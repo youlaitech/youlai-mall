@@ -31,8 +31,8 @@ public class AdminProductController {
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum"),
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "categoryId", value = "商品类目", paramType = "query", dataType = "Long")
     })
@@ -95,7 +95,7 @@ public class AdminProductController {
 
     @ApiOperation(value = "修改商品(部分更新)", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "spu", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpu")
     })
     @PatchMapping(value = "/{id}")

@@ -46,8 +46,8 @@ public class AdminUserController {
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "nickname", value = "会员昵称", paramType = "query", dataType = "String")
     })
     @GetMapping
@@ -108,7 +108,7 @@ public class AdminUserController {
     @ApiOperation(value = "修改会员积分", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Integer")
+            @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Long")
     })
     @PutMapping("/{id}/point")
     public Result updatePoint(@PathVariable Long id, @RequestParam Integer num) {

@@ -356,3 +356,833 @@ The last packet successfully received from the server was 261,570 milliseconds a
 
 2021-01-25 20:06:52,648 INFO [capacityManagement] end correct usage, cost: 0s
 
+2021-01-25 22:34:54,456 INFO Starting Nacos v1.4.1 on DESKTOP-3UGUBNG with PID 11100 (C:\projects\java\mall\youlai-mall\youlai-registry\nacos\target\nacos-server.jar started by haoxr in C:\projects\java\mall\youlai-mall\youlai-registry\nacos\bin)
+
+2021-01-25 22:34:54,457 INFO The following profiles are active: standalone
+
+2021-01-25 22:35:10,047 INFO Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@1672fe87' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+
+2021-01-25 22:35:10,062 INFO Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+
+2021-01-25 22:35:12,648 INFO Tomcat initialized with port(s): 8848 (http)
+
+2021-01-25 22:35:12,765 INFO Starting service [Tomcat]
+
+2021-01-25 22:35:12,766 INFO Starting Servlet engine: [Apache Tomcat/9.0.38]
+
+2021-01-25 22:35:14,078 INFO At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+
+2021-01-25 22:35:14,202 INFO Initializing Spring embedded WebApplicationContext
+
+2021-01-25 22:35:14,202 INFO Root WebApplicationContext: initialization completed in 19431 ms
+
+2021-01-25 22:35:15,287 INFO HikariPool-1 - Starting...
+
+2021-01-25 22:35:16,868 INFO HikariPool-1 - Start completed.
+
+2021-01-25 22:35:19,518 INFO Nacos-related cluster resource initialization
+
+2021-01-25 22:35:19,538 INFO The cluster resource is initialized
+
+2021-01-25 22:35:21,332 INFO Reflections took 195 ms to scan 1 urls, producing 4 keys and 6 values 
+
+2021-01-25 22:35:21,429 INFO Reflections took 26 ms to scan 1 urls, producing 6 keys and 26 values 
+
+2021-01-25 22:35:21,487 INFO Reflections took 15 ms to scan 1 urls, producing 3 keys and 15 values 
+
+2021-01-25 22:35:21,563 INFO Reflections took 14 ms to scan 1 urls, producing 2 keys and 12 values 
+
+2021-01-25 22:35:28,844 INFO Initializing ExecutorService 'applicationTaskExecutor'
+
+2021-01-25 22:35:29,745 INFO Adding welcome page: class path resource [static/index.html]
+
+2021-01-25 22:35:33,596 INFO Creating filter chain: Ant [pattern='/**'], []
+
+2021-01-25 22:35:33,877 INFO Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2d72f75e, org.springframework.security.web.context.SecurityContextPersistenceFilter@76318a7d, org.springframework.security.web.header.HeaderWriterFilter@641856, org.springframework.security.web.csrf.CsrfFilter@1a6f2363, org.springframework.security.web.authentication.logout.LogoutFilter@5400db36, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3277e499, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@411341bd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@8ab78bc, org.springframework.security.web.session.SessionManagementFilter@2f66e802, org.springframework.security.web.access.ExceptionTranslationFilter@5ebd56e9]
+
+2021-01-25 22:35:36,645 INFO Initializing ExecutorService 'taskScheduler'
+
+2021-01-25 22:35:37,370 INFO Exposing 2 endpoint(s) beneath base path '/actuator'
+
+2021-01-25 22:35:38,202 INFO Tomcat started on port(s): 8848 (http) with context path '/nacos'
+
+2021-01-25 22:35:38,383 INFO Started Nacos in 52.322 seconds (JVM running for 55.453)
+
+2021-01-25 22:35:38,434 INFO Initializing Spring DispatcherServlet 'dispatcherServlet'
+
+2021-01-25 22:35:38,445 INFO Nacos started successfully in stand alone mode. use external storage
+
+2021-01-25 22:35:38,445 INFO Initializing Servlet 'dispatcherServlet'
+
+2021-01-25 22:35:38,489 INFO Completed initialization in 31 ms
+
+2021-01-25 22:40:07,496 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@67dc16c5 marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,015 milliseconds ago.  The last packet sent successfully to the server was 3,471 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1218)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:439)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:376)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:452)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:462)
+	at com.alibaba.nacos.config.server.service.datasource.ExternalDataSourceServiceImpl$CheckDbHealthTask.run(ExternalDataSourceServiceImpl.java:242)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,015 milliseconds ago.  The last packet sent successfully to the server was 3,471 milliseconds ago.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:921)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1165)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1186)
+	... 14 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 20 common frames omitted
+2021-01-25 22:42:05,103 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@6ec9e6eb marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,001 milliseconds ago.  The last packet sent successfully to the server was 3,001 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ConnectionImpl.setSessionMaxRows(ConnectionImpl.java:2448)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1003)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:783)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:804)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:66)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:56)
+	at com.alibaba.nacos.config.server.auth.ExternalUserPersistServiceImpl.getUsers(ExternalUserPersistServiceImpl.java:136)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.getUsersFromDatabase(NacosUserDetailsServiceImpl.java:89)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.reload(NacosUserDetailsServiceImpl.java:55)
+	at sun.reflect.GeneratedMethodAccessor134.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,001 milliseconds ago.  The last packet sent successfully to the server was 3,001 milliseconds ago.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:921)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1165)
+	at com.mysql.cj.jdbc.ConnectionImpl.setSessionMaxRows(ConnectionImpl.java:2444)
+	... 27 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 33 common frames omitted
+2021-01-25 22:43:38,709 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@6144788c marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,001 milliseconds ago.  The last packet sent successfully to the server was 3,001 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:955)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1005)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:783)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:804)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:66)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:56)
+	at com.alibaba.nacos.config.server.auth.ExternalUserPersistServiceImpl.getUsers(ExternalUserPersistServiceImpl.java:136)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.getUsersFromDatabase(NacosUserDetailsServiceImpl.java:89)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.reload(NacosUserDetailsServiceImpl.java:55)
+	at sun.reflect.GeneratedMethodAccessor134.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,001 milliseconds ago.  The last packet sent successfully to the server was 3,001 milliseconds ago.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1168)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:932)
+	... 27 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 32 common frames omitted
+2021-01-25 22:43:43,039 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@16da2288 (Communications link failure
+
+The last packet successfully received from the server was 10,000 milliseconds ago.  The last packet sent successfully to the server was 10,000 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2021-01-25 22:45:22,421 INFO [capacityManagement] start correct usage
+
+2021-01-25 22:45:22,628 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-01-25 22:45:25,260 WARN clearConfigHistory start
+
+2021-01-25 22:48:21,236 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@74b5d0c5 marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,000 milliseconds ago.  The last packet sent successfully to the server was 3,000 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:955)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1005)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:783)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:804)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:66)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:56)
+	at com.alibaba.nacos.config.server.auth.ExternalRolePersistServiceImpl.getRolesByUserName(ExternalRolePersistServiceImpl.java:101)
+	at com.alibaba.nacos.console.security.nacos.roles.NacosRoleServiceImpl.reload(NacosRoleServiceImpl.java:77)
+	at sun.reflect.GeneratedMethodAccessor135.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,000 milliseconds ago.  The last packet sent successfully to the server was 3,000 milliseconds ago.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1168)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:932)
+	... 26 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 31 common frames omitted
+2021-01-25 22:48:22,733 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@15f0c226 (Communications link failure
+
+The last packet successfully received from the server was 19,797 milliseconds ago.  The last packet sent successfully to the server was 19,860 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2021-01-25 22:48:28,155 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@165f6dc4 marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,001 milliseconds ago.  The last packet sent successfully to the server was 3,001 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1218)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:439)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:376)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:452)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:462)
+	at com.alibaba.nacos.config.server.service.datasource.ExternalDataSourceServiceImpl$CheckDbHealthTask.run(ExternalDataSourceServiceImpl.java:242)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,001 milliseconds ago.  The last packet sent successfully to the server was 3,001 milliseconds ago.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:921)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1165)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1186)
+	... 14 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 20 common frames omitted
+2021-01-25 22:52:04,410 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@28809b9b marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,004 milliseconds ago.  The last packet sent successfully to the server was 3,625 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:955)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1005)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:783)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:804)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:66)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:56)
+	at com.alibaba.nacos.config.server.auth.ExternalUserPersistServiceImpl.getUsers(ExternalUserPersistServiceImpl.java:136)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.getUsersFromDatabase(NacosUserDetailsServiceImpl.java:89)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.reload(NacosUserDetailsServiceImpl.java:55)
+	at sun.reflect.GeneratedMethodAccessor134.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,004 milliseconds ago.  The last packet sent successfully to the server was 3,625 milliseconds ago.
+	at sun.reflect.GeneratedConstructorAccessor90.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1168)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:932)
+	... 27 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 32 common frames omitted
+2021-01-25 22:55:22,631 INFO [capacityManagement] start correct usage
+
+2021-01-25 22:55:25,688 WARN clearConfigHistory start
+
+2021-01-25 22:55:26,702 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6997fd04 (Communications link failure
+
+The last packet successfully received from the server was 20,001 milliseconds ago.  The last packet sent successfully to the server was 22,574 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2021-01-25 22:55:32,529 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4e1ce8a8 (Communications link failure
+
+The last packet successfully received from the server was 25,263 milliseconds ago.  The last packet sent successfully to the server was 26,085 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2021-01-25 22:55:37,266 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7cfb6b33 (Communications link failure
+
+The last packet successfully received from the server was 10,001 milliseconds ago.  The last packet sent successfully to the server was 10,001 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2021-01-25 22:55:57,505 ERROR clearConfigHistory error : org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 31523ms.
+
+2021-01-25 23:00:48,200 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@38ea285c marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,002 milliseconds ago.  The last packet sent successfully to the server was 3,002 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdateInternal(StatementImpl.java:1355)
+	at com.mysql.cj.jdbc.StatementImpl.executeLargeUpdate(StatementImpl.java:2128)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1264)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeUpdate(HikariProxyStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1UpdateStatementCallback.doInStatement(JdbcTemplate.java:511)
+	at org.springframework.jdbc.core.JdbcTemplate$1UpdateStatementCallback.doInStatement(JdbcTemplate.java:508)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:376)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:523)
+	at com.alibaba.nacos.config.server.service.datasource.ExternalDataSourceServiceImpl$SelectMasterTask.run(ExternalDataSourceServiceImpl.java:208)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,002 milliseconds ago.  The last packet sent successfully to the server was 3,002 milliseconds ago.
+	at sun.reflect.GeneratedConstructorAccessor90.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:921)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1165)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdateInternal(StatementImpl.java:1323)
+	... 16 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 22 common frames omitted
+2021-01-25 23:00:50,344 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@6ddc2567 marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,003 milliseconds ago.  The last packet sent successfully to the server was 3,003 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1218)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:439)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:376)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:452)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:462)
+	at com.alibaba.nacos.config.server.service.datasource.ExternalDataSourceServiceImpl$CheckDbHealthTask.run(ExternalDataSourceServiceImpl.java:242)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,003 milliseconds ago.  The last packet sent successfully to the server was 3,003 milliseconds ago.
+	at sun.reflect.GeneratedConstructorAccessor90.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:921)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1165)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1186)
+	... 14 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 20 common frames omitted
+2021-01-25 23:01:21,014 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@6c6995ea marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,018 milliseconds ago.  The last packet sent successfully to the server was 7,614 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ConnectionImpl.setSessionMaxRows(ConnectionImpl.java:2448)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1003)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:783)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:804)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:66)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:56)
+	at com.alibaba.nacos.config.server.auth.ExternalUserPersistServiceImpl.getUsers(ExternalUserPersistServiceImpl.java:136)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.getUsersFromDatabase(NacosUserDetailsServiceImpl.java:89)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.reload(NacosUserDetailsServiceImpl.java:55)
+	at sun.reflect.GeneratedMethodAccessor134.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,018 milliseconds ago.  The last packet sent successfully to the server was 7,614 milliseconds ago.
+	at sun.reflect.GeneratedConstructorAccessor90.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:921)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1165)
+	at com.mysql.cj.jdbc.ConnectionImpl.setSessionMaxRows(ConnectionImpl.java:2444)
+	... 27 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 33 common frames omitted
+2021-01-25 23:01:33,294 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@3dc6e663 marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,002 milliseconds ago.  The last packet sent successfully to the server was 12,177 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ConnectionImpl.setSessionMaxRows(ConnectionImpl.java:2448)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1003)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:783)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:804)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:66)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:56)
+	at com.alibaba.nacos.config.server.auth.ExternalRolePersistServiceImpl.getRolesByUserName(ExternalRolePersistServiceImpl.java:101)
+	at com.alibaba.nacos.console.security.nacos.roles.NacosRoleServiceImpl.reload(NacosRoleServiceImpl.java:77)
+	at sun.reflect.GeneratedMethodAccessor135.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,002 milliseconds ago.  The last packet sent successfully to the server was 12,177 milliseconds ago.
+	at sun.reflect.GeneratedConstructorAccessor90.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:921)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1165)
+	at com.mysql.cj.jdbc.ConnectionImpl.setSessionMaxRows(ConnectionImpl.java:2444)
+	... 26 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 32 common frames omitted
+2021-01-25 23:01:33,293 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@512d4373 marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,001 milliseconds ago.  The last packet sent successfully to the server was 3,001 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdateInternal(StatementImpl.java:1355)
+	at com.mysql.cj.jdbc.StatementImpl.executeLargeUpdate(StatementImpl.java:2128)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1264)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeUpdate(HikariProxyStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1UpdateStatementCallback.doInStatement(JdbcTemplate.java:511)
+	at org.springframework.jdbc.core.JdbcTemplate$1UpdateStatementCallback.doInStatement(JdbcTemplate.java:508)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:376)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:523)
+	at com.alibaba.nacos.config.server.service.datasource.ExternalDataSourceServiceImpl$SelectMasterTask.run(ExternalDataSourceServiceImpl.java:208)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,001 milliseconds ago.  The last packet sent successfully to the server was 3,001 milliseconds ago.
+	at sun.reflect.GeneratedConstructorAccessor90.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:562)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:732)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:671)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:986)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:921)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1165)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdateInternal(StatementImpl.java:1323)
+	... 16 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:556)
+	... 22 common frames omitted
+2021-01-25 23:03:07,225 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@a7ebbb0 (Communications link failure
+
+The last packet successfully received from the server was 12,931 milliseconds ago.  The last packet sent successfully to the server was 13,120 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2021-01-25 23:03:13,803 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3bf084dc (Communications link failure
+
+The last packet successfully received from the server was 31,652 milliseconds ago.  The last packet sent successfully to the server was 31,682 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2021-01-25 23:05:57,508 WARN clearConfigHistory start
+
+2021-01-25 23:15:57,556 WARN clearConfigHistory start
+
+2021-01-25 23:25:59,581 WARN clearConfigHistory start
+
+2021-01-25 23:35:59,626 WARN clearConfigHistory start
+
+2021-01-25 23:45:59,669 WARN clearConfigHistory start
+

@@ -9,4 +9,8 @@ import com.youlai.admin.pojo.SysUser;
 public interface ISysUserService extends IService<SysUser> {
 
     IPage<SysUser> list(Page<SysUser> page, SysUser sysUser);
+
+    boolean saveUser(SysUser user);
+
+    boolean updateUser(SysUser user);
 }

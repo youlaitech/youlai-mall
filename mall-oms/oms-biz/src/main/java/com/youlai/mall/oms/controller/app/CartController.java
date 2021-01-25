@@ -65,7 +65,7 @@ public class CartController {
     }
 
     @ApiOperation(value = "全选/全不选择购物车", httpMethod = "PUT")
-    @ApiImplicitParam(name = "check", value = "全选/全不选", required = true, paramType = "param", dataType = "Integer")
+    @ApiImplicitParam(name = "check", value = "全选/全不选", required = true, paramType = "param", dataType = "Long")
     @PutMapping("/checkAll")
     public Result<Object> checkAll(@RequestParam("check") Integer check) {
         cartService.checkAll(check);

@@ -46,11 +46,11 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "nickname", value = "用户昵称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "mobile", value = "手机号码", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "status", value = "状态", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "status", value = "状态", paramType = "query", dataType = "Long"),
     })
     @GetMapping
     public Result list(
@@ -91,23 +91,21 @@ public class UserController extends BaseController {
     @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     @PostMapping
     public Result add(@RequestBody SysUser user) {
-        user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
-        boolean status = iSysUserService.save(user);
-        return Result.status(status);
+        boolean result = iSysUserService.saveUser(user);
+        return Result.status(result);
     }
 
     @ApiOperation(value = "修改用户", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     })
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Integer id,
             @RequestBody SysUser user) {
-        user.setGmtModified(new Date());
-        boolean status = iSysUserService.updateById(user);
-        return Result.status(status);
+        boolean result = iSysUserService.updateUser(user);
+        return Result.status(result);
     }
 
     @ApiOperation(value = "删除用户", httpMethod = "DELETE")
@@ -120,14 +118,14 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "修改用户【部分更新】", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     })
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SysUser user) {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
         updateWrapper.set(user.getStatus() != null, SysUser::getStatus, user.getStatus());
-        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, user.getPassword());
+        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
         boolean status = iSysUserService.update(updateWrapper);
         return Result.status(status);
     }

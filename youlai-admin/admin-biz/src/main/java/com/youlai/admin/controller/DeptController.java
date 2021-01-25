@@ -32,7 +32,7 @@ public class DeptController {
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "部门名称", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "status", value = "部门状态", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "status", value = "部门状态", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum")
 
     })
@@ -65,7 +65,7 @@ public class DeptController {
     }
 
     @ApiOperation(value = "部门详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "部门id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "部门id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
         SysDept sysDept = iSysDeptService.getById(id);
@@ -84,7 +84,7 @@ public class DeptController {
 
     @ApiOperation(value = "修改部门", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "部门id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "部门id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "sysDept", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDept")
     })
     @PutMapping(value = "/{id}")
@@ -99,7 +99,7 @@ public class DeptController {
     }
 
     @ApiOperation(value = "删除部门", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Integer")
+    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Integer> ids) {
 
