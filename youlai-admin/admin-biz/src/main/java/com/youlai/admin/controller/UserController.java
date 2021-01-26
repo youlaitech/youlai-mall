@@ -51,6 +51,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "nickname", value = "用户昵称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "mobile", value = "手机号码", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "status", value = "状态", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "deptId", value = "部门ID", paramType = "query", dataType = "Long"),
     })
     @GetMapping
     public Result list(
@@ -58,13 +59,15 @@ public class UserController extends BaseController {
             Integer limit,
             String nickname,
             String mobile,
-            Integer status
+            Integer status,
+            Long deptId
     ) {
 
         SysUser user = new SysUser();
         user.setNickname(nickname);
         user.setMobile(mobile);
         user.setStatus(status);
+        user.setDeptId(deptId);
 
         IPage<SysUser> result = iSysUserService.list(new Page<>(page, limit), user);
         return Result.success(result.getRecords(), result.getTotal());

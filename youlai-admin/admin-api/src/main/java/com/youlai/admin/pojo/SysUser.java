@@ -28,7 +28,7 @@ public class SysUser extends BaseEntity {
 
     private Integer status;
 
-    private Integer deptId;
+    private Long deptId;
 
     private Integer deleted;
 

@@ -2,7 +2,7 @@ package com.youlai.common.mybatis.config;
 
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.youlai.common.mybatis.handler.MetaHandler;
+import com.youlai.common.mybatis.handler.CustomMetaObjectHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -26,7 +26,7 @@ public class MybatisPlusConfig {
     @Bean
     public GlobalConfig globalConfig() {
         GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig.setMetaObjectHandler(new MetaHandler());
+        globalConfig.setMetaObjectHandler(new CustomMetaObjectHandler());
         return globalConfig;
     }
 
