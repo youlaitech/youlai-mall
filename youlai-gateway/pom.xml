@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>youlai-gateway</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <youlai.version>1.0.0-SNAPSHOT</youlai.version>
@@ -19,15 +20,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-core</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-redis</artifactId>
-            <version>${youlai.version}</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
 
         <dependency>
@@ -61,6 +55,19 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-core</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-redis</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
     </dependencies>
 
 

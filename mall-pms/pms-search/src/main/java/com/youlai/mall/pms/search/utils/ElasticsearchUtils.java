@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.search.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -134,7 +134,7 @@ public class ElasticsearchUtils {
             return objectMapper.writeValueAsString(propertiesJson);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            return propertiesJson.toJSONString();
+            return propertiesJson.toString();
         }
     }
 
@@ -153,13 +153,13 @@ public class ElasticsearchUtils {
         return null;
     }
 
-    /**
+   /* *//**
      * 批量新增文档
      *
      * @param indexName 索引名称
      * @param docList   elasticsearch文档集合; 文档需标注@Document注解、包含@Id注解字段, 且@Id注解标注的文档ID字段值不能为空
      * @return 文档ID
-     */
+     *//*
     public <T> List<String> bulkIndexDoc(String indexName, List<T> docList) {
         if (existIndex(indexName) && docList != null && !docList.isEmpty()) {
             List<IndexQuery> indexQueries = new ArrayList<>();
@@ -170,7 +170,7 @@ public class ElasticsearchUtils {
         return null;
     }
 
-    /**
+    *//**
      * 批量索引子文档
      * 数量由外部控制; 单次bulk操作控制50条
      *
@@ -180,7 +180,7 @@ public class ElasticsearchUtils {
      *                        子文档需包含RelationModel.class字段、且字段RelationModel.parent值不为null
      * @param subRelationName 子文档关系名; 匹配subDocList中RelationModel.name值
      * @return 索引文档ID集合
-     */
+     *//*
     public <T> List<String> bulkIndexSubDoc(String indexName, List<T> subDocList, String subRelationName) {
         if (existIndex(indexName) && subDocList != null && !subDocList.isEmpty()) {
             Map<String, List<T>> groupMap = groupByParentId(subDocList, subRelationName);
@@ -200,7 +200,7 @@ public class ElasticsearchUtils {
         return null;
     }
 
-    /**
+    *//**
      * 索引子文档
      *
      * @param indexName             索引名称
@@ -209,7 +209,7 @@ public class ElasticsearchUtils {
      *                              子文档需包含RelationModel.class字段、且字段RelationModel.parent值不为null
      * @param subRelationName       子文档关系名; 匹配elasticsearchSubModel中RelationModel.name值
      * @return 子文档ID
-     */
+     *//*
     public <T> String indexSubDoc(String indexName, T elasticsearchSubModel, String subRelationName) {
         if (existIndex(indexName) && elasticsearchSubModel != null) {
             List<IndexQuery> queries = Collections.singletonList(new IndexQueryBuilder().withId(getDocumentIdValue(elasticsearchSubModel))
@@ -219,7 +219,7 @@ public class ElasticsearchUtils {
             return result != null && !result.isEmpty() ? result.get(0) : null;
         }
         return null;
-    }
+    }*/
 
     /**
      * 根据父文档ID分组子文档

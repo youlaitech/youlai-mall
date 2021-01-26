@@ -432,3 +432,11 @@ Caused by: java.net.SocketTimeoutException: connect timed out
 
 2021-01-26 11:41:13,716 WARN isQuickStart:false
 
+2021-01-26 14:37:46,352 ERROR [db-error] master db  down.
+
+2021-01-26 15:55:05,665 ERROR [db-error] master db  down.
+
+2021-01-26 19:01:36,177 WARN [master-db] jdbc:mysql://www.youlai.store:3306/nacos_config_dev?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+
+2021-01-26 19:01:38,872 WARN isQuickStart:false
+
