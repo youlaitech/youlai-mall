@@ -41,4 +41,5 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
             @Result(id = true, column = "id", property = "id")
     })
     List<SysUser> list(Page<SysUser> page, SysUser user);
+
 }

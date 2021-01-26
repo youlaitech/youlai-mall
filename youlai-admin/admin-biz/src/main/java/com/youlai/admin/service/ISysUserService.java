@@ -13,4 +13,5 @@ public interface ISysUserService extends IService<SysUser> {
     boolean saveUser(SysUser user);
 
     boolean updateUser(SysUser user);
+
 }
