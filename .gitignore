@@ -10,5 +10,5 @@ gen
 target
 *.log
 
-youlai-registry/nacos
-!*/nacos/target
+**/nacos
+!**/nacos/target
