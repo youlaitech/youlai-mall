@@ -396,3 +396,55 @@
 
 2021-01-26 13:58:15,394 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 
 
+2021-01-26 13:58:55,564 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8100:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 13:58:55,564 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 192.168.1.104:8100_true,
+
+2021-01-26 17:10:13,968 INFO DEFAULT_GROUP@@mall-ums {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 17:10:13,968 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@mall-ums, ips: 
+
+2021-01-26 17:10:14,400 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 17:10:14,400 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 
+
+2021-01-26 17:10:14,528 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 17:10:14,528 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 
+
+2021-01-26 17:10:16,297 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:8100:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 17:10:16,297 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 
+
+2021-01-26 19:01:53,195 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 19:01:53,197 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 192.168.1.104:9999_true,
+
+2021-01-26 19:03:57,544 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 19:03:57,544 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 
+
+2021-01-26 19:04:26,190 INFO DEFAULT_GROUP@@youlai-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:9999:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 19:04:26,190 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-gateway, ips: 192.168.1.104:9999_true,
+
+2021-01-26 19:28:34,540 INFO DEFAULT_GROUP@@youlai-auth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 19:28:34,540 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-auth, ips: 192.168.1.104:8000_true,
+
+2021-01-26 19:33:54,206 INFO DEFAULT_GROUP@@youlai-admin {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8100:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 19:33:54,207 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@youlai-admin, ips: 192.168.1.104:8100_true,
+
+2021-01-26 20:09:46,727 INFO DEFAULT_GROUP@@mall-ums {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8601:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 20:09:46,727 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@mall-ums, ips: 192.168.1.104:8601_true,
+
+2021-01-26 20:12:58,136 INFO DEFAULT_GROUP@@mall-pms {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8602:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 20:12:58,136 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@mall-pms, ips: 192.168.1.104:8602_true,
+
+2021-01-26 20:13:35,939 INFO DEFAULT_GROUP@@mall-sms {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.104:8604:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-01-26 20:13:35,939 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@mall-sms, ips: 192.168.1.104:8604_true,
+

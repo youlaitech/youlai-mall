@@ -9,9 +9,7 @@ import com.youlai.mall.pms.service.IPmsSpuAttrValueService;
 import com.youlai.mall.pms.service.IPmsSpecService;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +25,6 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 
-@RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
 @Slf4j
@@ -61,7 +58,6 @@ public class AppAdminProductControllerTest {
     @Test
     public void getProductSpecList() {
         List<PmsSpec> specifications = iPmsSpecService.listBySpuId(1l);
-        Assert.assertTrue(specifications != null && specifications.size() > 0);
         log.info(specifications.toString());
     }
 
