@@ -10,5 +10,5 @@ gen
 target
 *.log
 
-**/nacos
+logs
 !**/nacos/target
