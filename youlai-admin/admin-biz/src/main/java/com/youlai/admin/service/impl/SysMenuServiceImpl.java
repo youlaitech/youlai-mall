@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.AdminConstant;
-import com.youlai.admin.pojo.SysMenu;
+import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
 import com.youlai.admin.pojo.vo.RouterVO;
 import com.youlai.admin.pojo.vo.TreeSelectVO;
@@ -20,8 +20,8 @@ import java.util.Optional;
 
 
 /**
- * @author haoxr
- * @date 2020-11-06
+ * @Author haoxr
+ * @Date 2020-11-06
  */
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
@@ -54,20 +54,19 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .forEach(menu -> {
                     RouterVO routerVO = new RouterVO();
                     routerVO.setName(menu.getName());
-                    if ( AdminConstant.ROOT_MENU_ID.equals(parentId)) {
+                    if (AdminConstant.ROOT_MENU_ID.equals(parentId)) {
                         routerVO.setAlwaysShow(Boolean.TRUE);
                         routerVO.setPath("/" + menu.getPath());
+                        routerVO.setComponent("Layout");
                     } else {
-                        routerVO.setPath(menu.getPath());
+                        routerVO.setPath(menu.getPath() + menu.getId());
+                        routerVO.setComponent(menu.getPath());
                     }
                     routerVO.setRedirect(menu.getRedirect());
-                    routerVO.setComponent(
-                            StrUtil.isNotBlank(menu.getComponent()) ?
-                                    menu.getComponent() :
-                                    "Layout");
+
 
                     routerVO.setMeta(routerVO.new Meta(
-                            menu.getTitle(),
+                            menu.getName(),
                             menu.getIcon(),
                             menu.getRoles()
                     ));
@@ -118,7 +117,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .forEach(menu -> {
                     TreeSelectVO treeSelectVO = new TreeSelectVO();
                     treeSelectVO.setId(menu.getId());
-                    treeSelectVO.setLabel(menu.getTitle());
+                    treeSelectVO.setLabel(menu.getName());
                     List<TreeSelectVO> children = recursionForTreeSelect(menu.getId(), menuList);
                     treeSelectVO.setChildren(children);
                     list.add(treeSelectVO);

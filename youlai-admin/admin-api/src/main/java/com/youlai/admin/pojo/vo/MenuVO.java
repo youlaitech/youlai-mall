@@ -12,11 +12,11 @@ public class MenuVO extends BaseEntity {
 
     private Integer id;
 
-    private String title;
+    private String name;
 
     private Integer parentId;
 
-    private String name;
+    private Integer type;
 
     private String path;
 
@@ -27,8 +27,6 @@ public class MenuVO extends BaseEntity {
     private Integer visible;
 
     private Integer status;
-
-    private String component;
 
     private List<MenuVO> children;
 

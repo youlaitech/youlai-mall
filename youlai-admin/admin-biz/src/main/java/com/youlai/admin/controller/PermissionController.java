@@ -2,8 +2,8 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.youlai.admin.pojo.SysPermission;
-import com.youlai.admin.pojo.SysRolePermission;
+import com.youlai.admin.pojo.entity.SysPermission;
+import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.pojo.vo.PermissionVO;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysRolePermissionService;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.pojo.SysDict;
+import com.youlai.admin.pojo.entity.SysDict;
 import com.youlai.admin.service.ISysDictService;
 import com.youlai.common.core.result.Result;
 import io.swagger.annotations.Api;

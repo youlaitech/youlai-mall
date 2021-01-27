@@ -1,4 +1,4 @@
-package com.youlai.admin.pojo;
+package com.youlai.admin.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

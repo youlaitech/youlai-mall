@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.pojo.SysRole;
+import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.enums.QueryModeEnum;

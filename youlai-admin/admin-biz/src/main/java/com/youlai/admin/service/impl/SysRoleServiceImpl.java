@@ -2,10 +2,10 @@ package com.youlai.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.pojo.SysRole;
-import com.youlai.admin.pojo.SysRoleMenu;
-import com.youlai.admin.pojo.SysRolePermission;
-import com.youlai.admin.pojo.SysUserRole;
+import com.youlai.admin.pojo.entity.SysRole;
+import com.youlai.admin.pojo.entity.SysRoleMenu;
+import com.youlai.admin.pojo.entity.SysRolePermission;
+import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.mapper.SysRoleMapper;
 import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.admin.service.ISysRolePermissionService;
