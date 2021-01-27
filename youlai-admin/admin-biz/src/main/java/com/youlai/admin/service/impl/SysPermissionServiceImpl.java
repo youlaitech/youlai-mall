@@ -3,7 +3,7 @@ package com.youlai.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysPermissionMapper;
-import com.youlai.admin.pojo.SysPermission;
+import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.vo.TreeVO;
 import com.youlai.admin.service.ISysPermissionService;
 import org.springframework.stereotype.Service;

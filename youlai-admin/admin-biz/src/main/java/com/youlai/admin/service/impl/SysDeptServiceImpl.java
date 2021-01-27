@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.AdminConstant;
-import com.youlai.admin.pojo.SysDept;
+import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.DeptVO;
 import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.mapper.SysDeptMapper;

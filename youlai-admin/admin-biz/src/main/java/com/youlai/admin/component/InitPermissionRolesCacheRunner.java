@@ -1,7 +1,7 @@
 package com.youlai.admin.component;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.youlai.admin.pojo.SysPermission;
+import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.core.constant.AuthConstants;
 import lombok.AllArgsConstructor;

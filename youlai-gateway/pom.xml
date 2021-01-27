@@ -8,14 +8,14 @@
     <parent>
         <artifactId>youlai-mall</artifactId>
         <groupId>com.youlai</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>youlai-gateway</artifactId>
     <packaging>jar</packaging>
 
     <properties>
-        <youlai.version>1.0.0-SNAPSHOT</youlai.version>
+        <youlai.version>1.0.0</youlai.version>
     </properties>
 
     <dependencies>

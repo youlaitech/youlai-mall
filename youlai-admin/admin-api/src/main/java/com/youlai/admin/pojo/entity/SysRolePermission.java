@@ -1,14 +1,10 @@
-package com.youlai.admin.pojo;
-
+package com.youlai.admin.pojo.entity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class SysUserRole {
-
-    private Long userId;
-
+public class SysRolePermission {
     private Long roleId;
-
+    private Long permissionId;
 }

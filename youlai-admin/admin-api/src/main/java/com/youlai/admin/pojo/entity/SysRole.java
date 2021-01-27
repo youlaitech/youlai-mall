@@ -1,21 +1,22 @@
-package com.youlai.admin.pojo;
+package com.youlai.admin.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class SysDept extends BaseEntity {
+public class SysRole extends BaseEntity {
 
     @TableId(type= IdType.AUTO)
     private Long id;
 
     private String name;
 
-    private Long parentId;
-
-    private String treePath;
+    private String perms;
 
     private Integer sort;
 
@@ -23,10 +24,12 @@ public class SysDept extends BaseEntity {
 
     private Integer deleted;
 
-    private String leader;
+    private String remark;
 
-    private String mobile;
+    @TableField(exist = false)
+    private List<Long> menuIds;
 
-    private String email;
+    @TableField(exist = false)
+    private List<Long> permissionIds;
 
 }
