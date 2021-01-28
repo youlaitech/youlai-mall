@@ -3,7 +3,9 @@ package com.youlai.common.web.util;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.core.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -41,4 +43,10 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         List<Long> authorities = list.stream().map(Long::valueOf).collect(Collectors.toList());
         return authorities;
     }
+
+    public static ServerHttpResponse getServerHttpResponse(ResultCode resultCode){
+
+        return null;
+    }
+
 }

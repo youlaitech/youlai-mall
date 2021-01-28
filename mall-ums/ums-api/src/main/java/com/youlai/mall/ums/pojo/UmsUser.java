@@ -4,16 +4,16 @@ package com.youlai.mall.ums.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class UmsUser {
+public class UmsUser extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -39,10 +39,6 @@ public class UmsUser {
     private Integer status;
 
     private Integer point;
-
-    private Date gmtCreate;
-
-    private Date gmtModified;
 
     private Integer deleted;
 
