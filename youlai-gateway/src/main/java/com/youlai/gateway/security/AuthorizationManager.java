@@ -35,6 +35,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
+
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         String path = request.getURI().getPath();
         PathMatcher pathMatcher = new AntPathMatcher();
