@@ -60,3 +60,6 @@ spring:
 whitelist:
   urls:
       - "/youlai-auth/oauth/token"
+
+# 是否演示环境
+demo: true
