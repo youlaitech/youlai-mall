@@ -68,7 +68,6 @@
             <version>${youlai.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -97,12 +96,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
 
         <!-- spring cloud 2020.0.0内置的openfeign3.0.0和spring cloud alibaba框架nacos、seata冲突临时解决方案-->
         <dependency>
@@ -154,13 +147,13 @@
                 <version>1.0.0</version>
                 <executions>
                     <!--执行mvn package,即执行 mvn clean package docker:build-->
-                  <!--  <execution>
+                    <execution>
                         <id>build-image</id>
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
-                    </execution>-->
+                    </execution>
                 </executions>
 
                 <configuration>
