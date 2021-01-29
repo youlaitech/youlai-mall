@@ -49,6 +49,8 @@ public interface AuthConstants {
 
     String JWT_CLIENT_ID_KEY = "client_id";
 
+    String JWT_JTI_KEY = "client_id";
+
     /**
      * JWT存储权限前缀
      */

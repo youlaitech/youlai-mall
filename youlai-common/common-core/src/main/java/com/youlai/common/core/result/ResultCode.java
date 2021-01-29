@@ -27,8 +27,10 @@ public enum ResultCode implements  IResultCode, Serializable {
     CLIENT_AUTHENTICATION_FAILED("A0212","客户端认证失败"), // *
     TOKEN_INVALID_OR_EXPIRED("A0230","token无效或已过期"),
 
-    USER_AUTHORIZED_ERROR ("A0300","访问权限异常"),
-    USER_ACCESS_UNAUTHORIZED ("A0301","访问未授权"),
+    AUTHORIZED_ERROR ("A0300","访问权限异常"),
+    ACCESS_UNAUTHORIZED ("A0301","访问未授权"),
+    FORBIDDEN_OPERATION ("A0302","演示环境禁止修改、删除重要数据，请本地部署后测试"),
+
 
     USER_REQUEST_PARAM_ERROR("A0400","用户请求参数错误"),
     USER_REQUEST_PARAM_IS_BLANK("A0410","请求必填参数为空"),

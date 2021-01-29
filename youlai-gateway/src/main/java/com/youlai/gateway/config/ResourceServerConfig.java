@@ -6,6 +6,7 @@ import com.youlai.common.core.constant.AuthConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.gateway.security.AuthorizationManager;
+import com.youlai.gateway.util.WebUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,16 +67,7 @@ public class ResourceServerConfig {
     ServerAccessDeniedHandler accessDeniedHandler() {
         return (exchange, denied) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
-                    .flatMap(response -> {
-                        response.setStatusCode(HttpStatus.OK);
-                        response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                        response.getHeaders().set("Access-Control-Allow-Origin", "*");
-                        response.getHeaders().set("Cache-Control", "no-cache");
-                        String body = JSONUtil.toJsonStr(Result.failed(ResultCode.USER_ACCESS_UNAUTHORIZED));
-                        DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
-                        return response.writeWith(Mono.just(buffer))
-                                .doOnError(error -> DataBufferUtils.release(buffer));
-                    });
+                    .flatMap(response ->WebUtils.writeFailedToResponse(response,ResultCode.ACCESS_UNAUTHORIZED));
 
             return mono;
         };
@@ -88,16 +80,7 @@ public class ResourceServerConfig {
     ServerAuthenticationEntryPoint authenticationEntryPoint() {
         return (exchange, e) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
-                    .flatMap(response -> {
-                        response.setStatusCode(HttpStatus.OK);
-                        response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                        response.getHeaders().set("Access-Control-Allow-Origin", "*");
-                        response.getHeaders().set("Cache-Control", "no-cache");
-                        String body = JSONUtil.toJsonStr(Result.failed(ResultCode.TOKEN_INVALID_OR_EXPIRED));
-                        DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
-                        return response.writeWith(Mono.just(buffer))
-                                .doOnError(error -> DataBufferUtils.release(buffer));
-                    });
+                    .flatMap(response -> WebUtils.writeFailedToResponse(response,ResultCode.TOKEN_INVALID_OR_EXPIRED));
             return mono;
         };
     }
