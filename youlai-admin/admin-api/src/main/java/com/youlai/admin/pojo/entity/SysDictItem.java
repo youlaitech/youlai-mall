@@ -4,19 +4,27 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
-public class SysDict extends BaseEntity {
+@Accessors(chain = true)
+public class SysDictItem extends BaseEntity {
 
-    @TableId(type = IdType.AUTO)
+    @TableId(type= IdType.AUTO)
     private Long id;
-
-    private String code;
 
     private String name;
 
+    private String value;
+
+    private String dictCode;
+
+    private String sort;
+
     private Integer status;
 
-    private  String  remark;
+    private Integer defaulted;
+
+    private String remark;
 
 }

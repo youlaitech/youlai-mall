@@ -81,7 +81,7 @@ public class PermissionController {
     @PostMapping
     public Result add(@RequestBody SysPermission permission) {
         boolean status = iSysPermissionService.save(permission);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改权限", httpMethod = "PUT")
@@ -94,7 +94,7 @@ public class PermissionController {
             @PathVariable Long id,
             @RequestBody SysPermission permission) {
         boolean status = iSysPermissionService.updateById(permission);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除权限", httpMethod = "DELETE")
@@ -102,6 +102,6 @@ public class PermissionController {
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysPermissionService.removeByIds(Arrays.asList(ids.split(",")));
-        return Result.status(status);
+        return Result.judge(status);
     }
 }

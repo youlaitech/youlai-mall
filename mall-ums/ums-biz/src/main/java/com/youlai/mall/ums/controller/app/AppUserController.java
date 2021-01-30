@@ -66,7 +66,7 @@ public class AppUserController {
     @PostMapping
     public Result add(@RequestBody UmsUser user) {
         boolean status = iUmsUserService.save(user);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "获取当前请求的会员信息", httpMethod = "GET")
@@ -93,6 +93,6 @@ public class AppUserController {
         UmsUser user = iUmsUserService.getById(id);
         user.setPoint(user.getPoint() + num);
         boolean result = iUmsUserService.updateById(user);
-        return Result.status(result);
+        return Result.judge(result);
     }
 }

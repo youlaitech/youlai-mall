@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "用户接口")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api.admin/v1/users")
 @Slf4j
 @AllArgsConstructor
 public class UserController extends BaseController {
@@ -94,7 +94,7 @@ public class UserController extends BaseController {
     @PostMapping
     public Result add(@RequestBody SysUser user) {
         boolean result = iSysUserService.saveUser(user);
-        return Result.status(result);
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "修改用户", httpMethod = "PUT")
@@ -107,7 +107,7 @@ public class UserController extends BaseController {
             @PathVariable Integer id,
             @RequestBody SysUser user) {
         boolean result = iSysUserService.updateUser(user);
-        return Result.status(result);
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "删除用户", httpMethod = "DELETE")
@@ -115,7 +115,7 @@ public class UserController extends BaseController {
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysUserService.removeByIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改用户【部分更新】", httpMethod = "PATCH")
@@ -129,7 +129,7 @@ public class UserController extends BaseController {
         updateWrapper.set(user.getStatus() != null, SysUser::getStatus, user.getStatus());
         updateWrapper.set(user.getPassword() != null, SysUser::getPassword, passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
         boolean status = iSysUserService.update(updateWrapper);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
 

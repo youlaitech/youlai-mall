@@ -79,7 +79,7 @@ public class AdminOrderController {
     @PostMapping
     public Result add(@RequestBody OrderBO orderBO) {
         boolean status = iOmsOrderService.save(orderBO);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改订单", httpMethod = "PUT")
@@ -92,7 +92,7 @@ public class AdminOrderController {
             @PathVariable Long id,
             @RequestBody OmsOrder order) {
         boolean status = iOmsOrderService.updateById(order);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
 
@@ -105,7 +105,7 @@ public class AdminOrderController {
         } else {
             status = iOmsOrderService.submit();
         }
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "订单详情", httpMethod = "GET")

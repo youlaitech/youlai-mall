@@ -69,7 +69,7 @@ public class AdminProductController {
     @PostMapping
     public Result add(@RequestBody ProductBO spuBO) {
         boolean status = iPmsSpuService.add(spuBO);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改商品", httpMethod = "PUT")
@@ -82,7 +82,7 @@ public class AdminProductController {
             @PathVariable Long id,
             @RequestBody ProductBO spu) {
         boolean status = iPmsSpuService.updateById(spu);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除商品", httpMethod = "DELETE")

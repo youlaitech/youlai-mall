@@ -68,6 +68,6 @@ public class AdminSpecController {
             }
         }
         boolean result = iPmsSpecService.saveOrUpdateBatch(specCategories);
-        return Result.status(result);
+        return Result.judge(result);
     }
 }

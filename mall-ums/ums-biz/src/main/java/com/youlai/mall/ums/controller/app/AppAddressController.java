@@ -52,7 +52,7 @@ public class AppAddressController {
             );
         }
         boolean status = iUmsAddressService.save(address);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
 
@@ -74,7 +74,7 @@ public class AppAddressController {
             );
         }
         boolean status = iUmsAddressService.updateById(address);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除地址", httpMethod = "DELETE")
@@ -82,7 +82,7 @@ public class AppAddressController {
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iUmsAddressService.removeByIds(Arrays.asList(ids.split(",")));
-        return Result.status(status);
+        return Result.judge(status);
     }
 
 
@@ -108,7 +108,7 @@ public class AppAddressController {
             }
         }
         boolean status = iUmsAddressService.update(updateWrapper);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "根据id查询收货地址详情", httpMethod = "GET")

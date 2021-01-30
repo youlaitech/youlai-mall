@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 /**
  * @author haoxr
@@ -43,7 +42,7 @@ public class Result<T> implements Serializable {
         return result(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), msg, null);
     }
 
-    public static <T> Result<T> status(boolean status) {
+    public static <T> Result<T> judge(boolean status) {
         if (status) {
             return success();
         } else {

@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "菜单接口")
 @RestController
-@RequestMapping("/menus")
+@RequestMapping("/api.admin/v1/menus")
 @Slf4j
 @AllArgsConstructor
 public class MenuController {
@@ -95,7 +95,7 @@ public class MenuController {
     @PostMapping
     public Result add(@RequestBody SysMenu menu) {
         boolean status = iSysMenuService.save(menu);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改菜单", httpMethod = "PUT")
@@ -108,7 +108,7 @@ public class MenuController {
             @PathVariable Integer id,
             @RequestBody SysMenu menu) {
         boolean status = iSysMenuService.updateById(menu);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除菜单", httpMethod = "DELETE")
@@ -116,7 +116,7 @@ public class MenuController {
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSysMenuService.removeByIds(ids);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改菜单【局部更新】", httpMethod = "PATCH")

@@ -38,7 +38,12 @@ public class RoleController {
             @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query", dataType = "String"),
     })
     @GetMapping
-    public Result list(String queryMode, Integer page, Integer limit, String name) {
+    public Result list(
+            String queryMode,
+            Integer page,
+            Integer limit,
+            String name
+    ) {
 
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
         List list = null;
@@ -72,7 +77,7 @@ public class RoleController {
     @PostMapping
     public Result add(@RequestBody SysRole role) {
         boolean status = iSysRoleService.add(role);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改角色", httpMethod = "PUT")
@@ -85,16 +90,16 @@ public class RoleController {
             @PathVariable Long id,
             @RequestBody SysRole role) {
         boolean status = iSysRoleService.update(role);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除角色", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", allowMultiple = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()
                 .map(id -> Long.parseLong(id)).collect(Collectors.toList()));
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改角色【局部更新】", httpMethod = "PATCH")
@@ -106,13 +111,13 @@ public class RoleController {
     public Result patch(@PathVariable Long id, @RequestBody SysRole role) {
         if (role.getPermissionIds() != null) {
             boolean status = iSysRoleService.update(id, role.getPermissionIds());
-            return Result.status(status);
+            return Result.judge(status);
         }
         LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<SysRole>()
                 .eq(SysRole::getId, id)
                 .set(role.getStatus() != null, SysRole::getStatus, role.getStatus());
         boolean status = iSysRoleService.update(updateWrapper);
-        return Result.status(status);
+        return Result.judge(status);
 
     }
 
