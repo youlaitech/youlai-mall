@@ -48,7 +48,7 @@ public class AppSkuController {
         PmsSku sku = iPmsSkuService.getById(id);
         sku.setStock(sku.getStock() + num);
         boolean result = iPmsSkuService.updateById(sku);
-        return Result.status(result);
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "批量获取商品详情", httpMethod = "GET")

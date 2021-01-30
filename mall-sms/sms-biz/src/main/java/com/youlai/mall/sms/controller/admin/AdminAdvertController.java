@@ -69,7 +69,7 @@ public class AdminAdvertController {
     @PostMapping
     public Result add(@RequestBody SmsAdvert advert) {
         boolean status = iSmsAdvertService.save(advert);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改广告", httpMethod = "PUT")
@@ -83,7 +83,7 @@ public class AdminAdvertController {
             @RequestBody SmsAdvert advert) {
         advert.setGmtModified(new Date());
         boolean status = iSmsAdvertService.updateById(advert);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除广告", httpMethod = "DELETE")
@@ -91,7 +91,7 @@ public class AdminAdvertController {
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iSmsAdvertService.removeByIds(ids);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改广告(局部更新)", httpMethod = "PATCH")

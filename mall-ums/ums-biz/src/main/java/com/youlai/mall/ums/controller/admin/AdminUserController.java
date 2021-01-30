@@ -88,7 +88,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @RequestBody UmsUser user) {
         boolean status = iUmsUserService.updateById(user);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
 
@@ -102,7 +102,7 @@ public class AdminUserController {
         LambdaUpdateWrapper<UmsUser> updateWrapper = new LambdaUpdateWrapper<UmsUser>().eq(UmsUser::getId, id);
         updateWrapper.set(user.getStatus() != null, UmsUser::getStatus, user.getStatus());
         boolean status = iUmsUserService.update(updateWrapper);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改会员积分", httpMethod = "POST")
@@ -120,7 +120,7 @@ public class AdminUserController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return Result.status(result);
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "删除会员【逻辑删除】", httpMethod = "DELETE")
@@ -130,6 +130,6 @@ public class AdminUserController {
         boolean status = iUmsUserService.update(new LambdaUpdateWrapper<UmsUser>()
                 .in(UmsUser::getId, Arrays.asList(ids.split(",")))
                 .set(UmsUser::getDeleted, SystemConstants.DELETED_VALUE));
-        return Result.status(status);
+        return Result.judge(status);
     }
 }

@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 27/01/2021 22:37:43
+ Date: 30/01/2021 23:48:44
 */
 
 SET NAMES utf8mb4;
@@ -73,10 +73,33 @@ INSERT INTO `sys_dept` VALUES (2, '测试部', 0, '0', 2, '李四', NULL, NULL, 
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键 ',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '类型名称',
+  `code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '类型编码',
+  `status` tinyint(1) NULL DEFAULT 0 COMMENT '状态（0-正常 ,1-停用）',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `type_code`(`code`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict
+-- ----------------------------
+INSERT INTO `sys_dict` VALUES (1, '性别', 'gender', 1, '性别', '2019-12-06 19:03:32', '2019-12-12 19:03:15');
+INSERT INTO `sys_dict` VALUES (11, '授权方式', 'grant_type', 1, NULL, '2020-10-17 08:09:50', '2020-10-17 08:09:50');
+INSERT INTO `sys_dict` VALUES (15, '物流渠道', 'logistics_channel', 1, NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for sys_dict_item
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_item`;
+CREATE TABLE `sys_dict_item`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '字典名称',
-  `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '字典值',
-  `type_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '类型编码',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '字典项名称',
+  `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '字典项值',
+  `dict_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '字典编码',
   `sort` int(0) NULL DEFAULT 0 COMMENT '排序',
   `status` tinyint(1) NULL DEFAULT 0 COMMENT '状态（0 停用 1正常）',
   `defaulted` tinyint(1) NULL DEFAULT 0 COMMENT '是否默认（0否 1是）',
@@ -87,52 +110,29 @@ CREATE TABLE `sys_dict`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_dict
+-- Records of sys_dict_item
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, '男', '1', 'gender', 1, 1, 0, '性别男', '2019-05-05 13:07:52', '2019-07-02 14:23:05');
-INSERT INTO `sys_dict` VALUES (2, '女', '2', 'gender', 2, 1, 0, '性别女', '2019-04-19 11:33:00', '2019-07-02 14:23:05');
-INSERT INTO `sys_dict` VALUES (5, '未知', '0', 'gender', 1, 1, 0, '', '2020-10-17 08:09:31', '2020-10-17 08:09:31');
-INSERT INTO `sys_dict` VALUES (6, '密码模式', 'password', 'grant_type', 1, 1, 0, '', '2020-10-17 09:11:52', '2020-12-14 10:11:00');
-INSERT INTO `sys_dict` VALUES (7, '授权码模式', 'authorization_code', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:15', '2020-12-14 10:11:00');
-INSERT INTO `sys_dict` VALUES (8, '客户端模式', 'client_credentials', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:36', '2020-12-14 10:11:00');
-INSERT INTO `sys_dict` VALUES (9, '刷新模式', 'refresh_token', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:57', '2021-01-08 17:33:12');
-INSERT INTO `sys_dict` VALUES (10, '简化模式', 'implicit', 'grant_type', 1, 1, 0, '', '2020-10-17 09:13:23', '2020-12-14 10:11:00');
-INSERT INTO `sys_dict` VALUES (11, '后端开发', 'Back-end development', 'project', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (12, '前端开发人员', 'Front-end development', 'project', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (13, '测试人员', 'Test development', 'project', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (14, '顺丰速运', 'SF', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (15, '中通快递', 'ZTO', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (16, '圆通速递', 'YTO', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (17, '韵达速递', 'YD', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (18, '京东快递', 'JD', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (19, '百世快递', 'HTKY', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (20, '邮政快递包裹', 'YZPY', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (21, 'EMS', 'EMS', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (22, '德邦快递', 'DBL', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict` VALUES (23, '宅急送', 'ZJS', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-
--- ----------------------------
--- Table structure for sys_dict_type
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dict_type`;
-CREATE TABLE `sys_dict_type`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键 ',
-  `code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '类型编码',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '类型名称',
-  `status` tinyint(1) NULL DEFAULT 0 COMMENT '状态（0-正常 ,1-停用）',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `type_code`(`code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_dict_type
--- ----------------------------
-INSERT INTO `sys_dict_type` VALUES (1, 'gender', '性别', 1, '性别', '2019-12-06 19:03:32', '2019-12-12 19:03:15');
-INSERT INTO `sys_dict_type` VALUES (11, 'grant_type', '授权方式', 1, NULL, '2020-10-17 08:09:50', '2020-10-17 08:09:50');
-INSERT INTO `sys_dict_type` VALUES (15, 'logistics_channel', '物流渠道', 1, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (1, '男', '1', 'gender', 1, 1, 0, '性别男', '2019-05-05 13:07:52', '2019-07-02 14:23:05');
+INSERT INTO `sys_dict_item` VALUES (2, '女', '2', 'gender', 2, 1, 0, '性别女', '2019-04-19 11:33:00', '2019-07-02 14:23:05');
+INSERT INTO `sys_dict_item` VALUES (5, '未知', '0', 'gender', 1, 1, 0, '', '2020-10-17 08:09:31', '2020-10-17 08:09:31');
+INSERT INTO `sys_dict_item` VALUES (6, '密码模式', 'password', 'grant_type', 1, 1, 0, '', '2020-10-17 09:11:52', '2020-12-14 10:11:00');
+INSERT INTO `sys_dict_item` VALUES (7, '授权码模式', 'authorization_code', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:15', '2020-12-14 10:11:00');
+INSERT INTO `sys_dict_item` VALUES (8, '客户端模式', 'client_credentials', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:36', '2020-12-14 10:11:00');
+INSERT INTO `sys_dict_item` VALUES (9, '刷新模式', 'refresh_token', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:57', '2021-01-08 17:33:12');
+INSERT INTO `sys_dict_item` VALUES (10, '简化模式', 'implicit', 'grant_type', 1, 1, 0, '', '2020-10-17 09:13:23', '2020-12-14 10:11:00');
+INSERT INTO `sys_dict_item` VALUES (11, '后端开发', 'Back-end development', 'project', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (12, '前端开发人员', 'Front-end development', 'project', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (13, '测试人员', 'Test development', 'project', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (14, '顺丰速运', 'SF', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (15, '中通快递', 'ZTO', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (16, '圆通速递', 'YTO', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (17, '韵达速递', 'YD', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (18, '京东快递', 'JD', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (19, '百世快递', 'HTKY', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (20, '邮政快递包裹', 'YZPY', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (21, 'EMS', 'EMS', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (22, '德邦快递', 'DBL', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (23, '宅急送', 'ZJS', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -153,15 +153,16 @@ CREATE TABLE `sys_menu`  (
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 'admin', 'admin', '', '', 'component', 0, 1, 1, '2020-09-23 09:12:21', '2021-01-27 17:32:03');
+INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'User', 'user', 'admin/user', '', 'component', 1, 1, 1, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (4, '菜单管理', 1, 'Menu', 'menu', 'admin/menu', NULL, 'tree-table', 8, 1, 1, '2020-09-23 09:12:21', '2021-01-27 17:22:55');
 INSERT INTO `sys_menu` VALUES (5, '字典管理', 1, 'Dict', 'dict', 'admin/dict', NULL, 'education', 10, 1, 1, '2020-09-23 09:12:21', '2020-09-15 13:11:37');
-INSERT INTO `sys_menu` VALUES (6, '部门管理', 1, 'Dept', 'dept', 'admin/dept', NULL, 'tree', 1, 1, 1, '2020-09-23 09:12:21', '2020-09-23 09:12:21');
+INSERT INTO `sys_menu` VALUES (6, '部门管理', 1, 'Dept', 'dept', 'admin/dept', NULL, 'clipboard', 1, 1, 1, '2020-09-23 09:12:21', '2020-09-23 09:12:21');
 INSERT INTO `sys_menu` VALUES (8, '客户端管理', 1, 'Client', 'client', 'admin/client', NULL, 'tab', 11, 1, 1, '2020-10-17 08:04:08', '2020-10-17 08:04:08');
 INSERT INTO `sys_menu` VALUES (9, '营销管理', 0, 'Sms', 'sms', NULL, '', 'component', 2, 1, 1, '2020-10-24 15:24:04', '2020-10-31 10:51:53');
 INSERT INTO `sys_menu` VALUES (10, '广告管理', 9, 'Advert', 'advert', 'sms/advert', NULL, 'documentation', 1, 1, 1, '2020-10-24 15:25:15', '2020-10-24 15:25:15');
@@ -179,6 +180,7 @@ INSERT INTO `sys_menu` VALUES (23, '角色管理', 1, 'Role', 'role', 'admin/rol
 INSERT INTO `sys_menu` VALUES (25, '实验室', 0, 'Laboratory', 'laboratory', '', '', 'component', 9, 1, 1, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (26, 'Seata分布式事务', 25, 'Seata', 'seata', 'laboratory/seata', '', 'component', 1, 1, 1, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (28, '权限管理', 1, 'Permission', 'permission', 'admin/permission', '', 'component', 9, 1, 1, NULL, NULL);
+INSERT INTO `sys_menu` VALUES (30, '1234455', 6, '2223', '44', '333', '444', 'theme', 2, 1, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_menu_test
@@ -205,6 +207,7 @@ CREATE TABLE `sys_menu_test`  (
 -- Records of sys_menu_test
 -- ----------------------------
 INSERT INTO `sys_menu_test` VALUES (1, '系统管理', 0, 1, 'admin', NULL, '', 'component', 0, 1, 1, '2020-09-23 09:12:21', '2021-01-27 17:32:03');
+INSERT INTO `sys_menu_test` VALUES (2, '用户管理', 1, 2, 'admin/user', NULL, '', 'component', 1, 1, 1, NULL, NULL);
 INSERT INTO `sys_menu_test` VALUES (4, '菜单管理', 1, 2, 'admin/menu', NULL, NULL, 'tree-table', 8, 1, 1, '2020-09-23 09:12:21', '2021-01-27 17:22:55');
 INSERT INTO `sys_menu_test` VALUES (5, '字典管理', 1, 2, 'admin/dict', NULL, NULL, 'education', 10, 1, 1, '2020-09-23 09:12:21', '2020-09-15 13:11:37');
 INSERT INTO `sys_menu_test` VALUES (6, '部门管理', 1, 2, 'admin/dept', NULL, NULL, 'tree', 1, 1, 1, '2020-09-23 09:12:21', '2020-09-23 09:12:21');
@@ -376,7 +379,7 @@ CREATE TABLE `sys_user`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `login_name`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1353639146838097923 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1354604176387670018 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user

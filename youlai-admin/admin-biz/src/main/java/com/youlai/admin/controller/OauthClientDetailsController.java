@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api(tags = "客户端接口")
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/api.admin/v1/clients")
 @Slf4j
 @AllArgsConstructor
 public class OauthClientDetailsController {
@@ -55,7 +55,7 @@ public class OauthClientDetailsController {
     @PostMapping
     public Result add(@RequestBody OauthClientDetails client) {
         boolean status = iOauthClientDetailsService.save(client);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改客户端", httpMethod = "PUT")
@@ -68,7 +68,7 @@ public class OauthClientDetailsController {
             @PathVariable String clientId,
             @RequestBody OauthClientDetails client) {
         boolean status = iOauthClientDetailsService.updateById(client);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除客户端", httpMethod = "DELETE")
@@ -76,6 +76,6 @@ public class OauthClientDetailsController {
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<String> ids) {
         boolean status = iOauthClientDetailsService.removeByIds(ids);
-        return Result.status(status);
+        return Result.judge(status);
     }
 }

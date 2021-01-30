@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Api(tags = "部门接口")
 @RestController
-@RequestMapping("/depts")
+@RequestMapping("/api.admin/v1/depts")
 @Slf4j
 public class DeptController {
 
@@ -79,7 +79,7 @@ public class DeptController {
         String treePath = getDeptTreePath(sysDept);
         sysDept.setTreePath(treePath);
         boolean status = iSysDeptService.save(sysDept);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改部门", httpMethod = "PUT")
@@ -95,7 +95,7 @@ public class DeptController {
         String treePath = getDeptTreePath(sysDept);
         sysDept.setTreePath(treePath);
         boolean status = iSysDeptService.updateById(sysDept);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除部门", httpMethod = "DELETE")

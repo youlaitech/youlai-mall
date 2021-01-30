@@ -43,7 +43,7 @@ public class AdminSkuController {
             @PathVariable Long id,
             @RequestBody PmsSku sku) {
         boolean status = iPmsSkuService.updateById(sku);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
 
@@ -57,7 +57,7 @@ public class AdminSkuController {
         PmsSku sku = iPmsSkuService.getById(id);
         sku.setStock(sku.getStock() + num);
         boolean result = iPmsSkuService.updateById(sku);
-        return Result.status(result);
+        return Result.judge(result);
     }
 
 }

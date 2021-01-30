@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(value = "youlai-admin")
 public interface UserFeignService {
 
-    @GetMapping("/users/username/{username}")
+    @GetMapping("/api.admin/v1/users/username/{username}")
     Result<UserDTO> getUserByUsername(@PathVariable String username);
 }

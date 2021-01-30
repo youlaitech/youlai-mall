@@ -65,7 +65,7 @@ public class AdminBrandController {
     @PostMapping
     public Result add(@RequestBody PmsBrand brand) {
         boolean status = iPmsBrandService.save(brand);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改品牌", httpMethod = "PUT")
@@ -78,7 +78,7 @@ public class AdminBrandController {
             @PathVariable Integer id,
             @RequestBody PmsBrand brand) {
         boolean status = iPmsBrandService.updateById(brand);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "删除品牌", httpMethod = "DELETE")
@@ -86,7 +86,7 @@ public class AdminBrandController {
     @DeleteMapping
     public Result delete(@RequestParam("ids") List<Long> ids) {
         boolean status = iPmsBrandService.removeByIds(ids);
-        return Result.status(status);
+        return Result.judge(status);
     }
 
     @ApiOperation(value = "修改品牌(部分更新)", httpMethod = "PATCH")

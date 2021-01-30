@@ -70,6 +70,6 @@ public class AdminAttrController {
         }
 
         boolean result = iPmsAttrService.saveOrUpdateBatch(attrCategories);
-        return Result.status(result);
+        return Result.judge(result);
     }
 }
