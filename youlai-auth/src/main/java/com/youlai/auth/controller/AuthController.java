@@ -52,6 +52,7 @@ public class AuthController {
             @ApiImplicitParam(name = "username", defaultValue = "admin", value = "登录用户名"),
             @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码"),
 
+            // 微信小程序认证参数（无小程序可忽略）
             @ApiImplicitParam(name = "code", value = "小程序code"),
             @ApiImplicitParam(name = "encryptedData", value = "包括敏感数据在内的完整用户信息的加密数据"),
             @ApiImplicitParam(name = "iv", value = "加密算法的初始向量"),
