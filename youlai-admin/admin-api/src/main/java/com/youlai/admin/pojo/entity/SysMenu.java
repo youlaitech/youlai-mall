@@ -26,8 +26,6 @@ public class SysMenu extends BaseEntity {
 
     private Long parentId;
 
-    private Integer type;
-
     private String path;
 
     private String redirect;
@@ -35,8 +33,6 @@ public class SysMenu extends BaseEntity {
     private String icon;
 
     private Integer sort;
-
-    private Integer visible;
 
     private Integer status;
 

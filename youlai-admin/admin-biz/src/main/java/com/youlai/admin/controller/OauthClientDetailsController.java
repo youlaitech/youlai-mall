@@ -30,15 +30,16 @@ public class OauthClientDetailsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "client", value = "客户端信息", paramType = "query", dataType = "OauthClientDetails")
+            @ApiImplicitParam(name = "clientId", value = "客户端ID", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, OauthClientDetails client) {
+    public Result list(Integer page,
+                       Integer limit,
+                       String clientId) {
         IPage<OauthClientDetails> result = iOauthClientDetailsService.page(
                 new Page<>(page, limit),
                 new LambdaQueryWrapper<OauthClientDetails>()
-                        .like(StrUtil.isNotBlank(client.getClientId()),
-                                OauthClientDetails::getClientId, client.getClientId()));
+                        .like(StrUtil.isNotBlank(clientId), OauthClientDetails::getClientId, clientId));
         return Result.success(result.getRecords(), result.getTotal());
     }
 

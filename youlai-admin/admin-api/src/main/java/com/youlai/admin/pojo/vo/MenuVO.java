@@ -28,6 +28,7 @@ public class MenuVO extends BaseEntity {
 
     private Integer status;
 
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private List<MenuVO> children;
 
 }

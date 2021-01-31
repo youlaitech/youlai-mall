@@ -1,6 +1,7 @@
 package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -59,19 +60,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                         routerVO.setPath("/" + menu.getPath());
                         routerVO.setComponent("Layout");
                     } else {
-                        routerVO.setPath(menu.getPath() + menu.getId());
+                        routerVO.setPath(menu.getPath() + menu.getId());// 显示在地址栏上
                         routerVO.setComponent(menu.getPath());
                     }
                     routerVO.setRedirect(menu.getRedirect());
-
-
                     routerVO.setMeta(routerVO.new Meta(
                             menu.getName(),
                             menu.getIcon(),
                             menu.getRoles()
                     ));
                     // 菜单显示隐藏
-                    routerVO.setHidden(!SystemConstants.VISIBLE_SHOW_VALUE.equals(menu.getVisible()) ? true : false);
+                    routerVO.setHidden(!SystemConstants.VISIBLE_SHOW_VALUE.equals(menu.getStatus()) ? true : false);
                     List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
                     list.add(routerVO);
@@ -95,7 +94,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     MenuVO menuVO = new MenuVO();
                     BeanUtil.copyProperties(menu, menuVO);
                     List<MenuVO> children = recursionForTree(menu.getId(), menuList);
-                    menuVO.setChildren(children);
+                    if (CollectionUtil.isNotEmpty(children)) {
+                        menuVO.setChildren(children);
+                    }
                     list.add(menuVO);
                 });
         return list;
@@ -119,7 +120,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     treeSelectVO.setId(menu.getId());
                     treeSelectVO.setLabel(menu.getName());
                     List<TreeSelectVO> children = recursionForTreeSelect(menu.getId(), menuList);
-                    treeSelectVO.setChildren(children);
+                    if (CollectionUtil.isNotEmpty(children)) {
+                        treeSelectVO.setChildren(children);
+                    }
                     list.add(treeSelectVO);
                 });
         return list;
