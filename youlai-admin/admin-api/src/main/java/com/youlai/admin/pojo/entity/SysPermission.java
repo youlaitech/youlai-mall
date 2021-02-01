@@ -16,6 +16,8 @@ public class SysPermission extends BaseEntity {
     private Long id;
     private String name;
     private String permission;
+    private Long menuId;
+    private Integer type;
 
     // 拥有资源权限角色ID集合
     @TableField(exist = false)
