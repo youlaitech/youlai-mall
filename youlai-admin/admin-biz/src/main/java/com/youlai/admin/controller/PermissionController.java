@@ -2,6 +2,9 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.pojo.vo.PermissionVO;
@@ -9,6 +12,7 @@ import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
+import com.youlai.common.core.result.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,26 +37,36 @@ public class PermissionController {
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
+            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "权限名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "permission", value = "权限标识", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Long")
+            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Long")
     })
     @GetMapping
     public Result list(
             String queryMode,
+            Integer page,
+            Integer limit,
             String name,
             String permission,
-            Long roleId) {
+            Long roleId,
+            Long menuId,
+            Integer type
+    ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
-        LambdaQueryWrapper<SysPermission> baseQuery = new LambdaQueryWrapper<SysPermission>()
-                .like(StrUtil.isNotBlank(name), SysPermission::getName, name)
-                .like(StrUtil.isNotBlank(permission), SysPermission::getPermission, permission)
-                .orderByDesc(SysPermission::getGmtModified)
-                .orderByDesc(SysPermission::getGmtCreate);
-        List list;
+
         switch (queryModeEnum) {
             case TREE:
-                list = iSysPermissionService.listForTree(baseQuery);
+                LambdaQueryWrapper<SysPermission> queryWrapper = new LambdaQueryWrapper<SysPermission>()
+                        .like(StrUtil.isNotBlank(name), SysPermission::getName, name)
+                        .like(StrUtil.isNotBlank(permission), SysPermission::getPermission, permission)
+                        .orderByDesc(SysPermission::getGmtModified)
+                        .orderByDesc(SysPermission::getGmtCreate);
+
+                List list = iSysPermissionService.listForTree(queryWrapper);
                 PermissionVO permissionVO = new PermissionVO();
                 permissionVO.setPermissions(list);
                 List<Long> checkedKeys = iSysRolePermissionService.list(
@@ -61,11 +75,19 @@ public class PermissionController {
                 ).stream().map(item -> item.getPermissionId()).collect(Collectors.toList());
                 permissionVO.setCheckedKeys(checkedKeys);
                 return Result.success(permissionVO);
+            case PAGE:
+                IPage<SysPermission> result = iSysPermissionService.list(
+                        new Page<>(page, limit),
+                        new SysPermission()
+                                .setPermission(permission)
+                                .setMenuId(menuId)
+                                .setName(name)
+                                .setType(type)
+                );
+                return Result.success(result.getRecords(), result.getTotal());
             default:
-                list = iSysPermissionService.list();
-                break;
+                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
-        return Result.success(list);
     }
 
     @ApiOperation(value = "权限详情", httpMethod = "GET")

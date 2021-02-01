@@ -1,8 +1,11 @@
 package com.youlai.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysPermissionMapper;
+import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.vo.TreeVO;
 import com.youlai.admin.service.ISysPermissionService;
@@ -31,5 +34,12 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
             list.add(treeVO);
         });
         return list;
+    }
+
+    @Override
+    public  IPage<SysPermission> list(Page<SysPermission> page, SysPermission permission) {
+        List<SysPermission> list = this.baseMapper.list(page,permission);
+        page.setRecords(list);
+        return page;
     }
 }
