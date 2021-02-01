@@ -34,8 +34,8 @@ public class DictItemController {
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
-            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "dictCode", value = "字典编码", paramType = "query", dataType = "String")
     })
