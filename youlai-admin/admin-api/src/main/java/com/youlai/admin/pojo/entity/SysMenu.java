@@ -22,19 +22,21 @@ public class SysMenu extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    private Long parentId;
+
     private String name;
 
-    private Long parentId;
+    private String icon;
 
     private String path;
 
-    private String redirect;
-
-    private String icon;
+    private String component;
 
     private Integer sort;
 
     private Integer status;
+
+    private String redirect;
 
     @TableField(exist = false)
     private List<Integer> roles;
