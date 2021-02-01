@@ -57,11 +57,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     routerVO.setName(menu.getName());
                     if (AdminConstant.ROOT_MENU_ID.equals(parentId)) {
                         routerVO.setAlwaysShow(Boolean.TRUE);
-                        routerVO.setPath("/" + menu.getPath());
+                        routerVO.setPath(menu.getPath());
                         routerVO.setComponent("Layout");
                     } else {
-                        routerVO.setPath(menu.getPath() + menu.getId());// 显示在地址栏上
-                        routerVO.setComponent(menu.getPath());
+                        routerVO.setPath(menu.getPath());// 显示在地址栏上
+                        routerVO.setComponent(menu.getComponent());
                     }
                     routerVO.setRedirect(menu.getRedirect());
                     routerVO.setMeta(routerVO.new Meta(

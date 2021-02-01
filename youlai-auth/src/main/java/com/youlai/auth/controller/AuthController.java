@@ -78,8 +78,6 @@ public class AuthController {
     }
 
 
-
-
     private WxMaService wxService;
     private MemberFeignService memberFeignService;
     private PasswordEncoder passwordEncoder;
@@ -103,7 +101,6 @@ public class AuthController {
 
         Result<AuthMemberDTO> result = memberFeignService.getUserByOpenid(openid);
 
-        String username;
         if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) { // 微信授权登录 会员信息不存在时 注册会员
             String encryptedData = parameters.get("encryptedData");
             String iv = parameters.get("iv");
@@ -125,15 +122,11 @@ public class AuthController {
             if (!ResultCode.SUCCESS.getCode().equals(res.getCode())) {
                 throw new BizException("注册会员失败");
             }
-            username = openid;
-        } else {
-            AuthMemberDTO authMemberDTO = result.getData();
-            username = authMemberDTO.getUsername();
         }
 
         // oauth2认证参数对应授权登录时注册会员的username、password信息，模拟通过oauth2的密码模式认证
-        parameters.put("username", username);
-        parameters.put("password", username);
+        parameters.put("username", openid);
+        parameters.put("password", openid);
 
         OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         Oauth2Token oauth2Token = Oauth2Token.builder()
