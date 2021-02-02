@@ -24,7 +24,7 @@ public class MenuVO extends BaseEntity {
 
     private Integer sort;
 
-    private Integer status;
+    private Integer visible;
 
     private String redirect;
 
