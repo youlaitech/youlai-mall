@@ -26,6 +26,7 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
             " FROM " +
             " 	sys_permission t1 " +
             " 	LEFT JOIN sys_menu t2 ON t1.menu_id = t2.id " +
+            " WHERE 1=1 " +
             " <if test='permission.name != null and permission.name.trim() neq \"\"'>" +
             "   and a.name like concat('%',#{permission.name},'%')" +
             " </if>" +

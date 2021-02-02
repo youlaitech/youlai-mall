@@ -34,7 +34,7 @@ public class SysMenu extends BaseEntity {
 
     private Integer sort;
 
-    private Integer status;
+    private Integer visible;
 
     private String redirect;
 

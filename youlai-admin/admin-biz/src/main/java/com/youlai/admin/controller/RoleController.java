@@ -9,6 +9,7 @@ import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
+import com.youlai.common.core.result.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -44,9 +45,7 @@ public class RoleController {
             Integer limit,
             String name
     ) {
-
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
-        List list = null;
         switch (queryModeEnum) {
             case PAGE:
                 LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<SysRole>()
@@ -57,11 +56,13 @@ public class RoleController {
                 Page<SysRole> result = iSysRoleService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());
             case LIST:
-                list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
+                List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
                         .eq(SysRole::getStatus, SystemConstants.STATUS_NORMAL_VALUE));
+                return Result.success(list);
+            default:
+                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
 
         }
-        return Result.success(list);
     }
 
     @ApiOperation(value = "角色详情", httpMethod = "GET")
@@ -76,7 +77,7 @@ public class RoleController {
     @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     @PostMapping
     public Result add(@RequestBody SysRole role) {
-        boolean status = iSysRoleService.add(role);
+        boolean status = iSysRoleService.save(role);
         return Result.judge(status);
     }
 

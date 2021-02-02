@@ -12,9 +12,4 @@ import java.util.List;
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
 
-    @Select("<script>" +
-            " SELECT * from sys_role where user_id =#{userId} " +
-            "</script>")
-    List<SysUser> listByUserId(Long userId);
-
 }
