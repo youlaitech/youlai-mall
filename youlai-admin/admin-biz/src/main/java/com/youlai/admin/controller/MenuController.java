@@ -59,17 +59,6 @@ public class MenuController {
                 break;
             case TREESELECT:
                 list = iSysMenuService.listForTreeSelect(baseQuery);
-                if (roleId != null) { // 菜单树形 + 角色权限
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("menus", list);
-                    List<Long> checkedKeys = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
-                            .eq(SysRoleMenu::getRoleId, roleId))
-                            .stream()
-                            .map(item -> item.getMenuId())
-                            .collect(Collectors.toList());
-                    map.put("checkedKeys", checkedKeys);
-                    return Result.success(map);
-                }
                 break;
             case ROUTER:
                 list = iSysMenuService.listForRouter();
