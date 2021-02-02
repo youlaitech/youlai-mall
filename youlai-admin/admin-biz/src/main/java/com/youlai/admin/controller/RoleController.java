@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysRole;
+import com.youlai.admin.pojo.entity.SysRoleMenu;
+import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.enums.QueryModeEnum;
@@ -19,7 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Api(tags = "角色接口")
@@ -30,6 +34,8 @@ import java.util.stream.Collectors;
 public class RoleController {
 
     private ISysRoleService iSysRoleService;
+
+    private ISysRoleMenuService iSysRoleMenuService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -65,12 +71,16 @@ public class RoleController {
         }
     }
 
-    @ApiOperation(value = "角色详情", httpMethod = "GET")
+    @ApiOperation(value = "角色拥有的菜单ID集合", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
-        SysRole sysRole = iSysRoleService.getById(id);
-        return Result.success(sysRole);
+    @GetMapping("/{id}/menu_ids")
+    public Result roleMenuIds(@PathVariable("id") Long id) {
+        List<Long> menuIds = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
+                .eq(SysRoleMenu::getRoleId, id))
+                .stream()
+                .map(item -> item.getMenuId())
+                .collect(Collectors.toList());
+        return Result.success(menuIds);
     }
 
     @ApiOperation(value = "新增角色", httpMethod = "POST")
