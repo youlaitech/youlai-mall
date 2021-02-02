@@ -2,7 +2,6 @@ package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.AdminConstant;
@@ -70,7 +69,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                             menu.getRoles()
                     ));
                     // 菜单显示隐藏
-                    routerVO.setHidden(!SystemConstants.VISIBLE_SHOW_VALUE.equals(menu.getStatus()) ? true : false);
+                    routerVO.setHidden(!SystemConstants.VISIBLE_SHOW_VALUE.equals(menu.getVisible()) ? true : false);
                     List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
                     list.add(routerVO);

@@ -3,12 +3,14 @@ package com.youlai.admin.pojo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.core.base.BaseEntity;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@TableName(value = "sys_role_test")
 public class SysRole extends BaseEntity {
 
     @TableId(type= IdType.AUTO)
@@ -16,15 +18,11 @@ public class SysRole extends BaseEntity {
 
     private String name;
 
-    private String perms;
-
     private Integer sort;
 
     private Integer status;
 
     private Integer deleted;
-
-    private String remark;
 
     @TableField(exist = false)
     private List<Long> menuIds;

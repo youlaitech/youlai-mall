@@ -127,8 +127,8 @@ public class MenuController {
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SysMenu menu) {
         LambdaUpdateWrapper<SysMenu> luw = new LambdaUpdateWrapper<SysMenu>().eq(SysMenu::getId, id);
-        if (menu.getStatus() != null) { // 状态更新
-            luw.set(SysMenu::getStatus, menu.getStatus());
+        if (menu.getVisible() != null) { // 状态更新
+            luw.set(SysMenu::getVisible, menu.getVisible());
         } else {
             return Result.success();
         }

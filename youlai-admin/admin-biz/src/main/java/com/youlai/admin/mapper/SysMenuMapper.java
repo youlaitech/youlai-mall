@@ -18,8 +18,8 @@ import java.util.List;
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     @Select("<script>" +
-            "   select id,name,parent_id,path,component,icon,sort,status from sys_menu_test " +
-            "   where status=1" +
+            "   select id,name,parent_id,path,component,icon,sort,visible from sys_menu_test " +
+            "   where visible=1" +
             "   order by sort asc" +
             "</script>")
     @Results({
