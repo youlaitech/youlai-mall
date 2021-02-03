@@ -53,15 +53,15 @@ public class MenuController {
                 .orderByDesc(SysMenu::getGmtCreate);
         List list;
         switch (queryModeEnum) {
-            case TREE:
+            case LIST:
                 baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysMenu::getName, name);
-                list = iSysMenuService.listForTree(baseQuery);
+                list = iSysMenuService.listMenuVO(baseQuery);
                 break;
-            case TREESELECT:
-                list = iSysMenuService.listForTreeSelect(baseQuery);
+            case TREE:
+                list = iSysMenuService.listTreeVO(baseQuery);
                 break;
             case ROUTER:
-                list = iSysMenuService.listForRouter();
+                list = iSysMenuService.listRouterVO();
                 break;
             default:
                 list = iSysMenuService.list(baseQuery);

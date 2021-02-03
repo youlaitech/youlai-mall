@@ -59,6 +59,16 @@ public class PermissionController {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
 
         switch (queryModeEnum) {
+            case PAGE:
+                IPage<SysPermission> result = iSysPermissionService.list(
+                        new Page<>(page, limit),
+                        new SysPermission()
+                                .setPermission(permission)
+                                .setMenuId(menuId)
+                                .setName(name)
+                                .setType(type)
+                );
+                return Result.success(result.getRecords(), result.getTotal());
             case TREE:
                 LambdaQueryWrapper<SysPermission> queryWrapper = new LambdaQueryWrapper<SysPermission>()
                         .like(StrUtil.isNotBlank(name), SysPermission::getName, name)
@@ -75,16 +85,6 @@ public class PermissionController {
                 ).stream().map(item -> item.getPermissionId()).collect(Collectors.toList());
                 permissionVO.setCheckedKeys(checkedKeys);
                 return Result.success(permissionVO);
-            case PAGE:
-                IPage<SysPermission> result = iSysPermissionService.list(
-                        new Page<>(page, limit),
-                        new SysPermission()
-                                .setPermission(permission)
-                                .setMenuId(menuId)
-                                .setName(name)
-                                .setType(type)
-                );
-                return Result.success(result.getRecords(), result.getTotal());
             default:
                 return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
