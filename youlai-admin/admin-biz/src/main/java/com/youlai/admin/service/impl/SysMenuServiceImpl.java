@@ -8,8 +8,8 @@ import com.youlai.admin.common.AdminConstant;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
 import com.youlai.admin.pojo.vo.RouterVO;
-import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.mapper.SysMenuMapper;
+import com.youlai.admin.pojo.vo.TreeVO;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.common.core.constant.SystemConstants;
 import org.springframework.stereotype.Service;
@@ -27,21 +27,21 @@ import java.util.Optional;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
     @Override
-    public List<MenuVO> listForTree(LambdaQueryWrapper<SysMenu> baseQuery) {
+    public List<MenuVO> listMenuVO(LambdaQueryWrapper<SysMenu> baseQuery) {
         List<SysMenu> menuList = this.baseMapper.selectList(baseQuery);
         List<MenuVO> list = recursionForTree(AdminConstant.ROOT_MENU_ID, menuList);
         return list;
     }
 
     @Override
-    public List<TreeSelectVO> listForTreeSelect(LambdaQueryWrapper<SysMenu> baseQuery) {
+    public List<TreeVO> listTreeVO(LambdaQueryWrapper<SysMenu> baseQuery) {
         List<SysMenu> menuList = this.list(baseQuery);
-        List<TreeSelectVO> list = recursionForTreeSelect(AdminConstant.ROOT_MENU_ID, menuList);
+        List<TreeVO> list = recursionForTreeSelect(AdminConstant.ROOT_MENU_ID, menuList);
         return list;
     }
 
     @Override
-    public List listForRouter() {
+    public List<RouterVO> listRouterVO() {
         List<SysMenu> menuList = this.baseMapper.listForRouter();
         List<RouterVO> list = recursionForRoutes(AdminConstant.ROOT_MENU_ID, menuList);
         return list;
@@ -109,20 +109,20 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList
      * @return
      */
-    public static List<TreeSelectVO> recursionForTreeSelect(Long parentId, List<SysMenu> menuList) {
-        List<TreeSelectVO> list = new ArrayList<>();
+    public static List<TreeVO> recursionForTreeSelect(Long parentId, List<SysMenu> menuList) {
+        List<TreeVO> list = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .forEach(menu -> {
-                    TreeSelectVO treeSelectVO = new TreeSelectVO();
-                    treeSelectVO.setId(menu.getId());
-                    treeSelectVO.setLabel(menu.getName());
-                    List<TreeSelectVO> children = recursionForTreeSelect(menu.getId(), menuList);
+                    TreeVO treeVO = new TreeVO();
+                    treeVO.setId(menu.getId());
+                    treeVO.setLabel(menu.getName());
+                    List<TreeVO> children = recursionForTreeSelect(menu.getId(), menuList);
                     if (CollectionUtil.isNotEmpty(children)) {
-                        treeSelectVO.setChildren(children);
+                        treeVO.setChildren(children);
                     }
-                    list.add(treeSelectVO);
+                    list.add(treeVO);
                 });
         return list;
     }

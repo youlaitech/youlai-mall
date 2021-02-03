@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.AdminConstant;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.DeptVO;
-import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.mapper.SysDeptMapper;
+import com.youlai.admin.pojo.vo.TreeVO;
 import com.youlai.admin.service.ISysDeptService;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +19,16 @@ import java.util.Optional;
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
 
     @Override
-    public List<DeptVO> listForTree(LambdaQueryWrapper<SysDept> baseQuery) {
+    public List<DeptVO> listDeptVO(LambdaQueryWrapper<SysDept> baseQuery) {
         List<SysDept> deptList = this.baseMapper.selectList(baseQuery);
         List<DeptVO> list = recursionForTree(AdminConstant.ROOT_DEPT_ID, deptList);
         return list;
     }
 
     @Override
-    public List<TreeSelectVO> listForTreeSelect(LambdaQueryWrapper<SysDept> baseQuery) {
+    public List<TreeVO> listTreeVO(LambdaQueryWrapper<SysDept> baseQuery) {
         List<SysDept> deptList = this.baseMapper.selectList(baseQuery);
-        List<TreeSelectVO> list = recursionForTreeSelect(AdminConstant.ROOT_DEPT_ID, deptList);
+        List<TreeVO> list = recursionForTreeSelect(AdminConstant.ROOT_DEPT_ID, deptList);
         return list;
     }
 
@@ -60,18 +60,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @param deptList
      * @return
      */
-    public static List<TreeSelectVO> recursionForTreeSelect(long parentId, List<SysDept> deptList) {
-        List<TreeSelectVO> list = new ArrayList<>();
+    public static List<TreeVO> recursionForTreeSelect(long parentId, List<SysDept> deptList) {
+        List<TreeVO> list = new ArrayList<>();
         Optional.ofNullable(deptList).orElse(new ArrayList<>())
                 .stream()
                 .filter(dept -> dept.getParentId().equals(parentId))
                 .forEach(dept -> {
-                    TreeSelectVO treeSelectVO = new TreeSelectVO();
-                    treeSelectVO.setId(dept.getId());
-                    treeSelectVO.setLabel(dept.getName());
-                    List<TreeSelectVO> children = recursionForTreeSelect(dept.getId(), deptList);
-                    treeSelectVO.setChildren(children);
-                    list.add(treeSelectVO);
+                    TreeVO treeVO = new TreeVO();
+                    treeVO.setId(dept.getId());
+                    treeVO.setLabel(dept.getName());
+                    List<TreeVO> children = recursionForTreeSelect(dept.getId(), deptList);
+                    treeVO.setChildren(children);
+                    list.add(treeVO);
                 });
         return list;
     }

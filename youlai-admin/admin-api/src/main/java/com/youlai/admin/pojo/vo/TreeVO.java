@@ -1,6 +1,7 @@
 package com.youlai.admin.pojo.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class TreeVO {
 
     private String label;
 
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private List<TreeVO> children;
 
 }

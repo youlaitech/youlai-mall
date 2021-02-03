@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.pojo.entity.SysRoleMenu;
+import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.service.ISysRoleMenuService;
+import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.core.constant.SystemConstants;
 import com.youlai.common.core.enums.QueryModeEnum;
@@ -36,6 +38,8 @@ public class RoleController {
     private ISysRoleService iSysRoleService;
 
     private ISysRoleMenuService iSysRoleMenuService;
+
+    private ISysRolePermissionService iSysRolePermissionService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -81,6 +85,18 @@ public class RoleController {
                 .map(item -> item.getMenuId())
                 .collect(Collectors.toList());
         return Result.success(menuIds);
+    }
+
+    @ApiOperation(value = "角色拥有的权限ID集合", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
+    @GetMapping("/{id}/permission_ids")
+    public Result rolePermissionIds(@PathVariable("id") Long id) {
+        List<Long> permissionIds = iSysRolePermissionService.list(new LambdaQueryWrapper<SysRolePermission>()
+                .eq(SysRolePermission::getRoleId, id))
+                .stream()
+                .map(item -> item.getPermissionId())
+                .collect(Collectors.toList());
+        return Result.success(permissionIds);
     }
 
     @ApiOperation(value = "新增角色", httpMethod = "POST")

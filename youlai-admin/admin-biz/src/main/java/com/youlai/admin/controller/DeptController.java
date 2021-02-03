@@ -7,6 +7,7 @@ import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.service.ISysDeptService;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
+import com.youlai.common.core.result.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -49,17 +50,16 @@ public class DeptController {
 
         List list;
         switch (queryModeEnum){
-            case TREE:
+            case LIST:
                 baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysDept::getName, name)
                         .eq(status != null, SysDept::getStatus, status);
-                list = iSysDeptService.listForTree(baseQuery);
+                list = iSysDeptService.listDeptVO(baseQuery);
                 break;
-            case TREESELECT:
-                list = iSysDeptService.listForTreeSelect(baseQuery);
+            case TREE:
+                list = iSysDeptService.listTreeVO(baseQuery);
                 break;
             default:
-                list = iSysDeptService.list(baseQuery);
-                break;
+                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
         return Result.success(list);
     }
