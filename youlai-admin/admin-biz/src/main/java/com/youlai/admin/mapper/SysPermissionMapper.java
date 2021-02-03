@@ -16,7 +16,7 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
     @Select(" select id,name,permission from sys_permission ")
     @Results({
-            @Result(property = "roleIds", column = "id", many = @Many(select = "com.youlai.admin.mapper.SysRolePermissionMapper.listByPermissionId"))
+            @Result(property = "roleIds", column = "id", many = @Many(select = "com.youlai.admin.mapper.SysRolePermissionMapper.listRoleIds"))
     })
     List<SysPermission> listForPermissionRoles();
 

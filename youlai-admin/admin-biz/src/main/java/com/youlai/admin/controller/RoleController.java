@@ -88,14 +88,17 @@ public class RoleController {
     }
 
     @ApiOperation(value = "角色拥有的权限ID集合", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
+    })
     @GetMapping("/{id}/permission_ids")
-    public Result rolePermissionIds(@PathVariable("id") Long id) {
-        List<Long> permissionIds = iSysRolePermissionService.list(new LambdaQueryWrapper<SysRolePermission>()
-                .eq(SysRolePermission::getRoleId, id))
-                .stream()
-                .map(item -> item.getPermissionId())
-                .collect(Collectors.toList());
+    public Result rolePermissionIds(@PathVariable("id") Long roleId,@RequestParam Integer type) {
+
+
+        List<Long> permissionIds = iSysRolePermissionService.listPermissionIds(roleId,type);
         return Result.success(permissionIds);
     }
 
