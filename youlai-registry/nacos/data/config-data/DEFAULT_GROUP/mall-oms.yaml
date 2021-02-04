@@ -8,6 +8,12 @@ spring:
     url: jdbc:mysql://www.youlai.store:3306/mall-oms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
+  # rabbitmq相关配置
+  rabbitmq:
+    host: "192.168.56.10"
+    port: 5672
+    username: "guest"
+    password: "guest"
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
