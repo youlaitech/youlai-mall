@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.controller.app;
 
-import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.constant.GlobalConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.pojo.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
@@ -34,7 +34,7 @@ public class AppCategoryController {
     public Result list(Long parentId) {
         PmsCategory category = new PmsCategory();
         category.setParentId(parentId);
-        category.setStatus(SystemConstants.STATUS_NORMAL_VALUE);
+        category.setStatus(GlobalConstants.STATUS_NORMAL_VALUE);
         List<CategoryVO> list = iPmsCategoryService.listForTree(category);
         return Result.success(list);
     }

@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.constant.GlobalConstants;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.pms.pojo.PmsBrand;
@@ -41,7 +41,7 @@ public class AdminBrandController {
         LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<>();
         switch (queryModeEnum) {
             case LIST:
-                queryWrapper.eq(PmsBrand::getStatus, SystemConstants.STATUS_NORMAL_VALUE)
+                queryWrapper.eq(PmsBrand::getStatus, GlobalConstants.STATUS_NORMAL_VALUE)
                         .select(PmsBrand::getId, PmsBrand::getName);
                 List<PmsBrand> list = iPmsBrandService.list(queryWrapper);
                 return Result.success(list);

@@ -25,8 +25,6 @@ public class PermissionController {
 
     private ISysPermissionService iSysPermissionService;
 
-    private ISysRolePermissionService iSysRolePermissionService;
-
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
@@ -80,8 +78,11 @@ public class PermissionController {
     @ApiImplicitParam(name = "permission", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysPermission")
     @PostMapping
     public Result add(@RequestBody SysPermission permission) {
-        boolean status = iSysPermissionService.save(permission);
-        return Result.judge(status);
+        boolean result = iSysPermissionService.save(permission);
+        if (result) {
+            iSysPermissionService.refreshPermissionRolesCache();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "修改权限", httpMethod = "PUT")
@@ -93,8 +94,11 @@ public class PermissionController {
     public Result update(
             @PathVariable Long id,
             @RequestBody SysPermission permission) {
-        boolean status = iSysPermissionService.updateById(permission);
-        return Result.judge(status);
+        boolean result = iSysPermissionService.updateById(permission);
+        if (result) {
+            iSysPermissionService.refreshPermissionRolesCache();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "删除权限", httpMethod = "DELETE")

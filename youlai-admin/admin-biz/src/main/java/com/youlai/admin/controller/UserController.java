@@ -14,7 +14,7 @@ import com.youlai.admin.service.ISysRoleService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.core.base.BaseController;
-import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.constant.GlobalConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.util.WebUtils;
@@ -127,7 +127,7 @@ public class UserController extends BaseController {
     public Result patch(@PathVariable Integer id, @RequestBody SysUser user) {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
         updateWrapper.set(user.getStatus() != null, SysUser::getStatus, user.getStatus());
-        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
+        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, passwordEncoder.encode(GlobalConstants.DEFAULT_USER_PASSWORD));
         boolean status = iSysUserService.update(updateWrapper);
         return Result.judge(status);
     }

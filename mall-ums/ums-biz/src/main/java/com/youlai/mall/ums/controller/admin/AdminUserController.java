@@ -1,38 +1,24 @@
 package com.youlai.mall.ums.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.constant.GlobalConstants;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.mall.ums.pojo.UmsUser;
-import com.youlai.mall.ums.pojo.dto.ResultPayDTO;
 import com.youlai.mall.ums.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 @Api(tags = "会员接口")
 @RestController
@@ -59,7 +45,7 @@ public class AdminUserController {
     ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
         LambdaQueryWrapper<UmsUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.ne(UmsUser::getDeleted, SystemConstants.DELETED_VALUE);
+        queryWrapper.ne(UmsUser::getDeleted, GlobalConstants.DELETED_VALUE);
         switch (queryModeEnum) {
             default: // PAGE
                 queryWrapper.like(StrUtil.isNotBlank(nickname), UmsUser::getNickname, nickname);
@@ -129,7 +115,7 @@ public class AdminUserController {
     public Result delete(@PathVariable String ids) {
         boolean status = iUmsUserService.update(new LambdaUpdateWrapper<UmsUser>()
                 .in(UmsUser::getId, Arrays.asList(ids.split(",")))
-                .set(UmsUser::getDeleted, SystemConstants.DELETED_VALUE));
+                .set(UmsUser::getDeleted, GlobalConstants.DELETED_VALUE));
         return Result.judge(status);
     }
 }

@@ -1,6 +1,6 @@
 package com.youlai.common.core.constant;
 
-public interface SystemConstants {
+public interface GlobalConstants {
 
     Integer STATUS_NORMAL_VALUE = 1;
 
