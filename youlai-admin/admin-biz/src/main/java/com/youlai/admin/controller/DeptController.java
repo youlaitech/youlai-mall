@@ -18,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Api(tags = "部门接口")
 @RestController
@@ -49,7 +51,7 @@ public class DeptController {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
 
         List list;
-        switch (queryModeEnum){
+        switch (queryModeEnum) {
             case LIST:
                 baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysDept::getName, name)
                         .eq(status != null, SysDept::getStatus, status);
@@ -99,16 +101,17 @@ public class DeptController {
     }
 
     @ApiOperation(value = "删除部门", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
-    @DeleteMapping
-    public Result delete(@RequestParam("ids") List<Integer> ids) {
-
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable("ids") String ids) {
+        AtomicBoolean result = new AtomicBoolean(true);
+        List<String> idList = Arrays.asList(ids.split(","));
         // 删除部门以及子部门
-        Optional.ofNullable(ids).orElse(new ArrayList<>()).forEach(id ->
-                iSysDeptService.remove(new LambdaQueryWrapper<SysDept>().eq(SysDept::getId, id)
-                        .or().apply("concat (',',tree_path,',') like concat('%,',{0},',%')", id))
+        Optional.ofNullable(idList).orElse(new ArrayList<>()).forEach(id ->
+                result.set(iSysDeptService.remove(new LambdaQueryWrapper<SysDept>().eq(SysDept::getId, id)
+                        .or().apply("concat (',',tree_path,',') like concat('%,',{0},',%')", id)))
         );
-        return Result.success();
+        return Result.judge(result.get());
     }
 
     private String getDeptTreePath(SysDept sysDept) {

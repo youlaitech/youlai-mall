@@ -6,12 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.dto.RolePermissionDTO;
 import com.youlai.admin.pojo.entity.SysRole;
-import com.youlai.admin.pojo.entity.SysRoleMenu;
-import com.youlai.admin.pojo.entity.SysRolePermission;
+import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.admin.service.ISysRoleService;
-import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.constant.GlobalConstants;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
@@ -24,9 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Api(tags = "角色接口")
@@ -41,6 +38,8 @@ public class RoleController {
     private ISysRoleMenuService iSysRoleMenuService;
 
     private ISysRolePermissionService iSysRolePermissionService;
+
+    private ISysPermissionService iSysPermissionService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -68,7 +67,7 @@ public class RoleController {
                 return Result.success(result.getRecords(), result.getTotal());
             case LIST:
                 List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
-                        .eq(SysRole::getStatus, SystemConstants.STATUS_NORMAL_VALUE));
+                        .eq(SysRole::getStatus, GlobalConstants.STATUS_NORMAL_VALUE));
                 return Result.success(list);
             default:
                 return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
@@ -81,8 +80,11 @@ public class RoleController {
     @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     @PostMapping
     public Result add(@RequestBody SysRole role) {
-        boolean status = iSysRoleService.save(role);
-        return Result.judge(status);
+        boolean result = iSysRoleService.save(role);
+        if (result) {
+            iSysPermissionService.refreshPermissionRolesCache();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "修改角色", httpMethod = "PUT")
@@ -94,17 +96,23 @@ public class RoleController {
     public Result update(
             @PathVariable Long id,
             @RequestBody SysRole role) {
-        boolean status = iSysRoleService.update(role);
-        return Result.judge(status);
+        boolean result = iSysRoleService.update(role);
+        if (result) {
+            iSysPermissionService.refreshPermissionRolesCache();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "删除角色", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", allowMultiple = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
-        boolean status = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()
+        boolean result = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()
                 .map(id -> Long.parseLong(id)).collect(Collectors.toList()));
-        return Result.judge(status);
+        if (result) {
+            iSysPermissionService.refreshPermissionRolesCache();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "修改角色【局部更新】", httpMethod = "PATCH")
@@ -121,8 +129,11 @@ public class RoleController {
         LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<SysRole>()
                 .eq(SysRole::getId, id)
                 .set(role.getStatus() != null, SysRole::getStatus, role.getStatus());
-        boolean status = iSysRoleService.update(updateWrapper);
-        return Result.judge(status);
+        boolean result = iSysRoleService.update(updateWrapper);
+        if (result) {
+            iSysPermissionService.refreshPermissionRolesCache();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "角色拥有的菜单ID集合", httpMethod = "GET")

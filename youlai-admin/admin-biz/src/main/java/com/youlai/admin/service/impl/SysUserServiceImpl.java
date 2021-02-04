@@ -10,7 +10,7 @@ import com.youlai.admin.mapper.SysUserMapper;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
-import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.constant.GlobalConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public boolean saveUser(SysUser user) {
-        user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
+        user.setPassword(passwordEncoder.encode(GlobalConstants.DEFAULT_USER_PASSWORD));
         List<Long> roleIds = user.getRoleIds();
         if (CollectionUtil.isNotEmpty(roleIds)) {
             List<SysUserRole> userRoleList = new ArrayList<>();

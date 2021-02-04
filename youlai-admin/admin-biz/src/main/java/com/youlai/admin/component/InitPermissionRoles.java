@@ -21,30 +21,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class InitPermissionRoles implements CommandLineRunner {
 
-    private RedisTemplate redisTemplate;
-
     private ISysPermissionService iSysPermissionService;
 
     @Override
     public void run(String... args) {
-        log.info("InitPermissionRoles run");
-        redisTemplate.delete(AuthConstants.PERMISSION_RULES_KEY);
-
-        List<SysPermission> permissions = iSysPermissionService.listPermissionRoles();
-        Map<String, List<String>> permissionRules = new TreeMap<>();
-        Optional.ofNullable(permissions).orElse(new ArrayList<>()).forEach(permission -> {
-
-            // 转换 roleId -> ROLE_{roleId}
-            List<String> roles = Optional.ofNullable(permission.getRoleIds())
-                    .orElse(new ArrayList<>())
-                    .stream()
-                    .map(roleId -> AuthConstants.AUTHORITY_PREFIX + roleId)
-                    .collect(Collectors.toList());
-
-            if (CollectionUtil.isNotEmpty(roles)) {
-                permissionRules.put(permission.getPerms(), roles);
-            }
-            redisTemplate.opsForHash().putAll(AuthConstants.PERMISSION_RULES_KEY, permissionRules);
-        });
+        iSysPermissionService.refreshPermissionRolesCache();
     }
 }

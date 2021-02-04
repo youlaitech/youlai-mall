@@ -11,7 +11,7 @@ import com.youlai.admin.pojo.vo.RouterVO;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.vo.TreeVO;
 import com.youlai.admin.service.ISysMenuService;
-import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.constant.GlobalConstants;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                             menu.getRoles()
                     ));
                     // 菜单显示隐藏
-                    routerVO.setHidden(!SystemConstants.VISIBLE_SHOW_VALUE.equals(menu.getVisible()) ? true : false);
+                    routerVO.setHidden(!GlobalConstants.VISIBLE_SHOW_VALUE.equals(menu.getVisible()) ? true : false);
                     List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
                     list.add(routerVO);

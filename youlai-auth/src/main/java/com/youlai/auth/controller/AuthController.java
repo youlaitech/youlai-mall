@@ -6,7 +6,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.common.core.constant.SystemConstants;
+import com.youlai.common.core.constant.GlobalConstants;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
@@ -116,7 +116,7 @@ public class AuthController {
                     .setOpenid(openid)
                     .setUsername(openid)
                     .setPassword(passwordEncoder.encode(openid).replace(AuthConstants.BCRYPT, Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
-                    .setStatus(SystemConstants.STATUS_NORMAL_VALUE);
+                    .setStatus(GlobalConstants.STATUS_NORMAL_VALUE);
 
             Result res = memberFeignService.add(user);
             if (!ResultCode.SUCCESS.getCode().equals(res.getCode())) {
