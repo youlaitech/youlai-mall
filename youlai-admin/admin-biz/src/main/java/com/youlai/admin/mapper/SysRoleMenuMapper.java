@@ -14,4 +14,13 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
             "  select role_id from sys_role_menu where menu_id=#{menuId} " +
             "</script>")
     List<Integer> listByMenuId(Integer menuId);
+
+
+    @Select(" SELECT " +
+            " 	t1.menu_id  " +
+            " FROM " +
+            " 	sys_role_menu t1 " +
+            " 	INNER JOIN sys_menu_test t2 ON t1.menu_id = t2.id  " +
+            " WHERE role_id =#{roleId}")
+    List<Long> listMenuIds(Long roleId);
 }

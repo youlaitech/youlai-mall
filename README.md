@@ -27,7 +27,7 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 ![](https://i.loli.net/2021/01/02/QDU9okJbvuVrxwc.png)
 
 
-**体验码，加我微信（微信号:haoxianrui）备注“体验”获取体验**
+**【有来商城】微信小程序体验码，微信识别点击申请，看到第一时间会通过**
 
 ![](https://i.loli.net/2021/01/02/ZesKNr17FBUlWGE.jpg)
 

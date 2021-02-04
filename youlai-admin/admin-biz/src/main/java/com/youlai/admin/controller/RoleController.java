@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.pojo.dto.RolePermissionDTO;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.pojo.entity.SysRoleMenu;
 import com.youlai.admin.pojo.entity.SysRolePermission;
@@ -75,32 +76,6 @@ public class RoleController {
         }
     }
 
-    @ApiOperation(value = "角色拥有的菜单ID集合", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}/menu_ids")
-    public Result roleMenuIds(@PathVariable("id") Long id) {
-        List<Long> menuIds = iSysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
-                .eq(SysRoleMenu::getRoleId, id))
-                .stream()
-                .map(item -> item.getMenuId())
-                .collect(Collectors.toList());
-        return Result.success(menuIds);
-    }
-
-    @ApiOperation(value = "角色拥有的权限ID集合", httpMethod = "GET")
-
-
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
-    })
-    @GetMapping("/{id}/permission_ids")
-    public Result rolePermissionIds(@PathVariable("id") Long roleId,@RequestParam Integer type) {
-
-
-        List<Long> permissionIds = iSysRolePermissionService.listPermissionIds(roleId,type);
-        return Result.success(permissionIds);
-    }
 
     @ApiOperation(value = "新增角色", httpMethod = "POST")
     @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
@@ -148,7 +123,54 @@ public class RoleController {
                 .set(role.getStatus() != null, SysRole::getStatus, role.getStatus());
         boolean status = iSysRoleService.update(updateWrapper);
         return Result.judge(status);
-
     }
 
+    @ApiOperation(value = "角色拥有的菜单ID集合", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
+    @GetMapping("/{id}/menu_ids")
+    public Result roleMenuIds(@PathVariable("id") Long roleId) {
+        List<Long> menuIds = iSysRoleMenuService.listMenuIds(roleId);
+        return Result.success(menuIds);
+    }
+
+    @ApiOperation(value = "角色拥有的权限ID集合", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
+    })
+    @GetMapping("/{id}/permission_ids")
+    public Result rolePermissionIds(@PathVariable("id") Long roleId, @RequestParam Integer type) {
+        List<Long> permissionIds = iSysRolePermissionService.listPermissionIds(roleId, type);
+        return Result.success(permissionIds);
+    }
+
+
+    @ApiOperation(value = "修改角色菜单", httpMethod = "PUT")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
+    })
+    @PutMapping(value = "/{id}/menu_ids")
+    public Result updateRoleMenuIds(
+            @PathVariable("id") Long roleId,
+            @RequestBody SysRole role) {
+
+        List<Long> menuIds = role.getMenuIds();
+        boolean result = iSysRoleMenuService.update(roleId, menuIds);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "修改角色权限", httpMethod = "PUT")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "rolePermission", value = "实体JSON对象", required = true, paramType = "body", dataType = "RolePermissionDTO")
+    })
+    @PutMapping(value = "/{id}/permission_ids")
+    public Result updateRolePermissionIds(
+            @PathVariable("id") Long roleId,
+            @RequestBody RolePermissionDTO rolePermission) {
+        rolePermission.setRoleId(roleId);
+        boolean result = iSysRolePermissionService.update(rolePermission);
+        return Result.judge(result);
+    }
 }

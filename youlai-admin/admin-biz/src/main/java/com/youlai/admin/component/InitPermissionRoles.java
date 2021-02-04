@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class InitPermissionRolesCacheRunner implements CommandLineRunner {
+public class InitPermissionRoles implements CommandLineRunner {
 
     private RedisTemplate redisTemplate;
 
@@ -27,10 +27,10 @@ public class InitPermissionRolesCacheRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        log.info("InitPermissionRolesCacheRunner run");
+        log.info("InitPermissionRoles run");
         redisTemplate.delete(AuthConstants.PERMISSION_RULES_KEY);
 
-        List<SysPermission> permissions = iSysPermissionService.listForPermissionRoles();
+        List<SysPermission> permissions = iSysPermissionService.listPermissionRoles();
         Map<String, List<String>> permissionRules = new TreeMap<>();
         Optional.ofNullable(permissions).orElse(new ArrayList<>()).forEach(permission -> {
 
@@ -42,7 +42,7 @@ public class InitPermissionRolesCacheRunner implements CommandLineRunner {
                     .collect(Collectors.toList());
 
             if (CollectionUtil.isNotEmpty(roles)) {
-                permissionRules.put(permission.getPermission(), roles);
+                permissionRules.put(permission.getPerms(), roles);
             }
             redisTemplate.opsForHash().putAll(AuthConstants.PERMISSION_RULES_KEY, permissionRules);
         });

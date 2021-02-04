@@ -1,13 +1,8 @@
 package com.youlai.admin.controller;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.pojo.entity.SysPermission;
-import com.youlai.admin.pojo.entity.SysRolePermission;
-import com.youlai.admin.pojo.vo.PermissionVO;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.common.core.enums.QueryModeEnum;
@@ -21,8 +16,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Api(tags = "权限接口")
 @RestController
@@ -63,28 +56,13 @@ public class PermissionController {
                 IPage<SysPermission> result = iSysPermissionService.list(
                         new Page<>(page, limit),
                         new SysPermission()
-                                .setPermission(permission)
+                                .setPerms(permission)
                                 .setMenuId(menuId)
                                 .setName(name)
                                 .setType(type)
                 );
                 return Result.success(result.getRecords(), result.getTotal());
-            case TREE:
-                LambdaQueryWrapper<SysPermission> queryWrapper = new LambdaQueryWrapper<SysPermission>()
-                        .like(StrUtil.isNotBlank(name), SysPermission::getName, name)
-                        .like(StrUtil.isNotBlank(permission), SysPermission::getPermission, permission)
-                        .orderByDesc(SysPermission::getGmtModified)
-                        .orderByDesc(SysPermission::getGmtCreate);
 
-                List list = iSysPermissionService.listForTree(queryWrapper);
-                PermissionVO permissionVO = new PermissionVO();
-                permissionVO.setPermissions(list);
-                List<Long> checkedKeys = iSysRolePermissionService.list(
-                        new LambdaQueryWrapper<SysRolePermission>()
-                                .eq(SysRolePermission::getRoleId, roleId)
-                ).stream().map(item -> item.getPermissionId()).collect(Collectors.toList());
-                permissionVO.setCheckedKeys(checkedKeys);
-                return Result.success(permissionVO);
             default:
                 return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
