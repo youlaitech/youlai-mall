@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@TableName(value = "sys_menu_test")
 public class SysMenu extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
