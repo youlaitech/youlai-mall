@@ -20,7 +20,7 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
             " 	t1.menu_id  " +
             " FROM " +
             " 	sys_role_menu t1 " +
-            " 	INNER JOIN sys_menu_test t2 ON t1.menu_id = t2.id  " +
+            " 	INNER JOIN sys_menu t2 ON t1.menu_id = t2.id  " +
             " WHERE role_id =#{roleId}")
     List<Long> listMenuIds(Long roleId);
 }

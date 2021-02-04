@@ -1,4 +1,4 @@
-# 提供云环境冒着风险方便大家演示用，切勿修改配置，开发定位错误和大家使用比较麻烦， 望理解。
+# 提供云环境冒着风险方便大家演示用，切勿修改配置，开发定位错误和大家使用比较麻烦，望理解。
 # 如果要改配置搭建下本地环境哈，步骤在项目说明README
 # 项目对你有帮助麻烦给个❤，感激不尽！https://github.com/hxrui
 spring:
@@ -8,6 +8,12 @@ spring:
     url: jdbc:mysql://www.youlai.store:3306/mall-oms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
+  # rabbitmq相关配置
+  rabbitmq:
+    host: "192.168.56.10"
+    port: 5672
+    username: "guest"
+    password: "guest"
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
