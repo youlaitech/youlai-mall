@@ -1,7 +1,7 @@
 package com.youlai.common.rabbitmq.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -33,16 +33,17 @@ public class RabbitMqConfig {
      * @return
      */
     @Bean
-    public MessageConverter messageConverter() {
+    public MessageConverter jackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
     /**
-     * 为容器创建号rabbitTemplate注册confirmCallback
-     * 消息由生产者投递到Broker/Exchange回调
+     * 生产者投递消息后，如果Broker收到消息后，会给生产者一个ACK。生产者通过ACK，可以确认这条消息是否正常发送到Broker，这种方式是消息可靠性投递的核心
+     * 步骤1：yaml文件中添加配置 spring.rabbitmq.publisher-confirm-type: correlated
+     * 步骤2：编写代码
      */
     @PostConstruct
-    public void setExchangeCallback() {
+    public void setConfirmCallback() {
 
         rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
 
@@ -63,27 +64,24 @@ public class RabbitMqConfig {
     }
 
     /**
+     *
      * 注意下面两项必须同时配置，可以尝试不配置第二项，通过测试能够发现当消息路由到Queue失败(比如路由件错误)时，returnCallback并未被回调。
      * # 开启阶段二(消息从E->Q)的确认回调    Exchange --> Queue  returnCallback
      * spring.rabbitmq.publisher-returns=true
-     * # 官方文档说此时这一项必须设置为true
-     * # 实际上这一项的作用是：消息【未成功到达】队列时，能监听到到路由不可达的消息，以异步方式优先调用我们自己设置的returnCallback，默认情况下，这个消息会被直接丢弃，无法监听到
+     *
+     * #为true,则交换机处理消息到路由失败，则会返回给生产者
      * spring.rabbitmq.template.mandatory=true
      */
     @PostConstruct
     public void setQueueCallback() {
-        rabbitTemplate.setReturnCallback(new RabbitTemplate.ReturnCallback() {
-            /**
-             * 这个方法的参数并没有像 confirmCallback 那样提供boolean类型的ack，因此这个回调只能在【失败】情况下触发
-             * @param message 发送消息
-             * @param replyCode 回复错误码
-             * @param replyText 回复错误内容
-             * @param exchange 发送消息时指定的交换机
-             * @param routingKey 发送消息时使用的路由件
-             */
+        rabbitTemplate.setReturnsCallback(new RabbitTemplate.ReturnsCallback() {
+
             @Override
-            public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-                log.error("路由到队列失败，[消息内容：{}，交换机：{}，路由件：{}，回复码：{}，回复文本：{}]", message, exchange, routingKey, replyCode, replyText);
+            public void returnedMessage(ReturnedMessage returnedMessage) {
+                log.error("路由到队列失败，[消息内容：{}，交换机：{}，路由件：{}，回复码：{}，回复文本：{}]",
+                        returnedMessage.getMessage(), returnedMessage.getExchange(),
+                        returnedMessage.getRoutingKey(), returnedMessage.getReplyCode(), returnedMessage.getReplyText());
+
             }
         });
     }
