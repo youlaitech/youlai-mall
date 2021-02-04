@@ -14,11 +14,11 @@ import java.util.List;
 @Mapper
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
-    @Select(" select id,name,permission from sys_permission ")
+    @Select(" select id, name,perms from sys_permission where type=1 ")
     @Results({
             @Result(property = "roleIds", column = "id", many = @Many(select = "com.youlai.admin.mapper.SysRolePermissionMapper.listRoleIds"))
     })
-    List<SysPermission> listForPermissionRoles();
+    List<SysPermission> listPermissionRoles();
 
     @Select("<script>" +
             " SELECT " +
