@@ -2,8 +2,8 @@ package com.youlai.mall.pms.controller.admin;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.youlai.common.core.enums.QueryModeEnum;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.enums.QueryModeEnum;
+import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsCategoryService;

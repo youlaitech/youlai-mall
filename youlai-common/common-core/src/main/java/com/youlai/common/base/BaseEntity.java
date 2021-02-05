@@ -1,4 +1,4 @@
-package com.youlai.common.core.base;
+package com.youlai.common.base;
 
 
 import com.baomidou.mybatisplus.annotation.FieldFill;

@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.youlai.common.core.xss;
+package com.youlai.common.xss;
 
 import cn.hutool.core.util.StrUtil;
 

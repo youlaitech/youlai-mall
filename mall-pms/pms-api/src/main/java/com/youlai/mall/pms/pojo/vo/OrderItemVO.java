@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.pojo.vo;
 
-import com.youlai.common.core.base.BaseVO;
+import com.youlai.common.base.BaseVO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

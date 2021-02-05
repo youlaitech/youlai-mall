@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.service.ISysPermissionService;
-import com.youlai.common.core.enums.QueryModeEnum;
-import com.youlai.common.core.result.Result;
-import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.enums.QueryModeEnum;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -32,7 +32,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "name", value = "权限名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "permission", value = "权限标识", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Long")
+            @ApiImplicitParam(name = "moduleId", value = "菜单ID", paramType = "query", dataType = "Long")
     })
     @GetMapping
     public Result list(
@@ -41,7 +41,7 @@ public class PermissionController {
             Integer limit,
             String name,
             String permission,
-            Long menuId,
+            Long moduleId,
             Integer type
     ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
@@ -52,7 +52,7 @@ public class PermissionController {
                         new Page<>(page, limit),
                         new SysPermission()
                                 .setPerm(permission)
-                                .setMenuId(menuId)
+                                .setModuleId(moduleId)
                                 .setName(name)
                                 .setType(type)
                 );

@@ -1,8 +1,8 @@
 package com.youlai.auth.controller;
 
 import cn.hutool.json.JSONObject;
-import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.result.Result;
 import com.youlai.common.web.util.WebUtils;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;

@@ -5,7 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.bo.OrderBO;
 import com.youlai.mall.oms.mapper.OmsOrderMapper;

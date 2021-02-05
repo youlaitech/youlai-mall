@@ -3,7 +3,7 @@ package com.youlai.mall.pms.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.youlai.common.core.base.BaseEntity;
+import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
 @Data

@@ -1,7 +1,7 @@
 package com.youlai.admin.common.constant;
 
 /**
- * 平台服务常量
+ * 管理平台常量
  */
 public interface AdminConstant {
 

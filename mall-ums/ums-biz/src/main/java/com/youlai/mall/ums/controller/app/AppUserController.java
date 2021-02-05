@@ -2,8 +2,8 @@ package com.youlai.mall.ums.controller.app;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.youlai.common.core.result.Result;
-import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;

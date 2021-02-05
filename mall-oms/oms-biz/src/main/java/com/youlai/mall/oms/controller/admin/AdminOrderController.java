@@ -2,9 +2,8 @@ package com.youlai.mall.oms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.oms.bo.OrderBO;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.oms.pojo.OmsOrder;

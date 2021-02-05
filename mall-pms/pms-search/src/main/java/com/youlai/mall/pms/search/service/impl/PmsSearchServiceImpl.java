@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-import static com.youlai.common.core.constant.EsIndexContstants.PMS_SPU;
+import static com.youlai.common.constant.EsIndexContstants.PMS_SPU;
 
 @Service
 @AllArgsConstructor

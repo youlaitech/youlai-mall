@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.service.impl;
 
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.pms.api.ProductFeignService;
 import com.youlai.mall.oms.bo.CartItemBo;
