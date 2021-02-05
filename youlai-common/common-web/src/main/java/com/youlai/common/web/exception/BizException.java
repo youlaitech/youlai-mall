@@ -1,6 +1,6 @@
 package com.youlai.common.web.exception;
 
-import com.youlai.common.core.result.IResultCode;
+import com.youlai.common.result.IResultCode;
 import lombok.Getter;
 
 @Getter

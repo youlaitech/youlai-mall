@@ -2,8 +2,8 @@ package com.youlai.common.web.util;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.context.request.RequestContextHolder;

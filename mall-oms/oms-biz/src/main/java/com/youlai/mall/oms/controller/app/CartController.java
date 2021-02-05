@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.controller.app;
 
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.oms.bo.CartItemBo;
 import com.youlai.mall.oms.bo.CartItemCheckBo;
 import com.youlai.mall.oms.pojo.vo.CartVo;

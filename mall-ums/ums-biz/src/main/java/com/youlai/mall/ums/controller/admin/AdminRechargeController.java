@@ -2,7 +2,7 @@ package com.youlai.mall.ums.controller.admin;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.pojo.dto.RechargeDTO;
 import com.youlai.mall.ums.pojo.dto.ResultPayDTO;

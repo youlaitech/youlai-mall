@@ -1,4 +1,4 @@
-package com.youlai.common.core.xss;
+package com.youlai.common.xss;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

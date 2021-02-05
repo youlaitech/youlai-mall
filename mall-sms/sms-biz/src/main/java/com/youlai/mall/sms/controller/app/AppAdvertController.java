@@ -1,7 +1,7 @@
 package com.youlai.mall.sms.controller.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.sms.pojo.SmsAdvert;
 import com.youlai.mall.sms.service.ISmsAdvertService;
 import io.swagger.annotations.Api;

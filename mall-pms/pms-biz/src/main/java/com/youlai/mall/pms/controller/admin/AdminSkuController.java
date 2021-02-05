@@ -1,8 +1,7 @@
 package com.youlai.mall.pms.controller.admin;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.youlai.common.core.result.Result;
-import com.youlai.mall.pms.bo.ProductBO;
+import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;

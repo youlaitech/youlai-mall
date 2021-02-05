@@ -2,7 +2,7 @@ package com.youlai.mall.pms.controller.admin;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.PmsAttr;
 import com.youlai.mall.pms.service.IPmsAttrService;
 import io.swagger.annotations.Api;

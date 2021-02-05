@@ -2,7 +2,7 @@ package com.youlai.mall.pms.controller.app;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.pms.bo.AppProductBO;
 import com.youlai.mall.pms.pojo.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;

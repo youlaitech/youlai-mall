@@ -1,8 +1,8 @@
 package com.youlai.gateway.util;
 
 import cn.hutool.json.JSONUtil;
-import com.youlai.common.core.result.Result;
-import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;

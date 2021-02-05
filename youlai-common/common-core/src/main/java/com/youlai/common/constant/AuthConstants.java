@@ -1,4 +1,4 @@
-package com.youlai.common.core.constant;
+package com.youlai.common.constant;
 
 public interface AuthConstants {
 
@@ -23,7 +23,7 @@ public interface AuthConstants {
     /**
      * Redis缓存权限规则key
      */
-    String PERMISSION_RULES_KEY = "auth:permission:rules";
+    String PERMISSION_ROLES_KEY = "auth:permission:roles";
 
     /**
      * 黑名单token前缀

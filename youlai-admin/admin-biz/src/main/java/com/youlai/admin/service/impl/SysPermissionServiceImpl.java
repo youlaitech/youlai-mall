@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysPermissionMapper;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.service.ISysPermissionService;
-import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.constant.AuthConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -28,17 +28,17 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    public  IPage<SysPermission> list(Page<SysPermission> page, SysPermission permission) {
-        List<SysPermission> list = this.baseMapper.list(page,permission);
+    public IPage<SysPermission> list(Page<SysPermission> page, SysPermission permission) {
+        List<SysPermission> list = this.baseMapper.list(page, permission);
         page.setRecords(list);
         return page;
     }
 
     @Override
     public boolean refreshPermissionRolesCache() {
-        redisTemplate.delete(AuthConstants.PERMISSION_RULES_KEY);
+        redisTemplate.delete(AuthConstants.PERMISSION_ROLES_KEY);
         List<SysPermission> permissions = this.listPermissionRoles();
-        Map<String, List<String>> permissionRules = new TreeMap<>();
+        Map<String, List<String>> permissionRoles = new TreeMap<>();
         Optional.ofNullable(permissions).orElse(new ArrayList<>()).forEach(permission -> {
             // 转换 roleId -> ROLE_{roleId}
             List<String> roles = Optional.ofNullable(permission.getRoleIds())
@@ -48,15 +48,15 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                     .collect(Collectors.toList());
 
             if (CollectionUtil.isNotEmpty(roles)) {
-                permissionRules.put(permission.getPerm(), roles);
+                permissionRoles.put(permission.getMethod() + permission.getPerm(), roles);
             }
-            redisTemplate.opsForHash().putAll(AuthConstants.PERMISSION_RULES_KEY, permissionRules);
+            redisTemplate.opsForHash().putAll(AuthConstants.PERMISSION_ROLES_KEY, permissionRoles);
         });
         return true;
     }
 
     @Override
     public List<String> listPermsByRoleIds(List<Long> roleIds, Integer type) {
-        return this.baseMapper.listPermsByRoleIds(roleIds,type);
+        return this.baseMapper.listPermsByRoleIds(roleIds, type);
     }
 }

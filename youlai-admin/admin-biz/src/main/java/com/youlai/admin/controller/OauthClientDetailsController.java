@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.OauthClientDetails;
 import com.youlai.admin.service.IOauthClientDetailsService;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
