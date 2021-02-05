@@ -37,12 +37,20 @@ public interface ProductFeignService {
     Result updateStock(@PathVariable Long id, @RequestParam Integer num);
 
     /**
-     * 订单下单锁定库存
+     * 锁定库存
      *
      * @param skuStockVO
      * @return
      */
     @PostMapping("/api.app/v1/sku/stock/lock")
     Result lockStock(@RequestBody WareSkuStockVO skuStockVO);
+
+    /**
+     * 释放库存
+     * @param skuStockVO
+     * @return
+     */
+    @PostMapping("/api.app/v1/sku/stock/release")
+    Result<Boolean> releaseStock(@RequestBody WareSkuStockVO skuStockVO);
 
 }
