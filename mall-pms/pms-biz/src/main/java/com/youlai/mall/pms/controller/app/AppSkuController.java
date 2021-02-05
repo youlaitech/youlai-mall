@@ -73,4 +73,17 @@ public class AppSkuController {
         }
     }
 
+    @ApiOperation(value = "订单下单释放库存", httpMethod = "POST")
+    @ApiImplicitParam(name = "skuStockVO", value = "订单库存信息", required = true, paramType = "body", dataType = "WareSkuStockVO")
+    @PostMapping("/stock/release")
+    public Result<Boolean> releaseStock(@RequestBody WareSkuStockVO skuStockVO) {
+
+        try {
+            iPmsSkuService.releaseStock(skuStockVO);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.failed();
+        }
+    }
+
 }

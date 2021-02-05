@@ -10,10 +10,17 @@ spring:
     password: 123456
   # rabbitmq相关配置
   rabbitmq:
-    host: "192.168.56.10"
+    host: b.youlai.store
     port: 5672
-    username: "guest"
-    password: "guest"
+    username: guest
+    password: guest
+    # 开启returnCallBack配置
+    publisher-returns: true
+    template:
+      mandatory: true
+    # 开启confirmCallBack配置
+    publisher-confirm-type: correlated
+
 mybatis-plus:
   configuration:
     # 驼峰下划线转换

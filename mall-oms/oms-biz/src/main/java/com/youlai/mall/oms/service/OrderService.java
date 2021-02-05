@@ -37,5 +37,17 @@ public interface OrderService extends IService<OrderEntity> {
      */
     OrderSubmitResultVO submit(OrderSubmitVO submit) throws ExecutionException, InterruptedException;
 
+    /**
+     * 根据订单号查询订单详情
+     * @param orderSn 订单号
+     * @return
+     */
+    OrderEntity getByOrderSn(String orderSn);
+
+    /**
+     * 系统关闭订单
+     * @param orderSn 订单号
+     */
+    boolean closeOrderBySystem(String orderSn);
 }
 

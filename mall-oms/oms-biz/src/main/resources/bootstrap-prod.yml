@@ -12,6 +12,7 @@ spring:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
 
+
 # 分布式事务配置
 seata:
   tx-service-group: mall_tx_group
@@ -28,6 +29,8 @@ seata:
       server-addr: c.youlai.store:8848
       namespace: seata_namespace_id
       group: SEATA_GROUP
+
+
 
 # 全局参数设置
 ribbon:

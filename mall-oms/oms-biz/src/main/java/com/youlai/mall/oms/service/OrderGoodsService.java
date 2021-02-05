@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.mall.oms.pojo.entity.OrderGoodsEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface OrderGoodsService extends IService<OrderGoodsEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<OrderGoodsEntity> getByOrderId(Long orderId);
 }
 

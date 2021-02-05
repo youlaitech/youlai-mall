@@ -2,6 +2,7 @@ package com.youlai.mall;
 
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -15,6 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableFeignClients
 //@EnableConfigurationProperties({ThreadPoolProperties.class})
 @MapperScan({"com.youlai.mall.oms.mapper", "com.youlai.mall.oms.dao"})
+@EnableRabbit
 public class OmsApplication {
 
     public static void main(String[] args) {
