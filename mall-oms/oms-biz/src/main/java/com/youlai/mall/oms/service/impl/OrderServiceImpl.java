@@ -14,10 +14,10 @@ import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.WebUtils;
+import com.youlai.mall.oms.config.rabbitmq.OmsRabbitConstants;
 import com.youlai.mall.oms.dao.OrderDao;
 import com.youlai.mall.oms.dao.OrderDeliveryDao;
 import com.youlai.mall.oms.dao.OrderGoodsDao;
-import com.youlai.mall.oms.dao.OrderLogsDao;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OrderDeliveryEntity;
@@ -25,6 +25,7 @@ import com.youlai.mall.oms.pojo.entity.OrderEntity;
 import com.youlai.mall.oms.pojo.entity.OrderGoodsEntity;
 import com.youlai.mall.oms.pojo.vo.*;
 import com.youlai.mall.oms.service.CartService;
+import com.youlai.mall.oms.service.OrderLogsService;
 import com.youlai.mall.oms.service.OrderService;
 import com.youlai.mall.pms.api.ProductFeignService;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
@@ -35,6 +36,7 @@ import com.youlai.mall.ums.pojo.dto.UmsAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
@@ -51,6 +53,8 @@ import java.util.stream.Collectors;
 @Service("orderService")
 public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> implements OrderService {
 
+    private static final ThreadLocal<OrderSubmitVO> threadOrderSubmit = new ThreadLocal<>();
+
     private CartService cartService;
 
     private ProductFeignService productFeignService;
@@ -59,13 +63,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     private AsyncTaskExecutor executor;
 
-    private static final ThreadLocal<OrderSubmitVO> threadOrderSubmit = new ThreadLocal<>();
-
     private OrderGoodsDao orderGoodsDao;
 
     private OrderDeliveryDao orderDeliveryDao;
 
-    private OrderLogsDao orderLogsDao;
+    private OrderLogsService orderLogsService;
+
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -143,6 +147,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         CompletableFuture<Void> future = CompletableFuture.allOf(orderFuture, orderGoodsFuture, orderDeliveryFuture);
         future.get();
 
+        // 订单验价
         computePrice(orderVO.getOrderEntity(), orderVO.getOrderGoods());
 
         // 扣减库存
@@ -168,10 +173,41 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             cartService.cleanSelected();
         }
 
+        // 将订单放入定时队列中，超时未支付系统自动关单，是否库存
+        rabbitTemplate.convertAndSend(OmsRabbitConstants.ORDER_EVENT_EXCHANGE,
+                OmsRabbitConstants.ORDER_CREATE_ORDER_KEY, orderVO.getOrderEntity().getOrderSn());
+
+        orderLogsService.addOrderLogs(orderVO.getOrderEntity().getId(), orderVO.getOrderEntity().getStatus(), WebUtils.getUserId().toString(), "创建订单");
+
         OrderSubmitResultVO result = new OrderSubmitResultVO();
         result.setId(orderId);
         result.setOrderSn(orderVO.getOrderEntity().getOrderSn());
         return result;
+    }
+
+    @Override
+    public OrderEntity getByOrderSn(String orderSn) {
+        log.info("根据订单号查询订单详情，orderSn={}", orderSn);
+        QueryWrapper<OrderEntity> query = new QueryWrapper<>();
+        query.eq("order_sn", orderSn);
+        return baseMapper.selectOne(query);
+    }
+
+    @Override
+    public boolean closeOrderBySystem(String orderSn) {
+        log.info("订单超时未支付，系统自动关闭，orderSn={}", orderSn);
+        OrderEntity order = getByOrderSn(orderSn);
+        if (!order.getStatus().equals(OrderStatusEnum.NEED_PAY.code)) {
+            log.info("订单状态异常，系统无法自动关闭，orderSn={}，orderStatus={}", orderSn, order.getStatus());
+            return false;
+        }
+        order.setStatus(OrderStatusEnum.SYS_CANCEL.code);
+        baseMapper.updateById(order);
+        // 添加订单操作日志
+        orderLogsService.addOrderLogs(order.getId(), order.getStatus(),
+                "系统操作", OrderStatusEnum.SYS_CANCEL.desc);
+        return true;
+
     }
 
     private void lockStock(List<OrderGoodsEntity> orderGoods) {

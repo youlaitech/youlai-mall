@@ -16,5 +16,14 @@ import java.util.Map;
 public interface OrderLogsService extends IService<OrderLogsEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 添加订单操作日志记录
+     * @param orderId
+     * @param orderStatus
+     * @param user
+     * @param detail
+     */
+    void addOrderLogs(Long orderId, Integer orderStatus, String user, String detail);
 }
 
