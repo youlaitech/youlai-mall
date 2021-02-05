@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.entity.SysRoleMenu;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.common.core.enums.QueryModeEnum;
@@ -17,10 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author haoxr

@@ -15,4 +15,6 @@ public class UserVO {
 
     private List<Long> roles;
 
+    private List<String> perms ;
+
 }

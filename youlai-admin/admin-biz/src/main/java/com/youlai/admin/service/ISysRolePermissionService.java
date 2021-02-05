@@ -12,4 +12,6 @@ public interface ISysRolePermissionService extends IService<SysRolePermission> {
     List<Long> listPermissionIds(Long roleId, Integer type);
 
     boolean update(RolePermissionDTO rolePermission);
+
+
 }

@@ -6,13 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.common.enums.PermTypeEnum;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.admin.pojo.vo.UserVO;
-import com.youlai.admin.service.ISysRoleService;
-import com.youlai.admin.service.ISysUserRoleService;
-import com.youlai.admin.service.ISysUserService;
+import com.youlai.admin.service.*;
 import com.youlai.common.core.base.BaseController;
 import com.youlai.common.core.constant.GlobalConstants;
 import com.youlai.common.core.result.Result;
@@ -42,6 +41,8 @@ public class UserController extends BaseController {
     private final ISysUserRoleService iSysUserRoleService;
     private final ISysRoleService iSysRoleService;
     private final PasswordEncoder passwordEncoder;
+
+    private final ISysPermissionService iSysPermissionService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -167,15 +168,17 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "获取当前用户信息", httpMethod = "GET")
     @GetMapping("/me")
-    public Result getCurrentUser() {
+    public Result<UserVO> getCurrentUser() {
+        UserVO userVO = new UserVO();
+
         Long userId = WebUtils.getUserId();
         SysUser user = iSysUserService.getById(userId);
-        UserVO userVO = new UserVO();
         BeanUtil.copyProperties(user, userVO);
 
-        List<Long> authorities = WebUtils.getAuthorities();
-        userVO.setRoles(authorities);
+        List<Long> roleIds = WebUtils.getRoleIds();
+        List<String> perms = iSysPermissionService.listPermsByRoleIds(roleIds, PermTypeEnum.BUTTON.getValue());
+        userVO.setRoles(roleIds);
+        userVO.setPerms(perms);
         return Result.success(userVO);
     }
-
 }

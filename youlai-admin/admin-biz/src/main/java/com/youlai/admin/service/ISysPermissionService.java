@@ -14,4 +14,8 @@ public interface ISysPermissionService extends IService<SysPermission> {
     IPage<SysPermission> list(Page<SysPermission> page, SysPermission permission);
 
     boolean refreshPermissionRolesCache();
+
+
+    List<String> listPermsByRoleIds(List<Long> roleIds, Integer type);
+
 }

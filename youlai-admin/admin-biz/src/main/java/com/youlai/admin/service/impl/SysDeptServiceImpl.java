@@ -3,7 +3,7 @@ package com.youlai.admin.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.common.AdminConstant;
+import com.youlai.admin.common.constant.AdminConstant;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.DeptVO;
 import com.youlai.admin.mapper.SysDeptMapper;

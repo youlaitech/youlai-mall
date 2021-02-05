@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.service.ISysPermissionService;
-import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.common.core.enums.QueryModeEnum;
 import com.youlai.common.core.result.Result;
 import com.youlai.common.core.result.ResultCode;
@@ -32,7 +31,6 @@ public class PermissionController {
             @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "权限名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "permission", value = "权限标识", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Long")
     })
@@ -43,7 +41,6 @@ public class PermissionController {
             Integer limit,
             String name,
             String permission,
-            Long roleId,
             Long menuId,
             Integer type
     ) {
@@ -54,7 +51,7 @@ public class PermissionController {
                 IPage<SysPermission> result = iSysPermissionService.list(
                         new Page<>(page, limit),
                         new SysPermission()
-                                .setPerms(permission)
+                                .setPerm(permission)
                                 .setMenuId(menuId)
                                 .setName(name)
                                 .setType(type)

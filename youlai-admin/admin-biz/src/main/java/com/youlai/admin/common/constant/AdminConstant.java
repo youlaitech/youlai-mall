@@ -1,4 +1,4 @@
-package com.youlai.admin.common;
+package com.youlai.admin.common.constant;
 
 /**
  * 平台服务常量
