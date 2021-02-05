@@ -38,7 +38,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return clientId;
     }
 
-    public static List<Long> getAuthorities() {
+    public static List<Long> getRoleIds() {
         List<String> list = getJwtPayload().get(AuthConstants.JWT_AUTHORITIES_KEY, List.class);
         List<Long> authorities = list.stream().map(Long::valueOf).collect(Collectors.toList());
         return authorities;
