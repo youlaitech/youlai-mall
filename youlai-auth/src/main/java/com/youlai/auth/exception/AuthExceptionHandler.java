@@ -1,7 +1,7 @@
 package com.youlai.auth.exception;
 
-import com.youlai.common.core.result.Result;
-import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;

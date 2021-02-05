@@ -2,7 +2,7 @@ package com.youlai.gateway.security;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.constant.AuthConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,8 +37,9 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
 
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
-        String path = request.getURI().getPath();
-        PathMatcher pathMatcher = new AntPathMatcher();
+        String path = request.getMethodValue() + "_" + request.getURI().getPath();
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        pathMatcher.setCaseSensitive(false); // 忽略大小写
 
         // 对应跨域的预检请求直接放行
         if (request.getMethod() == HttpMethod.OPTIONS) {
@@ -57,7 +58,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
 
         // 从缓存取资源权限角色关系列表
-        Map<Object, Object> permissionRoles = redisTemplate.opsForHash().entries(AuthConstants.PERMISSION_RULES_KEY);
+        Map<Object, Object> permissionRoles = redisTemplate.opsForHash().entries(AuthConstants.PERMISSION_ROLES_KEY);
         Iterator<Object> iterator = permissionRoles.keySet().iterator();
 
         // 请求路径匹配到的资源需要的角色权限集合authorities统计

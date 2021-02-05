@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.api;
 
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
 import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;

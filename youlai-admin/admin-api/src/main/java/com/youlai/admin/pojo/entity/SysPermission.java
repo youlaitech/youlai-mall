@@ -2,7 +2,7 @@ package com.youlai.admin.pojo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.youlai.common.core.base.BaseEntity;
+import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -16,7 +16,8 @@ public class SysPermission extends BaseEntity {
     private Long id;
     private String name;
     private String perm;
-    private Long menuId;
+    private Long moduleId;
+    private String method;
     private Integer type;
 
     // 拥有资源权限角色ID集合

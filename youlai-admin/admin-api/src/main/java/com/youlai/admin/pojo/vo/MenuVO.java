@@ -1,7 +1,7 @@
 package com.youlai.admin.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.youlai.common.core.base.BaseEntity;
+import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
 import java.util.List;

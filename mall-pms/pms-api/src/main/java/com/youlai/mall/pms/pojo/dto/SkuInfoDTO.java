@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.pojo.dto;
 
-import com.youlai.common.core.base.BaseVO;
+import com.youlai.common.base.BaseVO;
 import lombok.Data;
 
 /**

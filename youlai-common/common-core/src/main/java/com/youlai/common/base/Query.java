@@ -6,14 +6,14 @@
  * 版权所有，侵权必究！
  */
 
-package com.youlai.common.core.base;
+package com.youlai.common.base;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.constant.RenrenConstant;
-import com.youlai.common.core.xss.SQLFilter;
+import com.youlai.common.constant.RenrenConstant;
+import com.youlai.common.xss.SQLFilter;
 
 import java.util.Map;
 
