@@ -30,4 +30,6 @@ public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
             " </if>" +
             "</script>")
     List<Long> listPermissionIds(Long roleId, Integer type);
+
+
 }

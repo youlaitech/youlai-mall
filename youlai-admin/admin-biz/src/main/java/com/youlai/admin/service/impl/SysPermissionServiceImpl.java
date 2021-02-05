@@ -48,10 +48,15 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                     .collect(Collectors.toList());
 
             if (CollectionUtil.isNotEmpty(roles)) {
-                permissionRules.put(permission.getPerms(), roles);
+                permissionRules.put(permission.getPerm(), roles);
             }
             redisTemplate.opsForHash().putAll(AuthConstants.PERMISSION_RULES_KEY, permissionRules);
         });
         return true;
+    }
+
+    @Override
+    public List<String> listPermsByRoleIds(List<Long> roleIds, Integer type) {
+        return this.baseMapper.listPermsByRoleIds(roleIds,type);
     }
 }
