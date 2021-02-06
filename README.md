@@ -44,7 +44,7 @@
  微服务后台 |[youlai-mall](https://github.com/hxrui/youlai-mall) |[youlai-mall](https://gitee.com/youlaitech/youlai-mall) 
  管理前端 |  [youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin)| [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin)
  微信小程序 | [youlai-mall-weapp](https://github.com/hxrui/youlai-mall-weapp)| [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) 
- App应用 | [youlai-mall-app](https://github.com/hxrui/youlai-mall-app)| [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app)
+ APP应用 | [youlai-mall-app](https://github.com/hxrui/youlai-mall-app)| [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app)
 
 ## 项目预览
 
@@ -88,7 +88,7 @@ youlai-mall
 └── youlai-registry -- Nacos应用
 ```
 
-## 项目核心技术栈
+## 核心技术栈
 | 后端技术 |  版本号                     
 | -------------------- |  -------------------- |                             
 | SpringBoot|2.4.2                    
@@ -105,40 +105,31 @@ youlai-mall
 
 ## 项目启动
 
-### 1. 本地项目搭建
+### 1. `youlai-mall`后台微服务启动
 
-#### 1.1 
+#### 1.1 云环境本地项目搭建
 
-#### 1.2
+此搭建方式项目依赖环境（MySQL8、Redis、MinIO、Nacos）均使用`有来技术团队`提供的云环境，启动操作极其简单。
+
+**提示：** 云环境是无条件的提供给大家，但千万不要改动云环境的数据和配置，因为会导致整个项目无法运行，考虑下开发人员和其他小伙伴，手下留情。
+
+**启动步骤:**
+1. 启动本地Nacos服务，IDEA下方工具栏点击Terminal终端命令行，执行`cd youlai-registry/nacos/bin`命令切换到Nacos的启动脚本文件夹下，然后执行`startup -m standalone`命令启动Nacos服务；
+2. 系统基础服务启动（完整的实现OAuth2统一认证鉴权的流程），分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
+   启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`下的的AdminApplication类，至此完成整个项目的启动。
+
+**备注：** 如需商城服务，启动对应模块的子模块biz的启动类即可，此模式下你可以进行代码逻辑的调试，无需任何环境搭建。
+
+#### 1.2 本地环境项目搭建
 
 
-### 2. 生产环境部署
-
-
-
-
-
-
-### 1. 启动后端微服务
-
-1. 拉取并导入 [youlai-mall](https://github.com/hxrui/youlai-mall) 。
-2. 启动nacos服务，进入Terminal命令终端切到youlai-registry/nacos/bin目录，执行命令 startup -m standalone。
-3. 启动youlai-gateway、youlai-auth,youlai-admin项目基础服务。
-
-备注：如果本地搭建请安装Redis、MySQL8、Nacos、MinIO环境，再修改对应的Nacos相关配置信息即可。线上生产部署请参考部署篇的文章。
-
-重要说明：因为会有人无视公告修改公有环境配置，所以大家启动在使用公共环境会报错，作为开发者的我们心也累。
-所以大家在启动报错的时候，麻烦在Nacos启动后在控制台删除原有配置重新导入项目下的document/DEFAULT_GROUP.zip配置尝试重新启动项目。
-
-重要提示： 求大家别在云环境修改数据库和相关配置！自己这套环境开放出来供大家学习本来就冒着很大风险，精力也有限，望大家理解，谢谢了。
-
-### 2. 启动管理前端
+### 2. `youlai-mall-admin`后台前端启动
 
 1. 本机安装Python和Node.js
-1. 拉取并导入 [youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin.git)
-2. npm install  
-3. npm run dev  
+2. npm install
+3. npm run dev
 4. 浏览器打开 http://localhost:9527
+
 
 ### 3. 启动微信小程序
 
