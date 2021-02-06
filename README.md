@@ -105,7 +105,7 @@ youlai-mall
 
 ## 项目启动
 
-### 1. `youlai-mall`后台微服务启动
+### 1. 后台微服务`youlai-mall`启动 
 
 项目搭建依赖环境（MySQL8、Redis、MinIO、Nacos）默认均使用`有来技术团队`提供的云环境，无需任何依赖环境搭建，启动极其简单。
 
@@ -117,7 +117,7 @@ youlai-mall
    启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`下的的AdminApplication类，至此完成整个项目的启动。
 3. 如需商城服务，启动对应模块的子模块biz的启动类即可。
 
-### 2. `youlai-mall-admin`后台前端启动
+### 2. 后台前端`youlai-mall-admin`启动 
 
 1. 本机安装Python和Node.js
 2. npm install
