@@ -25,7 +25,7 @@ public enum QueryModeEnum {
                 return value;
             }
         }
-        return null;
+        return PAGE;
     }
 
 }
