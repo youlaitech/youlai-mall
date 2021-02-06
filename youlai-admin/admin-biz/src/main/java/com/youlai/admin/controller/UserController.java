@@ -112,7 +112,7 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation(value = "删除用户", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysUserService.removeByIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));

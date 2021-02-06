@@ -1,13 +1,65 @@
+![](https://img.shields.io/badge/youlai--mall-1.0-blue)
+[![](https://img.shields.io/github/stars/hxrui/youlai-mall.svg?style=social&label=Stars)](https://github.com/hxrui/youlai-mall/stargazers)
+[![](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/hxrui/youlai-mall/blob/master/LICENSE)
 ![](https://img.shields.io/badge/SpringBoot-2.4.2-brightgreen.svg)
-![](https://img.shields.io/badge/SpringCloud-2020.0.0-green.svg)
+![](https://img.shields.io/badge/SpringCloud-2020-green.svg)
+![](https://img.shields.io/badge/vue--element--admin-v4.4.0-orange)
 
-## **项目简介**
 
-youlai-mall是集成当前最新主流技术一套开源的商城系统。整个系统采用微服务架构，前后端分离交互模式。业务模块包括了商品管理、订单管理、营销管理、会员管理等。
+## **项目介绍**
+
+- `youlai-mall` 是一套**全栈**开源商城平台，包括微服务应用、管理平台、微信小程序及APP应用
+
+- 基于Spring Boot 2.4、Spring Cloud 2020 & Alibaba 一站式微服务解决方案快速开发分布式服务
+
+- 实现Spring Cloud OAuth2、Spring Cloud Gateway、JWT分布式统一认证鉴权和`RBAC` 权限系统设计
+
+- 使用vue-element-admin的后台前端解决方案，基于vue和element快速搭建**前后端分离**的商城管理平台
+
+- 通过`uni-app`使用Vue开发实现跨所有前端的应用，包含微信小程序、APP应用
+
+- 使用Docker快速构建项目环境和一键打包部署微服务项目
+
+- 项目使用的都是当前最新主流的**开源**框架，无过渡的自定义封装逻辑，易理解
+
+## **项目愿景**
+
+项目从`0`到`1`的构建过程完整无保留的通过一篇篇博客文章进行公开说明，开源供大家交流学习不图任何利益。
+
+项目慢慢成型的路上离不开支持还有默默点star的那些小伙伴，谢谢了~ 
+
+## **项目地址**
+
+### 1. 体验 
+**商城管理平台访问地址:** [http://www.youlai.store](https://www.youlai.store/)
+ 
+【有来小店】微信小程序体验码，扫描后申请体验即可，有问题加我微信：`haoxianrui`，（ps：star关注项目后会加快审批通过速度~）
+
+![](https://raw.githubusercontent.com/hxrui/image/main/image/initpintu_%E5%89%AF%E6%9C%AC.jpg)
+
+### 2. 源码
+ 项目名称 | Github | 码云
+ ---|---|---
+ 微服务后台 |[youlai-mall](https://github.com/hxrui/youlai-mall) |[youlai-mall](https://gitee.com/youlaitech/youlai-mall) 
+ 管理前端 |  [youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin)| [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin)
+ 微信小程序 | [youlai-mall-weapp](https://github.com/hxrui/youlai-mall-weapp)| [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) 
+ App应用 | [youlai-mall-app](https://github.com/hxrui/youlai-mall-app)| [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app) 
+
+
+ 
 
 ## **项目预览**
 
-**线上地址:** [www.youlai.store](https://www.youlai.store/)
+### 1. 商城管理平台
+
+
+
+### 2. 有来小店微信小程序
+
+ 
+ 
+ 
+ 
  
 ### 管理后台
 
@@ -27,9 +79,7 @@ youlai-mall是集成当前最新主流技术一套开源的商城系统。整个
 ![](https://i.loli.net/2021/01/02/QDU9okJbvuVrxwc.png)
 
 
-**【有来商城】微信小程序体验码，微信识别点击申请，看到第一时间会通过**
 
-![](https://i.loli.net/2021/01/02/ZesKNr17FBUlWGE.jpg)
 
 ## **项目结构**
 

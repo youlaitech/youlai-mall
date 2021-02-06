@@ -104,7 +104,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "删除角色", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean result = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()

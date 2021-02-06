@@ -79,7 +79,7 @@ public class AdminCategoryController {
     }
 
     @ApiOperation(value = "删除商品分类", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", dataType = "String")
     @DeleteMapping
     public Result delete(@RequestParam String ids) {
         iPmsCategoryService.removeByIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));

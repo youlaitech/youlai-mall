@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -97,10 +98,10 @@ public class MenuController {
     }
 
     @ApiOperation(value = "删除菜单", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
-    @DeleteMapping
-    public Result delete(@RequestParam("ids") List<Long> ids) {
-        boolean status = iSysMenuService.removeByIds(ids);
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable("ids") String ids) {
+        boolean status = iSysMenuService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 
