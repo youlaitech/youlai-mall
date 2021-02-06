@@ -5,14 +5,13 @@
 ![](https://img.shields.io/badge/SpringCloud-2020-green.svg)
 ![](https://img.shields.io/badge/vue--element--admin-v4.4.0-orange)
 
-
 ## 项目介绍
 
 `youlai-mall` 是基于Spring Boot 2.4、Spring Cloud 2020 & Alibaba、Vue、element-ui、uni-app快速构建的一套**全栈**开源商城平台，包括微服务应用、管理平台、微信小程序及APP应用
 
 ## 项目特色
 
-- 项目使用都是最新主流的**开源**框架，无过渡的自定义封装逻辑，易理解上手和方便扩展
+- 项目使用都是最新主流的**开源**框架，无过度的自定义封装逻辑，易理解上手和方便扩展
 
 - 基于Spring Boot 2.4、Spring Cloud 2020 & Alibaba 一站式微服务解决方案快速开发分布式服务
 
@@ -24,13 +23,13 @@
 
 - 使用Docker快速构建项目环境和一键打包部署微服务项目
 
-## **项目愿景**
+## 项目愿景
 
-项目从`0`到`1`的构建过程完整无保留的通过一篇篇博客文章进行公开说明，开源供大家交流学习不图任何利益。
+项目从`0`到`1`的构建过程完整无保留的通过一篇篇博客文章进行一一说明，开源不图任何利益。
 
-项目慢慢成型的路上离不开支持还有默默点star的那些小伙伴，谢谢了~ 
+项目慢慢成型的路上离不开支持还有默默点star的那些小伙伴，谢谢!
 
-## **项目地址**
+## 项目地址
 
 ### 1. 体验 
 **商城管理平台访问地址:** [http://www.youlai.store](https://www.youlai.store/)
@@ -45,51 +44,28 @@
  微服务后台 |[youlai-mall](https://github.com/hxrui/youlai-mall) |[youlai-mall](https://gitee.com/youlaitech/youlai-mall) 
  管理前端 |  [youlai-mall-admin](https://github.com/hxrui/youlai-mall-admin)| [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin)
  微信小程序 | [youlai-mall-weapp](https://github.com/hxrui/youlai-mall-weapp)| [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) 
- App应用 | [youlai-mall-app](https://github.com/hxrui/youlai-mall-app)| [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app) 
+ App应用 | [youlai-mall-app](https://github.com/hxrui/youlai-mall-app)| [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app)
 
-
- 
-
-## **项目预览**
+## 项目预览
 
 ### 1. 商城管理平台
 
+#### 1.1 系统管理
+![](https://i.loli.net/2021/02/06/H37t524vcSgaJAN.jpg)
+#### 1.2 商品管理
+![](https://i.loli.net/2021/02/06/gpYHPFEw6ceZOay.jpg)
 
 ### 2. 有来小店微信小程序
 
- 
- 
- 
- 
- 
-### 管理后台
+![](https://i.loli.net/2021/02/06/DGAf84rIWwNFqJE.jpg)
 
-![](https://i.loli.net/2021/01/02/7t9TlgCHSnam64E.png)
-
-![](https://i.loli.net/2021/01/02/aUnWZp5o29lPJQb.png)
-
-![](https://i.loli.net/2020/12/27/iLw3jEgVGQSf61F.png)
-
-
-### 微信小程序
-
-![](https://i.loli.net/2021/01/02/OugrUpPVl9d5w14.png)
-
-![](https://i.loli.net/2021/01/02/vdeaIS78yRHUkBm.png)
-
-![](https://i.loli.net/2021/01/02/QDU9okJbvuVrxwc.png)
-
-
-
-
-## **项目结构**
+## 项目结构
 
 ``` lua
 youlai-mall
 ├── document
-    ├── DEFAULT_GROUP.zip -- Nacos配置包
-    ├── youlai.sql      -- 数据库初始化脚本
-    ├── youlai-mall.sql -- 数据库初始化脚本
+    ├── nacos -- Nacos配置文件
+    ├── sql   -- mysql数据库脚本
 ├── mall-oms
     ├── oms-api -- 订单微服务的远程调用客户端
     ├── oms-biz -- 订单微服务
@@ -104,39 +80,44 @@ youlai-mall
     ├── ums-api -- 会员微服务的远程调用客户端
     ├── ums-biz -- 会员微服务
 ├── youlai-admin 
-    ├── admin-api -- 后台管理微服务的远程调用客户端
-    ├── admin-biz -- 后台管理微服务
-├── youlai-auth     -- 认证中心
+    ├── admin-api -- 系统管理微服务的远程调用客户端
+    ├── admin-biz -- 系统管理微服务
+├── youlai-auth     -- 认证中心【Oauth2认证服务器】
 ├── youlai-common   -- 公共模块
-└── youlai-gateway  -- Spring Cloud Gateway网关
-└── youlai-registry -- Nacos注册中心 
+└── youlai-gateway  -- Gateway网关【Oauth2资源服务器】
+└── youlai-registry -- Nacos应用
 ```
 
-## **技术栈**
-
+## 项目核心技术栈
 | 后端技术 |  版本号                     
 | -------------------- |  -------------------- |                             
 | SpringBoot|2.4.2                    
-| SpringCloud|2020.0.0
-| SpringCloud Alibaba|  2.2.4.RELEASE
-| Spring Security OAuth2| 2.2.4.RELEASE
-| MyBatis Plus|3.4.0
-| Druid| 1.1.23
+| Spring Cloud|2020.0.0
+| Spring Cloud Alibaba|  2.2.4.RELEASE
+| MyBatis-Plus|3.4.0
 | Lombok |1.18.12
 | Knife4j | 2.0.4
+| MinIO | 2.0.4
+
+| 后台前端 |  版本号 | 微信小程序 |  版本号| APP |  版本号
+|---- |  ---- | ---- | ----  |---- | ----
+| element-ui | 2.13.2 | uni-app | 2.8.11| vant | 2.5.4
+
+## 项目启动
+
+### 1. 本地项目搭建
+
+#### 1.1 
+
+#### 1.2
 
 
-| 管理前端技术 |  版本号
-| -------------------- |  -------------------- |  
-| Vue        | 2.6.10
-| Element-UI | 2.13.2
+### 2. 生产环境部署
 
-| 微信小程序技术 |  版本号
-| -------------------- |  -------------------- |  
-| Vue| 2.6.10
-| uni-app | 2.8.11
 
-## **快速启动**
+
+
+
 
 ### 1. 启动后端微服务
 
