@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import com.youlai.mall.pms.bo.ProductBO;
 import com.youlai.mall.pms.pojo.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
@@ -46,12 +47,14 @@ public class AdminProductController {
     ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
         switch (queryModeEnum) {
-            default:
+            case PAGE:
                 IPage<PmsSpu> result = iPmsSpuService.list(
                         new Page<>(page, limit),
                         new PmsSpu().setName(name).setCategoryId(categoryId)
                 );
                 return Result.success(result.getRecords(), result.getTotal());
+            default:
+                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
     }
 
@@ -86,7 +89,7 @@ public class AdminProductController {
     }
 
     @ApiOperation(value = "删除商品", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         iPmsSpuService.removeBySpuIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));

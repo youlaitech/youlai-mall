@@ -99,7 +99,7 @@ public class PermissionController {
     }
 
     @ApiOperation(value = "删除权限", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "Long")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysPermissionService.removeByIds(Arrays.asList(ids.split(",")));

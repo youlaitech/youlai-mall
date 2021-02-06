@@ -97,7 +97,7 @@ public class DictItemController {
     }
 
     @ApiOperation(value = "删除字典", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysDictItemService.removeByIds(Arrays.asList(ids.split(",")));

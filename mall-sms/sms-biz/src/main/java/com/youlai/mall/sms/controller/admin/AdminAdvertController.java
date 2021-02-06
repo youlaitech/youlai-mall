@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -86,10 +87,10 @@ public class AdminAdvertController {
     }
 
     @ApiOperation(value = "删除广告", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
-    @DeleteMapping
-    public Result delete(@RequestParam("ids") List<Long> ids) {
-        boolean status = iSmsAdvertService.removeByIds(ids);
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable("ids") String ids) {
+        boolean status = iSmsAdvertService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 
@@ -100,11 +101,9 @@ public class AdminAdvertController {
     })
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SmsAdvert advert) {
-        LambdaUpdateWrapper<SmsAdvert> luw = new LambdaUpdateWrapper<SmsAdvert>().eq(SmsAdvert::getId, id);
-        if (advert.getStatus() != null) { // 状态更新
-            luw.set(SmsAdvert::getStatus, advert.getStatus());
-        }
-        boolean update = iSmsAdvertService.update(luw);
-        return Result.success(update);
+        LambdaUpdateWrapper<SmsAdvert> updateWrapper = new LambdaUpdateWrapper<SmsAdvert>().eq(SmsAdvert::getId, id);
+        updateWrapper.set(advert.getStatus() != null, SmsAdvert::getStatus, advert.getStatus());
+        boolean result = iSmsAdvertService.update(updateWrapper);
+        return Result.judge(result);
     }
 }

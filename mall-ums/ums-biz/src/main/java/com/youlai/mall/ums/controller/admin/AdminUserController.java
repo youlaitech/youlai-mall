@@ -110,7 +110,7 @@ public class AdminUserController {
     }
 
     @ApiOperation(value = "删除会员【逻辑删除】", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iUmsUserService.update(new LambdaUpdateWrapper<UmsUser>()
