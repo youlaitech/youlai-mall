@@ -6,21 +6,23 @@
 ![](https://img.shields.io/badge/vue--element--admin-v4.4.0-orange)
 
 
-## **项目介绍**
+## 项目介绍
 
-- `youlai-mall` 是一套**全栈**开源商城平台，包括微服务应用、管理平台、微信小程序及APP应用
+`youlai-mall` 是基于Spring Boot 2.4、Spring Cloud 2020 & Alibaba、Vue、element-ui、uni-app快速构建的一套**全栈**开源商城平台，包括微服务应用、管理平台、微信小程序及APP应用
+
+## 项目特色
+
+- 项目使用都是最新主流的**开源**框架，无过渡的自定义封装逻辑，易理解上手和方便扩展
 
 - 基于Spring Boot 2.4、Spring Cloud 2020 & Alibaba 一站式微服务解决方案快速开发分布式服务
 
 - 实现Spring Cloud OAuth2、Spring Cloud Gateway、JWT分布式统一认证鉴权和`RBAC` 权限系统设计
 
-- 使用vue-element-admin的后台前端解决方案，基于vue和element快速搭建**前后端分离**的商城管理平台
+- 使用vue-element-admin的后台前端解决方案，基于Vue和element-ui快速搭建**前后端分离**的商城管理平台
 
 - 通过`uni-app`使用Vue开发实现跨所有前端的应用，包含微信小程序、APP应用
 
 - 使用Docker快速构建项目环境和一键打包部署微服务项目
-
-- 项目使用的都是当前最新主流的**开源**框架，无过渡的自定义封装逻辑，易理解
 
 ## **项目愿景**
 
