@@ -3,7 +3,7 @@ package com.youlai.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.admin.pojo.entity.SysRolePermission;
 import org.apache.ibatis.annotations.Select;
-import org.mapstruct.Mapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

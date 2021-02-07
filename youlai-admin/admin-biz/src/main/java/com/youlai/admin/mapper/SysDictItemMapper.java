@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysDictItem;
 import org.apache.ibatis.annotations.Select;
-import org.mapstruct.Mapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

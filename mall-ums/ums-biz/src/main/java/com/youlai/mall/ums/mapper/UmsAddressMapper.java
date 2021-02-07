@@ -3,7 +3,7 @@ package com.youlai.mall.ums.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.mall.ums.pojo.UmsAddress;
 import org.apache.ibatis.annotations.Select;
-import org.mapstruct.Mapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
