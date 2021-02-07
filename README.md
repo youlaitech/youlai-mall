@@ -106,7 +106,7 @@ youlai-mall
 
 ## 项目启动
 
-### 1. 后台微服务`youlai-mall`启动 
+### 1. 后台微服务启动 
 
 ####  云环境项目启动
 
@@ -148,14 +148,14 @@ youlai-mall
    
 4. 至此环境配置准备完毕，接下来启动服务即可。
 
-### 2. 后台前端`youlai-mall-admin`启动 
+### 2. 后台前端启动 
 
 1. 本机安装Python和Node环境
 2. npm install
 3. npm run dev
 4. 访问 http://localhost:9527
 
-### 3. 微信小程序`youlai-mall-weapp`启动
+### 3. 微信小程序启动
 
 1. 下载`HBuilder X`和`微信开发者工具`
 2. 微信公众平台申请小程序，获得小程序的AppID
