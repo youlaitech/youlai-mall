@@ -110,11 +110,11 @@ youlai-mall
 项目依赖环境（MySQL8、Redis、MinIO、Nacos）默认均使用`有来技术`云环境，项目启动极其方便。
 
 **项目启动步骤:**
-1. 启动本地Nacos服务:
+1. **启动本地Nacos服务:**
 
     IDEA下方工具栏点击Terminal终端命令行，执行`cd youlai-registry/nacos/bin`命令切换到Nacos的启动脚本文件夹下，然后执行`startup -m standalone`命令启动Nacos服务；
 
-2. 系统基础服务启动（完整的实现OAuth2统一认证鉴权的流程），
+2. **系统基础服务启动（完整的实现OAuth2统一认证鉴权的流程）:**
 
     分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
     启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`下的的AdminApplication类，至此完成整个项目的启动；
