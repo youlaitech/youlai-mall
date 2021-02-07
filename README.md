@@ -55,7 +55,7 @@
 #### 1.2 商品管理
 ![](https://gitee.com/haoxr/image/raw/master/default/%E5%95%86%E5%9F%8E%E7%AE%A1%E7%90%86.jpg)
 
-### 2. 有来小店微信小程序
+### 2. 微信小程序
 
 ![](https://gitee.com/haoxr/image/raw/master/default/DGAf84rIWwNFqJE.jpg)
 
