@@ -11,7 +11,7 @@
 
 ## 项目特色
 
-- 项目使用都是最新主流的**开源**框架，无过度的自定义封装逻辑，易理解上手和方便扩展
+- 项目使用都是最新主流的**开源**框架，无过度自定义封装的逻辑，易理解上手和方便扩展
 
 - 基于Spring Boot 2.4、Spring Cloud 2020 & Alibaba 一站式微服务解决方案快速开发分布式服务
 
@@ -92,12 +92,13 @@ youlai-mall
 | 后端技术 |  版本号                     
 | -------------------- |  -------------------- |                             
 | SpringBoot|2.4.2                    
-| Spring Cloud|2020.0.0
-| Spring Cloud Alibaba|  2.2.4.RELEASE
+| Spring Cloud|2020.0.1
+| Spring Cloud Alibaba|  2.2.5.RELEASE
 | MyBatis-Plus|3.4.0
-| Lombok |1.18.12
-| Knife4j | 2.0.4
-| MinIO | 2.0.4
+| Lombok |1.18.18
+| Hutool |5.5.8
+| Knife4j | 2.0.5
+| MinIO | 7.1.0
 
 | 后台前端 |  版本号 | 微信小程序 |  版本号| APP |  版本号
 |---- |  ---- | ---- | ----  |---- | ----
@@ -110,18 +111,40 @@ youlai-mall
 项目依赖环境（MySQL8、Redis、MinIO、Nacos）默认均使用`有来技术`云环境，项目启动极其方便。
 
 **项目启动步骤:**
-1. **启动本地Nacos服务:**
+
+1. **启动`Nacos`服务**
 
     IDEA下方工具栏点击Terminal终端命令行，执行`cd youlai-registry/nacos/bin`命令切换到Nacos的启动脚本文件夹下，然后执行`startup -m standalone`命令启动Nacos服务；
 
-2. **系统基础服务启动（完整的实现OAuth2统一认证鉴权的流程）:**
+2. **启动平台基础服务**
 
     分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
     启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`下的的AdminApplication类，至此完成整个项目的启动；
 
-3. 如需商城服务，启动对应模块的子模块biz的启动类即可。
+**切换到自己的环境步骤：**
 
-**提示：** 云环境是无条件的提供给大家，但千万不要改动云环境的数据和配置，因为会导致整个项目无法运行，考虑下开发人员和其他小伙伴，手下留情。
+1. **安装环境**
+
+    安装`MySQL8`、`Redis`、`MinIO`，其中`MinIO`按需安装
+    
+2. **创建数据库**
+    
+    - 新建平台数据库，执行项目`document/sql`下的SQL脚本完成数据库创建，基础sql脚本为`youlai.sql`，商城脚本为`mall-*`，商城数据库按需创建
+   
+    - 创建`Nacos`数据库，执行脚本`youlai-registry/nacos/conf/nacos-mysql.sql`完成`Nacos`数据库的初始化
+   
+    
+3. **Nacos配置**
+    
+    - 修改`Nacos`数据源，进入配置`youlai-registry/nacos/conf/application.properties`将数据源修改为自己的环境连接
+    
+    - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`document/nacos/DEFAULT_GROUP.zip`配置，然后分别进入各个微服务配置修改Redis、MySQL、MinIO以及微服务的注册IP
+    
+**提示：** 
+
+1. 如需商城服务，启动对应模块的子模块biz的启动类即可。
+
+2. 云环境是无条件的提供给大家，但千万不要改动云环境的数据和配置，因为会导致整个项目无法运行，考虑下开发人员和其他小伙伴，手下留情。
 
 
 ### 2. 后台前端`youlai-mall-admin`启动 
@@ -138,7 +161,6 @@ youlai-mall
 3. `微信开发者工具`微信扫码登录，开启服务端口，点击工具栏`设置`->`安全设置`->`安全`->`服务端口`选择打开
 4. `Hbuilder X`替换项目AppID成自己的，点击`manifest.json`文件->微信小程序配置
 5. `Hbuilder X`工具栏点击 `运行`->`运行到小程序模拟器`->`微信开发者工具`
-
 
 ## 项目文档
 
