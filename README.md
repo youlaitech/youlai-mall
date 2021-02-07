@@ -34,9 +34,9 @@
 ### 1. 体验 
 **商城管理平台访问地址:** [http://www.youlai.store](https://www.youlai.store/)
  
-【有来小店】微信小程序体验码，扫描后申请体验即可，有问题加我微信：`haoxianrui`
+【有来小店】微信小程序体验码，扫描后申请体验即可
 
-![](https://raw.githubusercontent.com/hxrui/image/main/image/initpintu.jpg)
+![](https://gitee.com/haoxr/image/raw/master/default/%E4%B8%89%E7%A0%81%E5%90%88%E4%B8%80.jpg)
 
 ### 2. 源码
  项目名称 | Github | 码云
@@ -107,22 +107,23 @@ youlai-mall
 
 ### 1. 后台微服务`youlai-mall`启动 
 
-项目搭建依赖环境（MySQL8、Redis、MinIO、Nacos）默认均使用`有来技术团队`提供的云环境，无需任何依赖环境搭建，启动极其简单。
+项目依赖环境（MySQL8、Redis、MinIO、Nacos）默认均使用`有来技术`云环境，项目启动极其简单。
 
-**提示：** 云环境是无条件的提供给大家，但千万不要改动云环境的数据和配置，因为会导致整个项目无法运行，考虑下开发人员和其他小伙伴，手下留情。
-
-**启动步骤:**
+**项目启动步骤:**
 1. 启动本地Nacos服务，IDEA下方工具栏点击Terminal终端命令行，执行`cd youlai-registry/nacos/bin`命令切换到Nacos的启动脚本文件夹下，然后执行`startup -m standalone`命令启动Nacos服务；
 2. 系统基础服务启动（完整的实现OAuth2统一认证鉴权的流程），分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
    启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`下的的AdminApplication类，至此完成整个项目的启动。
 3. 如需商城服务，启动对应模块的子模块biz的启动类即可。
 
+**提示：** 云环境是无条件的提供给大家，但千万不要改动云环境的数据和配置，因为会导致整个项目无法运行，考虑下开发人员和其他小伙伴，手下留情。
+
+
 ### 2. 后台前端`youlai-mall-admin`启动 
 
-1. 本机安装Python和Node.js
+1. 本机安装Python和Node
 2. npm install
 3. npm run dev
-4. 浏览器打开 http://localhost:9527
+4. 访问 http://localhost:9527
 
 
 ### 3. 启动微信小程序
