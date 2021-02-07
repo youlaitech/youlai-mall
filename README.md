@@ -51,13 +51,13 @@
 ### 1. 商城管理平台
 
 #### 1.1 系统管理
-![](https://i.loli.net/2021/02/06/H37t524vcSgaJAN.jpg)
+![](https://gitee.com/haoxr/image/raw/master/default/%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86-%E5%8E%8B%E7%BC%A9.jpg)
 #### 1.2 商品管理
-![](https://i.loli.net/2021/02/06/gpYHPFEw6ceZOay.jpg)
+![](https://gitee.com/haoxr/image/raw/master/default/%E5%95%86%E5%9F%8E%E7%AE%A1%E7%90%86.jpg)
 
 ### 2. 有来小店微信小程序
 
-![](https://i.loli.net/2021/02/06/DGAf84rIWwNFqJE.jpg)
+![](https://gitee.com/haoxr/image/raw/master/default/DGAf84rIWwNFqJE.jpg)
 
 ## 项目结构
 
@@ -107,12 +107,12 @@ youlai-mall
 
 ### 1. 后台微服务`youlai-mall`启动 
 
-项目依赖环境（MySQL8、Redis、MinIO、Nacos）默认均使用`有来技术`云环境，项目启动极其简单。
+项目依赖环境（MySQL8、Redis、MinIO、Nacos）默认均使用`有来技术`云环境，项目启动极其方便。
 
 **项目启动步骤:**
 1. 启动本地Nacos服务，IDEA下方工具栏点击Terminal终端命令行，执行`cd youlai-registry/nacos/bin`命令切换到Nacos的启动脚本文件夹下，然后执行`startup -m standalone`命令启动Nacos服务；
 2. 系统基础服务启动（完整的实现OAuth2统一认证鉴权的流程），分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
-   启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`下的的AdminApplication类，至此完成整个项目的启动。
+   启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`下的的AdminApplication类，至此完成整个项目的启动；
 3. 如需商城服务，启动对应模块的子模块biz的启动类即可。
 
 **提示：** 云环境是无条件的提供给大家，但千万不要改动云环境的数据和配置，因为会导致整个项目无法运行，考虑下开发人员和其他小伙伴，手下留情。
@@ -120,19 +120,23 @@ youlai-mall
 
 ### 2. 后台前端`youlai-mall-admin`启动 
 
-1. 本机安装Python和Node
+1. 本机安装Python和Node环境
 2. npm install
 3. npm run dev
 4. 访问 http://localhost:9527
 
+### 3. 微信小程序`youlai-mall-weapp`启动
 
-### 3. 启动微信小程序
+1. 下载`HBuilder X`和`微信开发者工具`
+2. 微信公众平台申请小程序，获得小程序的AppID
+3. `微信开发者工具`微信扫码登录，开启服务端口，点击工具栏`设置`->`安全设置`->`安全`->`服务端口`选择打开
+4. `Hbuilder X`替换项目AppID成自己的，点击`manifest.json`文件->微信小程序配置
+5. `Hbuilder X`工具栏点击 `运行`->`运行到小程序模拟器`->`微信开发者工具`
 
-请参考 [vue+uniapp商城实战 | 第一篇：【有来小店】微信小程序快速开发接入Spring Cloud OAuth2认证中心完成授权登录](https://www.cnblogs.com/haoxianrui/p/13882310.html)
 
 ## 项目文档
 
-> 微服务
+> 后台微服务
 
 1. [Spring Cloud实战 | 第一篇：Windows搭建Nacos服务 ](https://www.cnblogs.com/haoxianrui/p/13581881.html)
 2. [Spring Cloud实战 | 第二篇：Spring Cloud整合Nacos实现注册中心](https://www.cnblogs.com/haoxianrui/p/13584204.html)
@@ -142,31 +146,31 @@ youlai-mall
 6. [Spring Cloud实战 | 第六篇：Spring Cloud Gateway+Spring Security OAuth2+JWT实现微服务统一认证授权](https://www.cnblogs.com/haoxianrui/p/13719356.html)
 7. [Spring Cloud实战 | 最七篇：Spring Cloud Gateway+Spring Security OAuth2集成统一认证授权平台下实现注销使JWT失效方案](https://www.cnblogs.com/haoxianrui/p/13740264.html)
 8. [Spring Cloud实战 | 最八篇：Spring Cloud +Spring Security OAuth2+ Vue前后端分离模式下无感知刷新实现JWT续期](https://www.cnblogs.com/haoxianrui/p/14022632.html)
-9. [Spring Cloud实战 | 最九篇：Spring Security OAuth2认证服务器统一认证自定义异常处理](https://www.cnblogs.com/haoxianrui/p/14022632.html)
+9. [Spring Cloud实战 | 最九篇：Spring Security OAuth2认证服务器统一认证自定义异常处理](https://www.cnblogs.com/haoxianrui/p/14028366.html)
 10. [Spring Cloud实战 | 第十篇 ：Spring Cloud + Nacos整合Seata 1.4.1最新版本实现微服务架构中的分布式事务，进阶之路必须要迈过的槛](https://www.cnblogs.com/haoxianrui/p/14280184.html)
 
-> 管理前端
+> 后台管理前端
 
-1. [vue-element-admin实战 | 第一篇： 移除mock接入后台，搭建有来商城youlai-mall前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
+1. [vue-element-admin实战 | 第一篇： 移除mock接入微服务接口，搭建SpringCloud+Vue前后端分离管理平台](https://www.cnblogs.com/haoxianrui/p/13624548.html)
 2. [vue-element-admin实战 | 第二篇： 最小改动接入后台实现根据权限动态加载菜单](https://www.cnblogs.com/haoxianrui/p/13676619.html)
 
 > 微信小程序
 
-1. [vue+uniapp商城实战 | 第一篇：【有来小店】微信小程序快速开发接入Spring Cloud OAuth2认证中心完成授权登录](https://www.cnblogs.com/haoxianrui/p/13882310.html)
+1. [vue+uni-app商城实战 | 第一篇：从0到1快速开发一个商城微信小程序，无缝接入Spring Cloud OAuth2认证授权登录](https://www.cnblogs.com/haoxianrui/p/13882310.html)
 
-> 部署篇
+> 应用部署
 
 1. [Docker实战 | 第一篇：Linux 安装 Docker](https://www.cnblogs.com/haoxianrui/p/14067423.html)
 2. [Docker实战 | 第二篇：Docker部署nacos-server:1.4.0](https://www.cnblogs.com/haoxianrui/p/14059009.html)
 3. [Docker实战 | 第三篇：IDEA集成Docker插件实现一键自动打包部署微服务项目，一劳永逸的技术手段值得一试](https://www.cnblogs.com/haoxianrui/p/14088400.html)
-4. [Docker实战 | 第四篇：Docker安装Nginx，实现基于vue-element-admin框架构建的项目线上部署](https://www.cnblogs.com/haoxianrui/p/14091762.html)
+4. [Docker实战 | 第四篇：Docker安装Nginx，实现基于vue-element-admin框架构建的项目线上部署](https://www.cnblogs.com/haoxianrui/p/14091762.html) 
 5. [Docker实战 | 第五篇：Docker启用TLS加密解决暴露2375端口引发的安全漏洞，被黑掉三台云主机的教训总结](https://www.cnblogs.com/haoxianrui/p/14095306.html)
 
 ## 问题
 
-- 如果github拉取失败请移步至码云[https://gitee.com/haoxr](https://gitee.com/youlaiteam),代码是同步的。
+- 如果github拉取失败请移步至码云[https://gitee.com/haoxr](https://gitee.com/haoxr),代码是同步的
 
-- 项目在搭建的过程中如您遇到任何问题，可以联系我（微信号：haoxianrui），如果不能及时回复也可以在github提issue。
+- 项目在搭建的过程中如您遇到任何问题，可加我微信或者微信群，也可在github提issue
 
 - 演示环境禁止修改、删除重要数据，请本地部署后测试
 
