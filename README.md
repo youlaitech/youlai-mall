@@ -166,14 +166,11 @@ youlai-mall
 4. [Docker实战 | 第四篇：Docker安装Nginx，实现基于vue-element-admin框架构建的项目线上部署](https://www.cnblogs.com/haoxianrui/p/14091762.html) 
 5. [Docker实战 | 第五篇：Docker启用TLS加密解决暴露2375端口引发的安全漏洞，被黑掉三台云主机的教训总结](https://www.cnblogs.com/haoxianrui/p/14095306.html)
 
-## 问题
+## 其他说明
 
 - 如果github拉取失败请移步至码云[https://gitee.com/haoxr](https://gitee.com/haoxr),代码是同步的
 
 - 项目在搭建的过程中如您遇到任何问题，可加我微信或者微信群，也可在github提issue
 
 - 演示环境禁止修改、删除重要数据，请本地部署后测试
-
-
-
 
