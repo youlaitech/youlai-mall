@@ -108,9 +108,11 @@ youlai-mall
 
 ### 1. 后台微服务`youlai-mall`启动 
 
+#### 1.1 云环境项目启动
+
 项目依赖环境（MySQL8、Redis、MinIO、Nacos）默认均使用`有来技术`云环境，项目启动极其方便。
 
-**项目启动步骤:**
+**云环境项目启动步骤:**
 
 1. **启动`Nacos`服务**
 
@@ -121,7 +123,16 @@ youlai-mall
     分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
     启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`下的的AdminApplication类，至此完成整个项目的启动；
 
-**切换到自己的环境步骤：**
+3. 至此后台服务启动完毕，如需商城服务，启动对应模块的子模块biz的启动类即可。
+
+**注：**云环境是无条件的提供给大家，但千万不要改动云环境的数据和配置，因为改动会导致整个项目无法运行，考虑下开发人员和其他小伙伴，手下留情。
+
+
+#### 1.2 本地项目启动
+
+云环境不能改动数据和配置，如果需要修改，建议本地环境搭建后启动。
+
+**本地环境项目启动步骤**
 
 1. **安装环境**
 
@@ -132,20 +143,14 @@ youlai-mall
     - 新建平台数据库，执行项目`document/sql`下的SQL脚本完成数据库创建，基础sql脚本为`youlai.sql`，商城脚本为`mall-*`，商城数据库按需创建
    
     - 创建`Nacos`数据库，执行脚本`youlai-registry/nacos/conf/nacos-mysql.sql`完成`Nacos`数据库的初始化
-   
     
 3. **Nacos配置**
     
     - 修改`Nacos`数据源，进入配置`youlai-registry/nacos/conf/application.properties`将数据源修改为自己的环境连接
     
     - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`document/nacos/DEFAULT_GROUP.zip`配置，然后分别进入各个微服务配置修改Redis、MySQL、MinIO以及微服务的注册IP
-    
-**提示：** 
-
-1. 如需商城服务，启动对应模块的子模块biz的启动类即可。
-
-2. 云环境是无条件的提供给大家，但千万不要改动云环境的数据和配置，因为会导致整个项目无法运行，考虑下开发人员和其他小伙伴，手下留情。
-
+   
+4. 至此环境配置准备完毕，接下来启动服务即可。
 
 ### 2. 后台前端`youlai-mall-admin`启动 
 
