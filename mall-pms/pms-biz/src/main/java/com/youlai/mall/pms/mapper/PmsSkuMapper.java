@@ -5,7 +5,7 @@ import com.youlai.mall.pms.pojo.PmsSku;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.mapstruct.Mapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -25,10 +25,18 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
     List<SkuInfoVO> getSkuInfoByIds(@Param("skuIds") List<String> skuIds);
 
     /**
-     * 商品锁定库存
+     * 锁定库存
      * @param skuId 商品id
-     * @param number 要锁定的库存
+     * @param number 涉及商品数量
      * @return
      */
     Long lockStock(@Param("skuId") Long skuId, @Param("number") Integer number);
+
+    /**
+     * 释放库存
+     * @param skuId 商品id
+     * @param number 涉及商品数量
+     * @return
+     */
+    Long releaseStock(@Param("skuId") Long skuId, @Param("number") Integer number);
 }

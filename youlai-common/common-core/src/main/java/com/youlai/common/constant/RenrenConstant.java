@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.youlai.common.core.constant;
+package com.youlai.common.constant;
 
 /**
  * 常量

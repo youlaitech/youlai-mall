@@ -12,10 +12,10 @@ import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.admin.pojo.vo.UserVO;
 import com.youlai.admin.service.*;
-import com.youlai.common.core.base.BaseController;
-import com.youlai.common.core.constant.GlobalConstants;
-import com.youlai.common.core.result.Result;
-import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.base.BaseController;
+import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.WebUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -112,7 +112,7 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation(value = "删除用户", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysUserService.removeByIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));

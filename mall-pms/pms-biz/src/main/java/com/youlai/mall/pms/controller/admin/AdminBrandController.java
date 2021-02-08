@@ -4,9 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.constant.GlobalConstants;
-import com.youlai.common.core.enums.QueryModeEnum;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.enums.QueryModeEnum;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import com.youlai.mall.pms.pojo.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = "品牌接口")
@@ -40,15 +42,17 @@ public class AdminBrandController {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
         LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<>();
         switch (queryModeEnum) {
+            case PAGE:
+                queryWrapper.like(StrUtil.isNotBlank(name), PmsBrand::getName, name);
+                Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
+                return Result.success(result.getRecords(), result.getTotal());
             case LIST:
                 queryWrapper.eq(PmsBrand::getStatus, GlobalConstants.STATUS_NORMAL_VALUE)
                         .select(PmsBrand::getId, PmsBrand::getName);
                 List<PmsBrand> list = iPmsBrandService.list(queryWrapper);
                 return Result.success(list);
-            default: // PAGE
-                queryWrapper.like(StrUtil.isNotBlank(name), PmsBrand::getName, name);
-                Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
-                return Result.success(result.getRecords(), result.getTotal());
+            default:
+                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
     }
 
@@ -82,10 +86,10 @@ public class AdminBrandController {
     }
 
     @ApiOperation(value = "删除品牌", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
-    @DeleteMapping
-    public Result delete(@RequestParam("ids") List<Long> ids) {
-        boolean status = iPmsBrandService.removeByIds(ids);
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, dataType = "String")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable("ids") String ids) {
+        boolean status = iPmsBrandService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 

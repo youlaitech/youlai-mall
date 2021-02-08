@@ -31,8 +31,21 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         for (SkuStockVO item : skuStockVO.getItems()) {
             Long result = baseMapper.lockStock(item.getSkuId(), item.getNumber());
             if (result == 0) {
-                log.info("商品库存锁定失败，商品id:{}|锁定数量:{}", item.getSkuId(), item.getNumber());
-                throw new BizException("商品库存锁定锁定失败，商品id:" + item.getSkuId() + "，锁定数量:" + item.getNumber());
+                log.info("商品库存锁定失败，商品id:{}，数量:{}", item.getSkuId(), item.getNumber());
+                throw new BizException("商品库存锁定失败，商品id:" + item.getSkuId() + "，数量:" + item.getNumber());
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean releaseStock(WareSkuStockVO skuStockVO) {
+        log.info("订单关闭释放商品库存，商品信息：{}", skuStockVO.getItems());
+        for (SkuStockVO item : skuStockVO.getItems()) {
+            Long result = baseMapper.releaseStock(item.getSkuId(), item.getNumber());
+            if (result == 0) {
+                log.info("商品库存释放失败，商品id:{}，数量:{}", item.getSkuId(), item.getNumber());
+                throw new BizException("商品库存释放失败，商品id:" + item.getSkuId() + "，数量:" + item.getNumber());
             }
         }
         return true;

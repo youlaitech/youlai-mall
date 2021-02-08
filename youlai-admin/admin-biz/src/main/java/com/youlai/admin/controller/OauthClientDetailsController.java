@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.OauthClientDetails;
 import com.youlai.admin.service.IOauthClientDetailsService;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = "客户端接口")
@@ -73,10 +74,10 @@ public class OauthClientDetailsController {
     }
 
     @ApiOperation(value = "删除客户端", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids[]", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "Long")
-    @DeleteMapping
-    public Result delete(@RequestParam("ids") List<String> ids) {
-        boolean status = iOauthClientDetailsService.removeByIds(ids);
+    @ApiImplicitParam(name = "ids", value = "id集合,以,拼接字符串", required = true, paramType = "query", dataType = "String")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable("ids") String ids) {
+        boolean status = iOauthClientDetailsService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 }

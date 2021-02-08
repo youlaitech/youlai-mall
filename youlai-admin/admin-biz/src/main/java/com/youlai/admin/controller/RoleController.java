@@ -10,10 +10,10 @@ import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.admin.service.ISysRoleService;
-import com.youlai.common.core.constant.GlobalConstants;
-import com.youlai.common.core.enums.QueryModeEnum;
-import com.youlai.common.core.result.Result;
-import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.enums.QueryModeEnum;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -104,7 +104,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "删除角色", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean result = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()

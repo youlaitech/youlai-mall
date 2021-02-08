@@ -9,6 +9,12 @@
           and stock >= stock_locked + #{number}
     </update>
 
+    <update id="releaseStock">
+        update pms_sku
+        set stock_locked = stock_locked - #{number}
+        where id = #{skuId}
+    </update>
+
 
     <!--  批量获取商品详情  -->
     <select id="getSkuInfoByIds" resultType="com.youlai.mall.pms.pojo.vo.SkuInfoVO">

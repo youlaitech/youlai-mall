@@ -6,7 +6,7 @@ package com.youlai.mall.oms.config.rabbitmq;
  * @email huawei_code@163.com
  * @date 2021/1/17
  */
-public class RabbitMqConstants {
+public class OmsRabbitConstants {
 
     public static final String ORDER_EVENT_EXCHANGE = "order_event_exchange";
 

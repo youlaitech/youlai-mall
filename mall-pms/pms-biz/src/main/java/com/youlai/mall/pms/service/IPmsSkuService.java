@@ -22,4 +22,11 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @return 库存锁定结果
      */
     boolean lockStock(WareSkuStockVO skuStockVO);
+
+    /**
+     * 订单关闭释放库存
+     * @param skuStockVO 商品库存实体类
+     * @return 释放库存结果
+     */
+    boolean releaseStock(WareSkuStockVO skuStockVO);
 }

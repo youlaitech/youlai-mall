@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.core.constant.GlobalConstants;
-import com.youlai.common.core.enums.QueryModeEnum;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.enums.QueryModeEnum;
+import com.youlai.common.result.Result;
 import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.service.IUmsUserService;
 import io.swagger.annotations.Api;
@@ -110,7 +110,7 @@ public class AdminUserController {
     }
 
     @ApiOperation(value = "删除会员【逻辑删除】", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", allowMultiple = true, dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iUmsUserService.update(new LambdaUpdateWrapper<UmsUser>()

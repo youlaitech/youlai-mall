@@ -2,7 +2,7 @@ package com.youlai.auth.domain;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.admin.pojo.dto.UserDTO;
-import com.youlai.common.core.constant.AuthConstants;
+import com.youlai.common.constant.AuthConstants;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;

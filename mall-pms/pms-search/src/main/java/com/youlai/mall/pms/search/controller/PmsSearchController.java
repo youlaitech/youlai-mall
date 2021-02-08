@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.search.controller;
 
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.pms.search.service.IPmsSearchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

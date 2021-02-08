@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.controller.app;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
@@ -67,6 +67,19 @@ public class AppSkuController {
 
         try {
             iPmsSkuService.lockStock(skuStockVO);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.failed();
+        }
+    }
+
+    @ApiOperation(value = "订单下单释放库存", httpMethod = "POST")
+    @ApiImplicitParam(name = "skuStockVO", value = "订单库存信息", required = true, paramType = "body", dataType = "WareSkuStockVO")
+    @PostMapping("/stock/release")
+    public Result<Boolean> releaseStock(@RequestBody WareSkuStockVO skuStockVO) {
+
+        try {
+            iPmsSkuService.releaseStock(skuStockVO);
             return Result.success();
         } catch (Exception e) {
             return Result.failed();

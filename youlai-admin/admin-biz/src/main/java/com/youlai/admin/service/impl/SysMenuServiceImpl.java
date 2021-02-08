@@ -11,7 +11,7 @@ import com.youlai.admin.pojo.vo.RouterVO;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.vo.TreeVO;
 import com.youlai.admin.service.ISysMenuService;
-import com.youlai.common.core.constant.GlobalConstants;
+import com.youlai.common.constant.GlobalConstants;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

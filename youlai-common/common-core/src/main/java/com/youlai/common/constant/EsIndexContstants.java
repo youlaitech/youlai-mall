@@ -1,4 +1,4 @@
-package com.youlai.common.core.constant;
+package com.youlai.common.constant;
 
 public interface EsIndexContstants {
 

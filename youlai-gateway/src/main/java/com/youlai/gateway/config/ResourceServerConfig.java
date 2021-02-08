@@ -1,21 +1,14 @@
 package com.youlai.gateway.config;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.json.JSONUtil;
-import com.youlai.common.core.constant.AuthConstants;
-import com.youlai.common.core.result.Result;
-import com.youlai.common.core.result.ResultCode;
+import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.result.ResultCode;
 import com.youlai.gateway.security.AuthorizationManager;
 import com.youlai.gateway.util.WebUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.io.buffer.DataBufferUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -27,8 +20,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
 import reactor.core.publisher.Mono;
-
-import java.nio.charset.Charset;
 
 /**
  * 资源服务器配置
@@ -84,8 +75,6 @@ public class ResourceServerConfig {
             return mono;
         };
     }
-
-
 
     /**
      * @return

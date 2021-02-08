@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.controller.app;
 
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.mall.oms.pojo.entity.OrderSettingEntity;
 import com.youlai.mall.oms.service.OrderSettingService;

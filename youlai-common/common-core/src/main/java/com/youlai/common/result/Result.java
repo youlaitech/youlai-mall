@@ -1,4 +1,4 @@
-package com.youlai.common.core.result;
+package com.youlai.common.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

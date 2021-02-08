@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.api;
 
-import com.youlai.common.core.result.Result;
+import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
 import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
@@ -37,12 +37,20 @@ public interface ProductFeignService {
     Result updateStock(@PathVariable Long id, @RequestParam Integer num);
 
     /**
-     * 订单下单锁定库存
+     * 锁定库存
      *
      * @param skuStockVO
      * @return
      */
     @PostMapping("/api.app/v1/sku/stock/lock")
     Result lockStock(@RequestBody WareSkuStockVO skuStockVO);
+
+    /**
+     * 释放库存
+     * @param skuStockVO
+     * @return
+     */
+    @PostMapping("/api.app/v1/sku/stock/release")
+    Result<Boolean> releaseStock(@RequestBody WareSkuStockVO skuStockVO);
 
 }

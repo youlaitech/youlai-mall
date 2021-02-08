@@ -3,7 +3,7 @@ package com.youlai.mall.pms.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.mall.pms.pojo.PmsSpuSpecValue;
 import org.apache.ibatis.annotations.Select;
-import org.mapstruct.Mapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;

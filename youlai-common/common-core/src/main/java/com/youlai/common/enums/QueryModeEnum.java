@@ -1,4 +1,4 @@
-package com.youlai.common.core.enums;
+package com.youlai.common.enums;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +25,7 @@ public enum QueryModeEnum {
                 return value;
             }
         }
-        return null;
+        return PAGE;
     }
 
 }
