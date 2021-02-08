@@ -12,3 +12,4 @@ target
 
 logs
 !**/nacos/target
+.DS_Store
