@@ -5,22 +5,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://www.youlai.store:3306/mall-oms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    url: jdbc:mysql://localhost:3307/mall-oms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
-    password: 123456
-  # rabbitmq相关配置
-  rabbitmq:
-    host: b.youlai.store
-    port: 5672
-    username: guest
-    password: guest
-    # 开启returnCallBack配置
-    publisher-returns: true
-    template:
-      mandatory: true
-    # 开启confirmCallBack配置
-    publisher-confirm-type: correlated
-
+    password: 5601564a
 mybatis-plus:
   configuration:
     # 驼峰下划线转换

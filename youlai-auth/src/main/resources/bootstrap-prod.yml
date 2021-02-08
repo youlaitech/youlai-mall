@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://c.youlai.store:8848
+        server-addr: http://localhost:8848
       config:
         # docker启动nacos-server需要配置
         server-addr: ${spring.cloud.nacos.discovery.server-addr}

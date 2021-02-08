@@ -29,13 +29,13 @@ seata:
   registry:
     type: nacos
     nacos:
-      server-addr: c.youlai.store:8848
+      server-addr: localhost:8848
       namespace: seata_namespace_id
       group: SEATA_GROUP
   config:
     type: nacos
     nacos:
-      server-addr: c.youlai.store:8848
+      server-addr: localhost:8848
       namespace: seata_namespace_id
       group: SEATA_GROUP
 
