@@ -146,7 +146,7 @@ youlai-mall
     
     - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`document/nacos/DEFAULT_GROUP.zip`配置，然后分别进入各个微服务配置修改Redis、MySQL、MinIO以及微服务的注册IP
    
-4. 至此环境配置准备完毕，接下来启动服务即可。
+4. 至此环境配置准备完毕，接下来按照云环境`启动平台基础服务`步骤启动服务即可。
 
 ### 2. 后台前端启动 
 
