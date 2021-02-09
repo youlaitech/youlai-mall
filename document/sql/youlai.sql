@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 05/02/2021 00:08:19
+ Date: 08/02/2021 10:39:44
 */
 
 SET NAMES utf8mb4;
@@ -39,8 +39,9 @@ CREATE TABLE `oauth_client_details`  (
 -- ----------------------------
 -- Records of oauth_client_details
 -- ----------------------------
-INSERT INTO `oauth_client_details` VALUES ('youlai-admin', NULL, '123456', 'all', 'password,client_credentials,refresh_token', NULL, NULL, 3600, 7200, NULL, NULL);
-INSERT INTO `oauth_client_details` VALUES ('youlai-mall-weapp', NULL, '123456', 'all', 'authorization_code,password,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('test-admin', '', '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', 'all', 'password,refresh_token,sms_code,client_credentials,authorization_code,implicit', 'http://www.baidu.com', NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('youlai-admin', '求别改数据', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', '', NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('youlai-mall-weapp', '求别改数据', '123456', 'all', 'authorization_code,password,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -157,26 +158,26 @@ CREATE TABLE `sys_menu`  (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 0, '/admin', 'Layout', '', 'build', 1, 1, '2020-09-23 09:12:21', '2021-02-01 18:35:11');
-INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 0, 'user', 'admin/user/index', '', 'component', 1, 1, NULL, '2021-02-01 19:04:28');
+INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 0, '/admin', 'Layout', '', 'table', 1, 1, '2020-09-23 09:12:21', '2021-02-06 15:04:07');
+INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 0, 'user', 'admin/user/index', '', 'user', 1, 1, NULL, '2021-02-06 14:52:56');
 INSERT INTO `sys_menu` VALUES (4, '菜单管理', 1, 0, 'menu', 'admin/menu/index', NULL, 'tree-table', 8, 1, '2020-09-23 09:12:21', '2021-02-02 12:50:30');
 INSERT INTO `sys_menu` VALUES (5, '字典管理', 1, 0, 'dict', 'admin/dict/index', NULL, 'education', 10, 1, '2020-09-23 09:12:21', '2021-02-01 19:06:31');
 INSERT INTO `sys_menu` VALUES (6, '部门管理', 1, 0, 'dept', 'admin/dept/index', NULL, 'tree', 1, 1, '2020-09-23 09:12:21', '2021-02-01 18:40:25');
 INSERT INTO `sys_menu` VALUES (8, '客户端管理', 1, 0, 'client', 'admin/client/index', NULL, 'tab', 11, 1, '2020-10-17 08:04:08', '2021-02-01 19:06:41');
-INSERT INTO `sys_menu` VALUES (9, '营销管理', 0, 0, '/sms', 'Layout', '', 'component', 2, 1, '2020-10-24 15:24:04', '2021-02-01 19:26:14');
+INSERT INTO `sys_menu` VALUES (9, '营销管理', 0, 0, '/sms', 'Layout', '', 'number', 3, 1, '2020-10-24 15:24:04', '2021-02-06 14:59:06');
 INSERT INTO `sys_menu` VALUES (10, '广告管理', 9, 0, 'advert', 'sms/advert/index', NULL, 'documentation', 1, 1, '2020-10-24 15:25:15', '2021-02-01 19:26:21');
-INSERT INTO `sys_menu` VALUES (11, '商品管理', 0, 0, '/pms', 'Layout', NULL, 'list', 2, 1, '2020-10-31 10:44:58', '2021-02-02 14:14:23');
+INSERT INTO `sys_menu` VALUES (11, '商品管理', 0, 0, '/pms', 'Layout', NULL, 'phone', 2, 1, '2020-10-31 10:44:58', '2021-02-06 14:56:44');
 INSERT INTO `sys_menu` VALUES (12, '商品列表', 11, 0, 'product', 'pms/product/index', NULL, 'component', 1, 1, '2020-11-06 11:54:37', '2021-02-01 19:22:17');
-INSERT INTO `sys_menu` VALUES (13, '订单管理', 0, 0, '/oms', 'Layout', NULL, 'list', 3, 1, '2020-10-31 10:49:46', '2021-02-01 19:26:01');
+INSERT INTO `sys_menu` VALUES (13, '订单管理', 0, 0, '/oms', 'Layout', NULL, 'shopping', 3, 1, '2020-10-31 10:49:46', '2021-02-06 14:57:03');
 INSERT INTO `sys_menu` VALUES (14, '订单列表', 13, 0, 'oms/order', NULL, NULL, 'component', 3, 1, '2020-10-31 10:50:23', '2020-10-31 10:50:38');
-INSERT INTO `sys_menu` VALUES (15, '会员管理', 0, 0, '/ums', 'Layout', NULL, 'list', 4, 1, '2020-10-31 10:51:07', '2021-02-01 20:19:34');
+INSERT INTO `sys_menu` VALUES (15, '会员管理', 0, 0, '/ums', 'Layout', NULL, 'user', 4, 1, '2020-10-31 10:51:07', '2021-02-06 14:57:13');
 INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 0, 'user', 'ums/user/index', NULL, 'peoples', 1, 1, '2020-10-31 10:51:43', '2021-02-01 20:18:49');
 INSERT INTO `sys_menu` VALUES (17, '品牌管理', 11, 0, 'brand', 'pms/brand/index', NULL, 'component', 4, 1, '2020-09-23 09:12:21', '2021-02-01 19:25:06');
 INSERT INTO `sys_menu` VALUES (18, '类目管理', 11, 0, 'category', 'pms/category/index', NULL, 'component', 3, 1, '2020-09-23 09:12:21', '2021-02-01 19:24:38');
 INSERT INTO `sys_menu` VALUES (19, '商品详情', 11, 0, 'product_detail', 'pms/product/detail', NULL, 'component', 2, 1, '2020-11-06 13:16:26', '2021-02-01 19:23:26');
-INSERT INTO `sys_menu` VALUES (22, '商品上架', 11, 0, 'product_add', '/pms/product/detail', '', 'component', 2, 1, NULL, '2021-02-01 19:24:19');
-INSERT INTO `sys_menu` VALUES (23, '角色管理', 1, 0, 'role', 'admin/role/index', '', 'example', 2, 1, NULL, '2021-02-01 19:04:48');
-INSERT INTO `sys_menu` VALUES (25, '实验室', 0, 0, '/laboratory', 'Layout', '', 'component', 9, 1, NULL, '2021-02-01 19:27:11');
+INSERT INTO `sys_menu` VALUES (22, '商品上架', 11, 0, 'product_add', 'pms/product/detail', '', 'component', 2, 1, NULL, '2021-02-01 19:24:19');
+INSERT INTO `sys_menu` VALUES (23, '角色管理', 1, 0, 'role', 'admin/role/index', '', 'peoples', 2, 1, NULL, '2021-02-06 14:53:49');
+INSERT INTO `sys_menu` VALUES (25, '实验室', 0, 0, '/laboratory', 'Layout', '', 'build', 9, 1, NULL, '2021-02-06 14:57:42');
 INSERT INTO `sys_menu` VALUES (26, 'Seata分布式事务', 25, 0, 'seata', 'laboratory/seata', '', 'component', 1, 1, NULL, '2021-02-01 19:27:20');
 
 -- ----------------------------
@@ -186,30 +187,33 @@ DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限名称',
-  `permission` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识',
+  `perm` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识',
+  `method` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `type` tinyint(0) NULL DEFAULT NULL COMMENT '权限类型 1-路由权限 2-按钮权限',
   `menu_id` bigint(0) NULL DEFAULT NULL,
   `gmt_create` datetime(0) NULL DEFAULT NULL,
   `gmt_modified` datetime(0) NULL DEFAULT NULL,
   `perms` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识',
+  `module_id` bigint(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id`(`id`, `name`) USING BTREE,
   INDEX `id_2`(`id`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
-INSERT INTO `sys_permission` VALUES (1, '系统管理', '/youlai-admin/**', 1, 1, NULL, NULL, '/youlai-admin/**');
-INSERT INTO `sys_permission` VALUES (9, '营销管理', '/mall-sms/**', 1, 9, '2020-10-24 15:29:01', '2020-10-24 15:29:09', '/mall-sms/**');
-INSERT INTO `sys_permission` VALUES (12, '订单管理', '/mall-oms/**', 1, 13, '2020-10-31 10:40:35', '2020-10-31 10:40:35', '/mall-oms/**');
-INSERT INTO `sys_permission` VALUES (13, '会员管理', '/mall-ums/**', 1, 15, '2020-10-31 10:41:08', '2020-10-31 10:41:08', '/mall-ums/**');
-INSERT INTO `sys_permission` VALUES (14, '商品管理', '/mall-pms/**', 1, 11, '2020-10-31 10:41:37', '2020-10-31 10:41:37', '/mall-pms/**');
-INSERT INTO `sys_permission` VALUES (18, '用户服务', '/youlai-admin/admin.api/v1/users', 1, 2, '2021-02-02 14:16:07', '2021-02-04 16:51:07', '/youlai-admin/api.admin/v1/users');
-INSERT INTO `sys_permission` VALUES (19, '新增', 'system:user:add', 2, 2, '2021-02-02 14:16:46', '2021-02-03 00:20:37', 'system:user:add');
-INSERT INTO `sys_permission` VALUES (21, '修改', 'system:user:edit', 2, 2, '2021-02-02 14:19:45', '2021-02-03 00:20:32', 'system:user:edit');
-INSERT INTO `sys_permission` VALUES (22, '删除', 'system:user:delete', 2, 2, '2021-02-02 14:20:12', '2021-02-03 00:20:27', 'system:user:delete');
-INSERT INTO `sys_permission` VALUES (23, '查询', 'system:user:query', 2, 2, '2021-02-02 14:20:42', '2021-02-03 00:20:21', 'system:user:query');
+INSERT INTO `sys_permission` VALUES (1, '系统管理', '/youlai-admin/**', '*', 1, 1, NULL, '2021-02-05 19:58:46', '/youlai-admin/**', 1);
+INSERT INTO `sys_permission` VALUES (9, '营销管理', '/mall-sms/**', '*', 1, 9, '2020-10-24 15:29:01', '2021-02-05 19:59:09', '/mall-sms/**', 9);
+INSERT INTO `sys_permission` VALUES (12, '订单管理', '/mall-oms/**', '*', 1, 13, '2020-10-31 10:40:35', '2021-02-05 19:59:17', '/mall-oms/**', 13);
+INSERT INTO `sys_permission` VALUES (13, '会员管理', '/mall-ums/**', '*', 1, 15, '2020-10-31 10:41:08', '2021-02-05 19:59:23', '/mall-ums/**', 15);
+INSERT INTO `sys_permission` VALUES (14, '商品管理', '/mall-pms/**', '*', 1, 11, '2020-10-31 10:41:37', '2021-02-05 19:59:01', '/mall-pms/**', 11);
+INSERT INTO `sys_permission` VALUES (18, '用户服务', '/youlai-admin/api.admin/v1/users/**', '*', 1, 2, '2021-02-02 14:16:07', '2021-02-05 19:55:05', '/youlai-admin/api.admin/v1/users', 2);
+INSERT INTO `sys_permission` VALUES (19, '新增', 'system:user:add', NULL, 2, 2, '2021-02-02 14:16:46', '2021-02-03 00:20:37', 'system:user:add', 2);
+INSERT INTO `sys_permission` VALUES (21, '修改', 'system:user:edit', NULL, 2, 2, '2021-02-02 14:19:45', '2021-02-03 00:20:32', 'system:user:edit', 2);
+INSERT INTO `sys_permission` VALUES (22, '删除', 'system:user:delete', NULL, 2, 2, '2021-02-02 14:20:12', '2021-02-03 00:20:27', 'system:user:delete', 2);
+INSERT INTO `sys_permission` VALUES (23, '查询', 'system:user:query', NULL, 2, 2, '2021-02-02 14:20:42', '2021-02-03 00:20:21', 'system:user:query', 2);
+INSERT INTO `sys_permission` VALUES (26, '重置密码', 'system:user:reset_password', NULL, 2, 2, '2021-02-05 14:31:53', '2021-02-05 14:33:27', 'system:user:reset_password', 2);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -248,29 +252,6 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 INSERT INTO `sys_role_menu` VALUES (3, 2);
 INSERT INTO `sys_role_menu` VALUES (3, 9);
-INSERT INTO `sys_role_menu` VALUES (1, 1);
-INSERT INTO `sys_role_menu` VALUES (1, 6);
-INSERT INTO `sys_role_menu` VALUES (1, 23);
-INSERT INTO `sys_role_menu` VALUES (1, 2);
-INSERT INTO `sys_role_menu` VALUES (1, 4);
-INSERT INTO `sys_role_menu` VALUES (1, 7);
-INSERT INTO `sys_role_menu` VALUES (1, 28);
-INSERT INTO `sys_role_menu` VALUES (1, 5);
-INSERT INTO `sys_role_menu` VALUES (1, 8);
-INSERT INTO `sys_role_menu` VALUES (1, 11);
-INSERT INTO `sys_role_menu` VALUES (1, 12);
-INSERT INTO `sys_role_menu` VALUES (1, 19);
-INSERT INTO `sys_role_menu` VALUES (1, 22);
-INSERT INTO `sys_role_menu` VALUES (1, 18);
-INSERT INTO `sys_role_menu` VALUES (1, 17);
-INSERT INTO `sys_role_menu` VALUES (1, 9);
-INSERT INTO `sys_role_menu` VALUES (1, 10);
-INSERT INTO `sys_role_menu` VALUES (1, 13);
-INSERT INTO `sys_role_menu` VALUES (1, 14);
-INSERT INTO `sys_role_menu` VALUES (1, 15);
-INSERT INTO `sys_role_menu` VALUES (1, 16);
-INSERT INTO `sys_role_menu` VALUES (1, 25);
-INSERT INTO `sys_role_menu` VALUES (1, 26);
 INSERT INTO `sys_role_menu` VALUES (2, 1);
 INSERT INTO `sys_role_menu` VALUES (2, 6);
 INSERT INTO `sys_role_menu` VALUES (2, 2);
@@ -282,6 +263,27 @@ INSERT INTO `sys_role_menu` VALUES (2, 18);
 INSERT INTO `sys_role_menu` VALUES (2, 10);
 INSERT INTO `sys_role_menu` VALUES (2, 14);
 INSERT INTO `sys_role_menu` VALUES (2, 16);
+INSERT INTO `sys_role_menu` VALUES (1, 4);
+INSERT INTO `sys_role_menu` VALUES (1, 23);
+INSERT INTO `sys_role_menu` VALUES (1, 1);
+INSERT INTO `sys_role_menu` VALUES (1, 10);
+INSERT INTO `sys_role_menu` VALUES (1, 11);
+INSERT INTO `sys_role_menu` VALUES (1, 12);
+INSERT INTO `sys_role_menu` VALUES (1, 13);
+INSERT INTO `sys_role_menu` VALUES (1, 14);
+INSERT INTO `sys_role_menu` VALUES (1, 15);
+INSERT INTO `sys_role_menu` VALUES (1, 16);
+INSERT INTO `sys_role_menu` VALUES (1, 17);
+INSERT INTO `sys_role_menu` VALUES (1, 18);
+INSERT INTO `sys_role_menu` VALUES (1, 19);
+INSERT INTO `sys_role_menu` VALUES (1, 2);
+INSERT INTO `sys_role_menu` VALUES (1, 22);
+INSERT INTO `sys_role_menu` VALUES (1, 25);
+INSERT INTO `sys_role_menu` VALUES (1, 26);
+INSERT INTO `sys_role_menu` VALUES (1, 5);
+INSERT INTO `sys_role_menu` VALUES (1, 6);
+INSERT INTO `sys_role_menu` VALUES (1, 8);
+INSERT INTO `sys_role_menu` VALUES (1, 9);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -309,6 +311,11 @@ INSERT INTO `sys_role_permission` VALUES (4, 9);
 INSERT INTO `sys_role_permission` VALUES (4, 1);
 INSERT INTO `sys_role_permission` VALUES (1, 22);
 INSERT INTO `sys_role_permission` VALUES (1, 23);
+INSERT INTO `sys_role_permission` VALUES (1, 19);
+INSERT INTO `sys_role_permission` VALUES (1, 21);
+INSERT INTO `sys_role_permission` VALUES (1, 18);
+INSERT INTO `sys_role_permission` VALUES (1, 26);
+INSERT INTO `sys_role_permission` VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -330,12 +337,13 @@ CREATE TABLE `sys_user`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `login_name`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1354604176387670018 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1358268046004256770 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '系统管理员', 1, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', 1, 0, 'https://i.loli.net/2020/05/08/dVvpaQ8NHkWAC2c.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', '2021-01-26 13:56:05');
+INSERT INTO `sys_user` VALUES (1, 'admin', '系统管理员', 1, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', 1, 0, 'https://raw.githubusercontent.com/hxrui/image/main/image/src=http___www.17qq.com_img_qqtouxiang_89498535.jpeg&refer=http___www.17qq.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', '2021-01-26 13:56:05');
+INSERT INTO `sys_user` VALUES (1358268046004256769, 'test', 'test', 0, '$2a$10$3sil4Zi.OUsu7bzIHjWXQOp0i.EfOMburduTf39YCZKviCUL3YM0y', 2, 0, '', NULL, 1, NULL, '2021-02-07 12:15:12', '2021-02-07 12:15:12');
 
 -- ----------------------------
 -- Table structure for sys_user_role
