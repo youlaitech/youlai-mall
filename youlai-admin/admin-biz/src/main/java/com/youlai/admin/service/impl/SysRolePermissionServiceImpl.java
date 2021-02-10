@@ -16,18 +16,25 @@ import java.util.stream.Collectors;
 @Service
 public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermission> implements ISysRolePermissionService {
 
+
     @Override
     public List<Long> listPermissionIds(Long roleId, Integer type) {
-        return this.baseMapper.listPermissionIds(roleId, type);
+        return this.baseMapper.listPermissionIds(null, roleId, type);
+    }
+
+    @Override
+    public List<Long> listPermissionIds(Long moduleId, Long roleId, Integer type) {
+        return this.baseMapper.listPermissionIds(moduleId, roleId, type);
     }
 
     @Override
     public boolean update(RolePermissionDTO rolePermission) {
         boolean result = true;
         List<Long> permissionIds = rolePermission.getPermissionIds();
+        Long moduleId = rolePermission.getModuleId();
         Long roleId = rolePermission.getRoleId();
         Integer type = rolePermission.getType();
-        List<Long> dbPermissionIds = this.baseMapper.listPermissionIds(roleId, type);
+        List<Long> dbPermissionIds = this.baseMapper.listPermissionIds(moduleId, roleId, type);
 
         // 删除数据库存在此次提交不存在的
         if (CollectionUtil.isNotEmpty(dbPermissionIds)) {
