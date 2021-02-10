@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 /**
- * 容器启动完成加载资源权限数据到缓存
+ * 容器启动完成时加载角色权限规则至Redis缓存
  */
 @Component
 @AllArgsConstructor
