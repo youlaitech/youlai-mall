@@ -1,5 +1,6 @@
 package com.youlai.admin.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 @Data
 public class SysUser extends BaseEntity {
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     private String username;
