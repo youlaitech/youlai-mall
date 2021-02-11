@@ -12,9 +12,21 @@ spring:
     database: 0
     host: www.youlai.store
     port: 6379
-    password: 
+    password: 123456
 feign:
   httpclient:
     enabled: false
   okhttp:
     enabled: true
+
+weapp:
+  appid: wx99a151dc43d2637b
+  secret: a09605af8ad29ca5d18ff31c19828f37
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1

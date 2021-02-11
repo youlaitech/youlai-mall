@@ -75,11 +75,10 @@
             <scope>test</scope>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
             <exclusions>
-                &lt;!&ndash; 排除依赖 指定版本和服务器端一致 &ndash;&gt;
                 <exclusion>
                     <groupId>io.seata</groupId>
                     <artifactId>seata-all</artifactId>
@@ -99,7 +98,7 @@
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-spring-boot-starter</artifactId>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
 
@@ -115,7 +114,7 @@
                 <version>1.0.0</version>
                 <executions>
                     <!--执行mvn package,即执行 mvn clean package docker:build-->
-                   <!-- <execution>
+                    <!--<execution>
                         <id>build-image</id>
                         <phase>package</phase>
                         <goals>
@@ -142,7 +141,7 @@
                     <!-- 指定远程 Docker API地址  -->
                     <dockerHost>https://b.youlai.store:2376</dockerHost>
                     <!-- 指定tls证书的目录 -->
-                    <dockerCertPath>C:\certs\docker\b.youlai.store</dockerCertPath>
+                    <dockerCertPath>C:\cert\docker\b.youlai.store</dockerCertPath>
 
                     <!-- 复制 jar包到docker容器指定目录-->
                     <resources>
