@@ -177,6 +177,8 @@ youlai-mall
 8. [Spring Cloud实战 | 最八篇：Spring Cloud +Spring Security OAuth2+ Vue前后端分离模式下无感知刷新实现JWT续期](https://www.cnblogs.com/haoxianrui/p/14022632.html)
 9. [Spring Cloud实战 | 最九篇：Spring Security OAuth2认证服务器统一认证自定义异常处理](https://www.cnblogs.com/haoxianrui/p/14028366.html)
 10. [Spring Cloud实战 | 第十篇 ：Spring Cloud + Nacos整合Seata 1.4.1最新版本实现微服务架构中的分布式事务，进阶之路必须要迈过的槛](https://www.cnblogs.com/haoxianrui/p/14280184.html)
+11. [Spring Cloud实战 | 第十一篇 ：Spring Cloud Gateway网关实现对RESTful接口权限和按钮权限细粒度控制
+    ](https://www.cnblogs.com/haoxianrui/p/14396990.html)
 
 > 后台管理前端
 
