@@ -2,10 +2,6 @@
 # 如果要改配置搭建下本地环境哈，步骤在项目说明README
 # 项目对你有帮助麻烦给个❤，感激不尽！https://github.com/hxrui
 spring:
-  cloud:
-    nacos:
-      discovery:
-        ip: c.youlai.store
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,3 +14,11 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1

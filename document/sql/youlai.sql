@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 08/02/2021 10:39:44
+ Date: 10/02/2021 22:05:51
 */
 
 SET NAMES utf8mb4;
@@ -39,9 +39,10 @@ CREATE TABLE `oauth_client_details`  (
 -- ----------------------------
 -- Records of oauth_client_details
 -- ----------------------------
+INSERT INTO `oauth_client_details` VALUES ('test', NULL, '123456', 'all', 'client_credentials', NULL, NULL, NULL, NULL, NULL, 'false');
 INSERT INTO `oauth_client_details` VALUES ('test-admin', '', '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', 'all', 'password,refresh_token,sms_code,client_credentials,authorization_code,implicit', 'http://www.baidu.com', NULL, 3600, 7200, NULL, 'true');
 INSERT INTO `oauth_client_details` VALUES ('youlai-admin', '求别改数据', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', '', NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `oauth_client_details` VALUES ('youlai-mall-weapp', '求别改数据', '123456', 'all', 'authorization_code,password,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('youlai-mall-weapp', '求别改数据', '123456', 'all', 'authorization_code,password,refresh_token,implicit', NULL, NULL, 3600, 7200, NULL, 'true');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -61,12 +62,12 @@ CREATE TABLE `sys_dept`  (
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (1, '技术部', 0, '0', 1, '张三', '17621590365', '1490493387@qq.com', 1, 0, '2021-01-26 13:52:50', '2021-01-26 13:52:50');
+INSERT INTO `sys_dept` VALUES (1, '技术部', 0, '0', 1, '张三', '17621590365', '1490493387@qq.com', 1, 0, '2021-01-26 13:52:50', '2021-02-10 12:29:32');
 INSERT INTO `sys_dept` VALUES (2, '测试部', 0, '0', 2, '李四', NULL, NULL, 1, 0, '2021-01-26 13:53:46', '2021-01-26 13:53:58');
 
 -- ----------------------------
@@ -83,14 +84,15 @@ CREATE TABLE `sys_dict`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `type_code`(`code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, '性别', 'gender', 1, '性别', '2019-12-06 19:03:32', '2019-12-12 19:03:15');
+INSERT INTO `sys_dict` VALUES (1, '性别', 'gender', 1, '性别', '2019-12-06 19:03:32', '2021-02-08 14:58:01');
 INSERT INTO `sys_dict` VALUES (11, '授权方式', 'grant_type', 1, NULL, '2020-10-17 08:09:50', '2021-01-31 09:48:24');
 INSERT INTO `sys_dict` VALUES (15, '物流渠道', 'logistics_channel', 1, NULL, NULL, NULL);
+INSERT INTO `sys_dict` VALUES (17, '设备类型', 'device', 1, NULL, '2021-02-08 21:07:42', '2021-02-08 21:07:42');
 
 -- ----------------------------
 -- Table structure for sys_dict_item
@@ -108,7 +110,7 @@ CREATE TABLE `sys_dict_item`  (
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_item
@@ -134,6 +136,9 @@ INSERT INTO `sys_dict_item` VALUES (20, '邮政快递包裹', 'YZPY', 'logistics
 INSERT INTO `sys_dict_item` VALUES (21, 'EMS', 'EMS', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
 INSERT INTO `sys_dict_item` VALUES (22, '德邦快递', 'DBL', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
 INSERT INTO `sys_dict_item` VALUES (23, '宅急送', 'ZJS', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (26, '双性', 'middle', 'gender', 1, 1, 0, '', '2021-02-08 16:10:43', '2021-02-08 16:10:43');
+INSERT INTO `sys_dict_item` VALUES (27, '摄像头', 'camera', 'device', 1, 1, 0, '', '2021-02-08 21:08:19', '2021-02-08 21:08:19');
+INSERT INTO `sys_dict_item` VALUES (28, '人像卡口', 'image_screen', 'device', 1, 1, 0, '', '2021-02-08 21:09:29', '2021-02-08 21:09:29');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -153,7 +158,7 @@ CREATE TABLE `sys_menu`  (
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -178,7 +183,7 @@ INSERT INTO `sys_menu` VALUES (19, '商品详情', 11, 0, 'product_detail', 'pms
 INSERT INTO `sys_menu` VALUES (22, '商品上架', 11, 0, 'product_add', 'pms/product/detail', '', 'component', 2, 1, NULL, '2021-02-01 19:24:19');
 INSERT INTO `sys_menu` VALUES (23, '角色管理', 1, 0, 'role', 'admin/role/index', '', 'peoples', 2, 1, NULL, '2021-02-06 14:53:49');
 INSERT INTO `sys_menu` VALUES (25, '实验室', 0, 0, '/laboratory', 'Layout', '', 'build', 9, 1, NULL, '2021-02-06 14:57:42');
-INSERT INTO `sys_menu` VALUES (26, 'Seata分布式事务', 25, 0, 'seata', 'laboratory/seata', '', 'component', 1, 1, NULL, '2021-02-01 19:27:20');
+INSERT INTO `sys_menu` VALUES (26, 'Seata分布式事务', 25, 0, 'seata', 'laboratory/seata', '', 'component', 1, 1, NULL, '2021-02-09 11:20:50');
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -198,22 +203,31 @@ CREATE TABLE `sys_permission`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id`(`id`, `name`) USING BTREE,
   INDEX `id_2`(`id`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
-INSERT INTO `sys_permission` VALUES (1, '系统管理', '/youlai-admin/**', '*', 1, 1, NULL, '2021-02-05 19:58:46', '/youlai-admin/**', 1);
 INSERT INTO `sys_permission` VALUES (9, '营销管理', '/mall-sms/**', '*', 1, 9, '2020-10-24 15:29:01', '2021-02-05 19:59:09', '/mall-sms/**', 9);
 INSERT INTO `sys_permission` VALUES (12, '订单管理', '/mall-oms/**', '*', 1, 13, '2020-10-31 10:40:35', '2021-02-05 19:59:17', '/mall-oms/**', 13);
 INSERT INTO `sys_permission` VALUES (13, '会员管理', '/mall-ums/**', '*', 1, 15, '2020-10-31 10:41:08', '2021-02-05 19:59:23', '/mall-ums/**', 15);
 INSERT INTO `sys_permission` VALUES (14, '商品管理', '/mall-pms/**', '*', 1, 11, '2020-10-31 10:41:37', '2021-02-05 19:59:01', '/mall-pms/**', 11);
-INSERT INTO `sys_permission` VALUES (18, '用户服务', '/youlai-admin/api.admin/v1/users/**', '*', 1, 2, '2021-02-02 14:16:07', '2021-02-05 19:55:05', '/youlai-admin/api.admin/v1/users', 2);
+INSERT INTO `sys_permission` VALUES (18, '查询用户', '/youlai-admin/api.admin/v1/users/**', 'GET', 1, 2, '2021-02-02 14:16:07', '2021-02-10 10:19:28', '/youlai-admin/api.admin/v1/users', 2);
 INSERT INTO `sys_permission` VALUES (19, '新增', 'system:user:add', NULL, 2, 2, '2021-02-02 14:16:46', '2021-02-03 00:20:37', 'system:user:add', 2);
 INSERT INTO `sys_permission` VALUES (21, '修改', 'system:user:edit', NULL, 2, 2, '2021-02-02 14:19:45', '2021-02-03 00:20:32', 'system:user:edit', 2);
 INSERT INTO `sys_permission` VALUES (22, '删除', 'system:user:delete', NULL, 2, 2, '2021-02-02 14:20:12', '2021-02-03 00:20:27', 'system:user:delete', 2);
 INSERT INTO `sys_permission` VALUES (23, '查询', 'system:user:query', NULL, 2, 2, '2021-02-02 14:20:42', '2021-02-03 00:20:21', 'system:user:query', 2);
 INSERT INTO `sys_permission` VALUES (26, '重置密码', 'system:user:reset_password', NULL, 2, 2, '2021-02-05 14:31:53', '2021-02-05 14:33:27', 'system:user:reset_password', 2);
+INSERT INTO `sys_permission` VALUES (29, '添加权限', NULL, NULL, 2, NULL, '2021-02-09 14:03:16', '2021-02-09 14:03:16', NULL, NULL);
+INSERT INTO `sys_permission` VALUES (30, '新增', '/youlai-admin/api.admin/v1/users/**', 'POST', 1, NULL, '2021-02-10 10:20:08', '2021-02-10 10:20:08', NULL, 2);
+INSERT INTO `sys_permission` VALUES (31, '修改用户', '/youlai-admin/api.admin/v1/users/**', 'PUT', 1, NULL, '2021-02-10 10:20:32', '2021-02-10 10:20:32', NULL, 2);
+INSERT INTO `sys_permission` VALUES (32, '删除用户', '/youlai-admin/api.admin/v1/users/**', 'DELETE', 1, NULL, '2021-02-10 10:20:47', '2021-02-10 10:20:47', NULL, 2);
+INSERT INTO `sys_permission` VALUES (34, '菜单所有', '/youlai-admin/api.admin/v1/menus/**', '*', 1, NULL, '2021-02-10 11:00:26', '2021-02-10 11:00:26', NULL, 4);
+INSERT INTO `sys_permission` VALUES (35, '部门所有', '/youlai-admin/api.admin/v1/depts/**', '*', 1, NULL, '2021-02-10 11:02:45', '2021-02-10 11:02:45', NULL, 6);
+INSERT INTO `sys_permission` VALUES (36, '角色所有', '/youlai-admin/api.admin/v1/roles/**', '*', 1, NULL, '2021-02-10 11:03:05', '2021-02-10 11:03:05', NULL, 23);
+INSERT INTO `sys_permission` VALUES (37, '字典所有', '/youlai-admin/api.admin/v1/dicts/**', '*', 1, NULL, '2021-02-10 11:03:49', '2021-02-10 11:03:49', NULL, 5);
+INSERT INTO `sys_permission` VALUES (38, '客户端所有', '/youlai-admin/api.admin/v1/clients/**', '*', 1, NULL, '2021-02-10 11:05:34', '2021-02-10 11:05:34', NULL, 8);
+INSERT INTO `sys_permission` VALUES (39, '权限所有', '/youlai-admin/api.admin/v1/permissions/**', '*', 1, NULL, NULL, NULL, NULL, 4);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -229,7 +243,7 @@ CREATE TABLE `sys_role`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
@@ -284,6 +298,10 @@ INSERT INTO `sys_role_menu` VALUES (1, 5);
 INSERT INTO `sys_role_menu` VALUES (1, 6);
 INSERT INTO `sys_role_menu` VALUES (1, 8);
 INSERT INTO `sys_role_menu` VALUES (1, 9);
+INSERT INTO `sys_role_menu` VALUES (2, 23);
+INSERT INTO `sys_role_menu` VALUES (2, 4);
+INSERT INTO `sys_role_menu` VALUES (2, 5);
+INSERT INTO `sys_role_menu` VALUES (2, 8);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -308,14 +326,34 @@ INSERT INTO `sys_role_permission` VALUES (4, 14);
 INSERT INTO `sys_role_permission` VALUES (4, 13);
 INSERT INTO `sys_role_permission` VALUES (4, 12);
 INSERT INTO `sys_role_permission` VALUES (4, 9);
-INSERT INTO `sys_role_permission` VALUES (4, 1);
 INSERT INTO `sys_role_permission` VALUES (1, 22);
 INSERT INTO `sys_role_permission` VALUES (1, 23);
 INSERT INTO `sys_role_permission` VALUES (1, 19);
 INSERT INTO `sys_role_permission` VALUES (1, 21);
-INSERT INTO `sys_role_permission` VALUES (1, 18);
 INSERT INTO `sys_role_permission` VALUES (1, 26);
-INSERT INTO `sys_role_permission` VALUES (1, 1);
+INSERT INTO `sys_role_permission` VALUES (13, 23);
+INSERT INTO `sys_role_permission` VALUES (1, 18);
+INSERT INTO `sys_role_permission` VALUES (1, 35);
+INSERT INTO `sys_role_permission` VALUES (1, 36);
+INSERT INTO `sys_role_permission` VALUES (1, 34);
+INSERT INTO `sys_role_permission` VALUES (1, 37);
+INSERT INTO `sys_role_permission` VALUES (1, 38);
+INSERT INTO `sys_role_permission` VALUES (1, 39);
+INSERT INTO `sys_role_permission` VALUES (1, 31);
+INSERT INTO `sys_role_permission` VALUES (1, 30);
+INSERT INTO `sys_role_permission` VALUES (1, 32);
+INSERT INTO `sys_role_permission` VALUES (2, 36);
+INSERT INTO `sys_role_permission` VALUES (2, 18);
+INSERT INTO `sys_role_permission` VALUES (2, 35);
+INSERT INTO `sys_role_permission` VALUES (2, 34);
+INSERT INTO `sys_role_permission` VALUES (2, 39);
+INSERT INTO `sys_role_permission` VALUES (2, 37);
+INSERT INTO `sys_role_permission` VALUES (2, 38);
+INSERT INTO `sys_role_permission` VALUES (2, 26);
+INSERT INTO `sys_role_permission` VALUES (2, 19);
+INSERT INTO `sys_role_permission` VALUES (2, 22);
+INSERT INTO `sys_role_permission` VALUES (2, 23);
+INSERT INTO `sys_role_permission` VALUES (2, 21);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -337,13 +375,13 @@ CREATE TABLE `sys_user`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `login_name`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1358268046004256770 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1358627050295459842 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '系统管理员', 1, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', 1, 0, 'https://raw.githubusercontent.com/hxrui/image/main/image/src=http___www.17qq.com_img_qqtouxiang_89498535.jpeg&refer=http___www.17qq.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', '2021-01-26 13:56:05');
-INSERT INTO `sys_user` VALUES (1358268046004256769, 'test', 'test', 0, '$2a$10$3sil4Zi.OUsu7bzIHjWXQOp0i.EfOMburduTf39YCZKviCUL3YM0y', 2, 0, '', NULL, 1, NULL, '2021-02-07 12:15:12', '2021-02-07 12:15:12');
+INSERT INTO `sys_user` VALUES (1, 'root', '超级管理员', 1, '$2a$10$P97nHj/AVu6JBVCxmj5qEOwsI7rUhFeyu.DrK4ER7sebzv8jp7R5S', 0, 0, 'https://gitee.com/haoxr/image/raw/master/default/807b1042ed4c674d97bcf1f2976234d.jpg', '17621590365', 1, '1490493387@qq.com', '2021-02-10 12:27:30', '2021-02-10 12:29:21');
+INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', 1, 0, 'https://gitee.com/haoxr/image/raw/master/default/807b1042ed4c674d97bcf1f2976234d.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', '2021-02-10 12:29:13');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -359,6 +397,7 @@ CREATE TABLE `sys_user_role`  (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1);
-INSERT INTO `sys_user_role` VALUES (1, 2);
+INSERT INTO `sys_user_role` VALUES (2, 2);
+INSERT INTO `sys_user_role` VALUES (1358627050295459842, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

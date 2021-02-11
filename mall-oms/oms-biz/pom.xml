@@ -127,13 +127,13 @@
                 <version>1.0.0</version>
                 <executions>
                     <!--执行mvn package,即执行 mvn clean package docker:build-->
-                    <!-- <execution>
-                         <id>build-image</id>
-                         <phase>package</phase>
-                         <goals>
-                             <goal>build</goal>
-                         </goals>
-                     </execution>-->
+                   <!-- <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>-->
                 </executions>
 
                 <configuration>
@@ -154,7 +154,7 @@
                     <!-- 指定远程 Docker API地址  -->
                     <dockerHost>https://b.youlai.store:2376</dockerHost>
                     <!-- 指定tls证书的目录 -->
-                    <dockerCertPath>C:\certs\docker\b.youlai.store</dockerCertPath>
+                    <dockerCertPath>C:\cert\docker\b.youlai.store</dockerCertPath>
 
                     <!-- 复制 jar包到docker容器指定目录-->
                     <resources>

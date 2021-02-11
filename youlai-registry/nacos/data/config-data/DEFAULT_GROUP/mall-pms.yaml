@@ -14,3 +14,30 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+
+# 分布式事务配置
+seata:
+  enabled: true
+  tx-service-group: mall_tx_group
+  enable-auto-data-source-proxy: true
+  registry:
+    type: nacos
+    nacos:
+      server-addr: c.youlai.store:8848
+      namespace: seata_namespace_id
+      group: SEATA_GROUP
+  config:
+    type: nacos
+    nacos:
+      server-addr: c.youlai.store:8848
+      namespace: seata_namespace_id
+      group: SEATA_GROUP
