@@ -201,7 +201,7 @@ youlai-mall
 
 - 如果github拉取失败请移步至码云[https://gitee.com/haoxr](https://gitee.com/haoxr),代码是同步的
 
-- 项目在搭建的过程中如您遇到任何问题，可加我微信或者微信群，也可在github提issue
+- 项目在搭建的过程中如您遇到任何问题，可加我微信(haoxianrui)或者微信群，也可在github提issue
 
 - 演示环境禁止修改、删除重要数据，请本地部署后测试
 
