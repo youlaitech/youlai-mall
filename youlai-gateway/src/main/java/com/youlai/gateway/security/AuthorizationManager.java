@@ -35,6 +35,8 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
+
+
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         String path = request.getMethodValue() + "_" + request.getURI().getPath();
         PathMatcher pathMatcher = new AntPathMatcher();
@@ -48,11 +50,14 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             return Mono.just(new AuthorizationDecision(true));
         }
 
+
         // token为空拒绝访问
         String token = request.getHeaders().getFirst(AuthConstants.JWT_TOKEN_HEADER);
         if (StrUtil.isBlank(token)) {
             return Mono.just(new AuthorizationDecision(false));
         }
+
+
         // 从缓存取资源权限角色关系列表
         Map<Object, Object> permissionRoles = redisTemplate.opsForHash().entries(AuthConstants.PERMISSION_ROLES_KEY);
         Iterator<Object> iterator = permissionRoles.keySet().iterator();
@@ -64,6 +69,8 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 authorities.addAll(Convert.toList(String.class, permissionRoles.get(pattern)));
             }
         }
+        log.info("require authorities:{}", authorities);
+
         Mono<AuthorizationDecision> authorizationDecisionMono = mono
                 .filter(Authentication::isAuthenticated)
                 .flatMapIterable(Authentication::getAuthorities)
