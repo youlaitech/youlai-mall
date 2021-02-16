@@ -8,6 +8,13 @@ spring:
     url: jdbc:mysql://www.youlai.store:3306/mall-oms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 2000
+       
   # rabbitmq相关配置
   rabbitmq:
     host: www.gorun996.com
@@ -20,6 +27,23 @@ spring:
       mandatory: true
     # 开启confirmCallBack配置
     publisher-confirm-type: correlated
+  redis:
+    password: 123456
+    cluster:
+      nodes:
+        - a.youlai.store:6380
+        - a.youlai.store:6381
+        - b.youlai.store:6380
+        - b.youlai.store:6381
+        - c.youlai.store:6380
+        - c.youlai.store:6381
+    lettuce:
+      pool:
+        max-active: 100 # 连接池最大连接数 (负数不限制)
+        max-idle: 8 # 连接池最大空闲连接数
+        min-idle: 0 # 连接池最小空闲连接数
+        max-wait: -1 # 连接池最大阻塞等待时间
+    timeout: 30000
 
 mybatis-plus:
   configuration:
@@ -27,3 +51,8 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted  # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
