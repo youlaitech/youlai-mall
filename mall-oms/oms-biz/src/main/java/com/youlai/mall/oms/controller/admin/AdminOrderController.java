@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.bo.OrderBO;
+import com.youlai.mall.oms.component.OrderSnGenerator;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.oms.pojo.OmsOrder;
 import io.swagger.annotations.Api;
@@ -113,5 +114,14 @@ public class AdminOrderController {
     public Result orderDetail(@PathVariable Long id) {
         OmsOrder order = iOmsOrderService.getById(id);
         return Result.success(order);
+    }
+
+    private OrderSnGenerator orderSnGenerator;
+
+    @PostMapping("/order_sn")
+    public Result generateOrderSn() {
+        String orderSn = orderSnGenerator.generate();
+        log.info("订单编号:{}",orderSn);
+        return Result.success(orderSn);
     }
 }

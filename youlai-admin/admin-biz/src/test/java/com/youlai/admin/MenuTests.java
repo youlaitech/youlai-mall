@@ -11,7 +11,7 @@ import java.util.List;
 
 @SpringBootTest
 @Slf4j
-public class AdminApplicationTests {
+public class MenuTests {
 
     @Autowired
     private ISysMenuService iSysMenuService;

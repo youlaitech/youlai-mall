@@ -35,7 +35,6 @@
             <version>${youlai.version}</version>
         </dependency>
 
-        <!-- nacos 依赖-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
