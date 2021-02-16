@@ -44,6 +44,7 @@
         <weixin-java-miniapp.version>4.0.4.B</weixin-java-miniapp.version>
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
         <seata.version>1.4.1</seata.version>
+        <commons-pool2-version>2.9.0</commons-pool2-version>
     </properties>
 
     <dependencies>
@@ -58,7 +59,6 @@
             <version>${hutool.version}</version>
         </dependency>
     </dependencies>
-
 
     <dependencyManagement>
         <dependencies>
@@ -110,7 +110,6 @@
                 <version>${hibernate-validator.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>io.seata</groupId>
                 <artifactId>seata-all</artifactId>
@@ -123,6 +122,11 @@
                 <version>${seata.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2-version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
