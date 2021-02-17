@@ -26,9 +26,7 @@ public class BusinessNoGenerator {
      */
     public String generate(String businessCode, Integer digit) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-       // String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
-
-        String date="20210216";
+        String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
         String key = RedisKeyConstants.BUSINESS_NO_PREFIX + BusinessTypeEnum.getValue(businessCode).toString().toLowerCase() + ":" + date;
         Long increment = redisTemplate.opsForValue().increment(key);
         return date + businessCode + String.format("%0" + digit + "d", increment);
