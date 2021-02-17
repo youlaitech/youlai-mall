@@ -3,9 +3,10 @@ package com.youlai.mall.oms.controller.admin;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.enums.BusinessTypeEnum;
+import com.youlai.common.redis.component.BusinessNoGenerator;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.bo.OrderBO;
-import com.youlai.mall.oms.component.OrderSnGenerator;
 import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.oms.pojo.OmsOrder;
 import io.swagger.annotations.Api;
@@ -116,12 +117,12 @@ public class AdminOrderController {
         return Result.success(order);
     }
 
-    private OrderSnGenerator orderSnGenerator;
+    private BusinessNoGenerator businessNoGenerator;
 
     @PostMapping("/order_sn")
     public Result generateOrderSn() {
-        String orderSn = orderSnGenerator.generate();
-        log.info("订单编号:{}",orderSn);
+        String orderSn = businessNoGenerator.generate(BusinessTypeEnum.ORDER.getCode());
+        log.info("订单编号:{}", orderSn);
         return Result.success(orderSn);
     }
 }

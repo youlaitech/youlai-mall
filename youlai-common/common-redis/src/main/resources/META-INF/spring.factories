@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.youlai.common.redis.RedisConfig
+  com.youlai.common.redis.RedisConfig,\
+  com.youlai.common.redis.component.BusinessNoGenerator
