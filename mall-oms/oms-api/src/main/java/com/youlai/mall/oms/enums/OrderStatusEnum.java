@@ -1,5 +1,6 @@
 package com.youlai.mall.oms.enums;
 
+import com.youlai.common.base.BaseCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
@@ -11,7 +12,7 @@ import lombok.ToString;
  */
 @ToString
 @AllArgsConstructor
-public enum OrderStatusEnum {
+public enum OrderStatusEnum implements BaseCodeEnum {
 
     NEED_PAY(101, "待支付"),
     USER_CANCEL(102, "用户取消"),
@@ -30,4 +31,8 @@ public enum OrderStatusEnum {
     public final String desc;
 
 
+    @Override
+    public Integer getCode() {
+        return code;
+    }
 }
