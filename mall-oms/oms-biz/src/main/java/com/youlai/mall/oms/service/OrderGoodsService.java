@@ -19,5 +19,8 @@ public interface OrderGoodsService extends IService<OrderGoodsEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     List<OrderGoodsEntity> getByOrderId(Long orderId);
+
+    Map<Long,List<OrderGoodsEntity>> getByOrderIds(List<Long> orderIds);
+
 }
 
