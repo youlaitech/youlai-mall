@@ -114,13 +114,15 @@ public class OmsRabbitConfig {
                 } else {
                     log.error("消息投递到交换机成功：[correlationData={}，原因={}]", correlationData, cause);
                 }
+
+                //TODO 根据ACK状态做对应的消息更新操作
             }
         });
     }
 
     /**
      *
-     * 注意下面两项必须同时配置，可以尝试不配置第二项，通过测试能够发现当消息路由到Queue失败(比如路由件错误)时，returnCallback并未被回调。
+     * 注意下面两项必须同时配置
      * # 开启阶段二(消息从E->Q)的确认回调    Exchange --> Queue  returnCallback
      * spring.rabbitmq.publisher-returns=true
      *
