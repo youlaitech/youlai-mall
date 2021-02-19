@@ -3,15 +3,15 @@
 
  Source Server         : www.youlai.store
  Source Server Type    : MySQL
- Source Server Version : 80022
+ Source Server Version : 80023
  Source Host           : www.youlai.store:3306
  Source Schema         : mall-pms
 
  Target Server Type    : MySQL
- Target Server Version : 80022
+ Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 10/02/2021 22:05:14
+ Date: 19/02/2021 20:09:25
 */
 
 SET NAMES utf8mb4;
@@ -25,8 +25,8 @@ CREATE TABLE `pms_attr`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称',
   `category_id` bigint(0) NOT NULL COMMENT '分类ID',
-  `gmt_create` datetime(0) NULL DEFAULT NULL,
-  `gmt_modified` datetime(0) NULL DEFAULT NULL,
+  `gmt_create` datetime(0) DEFAULT NULL,
+  `gmt_modified` datetime(0) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_attr_pms_category`(`category_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性表' ROW_FORMAT = Dynamic;
@@ -60,18 +60,18 @@ CREATE TABLE `pms_brand`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '品牌名称',
   `first_letter` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '检索首字母',
-  `logo_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '品牌logo图片地址',
-  `sort` int(0) NULL DEFAULT NULL COMMENT '排序',
-  `status` tinyint(0) NULL DEFAULT NULL COMMENT '状态: 1-正常 0-禁用',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `logo_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '品牌logo图片地址',
+  `sort` int(0) DEFAULT NULL COMMENT '排序',
+  `status` tinyint(0) DEFAULT NULL COMMENT '状态: 1-正常 0-禁用',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pms_brand
 -- ----------------------------
-INSERT INTO `pms_brand` VALUES (4, '有来', 'Y', 'http://101.37.69.49:9000/default/1282ca4087fe4b0699827d68b75d765c.png', 1, 1, NULL, '2021-02-06 17:07:18');
+INSERT INTO `pms_brand` VALUES (4, '有来', 'Y', 'http://101.37.69.49:9000/default/1282ca4087fe4b0699827d68b75d765c.png', 1, 1, NULL, '2021-02-19 09:57:46');
 
 -- ----------------------------
 -- Table structure for pms_category
@@ -81,14 +81,14 @@ CREATE TABLE `pms_category`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `parent_id` bigint(0) NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称',
-  `level` int(0) NULL DEFAULT NULL COMMENT '层级',
-  `icon_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标地址',
-  `sort` int(0) NULL DEFAULT NULL COMMENT '排序',
-  `status` tinyint(1) NULL DEFAULT 1 COMMENT '显示状态: 0-隐藏 1-显示',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `level` int(0) DEFAULT NULL COMMENT '层级',
+  `icon_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '图标地址',
+  `sort` int(0) DEFAULT NULL COMMENT '排序',
+  `status` tinyint(1) DEFAULT 1 COMMENT '显示状态: 0-隐藏 1-显示',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pms_category
@@ -136,6 +136,10 @@ INSERT INTO `pms_category` VALUES (74, 69, '吸奶器', 3, 'http://101.37.69.49:
 INSERT INTO `pms_category` VALUES (75, 69, '儿童餐具', 3, 'http://101.37.69.49:9000/default/8bb7e7f308364117bef1aede4d5e0235.jpg', 2, 1, '2021-02-06 17:24:01', '2021-02-06 17:24:14');
 INSERT INTO `pms_category` VALUES (76, 69, '牙胶安抚', 3, 'http://101.37.69.49:9000/default/7b60c12ec6834fda87243221654d3bbe.jpg', 3, 1, '2021-02-06 17:24:35', '2021-02-06 17:24:35');
 INSERT INTO `pms_category` VALUES (77, 69, '围兜', 3, 'http://101.37.69.49:9000/default/d9aae2921e5a4cf7a119ec9afd91de74.jpg', 4, 1, '2021-02-06 17:24:49', '2021-02-06 17:24:49');
+INSERT INTO `pms_category` VALUES (78, 0, 'ddd', 1, NULL, 2, 1, '2021-02-18 17:57:51', '2021-02-18 17:57:51');
+INSERT INTO `pms_category` VALUES (79, 78, 'vvv', 2, NULL, 11, 1, '2021-02-18 17:58:01', '2021-02-18 17:58:01');
+INSERT INTO `pms_category` VALUES (80, 0, 'test', 1, NULL, NULL, 1, '2021-02-19 10:57:22', '2021-02-19 10:57:22');
+INSERT INTO `pms_category` VALUES (81, 80, 'test', 2, NULL, NULL, 1, '2021-02-19 10:57:28', '2021-02-19 10:57:28');
 
 -- ----------------------------
 -- Table structure for pms_sku
@@ -144,16 +148,16 @@ DROP TABLE IF EXISTS `pms_sku`;
 CREATE TABLE `pms_sku`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `spu_id` bigint(0) NOT NULL COMMENT '商品id',
-  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU名称',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU编码',
-  `spec_value_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格ID集合',
-  `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU图片',
+  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'SKU名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'SKU编码',
+  `spec_value_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '规格ID集合',
+  `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'SKU图片',
   `origin_price` bigint(0) NOT NULL COMMENT '原价',
   `price` bigint(0) NOT NULL COMMENT '现价',
   `stock` int(0) NOT NULL DEFAULT 0 COMMENT '库存',
   `stock_locked` int(0) NOT NULL DEFAULT 0 COMMENT '已锁定库存',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_pms_spu`(`spu_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 185 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = Dynamic;
@@ -161,7 +165,7 @@ CREATE TABLE `pms_sku`  (
 -- ----------------------------
 -- Records of pms_sku
 -- ----------------------------
-INSERT INTO `pms_sku` VALUES (1, 52, '222 2 3 ', '1611500180237', '1611500177301,1611500180237', NULL, 2200, 200, 9999, 6, NULL, NULL);
+INSERT INTO `pms_sku` VALUES (1, 52, '222 2 3 ', '1611500180237', '1611500177301,1611500180237', NULL, 2200, 200, 9999, 5, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for pms_spec
@@ -171,12 +175,12 @@ CREATE TABLE `pms_spec`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `category_id` bigint(0) NOT NULL COMMENT '分类id',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格名称',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spec_pms_category`(`category_id`) USING BTREE,
   CONSTRAINT `fk_pms_spec_pms_category` FOREIGN KEY (`category_id`) REFERENCES `pms_category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pms_spec
@@ -195,6 +199,10 @@ INSERT INTO `pms_spec` VALUES (12, 44, '尺寸', NULL, NULL);
 INSERT INTO `pms_spec` VALUES (13, 26, '444', NULL, NULL);
 INSERT INTO `pms_spec` VALUES (14, 26, '3333', NULL, NULL);
 INSERT INTO `pms_spec` VALUES (15, 26, '33444', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (16, 61, 'd', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (17, 79, 'vvv', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (18, 79, '222', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (19, 79, 'vvv', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for pms_spu
@@ -204,18 +212,18 @@ CREATE TABLE `pms_spu`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称',
   `category_id` bigint(0) NOT NULL COMMENT '商品类型id',
-  `brand_id` bigint(0) NULL DEFAULT NULL COMMENT '商品品牌id',
+  `brand_id` bigint(0) DEFAULT NULL COMMENT '商品品牌id',
   `origin_price` bigint(0) NOT NULL COMMENT '原价',
   `price` bigint(0) NOT NULL COMMENT '现价',
-  `sales` int(0) NULL DEFAULT 0 COMMENT '销量',
-  `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品主图',
-  `pic_urls` json NULL COMMENT '商品相册',
-  `unit` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '单位',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品简介',
-  `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '商品详情',
-  `status` tinyint(0) NULL DEFAULT NULL COMMENT '商品状态：0-下架 1-上架',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `sales` int(0) DEFAULT 0 COMMENT '销量',
+  `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商品主图',
+  `pic_urls` json COMMENT '商品相册',
+  `unit` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '单位',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商品简介',
+  `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '商品详情',
+  `status` tinyint(0) DEFAULT NULL COMMENT '商品状态：0-下架 1-上架',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_pms_brand`(`brand_id`) USING BTREE,
   INDEX `fk_pms_spu_pms_category`(`category_id`) USING BTREE
@@ -224,7 +232,7 @@ CREATE TABLE `pms_spu`  (
 -- ----------------------------
 -- Records of pms_spu
 -- ----------------------------
-INSERT INTO `pms_spu` VALUES (52, '222', 26, NULL, 2200, 200, 0, NULL, '[]', '2', '2', '<p>22</p>', 0, NULL, NULL);
+INSERT INTO `pms_spu` VALUES (52, '222', 26, NULL, 2200, 200, 0, NULL, '[]', '2', '2', '<p>22</p>', 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for pms_spu_attr_value
@@ -233,11 +241,11 @@ DROP TABLE IF EXISTS `pms_spu_attr_value`;
 CREATE TABLE `pms_spu_attr_value`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `spu_id` bigint(0) NOT NULL,
-  `attr_id` bigint(0) NULL DEFAULT NULL,
+  `attr_id` bigint(0) DEFAULT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称(冗余字段)',
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性值',
-  `gmt_create` datetime(0) NULL DEFAULT NULL,
-  `gmt_modified` datetime(0) NULL DEFAULT NULL,
+  `gmt_create` datetime(0) DEFAULT NULL,
+  `gmt_modified` datetime(0) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_attr`(`name`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_spu`(`spu_id`) USING BTREE
@@ -256,11 +264,11 @@ INSERT INTO `pms_spu_attr_value` VALUES (49, 52, 9, '3', '2', NULL, NULL);
 DROP TABLE IF EXISTS `pms_spu_spec_value`;
 CREATE TABLE `pms_spu_spec_value`  (
   `id` bigint(0) NOT NULL,
-  `spu_id` bigint(0) NULL DEFAULT NULL,
-  `spec_id` bigint(0) NULL DEFAULT NULL,
-  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `gmt_create` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
-  `gmt_modified` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `spu_id` bigint(0) DEFAULT NULL,
+  `spec_id` bigint(0) DEFAULT NULL,
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `gmt_create` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `gmt_modified` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_specification_pms_sku`(`spu_id`) USING BTREE,
   INDEX `fk_pms_sku_specification_pms_specification`(`spec_id`) USING BTREE
