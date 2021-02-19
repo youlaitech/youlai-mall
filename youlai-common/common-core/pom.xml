@@ -42,8 +42,11 @@
             <artifactId>dozer-core</artifactId>
             <version>${dozer.version}</version>
         </dependency>
-
-
+        <!-- jwt -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
