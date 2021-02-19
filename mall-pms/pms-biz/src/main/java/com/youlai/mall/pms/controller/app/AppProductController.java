@@ -47,7 +47,7 @@ public class AppProductController {
     @ApiOperation(value = "商品详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
+    public Result<AppProductBO> detail(@PathVariable Long id) {
         AppProductBO product = iPmsSpuService.getProductByIdForApp(id);
         return Result.success(product);
     }

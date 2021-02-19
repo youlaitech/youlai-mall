@@ -11,8 +11,10 @@ import com.youlai.mall.oms.service.OrderGoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("orderGoodsService")
@@ -35,6 +37,20 @@ public class OrderGoodsServiceImpl extends ServiceImpl<OrderGoodsDao, OrderGoods
         QueryWrapper<OrderGoodsEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.ge("order_id", orderId);
         return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public Map<Long, List<OrderGoodsEntity>> getByOrderIds(List<Long> orderIds) {
+        QueryWrapper<OrderGoodsEntity> orderGoodsQuery = new QueryWrapper<>();
+        orderGoodsQuery.in("order_id", orderIds).orderByDesc("order_id", "id");
+        List<OrderGoodsEntity> orderGoods = this.list(orderGoodsQuery);
+        if (orderGoods == null || orderGoods.size() == 0) {
+            log.info("根据订单ID列表查询商品为空，orderIds={}", orderIds);
+            return new HashMap<>(8);
+        }
+        Map<Long, List<OrderGoodsEntity>> orderGoodsMap = orderGoods.stream()
+                .collect(Collectors.groupingBy(OrderGoodsEntity::getOrderId));
+        return orderGoodsMap;
     }
 
 }

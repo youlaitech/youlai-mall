@@ -15,6 +15,7 @@ public class PmsSpec {
     private Long id;
     private Long categoryId;
     private String name;
+    private boolean selected;
 
     @TableField(exist = false)
     private List<PmsSpuSpecValue> values = new ArrayList<>();

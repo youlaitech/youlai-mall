@@ -1,23 +1,20 @@
 package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.mall.oms.pojo.entity.OrderEntity;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
+import com.youlai.mall.oms.pojo.vo.OrderListVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.OrderService;
 import io.seata.spring.annotation.GlobalTransactional;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
@@ -28,7 +25,7 @@ import java.util.concurrent.ExecutionException;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-@Api(tags = "订单详情接口")
+@Api(tags = "APP订单详情接口")
 @RestController
 @RequestMapping("/api.app/v1/orders")
 @Slf4j
@@ -46,10 +43,15 @@ public class OrderController {
      * @return
      */
     @ApiOperation(value = "订单确认信息", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "skuId", value = "商品ID", required = true, paramType = "param", dataType = "String"),
+            @ApiImplicitParam(name = "number", value = "商品数量", required = true, defaultValue = "1", paramType = "param", dataType = "Integer")
+
+    })
     @PostMapping("/confirm")
-    public Result<OrderConfirmVO> confirm(@RequestParam(value = "skuId",required = false) String skuId,
-                                          @RequestParam(value = "number",defaultValue = "1") Integer number) {
-        return Result.success(orderService.confirm(skuId,number));
+    public Result<OrderConfirmVO> confirm(@RequestParam(value = "skuId", required = false) String skuId,
+                                          @RequestParam(value = "number", defaultValue = "1") Integer number) {
+        return Result.success(orderService.confirm(skuId, number));
     }
 
     @ApiOperation(value = "提交订单", httpMethod = "POST")
@@ -62,14 +64,19 @@ public class OrderController {
 
 
     /**
-     * 列表
+     * 根据订单状态查询订单列表
+     * 步骤：
+     * 1、入参 status 表示订单状态
+     * 2、status = 0 表示查询所有订单
+     * 3、已删除订单无法查询
      */
-    @RequestMapping("/list")
-    //@RequiresPermissions("oms:order:list")
-    public Result<PageUtils> list(@RequestParam Map<String, Object> params) {
-        PageUtils page = orderService.queryPage(params);
+    @ApiOperation("订单列表查询")
+    @GetMapping("/list")
+    public Result<List<OrderListVO>> list(@ApiParam(name = "status",value = "订单状态",required = true,defaultValue = "0")
+                                              @RequestParam(value = "status",required = true,defaultValue = "0") Integer status) {
+        List<OrderListVO> orderList = orderService.list(status);
 
-        return Result.success(page);
+        return Result.success(orderList);
     }
 
 
@@ -108,14 +115,25 @@ public class OrderController {
     }
 
     /**
+     * 取消订单
+     */
+    @PutMapping("/cancel")
+    @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "param", dataType = "String")
+    public Result<Object> cancelOrder(@RequestParam("id") String id) {
+        orderService.cancelOrder(id);
+        return Result.success();
+    }
+
+    /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("oms:order:delete")
-    public Result<Object> delete(@RequestBody Long[] ids) {
-        orderService.removeByIds(Arrays.asList(ids));
+    @DeleteMapping
+    @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "param", dataType = "String")
+    public Result<Object> delete(@RequestParam("id") String id) {
+        orderService.deleteOrder(id);
 
         return Result.success();
     }
+
 
 }

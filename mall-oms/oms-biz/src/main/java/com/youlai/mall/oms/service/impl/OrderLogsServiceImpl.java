@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.base.Query;
 import com.youlai.common.mybatis.utils.PageUtils;
+import com.youlai.common.web.util.WebUtils;
 import com.youlai.mall.oms.dao.OrderLogsDao;
 import com.youlai.mall.oms.pojo.entity.OrderLogsEntity;
 import com.youlai.mall.oms.service.OrderLogsService;
@@ -41,6 +42,12 @@ public class OrderLogsServiceImpl extends ServiceImpl<OrderLogsDao, OrderLogsEnt
         } catch (Exception e) {
             log.error("添加订单操作日志失败，orderId={}", orderId, e.getMessage());
         }
+    }
+
+    @Override
+    public void addOrderLogs(Long orderId, Integer orderStatus, String detail) {
+        Long userId = WebUtils.getUserId();
+        addOrderLogs(orderId, orderStatus, userId.toString(), detail);
     }
 
 }
