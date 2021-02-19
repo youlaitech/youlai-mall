@@ -15,6 +15,7 @@ spring:
       max-wait: 60000
       time-between-eviction-runs-millis: 2000
   redis:
+    timeout: 30000
     password: 123456
     cluster:
       nodes:
@@ -30,7 +31,6 @@ spring:
         max-idle: 8 # 连接池最大空闲连接数
         min-idle: 0 # 连接池最小空闲连接数
         max-wait: -1 # 连接池最大阻塞等待时间
-    timeout: 30000
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
