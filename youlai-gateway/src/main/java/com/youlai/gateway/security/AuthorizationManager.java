@@ -39,6 +39,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         String path = request.getMethodValue() + "_" + request.getURI().getPath();
+        log.info("请求，path={}", path);
         PathMatcher pathMatcher = new AntPathMatcher();
         // 对应跨域的预检请求直接放行
         if (request.getMethod() == HttpMethod.OPTIONS) {
@@ -47,6 +48,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
         // 非管理端路径无需鉴权直接放行
         if (!pathMatcher.match(AuthConstants.ADMIN_URL_PATTERN, path)) {
+            log.info("请求无需鉴权，path={}", path);
             return Mono.just(new AuthorizationDecision(true));
         }
 
@@ -54,6 +56,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         // token为空拒绝访问
         String token = request.getHeaders().getFirst(AuthConstants.JWT_TOKEN_HEADER);
         if (StrUtil.isBlank(token)) {
+            log.info("请求token为空拒绝访问，path={}", path);
             return Mono.just(new AuthorizationDecision(false));
         }
 
