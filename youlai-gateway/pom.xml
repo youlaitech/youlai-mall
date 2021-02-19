@@ -81,6 +81,41 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Jib插件构建镜像上传至阿里云镜像仓库 -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>2.7.1</version>
+                <configuration>
+                    <from>
+                        <image>openjdk:8-jdk-alpine</image>
+                    </from>
+                    <to>
+                        <!-- 阿里云镜像仓库公网地址-->
+                        <image>registry.cn-shanghai.aliyuncs.com/youlai/youlai-gateway</image>
+                        <!-- 镜像版本号 -->
+                        <tags>
+                            <tag>latest</tag>
+                        </tags>
+                        <auth>
+                            <username>1490493387@qq.com</username>
+                            <password>hxr1006111026</password>
+                        </auth>
+                    </to>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- docker-maven-plugin 构建镜像上传至云服务器 -->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
