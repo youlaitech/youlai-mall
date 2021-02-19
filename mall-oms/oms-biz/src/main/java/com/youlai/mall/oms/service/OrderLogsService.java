@@ -19,11 +19,19 @@ public interface OrderLogsService extends IService<OrderLogsEntity> {
 
     /**
      * 添加订单操作日志记录
-     * @param orderId
-     * @param orderStatus
-     * @param user
-     * @param detail
+     * @param orderId 订单id
+     * @param orderStatus 订单状态
+     * @param user 操作人员
+     * @param detail 描述信息
      */
     void addOrderLogs(Long orderId, Integer orderStatus, String user, String detail);
+
+    /**
+     * 添加订单操作日志记录
+     * @param orderId 订单id
+     * @param orderStatus 订单状态
+     * @param detail 描述
+     */
+    void addOrderLogs(Long orderId, Integer orderStatus, String detail);
 }
 

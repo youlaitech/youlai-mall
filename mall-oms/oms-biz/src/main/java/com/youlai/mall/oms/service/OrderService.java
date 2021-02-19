@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.mall.oms.pojo.entity.OrderEntity;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
+import com.youlai.mall.oms.pojo.vo.OrderListVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -24,7 +26,7 @@ public interface OrderService extends IService<OrderEntity> {
     /**
      * 订单确认页信息
      *
-     * @param skuId 商品id，非必填参数
+     * @param skuId  商品id，非必填参数
      * @param number 商品数量
      * @return
      */
@@ -39,6 +41,7 @@ public interface OrderService extends IService<OrderEntity> {
 
     /**
      * 根据订单号查询订单详情
+     *
      * @param orderSn 订单号
      * @return
      */
@@ -46,8 +49,33 @@ public interface OrderService extends IService<OrderEntity> {
 
     /**
      * 系统关闭订单
+     *
      * @param orderSn 订单号
      */
     boolean closeOrderBySystem(String orderSn);
+
+    /**
+     * 取消订单接口
+     *
+     * @param id 订单id
+     * @return 是否取消成功
+     */
+    boolean cancelOrder(String id);
+
+    /**
+     * 删除订单
+     *
+     * @param id 订单id
+     * @return 是否删除成功
+     */
+    boolean deleteOrder(String id);
+
+    /**
+     * 订单列表查询
+     *
+     * @param status 订单状态
+     * @return 订单列表
+     */
+    List<OrderListVO> list(Integer status);
 }
 
