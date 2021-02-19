@@ -3,8 +3,6 @@ package com.youlai.common.constant;
 public interface AuthConstants {
 
 
-
-
     /**
      * 认证信息Http请求头
      */
@@ -76,5 +74,5 @@ public interface AuthConstants {
     /**
      * 后台管理接口路径匹配
      */
-    String ADMIN_URL_PATTERN ="/youlai-admin/**" ;
+    String ADMIN_URL_PATTERN ="*_/youlai-admin/**" ;
 }

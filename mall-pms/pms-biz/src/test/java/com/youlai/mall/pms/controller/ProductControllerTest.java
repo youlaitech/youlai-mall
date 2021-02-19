@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @Slf4j
-public class AppAdminProductControllerTest {
+public class ProductControllerTest {
 
     @Autowired
     public MockMvc mockMvc;

@@ -8,5 +8,7 @@ public interface RedisKeyConstants {
 
     String MALL_CART_KEY = YOU_LAI + "cart:";
 
-    String TOKEN_VERIFY ="token_verify:";
+    String TOKEN_VERIFY = "token_verify:";
+
+    String BUSINESS_NO_PREFIX = "businessno:";
 }

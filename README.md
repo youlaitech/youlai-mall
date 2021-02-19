@@ -25,9 +25,9 @@
 
 ## 项目愿景
 
-项目从`0`到`1`的构建过程完整无保留的通过博客文章进行说明，且开源不图任何利益。
+项目从`0`到`1`的构建过程已无保留的在项目文章中说明，真正的开源不图利益。
 
-项目慢慢成型的路上离不开支持还有默默点star的那些小伙伴，谢谢!
+项目慢慢成型的路上离不开支持还有默默点star的那些小伙伴，在这里抱拳谢过各位道友了。
 
 ## 项目地址
 
@@ -177,6 +177,8 @@ youlai-mall
 8. [Spring Cloud实战 | 最八篇：Spring Cloud +Spring Security OAuth2+ Vue前后端分离模式下无感知刷新实现JWT续期](https://www.cnblogs.com/haoxianrui/p/14022632.html)
 9. [Spring Cloud实战 | 最九篇：Spring Security OAuth2认证服务器统一认证自定义异常处理](https://www.cnblogs.com/haoxianrui/p/14028366.html)
 10. [Spring Cloud实战 | 第十篇 ：Spring Cloud + Nacos整合Seata 1.4.1最新版本实现微服务架构中的分布式事务，进阶之路必须要迈过的槛](https://www.cnblogs.com/haoxianrui/p/14280184.html)
+11. [Spring Cloud实战 | 第十一篇 ：Spring Cloud Gateway网关实现对RESTful接口权限和按钮权限细粒度控制
+    ](https://www.cnblogs.com/haoxianrui/p/14396990.html)
 
 > 后台管理前端
 
@@ -199,7 +201,7 @@ youlai-mall
 
 - 如果github拉取失败请移步至码云[https://gitee.com/haoxr](https://gitee.com/haoxr),代码是同步的
 
-- 项目在搭建的过程中如您遇到任何问题，可加我微信或者微信群，也可在github提issue
+- 项目在搭建的过程中如您遇到任何问题，可加我微信(haoxianrui)或者微信群，也可在github提issue
 
 - 演示环境禁止修改、删除重要数据，请本地部署后测试
 

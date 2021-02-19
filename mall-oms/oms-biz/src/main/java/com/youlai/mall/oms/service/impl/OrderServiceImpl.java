@@ -8,9 +8,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.base.Query;
+import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.common.mybatis.utils.PageUtils;
+import com.youlai.common.utils.EnumUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.WebUtils;
@@ -25,6 +26,7 @@ import com.youlai.mall.oms.pojo.entity.OrderEntity;
 import com.youlai.mall.oms.pojo.entity.OrderGoodsEntity;
 import com.youlai.mall.oms.pojo.vo.*;
 import com.youlai.mall.oms.service.CartService;
+import com.youlai.mall.oms.service.OrderGoodsService;
 import com.youlai.mall.oms.service.OrderLogsService;
 import com.youlai.mall.oms.service.OrderService;
 import com.youlai.mall.pms.api.ProductFeignService;
@@ -39,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -63,11 +66,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     private AsyncTaskExecutor executor;
 
+    private OrderDao orderDao;
+
     private OrderGoodsDao orderGoodsDao;
 
     private OrderDeliveryDao orderDeliveryDao;
 
     private OrderLogsService orderLogsService;
+
+    private OrderGoodsService orderGoodsService;
 
     private RabbitTemplate rabbitTemplate;
 
@@ -208,6 +215,76 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 "系统操作", OrderStatusEnum.SYS_CANCEL.desc);
         return true;
 
+    }
+
+    @Override
+    public boolean cancelOrder(String id) {
+        log.info("会员取消订单，orderId={}", id);
+        OrderEntity order = getByOrderId(id);
+        if (!order.getStatus().equals(OrderStatusEnum.NEED_PAY.code)) {
+            log.info("订单状态异常，会员无法取消，orderId={}，orderStatus={}", id, order.getStatus());
+            return false;
+        }
+        order.setStatus(OrderStatusEnum.USER_CANCEL.code);
+        baseMapper.updateById(order);
+        // 添加订单操作日志
+        orderLogsService.addOrderLogs(order.getId(), order.getStatus(), OrderStatusEnum.USER_CANCEL.desc);
+        return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteOrder(String id) {
+        // 查询订单，校验订单状态
+        OrderEntity order = this.getByOrderId(id);
+        if (!order.getStatus().equals(OrderStatusEnum.SYS_CANCEL.code) &&
+                order.getStatus().equals(OrderStatusEnum.USER_CANCEL.code)) {
+            throw new BizException(StrUtil.format("订单无法删除，订单状态【{}】", Objects.requireNonNull(EnumUtils.getByCode(order.getStatus(), OrderStatusEnum.class)).desc));
+        }
+
+        orderDao.deleteById(id);
+        orderLogsService.addOrderLogs(order.getId(), order.getStatus(), "会员删除订单");
+        return true;
+    }
+
+    @Override
+    public List<OrderListVO> list(Integer status) {
+        log.info("订单列表查询，status={}", status);
+        QueryWrapper<OrderEntity> orderQuery = new QueryWrapper<>();
+        if (status != 0){
+            orderQuery.eq("status", status);
+        }
+        orderQuery.orderByDesc("id");
+        List<OrderEntity> orderList = this.list(orderQuery);
+        if (orderList == null || orderList.size() <= 0) {
+            log.info("订单列表查询结果为空，status={}", status);
+            return null;
+        }
+
+        List<Long> orderIds = orderList.stream().map(orderEntity -> orderEntity.getId()).collect(Collectors.toList());
+        Map<Long, List<OrderGoodsEntity>> orderGoodsMap = orderGoodsService.getByOrderIds(orderIds);
+        List<OrderListVO> result = orderList.stream().map(orderEntity -> {
+            OrderListVO orderListVO = BeanMapperUtils.map(orderEntity, OrderListVO.class);
+            orderListVO.setStatusDesc(EnumUtils.getByCode(orderListVO.getStatus(),OrderStatusEnum.class).desc);
+            List<OrderGoodsEntity> orderGoodsEntities = orderGoodsMap.get(orderListVO.getId());
+            if (orderGoodsEntities != null && orderGoodsEntities.size() > 0){
+                List<OrderListVO.GoodsListBean> goodsListBeans = orderGoodsEntities.stream().map(orderGoodsEntity -> BeanMapperUtils.map(orderGoodsEntity, OrderListVO.GoodsListBean.class)).collect(Collectors.toList());
+                orderListVO.setGoodsList(goodsListBeans);
+            }
+            return orderListVO;
+        }).collect(Collectors.toList());
+        return result;
+    }
+
+    private OrderEntity getByOrderId(String id) {
+        Long userId = WebUtils.getUserId();
+        QueryWrapper<OrderEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("member_id", userId).eq("id", id);
+        OrderEntity orderEntity = this.getOne(queryWrapper);
+        if (orderEntity == null) {
+            throw new BizException("订单不存在，订单id非法");
+        }
+        return orderEntity;
     }
 
     private void lockStock(List<OrderGoodsEntity> orderGoods) {

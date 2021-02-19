@@ -3,6 +3,8 @@ package com.youlai.mall.oms.controller.admin;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.enums.BusinessTypeEnum;
+import com.youlai.common.redis.component.BusinessNoGenerator;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.bo.OrderBO;
 import com.youlai.mall.oms.service.IOmsOrderService;
@@ -113,5 +115,14 @@ public class AdminOrderController {
     public Result orderDetail(@PathVariable Long id) {
         OmsOrder order = iOmsOrderService.getById(id);
         return Result.success(order);
+    }
+
+    private BusinessNoGenerator businessNoGenerator;
+
+    @PostMapping("/order_sn")
+    public Result generateOrderSn() {
+        String orderSn = businessNoGenerator.generate(BusinessTypeEnum.ORDER.getCode());
+        log.info("订单编号:{}", orderSn);
+        return Result.success(orderSn);
     }
 }

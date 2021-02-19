@@ -48,7 +48,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                     .collect(Collectors.toList());
 
             if (CollectionUtil.isNotEmpty(roles)) {
-                permissionRoles.put(permission.getMethod() + permission.getPerm(), roles);
+                permissionRoles.put(permission.getMethod() +"_"+ permission.getPerm(), roles);
             }
             redisTemplate.opsForHash().putAll(AuthConstants.PERMISSION_ROLES_KEY, permissionRoles);
         });

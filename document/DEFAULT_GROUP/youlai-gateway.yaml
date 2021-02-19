@@ -9,9 +9,9 @@ spring:
           jwk-set-uri: 'http://localhost:8000/getPublicKey'
   redis:
     database: 0
-    host: localhost
+    host: www.youlai.store
     port: 6379
-    password: 5601564a
+    password: 123456
   cloud:
     gateway:
       discovery:
@@ -63,3 +63,19 @@ whitelist:
 
 # 是否演示环境
 demo: false
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000

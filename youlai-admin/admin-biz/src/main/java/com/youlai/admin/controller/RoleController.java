@@ -182,6 +182,9 @@ public class RoleController {
             @RequestBody RolePermissionDTO rolePermission) {
         rolePermission.setRoleId(roleId);
         boolean result = iSysRolePermissionService.update(rolePermission);
+        if (result) {
+            iSysPermissionService.refreshPermissionRolesCache();
+        }
         return Result.judge(result);
     }
 }

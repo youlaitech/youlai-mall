@@ -38,13 +38,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public boolean saveUser(SysUser user) {
         user.setPassword(passwordEncoder.encode(GlobalConstants.DEFAULT_USER_PASSWORD));
-        List<Long> roleIds = user.getRoleIds();
-        if (CollectionUtil.isNotEmpty(roleIds)) {
-            List<SysUserRole> userRoleList = new ArrayList<>();
-            roleIds.forEach(roleId -> userRoleList.add(new SysUserRole().setUserId(user.getId()).setRoleId(roleId)));
-            iSysUserRoleService.saveBatch(userRoleList);
-        }
         boolean result = this.save(user);
+        if (result) {
+            List<Long> roleIds = user.getRoleIds();
+            if (CollectionUtil.isNotEmpty(roleIds)) {
+                List<SysUserRole> userRoleList = new ArrayList<>();
+                roleIds.forEach(roleId -> userRoleList.add(new SysUserRole().setUserId(user.getId()).setRoleId(roleId)));
+                result = iSysUserRoleService.saveBatch(userRoleList);
+            }
+        }
         return result;
     }
 
@@ -75,7 +77,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         boolean result = this.updateById(user);
         return result;
     }
-
 
 
 }

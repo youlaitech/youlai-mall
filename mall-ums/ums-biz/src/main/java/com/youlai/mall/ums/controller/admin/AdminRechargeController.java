@@ -51,7 +51,6 @@ public class AdminRechargeController {
     @ApiOperation(value = "账户余额充值订单", httpMethod = "POST")
     @PostMapping
     public Result recharge(@RequestBody RechargeDTO rechargeDTO) {
-
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
         headers.set("Payment-Key", appKey);
