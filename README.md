@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/youlai--mall-1.0-blue)
+![](https://img.shields.io/badge/youlai--mall-v1.0.0-blue)
 [![](https://img.shields.io/github/stars/hxrui/youlai-mall.svg?style=social&label=Stars)](https://github.com/hxrui/youlai-mall/stargazers)
 [![](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/hxrui/youlai-mall/blob/master/LICENSE)
 ![](https://img.shields.io/badge/SpringBoot-2.4.2-brightgreen.svg)
