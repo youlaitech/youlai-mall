@@ -1,18 +1,7 @@
-/*
- Navicat Premium Data Transfer
+-- database
+create DATABASE IF NOT EXISTS `youlai` DEFAULT CHARACTER set=utf8mb4;
+use `youlai`;
 
- Source Server         : www.youlai.store
- Source Server Type    : MySQL
- Source Server Version : 80023
- Source Host           : www.youlai.store:3306
- Source Schema         : youlai
-
- Target Server Type    : MySQL
- Target Server Version : 80023
- File Encoding         : 65001
-
- Date: 19/02/2021 10:20:40
-*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
