@@ -128,7 +128,7 @@ public class UserController extends BaseController {
     public Result patch(@PathVariable Integer id, @RequestBody SysUser user) {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
         updateWrapper.set(user.getStatus() != null, SysUser::getStatus, user.getStatus());
-        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, passwordEncoder.encode(GlobalConstants.DEFAULT_USER_PASSWORD));
+        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, passwordEncoder.encode(user.getPassword()));
         boolean status = iSysUserService.update(updateWrapper);
         return Result.judge(status);
     }
