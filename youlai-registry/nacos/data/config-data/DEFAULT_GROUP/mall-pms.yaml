@@ -8,13 +8,6 @@ spring:
     url: jdbc:mysql://www.youlai.store:3306/mall-pms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
-    druid:
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
-      max-wait: 60000
-      time-between-eviction-runs-millis: 2000
-      
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
