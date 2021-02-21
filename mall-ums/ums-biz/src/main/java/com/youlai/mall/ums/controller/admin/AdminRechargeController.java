@@ -115,7 +115,7 @@ public class AdminRechargeController {
         String thirduid = resultPay.getThirduid();
         UmsUser user = iUmsUserService.getById(thirduid);
         if (user != null) {
-            user.setBalance((int) (user.getBalance() + Float.valueOf(resultPay.getPrice()) * 100 * 10000));
+            user.setBalance((long) (user.getBalance() + Float.valueOf(resultPay.getPrice()) * 100 * 10000));
         }
         iUmsUserService.updateById(user);
     }

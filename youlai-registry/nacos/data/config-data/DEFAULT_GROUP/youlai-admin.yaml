@@ -8,29 +8,11 @@ spring:
     url: jdbc:mysql://www.youlai.store:3306/youlai?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
     password: 123456
-    druid:
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
-      max-wait: 60000
-      time-between-eviction-runs-millis: 2000
   redis:
-    timeout: 30000
+    database: 0
+    host: www.youlai.store
+    port: 6379
     password: 123456
-    cluster:
-      nodes:
-        - a.youlai.store:6380
-        - a.youlai.store:6381
-        - b.youlai.store:6380
-        - b.youlai.store:6381
-        - c.youlai.store:6380
-        - c.youlai.store:6381
-    lettuce:
-      pool:
-        max-active: 10 # 连接池最大连接数 (负数不限制)
-        max-idle: 8 # 连接池最大空闲连接数
-        min-idle: 0 # 连接池最小空闲连接数
-        max-wait: -1 # 连接池最大阻塞等待时间
 mybatis-plus:
   configuration:
     # 驼峰下划线转换
