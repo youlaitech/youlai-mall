@@ -45,7 +45,7 @@ public class UmsUser extends BaseEntity {
     @TableField(exist = false)
     private List<UmsAddress> addressList;
 
-    @TableField(exist = false)
-    private Integer balance;
+//    @TableField(exist = false)
+    private Long balance;
 
 }
