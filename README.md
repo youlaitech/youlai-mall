@@ -134,7 +134,7 @@ youlai-mall
 
 1. **安装环境**
 
-    安装`MySQL8`、`Redis`、`MinIO`，其中`MinIO`按需安装
+    安装`MySQL8`、`Redis`、`MinIO`，其中`MinIO`按需选装
     
 2. **创建数据库**
     
