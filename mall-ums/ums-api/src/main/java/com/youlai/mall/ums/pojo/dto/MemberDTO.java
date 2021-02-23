@@ -10,4 +10,6 @@ public class MemberDTO {
     private String nickname;
 
     private String mobile;
+
+    private Long balance;
 }
