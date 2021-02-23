@@ -77,5 +77,13 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 订单列表
      */
     List<OrderListVO> list(Integer status);
+
+    /**
+     * 根据订单id获取订单信息
+     *
+     * @param id 订单id
+     * @return 订单信息
+     */
+    OrderEntity getByOrderId(String id);
 }
 

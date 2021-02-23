@@ -251,7 +251,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     public List<OrderListVO> list(Integer status) {
         log.info("订单列表查询，status={}", status);
         QueryWrapper<OrderEntity> orderQuery = new QueryWrapper<>();
-        if (status != 0){
+        if (status != 0) {
             orderQuery.eq("status", status);
         }
         orderQuery.orderByDesc("id");
@@ -265,9 +265,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         Map<Long, List<OrderGoodsEntity>> orderGoodsMap = orderGoodsService.getByOrderIds(orderIds);
         List<OrderListVO> result = orderList.stream().map(orderEntity -> {
             OrderListVO orderListVO = BeanMapperUtils.map(orderEntity, OrderListVO.class);
-            orderListVO.setStatusDesc(EnumUtils.getByCode(orderListVO.getStatus(),OrderStatusEnum.class).desc);
+            orderListVO.setStatusDesc(EnumUtils.getByCode(orderListVO.getStatus(), OrderStatusEnum.class).desc);
             List<OrderGoodsEntity> orderGoodsEntities = orderGoodsMap.get(orderListVO.getId());
-            if (orderGoodsEntities != null && orderGoodsEntities.size() > 0){
+            if (orderGoodsEntities != null && orderGoodsEntities.size() > 0) {
                 List<OrderListVO.GoodsListBean> goodsListBeans = orderGoodsEntities.stream().map(orderGoodsEntity -> BeanMapperUtils.map(orderGoodsEntity, OrderListVO.GoodsListBean.class)).collect(Collectors.toList());
                 orderListVO.setGoodsList(goodsListBeans);
             }
@@ -276,7 +276,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         return result;
     }
 
-    private OrderEntity getByOrderId(String id) {
+    @Override
+    public OrderEntity getByOrderId(String id) {
         Long userId = WebUtils.getUserId();
         QueryWrapper<OrderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("member_id", userId).eq("id", id);

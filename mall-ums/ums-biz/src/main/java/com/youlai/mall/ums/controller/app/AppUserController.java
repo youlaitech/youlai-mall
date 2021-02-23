@@ -36,7 +36,7 @@ public class AppUserController {
         MemberDTO memberDTO = new MemberDTO();
         UmsUser user = iUmsUserService.getOne(
                 new LambdaQueryWrapper<UmsUser>()
-                        .select(UmsUser::getId, UmsUser::getNickname, UmsUser::getMobile)
+                        .select(UmsUser::getId, UmsUser::getNickname, UmsUser::getMobile,UmsUser::getBalance)
                         .eq(UmsUser::getId, id)
         );
         if (user != null) {
