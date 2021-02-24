@@ -10,10 +10,10 @@ spring:
     password: 123456
   # rabbitmq相关配置
   rabbitmq:
-    host: b.youlai.store
+    host: 8.129.124.105
     port: 5672
-    username: guest
-    password: guest
+    username: addone
+    password: Addone&1+1
     # 开启returnCallBack配置
     publisher-returns: true
     template:

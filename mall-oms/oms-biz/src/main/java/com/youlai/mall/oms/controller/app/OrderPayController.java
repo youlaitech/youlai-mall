@@ -53,7 +53,7 @@ public class OrderPayController {
         }
         log.info("订单支付，orderId={}，支付方式={}", orderPayForm.getOrderId(), payTypeEnum.desc);
         if (payTypeEnum == OrderPayTypeEnum.BALANCE) {
-//            orderPayService.balancePay(orderPayForm.getOrderId());
+            orderPayService.balancePay(orderPayForm.getOrderId());
         }
         return Result.success();
     }

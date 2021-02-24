@@ -62,7 +62,7 @@ whitelist:
       - "/youlai-auth/oauth/token"
 
 # 是否演示环境
-demo: false
+demo: false 
 
 # 全局参数设置
 ribbon:
