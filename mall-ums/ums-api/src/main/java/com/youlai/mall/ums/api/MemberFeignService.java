@@ -43,6 +43,13 @@ public interface MemberFeignService {
     @GetMapping("/api.app/v1/addresses/{id}")
     Result<UmsAddressDTO> getAddressById(@PathVariable("id") String id);
 
+
+    /**
+     * 修改会员余额
+     */
+    @PutMapping("/api.app/v1/users/{id}/balance")
+    Result updateBalance(@PathVariable Long id, @RequestParam Long balance);
+
 }
 
 

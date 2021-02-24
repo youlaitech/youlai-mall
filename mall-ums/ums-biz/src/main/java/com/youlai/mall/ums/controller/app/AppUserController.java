@@ -36,7 +36,7 @@ public class AppUserController {
         MemberDTO memberDTO = new MemberDTO();
         UmsUser user = iUmsUserService.getOne(
                 new LambdaQueryWrapper<UmsUser>()
-                        .select(UmsUser::getId, UmsUser::getNickname, UmsUser::getMobile,UmsUser::getBalance)
+                        .select(UmsUser::getId, UmsUser::getNickname, UmsUser::getMobile, UmsUser::getBalance)
                         .eq(UmsUser::getId, id)
         );
         if (user != null) {
@@ -86,12 +86,25 @@ public class AppUserController {
     @ApiOperation(value = "修改会员积分", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Long")
+            @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Integer")
     })
     @PutMapping("/{id}/point")
-    public Result updatePoint(@PathVariable Long id, @RequestParam Integer num  ) {
+    public Result updatePoint(@PathVariable Long id, @RequestParam Integer num) {
         UmsUser user = iUmsUserService.getById(id);
         user.setPoint(user.getPoint() + num);
+        boolean result = iUmsUserService.updateById(user);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "修改会员余额", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "balance", value = "会员余额", required = true, paramType = "query", dataType = "Long")
+    })
+    @PutMapping("/{id}/balance")
+    public Result updateBalance(@PathVariable Long id, @RequestParam Long balance) {
+        UmsUser user = iUmsUserService.getById(id);
+        user.setBalance(user.getBalance() - balance);
         boolean result = iUmsUserService.updateById(user);
         return Result.judge(result);
     }

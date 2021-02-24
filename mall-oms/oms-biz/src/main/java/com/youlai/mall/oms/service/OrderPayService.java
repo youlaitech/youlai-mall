@@ -24,5 +24,11 @@ public interface OrderPayService extends IService<OrderPayEntity> {
      * @return
      */
     PayInfoVO info(String orderId);
+
+    /**
+     * 订单支付
+     * @param orderId 订单ID
+     */
+    void balancePay(String orderId);
 }
 
