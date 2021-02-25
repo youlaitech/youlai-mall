@@ -24,42 +24,52 @@ spring:
           predicates:
             - Path=/youlai-auth/**
           filters:
+            - SwaggerHeaderFilter
             - StripPrefix=1
         - id: youlai-admin
           uri: lb://youlai-admin
           predicates:
             - Path=/youlai-admin/**
           filters:
+            - SwaggerHeaderFilter
             - StripPrefix=1
         - id: mall-oms
           uri: lb://mall-oms
           predicates:
             - Path=/mall-oms/**
           filters:
+            - SwaggerHeaderFilter
             - StripPrefix=1
         - id: mall-pms
           uri: lb://mall-pms
           predicates:
             - Path=/mall-pms/**
           filters:
+            - SwaggerHeaderFilter
             - StripPrefix=1
         - id: mall-ums
           uri: lb://mall-ums
           predicates:
             - Path=/mall-ums/**
           filters:
+            - SwaggerHeaderFilter
             - StripPrefix=1
         - id: mall-sms
           uri: lb://mall-sms
           predicates:
             - Path=/mall-sms/**
           filters:
+            - SwaggerHeaderFilter
             - StripPrefix=1
 
 # 配置白名单路径(无需登录)
 whitelist:
   urls:
-      - "/youlai-auth/oauth/token"
+      - /youlai-auth/oauth/token
+      - /webjars/**
+      - /doc.html
+      - /swagger-resources/**
+      - /*/v2/api-docs
 
 # 是否演示环境
 demo: false 

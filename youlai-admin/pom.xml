@@ -14,7 +14,7 @@
 
     <modules>
         <module>admin-api</module>
-        <module>admin-biz</module>
+        <module>admin-boot</module>
     </modules>
 
     <properties>

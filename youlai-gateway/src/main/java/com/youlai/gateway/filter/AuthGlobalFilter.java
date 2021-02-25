@@ -53,7 +53,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
         // 无token放行
         String token = exchange.getRequest().getHeaders().getFirst(AuthConstants.JWT_TOKEN_HEADER);
-        if (StrUtil.isBlank(token)) {
+        if (StrUtil.isBlank(token) || !token.startsWith(AuthConstants.JWT_TOKEN_PREFIX)) {
             return chain.filter(exchange);
         }
 

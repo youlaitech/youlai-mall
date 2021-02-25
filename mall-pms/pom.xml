@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>pms-api</module>
-        <module>pms-biz</module>
+        <module>pms-boot</module>
         <module>pms-search</module>
     </modules>
 

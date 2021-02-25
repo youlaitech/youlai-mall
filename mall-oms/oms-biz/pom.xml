@@ -38,12 +38,6 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-knife4j</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-web</artifactId>
             <version>${youlai.version}</version>
         </dependency>

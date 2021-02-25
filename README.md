@@ -73,17 +73,17 @@ youlai-mall
     ├── oms-biz -- 订单微服务
 ├── mall-pms
     ├── pms-api -- 商品微服务的远程调用客户端
-    ├── pms-biz -- 商品微服务
+    ├── pms-boot -- 商品微服务
     ├── pms-search -- 商品搜索微服务
 ├── mall-sms
     ├── sms-api -- 营销微服务的远程调用客户端
-    ├── sms-biz -- 营销微服务
+    ├── sms-boot -- 营销微服务
 ├── mall-ums
     ├── ums-api -- 会员微服务的远程调用客户端
-    ├── ums-biz -- 会员微服务
+    ├── ums-boot -- 会员微服务
 ├── youlai-admin 
     ├── admin-api -- 系统管理微服务的远程调用客户端
-    ├── admin-biz -- 系统管理微服务
+    ├── admin-boot -- 系统管理微服务
 ├── youlai-auth     -- 认证中心【Oauth2认证服务器】
 ├── youlai-common   -- 公共模块
 └── youlai-gateway  -- Gateway网关【Oauth2资源服务器】
@@ -121,7 +121,7 @@ youlai-mall
 2. **启动平台基础服务**
 
     分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
-    启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-biz`的AdminApplication类，至此完成整个项目的启动；
+    启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-boot`的AdminApplication类，至此完成整个项目的启动；
 
 3. 至此后台服务启动完毕，如需商城服务，启动对应模块的子模块biz的启动类即可。
 
@@ -198,6 +198,14 @@ youlai-mall
 3. [Docker实战 | 第三篇：IDEA集成Docker插件实现一键自动打包部署微服务项目，一劳永逸的技术手段值得一试](https://www.cnblogs.com/haoxianrui/p/14088400.html)
 4. [Docker实战 | 第四篇：Docker安装Nginx，实现基于vue-element-admin框架构建的项目线上部署](https://www.cnblogs.com/haoxianrui/p/14091762.html) 
 5. [Docker实战 | 第五篇：Docker启用TLS加密解决暴露2375端口引发的安全漏洞，被黑掉三台云主机的教训总结](https://www.cnblogs.com/haoxianrui/p/14095306.html)
+
+
+## 接口测试
+
+本地启动网关`youlai-gateway`和相应的服务，访问 [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
+
+![](https://gitee.com/haoxr/image/raw/master/default/20210225200217.png)
+
 
 ## 其他说明
 

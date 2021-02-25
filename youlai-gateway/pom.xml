@@ -72,6 +72,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+        </dependency>
+
     </dependencies>
 
 
@@ -105,12 +111,12 @@
                     </to>
                 </configuration>
                 <executions>
-                    <execution>
+                   <!-- <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
-                    </execution>
+                    </execution>-->
                 </executions>
             </plugin>
 
@@ -122,13 +128,13 @@
                 <version>1.0.0</version>
                 <executions>
                     <!--执行mvn package,即执行 mvn clean package docker:build-->
-                    <execution>
+                   <!-- <execution>
                         <id>build-image</id>
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
-                    </execution>
+                    </execution>-->
                 </executions>
 
                 <configuration>
