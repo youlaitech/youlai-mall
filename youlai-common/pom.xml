@@ -15,7 +15,6 @@
 
     <modules>
         <module>common-core</module>
-        <module>common-knife4j</module>
         <module>common-redis</module>
         <module>common-web</module>
         <module>common-mybatis</module>
@@ -100,11 +99,6 @@
                 <version>${youlai.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.youlai</groupId>
-                <artifactId>common-knife4j</artifactId>
-                <version>${youlai.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>

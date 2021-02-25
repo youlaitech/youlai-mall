@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>ums-api</module>
-        <module>ums-biz</module>
+        <module>ums-boot</module>
     </modules>
 
     <properties>
@@ -27,7 +27,6 @@
             <artifactId>common-core</artifactId>
             <version>${youlai.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
