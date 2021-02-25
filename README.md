@@ -200,11 +200,11 @@ youlai-mall
 5. [Docker实战 | 第五篇：Docker启用TLS加密解决暴露2375端口引发的安全漏洞，被黑掉三台云主机的教训总结](https://www.cnblogs.com/haoxianrui/p/14095306.html)
 
 
-## 接口测试
+## 接口文档
 
 本地启动网关`youlai-gateway`和相应的服务，访问 [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-![](https://gitee.com/haoxr/image/raw/master/default/20210225200217.png)
+![](https://gitee.com/haoxr/image/raw/master/default/20210225201144.png)
 
 
 ## 其他说明
