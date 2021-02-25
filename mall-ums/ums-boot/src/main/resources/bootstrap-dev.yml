@@ -1,0 +1,16 @@
+server:
+  port: 8601
+
+spring:
+  application:
+    name: mall-ums
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+      config:
+        # docker启动nacos-server需要配置
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        prefix: ${spring.application.name}

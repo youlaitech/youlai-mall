@@ -1,0 +1,15 @@
+server:
+  port: 8604
+
+spring:
+  application:
+    name: mall-sms
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://c.youlai.store:8848
+        namespace: prod_namespace_id
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+        namespace: prod_namespace_id

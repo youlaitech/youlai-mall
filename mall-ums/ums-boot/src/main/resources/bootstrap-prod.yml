@@ -1,0 +1,18 @@
+server:
+  port: 8601
+
+spring:
+  application:
+    name: mall-ums
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://c.youlai.store:8848
+        namespace: prod_namespace_id
+      config:
+        # docker启动nacos-server需要配置
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        prefix: ${spring.application.name}
+        namespace: prod_namespace_id

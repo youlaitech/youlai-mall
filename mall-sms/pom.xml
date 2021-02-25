@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>sms-api</module>
-        <module>sms-biz</module>
+        <module>sms-boot</module>
     </modules>
 
     <properties>

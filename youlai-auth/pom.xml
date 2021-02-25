@@ -49,13 +49,6 @@
             <artifactId>common-web</artifactId>
             <version>${youlai.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-knife4j</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
@@ -138,6 +131,12 @@
             <version>2.2.6.RELEASE</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -152,13 +151,13 @@
                 <version>1.0.0</version>
                 <executions>
                     <!--执行mvn package,即执行 mvn clean package docker:build-->
-                    <execution>
+                    <!--<execution>
                         <id>build-image</id>
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
-                    </execution>
+                    </execution>-->
                 </executions>
 
                 <configuration>

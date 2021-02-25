@@ -1,0 +1,16 @@
+server:
+  port: 8602
+
+spring:
+  application:
+    name: mall-pms
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+
+
+
