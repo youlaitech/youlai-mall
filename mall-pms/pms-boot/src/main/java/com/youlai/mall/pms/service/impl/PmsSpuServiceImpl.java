@@ -7,8 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.bo.AppProductBO;
-import com.youlai.mall.pms.bo.ProductBO;
+import com.youlai.mall.pms.bo.app.ProductBO;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.domain.*;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
@@ -44,7 +43,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
     @Override
     @Transactional
-    public boolean add(ProductBO spuBO) {
+    public boolean add(com.youlai.mall.pms.bo.admin.ProductBO spuBO) {
         SpuDTO spuDTO = spuBO.getSpu();
         List<PmsSpuAttrValue> attrs = spuBO.getAttrs();
         List<PmsSpuSpecValue> specs = spuBO.getSpecs();
@@ -81,7 +80,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public ProductBO getBySpuId(Long id) {
+    public com.youlai.mall.pms.bo.admin.ProductBO getBySpuId(Long id) {
         // spu
         SpuDTO spuDTO = new SpuDTO();
         PmsSpu spu = this.getById(id);
@@ -102,13 +101,13 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-        ProductBO spuBO = new ProductBO(spuDTO, attrs, specs, skuList);
+        com.youlai.mall.pms.bo.admin.ProductBO spuBO = new com.youlai.mall.pms.bo.admin.ProductBO(spuDTO, attrs, specs, skuList);
         return spuBO;
     }
 
 
     @Override
-    public boolean updateById(ProductBO spuBO) {
+    public boolean updateById(com.youlai.mall.pms.bo.admin.ProductBO spuBO) {
         SpuDTO spuDTO = spuBO.getSpu();
 
         List<PmsSpuAttrValue> attrs = spuBO.getAttrs();
@@ -196,7 +195,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public AppProductBO getProductByIdForApp(Long spuId) {
+    public ProductBO getProductByIdForApp(Long spuId) {
         // spu
         PmsSpu spu = this.getById(spuId);
         SpuDTO spuDTO = new SpuDTO();
@@ -218,7 +217,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
 
-        AppProductBO product = new AppProductBO(spuDTO, attrs, specs, skuList);
+        ProductBO product = new ProductBO(spuDTO, attrs, specs, skuList);
         return product;
     }
 }

@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller.app;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.bo.AppProductBO;
+import com.youlai.mall.pms.bo.app.ProductBO;
 import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
@@ -11,15 +11,13 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "商品接口")
-@RestController
+@Api(tags = "【移动端】商品信息")
+@RestController("AppProductController")
 @RequestMapping("/api.app/v1/products")
-@Slf4j
 @AllArgsConstructor
-public class AppProductController {
+public class ProductController {
 
     private IPmsSpuService iPmsSpuService;
 
@@ -47,8 +45,8 @@ public class AppProductController {
     @ApiOperation(value = "商品详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result<AppProductBO> detail(@PathVariable Long id) {
-        AppProductBO product = iPmsSpuService.getProductByIdForApp(id);
+    public Result<ProductBO> detail(@PathVariable Long id) {
+        ProductBO product = iPmsSpuService.getProductByIdForApp(id);
         return Result.success(product);
     }
 

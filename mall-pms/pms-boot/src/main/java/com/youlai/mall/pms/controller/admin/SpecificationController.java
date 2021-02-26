@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "规格接口")
+@Api(tags = "【系统管理】商品规格")
 @RestController
-@RequestMapping("/admin-api/v1/specs")
+@RequestMapping("/admin-api/v1/specifications")
 @Slf4j
 @AllArgsConstructor
-public class SpecController {
+public class SpecificationController {
 
     private IPmsCategorySpecService iPmsCategorySpecService;
 
-    @ApiOperation(value = "规格分类列表", httpMethod = "GET")
+    @ApiOperation(value = "分类规格列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "categoryId", value = "分类ID", paramType = "query", dataType = "Long")
     })

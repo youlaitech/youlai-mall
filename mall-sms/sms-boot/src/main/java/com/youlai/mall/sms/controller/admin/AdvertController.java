@@ -20,12 +20,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Api(tags = "广告接口")
+@Api(tags = "【系统管理】营销广告")
 @RestController
 @RequestMapping("/api.admin/v1/adverts")
 @Slf4j
 @AllArgsConstructor
-public class AdminAdvertController {
+public class AdvertController {
 
     private ISmsAdvertService iSmsAdvertService;
 
