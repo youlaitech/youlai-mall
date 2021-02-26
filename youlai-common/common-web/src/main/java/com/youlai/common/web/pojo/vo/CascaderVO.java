@@ -1,4 +1,4 @@
-package com.youlai.common.web.vo;
+package com.youlai.common.web.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

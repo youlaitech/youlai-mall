@@ -1,11 +1,13 @@
 package com.youlai.auth.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.admin.api.UserFeignService;
 import com.youlai.auth.domain.User;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.api.MemberFeignService;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -29,12 +32,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserFeignService userFeignService;
     private MemberFeignService memberFeignService;
 
-    private HttpServletRequest request;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        String clientId = RequestUtils.getAuthClientId();
 
-        String clientId = request.getParameter(AuthConstants.JWT_CLIENT_ID_KEY);
         User user = null;
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户

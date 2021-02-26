@@ -44,7 +44,7 @@ public class SwaggerConfiguration {
         scopes.add(new AuthorizationScope("writes","write all resources"));
 
         SecurityReference securityReference=new SecurityReference("oauth2",scopes.toArray(new AuthorizationScope[]{}));
-        SecurityContext securityContext=new SecurityContext(Lists.newArrayList(securityReference),PathSelectors.ant("/api/**"));
+        SecurityContext securityContext=new SecurityContext(Lists.newArrayList(securityReference),PathSelectors.ant("/**"));
         //schemas
         List<SecurityScheme> securitySchemes=Lists.newArrayList(oAuth);
         //securyContext

@@ -3,7 +3,7 @@ package com.youlai.mall.oms.service.impl;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.util.WebUtils;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.service.TokenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String generateToken() {
         StringBuffer sb = new StringBuffer();
-        String userId = WebUtils.getUserId().toString();
+        String userId = RequestUtils.getUserId().toString();
         //生成UUID
         String token = IdUtil.randomUUID();
         //前缀 + 用户id + UUID组成 token
@@ -56,7 +56,7 @@ public class TokenServiceImpl implements TokenService {
         }
 
         StringBuilder sb = new StringBuilder();
-        String userId = WebUtils.getUserId().toString();
+        String userId = RequestUtils.getUserId().toString();
         String key = sb.append(TOKEN_VERIFY).append(userId).append(':').append(token).toString();
 
         // 2、校验token是否存在

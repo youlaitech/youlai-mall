@@ -10,6 +10,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.ums.api.MemberFeignService;
 import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
@@ -62,10 +63,13 @@ public class AuthController {
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
     ) throws HttpRequestMethodNotSupportedException {
-        String clientId = parameters.get(AuthConstants.JWT_CLIENT_ID_KEY);
+
+        String clientId = RequestUtils.getAuthClientId();
+
         switch (clientId) {
             case AuthConstants.WEAPP_CLIENT_ID:  // 微信认证
                 return this.handleForWxAuth(principal, parameters);
+
             default:
                 OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
                 Oauth2Token oauth2Token = Oauth2Token.builder()

@@ -9,7 +9,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.utils.EnumUtils;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.util.WebUtils;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.dao.OrderPayDao;
 import com.youlai.mall.oms.enums.OrderPayTypeEnum;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
@@ -53,7 +53,7 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OrderPayEntity
 
     @Override
     public PayInfoVO info(String orderId) {
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         PayInfoVO payInfoVO = new PayInfoVO();
         // 1、获取订单应支付金额
         OrderEntity orderEntity = orderService.getByOrderId(orderId);
@@ -61,7 +61,7 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OrderPayEntity
 
         // 2、获取会员余额
         try {
-            Result<MemberDTO> memberInfo = memberFeignService.getUserById(WebUtils.getUserId());
+            Result<MemberDTO> memberInfo = memberFeignService.getUserById(RequestUtils.getUserId());
             if (memberInfo != null && memberInfo.getCode().equals(ResultCode.SUCCESS.getCode())) {
                 MemberDTO data = memberInfo.getData();
                 if (data != null) {
@@ -90,7 +90,7 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OrderPayEntity
         }
 
         // 2、查询用户信息，判断用户余额是否足够
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         Result<MemberDTO> memberInfo = memberFeignService.getUserById(userId);
         MemberDTO memberInfoData = memberInfo.getData();
         if (memberInfo == null || !memberInfo.getCode().equals(ResultCode.SUCCESS.getCode()) || memberInfoData == null) {

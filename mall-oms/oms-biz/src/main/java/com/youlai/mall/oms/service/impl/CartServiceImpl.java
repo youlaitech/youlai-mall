@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.service.impl;
 
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.WebUtils;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.pms.api.ProductFeignService;
 import com.youlai.mall.oms.bo.CartItemBo;
 import com.youlai.mall.oms.bo.CartItemCheckBo;
@@ -147,7 +147,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void clear() {
         log.info("清空购物车");
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         String cartKey = MALL_CART_KEY + userId;
         redisTemplate.delete(cartKey);
 
@@ -167,7 +167,7 @@ public class CartServiceImpl implements CartService {
     }
 
     private BoundHashOperations getCartOps() {
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         String cartKey = MALL_CART_KEY + userId;
         BoundHashOperations operations = redisTemplate.boundHashOps(cartKey);
         return operations;
