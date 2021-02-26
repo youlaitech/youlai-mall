@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "广告接口")
-@RestController
+@Api(tags = "【移动端】营销广告")
+@RestController("AppAdvertController")
 @RequestMapping("/api.app/v1/adverts")
 @Slf4j
 @AllArgsConstructor
-public class AppAdvertController {
+public class AdvertController {
 
     private ISmsAdvertService iSmsAdvertService;
 

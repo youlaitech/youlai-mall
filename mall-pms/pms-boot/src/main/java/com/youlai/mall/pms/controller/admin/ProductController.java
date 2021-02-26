@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.pms.bo.ProductBO;
+import com.youlai.mall.pms.bo.admin.ProductBO;
 import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@Api(tags = "商品接口")
+@Api(tags = "【系统管理】商品信息")
 @RestController
 @RequestMapping("/api.admin/v1/products")
 @Slf4j

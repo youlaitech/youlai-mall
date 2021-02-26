@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "分类属性接口")
+@Api(tags = "【系统管理】分类属性")
 
 @RestController
 @RequestMapping("/admin-api/v1/attrs")
@@ -26,7 +26,7 @@ public class AttrController {
 
     private IPmsCategoryAttrService iPmsCategoryAttrService;
 
-    @ApiOperation(value = "属性分类列表", httpMethod = "GET")
+    @ApiOperation(value = "分类属性列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "categoryId", value = "分类ID", paramType = "query", dataType = "Long")
 

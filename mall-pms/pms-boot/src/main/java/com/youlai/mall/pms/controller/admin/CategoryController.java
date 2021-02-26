@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "商品分类接口")
+@Api(tags = "【系统管理】商品分类")
 @RestController
 @RequestMapping("/categories")
 @Slf4j
