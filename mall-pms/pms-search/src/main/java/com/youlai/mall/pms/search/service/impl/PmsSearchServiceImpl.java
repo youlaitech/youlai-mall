@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.search.service.impl;
 
-import com.youlai.mall.pms.pojo.PmsSpu;
+import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.search.service.IPmsSearchService;
 import com.youlai.mall.pms.search.utils.ElasticsearchConvertUtils;
 import com.youlai.mall.pms.search.utils.ElasticsearchUtils;

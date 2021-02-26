@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.PmsCategory;
+import com.youlai.mall.pms.pojo.domain.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import io.swagger.annotations.Api;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/categories")
 @Slf4j
 @AllArgsConstructor
-public class AdminCategoryController {
+public class CategoryController {
 
     private IPmsCategoryService iPmsCategoryService;
 

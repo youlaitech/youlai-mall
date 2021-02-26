@@ -1,10 +1,8 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.PmsSpuAttrValue;
+import com.youlai.mall.pms.pojo.domain.PmsSpuAttrValue;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 /**
  * @author haoxr

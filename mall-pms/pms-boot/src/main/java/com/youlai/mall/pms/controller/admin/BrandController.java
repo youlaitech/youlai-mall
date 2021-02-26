@@ -8,7 +8,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.pms.pojo.PmsBrand;
+import com.youlai.mall.pms.pojo.domain.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/brands")
 @Slf4j
 @AllArgsConstructor
-public class AdminBrandController {
+public class BrandController {
 
     private IPmsBrandService iPmsBrandService;
 

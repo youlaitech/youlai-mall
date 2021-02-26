@@ -2,7 +2,7 @@ package com.youlai.mall.pms.controller.app;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.PmsSku;
+import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
 import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;

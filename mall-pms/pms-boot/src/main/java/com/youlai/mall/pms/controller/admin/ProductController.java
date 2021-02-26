@@ -7,7 +7,7 @@ import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.pms.bo.ProductBO;
-import com.youlai.mall.pms.pojo.PmsSpu;
+import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api.admin/v1/products")
 @Slf4j
 @AllArgsConstructor
-public class AdminProductController {
+public class ProductController {
 
     private IPmsSpuService iPmsSpuService;
 

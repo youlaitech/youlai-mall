@@ -3,8 +3,8 @@ package com.youlai.mall.pms.controller.admin;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.PmsAttr;
-import com.youlai.mall.pms.service.IPmsAttrService;
+import com.youlai.mall.pms.pojo.domain.PmsCategoryAttr;
+import com.youlai.mall.pms.service.IPmsCategoryAttrService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "属性分类接口")
+@Api(tags = "分类属性接口")
 
 @RestController
 @RequestMapping("/admin-api/v1/attrs")
 @Slf4j
 @AllArgsConstructor
-public class AdminAttrController {
+public class AttrController {
 
-    private IPmsAttrService iPmsAttrService;
+    private IPmsCategoryAttrService iPmsCategoryAttrService;
 
     @ApiOperation(value = "属性分类列表", httpMethod = "GET")
     @ApiImplicitParams({
@@ -33,8 +33,8 @@ public class AdminAttrController {
     })
     @GetMapping
     public Result list(Long categoryId) {
-        List<PmsAttr> list = iPmsAttrService
-                .list(new LambdaQueryWrapper<PmsAttr>().eq(PmsAttr::getCategoryId, categoryId));
+        List<PmsCategoryAttr> list = iPmsCategoryAttrService
+                .list(new LambdaQueryWrapper<PmsCategoryAttr>().eq(PmsCategoryAttr::getCategoryId, categoryId));
         return Result.success(list);
     }
 
@@ -42,7 +42,7 @@ public class AdminAttrController {
     @ApiOperation(value = "新增属性", httpMethod = "POST")
     @ApiImplicitParam(name = "attrCategories", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsAttrCategory")
     @PostMapping
-    public Result saveBatch(@RequestBody List<PmsAttr> attrCategories) {
+    public Result saveBatch(@RequestBody List<PmsCategoryAttr> attrCategories) {
 
         if (CollectionUtil.isEmpty(attrCategories)) {
             return Result.failed("至少提交一条属性");
@@ -52,10 +52,10 @@ public class AdminAttrController {
 
         List<Long> formIds = attrCategories.stream().map(item -> item.getId()).collect(Collectors.toList());
 
-        List<Long> databaseIds = iPmsAttrService
-                .list(new LambdaQueryWrapper<PmsAttr>()
-                        .eq(PmsAttr::getCategoryId, categoryId)
-                        .select(PmsAttr::getId)
+        List<Long> databaseIds = iPmsCategoryAttrService
+                .list(new LambdaQueryWrapper<PmsCategoryAttr>()
+                        .eq(PmsCategoryAttr::getCategoryId, categoryId)
+                        .select(PmsCategoryAttr::getId)
                 ).stream()
                 .map(item -> item.getId())
                 .collect(Collectors.toList());
@@ -66,11 +66,11 @@ public class AdminAttrController {
                     .filter(id -> CollectionUtil.isEmpty(formIds) || !formIds.contains(id))
                     .collect(Collectors.toList());
             if (CollectionUtil.isNotEmpty(removeIds)) {
-                iPmsAttrService.removeByIds(removeIds);
+                iPmsCategoryAttrService.removeByIds(removeIds);
             }
         }
 
-        boolean result = iPmsAttrService.saveOrUpdateBatch(attrCategories);
+        boolean result = iPmsCategoryAttrService.saveOrUpdateBatch(attrCategories);
         return Result.judge(result);
     }
 }
