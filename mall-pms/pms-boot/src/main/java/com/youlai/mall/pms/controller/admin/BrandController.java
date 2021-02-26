@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
-@Api(tags = "品牌接口")
+@Api(tags = "【系统管理】品牌接口")
 @RestController
 @RequestMapping("/brands")
 @Slf4j

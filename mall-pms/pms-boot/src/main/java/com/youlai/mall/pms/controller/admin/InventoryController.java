@@ -13,17 +13,17 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "商品sku接口")
+@Api(tags = "【系统管理】商品库存")
 @RestController
-@RequestMapping("/api.admin/v1/sku")
+@RequestMapping("/api.admin/v1/inventories")
 @Slf4j
 @AllArgsConstructor
-public class SkuController {
+public class InventoryController {
 
     private IPmsSkuService iPmsSkuService;
 
-    @ApiOperation(value = "商品sku详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "商品sku id", required = true, paramType = "path", dataType = "Long")
+    @ApiOperation(value = "库存明细", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "商品SKU ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result<SkuDTO> detail(@PathVariable Long id) {
         PmsSku sku = iPmsSkuService.getById(id);
@@ -32,7 +32,7 @@ public class SkuController {
         return Result.success(skuDTO);
     }
 
-    @ApiOperation(value = "修改商品库存", httpMethod = "PUT")
+    @ApiOperation(value = "修改库存", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "sku", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSku")

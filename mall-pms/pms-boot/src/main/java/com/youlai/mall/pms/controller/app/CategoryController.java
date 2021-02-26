@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "分类接口【移动端】")
-@RestController
+@Api(tags = "【移动端】商品分类")
+@RestController("AppCategoryController")
 @RequestMapping("/api.app/v1/categories")
 @Slf4j
 @AllArgsConstructor
-public class AppCategoryController {
+public class CategoryController {
 
     private IPmsCategoryService iPmsCategoryService;
 

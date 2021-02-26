@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.controller;
 
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.pms.bo.AppProductBO;
+import com.youlai.mall.pms.bo.app.ProductBO;
 import com.youlai.mall.pms.controller.admin.ProductController;
 import com.youlai.mall.pms.pojo.domain.PmsCategorySpec;
 import com.youlai.mall.pms.service.IPmsSpuAttrValueService;
@@ -69,7 +69,7 @@ public class ProductControllerTest {
 
     @Test
     public void getProduct() {
-        AppProductBO product = iPmsSpuService.getProductByIdForApp(1l);
+        ProductBO product = iPmsSpuService.getProductByIdForApp(1l);
         log.info(product.toString());
     }
 }

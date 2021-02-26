@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "商品SKU")
-@RestController
-@RequestMapping("/api.app/v1/sku")
-@Slf4j
+@Api(tags = "【移动端】商品库存")
+@RestController("AppInventoryController")
+@RequestMapping("/api.app/v1/inventories")
 @AllArgsConstructor
-public class AppSkuController {
+public class InventoryController {
 
     private IPmsSkuService iPmsSkuService;
 
