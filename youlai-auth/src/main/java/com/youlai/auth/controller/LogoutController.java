@@ -3,7 +3,7 @@ package com.youlai.auth.controller;
 import cn.hutool.json.JSONObject;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.WebUtils;
+import com.youlai.common.web.util.RequestUtils;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class LogoutController {
 
     @DeleteMapping("/logout")
     public Result logout() {
-        JSONObject jsonObject = WebUtils.getJwtPayload();
+        JSONObject jsonObject = RequestUtils.getJwtPayload();
         String jti = jsonObject.getStr("jti"); // JWT唯一标识
         long exp = jsonObject.getLong("exp"); // JWT过期时间戳
 
