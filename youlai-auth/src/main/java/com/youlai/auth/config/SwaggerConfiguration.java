@@ -26,7 +26,7 @@ import java.util.List;
 public class SwaggerConfiguration {
 
     @Bean
-    public Docket productApi() {
+    public Docket restApi() {
         //schema
         List<GrantType> grantTypes=new ArrayList<>();
         //密码模式
@@ -60,15 +60,14 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("OAuth2认证中心").description("")
+        return new ApiInfoBuilder().title("OAuth2认证中心")
+                .description("<div style='font-size:14px;color:red;'>OAuth2认证、注销、获取验签公钥接口</div>")
                 .termsOfServiceUrl("https://www.youlai.store")
-                .contact(new Contact("youlai", "https://github.com/hxrui", ""))
+                .contact(new Contact("yl", "https://github.com/hxrui", "1490493387@qq.com"))
                 .license("Open Source")
-                .licenseUrl("\"https://www.apache.org/licenses/LICENSE-2.0")
+                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .version("1.0.0")
                 .build();
     }
-
-
 
 }

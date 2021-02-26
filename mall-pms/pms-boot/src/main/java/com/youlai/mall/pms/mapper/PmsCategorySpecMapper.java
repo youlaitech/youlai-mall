@@ -1,13 +1,13 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.PmsSpec;
+import com.youlai.mall.pms.pojo.domain.PmsCategorySpec;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface PmsSpecMapper extends BaseMapper<PmsSpec> {
+public interface PmsCategorySpecMapper extends BaseMapper<PmsCategorySpec> {
 
     @Select("<script>" +
             " SELECT " +
@@ -22,5 +22,5 @@ public interface PmsSpecMapper extends BaseMapper<PmsSpec> {
             @Result(id = true, column = "id", property = "id"),
             @Result(property = "values", column = "{specId= t1.id,spuId=spuId}", many = @Many(select = "com.youlai.mall.pms.mapper.PmsSpuSpecValueMapper.listBySpuIdAndSpecId"))
     })
-     List<PmsSpec> listBySpuId(Long spuId);
+     List<PmsCategorySpec> listBySpuId(Long spuId);
 }

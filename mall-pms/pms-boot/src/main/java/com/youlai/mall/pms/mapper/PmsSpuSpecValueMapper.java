@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.PmsSpuSpecValue;
+import com.youlai.mall.pms.pojo.domain.PmsSpuSpecValue;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Mapper;
 

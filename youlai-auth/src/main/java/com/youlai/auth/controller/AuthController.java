@@ -4,7 +4,6 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.auth.domain.Oauth2Token;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
@@ -44,7 +43,7 @@ public class AuthController {
 
     private TokenEndpoint tokenEndpoint;
 
-    @ApiOperation("OAuth2认证生成token")
+    @ApiOperation("OAuth2认证生成token，兼容从请求头获取加密的客户端信息和从请求路径获取客户端信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
             @ApiImplicitParam(name = "client_id", defaultValue = "client", value = "Oauth2客户端ID", required = true),
@@ -59,26 +58,20 @@ public class AuthController {
             @ApiImplicitParam(name = "iv", value = "加密算法的初始向量"),
     })
     @PostMapping("/token")
-    public Result postAccessToken(
+    public OAuth2AccessToken postAccessToken(
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
     ) throws HttpRequestMethodNotSupportedException {
+        OAuth2AccessToken oAuth2AccessToken;
 
         String clientId = RequestUtils.getAuthClientId();
-
         switch (clientId) {
             case AuthConstants.WEAPP_CLIENT_ID:  // 微信认证
-                return this.handleForWxAuth(principal, parameters);
-
+                oAuth2AccessToken = this.handleForWxAuth(principal, parameters);
             default:
-                OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-                Oauth2Token oauth2Token = Oauth2Token.builder()
-                        .token(oAuth2AccessToken.getValue())
-                        .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
-                        .expiresIn(oAuth2AccessToken.getExpiresIn())
-                        .build();
-                return Result.success(oauth2Token);
+                oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         }
+        return oAuth2AccessToken;
     }
 
 
@@ -86,7 +79,7 @@ public class AuthController {
     private MemberFeignService memberFeignService;
     private PasswordEncoder passwordEncoder;
 
-    public Result handleForWxAuth(Principal principal, Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
+    public OAuth2AccessToken handleForWxAuth(Principal principal, Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
 
         String code = parameters.get("code");
 
@@ -133,12 +126,7 @@ public class AuthController {
         parameters.put("password", openid);
 
         OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-        Oauth2Token oauth2Token = Oauth2Token.builder()
-                .token(oAuth2AccessToken.getValue())
-                .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
-                .expiresIn(oAuth2AccessToken.getExpiresIn())
-                .build();
-        return Result.success(oauth2Token);
+        return oAuth2AccessToken;
     }
 
 

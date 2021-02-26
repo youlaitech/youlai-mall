@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo;
+package com.youlai.mall.pms.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -10,11 +10,13 @@ import lombok.Data;
  * @date 2020-11-06
  */
 @Data
-public class PmsSpuSpecValue extends BaseEntity {
+public class PmsSpuAttrValue extends BaseEntity {
 
-    @TableId(type = IdType.INPUT)
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long spuId;
-    private Long specId;
+    private Long attrId;
+    private String name;
     private String value;
+
 }

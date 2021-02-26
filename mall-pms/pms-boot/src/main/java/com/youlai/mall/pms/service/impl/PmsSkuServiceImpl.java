@@ -3,7 +3,7 @@ package com.youlai.mall.pms.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
-import com.youlai.mall.pms.pojo.PmsSku;
+import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
 import com.youlai.mall.pms.pojo.vo.SkuStockVO;
 import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;

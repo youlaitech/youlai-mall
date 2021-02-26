@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.pojo.PmsSku;
+import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
 import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
 

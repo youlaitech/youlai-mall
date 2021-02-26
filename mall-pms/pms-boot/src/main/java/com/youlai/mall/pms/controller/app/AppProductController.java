@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.bo.AppProductBO;
-import com.youlai.mall.pms.pojo.PmsSpu;
+import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
