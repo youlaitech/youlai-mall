@@ -14,7 +14,7 @@ import com.youlai.common.result.ResultCode;
 import com.youlai.common.utils.EnumUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
-import com.youlai.common.web.util.WebUtils;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.config.rabbitmq.OmsRabbitConstants;
 import com.youlai.mall.oms.dao.OrderDao;
 import com.youlai.mall.oms.dao.OrderDeliveryDao;
@@ -184,7 +184,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         rabbitTemplate.convertAndSend(OmsRabbitConstants.ORDER_EVENT_EXCHANGE,
                 OmsRabbitConstants.ORDER_CREATE_ORDER_KEY, orderVO.getOrderEntity().getOrderSn());
 
-        orderLogsService.addOrderLogs(orderVO.getOrderEntity().getId(), orderVO.getOrderEntity().getStatus(), WebUtils.getUserId().toString(), "创建订单");
+        orderLogsService.addOrderLogs(orderVO.getOrderEntity().getId(), orderVO.getOrderEntity().getStatus(), RequestUtils.getUserId().toString(), "创建订单");
 
         OrderSubmitResultVO result = new OrderSubmitResultVO();
         result.setId(orderId);
@@ -278,7 +278,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Override
     public OrderEntity getByOrderId(String id) {
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         QueryWrapper<OrderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("member_id", userId).eq("id", id);
         OrderEntity orderEntity = this.getOne(queryWrapper);
@@ -398,7 +398,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         order.setRemark(submit.getRemark());
         order.setStatus(OrderStatusEnum.NEED_PAY.code);
         order.setSourceType(OrderTypeEnum.APP.code);
-        order.setMemberId(WebUtils.getUserId());
+        order.setMemberId(RequestUtils.getUserId());
         return order;
 
     }

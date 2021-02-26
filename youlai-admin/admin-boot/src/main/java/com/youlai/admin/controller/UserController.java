@@ -13,10 +13,9 @@ import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.admin.pojo.vo.UserVO;
 import com.youlai.admin.service.*;
 import com.youlai.common.base.BaseController;
-import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.common.web.util.WebUtils;
+import com.youlai.common.web.util.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -171,11 +170,11 @@ public class UserController extends BaseController {
     public Result<UserVO> getCurrentUser() {
         UserVO userVO = new UserVO();
 
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         SysUser user = iSysUserService.getById(userId);
         BeanUtil.copyProperties(user, userVO);
 
-        List<Long> roleIds = WebUtils.getRoleIds();
+        List<Long> roleIds = RequestUtils.getRoleIds();
         List<String> perms = iSysPermissionService.listPermsByRoleIds(roleIds, PermTypeEnum.BUTTON.getValue());
         userVO.setRoles(roleIds);
         userVO.setPerms(perms);

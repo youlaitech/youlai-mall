@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.common.web.util.WebUtils;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.ums.pojo.UmsUser;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
@@ -72,7 +72,7 @@ public class AppUserController {
     @ApiOperation(value = "获取当前请求的会员信息", httpMethod = "GET")
     @GetMapping("/me")
     public Result getMemberInfo() {
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         UmsUser user = iUmsUserService.getById(userId);
         if (user == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);

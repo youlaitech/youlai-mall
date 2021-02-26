@@ -3,7 +3,7 @@ package com.youlai.mall.ums.controller.app;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.WebUtils;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.ums.pojo.UmsAddress;
 import com.youlai.mall.ums.service.IUmsAddressService;
 import io.swagger.annotations.Api;
@@ -30,7 +30,7 @@ public class AppAddressController {
     @ApiOperation(value = "获取当前登录会员的地址列表", httpMethod = "GET")
     @GetMapping
     public Result list() {
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         List<UmsAddress> addressList = iUmsAddressService.list(new LambdaQueryWrapper<UmsAddress>()
                 .eq(UmsAddress::getUserId, userId)
                 .orderByDesc(UmsAddress::getDefaulted));
@@ -42,7 +42,7 @@ public class AppAddressController {
     @ApiImplicitParam(name = "address", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsAddress")
     @PostMapping
     public Result add(@RequestBody UmsAddress address) {
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         address.setUserId(userId);
         if (address.getDefaulted().equals(1)) { // 修改其他默认地址为非默认
             iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
@@ -65,7 +65,7 @@ public class AppAddressController {
     public Result update(
             @PathVariable Long id,
             @RequestBody UmsAddress address) {
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         if (address.getDefaulted().equals(1)) { // 修改其他默认地址为非默认
             iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
                     .eq(UmsAddress::getUserId, userId)
@@ -93,7 +93,7 @@ public class AppAddressController {
     })
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Long id, @RequestBody UmsAddress address) {
-        Long userId = WebUtils.getUserId();
+        Long userId = RequestUtils.getUserId();
         LambdaUpdateWrapper<UmsAddress> updateWrapper = new LambdaUpdateWrapper<UmsAddress>()
                 .eq(UmsAddress::getUserId, userId);
         if (address.getDefaulted() != null) {

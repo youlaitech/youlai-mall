@@ -4,14 +4,20 @@ public interface AuthConstants {
 
 
     /**
-     * 认证信息Http请求头
+     * 认证请求头key
      */
-    String JWT_TOKEN_HEADER = "Authorization";
+    String AUTHORIZATION_KEY = "Authorization";
 
     /**
      * JWT令牌前缀
      */
-    String JWT_TOKEN_PREFIX = "Bearer ";
+    String JWT_PREFIX = "Bearer ";
+
+
+    /**
+     * Basic认证前缀
+     */
+    String BASIC_PREFIX = "Basic ";
 
     /**
      * JWT载体key
@@ -43,11 +49,9 @@ public interface AuthConstants {
      */
     String BCRYPT = "{bcrypt}";
 
-    String JWT_USER_ID_KEY = "id";
+    String JWT_USER_ID_KEY = "user_id";
 
-    String JWT_CLIENT_ID_KEY = "client_id";
-
-    String JWT_JTI_KEY = "client_id";
+    String CLIENT_ID_KEY = "client_id";
 
     /**
      * JWT存储权限前缀
@@ -63,16 +67,16 @@ public interface AuthConstants {
     /**
      * 有来商城后台管理客户端ID
      */
-    String ADMIN_CLIENT_ID="youlai-admin";
+    String ADMIN_CLIENT_ID = "youlai-admin";
 
 
     /**
      * 有来商城微信小程序客户端ID
      */
-    String WEAPP_CLIENT_ID="youlai-mall-weapp";
+    String WEAPP_CLIENT_ID = "youlai-mall-weapp";
 
     /**
      * 后台管理接口路径匹配
      */
-    String ADMIN_URL_PATTERN ="*_/youlai-admin/**" ;
+    String ADMIN_URL_PATTERN = "*_/youlai-admin/**";
 }
