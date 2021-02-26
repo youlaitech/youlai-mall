@@ -1,11 +1,11 @@
-package com.youlai.mall.pms.pojo;
+package com.youlai.mall.pms.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
-public class PmsAttr {
+public class PmsCategoryAttr {
 
     @TableId(type=IdType.AUTO)
     private Long id;

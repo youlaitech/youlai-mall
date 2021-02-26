@@ -2,7 +2,7 @@ package com.youlai.mall.pms.controller.app;
 
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.PmsCategory;
+import com.youlai.mall.pms.pojo.domain.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import io.swagger.annotations.Api;

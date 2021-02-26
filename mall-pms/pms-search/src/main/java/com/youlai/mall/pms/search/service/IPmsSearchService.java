@@ -1,11 +1,9 @@
 package com.youlai.mall.pms.search.service;
 
-import com.youlai.mall.pms.pojo.PmsSku;
-import com.youlai.mall.pms.pojo.PmsSpu;
+import com.youlai.mall.pms.pojo.domain.PmsSpu;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public interface IPmsSearchService {
 

@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.bo.AppProductBO;
 import com.youlai.mall.pms.bo.ProductBO;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
-import com.youlai.mall.pms.pojo.*;
+import com.youlai.mall.pms.pojo.domain.*;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.service.*;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     private IPmsSkuService iPmsSkuService;
     private IPmsSpuAttrValueService iPmsSpuAttrValueService;
     private IPmsSpuSpecValueService iPmsSpuSpecValueService;
-    private IPmsSpecService iPmsSpecService;
+    private IPmsCategorySpecService iPmsCategorySpecService;
 
 
     @Override
@@ -213,7 +213,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         );
 
         // 规格
-        List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
+        List<PmsCategorySpec> specs = iPmsCategorySpecService.listBySpuId(spuId);
 
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));

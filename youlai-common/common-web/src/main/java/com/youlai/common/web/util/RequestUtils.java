@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 public class RequestUtils {
 
 
-    public static HttpServletRequest getHttpServletRequest() {
+    public static HttpServletRequest getRequest() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         return request;
     }
 
     public static JSONObject getJwtPayload() {
-        String jwtPayload = getHttpServletRequest().getHeader(AuthConstants.JWT_PAYLOAD_KEY);
+        String jwtPayload = getRequest().getHeader(AuthConstants.JWT_PAYLOAD_KEY);
         JSONObject jsonObject = JSONUtil.parseObj(jwtPayload);
         return jsonObject;
     }
@@ -58,7 +58,7 @@ public class RequestUtils {
     public static String getAuthClientId() {
         String clientId;
 
-        HttpServletRequest request = getHttpServletRequest();
+        HttpServletRequest request = getRequest();
 
         // 从请求路径中获取
         clientId = request.getParameter(AuthConstants.CLIENT_ID_KEY);
