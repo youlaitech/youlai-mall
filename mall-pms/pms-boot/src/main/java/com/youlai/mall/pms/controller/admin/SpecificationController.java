@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "【系统管理】商品规格")
 @RestController
-@RequestMapping("/admin-api/v1/specifications")
+@RequestMapping("/api.admin/v1/specifications")
 @Slf4j
 @AllArgsConstructor
 public class SpecificationController {
@@ -32,7 +32,8 @@ public class SpecificationController {
     @GetMapping
     public Result list(Long categoryId) {
         List<PmsCategorySpec> list = iPmsCategorySpecService
-                .list(new LambdaQueryWrapper<PmsCategorySpec>().eq(PmsCategorySpec::getCategoryId, categoryId));
+                .list(new LambdaQueryWrapper<PmsCategorySpec>()
+                        .eq(PmsCategorySpec::getCategoryId, categoryId));
         return Result.success(list);
     }
 
