@@ -19,9 +19,9 @@ import java.util.List;
 
 @Api(tags = "【移动端】商品库存")
 @RestController("AppInventoryController")
-@RequestMapping("/api.app/v1/inventories")
+@RequestMapping("/api.app/v1/sku")
 @AllArgsConstructor
-public class InventoryController {
+public class SkuController {
 
     private IPmsSkuService iPmsSkuService;
 

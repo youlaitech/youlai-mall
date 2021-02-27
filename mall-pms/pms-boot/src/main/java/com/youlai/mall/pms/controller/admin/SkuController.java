@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api.admin/v1/inventories")
 @Slf4j
 @AllArgsConstructor
-public class InventoryController {
+public class SkuController {
 
     private IPmsSkuService iPmsSkuService;
 
