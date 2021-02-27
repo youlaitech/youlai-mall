@@ -38,8 +38,7 @@
 
  交流群二维码过期，加我微信我直接拉你进群
 
-![](https://gitee.com/haoxr/image/raw/master/default/initpintu_%E5%89%AF%E6%9C%AC.jpg)
-
+![](https://gitee.com/haoxr/image/raw/master/default/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg)
 ### 2. 源码
  项目名称 | Github | 码云
  ---|---|---
