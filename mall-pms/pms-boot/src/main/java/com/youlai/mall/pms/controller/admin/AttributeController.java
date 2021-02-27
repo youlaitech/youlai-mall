@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "【系统管理】分类属性")
+@Api(tags = "【系统管理】商品属性")
 
 @RestController
-@RequestMapping("/admin-api/v1/attrs")
+@RequestMapping("/api.admin/v1/attributes")
 @Slf4j
 @AllArgsConstructor
-public class AttrController {
+public class AttributeController {
 
     private IPmsCategoryAttrService iPmsCategoryAttrService;
 
-    @ApiOperation(value = "分类属性列表", httpMethod = "GET")
+    @ApiOperation(value = "商品属性列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "categoryId", value = "分类ID", paramType = "query", dataType = "Long")
 
@@ -34,13 +34,14 @@ public class AttrController {
     @GetMapping
     public Result list(Long categoryId) {
         List<PmsCategoryAttr> list = iPmsCategoryAttrService
-                .list(new LambdaQueryWrapper<PmsCategoryAttr>().eq(PmsCategoryAttr::getCategoryId, categoryId));
+                .list(new LambdaQueryWrapper<PmsCategoryAttr>()
+                        .eq(PmsCategoryAttr::getCategoryId, categoryId));
         return Result.success(list);
     }
 
 
     @ApiOperation(value = "新增属性", httpMethod = "POST")
-    @ApiImplicitParam(name = "attrCategories", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsAttrCategory")
+    @ApiImplicitParam(name = "attrCategories", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategoryAttr")
     @PostMapping
     public Result saveBatch(@RequestBody List<PmsCategoryAttr> attrCategories) {
 

@@ -96,7 +96,7 @@ public class ProductController {
         return Result.success();
     }
 
-    @ApiOperation(value = "修改商品(部分更新)", httpMethod = "PATCH")
+    @ApiOperation(value = "修改商品", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "spu", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpu")
@@ -104,9 +104,7 @@ public class ProductController {
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody PmsSpu spu) {
         LambdaUpdateWrapper<PmsSpu> updateWrapper = new LambdaUpdateWrapper<PmsSpu>().eq(PmsSpu::getId, id);
-        if (spu.getStatus() != null) { // 状态更新
-            updateWrapper.set(PmsSpu::getStatus, spu.getStatus());
-        }
+        updateWrapper.set(spu.getStatus() != null, PmsSpu::getStatus, spu.getStatus());
         boolean update = iPmsSpuService.update(updateWrapper);
         return Result.success(update);
     }

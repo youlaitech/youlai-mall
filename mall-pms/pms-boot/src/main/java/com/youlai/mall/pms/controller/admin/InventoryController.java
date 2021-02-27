@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api.admin/v1/inventories")
 @Slf4j
 @AllArgsConstructor
-public class SkuController {
+public class InventoryController {
 
     private IPmsSkuService iPmsSkuService;
 
-    @ApiOperation(value = "库存明细", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "商品SKU ID", required = true, paramType = "path", dataType = "Long")
+    @ApiOperation(value = "商品库存明细", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "商品SkuID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result<SkuDTO> detail(@PathVariable Long id) {
         PmsSku sku = iPmsSkuService.getById(id);
