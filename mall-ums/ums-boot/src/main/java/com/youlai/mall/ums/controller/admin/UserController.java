@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
-@Api(tags = "会员接口")
-@RestController
+@Api(tags = "【系统管理】会员管理")
+@RestController("AdminUserController")
 @RequestMapping("/api.admin/v1/users")
 @Slf4j
-public class AdminUserController {
+public class UserController {
 
     @Autowired
     private IUmsUserService iUmsUserService;
