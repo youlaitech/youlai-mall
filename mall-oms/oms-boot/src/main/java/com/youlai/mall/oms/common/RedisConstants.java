@@ -1,6 +1,6 @@
-package com.youlai.common.redis.constant;
+package com.youlai.mall.oms.common;
 
-public interface RedisKeyConstants {
+public interface RedisConstants {
 
     Long REDIS_KEY_TIME_OUT = 3600 * 24L;
 

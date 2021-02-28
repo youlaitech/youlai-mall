@@ -1,7 +1,7 @@
 package com.youlai.common.redis.component;
 
+import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.enums.BusinessTypeEnum;
-import com.youlai.common.redis.constant.RedisKeyConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,22 +20,22 @@ public class BusinessNoGenerator {
     private RedisTemplate redisTemplate;
 
     /**
-     * @param businessCode 业务类型编号
+     * @param businessType 业务类型枚举
      * @param digit        业务序号位数
      * @return
      */
-    public String generate(String businessCode, Integer digit) {
+    public String generate(BusinessTypeEnum businessType, Integer digit) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
-        String key = RedisKeyConstants.BUSINESS_NO_PREFIX + BusinessTypeEnum.getValue(businessCode).toString().toLowerCase() + ":" + date;
+        String key = RedisConstants.BUSINESS_NO_PREFIX +businessType.getCode() + ":" + date;
         Long increment = redisTemplate.opsForValue().increment(key);
-        return date + businessCode + String.format("%0" + digit + "d", increment);
+        return date + businessType.getValue() + String.format("%0" + digit + "d", increment);
     }
 
 
-    public String generate(String businessCode) {
+    public String generate(BusinessTypeEnum businessType) {
         Integer defaultDigit = 6;
-        return generate(businessCode, defaultDigit);
+        return generate(businessType, defaultDigit);
     }
 
 }

@@ -1,0 +1,51 @@
+server:
+  port: 8603
+
+spring:
+  application:
+    name: mall-oms
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://c.youlai.store:8848
+        namespace: prod_namespace_id
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+        namespace: prod_namespace_id
+
+
+# 分布式事务配置
+seata:
+  tx-service-group: mall_tx_group
+  enable-auto-data-source-proxy: true
+  registry:
+    type: nacos
+    nacos:
+      server-addr: c.youlai.store:8848
+      namespace: seata_namespace_id
+      group: SEATA_GROUP
+  config:
+    type: nacos
+    nacos:
+      server-addr: c.youlai.store:8848
+      namespace: seata_namespace_id
+      group: SEATA_GROUP
+
+
+
+# 全局参数设置
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+
+# 站长支付API配置
+zzf:
+  AppKey: c35332f4d84646f7
+  AppSecret: 1c93baadf7544f5faa5b5c6e02ef4307
+  CreateOrderURL: https://admin.zhanzhangfu.com/order/createOrder
+  FindOrderURL: https://admin.zhanzhangfu.com/order/onlinePayFindResult
