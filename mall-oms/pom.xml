@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>oms-api</module>
-        <module>oms-biz</module>
+        <module>oms-boot</module>
     </modules>
 
     <properties>
