@@ -18,12 +18,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "会员接口")
+@Api(tags = "【移动端】会员服务")
 @RestController
 @RequestMapping("/api.app/v1/users")
 @Slf4j
 @AllArgsConstructor
-public class AppUserController {
+public class UserController {
 
     private IUmsUserService iUmsUserService;
 

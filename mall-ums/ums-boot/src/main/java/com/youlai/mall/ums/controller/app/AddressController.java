@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
-@Api(tags = "会员接口")
+@Api(tags = "【移动端】会员地址")
 @RestController
 @RequestMapping("/api.app/v1/addresses")
 @Slf4j
 @AllArgsConstructor
-public class AppAddressController {
+public class AddressController {
 
     private IUmsAddressService iUmsAddressService;
 

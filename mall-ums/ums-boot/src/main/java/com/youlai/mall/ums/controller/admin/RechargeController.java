@@ -24,11 +24,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Api(tags = "会员充值接口")
-@RestController
+@Api(tags = "【系统管理】会员充值")
+@RestController("AdminAdminRechargeController")
 @RequestMapping("/api.admin/v1/recharge_orders")
 @Slf4j
-public class AdminRechargeController {
+public class RechargeController {
 
     @Autowired
     private RestTemplate restTemplate;
