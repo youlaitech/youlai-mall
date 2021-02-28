@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "【系统管理】订单服务")
-@RestController("")
+@RestController("AdminOrderController")
 @RequestMapping("/api.admin/v1/orders")
 @Slf4j
 @AllArgsConstructor
