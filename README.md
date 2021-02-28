@@ -68,7 +68,7 @@ youlai-mall
     ├── nacos -- Nacos配置文件
     ├── sql   -- mysql数据库脚本
 ├── mall-oms
-    ├── oms-api -- 订单对外Feign接口
+    ├── oms-api -- 订单中心对外Feign接口
     ├── oms-boot -- 订单中心
 ├── mall-pms
     ├── pms-api -- 商品中心对外Feign接口
