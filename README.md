@@ -68,21 +68,21 @@ youlai-mall
     ├── nacos -- Nacos配置文件
     ├── sql   -- mysql数据库脚本
 ├── mall-oms
-    ├── oms-api -- 订单微服务的远程调用客户端
-    ├── oms-biz -- 订单微服务
+    ├── oms-api -- 订单对外Feign接口
+    ├── oms-boot -- 订单中心
 ├── mall-pms
-    ├── pms-api -- 商品微服务的远程调用客户端
-    ├── pms-boot -- 商品微服务
-    ├── pms-search -- 商品搜索微服务
+    ├── pms-api -- 商品中心对外Feign接口
+    ├── pms-boot -- 商品中心
+    ├── pms-search -- 商品搜索
 ├── mall-sms
-    ├── sms-api -- 营销微服务的远程调用客户端
-    ├── sms-boot -- 营销微服务
+    ├── sms-api -- 营销中心对外Feign接口
+    ├── sms-boot -- 营销中心
 ├── mall-ums
-    ├── ums-api -- 会员微服务的远程调用客户端
-    ├── ums-boot -- 会员微服务
+    ├── ums-api -- 会员中心对外Feign接口
+    ├── ums-boot -- 会员中心
 ├── youlai-admin 
-    ├── admin-api -- 系统管理微服务的远程调用客户端
-    ├── admin-boot -- 系统管理微服务
+    ├── admin-api -- 系统管理对外Feign接口
+    ├── admin-boot -- 系统管理
 ├── youlai-auth     -- 认证中心【Oauth2认证服务器】
 ├── youlai-common   -- 公共模块
 └── youlai-gateway  -- Gateway网关【Oauth2资源服务器】

@@ -1,398 +1,384 @@
--- database
-create DATABASE IF NOT EXISTS `youlai` DEFAULT CHARACTER set=utf8mb4;
-use `youlai`;
+/*
+ Navicat Premium Data Transfer
 
+ Source Server         : a.youlai.store
+ Source Server Type    : MySQL
+ Source Server Version : 80023
+ Source Host           : a.youlai.store:3306
+ Source Schema         : mall-pms
+
+ Target Server Type    : MySQL
+ Target Server Version : 80023
+ File Encoding         : 65001
+
+ Date: 01/03/2021 00:08:16
+*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for oauth_client_details
+-- Table structure for pms_brand
 -- ----------------------------
-DROP TABLE IF EXISTS `oauth_client_details`;
-CREATE TABLE `oauth_client_details`  (
-  `client_id` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `resource_ids` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `client_secret` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `scope` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `authorized_grant_types` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `web_server_redirect_uri` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `authorities` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `access_token_validity` int(0) DEFAULT NULL,
-  `refresh_token_validity` int(0) DEFAULT NULL,
-  `additional_information` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `autoapprove` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`client_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of oauth_client_details
--- ----------------------------
-INSERT INTO `oauth_client_details` VALUES ('youlai-admin', '', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', '', NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `oauth_client_details` VALUES ('youlai-mall-weapp', '', '123456', 'all', 'authorization_code,password,refresh_token,implicit', NULL, NULL, 3600, 7200, NULL, 'true');
-
--- ----------------------------
--- Table structure for sys_dept
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dept`;
-CREATE TABLE `sys_dept`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '部门名称',
-  `parent_id` int(0) DEFAULT 0 COMMENT '父节点id',
-  `tree_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '父节点id路径',
-  `sort` int(0) DEFAULT 0 COMMENT '显示顺序',
-  `leader` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '负责人',
-  `mobile` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '联系电话',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '邮箱地址',
-  `status` tinyint(1) DEFAULT 0 COMMENT '部门状态（0正常 1停用）',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '删除标志（0存在 1删除）',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_dept
--- ----------------------------
-INSERT INTO `sys_dept` VALUES (1, '技术部', 0, '0', 1, '张三45', '17621590365', '1490493387@qq.com', 1, 0, '2021-01-26 13:52:50', '2021-02-12 14:23:48');
-INSERT INTO `sys_dept` VALUES (2, '测试部', 0, '0', 2, '李四', NULL, NULL, 1, 0, '2021-01-26 13:53:46', '2021-01-26 13:53:58');
-INSERT INTO `sys_dept` VALUES (7, '运维部', 1, '0,1', 1, NULL, NULL, NULL, 1, 0, '2021-02-18 18:02:38', '2021-02-18 18:02:38');
-INSERT INTO `sys_dept` VALUES (8, '工控部', 1, '0,1', 1, NULL, NULL, NULL, 1, 0, '2021-02-18 18:03:05', '2021-02-18 18:03:05');
-INSERT INTO `sys_dept` VALUES (9, '工控部', 1, '0,1', 1, NULL, NULL, NULL, 1, 0, '2021-02-18 18:03:05', '2021-02-18 18:03:05');
-
--- ----------------------------
--- Table structure for sys_dict
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dict`;
-CREATE TABLE `sys_dict`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键 ',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '类型名称',
-  `code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '类型编码',
-  `status` tinyint(1) DEFAULT 0 COMMENT '状态（0-正常 ,1-停用）',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `type_code`(`code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_dict
--- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, '性别', 'gender', 1, '性别', '2019-12-06 19:03:32', '2021-02-08 14:58:01');
-INSERT INTO `sys_dict` VALUES (11, '授权方式', 'grant_type', 1, NULL, '2020-10-17 08:09:50', '2021-01-31 09:48:24');
-INSERT INTO `sys_dict` VALUES (15, '物流渠道', 'logistics_channel', 1, NULL, NULL, NULL);
-INSERT INTO `sys_dict` VALUES (17, '设备类型', 'device', 1, NULL, '2021-02-08 21:07:42', '2021-02-08 21:07:42');
-
--- ----------------------------
--- Table structure for sys_dict_item
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dict_item`;
-CREATE TABLE `sys_dict_item`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '字典项名称',
-  `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '字典项值',
-  `dict_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '字典编码',
-  `sort` int(0) DEFAULT 0 COMMENT '排序',
-  `status` tinyint(1) DEFAULT 0 COMMENT '状态（0 停用 1正常）',
-  `defaulted` tinyint(1) DEFAULT 0 COMMENT '是否默认（0否 1是）',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '备注',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_dict_item
--- ----------------------------
-INSERT INTO `sys_dict_item` VALUES (1, '男', '1', 'gender', 1, 1, 0, '性别男', '2019-05-05 13:07:52', '2019-07-02 14:23:05');
-INSERT INTO `sys_dict_item` VALUES (2, '女', '2', 'gender', 2, 1, 0, '性别女', '2019-04-19 11:33:00', '2019-07-02 14:23:05');
-INSERT INTO `sys_dict_item` VALUES (5, '未知', '0', 'gender', 1, 1, 0, '', '2020-10-17 08:09:31', '2020-10-17 08:09:31');
-INSERT INTO `sys_dict_item` VALUES (6, '密码模式', 'password', 'grant_type', 1, 1, 0, '', '2020-10-17 09:11:52', '2021-01-31 09:48:18');
-INSERT INTO `sys_dict_item` VALUES (7, '授权码模式', 'authorization_code', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:15', '2020-12-14 10:11:00');
-INSERT INTO `sys_dict_item` VALUES (8, '客户端模式', 'client_credentials', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:36', '2020-12-14 10:11:00');
-INSERT INTO `sys_dict_item` VALUES (9, '刷新模式', 'refresh_token', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:57', '2021-01-08 17:33:12');
-INSERT INTO `sys_dict_item` VALUES (10, '简化模式', 'implicit', 'grant_type', 1, 1, 0, '', '2020-10-17 09:13:23', '2020-12-14 10:11:00');
-INSERT INTO `sys_dict_item` VALUES (11, '后端开发', 'Back-end development', 'project', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (12, '前端开发人员', 'Front-end development', 'project', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (13, '测试人员', 'Test development', 'project', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (14, '顺丰速运', 'SF', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (15, '中通快递', 'ZTO', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (16, '圆通速递', 'YTO', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (17, '韵达速递', 'YD', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (18, '京东快递', 'JD', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (19, '百世快递', 'HTKY', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (20, '邮政快递包裹', 'YZPY', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (21, 'EMS', 'EMS', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (22, '德邦快递', 'DBL', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (23, '宅急送', 'ZJS', 'logistics_channel', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (26, '双性', 'middle', 'gender', 1, 1, 0, '', '2021-02-08 16:10:43', '2021-02-08 16:10:43');
-INSERT INTO `sys_dict_item` VALUES (27, '摄像头', 'camera', 'device', 1, 1, 0, '', '2021-02-08 21:08:19', '2021-02-08 21:08:19');
-INSERT INTO `sys_dict_item` VALUES (28, '人像卡口', 'image_screen', 'device', 1, 1, 0, '', '2021-02-08 21:09:29', '2021-02-08 21:09:29');
-
--- ----------------------------
--- Table structure for sys_menu
--- ----------------------------
-DROP TABLE IF EXISTS `sys_menu`;
-CREATE TABLE `sys_menu`  (
+DROP TABLE IF EXISTS `pms_brand`;
+CREATE TABLE `pms_brand`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '菜单名称',
-  `parent_id` bigint(0) DEFAULT NULL COMMENT '父菜单ID',
-  `path` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '路由路径',
-  `component` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件路径',
-  `redirect` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '跳转路径',
-  `icon` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '菜单图标',
-  `sort` int(0) DEFAULT 0 COMMENT '排序',
-  `visible` tinyint(1) DEFAULT 1 COMMENT '状态：0-禁用 1-开启',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '品牌名称',
+  `first_letter` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '检索首字母',
+  `logo_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '品牌logo图片地址',
+  `sort` int(0) NULL DEFAULT NULL COMMENT '排序',
+  `status` tinyint(0) NULL DEFAULT NULL COMMENT '状态: 1-正常 0-禁用',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_menu
+-- Records of pms_brand
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, '/admin', 'Layout', '', 'table', 1, 1, '2020-09-23 09:12:21', '2021-02-06 15:04:07');
-INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'user', 'admin/user/index', '', 'user', 1, 1, NULL, '2021-02-06 14:52:56');
-INSERT INTO `sys_menu` VALUES (4, '菜单管理', 1, 'menu', 'admin/menu/index', NULL, 'tree-table', 8, 1, '2020-09-23 09:12:21', '2021-02-02 12:50:30');
-INSERT INTO `sys_menu` VALUES (5, '字典管理', 1, 'dict', 'admin/dict/index', NULL, 'education', 10, 1, '2020-09-23 09:12:21', '2021-02-01 19:06:31');
-INSERT INTO `sys_menu` VALUES (6, '部门管理', 1, 'dept', 'admin/dept/index', NULL, 'tree', 1, 1, '2020-09-23 09:12:21', '2021-02-01 18:40:25');
-INSERT INTO `sys_menu` VALUES (8, '客户端管理', 1, 'client', 'admin/client/index', NULL, 'tab', 11, 1, '2020-10-17 08:04:08', '2021-02-01 19:06:41');
-INSERT INTO `sys_menu` VALUES (9, '营销管理', 0, '/sms', 'Layout', '', 'number', 3, 1, '2020-10-24 15:24:04', '2021-02-15 14:28:43');
-INSERT INTO `sys_menu` VALUES (10, '广告管理', 9, 'advert', 'sms/advert/index', NULL, 'documentation', 1, 1, '2020-10-24 15:25:15', '2021-02-01 19:26:21');
-INSERT INTO `sys_menu` VALUES (11, '商品管理', 0, '/pms', 'Layout', NULL, 'phone', 2, 1, '2020-10-31 10:44:58', '2021-02-06 14:56:44');
-INSERT INTO `sys_menu` VALUES (12, '商品列表', 11, 'product', 'pms/product/index', NULL, 'component', 1, 1, '2020-11-06 11:54:37', '2021-02-01 19:22:17');
-INSERT INTO `sys_menu` VALUES (13, '订单管理', 0, '/oms', 'Layout', NULL, 'shopping', 3, 1, '2020-10-31 10:49:46', '2021-02-06 14:57:03');
-INSERT INTO `sys_menu` VALUES (14, '订单列表', 13, 'oms/order', NULL, NULL, 'component', 3, 1, '2020-10-31 10:50:23', '2020-10-31 10:50:38');
-INSERT INTO `sys_menu` VALUES (15, '会员管理', 0, '/ums', 'Layout', NULL, 'user', 4, 1, '2020-10-31 10:51:07', '2021-02-06 14:57:13');
-INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 'user', 'ums/user/index', NULL, 'peoples', 1, 1, '2020-10-31 10:51:43', '2021-02-01 20:18:49');
-INSERT INTO `sys_menu` VALUES (17, '品牌管理', 11, 'brand', 'pms/brand/index', NULL, 'component', 4, 1, '2020-09-23 09:12:21', '2021-02-01 19:25:06');
-INSERT INTO `sys_menu` VALUES (18, '类目管理', 11, 'category', 'pms/category/index', NULL, 'component', 3, 1, '2020-09-23 09:12:21', '2021-02-01 19:24:38');
-INSERT INTO `sys_menu` VALUES (19, '商品详情', 11, 'product_detail', 'pms/product/detail', NULL, 'component', 2, 0, '2020-11-06 13:16:26', '2021-02-18 10:41:31');
-INSERT INTO `sys_menu` VALUES (22, '商品上架', 11, 'product_add', 'pms/product/detail', '', 'component', 2, 1, NULL, '2021-02-01 19:24:19');
-INSERT INTO `sys_menu` VALUES (23, '角色管理', 1, 'role', 'admin/role/index', '', 'peoples', 2, 1, NULL, '2021-02-06 14:53:49');
-INSERT INTO `sys_menu` VALUES (25, '实验室', 0, '/laboratory', 'Layout', '', 'build', 9, 1, NULL, '2021-02-06 14:57:42');
-INSERT INTO `sys_menu` VALUES (26, 'Seata分布式事务', 25, 'seata', 'laboratory/seata', '', 'component', 1, 1, NULL, '2021-02-09 11:20:50');
+INSERT INTO `pms_brand` VALUES (4, '有来', 'Y', 'http://101.37.69.49:9000/default/1282ca4087fe4b0699827d68b75d765c.png', 1, 1, NULL, '2021-02-20 13:53:33');
+INSERT INTO `pms_brand` VALUES (6, '领航', 'l', NULL, 3, 1, '2021-02-27 16:17:26', '2021-02-27 16:17:26');
 
 -- ----------------------------
--- Table structure for sys_permission
+-- Table structure for pms_category
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_permission`;
-CREATE TABLE `sys_permission`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限名称',
-  `perm` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限标识',
-  `method` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `type` tinyint(0) DEFAULT NULL COMMENT '权限类型 1-路由权限 2-按钮权限',
-  `module_id` bigint(0) DEFAULT NULL,
-  `gmt_create` datetime(0) DEFAULT NULL,
-  `gmt_modified` datetime(0) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `id`(`id`, `name`) USING BTREE,
-  INDEX `id_2`(`id`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_permission
--- ----------------------------
-INSERT INTO `sys_permission` VALUES (9, '营销管理', '/mall-sms/**', '*', 1, 9, '2020-10-24 15:29:01', '2021-02-05 19:59:09');
-INSERT INTO `sys_permission` VALUES (12, '订单管理', '/mall-oms/**', '*', 1, 13, '2020-10-31 10:40:35', '2021-02-05 19:59:17');
-INSERT INTO `sys_permission` VALUES (13, '会员管理', '/mall-ums/**', '*', 1, 15, '2020-10-31 10:41:08', '2021-02-05 19:59:23');
-INSERT INTO `sys_permission` VALUES (14, '商品管理', '/mall-pms/**', '*', 1, 11, '2020-10-31 10:41:37', '2021-02-05 19:59:01');
-INSERT INTO `sys_permission` VALUES (18, '查询用户', '/youlai-admin/api.admin/v1/users/**', 'GET', 1, 2, '2021-02-02 14:16:07', '2021-02-10 10:19:28');
-INSERT INTO `sys_permission` VALUES (19, '新增', 'system:user:add', NULL, 2, 2, '2021-02-02 14:16:46', '2021-02-03 00:20:37');
-INSERT INTO `sys_permission` VALUES (21, '修改', 'system:user:edit', NULL, 2, 2, '2021-02-02 14:19:45', '2021-02-03 00:20:32');
-INSERT INTO `sys_permission` VALUES (22, '删除', 'system:user:delete', NULL, 2, 2, '2021-02-02 14:20:12', '2021-02-03 00:20:27');
-INSERT INTO `sys_permission` VALUES (23, '查询', 'system:user:query', NULL, 2, 2, '2021-02-02 14:20:42', '2021-02-03 00:20:21');
-INSERT INTO `sys_permission` VALUES (26, '重置密码', 'system:user:reset_password', NULL, 2, 2, '2021-02-05 14:31:53', '2021-02-05 14:33:27');
-INSERT INTO `sys_permission` VALUES (30, '新增用户', '/youlai-admin/api.admin/v1/users/**', 'POST', 1, 2, '2021-02-10 10:20:08', '2021-02-10 10:20:08');
-INSERT INTO `sys_permission` VALUES (31, '修改用户', '/youlai-admin/api.admin/v1/users/**', 'PUT', 1, 2, '2021-02-10 10:20:32', '2021-02-10 10:20:32');
-INSERT INTO `sys_permission` VALUES (32, '删除用户', '/youlai-admin/api.admin/v1/users/**', 'DELETE', 1, 2, '2021-02-10 10:20:47', '2021-02-10 10:20:47');
-INSERT INTO `sys_permission` VALUES (34, '菜单所有', '/youlai-admin/api.admin/v1/menus/**', '*', 1, 4, '2021-02-10 11:00:26', '2021-02-10 11:00:26');
-INSERT INTO `sys_permission` VALUES (35, '部门所有', '/youlai-admin/api.admin/v1/depts/**', '*', 1, 6, '2021-02-10 11:02:45', '2021-02-10 11:02:45');
-INSERT INTO `sys_permission` VALUES (36, '角色所有', '/youlai-admin/api.admin/v1/roles/**', '*', 1, 23, '2021-02-10 11:03:05', '2021-02-10 11:03:05');
-INSERT INTO `sys_permission` VALUES (37, '字典所有', '/youlai-admin/api.admin/v1/dicts/**', '*', 1, 5, '2021-02-10 11:03:49', '2021-02-10 11:03:49');
-INSERT INTO `sys_permission` VALUES (38, '客户端所有', '/youlai-admin/api.admin/v1/clients/**', '*', 1, 8, '2021-02-10 11:05:34', '2021-02-10 11:05:34');
-INSERT INTO `sys_permission` VALUES (39, '权限所有', '/youlai-admin/api.admin/v1/permissions/**', '*', 1, 4, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (42, '字典项所有', '/youlai-admin/api.admin/v1/dict-items/**', '*', 1, 5, '2021-02-14 10:48:17', '2021-02-15 16:13:02');
-
--- ----------------------------
--- Table structure for sys_role
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role`  (
+DROP TABLE IF EXISTS `pms_category`;
+CREATE TABLE `pms_category`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '角色名称',
-  `sort` int(0) DEFAULT NULL COMMENT '显示顺序',
-  `status` tinyint(1) DEFAULT 1 COMMENT '角色状态（0正常 1停用）',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '删除标识  (0未删除 1已删除)',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+  `parent_id` bigint(0) NOT NULL,
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称',
+  `level` int(0) NULL DEFAULT NULL COMMENT '层级',
+  `icon_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标地址',
+  `sort` int(0) NULL DEFAULT NULL COMMENT '排序',
+  `status` tinyint(1) NULL DEFAULT 1 COMMENT '显示状态: 0-隐藏 1-显示',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_role
+-- Records of pms_category
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, 0, 0, '2018-12-23 16:00:00', '2020-09-11 17:04:23');
-INSERT INTO `sys_role` VALUES (2, '系统管理员', 2, 0, 0, '2018-12-23 16:00:00', '2020-09-22 17:01:44');
-INSERT INTO `sys_role` VALUES (3, '普通用户', 3, 1, 0, '2019-05-05 16:00:00', '2020-09-22 17:09:54');
+INSERT INTO `pms_category` VALUES (1, 0, '手机数码', 1, NULL, 1, 1, NULL, '2021-02-06 17:16:54');
+INSERT INTO `pms_category` VALUES (2, 1, '手机通讯', 2, '', 1, 1, NULL, '2021-02-06 17:14:28');
+INSERT INTO `pms_category` VALUES (23, 0, '男装女装', 1, NULL, 4, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (24, 23, '男装', 2, '', 1, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (25, 1, '运营商', 2, '', 2, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (26, 2, '全面屏手机', 3, 'http://a.youlai.store:9000/default/c9760b09a86644ccbf56a8e4acb42e32.jpg', 1, 1, NULL, '2021-02-28 10:50:24');
+INSERT INTO `pms_category` VALUES (27, 25, '合约机', 3, 'http://a.youlai.store:9000/default/ea166cb2cc1042569e438179b16a6d73.jpg', 1, 1, NULL, '2021-02-28 11:43:30');
+INSERT INTO `pms_category` VALUES (28, 2, '游戏手机', 3, 'http://a.youlai.store:9000/default/34eee030d6f548c5803b8d476a29094b.jpg', 2, 1, NULL, '2021-02-28 10:50:33');
+INSERT INTO `pms_category` VALUES (32, 25, '选好卡', 3, 'http://a.youlai.store:9000/default/04cfce9dbc44427d83babe9aac02b291.jpg', 2, 1, NULL, '2021-02-28 15:54:27');
+INSERT INTO `pms_category` VALUES (33, 25, '办套餐', 3, 'http://a.youlai.store:9000/default/22bdf35e0cfb442c8bae519d111c9621.jpg', 3, 1, NULL, '2021-02-28 10:52:15');
+INSERT INTO `pms_category` VALUES (34, 0, '礼品鲜花', 1, NULL, 2, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (35, 34, '礼品', 2, NULL, 1, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (36, 34, '鲜花', 2, NULL, 2, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (37, 35, '公益摆件', 3, 'http://a.youlai.store:9000/default/9db7d7e5d7c24cf2b30185240b061d18.jpg', 1, 1, NULL, '2021-02-28 10:52:45');
+INSERT INTO `pms_category` VALUES (38, 35, '创意礼品', 3, 'http://a.youlai.store:9000/default/f23a8a308a5a4926a96061c259e1cf60.jpg', 2, 1, NULL, '2021-02-28 10:53:07');
+INSERT INTO `pms_category` VALUES (39, 36, '鲜花', 3, 'http://a.youlai.store:9000/default/49534b0fba0840b384b9df5dd6994742.jpg', 1, 1, NULL, '2021-02-28 10:53:22');
+INSERT INTO `pms_category` VALUES (40, 36, '每周一花', 3, 'http://a.youlai.store:9000/default/e49e6b04b2bc458ca6df6e0dd96a9489.jpg', 2, 1, NULL, '2021-02-28 10:55:39');
+INSERT INTO `pms_category` VALUES (41, 36, '卡通花束', 3, 'http://a.youlai.store:9000/default/8d13a211631a4424853d25eda09ae5ba.jpg', 3, 1, NULL, '2021-02-28 10:55:09');
+INSERT INTO `pms_category` VALUES (42, 36, '永生花', 3, 'http://a.youlai.store:9000/default/ba46f789bae144438aed5249f293f2ad.jpg', 4, 1, NULL, '2021-02-28 10:55:23');
+INSERT INTO `pms_category` VALUES (44, 24, '男士T恤', 3, 'http://a.youlai.store:9000/default/27662c9dc55d465d96bacaab23f06112.jpg', 1, 1, NULL, '2021-02-28 11:02:42');
+INSERT INTO `pms_category` VALUES (47, 43, '上装', 3, 'http://101.37.69.49:9000/default/5e8e741773b447b0a6a61f67401f4e24.jpg', 2, 1, NULL, NULL);
+INSERT INTO `pms_category` VALUES (56, 2, '老人机', 3, 'http://a.youlai.store:9000/default/7dafb86bd11b4a64a2eca13ab886fbd7.jpg', 3, 1, '2021-02-06 17:15:24', '2021-02-28 10:50:53');
+INSERT INTO `pms_category` VALUES (57, 2, '拍照手机', 3, 'http://a.youlai.store:9000/default/2186f8f42ed24f29a49af39774a5c1dd.jpg', 4, 1, '2021-02-06 17:15:54', '2021-02-28 10:51:08');
+INSERT INTO `pms_category` VALUES (58, 2, '女性手机', 3, 'http://a.youlai.store:9000/default/bef042df51ac4ae8a65b0fcc0ee9b356.jpg', 5, 1, '2021-02-06 17:16:15', '2021-02-28 10:51:15');
+INSERT INTO `pms_category` VALUES (59, 24, '男士外套', 3, 'http://a.youlai.store:9000/default/da6a9ee68ee94de4b828b0cd8f371bde.jpg', 2, 1, '2021-02-06 17:18:08', '2021-02-28 11:02:53');
+INSERT INTO `pms_category` VALUES (60, 23, '女装', 2, NULL, 2, 1, '2021-02-06 17:18:45', '2021-02-06 17:18:45');
+INSERT INTO `pms_category` VALUES (61, 60, '裙装', 3, 'http://a.youlai.store:9000/default/f007f48c33d64e0783c2ec4a1dfe673d.jpg', 1, 1, '2021-02-06 17:19:16', '2021-02-28 16:05:27');
+INSERT INTO `pms_category` VALUES (62, 60, 'T恤', 3, 'http://a.youlai.store:9000/default/b188c446c93f4ea28a3f196ef1dac9cd.png', 2, 1, '2021-02-06 17:19:37', '2021-02-28 16:06:35');
+INSERT INTO `pms_category` VALUES (63, 60, '上装', 3, 'http://a.youlai.store:9000/default/f0668174364d4c6d869222f5cfe6a082.jpg', 3, 1, '2021-02-06 17:20:04', '2021-02-28 16:13:36');
+INSERT INTO `pms_category` VALUES (64, 60, '下装', 3, 'http://a.youlai.store:9000/default/43103c046bc444c8b573f3fc2d2428c0.jpg', 4, 1, '2021-02-06 17:20:22', '2021-02-28 16:15:33');
+INSERT INTO `pms_category` VALUES (65, 0, '母婴用品', 1, NULL, 4, 1, '2021-02-06 17:21:00', '2021-02-06 17:21:00');
+INSERT INTO `pms_category` VALUES (66, 65, '奶粉', 2, NULL, 1, 1, '2021-02-06 17:21:28', '2021-02-06 17:21:28');
+INSERT INTO `pms_category` VALUES (67, 65, '营养辅食', 2, NULL, 2, 1, '2021-02-06 17:21:36', '2021-02-06 17:21:36');
+INSERT INTO `pms_category` VALUES (68, 65, '童装', 2, NULL, 3, 1, '2021-02-06 17:21:49', '2021-02-06 17:21:49');
+INSERT INTO `pms_category` VALUES (69, 65, '喂养用品', 2, NULL, 4, 1, '2021-02-06 17:21:58', '2021-02-06 17:21:58');
+INSERT INTO `pms_category` VALUES (70, 66, '有机奶粉', 3, 'http://a.youlai.store:9000/default/830b1c705b7e44f1b1df259e8f2d08b5.jpg', 1, 1, '2021-02-06 17:22:11', '2021-02-28 10:58:05');
+INSERT INTO `pms_category` VALUES (71, 67, '果泥/果汁', 3, 'http://a.youlai.store:9000/default/a480b857fc5345d2b4e7da82ad73c8fe.jpg', 1, 1, '2021-02-06 17:22:31', '2021-02-28 10:58:33');
+INSERT INTO `pms_category` VALUES (72, 67, '面条/粥', 3, 'http://a.youlai.store:9000/default/dc5eefd9ebb54da4819d5864760e7bd9.jpg', 2, 1, '2021-02-06 17:22:48', '2021-02-28 16:18:53');
+INSERT INTO `pms_category` VALUES (73, 68, '婴童衣橱', 3, 'http://a.youlai.store:9000/default/6aa5f02aba7f4c6db3756fc2cc089514.jpg', 1, 1, '2021-02-06 17:23:07', '2021-02-28 11:01:01');
+INSERT INTO `pms_category` VALUES (74, 69, '吸奶器', 3, 'http://a.youlai.store:9000/default/89e977f798494eab9f7cf5f443d29851.jpg', 1, 1, '2021-02-06 17:23:24', '2021-02-28 11:01:11');
+INSERT INTO `pms_category` VALUES (75, 69, '儿童餐具', 3, 'http://a.youlai.store:9000/default/63cdc5eebbc64dd597b879a563762a1d.jpg', 2, 1, '2021-02-06 17:24:01', '2021-02-28 11:02:19');
+INSERT INTO `pms_category` VALUES (76, 69, '牙胶安抚', 3, 'http://a.youlai.store:9000/default/26e819ef86aa4089a6d7d81dc236ec66.jpg', 3, 1, '2021-02-06 17:24:35', '2021-02-28 11:02:31');
+INSERT INTO `pms_category` VALUES (77, 69, '围兜', 3, 'http://a.youlai.store:9000/default/1211bde195bc4ed4a3040301e1e2291b.jpg', 4, 1, '2021-02-06 17:24:49', '2021-02-28 11:02:08');
 
 -- ----------------------------
--- Table structure for sys_role_menu
+-- Table structure for pms_category_attr
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_role_menu`;
-CREATE TABLE `sys_role_menu`  (
-  `role_id` bigint(0) NOT NULL COMMENT '角色ID',
-  `menu_id` bigint(0) NOT NULL COMMENT '菜单ID'
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_role_menu
--- ----------------------------
-INSERT INTO `sys_role_menu` VALUES (1, 1);
-INSERT INTO `sys_role_menu` VALUES (1, 10);
-INSERT INTO `sys_role_menu` VALUES (1, 12);
-INSERT INTO `sys_role_menu` VALUES (1, 13);
-INSERT INTO `sys_role_menu` VALUES (1, 14);
-INSERT INTO `sys_role_menu` VALUES (1, 15);
-INSERT INTO `sys_role_menu` VALUES (1, 16);
-INSERT INTO `sys_role_menu` VALUES (1, 17);
-INSERT INTO `sys_role_menu` VALUES (1, 18);
-INSERT INTO `sys_role_menu` VALUES (1, 19);
-INSERT INTO `sys_role_menu` VALUES (1, 2);
-INSERT INTO `sys_role_menu` VALUES (1, 22);
-INSERT INTO `sys_role_menu` VALUES (1, 23);
-INSERT INTO `sys_role_menu` VALUES (1, 25);
-INSERT INTO `sys_role_menu` VALUES (1, 26);
-INSERT INTO `sys_role_menu` VALUES (1, 4);
-INSERT INTO `sys_role_menu` VALUES (1, 5);
-INSERT INTO `sys_role_menu` VALUES (1, 6);
-INSERT INTO `sys_role_menu` VALUES (1, 8);
-INSERT INTO `sys_role_menu` VALUES (1, 9);
-INSERT INTO `sys_role_menu` VALUES (2, 1);
-INSERT INTO `sys_role_menu` VALUES (2, 10);
-INSERT INTO `sys_role_menu` VALUES (2, 11);
-INSERT INTO `sys_role_menu` VALUES (2, 12);
-INSERT INTO `sys_role_menu` VALUES (2, 13);
-INSERT INTO `sys_role_menu` VALUES (2, 14);
-INSERT INTO `sys_role_menu` VALUES (2, 15);
-INSERT INTO `sys_role_menu` VALUES (2, 16);
-INSERT INTO `sys_role_menu` VALUES (2, 17);
-INSERT INTO `sys_role_menu` VALUES (2, 18);
-INSERT INTO `sys_role_menu` VALUES (2, 19);
-INSERT INTO `sys_role_menu` VALUES (2, 2);
-INSERT INTO `sys_role_menu` VALUES (2, 22);
-INSERT INTO `sys_role_menu` VALUES (2, 23);
-INSERT INTO `sys_role_menu` VALUES (2, 25);
-INSERT INTO `sys_role_menu` VALUES (2, 26);
-INSERT INTO `sys_role_menu` VALUES (2, 4);
-INSERT INTO `sys_role_menu` VALUES (2, 5);
-INSERT INTO `sys_role_menu` VALUES (2, 6);
-INSERT INTO `sys_role_menu` VALUES (2, 8);
-INSERT INTO `sys_role_menu` VALUES (2, 9);
-INSERT INTO `sys_role_menu` VALUES (1, 11);
-INSERT INTO `sys_role_menu` VALUES (3, 12);
-INSERT INTO `sys_role_menu` VALUES (3, 1);
-INSERT INTO `sys_role_menu` VALUES (3, 11);
-INSERT INTO `sys_role_menu` VALUES (3, 2);
-INSERT INTO `sys_role_menu` VALUES (3, 6);
-
--- ----------------------------
--- Table structure for sys_role_permission
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role_permission`;
-CREATE TABLE `sys_role_permission`  (
-  `role_id` bigint(0) DEFAULT NULL COMMENT '角色id',
-  `permission_id` bigint(0) DEFAULT NULL COMMENT '资源id',
-  INDEX `role_id`(`role_id`) USING BTREE,
-  INDEX `permission_id`(`permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_role_permission
--- ----------------------------
-INSERT INTO `sys_role_permission` VALUES (2, 14);
-INSERT INTO `sys_role_permission` VALUES (2, 13);
-INSERT INTO `sys_role_permission` VALUES (2, 12);
-INSERT INTO `sys_role_permission` VALUES (2, 9);
-INSERT INTO `sys_role_permission` VALUES (2, 1);
-INSERT INTO `sys_role_permission` VALUES (1, 22);
-INSERT INTO `sys_role_permission` VALUES (1, 23);
-INSERT INTO `sys_role_permission` VALUES (1, 19);
-INSERT INTO `sys_role_permission` VALUES (1, 21);
-INSERT INTO `sys_role_permission` VALUES (1, 26);
-INSERT INTO `sys_role_permission` VALUES (1, 18);
-INSERT INTO `sys_role_permission` VALUES (1, 35);
-INSERT INTO `sys_role_permission` VALUES (1, 36);
-INSERT INTO `sys_role_permission` VALUES (1, 34);
-INSERT INTO `sys_role_permission` VALUES (1, 37);
-INSERT INTO `sys_role_permission` VALUES (1, 38);
-INSERT INTO `sys_role_permission` VALUES (1, 39);
-INSERT INTO `sys_role_permission` VALUES (1, 31);
-INSERT INTO `sys_role_permission` VALUES (1, 30);
-INSERT INTO `sys_role_permission` VALUES (1, 32);
-INSERT INTO `sys_role_permission` VALUES (2, 36);
-INSERT INTO `sys_role_permission` VALUES (2, 18);
-INSERT INTO `sys_role_permission` VALUES (2, 35);
-INSERT INTO `sys_role_permission` VALUES (2, 34);
-INSERT INTO `sys_role_permission` VALUES (2, 39);
-INSERT INTO `sys_role_permission` VALUES (2, 37);
-INSERT INTO `sys_role_permission` VALUES (2, 38);
-INSERT INTO `sys_role_permission` VALUES (2, 26);
-INSERT INTO `sys_role_permission` VALUES (2, 19);
-INSERT INTO `sys_role_permission` VALUES (2, 22);
-INSERT INTO `sys_role_permission` VALUES (2, 23);
-INSERT INTO `sys_role_permission` VALUES (2, 21);
-INSERT INTO `sys_role_permission` VALUES (1, 41);
-INSERT INTO `sys_role_permission` VALUES (1, 12);
-INSERT INTO `sys_role_permission` VALUES (1, 43);
-INSERT INTO `sys_role_permission` VALUES (1, 42);
-INSERT INTO `sys_role_permission` VALUES (2, 42);
-
--- ----------------------------
--- Table structure for sys_user
--- ----------------------------
-DROP TABLE IF EXISTS `sys_user`;
-CREATE TABLE `sys_user`  (
+DROP TABLE IF EXISTS `pms_category_attr`;
+CREATE TABLE `pms_category_attr`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '用户名',
-  `nickname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '昵称',
-  `gender` tinyint(1) DEFAULT 0 COMMENT '性别',
-  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码',
-  `dept_id` int(0) DEFAULT NULL COMMENT '部门ID',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '删除标识（0未删除 1已删除）',
-  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '用户头像',
-  `mobile` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '联系方式',
-  `status` tinyint(1) DEFAULT 0 COMMENT '用户状态（0正常 1禁用）',
-  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '用户邮箱',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称',
+  `category_id` bigint(0) NOT NULL COMMENT '分类ID',
+  `gmt_create` datetime(0) NULL DEFAULT NULL,
+  `gmt_modified` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `login_name`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+  INDEX `fk_pms_attr_pms_category`(`category_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_user
+-- Records of pms_category_attr
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'root', '超级管理员', 1, '$2a$10$P97nHj/AVu6JBVCxmj5qEOwsI7rUhFeyu.DrK4ER7sebzv8jp7R5S', 0, 0, 'https://gitee.com/haoxr/image/raw/master/default/807b1042ed4c674d97bcf1f2976234d.jpg', '17621590365', 1, '1490493387@qq.com', '2021-02-10 12:27:30', '2021-02-10 12:29:21');
-INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC', 1, 0, 'https://gitee.com/haoxr/image/raw/master/default/807b1042ed4c674d97bcf1f2976234d.jpg', '17621210366', 1, '1490493387@qq.com', '2019-10-10 13:41:22', '2021-02-10 12:29:13');
+INSERT INTO `pms_category_attr` VALUES (1, '上市日期', 2, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (3, '上市时间', 24, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (4, '季节', 24, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (5, '上市时间', 47, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (6, '适合季节', 47, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (7, '上市时间', 26, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (10, '3', 31, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (11, '223', 31, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (12, '去玩儿', 37, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (13, 'VB你', 37, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (14, '200', 50, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (15, '颜色', 63, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (16, '尺寸', 63, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (17, '颜色', 64, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (18, '尺寸', 64, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (19, '上市时间', 62, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (21, '上市时间', 61, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (22, '123', 79, NULL, NULL);
+INSERT INTO `pms_category_attr` VALUES (23, '4455', 79, NULL, NULL);
 
 -- ----------------------------
--- Table structure for sys_user_role
+-- Table structure for pms_category_spec
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user_role`;
-CREATE TABLE `sys_user_role`  (
-  `user_id` bigint(0) NOT NULL COMMENT '用户ID',
-  `role_id` bigint(0) NOT NULL COMMENT '角色ID',
-  PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户和角色关联表' ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `pms_category_spec`;
+CREATE TABLE `pms_category_spec`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT,
+  `category_id` bigint(0) NOT NULL COMMENT '分类id',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格名称',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_pms_spec_pms_category`(`category_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_user_role
+-- Records of pms_category_spec
 -- ----------------------------
-INSERT INTO `sys_user_role` VALUES (1, 1);
-INSERT INTO `sys_user_role` VALUES (2, 2);
+INSERT INTO `pms_category_spec` VALUES (1, 2, '颜色', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (2, 2, '版本', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (3, 24, '颜色', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (4, 24, '尺寸', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (6, 47, '颜色', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (7, 47, '尺寸', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (8, 26, '颜色', NULL, '2021-02-28 16:19:07');
+INSERT INTO `pms_category_spec` VALUES (9, 26, '版本', NULL, '2021-02-28 16:19:07');
+INSERT INTO `pms_category_spec` VALUES (10, 28, '价钱', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (11, 44, '颜色', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (12, 44, '尺寸', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (16, 61, '颜色', NULL, '2021-02-28 17:53:45');
+INSERT INTO `pms_category_spec` VALUES (17, 79, 'vvv', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (18, 79, '222', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (19, 79, 'vvv', NULL, NULL);
+INSERT INTO `pms_category_spec` VALUES (20, 61, '尺寸', '2021-02-28 17:53:45', '2021-02-28 17:53:45');
+
+-- ----------------------------
+-- Table structure for pms_sku
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_sku`;
+CREATE TABLE `pms_sku`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT,
+  `spu_id` bigint(0) NOT NULL COMMENT '商品id',
+  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU编码',
+  `spec_value_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格ID集合',
+  `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU图片',
+  `origin_price` bigint(0) NOT NULL COMMENT '原价',
+  `price` bigint(0) NOT NULL COMMENT '现价',
+  `stock` int(0) NOT NULL DEFAULT 0 COMMENT '库存',
+  `stock_locked` int(0) NOT NULL DEFAULT 0 COMMENT '已锁定库存',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_pms_sku_pms_spu`(`spu_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 195 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pms_sku
+-- ----------------------------
+INSERT INTO `pms_sku` VALUES (186, 54, '测试手机1 黑 6+128 ', '1614505517559', '1614505504702,1614505510650', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', 399900, 299900, 9999, 0, '2021-02-28 17:45:43', '2021-02-28 17:45:43');
+INSERT INTO `pms_sku` VALUES (187, 54, '测试手机1 黑 8+256 ', '1614505517560', '1614505504702,1614505517558', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', 399900, 299900, 9999, 0, '2021-02-28 17:45:43', '2021-02-28 17:45:43');
+INSERT INTO `pms_sku` VALUES (190, 52, '测试手机2 黑 4+64 ', '1614505936507', '1614505920109,1614505925142', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 199900, 99900, 9999, 0, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
+INSERT INTO `pms_sku` VALUES (191, 52, '测试手机2 黑 6+128 ', '1614505936509', '1614505920109,1614505931577', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 199900, 99900, 9999, 0, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
+INSERT INTO `pms_sku` VALUES (192, 52, '测试手机2 黑 8+256 ', '1614505936511', '1614505920109,1614505936504', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 199900, 99900, 9999, 0, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
+INSERT INTO `pms_sku` VALUES (193, 53, '测试衣服1 白 L ', '1614507069889', '1614506161188,1614506165004', 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', 39900, 29900, 9999, 0, '2021-02-28 17:56:10', '2021-02-28 18:11:13');
+INSERT INTO `pms_sku` VALUES (194, 53, '测试衣服1 白 M ', '1614506168001', '1614506161188,1614506167997', 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', 39900, 29900, 9999, 0, '2021-02-28 17:56:10', '2021-02-28 18:11:13');
+
+-- ----------------------------
+-- Table structure for pms_spu
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_spu`;
+CREATE TABLE `pms_spu`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称',
+  `category_id` bigint(0) NOT NULL COMMENT '商品类型id',
+  `brand_id` bigint(0) NULL DEFAULT NULL COMMENT '商品品牌id',
+  `origin_price` bigint(0) NOT NULL COMMENT '原价',
+  `price` bigint(0) NOT NULL COMMENT '现价',
+  `sales` int(0) NULL DEFAULT 0 COMMENT '销量',
+  `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品主图',
+  `pic_urls` json NULL COMMENT '商品相册',
+  `unit` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '单位',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品简介',
+  `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '商品详情',
+  `status` tinyint(0) NULL DEFAULT NULL COMMENT '商品状态：0-下架 1-上架',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_pms_spu_pms_brand`(`brand_id`) USING BTREE,
+  INDEX `fk_pms_spu_pms_category`(`category_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pms_spu
+-- ----------------------------
+INSERT INTO `pms_spu` VALUES (52, '测试手机2', 26, 4, 199900, 99900, 0, 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', '[\"http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg\"]', '台', '测试手机使用', '<p>测试手机使用</p>', 1, NULL, '2021-02-28 18:13:26');
+INSERT INTO `pms_spu` VALUES (53, '测试衣服1', 61, 4, 39900, 29900, 0, 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', '[\"http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg\"]', '件', '测试', '<p>不错</p>', 1, '2021-02-22 09:33:05', '2021-02-28 18:11:12');
+INSERT INTO `pms_spu` VALUES (54, '测试手机1', 26, 4, 399900, 299900, 0, 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '[\"http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg\"]', '台', '有来全面屏智能手机1', NULL, 1, '2021-02-28 17:45:42', '2021-02-28 17:45:42');
+
+-- ----------------------------
+-- Table structure for pms_spu_attr_value
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_spu_attr_value`;
+CREATE TABLE `pms_spu_attr_value`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT,
+  `spu_id` bigint(0) NOT NULL,
+  `attr_id` bigint(0) NULL DEFAULT NULL,
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称(冗余字段)',
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性值',
+  `gmt_create` datetime(0) NULL DEFAULT NULL,
+  `gmt_modified` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_pms_spu_attribute_pms_attr`(`name`) USING BTREE,
+  INDEX `fk_pms_spu_attribute_pms_spu`(`spu_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 54 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性项表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pms_spu_attr_value
+-- ----------------------------
+INSERT INTO `pms_spu_attr_value` VALUES (50, 53, NULL, '上市时间', '2020-02-28', '2021-02-22 16:30:43', '2021-02-28 18:11:12');
+INSERT INTO `pms_spu_attr_value` VALUES (52, 54, 7, '上市时间', '2020-02-28', '2021-02-28 17:45:42', '2021-02-28 17:45:42');
+INSERT INTO `pms_spu_attr_value` VALUES (53, 52, 7, '上市时间', '2020-02-28', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+
+-- ----------------------------
+-- Table structure for pms_spu_spec_value
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_spu_spec_value`;
+CREATE TABLE `pms_spu_spec_value`  (
+  `id` bigint(0) NOT NULL,
+  `spu_id` bigint(0) NULL DEFAULT NULL,
+  `spec_id` bigint(0) NULL DEFAULT NULL,
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `gmt_create` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `gmt_modified` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_pms_sku_specification_pms_sku`(`spu_id`) USING BTREE,
+  INDEX `fk_pms_sku_specification_pms_specification`(`spec_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格关联表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pms_spu_spec_value
+-- ----------------------------
+INSERT INTO `pms_spu_spec_value` VALUES (1608802056776, 38, 1, '湖光秋色', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1608802062976, 38, 1, '碧海星辰', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1608802070118, 38, 1, '静默星空', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1608802076696, 38, 2, '6+128G', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1608802116726, 38, 2, '8+128G', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1608802138192, 38, 2, '8+256G', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000033689, 39, 1, '1', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000035657, 39, 2, '2', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000038179, 39, 1, '3', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000040282, 39, 2, '4', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000055065, 39, 1, '4', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000056291, 39, 2, '5', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000644446, 40, 1, '1', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000645513, 40, 2, '2', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000647035, 40, 1, '3', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000648202, 40, 2, '4', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000649901, 40, 1, '5', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609000651182, 40, 2, '6', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042088936, 41, 1, '1', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042089916, 41, 2, '2', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042091253, 41, 1, '3', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042092450, 41, 2, '4', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042094404, 41, 1, '5', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042095699, 41, 2, '6', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042347511, 42, 1, '1', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042348372, 42, 2, '2', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042349850, 42, 1, '3', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042350769, 42, 2, '4', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042352933, 42, 1, '5', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042353617, 42, 2, '6', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042602199, 43, 1, '1', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042603267, 43, 2, '2', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042604496, 43, 1, '3', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609042605719, 43, 2, '4', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609043070853, 43, 1, '5', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609069095406, 44, 3, '粉色', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609069098669, 44, 3, '蓝色', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609069102134, 44, 3, '白色', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609069106105, 44, 4, 'M', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609069109683, 44, 4, 'L', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609069113091, 44, 4, 'XL', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609327260839, 45, 6, '粉', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609327264431, 45, 6, '蓝', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609327268527, 45, 7, 'M', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609327271672, 45, 7, 'L', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609327275785, 45, 7, 'XL', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609327278984, 45, 6, '白', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609329141929, 46, 6, '蓝', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609329145746, 46, 7, 'M', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609329150111, 46, 6, '绿', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609329153393, 46, 7, 'L', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609329157057, 46, 7, 'XL', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609465174892, 47, 6, '黄', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609465178593, 47, 6, '蓝', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609465182665, 47, 6, '绿', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609465184422, 47, 7, 'M', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609465189213, 47, 7, 'L', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609465196239, 47, 7, 'XL', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609861048903, 48, 8, '水水水水', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609861053728, 48, 9, '22222', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609861060714, 48, 8, '1111', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609861063662, 48, 8, '3223232', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1609861160023, 48, 9, '112332', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1610678793825, 49, 8, '2', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1610678796037, 49, 9, '2', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1610961553389, 50, 8, '34', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1610961561656, 50, 9, '434 ', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1611107644444, 51, 8, '高端', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1611107652289, 51, 9, '上档次', NULL, NULL);
+INSERT INTO `pms_spu_spec_value` VALUES (1614505504702, 54, 8, '黑', '2021-02-28 17:45:42', '2021-02-28 17:45:42');
+INSERT INTO `pms_spu_spec_value` VALUES (1614505510650, 54, 9, '6+128', '2021-02-28 17:45:42', '2021-02-28 17:45:42');
+INSERT INTO `pms_spu_spec_value` VALUES (1614505517558, 54, 9, '8+256', '2021-02-28 17:45:42', '2021-02-28 17:45:42');
+INSERT INTO `pms_spu_spec_value` VALUES (1614505920109, 52, 8, '黑', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+INSERT INTO `pms_spu_spec_value` VALUES (1614505925142, 52, 9, '4+64', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+INSERT INTO `pms_spu_spec_value` VALUES (1614505931577, 52, 9, '6+128', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+INSERT INTO `pms_spu_spec_value` VALUES (1614505936504, 52, 9, '8+256', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+INSERT INTO `pms_spu_spec_value` VALUES (1614506161188, 53, 16, '白', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
+INSERT INTO `pms_spu_spec_value` VALUES (1614506165004, 53, 20, 'L', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
+INSERT INTO `pms_spu_spec_value` VALUES (1614506167997, 53, 20, 'M', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
+
+-- ----------------------------
+-- Table structure for undo_log
+-- ----------------------------
+DROP TABLE IF EXISTS `undo_log`;
+CREATE TABLE `undo_log`  (
+  `branch_id` bigint(0) NOT NULL COMMENT 'branch transaction id',
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'global transaction id',
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'undo_log context,such as serialization',
+  `rollback_info` longblob NOT NULL COMMENT 'rollback info',
+  `log_status` int(0) NOT NULL COMMENT '0:normal status,1:defense status',
+  `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
+  `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
+  UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'AT transaction mode undo table' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of undo_log
+-- ----------------------------
+INSERT INTO `undo_log` VALUES (6197047754370782263, '106.75.231.227:8091:6197047754370782261', 'serializer=jackson', 0x7B7D, 1, '2021-02-21 14:20:52.610655', '2021-02-21 14:20:52.610655');
 
 SET FOREIGN_KEY_CHECKS = 1;
