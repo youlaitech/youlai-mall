@@ -8,11 +8,5 @@ import java.util.List;
 
 public interface ISysRoleService extends IService<SysRole> {
 
-    boolean update(SysRole role);
-
     boolean delete(List<Long> ids);
-
-    boolean add(SysRole role);
-
-    boolean update(Long id, List<Long> permissionIds);
 }
