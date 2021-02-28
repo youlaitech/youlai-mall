@@ -116,7 +116,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
         // spu保存
         PmsSpu spu = new PmsSpu();
-        Long spuId = spu.getId();
         BeanUtil.copyProperties(spuDTO, spu);
         if (spuDTO.getPicUrls() != null) {
             String picUrls = JSONUtil.toJsonStr(spuDTO.getPicUrls());
@@ -130,7 +129,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsSpuAttrValueService.list(new LambdaQueryWrapper<PmsSpuAttrValue>().eq(PmsSpuAttrValue::getSpuId, spuId)
+            List<Long> dbIds = iPmsSpuAttrValueService.list(new LambdaQueryWrapper<PmsSpuAttrValue>().eq(PmsSpuAttrValue::getSpuId, spu.getId())
                     .select(PmsSpuAttrValue::getId))
                     .stream()
                     .map(item -> item.getId())
@@ -147,7 +146,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsSpuSpecValueService.list(new LambdaQueryWrapper<PmsSpuSpecValue>().eq(PmsSpuSpecValue::getSpuId, spuId)
+            List<Long> dbIds = iPmsSpuSpecValueService.list(new LambdaQueryWrapper<PmsSpuSpecValue>().eq(PmsSpuSpecValue::getSpuId, spu.getId())
                     .select(PmsSpuSpecValue::getId))
                     .stream()
                     .map(item -> item.getId())
@@ -164,7 +163,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId)
+            List<Long> dbIds = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spu.getId())
                     .select(PmsSku::getId))
                     .stream()
                     .map(item -> item.getId())
