@@ -30,4 +30,4 @@ ribbon:
   ConnectTimeout: 10000
   SocketTimeout: 10000
   MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 1 
+  MaxAutoRetriesNextServer: 1
