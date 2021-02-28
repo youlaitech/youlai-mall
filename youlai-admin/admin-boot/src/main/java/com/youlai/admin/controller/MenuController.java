@@ -98,27 +98,23 @@ public class MenuController {
     }
 
     @ApiOperation(value = "删除菜单", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
+    @ApiImplicitParam(name = "ids", value = "id集合字符串，以,分割", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable("ids") String ids) {
         boolean status = iSysMenuService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改菜单【局部更新】", httpMethod = "PATCH")
+    @ApiOperation(value = "修改菜单", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
     })
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SysMenu menu) {
-        LambdaUpdateWrapper<SysMenu> luw = new LambdaUpdateWrapper<SysMenu>().eq(SysMenu::getId, id);
-        if (menu.getVisible() != null) { // 状态更新
-            luw.set(SysMenu::getVisible, menu.getVisible());
-        } else {
-            return Result.success();
-        }
-        boolean update = iSysMenuService.update(luw);
-        return Result.success(update);
+        LambdaUpdateWrapper<SysMenu> updateWrapper = new LambdaUpdateWrapper<SysMenu>().eq(SysMenu::getId, id);
+        updateWrapper.set(menu.getVisible() != null, SysMenu::getVisible, menu.getVisible());
+        boolean result = iSysMenuService.update(updateWrapper);
+        return Result.judge(result);
     }
 }

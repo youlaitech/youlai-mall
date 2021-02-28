@@ -105,7 +105,7 @@ public class DictItemController {
     }
 
 
-    @ApiOperation(value = "修改字典(部分更新)", httpMethod = "PATCH")
+    @ApiOperation(value = "修改字典", httpMethod = "PATCH")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")

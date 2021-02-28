@@ -4,6 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.admin.common.constant.AdminConstant;
 import com.youlai.admin.pojo.entity.SysDept;
+import com.youlai.admin.pojo.vo.DeptVO;
+import com.youlai.admin.pojo.vo.TreeVO;
 import com.youlai.admin.service.ISysDeptService;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
@@ -50,20 +52,19 @@ public class DeptController {
                 .orderByDesc(SysDept::getGmtCreate);
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
 
-        List list;
         switch (queryModeEnum) {
             case LIST:
-                baseQuery = baseQuery.like(StrUtil.isNotBlank(name), SysDept::getName, name)
+                baseQuery = baseQuery
+                        .like(StrUtil.isNotBlank(name), SysDept::getName, name)
                         .eq(status != null, SysDept::getStatus, status);
-                list = iSysDeptService.listDeptVO(baseQuery);
-                break;
+                List<DeptVO> list = iSysDeptService.listDeptVO(baseQuery);
+                return Result.success(list);
             case TREE:
-                list = iSysDeptService.listTreeVO(baseQuery);
-                break;
+                List<TreeVO> treeList = iSysDeptService.listTreeVO(baseQuery);
+                return Result.success(treeList);
             default:
                 return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
-        return Result.success(list);
     }
 
     @ApiOperation(value = "部门详情", httpMethod = "GET")
