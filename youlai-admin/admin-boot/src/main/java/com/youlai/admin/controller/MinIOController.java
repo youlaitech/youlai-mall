@@ -27,11 +27,11 @@ public class MinIOController {
     @ApiOperation(value = "文件上传", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "文件", paramType = "form", dataType = "__file"),
-            @ApiImplicitParam(name = "bucket_name", value = "桶名称", paramType = "query", dataType = "string")
+            @ApiImplicitParam(name = "bucketName", value = "桶名称", paramType = "query", dataType = "string")
     })
     public Result<String> upload(
             @RequestParam(value = "file") MultipartFile file,
-            @RequestParam(value = "bucket_name", required = false, defaultValue = "default") String bucketName
+            @RequestParam(value = "bucketName", required = false, defaultValue = "default") String bucketName
     ) {
         try {
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
