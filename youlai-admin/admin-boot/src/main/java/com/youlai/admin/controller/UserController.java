@@ -170,14 +170,19 @@ public class UserController extends BaseController {
     public Result<UserVO> getCurrentUser() {
         UserVO userVO = new UserVO();
 
+        // 用户基本信息
         Long userId = RequestUtils.getUserId();
         SysUser user = iSysUserService.getById(userId);
         BeanUtil.copyProperties(user, userVO);
 
+        // 用户角色信息
         List<Long> roleIds = RequestUtils.getRoleIds();
-        List<String> perms = iSysPermissionService.listPermsByRoleIds(roleIds, PermTypeEnum.BUTTON.getValue());
         userVO.setRoles(roleIds);
+
+        // 用户按钮权限信息
+        List<String> perms = iSysPermissionService.listPermsByRoleIds(roleIds, PermTypeEnum.BUTTON.getValue());
         userVO.setPerms(perms);
+
         return Result.success(userVO);
     }
 }
