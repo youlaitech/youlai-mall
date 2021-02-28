@@ -96,7 +96,7 @@ public class RoleController {
     public Result update(
             @PathVariable Long id,
             @RequestBody SysRole role) {
-        boolean result = iSysRoleService.update(role);
+        boolean result = iSysRoleService.updateById(role);
         if (result) {
             iSysPermissionService.refreshPermissionRolesCache();
         }
