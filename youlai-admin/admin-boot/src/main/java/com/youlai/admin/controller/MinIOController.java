@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,17 +49,13 @@ public class MinIOController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "path", value = "文件路径", required = true, paramType = "query"),
     })
+    @SneakyThrows
     public Result removeFile(@RequestParam String path) {
-        try {
-            int lastIndex = path.lastIndexOf("/");
-            String bucketName = path.substring(path.lastIndexOf("/", lastIndex - 1) + 1, lastIndex);
-            String objectName = path.substring(lastIndex + 1);
-            minIOService.removeObject(bucketName, objectName);
-            return Result.success();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.failed(e.getLocalizedMessage());
-        }
+        int lastIndex = path.lastIndexOf("/");
+        String bucketName = path.substring(path.lastIndexOf("/", lastIndex - 1) + 1, lastIndex);
+        String objectName = path.substring(lastIndex + 1);
+        minIOService.removeObject(bucketName, objectName);
+        return Result.success();
     }
 
 }
