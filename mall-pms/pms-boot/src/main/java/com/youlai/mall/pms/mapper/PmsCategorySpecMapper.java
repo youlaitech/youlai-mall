@@ -13,7 +13,7 @@ public interface PmsCategorySpecMapper extends BaseMapper<PmsCategorySpec> {
             " SELECT " +
             "    t1.id,t1.category_id,t1.name,t2.id AS spuId " +
             " FROM " +
-            "    pms_spec t1 " +
+            "    pms_category_spec t1 " +
             "    LEFT JOIN pms_spu t2 ON t1.category_id = t2.category_id " +
             " WHERE " +
             "   t2.id =#{spuId} " +
