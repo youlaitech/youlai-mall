@@ -4,26 +4,29 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
  * @author haoxr
  * @date 2021-02-17 13:13
- *
  */
 public enum BusinessTypeEnum {
 
-    USER("100", "用户类型编号"),
-    MEMBER("200", "会员类型编号"),
-    ORDER("300", "订单类型编号");
+    USER("user", 100),
+    MEMBER("member", 200),
+    ORDER("order", 300);
 
     @Getter
     @Setter
     private String code;
 
-    BusinessTypeEnum(String code, String desc) {
+    @Getter
+    @Setter
+    private Integer value;
+
+    BusinessTypeEnum(String code, Integer value) {
         this.code = code;
+        this.value = value;
     }
 
-    public static BusinessTypeEnum getValue(String code){
+    public static BusinessTypeEnum getValue(String code) {
         for (BusinessTypeEnum value : values()) {
             if (value.getCode().equals(code)) {
                 return value;

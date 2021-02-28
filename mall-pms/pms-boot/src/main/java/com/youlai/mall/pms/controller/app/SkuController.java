@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(tags = "【移动端】商品库存")
-@RestController("AppInventoryController")
+@RestController("AppSkuController")
 @RequestMapping("/api.app/v1/sku")
 @AllArgsConstructor
 public class SkuController {

@@ -29,4 +29,12 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @return 释放库存结果
      */
     boolean releaseStock(WareSkuStockVO skuStockVO);
+
+
+    /**
+     * 获取商品库存
+     * @param skuId
+     * @return
+     */
+    Integer getInventoryBySkuId(Long skuId);
 }
