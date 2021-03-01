@@ -37,10 +37,6 @@ public class LogAspect {
     public void Log() {
     }
 
-    @Before("Log()")
-    public void doBefore(JoinPoint point) {
-    }
-
     @Around("Log()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("日志记录");
