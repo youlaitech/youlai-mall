@@ -75,8 +75,10 @@ public class AuthController {
         switch (clientId) {
             case AuthConstants.WEAPP_CLIENT_ID:  // 微信认证
                 oAuth2AccessToken = this.handleForWxAuth(principal, parameters);
+                break;
             default:
                 oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+                break;
         }
         return oAuth2AccessToken;
     }
