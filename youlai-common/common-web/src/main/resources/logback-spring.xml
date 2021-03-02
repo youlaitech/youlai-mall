@@ -63,7 +63,7 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
         </filter>
-        <destination>${LOG_STASH_HOST}:5044</destination>
+        <destination>${LOG_STASH_HOST}:4560</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -101,7 +101,7 @@
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-        <destination>${LOG_STASH_HOST}:5044</destination>
+        <destination>${LOG_STASH_HOST}:4560</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -134,7 +134,7 @@
 
     <!--业务日志输出到LogStash-->
     <appender name="LOG_STASH_BUSINESS" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${LOG_STASH_HOST}:5044</destination>
+        <destination>${LOG_STASH_HOST}:4560</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -167,7 +167,7 @@
 
     <!--接口访问记录日志输出到LogStash-->
     <appender name="LOG_STASH_RECORD" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${LOG_STASH_HOST}:5044</destination>
+        <destination>${LOG_STASH_HOST}:4560</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -211,7 +211,7 @@
         <appender-ref ref="LOG_STASH_ERROR"/>
     </root>
 
-    <logger name="com.youlai.common.web.aspect.OptLogAspect" level="DEBUG">
+    <logger name="com.youlai.common.web.aspect.LogAspect" level="DEBUG">
         <appender-ref ref="LOG_STASH_RECORD"/>
     </logger>
 
