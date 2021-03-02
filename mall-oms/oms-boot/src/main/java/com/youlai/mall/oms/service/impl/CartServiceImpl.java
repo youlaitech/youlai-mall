@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static com.youlai.common.redis.constant.RedisKeyConstants.MALL_CART_KEY;
+import static com.youlai.mall.oms.common.RedisConstants.MALL_CART_KEY;
+
 
 /**
  * 购物车模块搭建步骤

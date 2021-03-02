@@ -13,8 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.youlai.common.redis.constant.RedisKeyConstants.REDIS_KEY_TIME_OUT;
-import static com.youlai.common.redis.constant.RedisKeyConstants.TOKEN_VERIFY;
+import static com.youlai.mall.oms.common.RedisConstants.REDIS_KEY_TIME_OUT;
+import static com.youlai.mall.oms.common.RedisConstants.TOKEN_VERIFY;
+
 
 /**
  * @author huawei
