@@ -1,11 +1,9 @@
 package com.youlai.common.web.aspect;
 
 import cn.hutool.json.JSONUtil;
-import com.youlai.common.web.pojo.domain.LoginLog;
 import com.youlai.common.web.pojo.domain.OptLog;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.marker.Markers;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -25,16 +23,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author HXR
- * @CreateTime 2021-03-01 16:47
+ * @author HXR
+ * @date 2021-03-01 16:47
  */
 @Aspect
 @Component
 @AllArgsConstructor
-public class OptLogAspect {
+public class LogAspect {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OptLogAspect.class);
-    @Pointcut("execution(public * com.youlai..*.controller.*.*(..)) || execution(public * com.youlai.*.controller.*(..))")
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
+    @Pointcut("@annotation(io.swagger.annotations.ApiOperation)")
     public void Log() {
     }
 
