@@ -1,4 +1,4 @@
-package com.youlai.common.web.log;
+package com.youlai.common.web.pojo.domain;
 
 import lombok.Data;
 
@@ -8,11 +8,9 @@ import lombok.Data;
  * @Version 1.0.0
  */
 @Data
-public class Log {
+public class LoginLog {
 
     private String description;
-
-    private String username;
 
     private String ip;
 
@@ -22,8 +20,6 @@ public class Log {
 
     private String gmtStart;
 
-    private Integer intervalTime;
-
-    private String result;
+    private Integer elapsedTime;
 
 }
