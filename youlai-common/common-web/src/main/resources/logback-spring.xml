@@ -10,7 +10,7 @@
     <!--日志文件保存路径-->
     <property name="LOG_FILE_PATH" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/logs}"/>
     <!--LogStash访问host-->
-    <springProperty name="LOG_STASH_HOST" scope="context" source="192.168.169.186" defaultValue="192.168.169.186"/>
+    <springProperty name="LOG_STASH_HOST" scope="context" source="www.juxingtech.cn" defaultValue="www.juxingtech.cn"/>
 
     <!--DEBUG日志输出到文件-->
     <appender name="FILE_DEBUG"
