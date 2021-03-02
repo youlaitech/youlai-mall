@@ -46,6 +46,7 @@
         <seata.version>1.4.1</seata.version>
         <commons-pool2-version>2.9.0</commons-pool2-version>
         <knife4j.version>2.0.8</knife4j.version>
+        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
     </properties>
 
     <dependencies>
@@ -141,6 +142,11 @@
                 <version>${knife4j.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback-encoder.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

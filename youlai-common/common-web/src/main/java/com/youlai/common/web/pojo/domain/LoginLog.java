@@ -20,6 +20,9 @@ public class LoginLog {
 
     private String gmtStart;
 
+    /**
+     * 消耗时间
+     */
     private Integer elapsedTime;
 
 }

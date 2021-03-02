@@ -22,4 +22,6 @@ public class OptLog {
 
     private Integer elapsedTime;
 
+    private Object result;
+
 }
