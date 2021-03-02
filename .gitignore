@@ -8,7 +8,7 @@
 out
 gen
 target
-*.log
+*.loginLog
 
 logs
 !**/nacos/target
