@@ -3,7 +3,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: 'http://192.168.169.186:9999/oauth/getPublicKey'
+          jwk-set-uri: 'http://localhost:9992/oauth/getPublicKey'
   servlet:
 #   限制文件上传大小
     multipart:
