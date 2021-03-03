@@ -16,9 +16,6 @@
     <!--开启tcp格式的logstash传输，通过TCP协议连接Logstash-->
     <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>www.juxingtech.cn:4560</destination>
-        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"${APP_NAME}"}</customFields>
-        </encoder>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -28,14 +25,15 @@
                 <pattern>
                     <pattern>
                         {
-                        "project": "youlai-mall",
+                        "project": "${APP_NAME}",
                         "level": "%level",
                         "service": "${APP_NAME:-}",
                         "pid": "${PID:-}",
                         "thread": "%thread",
                         "class": "%logger",
                         "message": "%message",
-                        "stack_trace": "%exception{20}"
+                        "stack_trace": "%exception{20}",
+                        "appname": "${APP_NAME}"
                         }
                     </pattern>
                 </pattern>
