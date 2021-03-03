@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.youlai.common.web.pojo.domain.OptLog;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.marker.Markers;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -29,9 +30,9 @@ import java.util.Map;
 @Aspect
 @Component
 @AllArgsConstructor
+@Slf4j
 public class LogAspect {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
     @Pointcut("@annotation(io.swagger.annotations.ApiOperation)")
     public void Log() {
     }
@@ -64,8 +65,7 @@ public class LogAspect {
         logMap.put("description",optLog.getDescription());
         logMap.put("result",result);
 
-        LOGGER.info("123");
-        LOGGER.info(Markers.appendEntries(logMap),JSONUtil.parse(optLog).toString());
+        log.info(Markers.appendEntries(logMap),JSONUtil.parse(optLog).toString());
         return result;
     }
 }

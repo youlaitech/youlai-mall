@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.169.186:3306/oauth?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: juxing
+  redis:
+    database: 0
+    host: 192.168.169.186
+    port: 6379
+    password:
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+minio:
+  endpoint: http://192.168.169.186:9000/
+  access-key: minioadmin
+  secret-key: minioadmin
+logging:
+  level:
+    com.alibaba.nacos.client.*: WARN
