@@ -1,0 +1,42 @@
+server:
+  tomcat:
+    max-http-header-size: 1024000000
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.169.186:3306/helmet?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: juxing
+  # boot:
+  #   admin:
+  #     client:
+  #       url: http://www.juxingtech.cn:8604
+  #       instance:
+  #         name: 人脸服务
+  #         service-url: http://www.juxingtech.cn:8602
+  redis:
+    host: 192.168.169.186
+    port: 6379
+    password:
+    database: 0
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 百度云应用 AppID、APIKey和SecretKey
+baidu:
+  cloud:
+    app:
+      AppID: 16321750
+      APIKey: uEaUlnqlvxSGWulKnrrz1BjX
+      SecretKey: dlLpPNKKk2GAr4GhmNH6EZX3HhqOrBne

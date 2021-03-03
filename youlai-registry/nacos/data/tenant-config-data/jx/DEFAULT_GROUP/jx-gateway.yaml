@@ -1,0 +1,56 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://192.168.169.186:9999/oauth/getPublicKey'
+  servlet:
+#   限制文件上传大小
+    multipart:
+      enabled: true
+      max-file-size: 30MB
+      max-request-size: 30MB
+  redis:
+    database: 0
+    host: 192.168.169.186
+    port: 6379
+    password:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+        # 默认全局的配置,启用服务发现,只要你的访问路径以微服务的服务名称(spring.application.name)开头，都会自动转发到该服务上去
+          enabled: true 
+          lower-case-service-id: true
+      routes:
+        - id: jx-admin
+          uri: lb://jx-admin
+          predicates:
+            - Path=/jx-admin/**
+          filters:
+            - StripPrefix=1
+        - id: jx-auth
+          uri: lb://jx-auth
+          predicates:
+            - Path=/jx-auth/**
+          filters:
+            - StripPrefix=1
+        - id: jx-helmet-external
+          uri: lb://jx-helmet-external
+          predicates:
+            - Path=/jx-helmet-external/**
+          filters:
+            - StripPrefix=1 
+# 是否演示环境
+demo: false
+# 配置白名单路径(无需登录)
+whitelist:
+  urls:
+      - "/jx-auth/oauth/token"
+      - /webjars/**
+      - /doc.html
+      - /swagger-resources/**
+      - /*/v2/api-docs
+logging:
+  level:
+    com.alibaba.nacos.client.*: WARN

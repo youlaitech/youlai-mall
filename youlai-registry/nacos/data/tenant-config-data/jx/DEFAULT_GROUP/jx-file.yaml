@@ -1,0 +1,35 @@
+server:
+  tomcat:
+    max-http-header-size: 1024000000
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1GB
+      max-request-size: 1GB
+  # boot:
+  #   admin:
+  #     client:
+  #       url: http://www.juxingtech.cn:8604
+  #       instance:
+  #         name: 文件服务
+  #         service-url: http://www.juxingtech.cn:8601
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+min:
+  io:
+    endpoint: http://192.168.169.186:9000/
+    accessKey: minioadmin
+    secretKey: minioadmin
