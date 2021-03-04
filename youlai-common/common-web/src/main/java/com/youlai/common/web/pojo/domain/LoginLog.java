@@ -12,17 +12,16 @@ public class LoginLog {
 
     private String description;
 
-    private String ip;
+    private String requestIp;
 
-    private String url;
+    private String requestUrl;
 
-    private String method;
+    private String requestMethod;
 
-    private String gmtStart;
+    private long startTime;
 
-    /**
-     * 消耗时间
-     */
-    private Integer elapsedTime;
+    private long elapsedTime;
+
+    private Object result;
 
 }
