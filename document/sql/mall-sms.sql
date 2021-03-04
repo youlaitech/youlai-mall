@@ -44,4 +44,30 @@ INSERT INTO `sms_advert` VALUES (3, '小程序首页轮播图3', 'http://101.37.
 INSERT INTO `sms_advert` VALUES (4, '小程序首页轮播图4', 'http://101.37.69.49:9000/default/c2e8f39d49c1478b8e400cefb09c9075.jpg', '2020-10-25 00:00:00', '2020-10-31 00:00:00', 1, 4, NULL, NULL, '2020-10-25 09:26:47', '2021-01-01 16:14:37');
 INSERT INTO `sms_advert` VALUES (5, '小程序首页轮播图5', 'http://101.37.69.49:9000/default/095c4f8efa224c2383aa73af427a2587.jpg', '2020-10-25 00:00:00', '2020-10-31 00:00:00', 1, 5, NULL, NULL, '2020-10-25 10:51:02', '2021-01-01 16:14:44');
 
+DROP TABLE IF EXISTS `sms_seckill_session`;
+CREATE TABLE `sms_seckill_session` (
+   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `name` varchar(200) DEFAULT '' NOT NULL COMMENT '场次名称',
+   `start_time` datetime DEFAULT NULL COMMENT '每日开始时间',
+   `end_time` datetime DEFAULT NULL COMMENT '每日结束时间',
+   `status` tinyint(1) DEFAULT NULL COMMENT '启用状态 1-开启  0-关闭',
+   `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+   `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='秒杀活动场次';
+
+DROP TABLE IF EXISTS `sms_seckill_sku_relation`;
+CREATE TABLE `sms_seckill_sku_relation` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `session_id` bigint(20) DEFAULT NULL COMMENT '活动场次id',
+    `sku_id` bigint(20) DEFAULT NULL COMMENT '商品id',
+    `seckill_price` bigint DEFAULT '0' NOT NULL COMMENT '秒杀价格',
+    `seckill_count` int DEFAULT '0' NOT NULL COMMENT '秒杀总量',
+    `seckill_limit` int DEFAULT '0' NOT NULL COMMENT '每人限购数量',
+    `seckill_sort` int(11) DEFAULT NULL COMMENT '排序',
+    `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+    `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='秒杀活动商品关联';
+
 SET FOREIGN_KEY_CHECKS = 1;
