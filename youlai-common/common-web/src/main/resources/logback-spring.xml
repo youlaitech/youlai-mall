@@ -15,7 +15,7 @@
     </appender>
     <!--  -->
     <appender name="LOGIN_LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>g.youlai.store:4560</destination>
+        <destination>g.youlai.store:5044</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
