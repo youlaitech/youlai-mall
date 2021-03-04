@@ -2,6 +2,8 @@ package com.youlai.common.web.pojo.domain;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @Author haoxr
  * @Date 2021-03-01 16:45
@@ -12,15 +14,15 @@ public class OptLog {
 
     private String description;
 
-    private String ip;
+    private String requestIp;
 
-    private String url;
+    private String requestUrl;
 
-    private String method;
+    private String requestMethod;
 
-    private String gmtStart;
+    private long startTime;
 
-    private Integer elapsedTime;
+    private long elapsedTime;
 
     private Object result;
 
