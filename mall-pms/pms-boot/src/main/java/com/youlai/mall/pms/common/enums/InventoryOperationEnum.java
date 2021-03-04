@@ -1,9 +1,9 @@
-package com.youlai.common.enums;
+package com.youlai.mall.pms.common.enums;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public enum QueryModeEnum {
+public enum InventoryOperationEnum {
 
     PAGE("page" ),  // 分页查询
     LIST("list"), //列表查询
@@ -15,12 +15,12 @@ public enum QueryModeEnum {
     @Setter
     private String code;
 
-    QueryModeEnum(String code) {
+    InventoryOperationEnum(String code) {
         this.code=code;
     }
 
-    public static QueryModeEnum getValue(String code){
-        for (QueryModeEnum value : values()) {
+    public static InventoryOperationEnum getValue(String code){
+        for (InventoryOperationEnum value : values()) {
             if (value.getCode().equals(code)) {
                 return value;
             }

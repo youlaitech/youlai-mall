@@ -13,7 +13,8 @@
             </pattern>
         </encoder>
     </appender>
-    <!--  -->
+
+    <!-- Logstash收集日志输出到ElasticSearch  -->
     <appender name="LOGIN_LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>g.youlai.store:5044</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
@@ -33,7 +34,7 @@
                         "class": "%logger",
                         "message": "%message",
                         "stack_trace": "%exception{20}",
-                        "appname": "login"  <!-- 登录日志记录索引名 logstash-%{appname}-yyyy.MM.dd -->
+                        "action": "login"  <!-- 自定义字段 登录日志索引名 logstash-%{action}-yyyy.MM.dd -->
                         }
                     </pattern>
                 </pattern>
@@ -42,12 +43,12 @@
         <keepAliveDuration>5 minutes</keepAliveDuration>
     </appender>
 
-    <!-- additivity="false" 不会将日志反馈到root中 -->
-    <logger name="com.youlai.common.web.aspect.LoginLogAspect" level="INFO" additivity="false">
-        <appender-ref ref="CONSOLE" />
+    <!-- additivity="true" 默认是true 会向上传递至root -->
+    <logger name="com.youlai.common.web.aspect.LoginLogAspect" level="INFO" additivity="true">
         <appender-ref ref="LOGIN_LOGSTASH"/>
     </logger>
 
+    <!-- 根logger -->
    <root level="INFO">
         <appender-ref ref="CONSOLE" />
     </root>

@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.common;
+package com.youlai.mall.pms.common.constant;
 
 /**
  * @author haoxr
