@@ -72,7 +72,7 @@ public class CartServiceImpl implements CartService {
             cartItem.setSkuImg(data.getPicUrl());
             cartItem.setNumber(1);
             cartItem.setPrice(data.getPrice());
-            cartItem.setStock(data.getStock());
+            cartItem.setInventory(data.getInventory());
 
         });
         //2、远程查询商品属性

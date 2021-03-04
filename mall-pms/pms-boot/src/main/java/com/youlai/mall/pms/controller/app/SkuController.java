@@ -2,17 +2,16 @@ package com.youlai.mall.pms.controller.app;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsSku;
+import com.youlai.mall.pms.pojo.domain.PmsInventory;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
 import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
-import com.youlai.mall.pms.service.IPmsSkuService;
+import com.youlai.mall.pms.service.IPmsInventoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,14 +22,14 @@ import java.util.List;
 @AllArgsConstructor
 public class SkuController {
 
-    private IPmsSkuService iPmsSkuService;
+    private IPmsInventoryService iPmsInventoryService;
 
 
     @ApiOperation(value = "商品sku详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品sku id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result<SkuDTO> detail(@PathVariable Long id) {
-        PmsSku sku = iPmsSkuService.getById(id);
+        PmsInventory sku = iPmsInventoryService.getById(id);
         SkuDTO skuDTO = new SkuDTO();
         BeanUtil.copyProperties(sku, skuDTO);
         return Result.success(skuDTO);
@@ -44,9 +43,9 @@ public class SkuController {
     })
     @PutMapping("/{id}/stock")
     public Result updateStock(@PathVariable Long id, @RequestParam Integer num) {
-        PmsSku sku = iPmsSkuService.getById(id);
-        sku.setStock(sku.getStock() + num);
-        boolean result = iPmsSkuService.updateById(sku);
+        PmsInventory sku = iPmsInventoryService.getById(id);
+        sku.setInventory(sku.getInventory() + num);
+        boolean result = iPmsInventoryService.updateById(sku);
         return Result.judge(result);
     }
 
@@ -54,7 +53,7 @@ public class SkuController {
     @ApiImplicitParam(name = "skuIds", value = "Sku ID 集合", required = true, paramType = "param", dataType = "List")
     @GetMapping("/infos")
     public Result<List<SkuInfoVO>> infos(@RequestParam("skuId") List<String> skuIds) {
-        List<SkuInfoVO> infos = iPmsSkuService.getSkuInfoByIds(skuIds);
+        List<SkuInfoVO> infos = iPmsInventoryService.getSkuInfoByIds(skuIds);
         return Result.success(infos);
     }
 
@@ -65,7 +64,7 @@ public class SkuController {
     public Result<Boolean> lockStock(@RequestBody WareSkuStockVO skuStockVO) {
 
         try {
-            iPmsSkuService.lockStock(skuStockVO);
+            iPmsInventoryService.lockStock(skuStockVO);
             return Result.success();
         } catch (Exception e) {
             return Result.failed();
@@ -78,7 +77,7 @@ public class SkuController {
     public Result<Boolean> releaseStock(@RequestBody WareSkuStockVO skuStockVO) {
 
         try {
-            iPmsSkuService.releaseStock(skuStockVO);
+            iPmsInventoryService.releaseStock(skuStockVO);
             return Result.success();
         } catch (Exception e) {
             return Result.failed();

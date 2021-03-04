@@ -5,18 +5,18 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
-/**
- * @author haoxr
- * @date 2020-11-06
- */
 @Data
-public class PmsSpuAttrValue extends BaseEntity {
+public class PmsInventory extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    private Long spuId;
-    private Long attrId;
+    private Long productId;
     private String name;
-    private String value;
-
+    private String code;
+    private String picUrl;
+    private Long originPrice;
+    private Long price;
+    private Integer inventory;
+    private Integer lockInventory;
+    private String specValueIds;
 }

@@ -18,6 +18,6 @@ public class PmsCategorySpec extends BaseEntity {
     private String name;
 
     @TableField(exist = false)
-    private List<PmsSpuSpecValue> values = new ArrayList<>();
+    private List<PmsProductSpecValue> values = new ArrayList<>();
 
 }

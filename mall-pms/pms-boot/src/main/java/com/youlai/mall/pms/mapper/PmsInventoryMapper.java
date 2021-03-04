@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.domain.PmsSku;
+import com.youlai.mall.pms.pojo.domain.PmsInventory;
 import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -10,12 +10,12 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface PmsSkuMapper extends BaseMapper<PmsSku> {
+public interface PmsInventoryMapper extends BaseMapper<PmsInventory> {
 
     @Select("<script>" +
             "  select * from pms_sku where spu_id=#{spuId} " +
             "</script>")
-    List<PmsSku> listBySpuId(Long spuId);
+    List<PmsInventory> listBySpuId(Long spuId);
 
     /**
      * 批量获取商品详情
@@ -30,6 +30,8 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
      * @param number 涉及商品数量
      * @return
      */
+
+
     Long lockStock(@Param("skuId") Long skuId, @Param("number") Integer number);
 
     /**
