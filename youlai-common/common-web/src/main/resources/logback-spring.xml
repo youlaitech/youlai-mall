@@ -2,10 +2,10 @@
 <!DOCTYPE configuration>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 
-    <!-- 属性 -->
+    <!-- 自定义属性 -->
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
 
-    <!--输出到控制台-->
+    <!-- 输出到控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
@@ -13,9 +13,9 @@
             </pattern>
         </encoder>
     </appender>
-    <!--开启tcp格式的logstash传输，通过TCP协议连接Logstash-->
-    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>www.juxingtech.cn:4560</destination>
+    <!--  -->
+    <appender name="LOGIN_LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>g.youlai.store:4560</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -33,7 +33,7 @@
                         "class": "%logger",
                         "message": "%message",
                         "stack_trace": "%exception{20}",
-                        "appname": "${APP_NAME}"
+                        "appname": "login"  <!-- 登录日志记录索引名 logstash-%{appname}-yyyy.MM.dd -->
                         }
                     </pattern>
                 </pattern>
@@ -41,9 +41,14 @@
         </encoder>
         <keepAliveDuration>5 minutes</keepAliveDuration>
     </appender>
-    <root level="INFO">
+
+    <!-- additivity="false" 不会将日志反馈到root中 -->
+    <logger name="com.youlai.common.web.aspect.LoginLogAspect" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE" />
-        <appender-ref ref="STASH"/>
+        <appender-ref ref="LOGIN_LOGSTASH"/>
+    </logger>
+
+   <root level="INFO">
+        <appender-ref ref="CONSOLE" />
     </root>
-    <logger name="io.seata" level="ERROR"></logger>
 </configuration>

@@ -1,7 +1,8 @@
 package com.youlai.common.web.aspect;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
-import com.youlai.common.web.pojo.domain.OptLog;
+import com.youlai.common.web.pojo.domain.LoginLog;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,16 +19,17 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author HXR
- * @date 2021-03-01 16:47
+ * @author hxr
+ * @date 2021-03-01
  */
 @Aspect
 @Component
 @AllArgsConstructor
 @Slf4j
-public class LogAspect {
+@ConditionalOnProperty(value = "spring.application.name",havingValue = "youlai-auth")
+public class LoginLogAspect {
 
-    @Pointcut("@annotation(io.swagger.annotations.ApiOperation)")
+    @Pointcut("execution(public * com.youlai.auth.controller.AuthController.postAccessToken(..))")
     public void Log() {
     }
 
@@ -46,19 +48,19 @@ public class LogAspect {
         // 获取请求信息
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String requestIp=request.getRemoteUser();
+        String requestIp= ServletUtil.getClientIP(request);
         String requestUrl=request.getRequestURL().toString();
         String requestMethod=request.getMethod();
 
-        OptLog optLog = new OptLog();
-        optLog.setStartTime(startTime);
-        optLog.setElapsedTime(elapsedTime);
-        optLog.setDescription(description );
-        optLog.setRequestIp(requestIp);
-        optLog.setRequestUrl(requestUrl);
-        optLog.setRequestMethod(requestMethod);
-        optLog.setResult(result);
-        log.info(JSONUtil.toJsonStr(optLog));
+        LoginLog loginLog = new LoginLog();
+        loginLog.setStartTime(startTime);
+        loginLog.setElapsedTime(elapsedTime);
+        loginLog.setDescription(description );
+        loginLog.setRequestIp(requestIp);
+        loginLog.setRequestUrl(requestUrl);
+        loginLog.setRequestMethod(requestMethod);
+        loginLog.setResult(result);
+        log.info(JSONUtil.toJsonStr(loginLog));
         return result;
     }
 }

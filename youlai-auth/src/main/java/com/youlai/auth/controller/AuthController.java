@@ -43,7 +43,7 @@ public class AuthController {
 
     private TokenEndpoint tokenEndpoint;
 
-    @ApiOperation("OAuth2认证生成token")
+    @ApiOperation(value = "OAuth2认证",notes = "login")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
             @ApiImplicitParam(name = "client_id", defaultValue = "client", value = "Oauth2客户端ID", required = true),
