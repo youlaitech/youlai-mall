@@ -1,8 +1,8 @@
 package com.youlai.mall.pms.bo.admin;
 
-import com.youlai.mall.pms.pojo.domain.PmsSku;
-import com.youlai.mall.pms.pojo.domain.PmsSpuAttrValue;
-import com.youlai.mall.pms.pojo.domain.PmsSpuSpecValue;
+import com.youlai.mall.pms.pojo.domain.PmsInventory;
+import com.youlai.mall.pms.pojo.domain.PmsProductAttrValue;
+import com.youlai.mall.pms.pojo.domain.PmsProductSpecValue;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,10 +17,10 @@ public class ProductBO {
 
     private SpuDTO spu;
 
-    private List<PmsSpuAttrValue> attrs;
+    private List<PmsProductAttrValue> attrs;
 
-    private List<PmsSpuSpecValue> specs;
+    private List<PmsProductSpecValue> specs;
 
-    private List<PmsSku> skuList;
+    private List<PmsInventory> skuList;
 
 }

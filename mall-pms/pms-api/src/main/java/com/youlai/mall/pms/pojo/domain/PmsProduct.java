@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @Document(indexName = "pms_spu", replicas = 1, shards = 1, createIndex = true)
-public class PmsSpu extends BaseEntity {
+public class PmsProduct extends BaseEntity {
 
     @Id
     @TableId(type = IdType.AUTO)
@@ -43,5 +43,5 @@ public class PmsSpu extends BaseEntity {
     private String brandName;
 
     @TableField(exist = false)
-    private List<PmsSku> skuList;
+    private List<PmsInventory> skuList;
 }

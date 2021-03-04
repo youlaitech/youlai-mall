@@ -2,7 +2,7 @@ package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.pms.pojo.domain.PmsSpu;
+import com.youlai.mall.pms.pojo.domain.PmsProduct;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2020-11-06
  */
 @Mapper
-public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
+public interface PmsProductMapper extends BaseMapper<PmsProduct> {
 
     @Select("<script>" +
             " SELECT  " +
@@ -37,5 +37,5 @@ public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
             @Result(id = true, column = "id", property = "id"),
             @Result(property = "skuList",column = "id",many = @Many(select="com.youlai.mall.pms.mapper.PmsSkuMapper.listBySpuId"))
     })
-    List<PmsSpu> list(Page<PmsSpu> page, PmsSpu spu);
+    List<PmsProduct> list(Page<PmsProduct> page, PmsProduct spu);
 }

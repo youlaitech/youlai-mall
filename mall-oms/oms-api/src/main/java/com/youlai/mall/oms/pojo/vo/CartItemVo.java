@@ -87,11 +87,11 @@ public class CartItemVo implements Serializable {
         this.skuName = skuName;
     }
 
-    public Integer getStock() {
+    public Integer getInventory() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setInventory(Integer stock) {
         this.stock = stock;
     }
 

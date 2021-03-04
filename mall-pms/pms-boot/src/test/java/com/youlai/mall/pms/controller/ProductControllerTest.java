@@ -4,9 +4,9 @@ import com.youlai.common.result.ResultCode;
 import com.youlai.mall.pms.bo.app.ProductBO;
 import com.youlai.mall.pms.controller.admin.ProductController;
 import com.youlai.mall.pms.pojo.domain.PmsCategorySpec;
-import com.youlai.mall.pms.service.IPmsSpuAttrValueService;
+import com.youlai.mall.pms.service.IPmsProductAttrValueService;
 import com.youlai.mall.pms.service.IPmsCategorySpecService;
-import com.youlai.mall.pms.service.IPmsSpuService;
+import com.youlai.mall.pms.service.IPmsProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,16 +60,16 @@ public class ProductControllerTest {
     }
 
     @Autowired
-    public IPmsSpuAttrValueService iPmsSpuAttrValueService;
+    public IPmsProductAttrValueService iPmsProductAttrValueService;
 
 
 
     @Autowired
-    private IPmsSpuService iPmsSpuService;
+    private IPmsProductService iPmsProductService;
 
     @Test
     public void getProduct() {
-        ProductBO product = iPmsSpuService.getProductByIdForApp(1l);
+        ProductBO product = iPmsProductService.getProductByIdForApp(1l);
         log.info(product.toString());
     }
 }
