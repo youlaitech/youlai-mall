@@ -28,12 +28,10 @@
                         {
                         "project": "${APP_NAME}",
                         "level": "%level",
-                        "service": "${APP_NAME:-}",
                         "pid": "${PID:-}",
                         "thread": "%thread",
                         "class": "%logger",
                         "message": "%message",
-                        "stack_trace": "%exception{20}",
                         "action": "login"  <!-- 自定义字段 登录日志索引名 logstash-%{action}-yyyy.MM.dd -->
                         }
                     </pattern>

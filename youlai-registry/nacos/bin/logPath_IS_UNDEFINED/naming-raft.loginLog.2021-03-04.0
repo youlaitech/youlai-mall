@@ -1,0 +1,8 @@
+2021-03-04 12:32:03,219 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-admin
+
+2021-03-04 13:34:07,806 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@youlai-admin
+
+2021-03-04 16:06:20,584 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@mall-pms
+
+2021-03-04 16:36:03,116 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@mall-pms
+

@@ -14,6 +14,6 @@ public class UserDTO {
     private String password;
     private Integer status;
     private String clientId;
-    private List<Long> roles;
+    private List<Long> roleIds;
 
 }
