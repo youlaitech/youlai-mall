@@ -47,6 +47,7 @@
         <commons-pool2-version>2.9.0</commons-pool2-version>
         <knife4j.version>2.0.8</knife4j.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+        <elasticsearch.version>7.10.1</elasticsearch.version>
     </properties>
 
     <dependencies>
@@ -147,6 +148,26 @@
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback-encoder.version}</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

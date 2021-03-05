@@ -39,9 +39,9 @@ public class User implements UserDetails {
         this.setPassword(AuthConstants.BCRYPT + user.getPassword());
         this.setEnabled(Integer.valueOf(1).equals(user.getStatus()));
         this.setClientId(user.getClientId());
-        if (CollectionUtil.isNotEmpty(user.getRoles())) {
+        if (CollectionUtil.isNotEmpty(user.getRoleIds())) {
             authorities = new ArrayList<>();
-            user.getRoles().forEach(roleId -> authorities.add(new SimpleGrantedAuthority(String.valueOf(roleId))));
+            user.getRoleIds().forEach(roleId -> authorities.add(new SimpleGrantedAuthority(String.valueOf(roleId))));
         }
     }
 
