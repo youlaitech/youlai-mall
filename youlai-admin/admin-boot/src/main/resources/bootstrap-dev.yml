@@ -11,3 +11,8 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
+  elasticsearch:
+    rest:
+      uris: ["http://g.youlai.store:9200"]
+      cluster-nodes:
+        - g.youlai.store:9200

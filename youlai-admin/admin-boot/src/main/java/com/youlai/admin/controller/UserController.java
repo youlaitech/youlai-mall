@@ -148,19 +148,21 @@ public class UserController extends BaseController {
         SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username));
 
+        // 用户不存在，返回自定义异常，让调用端处理后续逻辑
         if (user == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
+
+        // Entity->DTO
         UserDTO userDTO = new UserDTO();
         BeanUtil.copyProperties(user, userDTO);
+
+        // 获取用户的角色ID集合
         List<Long> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
                 .eq(SysUserRole::getUserId, user.getId())
         ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
-        if (CollectionUtil.isNotEmpty(roleIds)) {
-            List<Long> roles = iSysRoleService.listByIds(roleIds).stream()
-                    .map(role -> role.getId()).collect(Collectors.toList());
-            userDTO.setRoles(roles);
-        }
+        userDTO.setRoleIds(roleIds);
+
         return Result.success(userDTO);
     }
 
