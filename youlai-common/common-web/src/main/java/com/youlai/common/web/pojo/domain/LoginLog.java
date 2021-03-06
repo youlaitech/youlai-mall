@@ -12,11 +12,11 @@ public class LoginLog {
 
     private String description;
 
-    private String requestIp;
+    private String clientIP;
 
-    private String requestUrl;
+    private String url;
 
-    private String requestMethod;
+    private String method;
 
     private long startTime;
 
