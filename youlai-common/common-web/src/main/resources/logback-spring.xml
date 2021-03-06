@@ -14,7 +14,7 @@
         </encoder>
     </appender>
 
-    <!-- Logstash收集日志输出到ElasticSearch  -->
+    <!-- Logstash收集登录日志输出到ElasticSearch  -->
     <appender name="LOGIN_LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>g.youlai.store:5044</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
@@ -27,12 +27,18 @@
                     <pattern>
                         {
                         "project": "${APP_NAME}",
+                        "action":"login",
                         "level": "%level",
                         "pid": "${PID:-}",
                         "thread": "%thread",
                         "class": "%logger",
                         "message": "%message",
-                        "action": "login"  <!-- 自定义字段 登录日志索引名 logstash-%{action}-yyyy.MM.dd -->
+                        "startTime": "%X{startTime}",
+                        "elapsedTime": "%X{elapsedTime}",
+                        "description": "%X{description}",
+                        "clientIP": "%X{clientIP}",
+                        "url": "%X{url}",
+                        "method": "%X{method}"
                         }
                     </pattern>
                 </pattern>
