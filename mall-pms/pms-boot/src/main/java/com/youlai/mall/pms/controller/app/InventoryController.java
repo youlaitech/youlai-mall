@@ -3,14 +3,17 @@ package com.youlai.mall.pms.controller.app;
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.domain.PmsInventory;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import com.youlai.mall.pms.service.IPmsInventoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "【移动端】商品库存")
 @RestController("AppInventoryController")
@@ -24,14 +27,14 @@ public class InventoryController {
     @ApiOperation(value = "商品库存详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品库存ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result<SkuDTO> detail(@PathVariable Long id) {
+    public Result<InventoryDTO> detail(@PathVariable Long id) {
         PmsInventory sku = iPmsInventoryService.getById(id);
-        SkuDTO skuDTO = new SkuDTO();
-        BeanUtil.copyProperties(sku, skuDTO);
-        return Result.success(skuDTO);
+        InventoryDTO InventoryDTO = new InventoryDTO();
+        BeanUtil.copyProperties(sku, InventoryDTO);
+        return Result.success(InventoryDTO);
     }
 
-
+    @ApiOperation("获取商品的库存数量")
     @ApiImplicitParam(name = "id", value = "商品库存ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}/inventory")
     public Result<Integer> getInventoryById(@PathVariable Long id) {
@@ -40,32 +43,30 @@ public class InventoryController {
     }
 
 
-    @ApiOperation(value = "订单提交锁定库存", httpMethod = "POST")
-    @ApiImplicitParam(name = "skuStockVO", value = "订单库存信息", required = true, paramType = "body", dataType = "WareSkuStockVO")
-    @PostMapping("/batch/lock")
-    public Result<Boolean> lockStock(@RequestBody WareSkuStockVO skuStockVO) {
-
-        try {
-            iPmsInventoryService.lockStock(skuStockVO);
-            return Result.success();
-        } catch (Exception e) {
-            return Result.failed();
-        }
+    @ApiOperation(value = "锁定库存", httpMethod = "PUT")
+    @ApiImplicitParam(name = "list", value = "锁定库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
+    @PostMapping("/batch/_lock")
+    public Result<Boolean> lockInventory(@RequestBody List<InventoryNumDTO> list) {
+        boolean result = iPmsInventoryService.lockInventory(list);
+        return Result.judge(result);
     }
 
 
-    @ApiOperation(value = "订单取消释放库存", httpMethod = "POST")
-    @ApiImplicitParam(name = "skuStockVO", value = "订单库存信息", required = true, paramType = "body", dataType = "WareSkuStockVO")
-    @PostMapping("/stock/release")
-    public Result<Boolean> releaseStock(@RequestBody WareSkuStockVO skuStockVO) {
-
-        try {
-            iPmsInventoryService.releaseStock(skuStockVO);
-            return Result.success();
-        } catch (Exception e) {
-            return Result.failed();
-        }
+    @ApiOperation(value = "解锁库存", httpMethod = "PUT")
+    @ApiImplicitParam(name = "list", value = "释放库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
+    @PostMapping("/batch/_unlock")
+    public Result<Boolean> unlockInventory(@RequestBody List<InventoryNumDTO> list) {
+        boolean result = iPmsInventoryService.unlockInventory(list);
+        return Result.judge(result);
     }
 
+
+    @ApiOperation(value = "库存列表", httpMethod = "GET")
+    @ApiImplicitParam(name = "skuIds", value = "库存ID集合字符串，英文逗号,分割", required = true, paramType = "param", dataType = "String")
+    @GetMapping("/{ids}")
+    public Result list(@PathVariable String ids) {
+        List<InventoryDTO> list = iPmsInventoryService.listByInventoryIds(ids);
+        return Result.success(list);
+    }
 
 }

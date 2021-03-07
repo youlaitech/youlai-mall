@@ -15,7 +15,6 @@
     <modules>
         <module>pms-api</module>
         <module>pms-boot</module>
-        <module>pms-search</module>
     </modules>
 
     <properties>

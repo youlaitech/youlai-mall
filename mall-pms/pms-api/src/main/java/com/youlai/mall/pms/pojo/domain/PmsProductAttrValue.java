@@ -15,7 +15,7 @@ public class PmsProductAttrValue extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long productId;
-    private Long categoryAttrId;
+    private Long attrId;
     private String name;
     private String value;
 

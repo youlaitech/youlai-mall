@@ -2,14 +2,14 @@ package com.youlai.mall.pms.service.impl;
 
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.common.constant.RedisConstants;
 import com.youlai.mall.pms.mapper.PmsInventoryMapper;
 import com.youlai.mall.pms.pojo.domain.PmsInventory;
-import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
-import com.youlai.mall.pms.pojo.vo.SkuStockVO;
-import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
 import com.youlai.mall.pms.service.IPmsInventoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,35 +28,37 @@ public class PmsInventoryServiceImpl extends ServiceImpl<PmsInventoryMapper, Pms
     private RedisTemplate redisTemplate;
 
     @Override
-    public List<SkuInfoVO> getSkuInfoByIds(List<String> skuIds) {
-        log.info("批量获取商品详情，skuIds:{}", skuIds);
-        return baseMapper.getSkuInfoByIds(skuIds);
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean lockStock(WareSkuStockVO skuStockVO) {
-        log.info("订单锁定商品库存，商品信息：{}", skuStockVO.getItems());
-        for (SkuStockVO item : skuStockVO.getItems()) {
-            Long result = baseMapper.lockStock(item.getSkuId(), item.getNumber());
-            if (result == 0) {
-                log.info("商品库存锁定失败，商品id:{}，数量:{}", item.getSkuId(), item.getNumber());
-                throw new BizException("商品库存锁定失败，商品id:" + item.getSkuId() + "，数量:" + item.getNumber());
+    public boolean lockInventory(List<InventoryNumDTO> inventories) {
+        log.info("锁定库存: {}", inventories);
+
+        inventories.forEach(item -> {
+            boolean result = this.update(new LambdaUpdateWrapper<PmsInventory>()
+                    .eq(PmsInventory::getId, item.getInventoryId())
+                    .apply("inventory >= locked_inventory + {0}", item.getNum())
+                    .setSql("locked_inventory = locked_inventory + " + item.getNum())
+            );
+            if (!result) {
+                throw new BizException("锁定库存失败，库存ID:" + item.getInventoryId() + "，数量:" + item.getNum());
             }
-        }
+        });
+
         return true;
     }
 
     @Override
-    public boolean releaseStock(WareSkuStockVO skuStockVO) {
-        log.info("订单关闭释放商品库存，商品信息：{}", skuStockVO.getItems());
-        for (SkuStockVO item : skuStockVO.getItems()) {
-            Long result = baseMapper.releaseStock(item.getSkuId(), item.getNumber());
-            if (result == 0) {
-                log.info("商品库存释放失败，商品id:{}，数量:{}", item.getSkuId(), item.getNumber());
-                throw new BizException("商品库存释放失败，商品id:" + item.getSkuId() + "，数量:" + item.getNumber());
+    public boolean unlockInventory(List<InventoryNumDTO> inventories) {
+        log.info("释放库存:{}", inventories);
+
+        inventories.forEach(item -> {
+            boolean result = this.update(new LambdaUpdateWrapper<PmsInventory>()
+                    .eq(PmsInventory::getId, item.getInventoryId())
+                    .setSql("locked_inventory = locked_inventory - " + item.getNum())
+            );
+            if (!result) {
+                throw new BizException("解锁库存失败，库存ID:" + item.getInventoryId() + "，数量:" + item.getNum());
             }
-        }
+        });
         return true;
     }
 
@@ -65,6 +67,7 @@ public class PmsInventoryServiceImpl extends ServiceImpl<PmsInventoryMapper, Pms
      * Cache-Aside pattern 缓存、数据库读写模式
      * 1. 读取数据，先读缓存，没有就去读数据库，然后将结果写入缓存
      * 2. 写入数据，先更新数据库，再删除缓存
+     *
      * @param id 库存ID
      * @return
      */
@@ -91,5 +94,10 @@ public class PmsInventoryServiceImpl extends ServiceImpl<PmsInventoryMapper, Pms
 
         return inventory;
 
+    }
+
+    @Override
+    public List<InventoryDTO> listByInventoryIds(String ids) {
+        return this.listByInventoryIds(ids);
     }
 }

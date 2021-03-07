@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.bo.app.ProductBO;
+import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.mapper.PmsProductMapper;
 import com.youlai.mall.pms.pojo.domain.*;
-import com.youlai.mall.pms.pojo.dto.SpuDTO;
+import com.youlai.mall.pms.pojo.dto.ProductDTO;
 import com.youlai.mall.pms.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     private IPmsInventoryService iPmsInventoryService;
     private IPmsProductAttrValueService iPmsProductAttrValueService;
     private IPmsProductSpecValueService iPmsProductSpecValueService;
-    private IPmsCategorySpecService iPmsCategorySpecService;
+    private IPmsSpecService iPmsSpecService;
 
 
     @Override
@@ -43,18 +43,18 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
 
     @Override
     @Transactional
-    public boolean add(com.youlai.mall.pms.bo.admin.ProductBO spuBO) {
-        SpuDTO spuDTO = spuBO.getSpu();
+    public boolean add(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
+        ProductDTO ProductDTO = spuBO.getProduct();
         List<PmsProductAttrValue> attrs = spuBO.getAttrs();
         List<PmsProductSpecValue> specs = spuBO.getSpecs();
         List<PmsInventory> skuList = spuBO.getSkuList();
 
         // spu保存
         PmsProduct spu = new PmsProduct();
-        BeanUtil.copyProperties(spuDTO, spu);
-        if (spuDTO.getPicUrls() != null) {
-            String picUrls = JSONUtil.toJsonStr(spuDTO.getPicUrls());
-            spu.setPicUrls(picUrls);
+        BeanUtil.copyProperties(ProductDTO, spu);
+        if (ProductDTO.getPicUrls() != null) {
+            String picUrls = JSONUtil.toJsonStr(ProductDTO.getPicUrls());
+            spu.setPics(picUrls);
         }
         this.save(spu);
 
@@ -80,16 +80,16 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     }
 
     @Override
-    public com.youlai.mall.pms.bo.admin.ProductBO getBySpuId(Long id) {
+    public com.youlai.mall.pms.pojo.bo.admin.ProductBO getBySpuId(Long id) {
         // spu
-        SpuDTO spuDTO = new SpuDTO();
+        ProductDTO ProductDTO = new ProductDTO();
         PmsProduct spu = this.getById(id);
-        BeanUtil.copyProperties(spu, spuDTO);
+        BeanUtil.copyProperties(spu, ProductDTO);
 
-        if (StrUtil.isNotBlank(spu.getPicUrls())) {
+        if (StrUtil.isNotBlank(spu.getPics())) {
             // spu专辑图片转换处理 json字符串 -> List
-            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPicUrls()), String.class);
-            spuDTO.setPicUrls(pics);
+            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
+            ProductDTO.setPicUrls(pics);
         }
 
         // 属性
@@ -101,14 +101,14 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
         List<PmsInventory> skuList = iPmsInventoryService.list(new LambdaQueryWrapper<PmsInventory>().eq(PmsInventory::getProductId, id));
 
         // 组合
-        com.youlai.mall.pms.bo.admin.ProductBO spuBO = new com.youlai.mall.pms.bo.admin.ProductBO(spuDTO, attrs, specs, skuList);
+        com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO = new com.youlai.mall.pms.pojo.bo.admin.ProductBO(ProductDTO, attrs, specs, skuList);
         return spuBO;
     }
 
 
     @Override
-    public boolean updateById(com.youlai.mall.pms.bo.admin.ProductBO spuBO) {
-        SpuDTO spuDTO = spuBO.getSpu();
+    public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
+        ProductDTO ProductDTO = spuBO.getProduct();
 
         List<PmsProductAttrValue> attrs = spuBO.getAttrs();
         List<PmsProductSpecValue> specs = spuBO.getSpecs();
@@ -116,10 +116,10 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
 
         // spu保存
         PmsProduct spu = new PmsProduct();
-        BeanUtil.copyProperties(spuDTO, spu);
-        if (spuDTO.getPicUrls() != null) {
-            String picUrls = JSONUtil.toJsonStr(spuDTO.getPicUrls());
-            spu.setPicUrls(picUrls);
+        BeanUtil.copyProperties(ProductDTO, spu);
+        if (ProductDTO.getPicUrls() != null) {
+            String picUrls = JSONUtil.toJsonStr(ProductDTO.getPicUrls());
+            spu.setPics(picUrls);
         }
         this.updateById(spu);
 
@@ -197,12 +197,12 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     public ProductBO getProductByIdForApp(Long spuId) {
         // spu
         PmsProduct spu = this.getById(spuId);
-        SpuDTO spuDTO = new SpuDTO();
-        BeanUtil.copyProperties(spu, spuDTO);
-        if (StrUtil.isNotBlank(spu.getPicUrls())) {
+        ProductDTO ProductDTO = new ProductDTO();
+        BeanUtil.copyProperties(spu, ProductDTO);
+        if (StrUtil.isNotBlank(spu.getPics())) {
             // spu专辑图片转换处理 json字符串 -> List
-            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPicUrls()), String.class);
-            spuDTO.setPicUrls(pics);
+            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
+            ProductDTO.setPicUrls(pics);
         }
         // 属性
         List<PmsProductAttrValue> attrs = iPmsProductAttrValueService.list(
@@ -211,12 +211,12 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
         );
 
         // 规格
-        List<PmsCategorySpec> specs = iPmsCategorySpecService.listBySpuId(spuId);
+        List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
 
         // sku
         List<PmsInventory> skuList = iPmsInventoryService.list(new LambdaQueryWrapper<PmsInventory>().eq(PmsInventory::getProductId, spuId));
 
-        ProductBO product = new ProductBO(spuDTO, attrs, specs, skuList);
+        ProductBO product = new ProductBO(ProductDTO, attrs, specs, skuList);
         return product;
     }
 }

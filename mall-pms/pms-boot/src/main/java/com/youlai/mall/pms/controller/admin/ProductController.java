@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.pms.bo.admin.ProductBO;
+import com.youlai.mall.pms.pojo.bo.admin.ProductBO;
 import com.youlai.mall.pms.pojo.domain.PmsProduct;
 import com.youlai.mall.pms.service.IPmsProductService;
 import io.swagger.annotations.Api;

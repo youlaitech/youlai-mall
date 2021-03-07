@@ -2,7 +2,7 @@ package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.common.result.Result;
-import com.youlai.common.utils.EnumUtils;
+import com.youlai.mall.oms.common.EnumUtils;
 import com.youlai.mall.oms.enums.OrderPayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OrderPayEntity;
 import com.youlai.mall.oms.pojo.form.OrderPayForm;

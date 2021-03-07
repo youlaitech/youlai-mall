@@ -29,8 +29,8 @@ public class PmsProduct extends BaseEntity {
     private Long originPrice;
     private Long price;
     private Integer sales;
-    private String picUrl;
-    private String picUrls;
+    private String pic;
+    private String pics;
     private String unit;
     private String description;
     private String detail;
@@ -43,5 +43,8 @@ public class PmsProduct extends BaseEntity {
     private String brandName;
 
     @TableField(exist = false)
-    private List<PmsInventory> skuList;
+    private List<PmsInventory> inventoryList;
+
+    @TableField(exist = false)
+    private List<String> picList;
 }

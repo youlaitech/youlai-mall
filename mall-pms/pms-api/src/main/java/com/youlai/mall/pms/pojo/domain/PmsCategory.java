@@ -16,7 +16,7 @@ public class PmsCategory extends BaseEntity {
 
     private Long parentId;
 
-    private String iconUrl;
+    private String icon;
 
 
     @JsonInclude(value = JsonInclude.Include.NON_NULL)

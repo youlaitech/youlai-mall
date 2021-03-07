@@ -73,7 +73,6 @@ youlai-mall
 ├── mall-pms
     ├── pms-api -- 商品中心对外Feign接口
     ├── pms-boot -- 商品中心
-    ├── pms-search -- 商品搜索
 ├── mall-sms
     ├── sms-api -- 营销中心对外Feign接口
     ├── sms-boot -- 营销中心

@@ -13,7 +13,7 @@ import com.youlai.mall.oms.pojo.OmsOrder;
 import com.youlai.mall.oms.pojo.OmsOrderItem;
 import com.youlai.mall.oms.service.IOmsOrderItemService;
 import com.youlai.mall.oms.service.IOmsOrderService;
-import com.youlai.mall.pms.api.ProductFeignService;
+import com.youlai.mall.pms.api.InventoryFeignService;
 import com.youlai.mall.ums.api.MemberFeignService;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -81,12 +81,12 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         return orderBO;
     }
 
-    private ProductFeignService productFeignService;
+    private InventoryFeignService inventoryFeignService;
 
     @Override
     public boolean submit() {
         log.info("扣减库存----begin");
-        productFeignService.updateStock(1l, -1);
+        inventoryFeignService.updateStock(1l, -1);
         log.info("扣减库存----end");
 
         log.info("增加积分----begin");
@@ -103,7 +103,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     @GlobalTransactional(rollbackFor = Exception.class)
     public boolean submitWithGlobalTransactional() {
         log.info("扣减库存----begin");
-        productFeignService.updateStock(1l, -1);
+        inventoryFeignService.updateStock(1l, -1);
         log.info("扣减库存----end");
 
         log.info("增加积分----begin");
