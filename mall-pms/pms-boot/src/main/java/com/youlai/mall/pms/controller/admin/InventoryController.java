@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller.admin;
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.domain.PmsInventory;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import com.youlai.mall.pms.service.IPmsInventoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -25,11 +25,11 @@ public class InventoryController {
     @ApiOperation(value = "商品库存明细", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品SkuID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result<SkuDTO> detail(@PathVariable Long id) {
+    public Result<InventoryDTO> detail(@PathVariable Long id) {
         PmsInventory sku = iPmsInventoryService.getById(id);
-        SkuDTO skuDTO = new SkuDTO();
-        BeanUtil.copyProperties(sku, skuDTO);
-        return Result.success(skuDTO);
+        InventoryDTO InventoryDTO = new InventoryDTO();
+        BeanUtil.copyProperties(sku, InventoryDTO);
+        return Result.success(InventoryDTO);
     }
 
     @ApiOperation(value = "修改库存", httpMethod = "PUT")

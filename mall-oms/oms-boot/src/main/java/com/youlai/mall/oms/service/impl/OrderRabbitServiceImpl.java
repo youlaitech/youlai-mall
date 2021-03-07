@@ -12,9 +12,8 @@ import com.youlai.mall.oms.pojo.entity.OrderGoodsEntity;
 import com.youlai.mall.oms.service.OrderGoodsService;
 import com.youlai.mall.oms.service.OrderRabbitService;
 import com.youlai.mall.oms.service.OrderService;
-import com.youlai.mall.pms.api.ProductFeignService;
-import com.youlai.mall.pms.pojo.vo.SkuStockVO;
-import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
+import com.youlai.mall.pms.api.InventoryFeignService;
+import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +35,7 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
 
     private OrderGoodsService orderGoodsService;
 
-    private ProductFeignService productFeignService;
+    private InventoryFeignService inventoryFeignService;
 
     /**
      * 接收超时订单消息
@@ -57,7 +56,7 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
             OrderEntity order = orderService.getByOrderSn(orderSn);
             if (order.getStatus().equals(OrderStatusEnum.NEED_PAY.code)) {
                 if (orderService.closeOrderBySystem(orderSn)){
-                    releaseStock(order.getId());
+                    unlockInventory(order.getId());
                 }
             }
             channel.basicAck(msgTag, false);
@@ -67,17 +66,15 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
         }
     }
 
-    private void releaseStock(Long orderId) {
+    private void unlockInventory(Long orderId) {
         List<OrderGoodsEntity> orderGoods = orderGoodsService.getByOrderId(orderId);
-        List<SkuStockVO> items = orderGoods.stream().map(good -> {
-            SkuStockVO itemVO = new SkuStockVO();
-            itemVO.setSkuId(good.getSkuId());
-            itemVO.setNumber(good.getSkuQuantity());
-            return itemVO;
+        List<InventoryNumDTO> items = orderGoods.stream().map(good -> {
+            InventoryNumDTO item = new InventoryNumDTO();
+            item.setInventoryId(good.getSkuId());
+            item.setNum(good.getSkuQuantity());
+            return item;
         }).collect(Collectors.toList());
-        WareSkuStockVO wareSkuStock = new WareSkuStockVO();
-        wareSkuStock.setItems(items);
-        Result result = productFeignService.releaseStock(wareSkuStock);
+        Result result = inventoryFeignService.unlockInventory(items);
         if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
             log.error("释放库存异常，商品列表={}", items);
             throw new BizException("关闭订单失败，释放库存错误");

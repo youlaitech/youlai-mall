@@ -13,10 +13,10 @@ public class PmsInventory extends BaseEntity {
     private Long productId;
     private String name;
     private String code;
-    private String picUrl;
+    private String pic;
     private Long originPrice;
     private Long price;
     private Integer inventory;
-    private Integer lockInventory;
+    private Integer lockedInventory;
     private String specValueIds;
 }

@@ -11,13 +11,32 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
+import org.elasticsearch.search.aggregations.bucket.histogram.ParsedDateHistogram;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedLongTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author hxr
@@ -26,38 +45,73 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 
-public class ElasticSearchService{
+public class ElasticSearchService {
 
     private RestHighLevelClient client;
 
 
-
     @SneakyThrows
-    public long count(QueryBuilder queryBuilder,String... indices){
-
+    public long count(QueryBuilder queryBuilder, String... indices) {
+        // 构造搜索条件
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(queryBuilder);
-
-        CountRequest countRequest=new CountRequest(indices);
+        // 构造请求
+        CountRequest countRequest = new CountRequest(indices);
         countRequest.source(searchSourceBuilder);
-
+        // 执行请求
         CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
         long count = countResponse.getCount();
         return count;
     }
 
+    @SneakyThrows
+    public Map<String, Long> dateHistogram(QueryBuilder queryBuilder,String field, DateHistogramInterval interval, String... indices) {
+
+        // 构造AggregationBuilder
+        AggregationBuilder aggregationBuilder=AggregationBuilders
+                .dateHistogram("dateHistogram") //自定义统计名，和下文获取需一致
+                .field(field) // 日期字段名
+                .format("yyyy-MM-dd") // 时间格式
+                .calendarInterval(interval) // 日历间隔，例： 1s->1秒 1d->1天 1w->1周 1M->1月 1y->1年 ...
+                .minDocCount(0); // 最小文档数，比该值小就忽略
+
+        // 构造SearchSourceBuilder
+        SearchSourceBuilder searchSourceBuilder=new SearchSourceBuilder();
+        searchSourceBuilder
+                .query(queryBuilder)
+                .aggregation(aggregationBuilder)
+                .size(0);
+
+        // 构造SearchRequest
+        SearchRequest searchRequest=new SearchRequest(indices);
+        searchRequest.source(searchSourceBuilder);
+
+        // 执行请求
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+
+        // 处理结果
+        ParsedDateHistogram dateHistogram = searchResponse.getAggregations().get("dateHistogram");
+
+        Iterator<? extends Histogram.Bucket> iterator = dateHistogram.getBuckets().iterator();
+
+        while (iterator.hasNext()){
+            Histogram.Bucket bucket = iterator.next();
+            System.out.println(bucket.getKeyAsString()+":"+bucket.getDocCount());
+        }
+
+        return null;
+    }
 
     @SneakyThrows
     public <T> List<T> search(QueryBuilder queryBuilder, Class<T> clazz, String... indices) {
-        // 构造请求参数
+        // 构造SearchSourceBuilder
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(queryBuilder);
         searchSourceBuilder.from(0);
         searchSourceBuilder.size(EsConstants.DEFAULT_PAGE_SIZE);
-
+        // 构造SearchRequest
         SearchRequest searchRequest = new SearchRequest(indices);
         searchRequest.source(searchSourceBuilder);
-
         // 执行请求
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         SearchHits hits = searchResponse.getHits();
@@ -70,5 +124,6 @@ public class ElasticSearchService{
         }
         return list;
     }
+
 
 }

@@ -2,10 +2,10 @@ package com.youlai.mall.oms.service.impl;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.pms.api.ProductFeignService;
+import com.youlai.mall.pms.api.InventoryFeignService;
 import com.youlai.mall.oms.bo.CartItemBo;
 import com.youlai.mall.oms.bo.CartItemCheckBo;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import com.youlai.mall.oms.pojo.vo.CartItemVo;
 import com.youlai.mall.oms.pojo.vo.CartVo;
 import com.youlai.mall.oms.service.CartService;
@@ -45,7 +45,7 @@ public class CartServiceImpl implements CartService {
 
     private RedisTemplate redisTemplate;
 
-    private ProductFeignService productFeignService;
+    private InventoryFeignService inventoryFeignService;
 
 
     @Override
@@ -64,12 +64,12 @@ public class CartServiceImpl implements CartService {
         // 添加新商品到购物车
         CompletableFuture<Void> skuInfoFuture = CompletableFuture.runAsync(() -> {
             //1、远程查询商品详情
-            Result<SkuDTO> skuInfo = productFeignService.getSkuById(Long.parseLong(skuId));
-            SkuDTO data = skuInfo.getData();
+            Result<InventoryDTO> skuInfo = inventoryFeignService.getInventoryById(Long.parseLong(skuId));
+            InventoryDTO data = skuInfo.getData();
             cartItem.setSkuId(Long.parseLong(skuId));
             cartItem.setChecked(true);
             cartItem.setSkuName(data.getName());
-            cartItem.setSkuImg(data.getPicUrl());
+            cartItem.setSkuImg(data.getPic());
             cartItem.setNumber(1);
             cartItem.setPrice(data.getPrice());
             cartItem.setInventory(data.getInventory());

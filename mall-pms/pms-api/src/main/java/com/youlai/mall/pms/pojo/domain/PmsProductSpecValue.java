@@ -15,6 +15,6 @@ public class PmsProductSpecValue extends BaseEntity {
     @TableId(type = IdType.INPUT)
     private Long id;
     private Long productId;
-    private Long categorySpecId;
+    private Long specId;
     private String value;
 }

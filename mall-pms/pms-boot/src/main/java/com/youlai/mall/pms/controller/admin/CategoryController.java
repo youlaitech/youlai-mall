@@ -6,9 +6,9 @@ import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.domain.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
-import com.youlai.mall.pms.service.IPmsCategoryAttrService;
+import com.youlai.mall.pms.service.IPmsAttrService;
 import com.youlai.mall.pms.service.IPmsCategoryService;
-import com.youlai.mall.pms.service.IPmsCategorySpecService;
+import com.youlai.mall.pms.service.IPmsSpecService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,9 +31,9 @@ public class CategoryController {
 
     private IPmsCategoryService iPmsCategoryService;
 
-    private IPmsCategoryAttrService iPmsCategoryAttrService;
+    private IPmsAttrService iPmsAttrService;
 
-    private IPmsCategorySpecService iPmsCategorySpecService;
+    private IPmsSpecService iPmsSpecService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -92,8 +92,8 @@ public class CategoryController {
         List<String> idList = Arrays.asList(ids.split(","));
         Optional.ofNullable(idList).ifPresent(list -> {
             list.forEach(id -> {
-                iPmsCategoryAttrService.removeById(id);
-                iPmsCategorySpecService.removeById(id);
+                iPmsAttrService.removeById(id);
+                iPmsSpecService.removeById(id);
             });
             iPmsCategoryService.removeByIds(idList.stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         });
