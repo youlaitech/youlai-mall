@@ -23,6 +23,17 @@
             <artifactId>feign-okhttp</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>ums-api</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>pms-api</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
