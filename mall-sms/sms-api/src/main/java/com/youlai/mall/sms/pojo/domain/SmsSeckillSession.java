@@ -1,9 +1,11 @@
 package com.youlai.mall.sms.pojo.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * sms_seckill_session
@@ -45,6 +47,9 @@ public class SmsSeckillSession implements Serializable {
      * 修改时间
      */
     private Date gmtModified;
+
+    @TableField(exist = false)
+    private List<SmsSeckillSkuRelation> relations;
 
     private static final long serialVersionUID = 1L;
 }
