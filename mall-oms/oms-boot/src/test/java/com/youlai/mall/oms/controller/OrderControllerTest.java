@@ -5,7 +5,7 @@ import com.youlai.common.result.ResultCode;
 import com.youlai.mall.oms.controller.admin.OrderController;
 import com.youlai.mall.oms.pojo.OmsOrder;
 import com.youlai.mall.oms.service.IOmsOrderService;
-import com.youlai.mall.pms.api.ProductFeignService;
+import com.youlai.mall.pms.api.InventoryFeignService;
 import com.youlai.mall.ums.api.MemberFeignService;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +56,7 @@ public class OrderControllerTest {
 
 
     @Autowired
-    private ProductFeignService productFeignService;
+    private InventoryFeignService inventoryFeignService;
 
     @Autowired
     private MemberFeignService memberFeignService;
@@ -69,7 +69,7 @@ public class OrderControllerTest {
     @GlobalTransactional(rollbackFor = Exception.class)
     public void submitOrder() {
         // 扣减库存
-        productFeignService.updateStock(151l, -1);
+        inventoryFeignService.updateStock(151l, -1);
         // 增加积分
         memberFeignService.updatePoint(1l, 10);
         // 修改订单状态

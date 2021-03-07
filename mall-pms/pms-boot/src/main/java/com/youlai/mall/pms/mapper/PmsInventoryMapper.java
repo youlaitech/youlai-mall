@@ -2,10 +2,9 @@ package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.mall.pms.pojo.domain.PmsInventory;
-import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -13,32 +12,35 @@ import java.util.List;
 public interface PmsInventoryMapper extends BaseMapper<PmsInventory> {
 
     @Select("<script>" +
-            "  select * from pms_sku where spu_id=#{spuId} " +
+            "  select * from pms_inventory where product_id=#{productId} " +
             "</script>")
-    List<PmsInventory> listBySpuId(Long spuId);
-
-    /**
-     * 批量获取商品详情
-     * @param skuIds 商品id集合
-     * @return
-     */
-    List<SkuInfoVO> getSkuInfoByIds(@Param("skuIds") List<String> skuIds);
-
-    /**
-     * 锁定库存
-     * @param skuId 商品id
-     * @param number 涉及商品数量
-     * @return
-     */
+    List<PmsInventory> listByProductId(Long productId);
 
 
-    Long lockStock(@Param("skuId") Long skuId, @Param("number") Integer number);
-
-    /**
-     * 释放库存
-     * @param skuId 商品id
-     * @param number 涉及商品数量
-     * @return
-     */
-    Long releaseStock(@Param("skuId") Long skuId, @Param("number") Integer number);
+    @Select({
+            "<script>",
+            "SELECT  ",
+            " t1.id,  ",
+            " t1.CODE,  ",
+            " t1.NAME,  ",
+            " t1.pic,  ",
+            " t1.origin_price,  ",
+            " t1.price price,  ",
+            " t1.inventory inventory,  ",
+            " t2.id product_id,  ",
+            " t2.NAME product_name,  ",
+            " t2.pic product_pic,  ",
+            " t3.id category_id,  ",
+            " t3.NAME category_name,  ",
+            " t4.id brand_id,  ",
+            " t4.NAME brand_name   ",
+            "FROM  ",
+            " pms_inventory t1  ",
+            " LEFT JOIN pms_product t2 ON t1.product_id = t2.id  ",
+            " LEFT JOIN pms_category t3 ON t2.category_id = t3.id  ",
+            " LEFT JOIN pms_brand t4 ON t2.brand_id = t4.id  ",
+            "WHERE t1.id in (#{inventoryIds}) ",
+            "</script>"
+    })
+    List<InventoryDTO> listByInventoryIds(String inventoryIds);
 }

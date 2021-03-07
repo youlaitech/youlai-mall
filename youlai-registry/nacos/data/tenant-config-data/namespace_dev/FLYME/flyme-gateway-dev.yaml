@@ -1,0 +1,82 @@
+
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    password: fengyangtsdb
+    database: 0
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://localhost:8000/getPublicKey'
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 启用服务发现
+          lower-case-service-id: true
+      routes:
+        - id: youlai-auth
+          uri: lb://youlai-auth
+          predicates:
+            - Path=/youlai-auth/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
+        - id: youlai-admin
+          uri: lb://youlai-admin
+          predicates:
+            - Path=/youlai-admin/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
+        - id: mall-oms
+          uri: lb://mall-oms
+          predicates:
+            - Path=/mall-oms/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
+        - id: mall-pms
+          uri: lb://mall-pms
+          predicates:
+            - Path=/mall-pms/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
+        - id: mall-ums
+          uri: lb://mall-ums
+          predicates:
+            - Path=/mall-ums/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
+        - id: mall-sms
+          uri: lb://mall-sms
+          predicates:
+            - Path=/mall-sms/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
+
+# 配置白名单路径(无需登录)
+whitelist:
+  urls:
+      - /youlai-auth/oauth/token
+      - /webjars/**
+      - /doc.html
+      - /swagger-resources/**
+      - /*/v2/api-docs
+
+# 是否演示环境
+demo: false 
+
+# XXXXXX
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000

@@ -43,6 +43,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-elasticsearch</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>

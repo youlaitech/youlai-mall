@@ -2,39 +2,40 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.domain.PmsInventory;
-import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
-import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
 
 import java.util.List;
 
 public interface IPmsInventoryService extends IService<PmsInventory> {
 
     /**
-     * 批量获取商品详情
-     * @param skuIds
-     * @return
-     */
-    List<SkuInfoVO> getSkuInfoByIds(List<String> skuIds);
-
-    /**
-     * 订单下单锁定库存
-     * @param skuStockVO 商品锁定库存实体类
+     * 锁定库存
+     * @param list
      * @return 库存锁定结果
      */
-    boolean lockStock(WareSkuStockVO skuStockVO);
+    boolean lockInventory(List<InventoryNumDTO> list);
 
     /**
-     * 订单关闭释放库存
-     * @param skuStockVO 商品库存实体类
-     * @return 释放库存结果
+     * 解锁库存
+     * @param  list
+     * @return 解锁库存结果
      */
-    boolean releaseStock(WareSkuStockVO skuStockVO);
+    boolean unlockInventory(List<InventoryNumDTO>  list);
 
 
     /**
-     * 获取商品库存
+     * 获取商品库存数量
      * @param id 库存ID
      * @return
      */
     Integer getInventoryById(Long id);
+
+
+    /**
+     * 获取库存列表
+     * @param ids
+     * @return
+     */
+    List<InventoryDTO> listByInventoryIds(String ids);
 }

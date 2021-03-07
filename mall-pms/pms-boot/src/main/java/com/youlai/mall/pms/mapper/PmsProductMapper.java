@@ -24,18 +24,18 @@ public interface PmsProductMapper extends BaseMapper<PmsProduct> {
             " t2.NAME AS category_name ," +
             " t3.NAME AS brand_name " +
             " FROM " +
-            "  pms_spu t1" +
+            "  pms_product t1" +
             " LEFT JOIN pms_category t2 ON t1.category_id = t2.id " +
             " LEFT JOIN pms_brand t3 ON t1.brand_id = t3.id " +
             " WHERE 1=1 " +
-            " <if test ='spu.categoryId !=null and spu.categoryId > 0' >" +
-            "       AND t2.id = #{spu.categoryId} " +
+            " <if test ='product.categoryId !=null and product.categoryId > 0' >" +
+            "       AND t2.id = #{product.categoryId} " +
             " </if>" +
             " ORDER BY t1.gmt_create DESC" +
             "</script>")
     @Results({
             @Result(id = true, column = "id", property = "id"),
-            @Result(property = "skuList",column = "id",many = @Many(select="com.youlai.mall.pms.mapper.PmsSkuMapper.listBySpuId"))
+            @Result(property = "inventoryList",column = "id",many = @Many(select="com.youlai.mall.pms.mapper.PmsInventoryMapper.listByProductId"))
     })
-    List<PmsProduct> list(Page<PmsProduct> page, PmsProduct spu);
+    List<PmsProduct> list(Page<PmsProduct> page, PmsProduct product);
 }

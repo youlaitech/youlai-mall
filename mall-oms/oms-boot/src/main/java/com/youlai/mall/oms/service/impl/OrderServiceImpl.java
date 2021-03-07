@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.base.Query;
+import com.youlai.mall.oms.common.Query;
 import com.youlai.common.mybatis.utils.PageUtils;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.common.utils.EnumUtils;
+import com.youlai.mall.oms.common.EnumUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.RequestUtils;
@@ -29,10 +29,9 @@ import com.youlai.mall.oms.service.CartService;
 import com.youlai.mall.oms.service.OrderGoodsService;
 import com.youlai.mall.oms.service.OrderLogsService;
 import com.youlai.mall.oms.service.OrderService;
-import com.youlai.mall.pms.api.ProductFeignService;
-import com.youlai.mall.pms.pojo.vo.SkuInfoVO;
-import com.youlai.mall.pms.pojo.vo.SkuStockVO;
-import com.youlai.mall.pms.pojo.vo.WareSkuStockVO;
+import com.youlai.mall.pms.api.InventoryFeignService;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
 import com.youlai.mall.ums.api.MemberFeignService;
 import com.youlai.mall.ums.pojo.dto.UmsAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -60,7 +59,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     private CartService cartService;
 
-    private ProductFeignService productFeignService;
+    private InventoryFeignService inventoryFeignService;
 
     private MemberFeignService memberFeignService;
 
@@ -97,19 +96,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         }
 
         // feign调用商品接口，获取商品信息
-        Map<Long, SkuInfoVO> skuMap = new HashMap<>(items.size());
+        Map<Long, InventoryDTO> skuMap = new HashMap<>(items.size());
         List<String> skuIds = items.stream().map(item -> item.getSkuId().toString()).collect(Collectors.toList());
-        List<SkuInfoVO> skuInfos = productFeignService.infos(skuIds).getData();
+        List<InventoryDTO> skuInfos = inventoryFeignService.listByInventoryIds(String.join(",", skuIds)).getData();
         if (!CollectionUtil.isEmpty(skuInfos)) {
-            skuMap = skuInfos.stream().collect(Collectors.toMap(SkuInfoVO::getSkuId, Function.identity()));
+            skuMap = skuInfos.stream().collect(Collectors.toMap(InventoryDTO::getId, Function.identity()));
         }
 
         for (OrderItemVO item : items) {
-            SkuInfoVO info = skuMap.get(item.getSkuId());
+            InventoryDTO info = skuMap.get(item.getSkuId());
             if (info != null) {
-                item.setPrice(info.getSkuPrice());
-                item.setSkuImg(info.getSkuPic());
-                item.setSkuName(info.getSkuName());
+                item.setPrice(info.getPrice());
+                item.setSkuImg(info.getPic());
+                item.setSkuName(info.getName());
             }
         }
 
@@ -289,15 +288,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
     private void lockStock(List<OrderGoodsEntity> orderGoods) {
-        List<SkuStockVO> items = orderGoods.stream().map(good -> {
-            SkuStockVO itemVO = new SkuStockVO();
-            itemVO.setSkuId(good.getSkuId());
-            itemVO.setNumber(good.getSkuQuantity());
-            return itemVO;
+        List<InventoryNumDTO> items = orderGoods.stream().map(good -> {
+            InventoryNumDTO item = new InventoryNumDTO();
+            item.setInventoryId(good.getSkuId());
+            item.setNum(good.getSkuQuantity());
+            return item;
         }).collect(Collectors.toList());
-        WareSkuStockVO wareSkuStock = new WareSkuStockVO();
-        wareSkuStock.setItems(items);
-        Result result = productFeignService.lockStock(wareSkuStock);
+        Result result = inventoryFeignService.lockStock(items);
         if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
             log.error("锁定库存异常，商品列表={}", items);
             throw new BizException("下单失败，锁定库存错误");
@@ -366,14 +363,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         }
 
         List<String> skuIds = orderGoods.stream().map(vo -> vo.getSkuId().toString()).collect(Collectors.toList());
-        Result<List<SkuInfoVO>> response = productFeignService.infos(skuIds);
-        List<SkuInfoVO> skuInfos = response.getData();
+        Result<List<InventoryDTO>> response = inventoryFeignService.listByInventoryIds(String.join(",", skuIds));
+        List<InventoryDTO> skuInfos = response.getData();
         if (skuInfos == null) {
             return null;
         }
-        Map<Long, SkuInfoVO> skuMap = skuInfos.stream().collect(Collectors.toMap(SkuInfoVO::getSkuId, Function.identity(), (o1, o2) -> o2));
+        Map<Long, InventoryDTO> skuMap = skuInfos.stream().collect(Collectors.toMap(InventoryDTO::getId, Function.identity(), (o1, o2) -> o2));
         for (OrderGoodsEntity good : orderGoods) {
-            SkuInfoVO skuInfo = skuMap.get(good.getSkuId());
+            InventoryDTO skuInfo = skuMap.get(good.getSkuId());
             if (skuInfo == null) {
                 throw new BizException("订单商品库存为空");
             }

@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller.app;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.bo.app.ProductBO;
+import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.pojo.domain.PmsProduct;
 import com.youlai.mall.pms.service.IPmsProductService;
 import io.swagger.annotations.Api;

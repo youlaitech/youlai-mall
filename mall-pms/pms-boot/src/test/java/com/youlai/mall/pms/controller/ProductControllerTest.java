@@ -1,11 +1,11 @@
 package com.youlai.mall.pms.controller;
 
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.pms.bo.app.ProductBO;
+import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.controller.admin.ProductController;
-import com.youlai.mall.pms.pojo.domain.PmsCategorySpec;
+import com.youlai.mall.pms.pojo.domain.PmsSpec;
 import com.youlai.mall.pms.service.IPmsProductAttrValueService;
-import com.youlai.mall.pms.service.IPmsCategorySpecService;
+import com.youlai.mall.pms.service.IPmsSpecService;
 import com.youlai.mall.pms.service.IPmsProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -51,11 +51,11 @@ public class ProductControllerTest {
     }
 
     @Autowired
-    public IPmsCategorySpecService iPmsCategorySpecService;
+    public IPmsSpecService iPmsSpecService;
 
     @Test
     public void getProductSpecList() {
-        List<PmsCategorySpec> specifications = iPmsCategorySpecService.listBySpuId(1l);
+        List<PmsSpec> specifications = iPmsSpecService.listBySpuId(1l);
         log.info(specifications.toString());
     }
 

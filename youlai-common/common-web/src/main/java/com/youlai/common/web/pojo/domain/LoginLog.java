@@ -18,8 +18,6 @@ public class LoginLog {
 
     private String method;
 
-    private long startTime;
-
     private long elapsedTime;
 
     private Object result;

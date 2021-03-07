@@ -19,6 +19,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author hxr
@@ -38,7 +40,8 @@ public class LoginLogAspect {
     @Around("Log()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         // 时间统计
-        long startTime = System.currentTimeMillis();
+        Date now=new Date();
+        long startTime =  now.getTime();
         Object result = joinPoint.proceed();
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
@@ -54,15 +57,18 @@ public class LoginLogAspect {
         String requestUrl = request.getRequestURL().toString();
         String method = request.getMethod();
 
-        MDC.put("startTime", StrUtil.toString(startTime));
         MDC.put("elapsedTime", StrUtil.toString(elapsedTime));
         MDC.put("description",description);
         MDC.put("clientIP", clientIP);
         MDC.put("url", requestUrl);
         MDC.put("method", method);
 
-        log.info(StrUtil.toString(result)); // logstash收集必要打印
 
+
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDateFormat.format(now);
+        MDC.put("date",date);
+        log.info(StrUtil.toString(result)); // logstash收集必要打印
         return result;
     }
 }
