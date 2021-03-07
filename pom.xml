@@ -48,6 +48,7 @@
         <knife4j.version>2.0.8</knife4j.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
         <elasticsearch.version>7.10.1</elasticsearch.version>
+        <redisson.version>3.11.1</redisson.version>
     </properties>
 
     <dependencies>
@@ -166,6 +167,12 @@
                 <groupId>org.elasticsearch</groupId>
                 <artifactId>elasticsearch</artifactId>
                 <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
 
         </dependencies>
