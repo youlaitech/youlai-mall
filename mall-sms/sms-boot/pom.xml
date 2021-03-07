@@ -27,6 +27,18 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
+            <artifactId>oms-api</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>pms-api</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
             <artifactId>common-mybatis</artifactId>
             <version>${youlai.version}</version>
         </dependency>
@@ -69,6 +81,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
 
     </dependencies>
 
