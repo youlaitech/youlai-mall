@@ -2,7 +2,7 @@ package com.youlai.common.elasticsearch.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONUtil;
-import com.youlai.common.elasticsearch.constant.EsConstants;
+import com.youlai.common.elasticsearch.constant.ESConstants;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.elasticsearch.action.search.SearchRequest;
@@ -111,7 +111,7 @@ public class ElasticSearchService {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(queryBuilder);
         searchSourceBuilder.from(0);
-        searchSourceBuilder.size(EsConstants.DEFAULT_PAGE_SIZE);
+        searchSourceBuilder.size(ESConstants.DEFAULT_PAGE_SIZE);
         // 构造SearchRequest
         SearchRequest searchRequest = new SearchRequest(indices);
         searchRequest.source(searchSourceBuilder);
