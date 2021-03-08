@@ -18,7 +18,7 @@ public interface InventoryFeignService {
     Result<List<InventoryDTO>> listByInventoryIds(@PathVariable String ids);
 
     /**
-     * 获取商品信息
+     * 获取库存信息
      */
     @GetMapping("/api.app/v1/inventories/{id}")
     Result<InventoryDTO> getInventoryById(@PathVariable Long id);
