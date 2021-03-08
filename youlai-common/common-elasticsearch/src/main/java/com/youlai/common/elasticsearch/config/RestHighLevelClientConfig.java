@@ -29,7 +29,7 @@ public class RestHighLevelClientConfig {
     public RestHighLevelClient restHighLevelClient() {
 
         HttpHost[] hosts = clusterNodes.stream()
-                .map(this::buildHttpHost) // eg: new HttpHost("127.0.0.1", 7200, "http")
+                .map(this::buildHttpHost) // eg: new HttpHost("127.0.0.1", 9200, "http")
                 .toArray(HttpHost[]::new);
         return new RestHighLevelClient(RestClient.builder(hosts));
     }
