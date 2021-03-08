@@ -31,8 +31,14 @@ public class RequestUtils {
     }
 
     public static Long getUserId() {
-        Long id = getJwtPayload().getLong(AuthConstants.JWT_USER_ID_KEY);
+        Long id = getJwtPayload().getLong(AuthConstants.USER_ID_KEY);
         return id;
+    }
+
+
+    public static String getUsername() {
+        String username = getJwtPayload().getStr(AuthConstants.USER_NAME_KEY);
+        return username;
     }
 
     /**

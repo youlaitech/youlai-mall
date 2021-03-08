@@ -27,12 +27,13 @@ public class ElasticSearchTests {
     @Test
     public void count(){
         long count = elasticSearchService.count(null, "youlai-auth-login-2021-03-06");
-        System.out.println(count);
+        log.info(String.valueOf(count));
     }
 
 
     @Test
     public void group(){
-        Map<String, Long> groupMap = elasticSearchService.dateHistogram(null, "date",DateHistogramInterval.days(1),"youlai-auth-login-2021-03-07");
+        Map<String, Long> map = elasticSearchService.dateHistogram(null, "date",DateHistogramInterval.days(1),"youlai-auth-login-2021-03-07","youlai-auth-login-2021-03-08");
+        log.info(map.toString());
     }
 }
