@@ -72,7 +72,7 @@ whitelist:
       - /*/v2/api-docs
 
 # 是否演示环境
-demo: false 
+demo: true 
 
 # 全局参数设置
 ribbon:
