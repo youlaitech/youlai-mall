@@ -2,7 +2,7 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.youlai.admin.common.constant.AdminConstant;
+import com.youlai.admin.common.constant.AdminConstants;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.DeptVO;
 import com.youlai.admin.pojo.vo.TreeVO;
@@ -118,8 +118,8 @@ public class DeptController {
     private String getDeptTreePath(SysDept sysDept) {
         Long parentId = sysDept.getParentId();
         String treePath;
-        if (parentId.equals(AdminConstant.ROOT_DEPT_ID)) {
-            treePath = String.valueOf(AdminConstant.ROOT_DEPT_ID);
+        if (parentId.equals(AdminConstants.ROOT_DEPT_ID)) {
+            treePath = String.valueOf(AdminConstants.ROOT_DEPT_ID);
         } else {
             SysDept parentDept = iSysDeptService.getById(parentId);
             treePath = Optional.ofNullable(parentDept).map(dept -> dept.getTreePath() + "," + dept.getId()).orElse(Strings.EMPTY);
