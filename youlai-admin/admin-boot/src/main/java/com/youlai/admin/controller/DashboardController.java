@@ -4,6 +4,7 @@ import cn.hutool.core.convert.Convert;
 import com.youlai.admin.common.constant.ESConstants;
 import com.youlai.common.elasticsearch.service.ElasticSearchService;
 import com.youlai.common.result.Result;
+import com.youlai.common.web.util.IpUtils;
 import com.youlai.common.web.util.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -69,8 +71,10 @@ public class DashboardController {
                         indices);
 
         // 当前用户统计
-        String username = RequestUtils.getUsername();
-        boolQueryBuilder.must(QueryBuilders.termQuery("username", username));
+        HttpServletRequest request = RequestUtils.getRequest();
+        String clientIP = IpUtils.getIpAddr(request);
+
+        boolQueryBuilder.must(QueryBuilders.termQuery("clientIP", clientIP));
         Map<String, Long> myCountMap = elasticSearchService.dateHistogram(boolQueryBuilder, "date", DateHistogramInterval.days(1), indices);
 
 

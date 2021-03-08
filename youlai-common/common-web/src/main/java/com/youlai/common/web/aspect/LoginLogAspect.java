@@ -7,6 +7,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.web.pojo.domain.LoginLog;
+import com.youlai.common.web.util.IpUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,8 @@ public class LoginLogAspect {
         // 获取请求信息
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String clientIP = ServletUtil.getClientIP(request);
+        // String clientIP = ServletUtil.getClientIP(request);
+        String clientIP= IpUtils.getIpAddr(request);
         String requestUrl = request.getRequestURL().toString();
         String method = request.getMethod();
 
