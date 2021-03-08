@@ -16,6 +16,7 @@ import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInter
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class DashboardController {
 
     @ApiOperation(value = "登录次数统计", httpMethod = "GET")
     @GetMapping("/login_counts")
-    public Result visits() {
+    public Result loginCounts() {
         int days = 10; //统计天数
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -54,30 +55,41 @@ public class DashboardController {
             indices[i] = ESConstants.INDEX_LOGIN_PREFIX + date;
         }
 
+        // 查询条件，范围内日期统计
         RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("date").from(startDate).to(endDate);
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
                 .must(rangeQueryBuilder)
                 /*.must(QueryBuilders.wildcardQuery("accessToken", "*"))*/; // 登录成功统计
-        Map<String, Long> totalVisitMap = elasticSearchService.dateHistogram(boolQueryBuilder, "date", DateHistogramInterval.days(1), indices);
 
+        // 总数统计
+        Map<String, Long> totalCountMap = elasticSearchService.dateHistogram(
+                        boolQueryBuilder,
+                        "date", // 根据date字段聚合统计登录数 logback-spring.xml 中的自定义扩展字段 date
+                        DateHistogramInterval.days(1),
+                        indices);
+
+        // 当前用户统计
         String username = RequestUtils.getUsername();
         boolQueryBuilder.must(QueryBuilders.termQuery("username", username));
-        Map<String, Long> yourVisitMap = elasticSearchService.dateHistogram(boolQueryBuilder, "date", DateHistogramInterval.days(1), indices);
+        Map<String, Long> myCountMap = elasticSearchService.dateHistogram(boolQueryBuilder, "date", DateHistogramInterval.days(1), indices);
 
-        Long[] totalVisits = new Long[days];
-        Long[] yourVisits = new Long[days];
+
+        // 组装echarts数据
+        Long[] totalCount = new Long[days];
+        Long[] myCount= new Long[days];
 
         Arrays.sort(xData);// 默认升序排序
         for (int i = 0; i < days; i++) {
             String key = xData[i];
-            totalVisits[i] = Convert.toLong(totalVisitMap.get(key), 0l);
-            yourVisits[i] = Convert.toLong(yourVisitMap.get(key), 0l);
+            totalCount[i] = Convert.toLong(totalCountMap.get(key), 0l);
+            myCount[i] = Convert.toLong(myCountMap.get(key), 0l);
         }
         Map<String, Object> map = new HashMap<>(4);
 
         map.put("xData", xData); // x轴坐标
-        map.put("totalVisits", totalVisits); // 总总数
-        map.put("yourVisits", yourVisits); // 您
+        map.put("totalCount", totalCount); // 总数
+        map.put("myCount", myCount); // 我的
+
         return Result.success(map);
     }
 
