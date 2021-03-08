@@ -14,25 +14,25 @@ public interface InventoryFeignService {
     /**
      * 获取库存列表
      */
-    @GetMapping("/api.app/v1 /inventories/{ids}")
+    @GetMapping("/api.app/v1/inventories/{ids}")
     Result<List<InventoryDTO>> listByInventoryIds(@PathVariable String ids);
 
     /**
      * 获取商品信息
      */
-    @GetMapping("/api.app/v1 /inventories/{id}")
+    @GetMapping("/api.app/v1/inventories/{id}")
     Result<InventoryDTO> getInventoryById(@PathVariable Long id);
 
     /**
      * 锁定库存
      */
-    @PostMapping("/api.app/v1 /inventories/batch/_lock")
+    @PostMapping("/api.app/v1/inventories/batch/_lock")
     Result lockStock(@RequestBody List<InventoryNumDTO> list);
 
     /**
      * 解锁库存
      */
-    @PostMapping("/api.app/v1 /inventories/batch/_unlock")
+    @PostMapping("/api.app/v1/inventories/batch/_unlock")
     Result<Boolean> unlockInventory(@RequestBody List<InventoryNumDTO> list);
 
 }

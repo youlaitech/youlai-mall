@@ -144,10 +144,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            Map<String, Object> map = new HashMap<>(2);
+            Map<String, Object> map = new HashMap<>(8);
             User user = (User) authentication.getUserAuthentication().getPrincipal();
-            map.put(AuthConstants.JWT_USER_ID_KEY, user.getId());
+            map.put(AuthConstants.USER_ID_KEY, user.getId());
             map.put(AuthConstants.CLIENT_ID_KEY, user.getClientId());
+            map.put(AuthConstants.USER_NAME_KEY,user.getUsername());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(map);
             return accessToken;
         };

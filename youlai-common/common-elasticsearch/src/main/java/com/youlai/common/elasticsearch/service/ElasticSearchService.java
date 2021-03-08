@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.core.CountRequest;
@@ -22,9 +23,7 @@ import org.elasticsearch.search.aggregations.bucket.histogram.ParsedDateHistogra
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author hxr
@@ -52,11 +51,19 @@ public class ElasticSearchService {
         return count;
     }
 
+    /**
+     * 日期统计
+     * @param queryBuilder 查询条件
+     * @param field 聚合字段，如：登录日志的 date 字段
+     * @param interval 统计时间间隔，如：1天、1周
+     * @param indices 索引名称
+     * @return
+     */
     @SneakyThrows
-    public Map<String, Long> dateHistogram(QueryBuilder queryBuilder,String field, DateHistogramInterval interval, String... indices) {
+    public Map<String, Long> dateHistogram(QueryBuilder queryBuilder, String field, DateHistogramInterval interval, String... indices) {
 
         // 构造AggregationBuilder
-        AggregationBuilder aggregationBuilder=AggregationBuilders
+        AggregationBuilder aggregationBuilder = AggregationBuilders
                 .dateHistogram("dateHistogram") //自定义统计名，和下文获取需一致
                 .field(field) // 日期字段名
                 .format("yyyy-MM-dd") // 时间格式
@@ -64,15 +71,23 @@ public class ElasticSearchService {
                 .minDocCount(0); // 最小文档数，比该值小就忽略
 
         // 构造SearchSourceBuilder
-        SearchSourceBuilder searchSourceBuilder=new SearchSourceBuilder();
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder
                 .query(queryBuilder)
                 .aggregation(aggregationBuilder)
                 .size(0);
 
         // 构造SearchRequest
-        SearchRequest searchRequest=new SearchRequest(indices);
+        SearchRequest searchRequest = new SearchRequest(indices);
         searchRequest.source(searchSourceBuilder);
+
+        searchRequest.indicesOptions(
+                IndicesOptions.fromOptions(
+                        true, // 是否忽略不可用索引
+                        true, // 是否允许索引不存在
+                        true, // 通配符表达式将扩展为打开的索引
+                        false // 通配符表达式将扩展为关闭的索引
+                ));
 
         // 执行请求
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
@@ -82,12 +97,12 @@ public class ElasticSearchService {
 
         Iterator<? extends Histogram.Bucket> iterator = dateHistogram.getBuckets().iterator();
 
-        while (iterator.hasNext()){
+        Map<String, Long> map = new HashMap<>();
+        while (iterator.hasNext()) {
             Histogram.Bucket bucket = iterator.next();
-            System.out.println(bucket.getKeyAsString()+":"+bucket.getDocCount());
+            map.put(bucket.getKeyAsString(), bucket.getDocCount());
         }
-
-        return null;
+        return map;
     }
 
     @SneakyThrows
