@@ -45,8 +45,10 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
 
         // 演示环境禁止删除和修改
-        if (isDemoEnvironment &&HttpMethod.DELETE.toString().equals(request.getMethodValue())) {
-            log.warn(ResultCode.FORBIDDEN_OPERATION.getMsg());
+        if (isDemoEnvironment
+                && HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
+                && !AuthConstants.LOGOUT_PATH.equals(request.getPath().value()) // logout注销不禁止
+        ) {
             return WebUtils.writeFailedToResponse(response, ResultCode.FORBIDDEN_OPERATION);
         }
 
