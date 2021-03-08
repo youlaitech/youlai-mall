@@ -3,7 +3,7 @@ package com.youlai.admin.common.constant;
 /**
  * 管理平台常量
  */
-public interface AdminConstant {
+public interface AdminConstants {
 
     Long ROOT_DEPT_ID = 0l; // 根部门ID
 
