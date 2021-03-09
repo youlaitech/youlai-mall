@@ -2,9 +2,12 @@ package com.youlai.common.elasticsearch.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONUtil;
+import com.youlai.common.base.BaseDocument;
 import com.youlai.common.elasticsearch.constant.ESConstants;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.IndicesOptions;
@@ -12,7 +15,12 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -24,6 +32,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -105,20 +114,21 @@ public class ElasticSearchService {
     }
 
     @SneakyThrows
-    public <T> List<T> search(QueryBuilder queryBuilder, Class<T> clazz, String... indices) {
+    public <T extends BaseDocument> List<T> search(QueryBuilder queryBuilder, Class<T> clazz, String... indices) {
         List<T> list = this.search(queryBuilder, null, 1, ESConstants.DEFAULT_PAGE_SIZE, clazz, indices);
         return list;
     }
 
 
     @SneakyThrows
-    public <T> List<T> search(QueryBuilder queryBuilder, Integer page, Integer size, Class<T> clazz, String... indices) {
+    public <T extends BaseDocument> List<T> search(QueryBuilder queryBuilder, Integer page, Integer size, Class<T> clazz, String... indices) {
+
         List<T> list = this.search(queryBuilder, null, 1, ESConstants.DEFAULT_PAGE_SIZE, clazz, indices);
         return list;
     }
 
     @SneakyThrows
-    public <T> List<T> search(QueryBuilder queryBuilder, SortBuilder sortBuilder, Integer page, Integer size, Class<T> clazz, String... indices) {
+    public <T extends BaseDocument> List<T> search(QueryBuilder queryBuilder, SortBuilder sortBuilder, Integer page, Integer size, Class<T> clazz, String... indices) {
         // 构造SearchSourceBuilder
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(queryBuilder);
@@ -136,9 +146,18 @@ public class ElasticSearchService {
         List<T> list = CollectionUtil.newArrayList();
         for (SearchHit hit : searchHits) {
             T t = JSONUtil.toBean(hit.getSourceAsString(), clazz);
+            t.setId(hit.getId()); // 数据的唯一标识
+            t.setIndex(hit.getIndex());// 索引
             list.add(t);
         }
         return list;
+    }
+
+    @SneakyThrows
+    public boolean deleteById(String id, String index) {
+        DeleteRequest deleteRequest = new DeleteRequest(index,id);
+        DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
+        return true;
     }
 
 }

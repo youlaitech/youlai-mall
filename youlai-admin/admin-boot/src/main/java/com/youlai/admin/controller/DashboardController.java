@@ -26,8 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author hxr
  * @description 首页控制台
+ * @author hxr
  * @date 2021-03-08
  */
 @Api(tags = "首页控制台")
@@ -54,14 +54,13 @@ public class DashboardController {
         for (int i = 0; i < days; i++) {
             String date = now.plusDays(-i).format(formatter);
             xData[i] = date;
-            indices[i] = ESConstants.INDEX_LOGIN_PREFIX + date;
+            indices[i] = ESConstants.LOGIN_INDEX_PREFIX + date;
         }
 
         // 查询条件，范围内日期统计
         RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("date").from(startDate).to(endDate);
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
-                .must(rangeQueryBuilder)
-                /*.must(QueryBuilders.wildcardQuery("accessToken", "*"))*/; // 登录成功统计
+                .must(rangeQueryBuilder);
 
         // 总数统计
         Map<String, Long> totalCountMap = elasticSearchService.dateHistogram(
@@ -82,7 +81,7 @@ public class DashboardController {
         Long[] totalCount = new Long[days];
         Long[] myCount= new Long[days];
 
-        Arrays.sort(xData);// 默认升序排序
+        Arrays.sort(xData);// 默认升序
         for (int i = 0; i < days; i++) {
             String key = xData[i];
             totalCount[i] = Convert.toLong(totalCountMap.get(key), 0l);
