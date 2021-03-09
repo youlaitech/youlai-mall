@@ -72,7 +72,7 @@ whitelist:
       - /*/v2/api-docs
 
 # 是否演示环境
-demo: true 
+demo: false 
 
 # 全局参数设置
 ribbon:
@@ -81,7 +81,7 @@ ribbon:
   SocketTimeout: 10000
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 1
-
+ 
 hystrix:
   command:
     default:

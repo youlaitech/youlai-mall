@@ -3,6 +3,7 @@ package com.youlai.admin.controller;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.admin.common.constant.ESConstants;
 import com.youlai.admin.pojo.domain.LoginRecord;
+import com.youlai.common.base.BaseDocument;
 import com.youlai.common.elasticsearch.service.ElasticSearchService;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
@@ -18,6 +19,8 @@ import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,13 +29,12 @@ import java.util.List;
  */
 @Api(tags = "登录记录")
 @RestController
-@RequestMapping("/api.admin/v1/records/login")
+@RequestMapping("/api.admin/v1/login_records")
 @Slf4j
 @AllArgsConstructor
 public class LoginRecordController {
 
     ElasticSearchService elasticSearchService;
-
 
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
@@ -68,25 +70,22 @@ public class LoginRecordController {
             queryBuilder.must(QueryBuilders.wildcardQuery("clientIP", "*" + clientIP + "*"));
         }
         // 总记录数
-        long count = elasticSearchService.count(queryBuilder, ESConstants.INDEX_LOGIN_PATTERN);
+        long count = elasticSearchService.count(queryBuilder, ESConstants.LOGIN_INDEX_PATTERN);
 
         // 排序
         FieldSortBuilder sortBuilder = new FieldSortBuilder("@timestamp").order(SortOrder.DESC);
 
-        // 分页数
-        List<LoginRecord> list = elasticSearchService.search(queryBuilder, sortBuilder, page, limit, LoginRecord.class, ESConstants.INDEX_LOGIN_PATTERN);
+        // 分页查询
+        List<LoginRecord> list = elasticSearchService.search(queryBuilder, sortBuilder, page, limit, LoginRecord.class, ESConstants.LOGIN_INDEX_PATTERN);
         return Result.success(list, count);
     }
 
 
     @ApiOperation(value = "删除登录记录", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
-    @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable String ids) {
-        return Result.judge(true);
+    @DeleteMapping
+    public Result delete(@RequestBody List<BaseDocument> documents) {
+        documents.forEach(document -> elasticSearchService.deleteById(document.getId(), document.getIndex()));
+        return Result.success();
     }
-
-
-
-
 }
