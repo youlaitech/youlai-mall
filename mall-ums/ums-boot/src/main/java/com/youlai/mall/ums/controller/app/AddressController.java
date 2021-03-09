@@ -26,6 +26,7 @@ public class AddressController {
 
     private IUmsAddressService iUmsAddressService;
 
+    private final Integer ADDRESS_DEFAULTED = 1;
 
     @ApiOperation(value = "获取当前登录会员的地址列表", httpMethod = "GET")
     @GetMapping
@@ -44,7 +45,7 @@ public class AddressController {
     public Result add(@RequestBody UmsAddress address) {
         Long userId = RequestUtils.getUserId();
         address.setUserId(userId);
-        if (address.getDefaulted().equals(1)) { // 修改其他默认地址为非默认
+        if (ADDRESS_DEFAULTED.equals(address.getDefaulted())) { // 修改其他默认地址为非默认
             iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
                     .eq(UmsAddress::getUserId, userId)
                     .eq(UmsAddress::getDefaulted, 1)
