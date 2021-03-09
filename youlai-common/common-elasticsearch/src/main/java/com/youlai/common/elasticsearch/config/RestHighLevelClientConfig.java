@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * Ela
+ * ElasticSearch HighLevelClient
  *
  * @author hxr
  * @date 2021-03-05

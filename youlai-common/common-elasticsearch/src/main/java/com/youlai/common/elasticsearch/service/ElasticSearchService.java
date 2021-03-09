@@ -21,6 +21,7 @@ import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInter
 import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
 import org.elasticsearch.search.aggregations.bucket.histogram.ParsedDateHistogram;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -39,12 +40,9 @@ public class ElasticSearchService {
 
     @SneakyThrows
     public long count(QueryBuilder queryBuilder, String... indices) {
-        // 构造搜索条件
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(queryBuilder);
         // 构造请求
         CountRequest countRequest = new CountRequest(indices);
-        countRequest.source(searchSourceBuilder);
+        countRequest.query(queryBuilder);
         // 执行请求
         CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
         long count = countResponse.getCount();
@@ -53,10 +51,11 @@ public class ElasticSearchService {
 
     /**
      * 日期统计
+     *
      * @param queryBuilder 查询条件
-     * @param field 聚合字段，如：登录日志的 date 字段
-     * @param interval 统计时间间隔，如：1天、1周
-     * @param indices 索引名称
+     * @param field        聚合字段，如：登录日志的 date 字段
+     * @param interval     统计时间间隔，如：1天、1周
+     * @param indices      索引名称
      * @return
      */
     @SneakyThrows
@@ -107,11 +106,25 @@ public class ElasticSearchService {
 
     @SneakyThrows
     public <T> List<T> search(QueryBuilder queryBuilder, Class<T> clazz, String... indices) {
+        List<T> list = this.search(queryBuilder, null, 1, ESConstants.DEFAULT_PAGE_SIZE, clazz, indices);
+        return list;
+    }
+
+
+    @SneakyThrows
+    public <T> List<T> search(QueryBuilder queryBuilder, Integer page, Integer size, Class<T> clazz, String... indices) {
+        List<T> list = this.search(queryBuilder, null, 1, ESConstants.DEFAULT_PAGE_SIZE, clazz, indices);
+        return list;
+    }
+
+    @SneakyThrows
+    public <T> List<T> search(QueryBuilder queryBuilder, SortBuilder sortBuilder, Integer page, Integer size, Class<T> clazz, String... indices) {
         // 构造SearchSourceBuilder
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(queryBuilder);
-        searchSourceBuilder.from(0);
-        searchSourceBuilder.size(ESConstants.DEFAULT_PAGE_SIZE);
+        searchSourceBuilder.sort(sortBuilder);
+        searchSourceBuilder.from((page - 1) * size);
+        searchSourceBuilder.size(size);
         // 构造SearchRequest
         SearchRequest searchRequest = new SearchRequest(indices);
         searchRequest.source(searchSourceBuilder);
@@ -127,6 +140,5 @@ public class ElasticSearchService {
         }
         return list;
     }
-
 
 }

@@ -27,8 +27,8 @@ public class LogoutController {
     @DeleteMapping("/logout")
     public Result logout() {
         JSONObject jsonObject = RequestUtils.getJwtPayload();
-        String jti = jsonObject.getStr("jti"); // JWT唯一标识
-        long exp = jsonObject.getLong("exp"); // JWT过期时间戳
+        String jti = jsonObject.getStr(AuthConstants.JWT_JTI); // JWT唯一标识
+        long exp = jsonObject.getLong(AuthConstants.JWT_EXP); // JWT过期时间戳
 
         long currentTimeSeconds = System.currentTimeMillis() / 1000;
 

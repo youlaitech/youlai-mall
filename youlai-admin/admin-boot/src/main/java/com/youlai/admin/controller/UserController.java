@@ -38,7 +38,6 @@ public class UserController extends BaseController {
 
     private final ISysUserService iSysUserService;
     private final ISysUserRoleService iSysUserRoleService;
-    private final ISysRoleService iSysRoleService;
     private final PasswordEncoder passwordEncoder;
 
     private final ISysPermissionService iSysPermissionService;

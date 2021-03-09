@@ -11,7 +11,7 @@ public interface AuthConstants {
     /**
      * JWT令牌前缀
      */
-    String JWT_PREFIX = "bearer ";
+    String AUTHORIZATION_PREFIX = "bearer ";
 
 
     /**
@@ -23,6 +23,16 @@ public interface AuthConstants {
      * JWT载体key
      */
     String JWT_PAYLOAD_KEY = "payload";
+
+    /**
+     * JWT ID 唯一标识
+     */
+    String JWT_JTI = "jti";
+
+    /**
+     * JWT ID 唯一标识
+     */
+    String JWT_EXP = "exp";
 
     /**
      * Redis缓存权限规则key
@@ -51,7 +61,7 @@ public interface AuthConstants {
 
     String USER_ID_KEY = "user_id";
 
-    String USER_NAME_KEY="username";
+    String USER_NAME_KEY = "username";
 
     String CLIENT_ID_KEY = "client_id";
 
@@ -83,5 +93,10 @@ public interface AuthConstants {
     String ADMIN_URL_PATTERN = "*_/youlai-admin/**";
 
 
-    String LOGOUT_PATH= "/youlai-auth/oauth/logout";
+    String LOGOUT_PATH = "/youlai-auth/oauth/logout";
+
+
+    String GRANT_TYPE_KEY = "grant_type";
+
+    String REFRESH_TOKEN = "refresh_token";
 }

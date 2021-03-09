@@ -8,4 +8,7 @@ public interface ESConstants {
 
     String INDEX_LOGIN_PREFIX = "youlai-auth-login-";
 
+
+    String INDEX_LOGIN_PATTERN = "youlai-auth-login-*";
+
 }
