@@ -34,10 +34,12 @@ public class SearchController {
     })
     @GetMapping("/{name}")
     public Result searchByName(@PathVariable String name) {
-        SearchSourceBuilder builder = new SearchSourceBuilder();
+       /* SearchSourceBuilder builder = new SearchSourceBuilder();
         builder.query(QueryBuilders.matchQuery("name", name));
         List<PmsProduct> list = elasticSearchService.search(builder.query(), PmsProduct.class, "pms_spu");
-        return Result.success(list);
+        return Result.success(list);*/
+
+        return null;
     }
 
 }

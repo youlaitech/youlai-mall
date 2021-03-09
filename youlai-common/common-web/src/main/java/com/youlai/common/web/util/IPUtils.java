@@ -91,23 +91,24 @@ public class IPUtils {
             return Strings.EMPTY;
         }
 
+        log.info("1. {}",ip);
         if(LOCAL_IP.equals(ip)){
             return "本地访问";
         }
-
+        log.info("2. {}",ip);
         String filePath = IPUtils.class.getResource("/data/ip2region.db").getPath();
         File file = new File(filePath);
         if (file.exists() == false) {
             return Strings.EMPTY;
         }
-
+        log.info("3. {}",ip);
         try {
             DbConfig config = new DbConfig();
             DbSearcher searcher = new DbSearcher(config, filePath);
-
+            log.info("4. {}",ip);
             Method method = searcher.getClass().getMethod("btreeSearch", String.class);
             DataBlock dataBlock = (DataBlock) method.invoke(searcher, ip);
-
+            log.info("5. {}",ip);
             return dataBlock.getRegion();
 
         } catch (Exception e) {
@@ -115,6 +116,7 @@ public class IPUtils {
         }
         return Strings.EMPTY;
     }
+
 
 
 }

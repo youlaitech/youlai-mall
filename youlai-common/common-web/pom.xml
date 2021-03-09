@@ -50,7 +50,6 @@
             <artifactId>ip2region</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.github.dozermapper</groupId>
             <artifactId>dozer-core</artifactId>

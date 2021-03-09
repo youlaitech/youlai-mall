@@ -6,9 +6,9 @@ package com.youlai.admin.common.constant;
  */
 public interface ESConstants {
 
-    String INDEX_LOGIN_PREFIX = "youlai-auth-login-";
+    String LOGIN_INDEX_PREFIX = "youlai-auth-login-";
 
 
-    String INDEX_LOGIN_PATTERN = "youlai-auth-login-*";
+    String LOGIN_INDEX_PATTERN = "youlai-auth-login-*";
 
 }
