@@ -54,16 +54,16 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
         // 无token放行
         String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isBlank(token) || !token.startsWith(AuthConstants.JWT_PREFIX)) {
+        if (StrUtil.isBlank(token) || !token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
             return chain.filter(exchange);
         }
 
         // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在拦截响应token失效
-        token = token.replace(AuthConstants.JWT_PREFIX, Strings.EMPTY);
+        token = token.replace(AuthConstants.AUTHORIZATION_PREFIX, Strings.EMPTY);
         JWSObject jwsObject = JWSObject.parse(token);
         String payload = jwsObject.getPayload().toString();
         JSONObject jsonObject = JSONUtil.parseObj(payload);
-        String jti = jsonObject.getStr(AuthConstants.CLIENT_ID_KEY);
+        String jti = jsonObject.getStr(AuthConstants.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti);
         if (isBlack) {
             return WebUtils.writeFailedToResponse(response, ResultCode.TOKEN_INVALID_OR_EXPIRED);

@@ -1,0 +1,1319 @@
+2021-03-08 09:17:18,406 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 09:17:24,388 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 09:17:24,778 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:59797, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59797,990620613793000
+
+2021-03-08 09:17:24,778 INFO send udp packet: 192.168.91.1,59797,990620613793000
+
+2021-03-08 09:17:24,779 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:59797, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59797,990620613793000
+
+2021-03-08 09:17:24,779 INFO send udp packet: 192.168.91.1,59797,990620613793000
+
+2021-03-08 09:17:25,336 INFO received ack: {"type": "push-ack", "lastRefTime":"990620613793000", "data":""} from: 192.168.91.1:59797, cost: 546 ms, unacked: 0, total push: 1
+
+2021-03-08 09:17:25,464 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,59797,990620613793000, ack json: {"type": "push-ack", "lastRefTime":"990620613793000", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 11:09:58,776 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 11:09:58,776 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:59797, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59797,997375002629100
+
+2021-03-08 11:09:58,777 INFO send udp packet: 192.168.91.1,59797,997375002629100
+
+2021-03-08 11:09:58,777 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:59797, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59797,997375002629100
+
+2021-03-08 11:09:58,777 INFO send udp packet: 192.168.91.1,59797,997375002629100
+
+2021-03-08 11:09:58,841 INFO received ack: {"type": "push-ack", "lastRefTime":"997375002629100", "data":""} from: 192.168.91.1:59797, cost: 64 ms, unacked: 0, total push: 2
+
+2021-03-08 11:09:58,919 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,59797,997375002629100, ack json: {"type": "push-ack", "lastRefTime":"997375002629100", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 11:10:00,947 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:10:00,947 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:59797, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59797,997377173714500
+
+2021-03-08 11:10:00,947 INFO send udp packet: 192.168.91.1,59797,997377173714500
+
+2021-03-08 11:10:00,948 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:59798, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59798,997377173714500
+
+2021-03-08 11:10:00,948 INFO send udp packet: 192.168.91.1,59798,997377173714500
+
+2021-03-08 11:10:00,986 INFO received ack: {"type": "push-ack", "lastRefTime":"997377173714500", "data":""} from: 192.168.91.1:59797, cost: 39 ms, unacked: 1, total push: 4
+
+2021-03-08 11:10:01,344 INFO received ack: {"type": "push-ack", "lastRefTime":"997377173714500", "data":""} from: 192.168.91.1:59798, cost: 396 ms, unacked: 0, total push: 4
+
+2021-03-08 11:10:03,172 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 11:10:03,173 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52932, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52932,997379399604500
+
+2021-03-08 11:10:03,173 INFO send udp packet: 192.168.91.1,52932,997379399604500
+
+2021-03-08 11:10:03,184 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:59798, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59798,997379399604500
+
+2021-03-08 11:10:03,187 INFO send udp packet: 192.168.91.1,59798,997379399604500
+
+2021-03-08 11:10:03,189 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:59797, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59797,997379399604500
+
+2021-03-08 11:10:03,189 INFO send udp packet: 192.168.91.1,59797,997379399604500
+
+2021-03-08 11:10:03,209 INFO received ack: {"type": "push-ack", "lastRefTime":"997379399604500", "data":""} from: 192.168.91.1:59798, cost: 22 ms, unacked: 2, total push: 7
+
+2021-03-08 11:10:03,210 INFO received ack: {"type": "push-ack", "lastRefTime":"997379399604500", "data":""} from: 192.168.91.1:59797, cost: 21 ms, unacked: 1, total push: 7
+
+2021-03-08 11:10:03,286 INFO received ack: {"type": "push-ack", "lastRefTime":"997379399604500", "data":""} from: 192.168.91.1:52932, cost: 113 ms, unacked: 0, total push: 7
+
+2021-03-08 11:10:53,901 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:10:53,902 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:64745, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,64745,997430127716300
+
+2021-03-08 11:10:53,902 INFO send udp packet: 192.168.91.1,64745,997430127716300
+
+2021-03-08 11:10:53,906 INFO received ack: {"type": "push-ack", "lastRefTime":"997430127716300", "data":""} from: 192.168.91.1:64745, cost: 4 ms, unacked: 0, total push: 8
+
+2021-03-08 11:11:24,300 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 11:11:24,300 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,997460526668300
+
+2021-03-08 11:11:24,300 INFO send udp packet: 192.168.91.1,53414,997460526668300
+
+2021-03-08 11:11:24,300 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,997460526668300
+
+2021-03-08 11:11:24,300 INFO send udp packet: 192.168.91.1,53414,997460526668300
+
+2021-03-08 11:11:24,321 INFO received ack: {"type": "push-ack", "lastRefTime":"997460526668300", "data":""} from: 192.168.91.1:53414, cost: 4 ms, unacked: 0, total push: 9
+
+2021-03-08 11:11:24,322 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,53414,997460526668300, ack json: {"type": "push-ack", "lastRefTime":"997460526668300", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 11:11:29,704 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 11:11:29,704 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53415, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53415,997465930312000
+
+2021-03-08 11:11:29,704 INFO send udp packet: 192.168.91.1,53415,997465930312000
+
+2021-03-08 11:11:29,704 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,997465930312000
+
+2021-03-08 11:11:29,704 INFO send udp packet: 192.168.91.1,53414,997465930312000
+
+2021-03-08 11:11:29,706 INFO received ack: {"type": "push-ack", "lastRefTime":"997465930312000", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 11
+
+2021-03-08 11:11:29,708 INFO received ack: {"type": "push-ack", "lastRefTime":"997465930312000", "data":""} from: 192.168.91.1:53415, cost: 4 ms, unacked: 0, total push: 11
+
+2021-03-08 11:26:17,905 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:26:17,930 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,998354131484600
+
+2021-03-08 11:26:17,930 INFO send udp packet: 192.168.91.1,53414,998354131484600
+
+2021-03-08 11:26:17,931 INFO received ack: {"type": "push-ack", "lastRefTime":"998354131484600", "data":""} from: 192.168.91.1:53414, cost: 1 ms, unacked: 0, total push: 12
+
+2021-03-08 11:26:33,474 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:26:33,474 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,998369700015200
+
+2021-03-08 11:26:33,474 INFO send udp packet: 192.168.91.1,53414,998369700015200
+
+2021-03-08 11:26:33,476 INFO received ack: {"type": "push-ack", "lastRefTime":"998369700015200", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 0, total push: 13
+
+2021-03-08 11:28:20,573 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:28:20,573 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:64745, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,64745,998476799611100
+
+2021-03-08 11:28:20,573 INFO send udp packet: 192.168.91.1,64745,998476799611100
+
+2021-03-08 11:28:20,575 INFO received ack: {"type": "push-ack", "lastRefTime":"998476799611100", "data":""} from: 192.168.91.1:64745, cost: 2 ms, unacked: 0, total push: 14
+
+2021-03-08 11:30:08,347 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:30:08,347 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,998584573082900
+
+2021-03-08 11:30:08,347 INFO send udp packet: 192.168.91.1,53414,998584573082900
+
+2021-03-08 11:30:08,348 INFO received ack: {"type": "push-ack", "lastRefTime":"998584573082900", "data":""} from: 192.168.91.1:53414, cost: 1 ms, unacked: 0, total push: 15
+
+2021-03-08 11:30:21,627 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:30:21,642 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,998597853156200
+
+2021-03-08 11:30:21,643 INFO send udp packet: 192.168.91.1,53414,998597853156200
+
+2021-03-08 11:30:21,643 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:64745, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,64745,998597853156200
+
+2021-03-08 11:30:21,643 INFO send udp packet: 192.168.91.1,64745,998597853156200
+
+2021-03-08 11:30:21,643 INFO received ack: {"type": "push-ack", "lastRefTime":"998597853156200", "data":""} from: 192.168.91.1:53414, cost: 0 ms, unacked: 1, total push: 17
+
+2021-03-08 11:30:21,643 INFO received ack: {"type": "push-ack", "lastRefTime":"998597853156200", "data":""} from: 192.168.91.1:64745, cost: 0 ms, unacked: 0, total push: 17
+
+2021-03-08 11:31:08,361 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:31:08,361 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,998644587035800
+
+2021-03-08 11:31:08,361 INFO send udp packet: 192.168.91.1,53414,998644587035800
+
+2021-03-08 11:31:08,361 INFO received ack: {"type": "push-ack", "lastRefTime":"998644587035800", "data":""} from: 192.168.91.1:53414, cost: 0 ms, unacked: 0, total push: 18
+
+2021-03-08 11:31:23,422 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:31:23,422 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,998659648531800
+
+2021-03-08 11:31:23,422 INFO send udp packet: 192.168.91.1,53414,998659648531800
+
+2021-03-08 11:31:23,422 INFO received ack: {"type": "push-ack", "lastRefTime":"998659648531800", "data":""} from: 192.168.91.1:53414, cost: 0 ms, unacked: 0, total push: 19
+
+2021-03-08 11:32:02,909 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:32:02,909 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,998699135468200
+
+2021-03-08 11:32:02,909 INFO send udp packet: 192.168.91.1,53414,998699135468200
+
+2021-03-08 11:32:02,909 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:64745, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,64745,998699135468200
+
+2021-03-08 11:32:02,909 INFO send udp packet: 192.168.91.1,64745,998699135468200
+
+2021-03-08 11:32:02,911 INFO received ack: {"type": "push-ack", "lastRefTime":"998699135468200", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 21
+
+2021-03-08 11:32:02,911 INFO received ack: {"type": "push-ack", "lastRefTime":"998699135468200", "data":""} from: 192.168.91.1:64745, cost: 2 ms, unacked: 0, total push: 21
+
+2021-03-08 11:40:56,707 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:40:56,707 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,999232933094900
+
+2021-03-08 11:40:56,707 INFO send udp packet: 192.168.91.1,53414,999232933094900
+
+2021-03-08 11:40:56,707 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:64745, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,64745,999232933094900
+
+2021-03-08 11:40:56,708 INFO send udp packet: 192.168.91.1,64745,999232933094900
+
+2021-03-08 11:40:56,709 INFO received ack: {"type": "push-ack", "lastRefTime":"999232933094900", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 23
+
+2021-03-08 11:40:56,710 INFO received ack: {"type": "push-ack", "lastRefTime":"999232933094900", "data":""} from: 192.168.91.1:64745, cost: 2 ms, unacked: 0, total push: 23
+
+2021-03-08 11:41:31,273 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:41:31,273 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53824, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53824,999267499310100
+
+2021-03-08 11:41:31,273 INFO send udp packet: 192.168.91.1,53824,999267499310100
+
+2021-03-08 11:41:31,277 INFO received ack: {"type": "push-ack", "lastRefTime":"999267499310100", "data":""} from: 192.168.91.1:53824, cost: 4 ms, unacked: 0, total push: 24
+
+2021-03-08 11:42:28,533 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:42:28,533 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,999324758978600
+
+2021-03-08 11:42:28,533 INFO send udp packet: 192.168.91.1,53414,999324758978600
+
+2021-03-08 11:42:28,534 INFO received ack: {"type": "push-ack", "lastRefTime":"999324758978600", "data":""} from: 192.168.91.1:53414, cost: 1 ms, unacked: 0, total push: 25
+
+2021-03-08 11:42:43,560 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:42:43,560 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,999339785864700
+
+2021-03-08 11:42:43,560 INFO send udp packet: 192.168.91.1,53414,999339785864700
+
+2021-03-08 11:42:43,562 INFO received ack: {"type": "push-ack", "lastRefTime":"999339785864700", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 0, total push: 26
+
+2021-03-08 11:43:05,684 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:43:05,684 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,999361910727800
+
+2021-03-08 11:43:05,684 INFO send udp packet: 192.168.91.1,53414,999361910727800
+
+2021-03-08 11:43:05,684 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53824, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53824,999361910727800
+
+2021-03-08 11:43:05,684 INFO send udp packet: 192.168.91.1,53824,999361910727800
+
+2021-03-08 11:43:05,686 INFO received ack: {"type": "push-ack", "lastRefTime":"999361910727800", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 28
+
+2021-03-08 11:43:05,686 INFO received ack: {"type": "push-ack", "lastRefTime":"999361910727800", "data":""} from: 192.168.91.1:53824, cost: 2 ms, unacked: 0, total push: 28
+
+2021-03-08 11:43:11,826 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:43:11,826 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53824, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53824,999368052200300
+
+2021-03-08 11:43:11,826 INFO send udp packet: 192.168.91.1,53824,999368052200300
+
+2021-03-08 11:43:11,828 INFO received ack: {"type": "push-ack", "lastRefTime":"999368052200300", "data":""} from: 192.168.91.1:53824, cost: 2 ms, unacked: 0, total push: 29
+
+2021-03-08 11:43:45,031 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 11:43:45,031 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55915, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55915,999401258028000
+
+2021-03-08 11:43:45,032 INFO send udp packet: 192.168.91.1,55915,999401258028000
+
+2021-03-08 11:43:45,032 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,999401258028000
+
+2021-03-08 11:43:45,032 INFO send udp packet: 192.168.91.1,53414,999401258028000
+
+2021-03-08 11:43:45,034 INFO received ack: {"type": "push-ack", "lastRefTime":"999401258028000", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 31
+
+2021-03-08 11:43:45,035 INFO received ack: {"type": "push-ack", "lastRefTime":"999401258028000", "data":""} from: 192.168.91.1:55915, cost: 3 ms, unacked: 0, total push: 31
+
+2021-03-08 12:35:15,404 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 12:35:15,419 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55915, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55915,1002491630343900
+
+2021-03-08 12:35:15,419 INFO send udp packet: 192.168.91.1,55915,1002491630343900
+
+2021-03-08 12:35:15,420 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1002491630343900
+
+2021-03-08 12:35:15,420 INFO send udp packet: 192.168.91.1,53414,1002491630343900
+
+2021-03-08 12:35:15,423 INFO received ack: {"type": "push-ack", "lastRefTime":"1002491630343900", "data":""} from: 192.168.91.1:55915, cost: 4 ms, unacked: 1, total push: 33
+
+2021-03-08 12:35:15,424 INFO received ack: {"type": "push-ack", "lastRefTime":"1002491630343900", "data":""} from: 192.168.91.1:53414, cost: 4 ms, unacked: 0, total push: 33
+
+2021-03-08 12:35:43,527 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 12:35:43,527 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:57745, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57745,1002519752970100
+
+2021-03-08 12:35:43,527 INFO send udp packet: 192.168.91.1,57745,1002519752970100
+
+2021-03-08 12:35:43,530 INFO received ack: {"type": "push-ack", "lastRefTime":"1002519752970100", "data":""} from: 192.168.91.1:57745, cost: 3 ms, unacked: 0, total push: 34
+
+2021-03-08 13:00:18,756 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:00:18,756 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1003994982510300
+
+2021-03-08 13:00:18,756 INFO send udp packet: 192.168.91.1,53414,1003994982510300
+
+2021-03-08 13:00:18,756 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:57745, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57745,1003994982510300
+
+2021-03-08 13:00:18,756 INFO send udp packet: 192.168.91.1,57745,1003994982510300
+
+2021-03-08 13:00:18,758 INFO received ack: {"type": "push-ack", "lastRefTime":"1003994982510300", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 36
+
+2021-03-08 13:00:18,758 INFO received ack: {"type": "push-ack", "lastRefTime":"1003994982510300", "data":""} from: 192.168.91.1:57745, cost: 2 ms, unacked: 0, total push: 36
+
+2021-03-08 13:00:44,094 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:00:44,094 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1004020320601200
+
+2021-03-08 13:00:44,094 INFO send udp packet: 192.168.91.1,53414,1004020320601200
+
+2021-03-08 13:00:44,094 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53192, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53192,1004020320601200
+
+2021-03-08 13:00:44,094 INFO send udp packet: 192.168.91.1,53192,1004020320601200
+
+2021-03-08 13:00:44,095 INFO received ack: {"type": "push-ack", "lastRefTime":"1004020320601200", "data":""} from: 192.168.91.1:53414, cost: 1 ms, unacked: 1, total push: 38
+
+2021-03-08 13:00:44,097 INFO received ack: {"type": "push-ack", "lastRefTime":"1004020320601200", "data":""} from: 192.168.91.1:53192, cost: 3 ms, unacked: 0, total push: 38
+
+2021-03-08 13:04:04,694 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:04:04,694 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1004220920289800
+
+2021-03-08 13:04:04,694 INFO send udp packet: 192.168.91.1,53414,1004220920289800
+
+2021-03-08 13:04:04,695 INFO received ack: {"type": "push-ack", "lastRefTime":"1004220920289800", "data":""} from: 192.168.91.1:53414, cost: 1 ms, unacked: 0, total push: 39
+
+2021-03-08 13:04:19,702 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:04:19,702 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1004235928217100
+
+2021-03-08 13:04:19,702 INFO send udp packet: 192.168.91.1,53414,1004235928217100
+
+2021-03-08 13:04:19,703 INFO received ack: {"type": "push-ack", "lastRefTime":"1004235928217100", "data":""} from: 192.168.91.1:53414, cost: 1 ms, unacked: 0, total push: 40
+
+2021-03-08 13:18:33,684 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:18:33,684 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1005089910043200
+
+2021-03-08 13:18:33,684 INFO send udp packet: 192.168.91.1,53414,1005089910043200
+
+2021-03-08 13:18:33,684 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53192, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53192,1005089910043200
+
+2021-03-08 13:18:33,684 INFO send udp packet: 192.168.91.1,53192,1005089910043200
+
+2021-03-08 13:18:33,686 INFO received ack: {"type": "push-ack", "lastRefTime":"1005089910043200", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 42
+
+2021-03-08 13:18:33,686 INFO received ack: {"type": "push-ack", "lastRefTime":"1005089910043200", "data":""} from: 192.168.91.1:53192, cost: 2 ms, unacked: 0, total push: 42
+
+2021-03-08 13:18:39,303 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:18:39,303 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53192, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53192,1005095529097400
+
+2021-03-08 13:18:39,303 INFO send udp packet: 192.168.91.1,53192,1005095529097400
+
+2021-03-08 13:18:39,305 INFO received ack: {"type": "push-ack", "lastRefTime":"1005095529097400", "data":""} from: 192.168.91.1:53192, cost: 2 ms, unacked: 0, total push: 43
+
+2021-03-08 13:21:53,630 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:21:53,630 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55570, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55570,1005289856021100
+
+2021-03-08 13:21:53,630 INFO send udp packet: 192.168.91.1,55570,1005289856021100
+
+2021-03-08 13:21:53,634 INFO received ack: {"type": "push-ack", "lastRefTime":"1005289856021100", "data":""} from: 192.168.91.1:55570, cost: 4 ms, unacked: 0, total push: 44
+
+2021-03-08 13:25:52,452 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:25:52,452 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1005528677894700
+
+2021-03-08 13:25:52,452 INFO send udp packet: 192.168.91.1,53414,1005528677894700
+
+2021-03-08 13:25:52,452 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55570, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55570,1005528677894700
+
+2021-03-08 13:25:52,452 INFO send udp packet: 192.168.91.1,55570,1005528677894700
+
+2021-03-08 13:25:52,480 INFO received ack: {"type": "push-ack", "lastRefTime":"1005528677894700", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 46
+
+2021-03-08 13:25:52,480 INFO received ack: {"type": "push-ack", "lastRefTime":"1005528677894700", "data":""} from: 192.168.91.1:55570, cost: 28 ms, unacked: 0, total push: 46
+
+2021-03-08 13:26:21,831 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 13:26:21,831 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1005558057051100
+
+2021-03-08 13:26:21,831 INFO send udp packet: 192.168.91.1,53414,1005558057051100
+
+2021-03-08 13:26:21,831 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:51861, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,51861,1005558057051100
+
+2021-03-08 13:26:21,831 INFO send udp packet: 192.168.91.1,51861,1005558057051100
+
+2021-03-08 13:26:21,833 INFO received ack: {"type": "push-ack", "lastRefTime":"1005558057051100", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 1, total push: 48
+
+2021-03-08 13:26:21,835 INFO received ack: {"type": "push-ack", "lastRefTime":"1005558057051100", "data":""} from: 192.168.91.1:51861, cost: 4 ms, unacked: 0, total push: 48
+
+2021-03-08 14:28:41,086 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 14:28:41,086 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1009297312865600
+
+2021-03-08 14:28:41,086 INFO send udp packet: 192.168.91.1,53414,1009297312865600
+
+2021-03-08 14:28:41,087 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:51861, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,51861,1009297312865600
+
+2021-03-08 14:28:41,087 INFO send udp packet: 192.168.91.1,51861,1009297312865600
+
+2021-03-08 14:28:41,090 INFO received ack: {"type": "push-ack", "lastRefTime":"1009297312865600", "data":""} from: 192.168.91.1:53414, cost: 4 ms, unacked: 1, total push: 50
+
+2021-03-08 14:28:41,090 INFO received ack: {"type": "push-ack", "lastRefTime":"1009297312865600", "data":""} from: 192.168.91.1:51861, cost: 3 ms, unacked: 0, total push: 50
+
+2021-03-08 14:28:41,121 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 14:28:41,121 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1009297347437100
+
+2021-03-08 14:28:41,121 INFO send udp packet: 192.168.91.1,53414,1009297347437100
+
+2021-03-08 14:28:41,121 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1009297347437100
+
+2021-03-08 14:28:41,121 INFO send udp packet: 192.168.91.1,53414,1009297347437100
+
+2021-03-08 14:28:41,122 INFO received ack: {"type": "push-ack", "lastRefTime":"1009297347437100", "data":""} from: 192.168.91.1:53414, cost: 1 ms, unacked: 0, total push: 51
+
+2021-03-08 14:28:41,135 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,53414,1009297347437100, ack json: {"type": "push-ack", "lastRefTime":"1009297347437100", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 14:28:41,747 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:28:41,747 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53415, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53415,1009297972651600
+
+2021-03-08 14:28:41,747 INFO send udp packet: 192.168.91.1,53415,1009297972651600
+
+2021-03-08 14:28:41,747 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53414, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53414,1009297972651600
+
+2021-03-08 14:28:41,747 INFO send udp packet: 192.168.91.1,53414,1009297972651600
+
+2021-03-08 14:28:41,747 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:51861, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,51861,1009297972651600
+
+2021-03-08 14:28:41,747 INFO send udp packet: 192.168.91.1,51861,1009297972651600
+
+2021-03-08 14:28:41,749 INFO received ack: {"type": "push-ack", "lastRefTime":"1009297972651600", "data":""} from: 192.168.91.1:53414, cost: 2 ms, unacked: 2, total push: 54
+
+2021-03-08 14:28:41,749 INFO received ack: {"type": "push-ack", "lastRefTime":"1009297972651600", "data":""} from: 192.168.91.1:51861, cost: 2 ms, unacked: 1, total push: 54
+
+2021-03-08 14:28:41,764 INFO received ack: {"type": "push-ack", "lastRefTime":"1009297972651600", "data":""} from: 192.168.91.1:53415, cost: 17 ms, unacked: 0, total push: 54
+
+2021-03-08 14:29:32,538 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 14:29:32,540 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1009348765810900
+
+2021-03-08 14:29:32,540 INFO send udp packet: 192.168.91.1,57955,1009348765810900
+
+2021-03-08 14:29:32,644 INFO received ack: {"type": "push-ack", "lastRefTime":"1009348765810900", "data":""} from: 192.168.91.1:57955, cost: 104 ms, unacked: 0, total push: 55
+
+2021-03-08 14:29:42,535 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 14:29:42,535 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:57959, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57959,1009358761243500
+
+2021-03-08 14:29:42,535 INFO send udp packet: 192.168.91.1,57959,1009358761243500
+
+2021-03-08 14:29:42,535 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:57959, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57959,1009358761243500
+
+2021-03-08 14:29:42,535 INFO send udp packet: 192.168.91.1,57959,1009358761243500
+
+2021-03-08 14:29:42,541 INFO received ack: {"type": "push-ack", "lastRefTime":"1009358761243500", "data":""} from: 192.168.91.1:57959, cost: 6 ms, unacked: 0, total push: 56
+
+2021-03-08 14:29:42,541 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,57959,1009358761243500, ack json: {"type": "push-ack", "lastRefTime":"1009358761243500", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 14:29:53,883 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:29:53,883 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57960, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57960,1009370108887000
+
+2021-03-08 14:29:53,883 INFO send udp packet: 192.168.91.1,57960,1009370108887000
+
+2021-03-08 14:29:53,883 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57959, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57959,1009370108887000
+
+2021-03-08 14:29:53,883 INFO send udp packet: 192.168.91.1,57959,1009370108887000
+
+2021-03-08 14:29:53,886 INFO received ack: {"type": "push-ack", "lastRefTime":"1009370108887000", "data":""} from: 192.168.91.1:57959, cost: 3 ms, unacked: 1, total push: 58
+
+2021-03-08 14:29:53,887 INFO received ack: {"type": "push-ack", "lastRefTime":"1009370108887000", "data":""} from: 192.168.91.1:57960, cost: 4 ms, unacked: 0, total push: 58
+
+2021-03-08 14:47:43,245 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 14:47:43,245 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:57959, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57959,1010439471121000
+
+2021-03-08 14:47:43,245 INFO send udp packet: 192.168.91.1,57959,1010439471121000
+
+2021-03-08 14:47:43,245 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:57959, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57959,1010439471121000
+
+2021-03-08 14:47:43,245 INFO send udp packet: 192.168.91.1,57959,1010439471121000
+
+2021-03-08 14:47:43,248 INFO received ack: {"type": "push-ack", "lastRefTime":"1010439471121000", "data":""} from: 192.168.91.1:57959, cost: 3 ms, unacked: 0, total push: 59
+
+2021-03-08 14:47:43,249 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,57959,1010439471121000, ack json: {"type": "push-ack", "lastRefTime":"1010439471121000", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 14:47:43,906 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:47:43,906 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1010440132181600
+
+2021-03-08 14:47:43,906 INFO send udp packet: 192.168.91.1,57955,1010440132181600
+
+2021-03-08 14:47:43,906 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57960, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57960,1010440132181600
+
+2021-03-08 14:47:43,906 INFO send udp packet: 192.168.91.1,57960,1010440132181600
+
+2021-03-08 14:47:43,906 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57959, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57959,1010440132181600
+
+2021-03-08 14:47:43,906 INFO send udp packet: 192.168.91.1,57959,1010440132181600
+
+2021-03-08 14:47:43,908 INFO received ack: {"type": "push-ack", "lastRefTime":"1010440132181600", "data":""} from: 192.168.91.1:57955, cost: 2 ms, unacked: 2, total push: 62
+
+2021-03-08 14:47:43,908 INFO received ack: {"type": "push-ack", "lastRefTime":"1010440132181600", "data":""} from: 192.168.91.1:57960, cost: 2 ms, unacked: 1, total push: 62
+
+2021-03-08 14:47:43,908 INFO received ack: {"type": "push-ack", "lastRefTime":"1010440132181600", "data":""} from: 192.168.91.1:57959, cost: 2 ms, unacked: 0, total push: 62
+
+2021-03-08 14:48:16,779 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:48:16,779 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1010473005478900
+
+2021-03-08 14:48:16,779 INFO send udp packet: 192.168.91.1,57955,1010473005478900
+
+2021-03-08 14:48:16,779 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53144, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53144,1010473005478900
+
+2021-03-08 14:48:16,779 INFO send udp packet: 192.168.91.1,53144,1010473005478900
+
+2021-03-08 14:48:16,781 INFO received ack: {"type": "push-ack", "lastRefTime":"1010473005478900", "data":""} from: 192.168.91.1:57955, cost: 2 ms, unacked: 1, total push: 64
+
+2021-03-08 14:48:16,783 INFO received ack: {"type": "push-ack", "lastRefTime":"1010473005478900", "data":""} from: 192.168.91.1:53144, cost: 4 ms, unacked: 0, total push: 64
+
+2021-03-08 14:48:37,716 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 14:48:37,716 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:62770, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,62770,1010493942379900
+
+2021-03-08 14:48:37,716 INFO send udp packet: 192.168.91.1,62770,1010493942379900
+
+2021-03-08 14:48:37,716 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:62770, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,62770,1010493942379900
+
+2021-03-08 14:48:37,716 INFO send udp packet: 192.168.91.1,62770,1010493942379900
+
+2021-03-08 14:48:37,720 INFO received ack: {"type": "push-ack", "lastRefTime":"1010493942379900", "data":""} from: 192.168.91.1:62770, cost: 4 ms, unacked: 0, total push: 65
+
+2021-03-08 14:48:37,722 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,62770,1010493942379900, ack json: {"type": "push-ack", "lastRefTime":"1010493942379900", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 14:49:23,303 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:49:23,303 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1010539529060000
+
+2021-03-08 14:49:23,303 INFO send udp packet: 192.168.91.1,57955,1010539529060000
+
+2021-03-08 14:49:23,303 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:62770, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,62770,1010539529060000
+
+2021-03-08 14:49:23,303 INFO send udp packet: 192.168.91.1,62770,1010539529060000
+
+2021-03-08 14:49:23,304 INFO received ack: {"type": "push-ack", "lastRefTime":"1010539529060000", "data":""} from: 192.168.91.1:57955, cost: 1 ms, unacked: 1, total push: 67
+
+2021-03-08 14:49:23,304 INFO received ack: {"type": "push-ack", "lastRefTime":"1010539529060000", "data":""} from: 192.168.91.1:62770, cost: 1 ms, unacked: 0, total push: 67
+
+2021-03-08 14:49:28,136 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:49:28,136 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1010544362139100
+
+2021-03-08 14:49:28,136 INFO send udp packet: 192.168.91.1,57955,1010544362139100
+
+2021-03-08 14:49:28,136 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:62770, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,62770,1010544362139100
+
+2021-03-08 14:49:28,136 INFO send udp packet: 192.168.91.1,62770,1010544362139100
+
+2021-03-08 14:49:28,136 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53144, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53144,1010544362139100
+
+2021-03-08 14:49:28,136 INFO send udp packet: 192.168.91.1,53144,1010544362139100
+
+2021-03-08 14:49:28,137 INFO received ack: {"type": "push-ack", "lastRefTime":"1010544362139100", "data":""} from: 192.168.91.1:57955, cost: 1 ms, unacked: 2, total push: 70
+
+2021-03-08 14:49:28,137 INFO received ack: {"type": "push-ack", "lastRefTime":"1010544362139100", "data":""} from: 192.168.91.1:62770, cost: 1 ms, unacked: 1, total push: 70
+
+2021-03-08 14:49:28,137 INFO received ack: {"type": "push-ack", "lastRefTime":"1010544362139100", "data":""} from: 192.168.91.1:53144, cost: 1 ms, unacked: 0, total push: 70
+
+2021-03-08 14:49:44,148 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 14:49:44,148 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:62770, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,62770,1010560374812400
+
+2021-03-08 14:49:44,148 INFO send udp packet: 192.168.91.1,62770,1010560374812400
+
+2021-03-08 14:49:44,149 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:62770, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,62770,1010560374812400
+
+2021-03-08 14:49:44,149 INFO send udp packet: 192.168.91.1,62770,1010560374812400
+
+2021-03-08 14:49:44,176 INFO received ack: {"type": "push-ack", "lastRefTime":"1010560374812400", "data":""} from: 192.168.91.1:62770, cost: 7 ms, unacked: 0, total push: 71
+
+2021-03-08 14:49:44,176 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,62770,1010560374812400, ack json: {"type": "push-ack", "lastRefTime":"1010560374812400", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 14:49:44,768 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:49:44,768 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1010560994523700
+
+2021-03-08 14:49:44,768 INFO send udp packet: 192.168.91.1,57955,1010560994523700
+
+2021-03-08 14:49:44,768 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:62770, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,62770,1010560994523700
+
+2021-03-08 14:49:44,768 INFO send udp packet: 192.168.91.1,62770,1010560994523700
+
+2021-03-08 14:49:44,768 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53144, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53144,1010560994523700
+
+2021-03-08 14:49:44,768 INFO send udp packet: 192.168.91.1,53144,1010560994523700
+
+2021-03-08 14:49:44,769 INFO received ack: {"type": "push-ack", "lastRefTime":"1010560994523700", "data":""} from: 192.168.91.1:62770, cost: 1 ms, unacked: 2, total push: 74
+
+2021-03-08 14:49:44,769 INFO received ack: {"type": "push-ack", "lastRefTime":"1010560994523700", "data":""} from: 192.168.91.1:57955, cost: 1 ms, unacked: 1, total push: 74
+
+2021-03-08 14:49:44,770 INFO received ack: {"type": "push-ack", "lastRefTime":"1010560994523700", "data":""} from: 192.168.91.1:53144, cost: 2 ms, unacked: 0, total push: 74
+
+2021-03-08 14:50:25,871 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:50:25,871 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1010602097703500
+
+2021-03-08 14:50:25,871 INFO send udp packet: 192.168.91.1,49949,1010602097703500
+
+2021-03-08 14:50:25,871 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1010602097703500
+
+2021-03-08 14:50:25,871 INFO send udp packet: 192.168.91.1,57955,1010602097703500
+
+2021-03-08 14:50:25,871 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:49948, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49948,1010602097703500
+
+2021-03-08 14:50:25,871 INFO send udp packet: 192.168.91.1,49948,1010602097703500
+
+2021-03-08 14:50:25,875 INFO received ack: {"type": "push-ack", "lastRefTime":"1010602097703500", "data":""} from: 192.168.91.1:57955, cost: 4 ms, unacked: 2, total push: 77
+
+2021-03-08 14:50:25,876 INFO received ack: {"type": "push-ack", "lastRefTime":"1010602097703500", "data":""} from: 192.168.91.1:49949, cost: 5 ms, unacked: 1, total push: 77
+
+2021-03-08 14:50:25,876 INFO received ack: {"type": "push-ack", "lastRefTime":"1010602097703500", "data":""} from: 192.168.91.1:49948, cost: 5 ms, unacked: 0, total push: 77
+
+2021-03-08 14:50:31,482 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 14:50:31,482 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1010607708682400
+
+2021-03-08 14:50:31,482 INFO send udp packet: 192.168.91.1,49949,1010607708682400
+
+2021-03-08 14:50:31,482 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1010607708682400
+
+2021-03-08 14:50:31,482 INFO send udp packet: 192.168.91.1,49949,1010607708682400
+
+2021-03-08 14:50:31,484 INFO received ack: {"type": "push-ack", "lastRefTime":"1010607708682400", "data":""} from: 192.168.91.1:49949, cost: 2 ms, unacked: 0, total push: 78
+
+2021-03-08 14:50:31,486 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,49949,1010607708682400, ack json: {"type": "push-ack", "lastRefTime":"1010607708682400", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 14:51:08,358 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:51:08,358 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1010644584067900
+
+2021-03-08 14:51:08,358 INFO send udp packet: 192.168.91.1,49949,1010644584067900
+
+2021-03-08 14:51:08,358 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1010644584067900
+
+2021-03-08 14:51:08,358 INFO send udp packet: 192.168.91.1,57955,1010644584067900
+
+2021-03-08 14:51:08,359 INFO received ack: {"type": "push-ack", "lastRefTime":"1010644584067900", "data":""} from: 192.168.91.1:57955, cost: 1 ms, unacked: 1, total push: 80
+
+2021-03-08 14:51:08,359 INFO received ack: {"type": "push-ack", "lastRefTime":"1010644584067900", "data":""} from: 192.168.91.1:49949, cost: 1 ms, unacked: 0, total push: 80
+
+2021-03-08 14:51:15,162 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 14:51:15,162 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1010651387923900
+
+2021-03-08 14:51:15,162 INFO send udp packet: 192.168.91.1,49949,1010651387923900
+
+2021-03-08 14:51:15,162 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1010651387923900
+
+2021-03-08 14:51:15,162 INFO send udp packet: 192.168.91.1,57955,1010651387923900
+
+2021-03-08 14:51:15,162 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:49948, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49948,1010651387923900
+
+2021-03-08 14:51:15,162 INFO send udp packet: 192.168.91.1,49948,1010651387923900
+
+2021-03-08 14:51:15,163 INFO received ack: {"type": "push-ack", "lastRefTime":"1010651387923900", "data":""} from: 192.168.91.1:49949, cost: 1 ms, unacked: 2, total push: 83
+
+2021-03-08 14:51:15,163 INFO received ack: {"type": "push-ack", "lastRefTime":"1010651387923900", "data":""} from: 192.168.91.1:57955, cost: 1 ms, unacked: 1, total push: 83
+
+2021-03-08 14:51:15,163 INFO received ack: {"type": "push-ack", "lastRefTime":"1010651387923900", "data":""} from: 192.168.91.1:49948, cost: 1 ms, unacked: 0, total push: 83
+
+2021-03-08 15:25:16,179 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 15:25:16,180 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1012692405179500
+
+2021-03-08 15:25:16,180 INFO send udp packet: 192.168.91.1,49949,1012692405179500
+
+2021-03-08 15:25:16,183 INFO received ack: {"type": "push-ack", "lastRefTime":"1012692405179500", "data":""} from: 192.168.91.1:49949, cost: 3 ms, unacked: 0, total push: 84
+
+2021-03-08 15:25:19,523 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 15:25:19,523 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1012695749250000
+
+2021-03-08 15:25:19,523 INFO send udp packet: 192.168.91.1,49949,1012695749250000
+
+2021-03-08 15:25:19,523 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1012695749250000
+
+2021-03-08 15:25:19,523 INFO send udp packet: 192.168.91.1,57955,1012695749250000
+
+2021-03-08 15:25:19,524 INFO received ack: {"type": "push-ack", "lastRefTime":"1012695749250000", "data":""} from: 192.168.91.1:49949, cost: 1 ms, unacked: 1, total push: 86
+
+2021-03-08 15:25:19,524 INFO received ack: {"type": "push-ack", "lastRefTime":"1012695749250000", "data":""} from: 192.168.91.1:57955, cost: 1 ms, unacked: 0, total push: 86
+
+2021-03-08 16:38:19,109 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 16:38:19,110 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1017075335788100
+
+2021-03-08 16:38:19,110 INFO send udp packet: 192.168.91.1,49949,1017075335788100
+
+2021-03-08 16:38:19,110 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1017075335788100
+
+2021-03-08 16:38:19,110 INFO send udp packet: 192.168.91.1,49949,1017075335788100
+
+2021-03-08 16:38:19,115 INFO received ack: {"type": "push-ack", "lastRefTime":"1017075335788100", "data":""} from: 192.168.91.1:49949, cost: 5 ms, unacked: 0, total push: 87
+
+2021-03-08 16:38:19,116 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,49949,1017075335788100, ack json: {"type": "push-ack", "lastRefTime":"1017075335788100", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 16:38:19,935 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 16:38:19,936 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1017076162233100
+
+2021-03-08 16:38:19,936 INFO send udp packet: 192.168.91.1,49949,1017076162233100
+
+2021-03-08 16:38:19,936 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1017076162233100
+
+2021-03-08 16:38:19,936 INFO send udp packet: 192.168.91.1,57955,1017076162233100
+
+2021-03-08 16:38:19,936 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:49948, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49948,1017076162233100
+
+2021-03-08 16:38:19,936 INFO send udp packet: 192.168.91.1,49948,1017076162233100
+
+2021-03-08 16:38:19,937 INFO received ack: {"type": "push-ack", "lastRefTime":"1017076162233100", "data":""} from: 192.168.91.1:57955, cost: 1 ms, unacked: 2, total push: 90
+
+2021-03-08 16:38:19,938 INFO received ack: {"type": "push-ack", "lastRefTime":"1017076162233100", "data":""} from: 192.168.91.1:49949, cost: 2 ms, unacked: 1, total push: 90
+
+2021-03-08 16:38:19,940 INFO received ack: {"type": "push-ack", "lastRefTime":"1017076162233100", "data":""} from: 192.168.91.1:49948, cost: 4 ms, unacked: 0, total push: 90
+
+2021-03-08 16:38:20,136 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 16:38:20,136 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:49949, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,49949,1017076361783600
+
+2021-03-08 16:38:20,136 INFO send udp packet: 192.168.91.1,49949,1017076361783600
+
+2021-03-08 16:38:20,136 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:57955, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,57955,1017076361783600
+
+2021-03-08 16:38:20,136 INFO send udp packet: 192.168.91.1,57955,1017076361783600
+
+2021-03-08 16:38:20,136 INFO received ack: {"type": "push-ack", "lastRefTime":"1017076361783600", "data":""} from: 192.168.91.1:57955, cost: 0 ms, unacked: 1, total push: 92
+
+2021-03-08 16:38:20,137 INFO received ack: {"type": "push-ack", "lastRefTime":"1017076361783600", "data":""} from: 192.168.91.1:49949, cost: 1 ms, unacked: 0, total push: 92
+
+2021-03-08 16:38:54,571 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 16:38:54,571 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:52761, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52761,1017110797097800
+
+2021-03-08 16:38:54,571 INFO send udp packet: 192.168.91.1,52761,1017110797097800
+
+2021-03-08 16:38:54,572 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:52762, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52762,1017110797097800
+
+2021-03-08 16:38:54,572 INFO send udp packet: 192.168.91.1,52762,1017110797097800
+
+2021-03-08 16:38:54,576 INFO received ack: {"type": "push-ack", "lastRefTime":"1017110797097800", "data":""} from: 192.168.91.1:52762, cost: 4 ms, unacked: 1, total push: 94
+
+2021-03-08 16:38:54,585 INFO received ack: {"type": "push-ack", "lastRefTime":"1017110797097800", "data":""} from: 192.168.91.1:52761, cost: 14 ms, unacked: 0, total push: 94
+
+2021-03-08 16:38:58,598 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 16:38:58,598 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:52762, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52762,1017114824559600
+
+2021-03-08 16:38:58,598 INFO send udp packet: 192.168.91.1,52762,1017114824559600
+
+2021-03-08 16:38:58,599 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:52762, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52762,1017114824559600
+
+2021-03-08 16:38:58,599 INFO send udp packet: 192.168.91.1,52762,1017114824559600
+
+2021-03-08 16:38:58,599 INFO received ack: {"type": "push-ack", "lastRefTime":"1017114824559600", "data":""} from: 192.168.91.1:52762, cost: 0 ms, unacked: 0, total push: 95
+
+2021-03-08 16:38:58,600 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,52762,1017114824559600, ack json: {"type": "push-ack", "lastRefTime":"1017114824559600", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 16:39:10,153 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 16:39:10,153 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52762, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52762,1017126379192400
+
+2021-03-08 16:39:10,153 INFO send udp packet: 192.168.91.1,52762,1017126379192400
+
+2021-03-08 16:39:10,153 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52763, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52763,1017126379192400
+
+2021-03-08 16:39:10,153 INFO send udp packet: 192.168.91.1,52763,1017126379192400
+
+2021-03-08 16:39:10,155 INFO received ack: {"type": "push-ack", "lastRefTime":"1017126379192400", "data":""} from: 192.168.91.1:52762, cost: 2 ms, unacked: 1, total push: 97
+
+2021-03-08 16:39:10,157 INFO received ack: {"type": "push-ack", "lastRefTime":"1017126379192400", "data":""} from: 192.168.91.1:52763, cost: 4 ms, unacked: 0, total push: 97
+
+2021-03-08 16:41:08,271 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 16:41:08,271 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:52762, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52762,1017244497256100
+
+2021-03-08 16:41:08,271 INFO send udp packet: 192.168.91.1,52762,1017244497256100
+
+2021-03-08 16:41:08,271 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:52762, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52762,1017244497256100
+
+2021-03-08 16:41:08,271 INFO send udp packet: 192.168.91.1,52762,1017244497256100
+
+2021-03-08 16:41:08,273 INFO received ack: {"type": "push-ack", "lastRefTime":"1017244497256100", "data":""} from: 192.168.91.1:52762, cost: 2 ms, unacked: 0, total push: 98
+
+2021-03-08 16:41:08,274 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,52762,1017244497256100, ack json: {"type": "push-ack", "lastRefTime":"1017244497256100", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 16:41:08,928 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 16:41:08,928 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52761, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52761,1017245154310600
+
+2021-03-08 16:41:08,928 INFO send udp packet: 192.168.91.1,52761,1017245154310600
+
+2021-03-08 16:41:08,928 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52762, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52762,1017245154310600
+
+2021-03-08 16:41:08,928 INFO send udp packet: 192.168.91.1,52762,1017245154310600
+
+2021-03-08 16:41:08,928 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52763, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52763,1017245154310600
+
+2021-03-08 16:41:08,928 INFO send udp packet: 192.168.91.1,52763,1017245154310600
+
+2021-03-08 16:41:08,930 INFO received ack: {"type": "push-ack", "lastRefTime":"1017245154310600", "data":""} from: 192.168.91.1:52762, cost: 2 ms, unacked: 2, total push: 101
+
+2021-03-08 16:41:08,930 INFO received ack: {"type": "push-ack", "lastRefTime":"1017245154310600", "data":""} from: 192.168.91.1:52761, cost: 2 ms, unacked: 1, total push: 101
+
+2021-03-08 16:41:08,930 INFO received ack: {"type": "push-ack", "lastRefTime":"1017245154310600", "data":""} from: 192.168.91.1:52763, cost: 2 ms, unacked: 0, total push: 101
+
+2021-03-08 16:41:40,918 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 16:41:40,918 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:61303, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61303,1017277143909900
+
+2021-03-08 16:41:40,918 INFO send udp packet: 192.168.91.1,61303,1017277143909900
+
+2021-03-08 16:41:40,918 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:61302, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61302,1017277143909900
+
+2021-03-08 16:41:40,918 INFO send udp packet: 192.168.91.1,61302,1017277143909900
+
+2021-03-08 16:41:40,921 INFO received ack: {"type": "push-ack", "lastRefTime":"1017277143909900", "data":""} from: 192.168.91.1:61303, cost: 3 ms, unacked: 1, total push: 103
+
+2021-03-08 16:41:40,922 INFO received ack: {"type": "push-ack", "lastRefTime":"1017277143909900", "data":""} from: 192.168.91.1:61302, cost: 4 ms, unacked: 0, total push: 103
+
+2021-03-08 16:41:43,784 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 16:41:43,784 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:61302, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61302,1017280010260200
+
+2021-03-08 16:41:43,784 INFO send udp packet: 192.168.91.1,61302,1017280010260200
+
+2021-03-08 16:41:43,784 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:61302, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61302,1017280010260200
+
+2021-03-08 16:41:43,784 INFO send udp packet: 192.168.91.1,61302,1017280010260200
+
+2021-03-08 16:41:43,786 INFO received ack: {"type": "push-ack", "lastRefTime":"1017280010260200", "data":""} from: 192.168.91.1:61302, cost: 2 ms, unacked: 0, total push: 104
+
+2021-03-08 16:41:43,788 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,61302,1017280010260200, ack json: {"type": "push-ack", "lastRefTime":"1017280010260200", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 16:48:15,291 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 16:48:15,291 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:61302, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61302,1017671517234200
+
+2021-03-08 16:48:15,291 INFO send udp packet: 192.168.91.1,61302,1017671517234200
+
+2021-03-08 16:48:15,291 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:61302, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61302,1017671517234200
+
+2021-03-08 16:48:15,291 INFO send udp packet: 192.168.91.1,61302,1017671517234200
+
+2021-03-08 16:48:15,293 INFO received ack: {"type": "push-ack", "lastRefTime":"1017671517234200", "data":""} from: 192.168.91.1:61302, cost: 2 ms, unacked: 0, total push: 105
+
+2021-03-08 16:48:15,295 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,61302,1017671517234200, ack json: {"type": "push-ack", "lastRefTime":"1017671517234200", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 16:48:16,199 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 16:48:16,199 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52761, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52761,1017672424757000
+
+2021-03-08 16:48:16,199 INFO send udp packet: 192.168.91.1,52761,1017672424757000
+
+2021-03-08 16:48:16,199 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:61303, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61303,1017672424757000
+
+2021-03-08 16:48:16,199 INFO send udp packet: 192.168.91.1,61303,1017672424757000
+
+2021-03-08 16:48:16,199 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:61302, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61302,1017672424757000
+
+2021-03-08 16:48:16,199 INFO send udp packet: 192.168.91.1,61302,1017672424757000
+
+2021-03-08 16:48:16,201 INFO received ack: {"type": "push-ack", "lastRefTime":"1017672424757000", "data":""} from: 192.168.91.1:52761, cost: 2 ms, unacked: 2, total push: 108
+
+2021-03-08 16:48:16,201 INFO received ack: {"type": "push-ack", "lastRefTime":"1017672424757000", "data":""} from: 192.168.91.1:61302, cost: 2 ms, unacked: 1, total push: 108
+
+2021-03-08 16:48:16,201 INFO received ack: {"type": "push-ack", "lastRefTime":"1017672424757000", "data":""} from: 192.168.91.1:61303, cost: 2 ms, unacked: 0, total push: 108
+
+2021-03-08 16:48:16,248 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 16:48:16,248 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:52761, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52761,1017672474551600
+
+2021-03-08 16:48:16,248 INFO send udp packet: 192.168.91.1,52761,1017672474551600
+
+2021-03-08 16:48:16,248 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:61302, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,61302,1017672474551600
+
+2021-03-08 16:48:16,248 INFO send udp packet: 192.168.91.1,61302,1017672474551600
+
+2021-03-08 16:48:16,250 INFO received ack: {"type": "push-ack", "lastRefTime":"1017672474551600", "data":""} from: 192.168.91.1:52761, cost: 2 ms, unacked: 1, total push: 110
+
+2021-03-08 16:48:16,250 INFO received ack: {"type": "push-ack", "lastRefTime":"1017672474551600", "data":""} from: 192.168.91.1:61302, cost: 2 ms, unacked: 0, total push: 110
+
+2021-03-08 16:48:56,929 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 16:48:56,945 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52213, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52213,1017713155124300
+
+2021-03-08 16:48:56,945 INFO send udp packet: 192.168.91.1,52213,1017713155124300
+
+2021-03-08 16:48:56,948 INFO received ack: {"type": "push-ack", "lastRefTime":"1017713155124300", "data":""} from: 192.168.91.1:52213, cost: 3 ms, unacked: 0, total push: 111
+
+2021-03-08 16:49:03,125 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 16:49:03,125 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:52215, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52215,1017719351630600
+
+2021-03-08 16:49:03,125 INFO send udp packet: 192.168.91.1,52215,1017719351630600
+
+2021-03-08 16:49:03,125 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:52214, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52214,1017719351630600
+
+2021-03-08 16:49:03,125 INFO send udp packet: 192.168.91.1,52214,1017719351630600
+
+2021-03-08 16:49:03,128 INFO received ack: {"type": "push-ack", "lastRefTime":"1017719351630600", "data":""} from: 192.168.91.1:52214, cost: 3 ms, unacked: 1, total push: 113
+
+2021-03-08 16:49:03,129 INFO received ack: {"type": "push-ack", "lastRefTime":"1017719351630600", "data":""} from: 192.168.91.1:52215, cost: 4 ms, unacked: 0, total push: 113
+
+2021-03-08 16:49:06,424 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 16:49:06,424 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:52215, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52215,1017722650453000
+
+2021-03-08 16:49:06,424 INFO send udp packet: 192.168.91.1,52215,1017722650453000
+
+2021-03-08 16:49:06,426 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:52215, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52215,1017722650453000
+
+2021-03-08 16:49:06,426 INFO send udp packet: 192.168.91.1,52215,1017722650453000
+
+2021-03-08 16:49:06,428 INFO received ack: {"type": "push-ack", "lastRefTime":"1017722650453000", "data":""} from: 192.168.91.1:52215, cost: 2 ms, unacked: 0, total push: 114
+
+2021-03-08 16:49:06,429 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,52215,1017722650453000, ack json: {"type": "push-ack", "lastRefTime":"1017722650453000", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 17:04:25,076 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:04:25,076 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:52215, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52215,1018641302388000
+
+2021-03-08 17:04:25,076 INFO send udp packet: 192.168.91.1,52215,1018641302388000
+
+2021-03-08 17:04:25,076 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:52215, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52215,1018641302388000
+
+2021-03-08 17:04:25,076 INFO send udp packet: 192.168.91.1,52215,1018641302388000
+
+2021-03-08 17:04:25,078 INFO received ack: {"type": "push-ack", "lastRefTime":"1018641302388000", "data":""} from: 192.168.91.1:52215, cost: 2 ms, unacked: 0, total push: 115
+
+2021-03-08 17:04:25,079 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,52215,1018641302388000, ack json: {"type": "push-ack", "lastRefTime":"1018641302388000", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 17:04:25,827 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:04:25,827 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52214, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52214,1018642053234300
+
+2021-03-08 17:04:25,827 INFO send udp packet: 192.168.91.1,52214,1018642053234300
+
+2021-03-08 17:04:25,827 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52213, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52213,1018642053234300
+
+2021-03-08 17:04:25,827 INFO send udp packet: 192.168.91.1,52213,1018642053234300
+
+2021-03-08 17:04:25,827 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52215, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52215,1018642053234300
+
+2021-03-08 17:04:25,828 INFO send udp packet: 192.168.91.1,52215,1018642053234300
+
+2021-03-08 17:04:25,829 INFO received ack: {"type": "push-ack", "lastRefTime":"1018642053234300", "data":""} from: 192.168.91.1:52213, cost: 2 ms, unacked: 2, total push: 118
+
+2021-03-08 17:04:25,829 INFO received ack: {"type": "push-ack", "lastRefTime":"1018642053234300", "data":""} from: 192.168.91.1:52214, cost: 2 ms, unacked: 1, total push: 118
+
+2021-03-08 17:04:25,829 INFO received ack: {"type": "push-ack", "lastRefTime":"1018642053234300", "data":""} from: 192.168.91.1:52215, cost: 1 ms, unacked: 0, total push: 118
+
+2021-03-08 17:05:09,197 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:05:09,197 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:55923, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55923,1018685423287100
+
+2021-03-08 17:05:09,197 INFO send udp packet: 192.168.91.1,55923,1018685423287100
+
+2021-03-08 17:05:09,197 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:55924, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55924,1018685423287100
+
+2021-03-08 17:05:09,198 INFO send udp packet: 192.168.91.1,55924,1018685423287100
+
+2021-03-08 17:05:09,199 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52214, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52214,1018685423287100
+
+2021-03-08 17:05:09,199 INFO send udp packet: 192.168.91.1,52214,1018685423287100
+
+2021-03-08 17:05:09,200 INFO received ack: {"type": "push-ack", "lastRefTime":"1018685423287100", "data":""} from: 192.168.91.1:55923, cost: 3 ms, unacked: 2, total push: 121
+
+2021-03-08 17:05:09,200 INFO received ack: {"type": "push-ack", "lastRefTime":"1018685423287100", "data":""} from: 192.168.91.1:52214, cost: 1 ms, unacked: 1, total push: 121
+
+2021-03-08 17:05:09,249 INFO received ack: {"type": "push-ack", "lastRefTime":"1018685423287100", "data":""} from: 192.168.91.1:55924, cost: 51 ms, unacked: 0, total push: 121
+
+2021-03-08 17:05:13,122 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:05:13,122 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55923, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55923,1018689347882700
+
+2021-03-08 17:05:13,122 INFO send udp packet: 192.168.91.1,55923,1018689347882700
+
+2021-03-08 17:05:13,122 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55923, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55923,1018689347882700
+
+2021-03-08 17:05:13,125 INFO received ack: {"type": "push-ack", "lastRefTime":"1018689347882700", "data":""} from: 192.168.91.1:55923, cost: 3 ms, unacked: 0, total push: 122
+
+2021-03-08 17:05:13,243 INFO send udp packet: 192.168.91.1,55923,1018689347882700
+
+2021-03-08 17:05:13,246 INFO received ack: {"type": "push-ack", "lastRefTime":"1018689347882700", "data":""} from: 192.168.91.1:55923, cost: 3 ms, unacked: 0, total push: 123
+
+2021-03-08 17:07:26,836 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:07:26,836 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55923, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55923,1018823062057300
+
+2021-03-08 17:07:26,836 INFO send udp packet: 192.168.91.1,55923,1018823062057300
+
+2021-03-08 17:07:26,836 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55923, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55923,1018823062057300
+
+2021-03-08 17:07:26,836 INFO send udp packet: 192.168.91.1,55923,1018823062057300
+
+2021-03-08 17:07:26,838 INFO received ack: {"type": "push-ack", "lastRefTime":"1018823062057300", "data":""} from: 192.168.91.1:55923, cost: 2 ms, unacked: 0, total push: 124
+
+2021-03-08 17:07:26,839 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,55923,1018823062057300, ack json: {"type": "push-ack", "lastRefTime":"1018823062057300", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 17:07:27,624 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:07:27,624 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:55923, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55923,1018823849847200
+
+2021-03-08 17:07:27,624 INFO send udp packet: 192.168.91.1,55923,1018823849847200
+
+2021-03-08 17:07:27,624 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:55924, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55924,1018823849847200
+
+2021-03-08 17:07:27,624 INFO send udp packet: 192.168.91.1,55924,1018823849847200
+
+2021-03-08 17:07:27,624 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:52214, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52214,1018823849847200
+
+2021-03-08 17:07:27,624 INFO send udp packet: 192.168.91.1,52214,1018823849847200
+
+2021-03-08 17:07:27,626 INFO received ack: {"type": "push-ack", "lastRefTime":"1018823849847200", "data":""} from: 192.168.91.1:55923, cost: 2 ms, unacked: 2, total push: 127
+
+2021-03-08 17:07:27,626 INFO received ack: {"type": "push-ack", "lastRefTime":"1018823849847200", "data":""} from: 192.168.91.1:52214, cost: 2 ms, unacked: 1, total push: 127
+
+2021-03-08 17:07:27,627 INFO received ack: {"type": "push-ack", "lastRefTime":"1018823849847200", "data":""} from: 192.168.91.1:55924, cost: 3 ms, unacked: 0, total push: 127
+
+2021-03-08 17:07:27,676 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 17:07:27,676 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55923, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55923,1018823901793900
+
+2021-03-08 17:07:27,676 INFO send udp packet: 192.168.91.1,55923,1018823901793900
+
+2021-03-08 17:07:27,676 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:52214, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,52214,1018823901793900
+
+2021-03-08 17:07:27,676 INFO send udp packet: 192.168.91.1,52214,1018823901793900
+
+2021-03-08 17:07:27,705 INFO received ack: {"type": "push-ack", "lastRefTime":"1018823901793900", "data":""} from: 192.168.91.1:52214, cost: 29 ms, unacked: 1, total push: 129
+
+2021-03-08 17:07:27,705 INFO received ack: {"type": "push-ack", "lastRefTime":"1018823901793900", "data":""} from: 192.168.91.1:55923, cost: 29 ms, unacked: 0, total push: 129
+
+2021-03-08 17:08:06,819 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:08:06,819 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:58591, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,58591,1018863045024600
+
+2021-03-08 17:08:06,819 INFO send udp packet: 192.168.91.1,58591,1018863045024600
+
+2021-03-08 17:08:06,825 INFO received ack: {"type": "push-ack", "lastRefTime":"1018863045024600", "data":""} from: 192.168.91.1:58591, cost: 6 ms, unacked: 0, total push: 130
+
+2021-03-08 17:08:13,366 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 17:08:13,366 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55330,1018869592437400
+
+2021-03-08 17:08:13,366 INFO send udp packet: 192.168.91.1,55330,1018869592437400
+
+2021-03-08 17:08:13,366 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55328, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55328,1018869592437400
+
+2021-03-08 17:08:13,366 INFO send udp packet: 192.168.91.1,55328,1018869592437400
+
+2021-03-08 17:08:13,384 INFO received ack: {"type": "push-ack", "lastRefTime":"1018869592437400", "data":""} from: 192.168.91.1:55328, cost: 18 ms, unacked: 1, total push: 132
+
+2021-03-08 17:08:13,384 INFO received ack: {"type": "push-ack", "lastRefTime":"1018869592437400", "data":""} from: 192.168.91.1:55330, cost: 18 ms, unacked: 0, total push: 132
+
+2021-03-08 17:08:16,754 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:08:16,754 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55330,1018872980379000
+
+2021-03-08 17:08:16,754 INFO send udp packet: 192.168.91.1,55330,1018872980379000
+
+2021-03-08 17:08:16,754 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55330,1018872980379000
+
+2021-03-08 17:08:16,754 INFO send udp packet: 192.168.91.1,55330,1018872980379000
+
+2021-03-08 17:08:16,756 INFO received ack: {"type": "push-ack", "lastRefTime":"1018872980379000", "data":""} from: 192.168.91.1:55330, cost: 2 ms, unacked: 0, total push: 133
+
+2021-03-08 17:08:16,758 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,55330,1018872980379000, ack json: {"type": "push-ack", "lastRefTime":"1018872980379000", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 17:16:55,043 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:16:55,043 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55330,1019391269513400
+
+2021-03-08 17:16:55,043 INFO send udp packet: 192.168.91.1,55330,1019391269513400
+
+2021-03-08 17:16:55,043 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55330,1019391269513400
+
+2021-03-08 17:16:55,043 INFO send udp packet: 192.168.91.1,55330,1019391269513400
+
+2021-03-08 17:16:55,045 INFO received ack: {"type": "push-ack", "lastRefTime":"1019391269513400", "data":""} from: 192.168.91.1:55330, cost: 2 ms, unacked: 0, total push: 134
+
+2021-03-08 17:16:55,046 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,55330,1019391269513400, ack json: {"type": "push-ack", "lastRefTime":"1019391269513400", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 17:16:55,774 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:16:55,774 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:58591, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,58591,1019392000414400
+
+2021-03-08 17:16:55,774 INFO send udp packet: 192.168.91.1,58591,1019392000414400
+
+2021-03-08 17:16:55,774 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:55330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55330,1019392000414400
+
+2021-03-08 17:16:55,774 INFO send udp packet: 192.168.91.1,55330,1019392000414400
+
+2021-03-08 17:16:55,776 INFO received ack: {"type": "push-ack", "lastRefTime":"1019392000414400", "data":""} from: 192.168.91.1:55330, cost: 2 ms, unacked: 1, total push: 136
+
+2021-03-08 17:16:55,777 INFO received ack: {"type": "push-ack", "lastRefTime":"1019392000414400", "data":""} from: 192.168.91.1:58591, cost: 3 ms, unacked: 0, total push: 136
+
+2021-03-08 17:17:28,911 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:17:28,911 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53856, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53856,1019425136824400
+
+2021-03-08 17:17:28,911 INFO send udp packet: 192.168.91.1,53856,1019425136824400
+
+2021-03-08 17:17:28,914 INFO received ack: {"type": "push-ack", "lastRefTime":"1019425136824400", "data":""} from: 192.168.91.1:53856, cost: 3 ms, unacked: 0, total push: 137
+
+2021-03-08 17:17:34,401 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:17:34,401 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:53857, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53857,1019430627347000
+
+2021-03-08 17:17:34,401 INFO send udp packet: 192.168.91.1,53857,1019430627347000
+
+2021-03-08 17:17:34,402 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:53857, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53857,1019430627347000
+
+2021-03-08 17:17:34,402 INFO send udp packet: 192.168.91.1,53857,1019430627347000
+
+2021-03-08 17:17:34,406 INFO received ack: {"type": "push-ack", "lastRefTime":"1019430627347000", "data":""} from: 192.168.91.1:53857, cost: 4 ms, unacked: 0, total push: 138
+
+2021-03-08 17:17:34,409 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,53857,1019430627347000, ack json: {"type": "push-ack", "lastRefTime":"1019430627347000", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 17:20:28,404 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:20:28,404 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:53857, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53857,1019604630099300
+
+2021-03-08 17:20:28,404 INFO send udp packet: 192.168.91.1,53857,1019604630099300
+
+2021-03-08 17:20:28,404 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:53857, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53857,1019604630099300
+
+2021-03-08 17:20:28,404 INFO send udp packet: 192.168.91.1,53857,1019604630099300
+
+2021-03-08 17:20:28,406 INFO received ack: {"type": "push-ack", "lastRefTime":"1019604630099300", "data":""} from: 192.168.91.1:53857, cost: 2 ms, unacked: 0, total push: 139
+
+2021-03-08 17:20:28,426 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,53857,1019604630099300, ack json: {"type": "push-ack", "lastRefTime":"1019604630099300", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 17:20:29,094 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:20:29,094 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53857, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53857,1019605320335200
+
+2021-03-08 17:20:29,094 INFO send udp packet: 192.168.91.1,53857,1019605320335200
+
+2021-03-08 17:20:29,094 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:53856, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,53856,1019605320335200
+
+2021-03-08 17:20:29,094 INFO send udp packet: 192.168.91.1,53856,1019605320335200
+
+2021-03-08 17:20:29,095 INFO received ack: {"type": "push-ack", "lastRefTime":"1019605320335200", "data":""} from: 192.168.91.1:53856, cost: 1 ms, unacked: 1, total push: 141
+
+2021-03-08 17:20:29,095 INFO received ack: {"type": "push-ack", "lastRefTime":"1019605320335200", "data":""} from: 192.168.91.1:53857, cost: 1 ms, unacked: 0, total push: 141
+
+2021-03-08 17:21:02,152 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:21:02,152 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:59330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59330,1019638378284300
+
+2021-03-08 17:21:02,152 INFO send udp packet: 192.168.91.1,59330,1019638378284300
+
+2021-03-08 17:21:02,157 INFO received ack: {"type": "push-ack", "lastRefTime":"1019638378284300", "data":""} from: 192.168.91.1:59330, cost: 5 ms, unacked: 0, total push: 142
+
+2021-03-08 17:21:02,161 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:59330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59330,1019638378284300
+
+2021-03-08 17:21:02,161 INFO send udp packet: 192.168.91.1,59330,1019638378284300
+
+2021-03-08 17:21:02,163 INFO received ack: {"type": "push-ack", "lastRefTime":"1019638378284300", "data":""} from: 192.168.91.1:59330, cost: 2 ms, unacked: 0, total push: 143
+
+2021-03-08 17:21:10,970 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:21:10,970 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:60621, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,60621,1019647196319100
+
+2021-03-08 17:21:10,970 INFO send udp packet: 192.168.91.1,60621,1019647196319100
+
+2021-03-08 17:21:10,970 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:59330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59330,1019647196319100
+
+2021-03-08 17:21:10,970 INFO send udp packet: 192.168.91.1,59330,1019647196319100
+
+2021-03-08 17:21:10,997 INFO received ack: {"type": "push-ack", "lastRefTime":"1019647196319100", "data":""} from: 192.168.91.1:59330, cost: 27 ms, unacked: 1, total push: 145
+
+2021-03-08 17:21:10,997 INFO received ack: {"type": "push-ack", "lastRefTime":"1019647196319100", "data":""} from: 192.168.91.1:60621, cost: 27 ms, unacked: 0, total push: 145
+
+2021-03-08 17:34:52,958 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:34:52,958 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:59330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59330,1020469183968800
+
+2021-03-08 17:34:52,958 INFO send udp packet: 192.168.91.1,59330,1020469183968800
+
+2021-03-08 17:34:52,958 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:59330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59330,1020469183968800
+
+2021-03-08 17:34:52,958 INFO send udp packet: 192.168.91.1,59330,1020469183968800
+
+2021-03-08 17:34:52,960 INFO received ack: {"type": "push-ack", "lastRefTime":"1020469183968800", "data":""} from: 192.168.91.1:59330, cost: 2 ms, unacked: 0, total push: 146
+
+2021-03-08 17:34:52,962 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,59330,1020469183968800, ack json: {"type": "push-ack", "lastRefTime":"1020469183968800", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)
+2021-03-08 17:34:53,775 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:34:53,775 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:60621, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,60621,1020470000842100
+
+2021-03-08 17:34:53,775 INFO send udp packet: 192.168.91.1,60621,1020470000842100
+
+2021-03-08 17:34:53,775 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:59330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59330,1020470000842100
+
+2021-03-08 17:34:53,775 INFO send udp packet: 192.168.91.1,59330,1020470000842100
+
+2021-03-08 17:34:53,777 INFO received ack: {"type": "push-ack", "lastRefTime":"1020470000842100", "data":""} from: 192.168.91.1:59330, cost: 2 ms, unacked: 1, total push: 148
+
+2021-03-08 17:34:53,777 INFO received ack: {"type": "push-ack", "lastRefTime":"1020470000842100", "data":""} from: 192.168.91.1:60621, cost: 2 ms, unacked: 0, total push: 148
+
+2021-03-08 17:34:53,833 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 17:34:53,833 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55328, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55328,1020470058797200
+
+2021-03-08 17:34:53,833 INFO send udp packet: 192.168.91.1,55328,1020470058797200
+
+2021-03-08 17:34:53,833 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:59330, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,59330,1020470058797200
+
+2021-03-08 17:34:53,833 INFO send udp packet: 192.168.91.1,59330,1020470058797200
+
+2021-03-08 17:34:53,833 INFO received ack: {"type": "push-ack", "lastRefTime":"1020470058797200", "data":""} from: 192.168.91.1:55328, cost: 0 ms, unacked: 1, total push: 150
+
+2021-03-08 17:34:53,834 INFO received ack: {"type": "push-ack", "lastRefTime":"1020470058797200", "data":""} from: 192.168.91.1:59330, cost: 1 ms, unacked: 0, total push: 150
+
+2021-03-08 17:35:27,370 INFO DEFAULT_GROUP@@youlai-auth is changed, add it to push queue.
+
+2021-03-08 17:35:27,375 INFO serviceName: DEFAULT_GROUP@@youlai-auth changed, schedule push for: 192.168.91.1:55499, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55499,1020503596625700
+
+2021-03-08 17:35:27,375 INFO send udp packet: 192.168.91.1,55499,1020503596625700
+
+2021-03-08 17:35:27,379 INFO received ack: {"type": "push-ack", "lastRefTime":"1020503596625700", "data":""} from: 192.168.91.1:55499, cost: 4 ms, unacked: 0, total push: 151
+
+2021-03-08 17:35:36,142 INFO DEFAULT_GROUP@@youlai-admin is changed, add it to push queue.
+
+2021-03-08 17:35:36,143 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:55507, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55507,1020512368683000
+
+2021-03-08 17:35:36,143 INFO send udp packet: 192.168.91.1,55507,1020512368683000
+
+2021-03-08 17:35:36,143 INFO serviceName: DEFAULT_GROUP@@youlai-admin changed, schedule push for: 192.168.91.1:55506, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55506,1020512368683000
+
+2021-03-08 17:35:36,143 INFO send udp packet: 192.168.91.1,55506,1020512368683000
+
+2021-03-08 17:35:36,146 INFO received ack: {"type": "push-ack", "lastRefTime":"1020512368683000", "data":""} from: 192.168.91.1:55506, cost: 3 ms, unacked: 1, total push: 153
+
+2021-03-08 17:35:36,146 INFO received ack: {"type": "push-ack", "lastRefTime":"1020512368683000", "data":""} from: 192.168.91.1:55507, cost: 3 ms, unacked: 0, total push: 153
+
+2021-03-08 17:35:39,547 INFO DEFAULT_GROUP@@youlai-gateway is changed, add it to push queue.
+
+2021-03-08 17:35:39,547 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55506, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55506,1020515772875600
+
+2021-03-08 17:35:39,547 INFO send udp packet: 192.168.91.1,55506,1020515772875600
+
+2021-03-08 17:35:39,547 INFO serviceName: DEFAULT_GROUP@@youlai-gateway changed, schedule push for: 192.168.91.1:55506, agent: Nacos-Java-Client:v1.4.1, key: 192.168.91.1,55506,1020515772875600
+
+2021-03-08 17:35:39,547 INFO send udp packet: 192.168.91.1,55506,1020515772875600
+
+2021-03-08 17:35:39,549 INFO received ack: {"type": "push-ack", "lastRefTime":"1020515772875600", "data":""} from: 192.168.91.1:55506, cost: 2 ms, unacked: 0, total push: 154
+
+2021-03-08 17:35:39,550 ERROR [NACOS-PUSH] error while receiving ack data
+
+java.lang.IllegalStateException: unable to find ackEntry for key: 192.168.91.1,55506,1020515772875600, ack json: {"type": "push-ack", "lastRefTime":"1020515772875600", "data":""}
+	at com.alibaba.nacos.naming.push.PushService$Receiver.run(PushService.java:680)
+	at java.lang.Thread.run(Thread.java:748)

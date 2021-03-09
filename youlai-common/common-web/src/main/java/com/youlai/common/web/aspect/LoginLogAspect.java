@@ -1,13 +1,10 @@
 package com.youlai.common.web.aspect;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.AuthConstants;
-import com.youlai.common.web.pojo.domain.LoginLog;
-import com.youlai.common.web.util.IpUtils;
+import com.youlai.common.web.util.IPUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +21,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author hxr
@@ -44,47 +42,50 @@ public class LoginLogAspect {
 
     @Around("Log()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        // 时间统计
-        Date now = new Date();
-        long startTime = now.getTime();
-        Object result = joinPoint.proceed();
-        long endTime = System.currentTimeMillis();
-        long elapsedTime = endTime - startTime;
 
-        // 获取方法签名
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        String description = signature.getMethod().getAnnotation(ApiOperation.class).value();
+        LocalDateTime startTime = LocalDateTime.now();
+        Object result = joinPoint.proceed();
 
         // 获取请求信息
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        // String clientIP = ServletUtil.getClientIP(request);
-        String clientIP= IpUtils.getIpAddr(request);
-        String requestUrl = request.getRequestURL().toString();
-        String method = request.getMethod();
+
+        // 刷新token不记录
+        String grantType=request.getParameter(AuthConstants.GRANT_TYPE_KEY);
+        if(grantType.equals(AuthConstants.REFRESH_TOKEN)){
+            return result;
+        }
+
+        // 时间统计
+        LocalDateTime endTime = LocalDateTime.now();
+        long elapsedTime = Duration.between(startTime, endTime).toMillis(); // 请求耗时（毫秒）
+
+        // 获取接口描述信息
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        String description = signature.getMethod().getAnnotation(ApiOperation.class).value();// 方法描述
+
+        String username = request.getParameter(AuthConstants.USER_NAME_KEY); // 登录用户名
+        String date = startTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 索引名需要，因为默认生成索引的date时区不一致
+
+        // 获取token
+        String token = Strings.EMPTY;
+        if (request != null) {
+            JSONObject jsonObject = JSONUtil.parseObj(result);
+            token = jsonObject.getStr("value");
+        }
+        String clientIP = IPUtils.getClientIP(request);  // 客户端请求IP（注意：如果使用Nginx代理需配置）
+        String region = IPUtils.ip2region(clientIP); // IP对应的城市信息
 
         // MDC 扩展logback字段，具体请看logback-spring.xml的自定义日志输出格式
         MDC.put("elapsedTime", StrUtil.toString(elapsedTime));
         MDC.put("description", description);
-        MDC.put("clientIP", clientIP);
-        MDC.put("url", requestUrl);
-        MDC.put("method", method);
-
-        String username = request.getParameter(AuthConstants.USER_NAME_KEY);
+        MDC.put("region", region);
         MDC.put("username", username);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String date = simpleDateFormat.format(now);
         MDC.put("date", date);
+        MDC.put("token", token);
+        MDC.put("clientIP", clientIP);
 
-        // 获取登录结果
-        String accessToken = Strings.EMPTY;
-        if (request != null) {
-            JSONObject jsonObject = JSONUtil.parseObj(result);
-            accessToken = jsonObject.getStr("value");
-        }
-        MDC.put("accessToken", accessToken);
-        log.info("{} 登录，耗费时间 {} 毫秒", username, elapsedTime); // 收集日志这里必须打印一条日志，内容随便
+        log.info("{} 登录，耗费时间 {} 毫秒", username, elapsedTime); // 收集日志这里必须打印一条日志，内容随便吧，记录在message字段，具体看logback-spring.xml文件
         return result;
     }
 }

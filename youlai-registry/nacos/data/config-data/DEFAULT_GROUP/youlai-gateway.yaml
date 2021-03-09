@@ -81,7 +81,7 @@ ribbon:
   SocketTimeout: 10000
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 1
-
+ 
 hystrix:
   command:
     default:

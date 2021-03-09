@@ -4,7 +4,7 @@ import cn.hutool.core.convert.Convert;
 import com.youlai.admin.common.constant.ESConstants;
 import com.youlai.common.elasticsearch.service.ElasticSearchService;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.IpUtils;
+import com.youlai.common.web.util.IPUtils;
 import com.youlai.common.web.util.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -72,7 +72,7 @@ public class DashboardController {
 
         // 当前用户统计
         HttpServletRequest request = RequestUtils.getRequest();
-        String clientIP = IpUtils.getIpAddr(request);
+        String clientIP = IPUtils.getClientIP(request);
 
         boolQueryBuilder.must(QueryBuilders.termQuery("clientIP", clientIP));
         Map<String, Long> myCountMap = elasticSearchService.dateHistogram(boolQueryBuilder, "date", DateHistogramInterval.days(1), indices);
@@ -96,5 +96,6 @@ public class DashboardController {
 
         return Result.success(map);
     }
+
 
 }
