@@ -1,8 +1,0 @@
-2021-03-08 13:06:34,541 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
-
-2021-03-08 13:18:32,646 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@youlai-auth
-
-2021-03-08 13:21:04,473 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@youlai-auth
-
-2021-03-08 13:21:52,627 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@youlai-auth
-
