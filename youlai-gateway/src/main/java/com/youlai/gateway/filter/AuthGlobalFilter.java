@@ -66,7 +66,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         String jti = jsonObject.getStr(AuthConstants.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti);
         if (isBlack) {
-            return WebUtils.writeFailedToResponse(response, ResultCode.TOKEN_INVALID_OR_EXPIRED);
+            return WebUtils.writeFailedToResponse(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
         }
 
         // 存在token且不是黑名单，request写入JWT的载体信息

@@ -9,6 +9,11 @@ spring:
     host: 192.168.169.186
     port: 6379
     password:
+  elasticsearch:
+    rest:
+      uris: ["http://g.youlai.store:9200"]
+      cluster-nodes:
+        - g.youlai.store:9200
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
