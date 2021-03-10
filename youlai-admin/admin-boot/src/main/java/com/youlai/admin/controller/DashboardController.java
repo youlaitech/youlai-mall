@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,10 +40,43 @@ public class DashboardController {
 
     ElasticSearchService elasticSearchService;
 
-    @ApiOperation(value = "登录次数统计", httpMethod = "GET")
-    @GetMapping("/login_counts")
-    public Result loginCounts() {
-        int days = 10; //统计天数
+    @ApiOperation(value = "控制台数据", httpMethod = "GET")
+    @GetMapping
+    public Result data() {
+        Map<String, Object> data = new HashMap<>();
+
+        // 今日IP数
+        long todayIpCount = getTodayIpCount();
+        data.put("todayIpCount", todayIpCount);
+
+        // 总IP数
+        long totalIpCount = getTotalIpCount();
+        data.put("totalIpCount", totalIpCount);
+
+        // 登录统计
+        int days = 10; // 统计天数
+        Map loginCount = getLoginCount(days);
+        data.put("loginCount", loginCount);
+
+        return Result.success(data);
+    }
+
+
+    private long getTodayIpCount() {
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("date", date);
+        String indexName = ESConstants.LOGIN_INDEX_PATTERN + date; //索引名称
+        long todayIpCount = elasticSearchService.countDistinct(termQueryBuilder, "clientIP.keyword", indexName);
+        return todayIpCount;
+    }
+
+    private long getTotalIpCount() {
+        long totalIpCount = elasticSearchService.countDistinct(null, "clientIP.keyword", ESConstants.LOGIN_INDEX_PATTERN);
+        return totalIpCount;
+    }
+
+    private Map getLoginCount(int days) {
+
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -62,16 +96,17 @@ public class DashboardController {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
                 .must(rangeQueryBuilder);
 
+
         // 总数统计
         Map<String, Long> totalCountMap = elasticSearchService.dateHistogram(
-                        boolQueryBuilder,
-                        "date", // 根据date字段聚合统计登录数 logback-spring.xml 中的自定义扩展字段 date
-                        DateHistogramInterval.days(1),
-                        indices);
+                boolQueryBuilder,
+                "date", // 根据date字段聚合统计登录数 logback-spring.xml 中的自定义扩展字段 date
+                DateHistogramInterval.days(1),
+                indices);
 
         // 当前用户统计
         HttpServletRequest request = RequestUtils.getRequest();
-        String clientIP = IPUtils.getClientIP(request);
+        String clientIP = IPUtils.getIpAddr(request);
 
         boolQueryBuilder.must(QueryBuilders.termQuery("clientIP", clientIP));
         Map<String, Long> myCountMap = elasticSearchService.dateHistogram(boolQueryBuilder, "date", DateHistogramInterval.days(1), indices);
@@ -79,7 +114,7 @@ public class DashboardController {
 
         // 组装echarts数据
         Long[] totalCount = new Long[days];
-        Long[] myCount= new Long[days];
+        Long[] myCount = new Long[days];
 
         Arrays.sort(xData);// 默认升序
         for (int i = 0; i < days; i++) {
@@ -93,7 +128,7 @@ public class DashboardController {
         map.put("totalCount", totalCount); // 总数
         map.put("myCount", myCount); // 我的
 
-        return Result.success(map);
+        return map;
     }
 
 
