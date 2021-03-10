@@ -18,9 +18,6 @@ import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,7 +32,6 @@ import java.util.List;
 public class LoginRecordController {
 
     ElasticSearchService elasticSearchService;
-
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({

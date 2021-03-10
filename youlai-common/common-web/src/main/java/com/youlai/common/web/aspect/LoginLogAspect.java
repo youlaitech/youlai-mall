@@ -73,9 +73,9 @@ public class LoginLogAspect {
             JSONObject jsonObject = JSONUtil.parseObj(result);
             token = jsonObject.getStr("value");
         }
-        String clientIP = IPUtils.getClientIP(request);  // 客户端请求IP（注意：如果使用Nginx代理需配置）
-        log.info("222. {}",clientIP);
-        String region = IPUtils.ip2region(clientIP); // IP对应的城市信息
+
+        String clientIP = IPUtils.getIpAddr(request);  // 客户端请求IP（注意：如果使用Nginx代理需配置）
+        String region = IPUtils.getCityInfo(clientIP); // IP对应的城市信息
 
         // MDC 扩展logback字段，具体请看logback-spring.xml的自定义日志输出格式
         MDC.put("elapsedTime", StrUtil.toString(elapsedTime));

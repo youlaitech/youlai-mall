@@ -28,6 +28,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
 import org.elasticsearch.search.aggregations.bucket.histogram.ParsedDateHistogram;
+import org.elasticsearch.search.aggregations.metrics.CardinalityAggregationBuilder;
+import org.elasticsearch.search.aggregations.metrics.ParsedCardinality;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.springframework.stereotype.Service;
@@ -52,10 +54,33 @@ public class ElasticSearchService {
         // 构造请求
         CountRequest countRequest = new CountRequest(indices);
         countRequest.query(queryBuilder);
+
         // 执行请求
         CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
         long count = countResponse.getCount();
         return count;
+    }
+
+    @SneakyThrows
+    public long countDistinct(QueryBuilder queryBuilder, String field, String... indices) {
+        String distinctKey = "distinctKey"; // 自定义计数去重key，保证上下文一致
+
+        // 构造计数聚合 cardinality:集合中元素的个数
+        CardinalityAggregationBuilder aggregationBuilder = AggregationBuilders
+                .cardinality(distinctKey).field(field);
+
+        // 构造搜索源
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(queryBuilder).aggregation(aggregationBuilder);
+
+        // 构造请求
+        SearchRequest searchRequest = new SearchRequest(indices);
+        searchRequest.source(searchSourceBuilder);
+
+        // 执行请求
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+        ParsedCardinality result = searchResponse.getAggregations().get(distinctKey);
+        return result.getValue();
     }
 
     /**
@@ -70,15 +95,17 @@ public class ElasticSearchService {
     @SneakyThrows
     public Map<String, Long> dateHistogram(QueryBuilder queryBuilder, String field, DateHistogramInterval interval, String... indices) {
 
-        // 构造AggregationBuilder
+        String dateHistogramKey = "dateHistogramKey"; // 自定义日期聚合key，保证上下文一致
+
+        // 构造聚合
         AggregationBuilder aggregationBuilder = AggregationBuilders
-                .dateHistogram("dateHistogram") //自定义统计名，和下文获取需一致
+                .dateHistogram(dateHistogramKey) //自定义统计名，和下文获取需一致
                 .field(field) // 日期字段名
                 .format("yyyy-MM-dd") // 时间格式
                 .calendarInterval(interval) // 日历间隔，例： 1s->1秒 1d->1天 1w->1周 1M->1月 1y->1年 ...
                 .minDocCount(0); // 最小文档数，比该值小就忽略
 
-        // 构造SearchSourceBuilder
+        // 构造搜索源
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder
                 .query(queryBuilder)
@@ -101,7 +128,7 @@ public class ElasticSearchService {
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
         // 处理结果
-        ParsedDateHistogram dateHistogram = searchResponse.getAggregations().get("dateHistogram");
+        ParsedDateHistogram dateHistogram = searchResponse.getAggregations().get(dateHistogramKey);
 
         Iterator<? extends Histogram.Bucket> iterator = dateHistogram.getBuckets().iterator();
 
@@ -115,14 +142,6 @@ public class ElasticSearchService {
 
     @SneakyThrows
     public <T extends BaseDocument> List<T> search(QueryBuilder queryBuilder, Class<T> clazz, String... indices) {
-        List<T> list = this.search(queryBuilder, null, 1, ESConstants.DEFAULT_PAGE_SIZE, clazz, indices);
-        return list;
-    }
-
-
-    @SneakyThrows
-    public <T extends BaseDocument> List<T> search(QueryBuilder queryBuilder, Integer page, Integer size, Class<T> clazz, String... indices) {
-
         List<T> list = this.search(queryBuilder, null, 1, ESConstants.DEFAULT_PAGE_SIZE, clazz, indices);
         return list;
     }
