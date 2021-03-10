@@ -98,7 +98,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         // feign调用商品接口，获取商品信息
         Map<Long, InventoryDTO> skuMap = new HashMap<>(items.size());
         List<String> skuIds = items.stream().map(item -> item.getSkuId().toString()).collect(Collectors.toList());
-        List<InventoryDTO> skuInfos = inventoryFeignService.listByInventoryIds(String.join(",", skuIds)).getData();
+        List<InventoryDTO> skuInfos = inventoryFeignService.listBySkuIds(String.join(",", skuIds)).getData();
         if (!CollectionUtil.isEmpty(skuInfos)) {
             skuMap = skuInfos.stream().collect(Collectors.toMap(InventoryDTO::getId, Function.identity()));
         }
@@ -363,7 +363,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         }
 
         List<String> skuIds = orderGoods.stream().map(vo -> vo.getSkuId().toString()).collect(Collectors.toList());
-        Result<List<InventoryDTO>> response = inventoryFeignService.listByInventoryIds(String.join(",", skuIds));
+        Result<List<InventoryDTO>> response = inventoryFeignService.listBySkuIds(String.join(",", skuIds));
         List<InventoryDTO> skuInfos = response.getData();
         if (skuInfos == null) {
             return null;

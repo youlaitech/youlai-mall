@@ -2,11 +2,11 @@ package com.youlai.mall.pms.controller;
 
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.pms.pojo.bo.app.ProductBO;
-import com.youlai.mall.pms.controller.admin.ProductController;
-import com.youlai.mall.pms.pojo.domain.PmsSpec;
-import com.youlai.mall.pms.service.IPmsProductAttrValueService;
-import com.youlai.mall.pms.service.IPmsSpecService;
-import com.youlai.mall.pms.service.IPmsProductService;
+import com.youlai.mall.pms.controller.admin.SpuController;
+import com.youlai.mall.pms.pojo.domain.PmsSpecification;
+import com.youlai.mall.pms.service.IPmsAttributeValueService;
+import com.youlai.mall.pms.service.IPmsSpecificationService;
+import com.youlai.mall.pms.service.IPmsSpuService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @Slf4j
-public class ProductControllerTest {
+public class SpuControllerTest {
 
     @Autowired
     public MockMvc mockMvc;
     @Autowired
-    public ProductController productController;
+    public SpuController spuController;
 
 
     @Test
@@ -51,25 +51,25 @@ public class ProductControllerTest {
     }
 
     @Autowired
-    public IPmsSpecService iPmsSpecService;
+    public IPmsSpecificationService iPmsSpecificationService;
 
     @Test
     public void getProductSpecList() {
-        List<PmsSpec> specifications = iPmsSpecService.listBySpuId(1l);
+        List<PmsSpecification> specifications = iPmsSpecificationService.listBySpuId(1l);
         log.info(specifications.toString());
     }
 
     @Autowired
-    public IPmsProductAttrValueService iPmsProductAttrValueService;
+    public IPmsAttributeValueService iPmsAttributeValueService;
 
 
 
     @Autowired
-    private IPmsProductService iPmsProductService;
+    private IPmsSpuService iPmsSpuService;
 
     @Test
     public void getProduct() {
-        ProductBO product = iPmsProductService.getProductByIdForApp(1l);
+        ProductBO product = iPmsSpuService.getProductByIdForApp(1l);
         log.info(product.toString());
     }
 }

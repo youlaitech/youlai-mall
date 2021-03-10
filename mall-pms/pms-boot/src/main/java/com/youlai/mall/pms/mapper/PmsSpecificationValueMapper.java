@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.domain.PmsProductSpecValue;
+import com.youlai.mall.pms.pojo.domain.PmsSpecificationValue;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,21 +13,21 @@ import java.util.Map;
  * @date 2020-11-06
  */
 @Mapper
-public interface PmsProductSpecValueMapper extends BaseMapper<PmsProductSpecValue> {
+public interface PmsSpecificationValueMapper extends BaseMapper<PmsSpecificationValue> {
 
 
     @Select("<script>" +
             " SELECT " +
             "   id, " +
             "   spu_id, " +
-            "   spec_id, " +
+            "   specification_id, " +
             "   value" +
             " FROM " +
             "   pms_spu_spec_value " +
             " WHERE " +
             "   spu_id = #{spuId}  " +
-            "   AND spec_id = #{specId} " +
+            "   AND specification_id = #{specificationId} " +
             "</script>")
-    List<PmsProductSpecValue> listBySpuIdAndSpecId(Map<String, String> param);
+    List<PmsSpecificationValue> listByCondition(Map<String, String> param);
 
 }
