@@ -3,7 +3,7 @@ package com.youlai.mall.pms.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.web.pojo.vo.CascaderVO;
+import com.youlai.common.web.vo.CascaderVO;
 import com.youlai.mall.pms.pojo.domain.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
 import com.youlai.mall.pms.service.IPmsCategoryService;

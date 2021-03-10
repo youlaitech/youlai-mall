@@ -3,6 +3,7 @@ package com.youlai.admin.controller;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.admin.common.constant.ESConstants;
 import com.youlai.admin.pojo.domain.LoginRecord;
+import com.youlai.admin.service.ITokenService;
 import com.youlai.common.base.BaseDocument;
 import com.youlai.common.elasticsearch.service.ElasticSearchService;
 import com.youlai.common.result.Result;
@@ -18,6 +19,7 @@ import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -32,6 +34,8 @@ import java.util.List;
 public class LoginRecordController {
 
     ElasticSearchService elasticSearchService;
+
+    ITokenService tokenService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -73,6 +77,13 @@ public class LoginRecordController {
 
         // 分页查询
         List<LoginRecord> list = elasticSearchService.search(queryBuilder, sortBuilder, page, limit, LoginRecord.class, ESConstants.LOGIN_INDEX_PATTERN);
+
+        // 遍历获取会话状态
+        list.forEach(item->{
+            int tokenStatus = tokenService.getTokenStatus(item.getToken());
+            item.setStatus(tokenStatus);
+        });
+
         return Result.success(list, count);
     }
 
@@ -84,4 +95,5 @@ public class LoginRecordController {
         documents.forEach(document -> elasticSearchService.deleteById(document.getId(), document.getIndex()));
         return Result.success();
     }
+
 }
