@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.bo.app.ProductBO;
-import com.youlai.mall.pms.pojo.domain.PmsProduct;
-import com.youlai.mall.pms.service.IPmsProductService;
+import com.youlai.mall.pms.pojo.domain.PmsSpu;
+import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class ProductController {
 
-    private IPmsProductService iPmsProductService;
+    private IPmsSpuService iPmsSpuService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
     @ApiImplicitParams({
@@ -35,9 +35,9 @@ public class ProductController {
             String name,
             Long categoryId
     ) {
-        IPage<PmsProduct> result = iPmsProductService.list(
+        IPage<PmsSpu> result = iPmsSpuService.list(
                 new Page<>(page, limit),
-                new PmsProduct().setName(name).setCategoryId(categoryId)
+                new PmsSpu().setName(name).setCategoryId(categoryId)
         );
         return Result.success(result.getRecords(), result.getTotal());
     }
@@ -46,7 +46,7 @@ public class ProductController {
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result<ProductBO> detail(@PathVariable Long id) {
-        ProductBO product = iPmsProductService.getProductByIdForApp(id);
+        ProductBO product = iPmsSpuService.getProductByIdForApp(id);
         return Result.success(product);
     }
 

@@ -79,7 +79,7 @@ public class BrandController {
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Integer id,
+            @PathVariable Long id,
             @RequestBody PmsBrand brand) {
         boolean status = iPmsBrandService.updateById(brand);
         return Result.judge(status);
@@ -99,12 +99,10 @@ public class BrandController {
             @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
     })
     @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Integer id, @RequestBody PmsBrand brand) {
-        LambdaUpdateWrapper<PmsBrand> luw = new LambdaUpdateWrapper<PmsBrand>().eq(PmsBrand::getId, id);
-        if (brand.getStatus() != null) { // 状态更新
-            luw.set(PmsBrand::getStatus, brand.getStatus());
-        }
-        boolean update = iPmsBrandService.update(luw);
-        return Result.success(update);
+    public Result patch(@PathVariable Long id, @RequestBody PmsBrand brand) {
+        LambdaUpdateWrapper<PmsBrand> updateWrapper = new LambdaUpdateWrapper<PmsBrand>().eq(PmsBrand::getId, id);
+        updateWrapper.set(brand.getStatus()!=null,PmsBrand::getStatus, brand.getStatus());
+        boolean result = iPmsBrandService.update(updateWrapper);
+        return Result.success(result);
     }
 }

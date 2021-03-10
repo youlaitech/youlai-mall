@@ -10,11 +10,11 @@ import lombok.Data;
  * @date 2020-11-06
  */
 @Data
-public class PmsProductSpecValue extends BaseEntity {
+public class PmsSpecificationValue extends BaseEntity {
 
     @TableId(type = IdType.INPUT)
     private Long id;
-    private Long productId;
-    private Long specId;
+    private Long spuId;
+    private Long specificationId;
     private String value;
 }

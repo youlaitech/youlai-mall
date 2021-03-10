@@ -25,7 +25,7 @@ public class InventoryDTO {
 
     private Integer inventory;
 
-    private Long productId;
+    private Long spuId;
 
     private String productName;
 

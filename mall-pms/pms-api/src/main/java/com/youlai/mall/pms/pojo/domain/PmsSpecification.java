@@ -1,22 +1,23 @@
 package com.youlai.mall.pms.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
-public class PmsInventory extends BaseEntity {
+public class PmsSpecification extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    private Long productId;
+    private Long categoryId;
     private String name;
-    private String code;
-    private String pic;
-    private Long originPrice;
-    private Long price;
-    private Integer inventory;
-    private Integer lockedInventory;
-    private String specValueIds;
+
+    @TableField(exist = false)
+    private List<PmsSpecificationValue> values = new ArrayList<>();
+
 }

@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.common.constant.RedisConstants;
-import com.youlai.mall.pms.mapper.PmsInventoryMapper;
-import com.youlai.mall.pms.pojo.domain.PmsInventory;
+import com.youlai.mall.pms.mapper.PmsSkuMapper;
+import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
-import com.youlai.mall.pms.service.IPmsInventoryService;
+import com.youlai.mall.pms.service.IPmsSkuService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class PmsInventoryServiceImpl extends ServiceImpl<PmsInventoryMapper, PmsInventory> implements IPmsInventoryService {
+public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements IPmsSkuService {
 
 
     private RedisTemplate redisTemplate;
@@ -33,8 +33,8 @@ public class PmsInventoryServiceImpl extends ServiceImpl<PmsInventoryMapper, Pms
         log.info("锁定库存: {}", inventories);
 
         inventories.forEach(item -> {
-            boolean result = this.update(new LambdaUpdateWrapper<PmsInventory>()
-                    .eq(PmsInventory::getId, item.getInventoryId())
+            boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
+                    .eq(PmsSku::getId, item.getInventoryId())
                     .apply("inventory >= locked_inventory + {0}", item.getNum())
                     .setSql("locked_inventory = locked_inventory + " + item.getNum())
             );
@@ -51,8 +51,8 @@ public class PmsInventoryServiceImpl extends ServiceImpl<PmsInventoryMapper, Pms
         log.info("释放库存:{}", inventories);
 
         inventories.forEach(item -> {
-            boolean result = this.update(new LambdaUpdateWrapper<PmsInventory>()
-                    .eq(PmsInventory::getId, item.getInventoryId())
+            boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
+                    .eq(PmsSku::getId, item.getInventoryId())
                     .setSql("locked_inventory = locked_inventory - " + item.getNum())
             );
             if (!result) {
@@ -82,12 +82,12 @@ public class PmsInventoryServiceImpl extends ServiceImpl<PmsInventoryMapper, Pms
         }
 
         // 读->数据库
-        PmsInventory pmsInventory = this.getOne(new LambdaQueryWrapper<PmsInventory>()
-                .eq(PmsInventory::getId, id)
-                .select(PmsInventory::getInventory));
+        PmsSku pmsSku = this.getOne(new LambdaQueryWrapper<PmsSku>()
+                .eq(PmsSku::getId, id)
+                .select(PmsSku::getInventory));
 
-        if (pmsInventory != null) {
-            inventory = pmsInventory.getInventory();
+        if (pmsSku != null) {
+            inventory = pmsSku.getInventory();
             // 写->缓存
             redisTemplate.opsForValue().set(RedisConstants.PRODUCT_INVENTORY_PREFIX + id, inventory);
         }
@@ -97,7 +97,7 @@ public class PmsInventoryServiceImpl extends ServiceImpl<PmsInventoryMapper, Pms
     }
 
     @Override
-    public List<InventoryDTO> listByInventoryIds(String ids) {
-        return this.listByInventoryIds(ids);
+    public List<InventoryDTO> listBySkuIds(String ids) {
+        return this.listBySkuIds(ids);
     }
 }
