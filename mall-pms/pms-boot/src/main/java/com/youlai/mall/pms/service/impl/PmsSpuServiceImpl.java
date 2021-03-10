@@ -26,17 +26,17 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProduct> implements IPmsProductService {
+public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> implements IPmsSpuService {
 
-    private IPmsInventoryService iPmsInventoryService;
-    private IPmsProductAttrValueService iPmsProductAttrValueService;
-    private IPmsProductSpecValueService iPmsProductSpecValueService;
-    private IPmsSpecService iPmsSpecService;
+    private IPmsSkuService iPmsSkuService;
+    private IPmsAttributeValueService iPmsAttributeValueService;
+    private IPmsSpecificationValueService iPmsSpecificationValueService;
+    private IPmsSpecificationService iPmsSpecificationService;
 
 
     @Override
-    public IPage<PmsProduct> list(Page<PmsProduct> page, PmsProduct spu) {
-        List<PmsProduct> list = this.baseMapper.list(page, spu);
+    public IPage<PmsSpu> list(Page<PmsSpu> page, PmsSpu spu) {
+        List<PmsSpu> list = this.baseMapper.list(page, spu);
         page.setRecords(list);
         return page;
     }
@@ -45,12 +45,12 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     @Transactional
     public boolean add(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
         ProductDTO ProductDTO = spuBO.getProduct();
-        List<PmsProductAttrValue> attrs = spuBO.getAttrs();
-        List<PmsProductSpecValue> specs = spuBO.getSpecs();
-        List<PmsInventory> skuList = spuBO.getSkuList();
+        List<PmsAttributeValue> attrs = spuBO.getAttrs();
+        List<PmsSpecificationValue> specs = spuBO.getSpecs();
+        List<PmsSku> skuList = spuBO.getSkuList();
 
         // spu保存
-        PmsProduct spu = new PmsProduct();
+        PmsSpu spu = new PmsSpu();
         BeanUtil.copyProperties(ProductDTO, spu);
         if (ProductDTO.getPicUrls() != null) {
             String picUrls = JSONUtil.toJsonStr(ProductDTO.getPicUrls());
@@ -60,20 +60,20 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
 
         // 属性保存
         Optional.ofNullable(attrs).ifPresent(list -> {
-            list.forEach(item -> item.setProductId(spu.getId()));
-            iPmsProductAttrValueService.saveBatch(list);
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsAttributeValueService.saveBatch(list);
         });
 
         // 规格保存
         Optional.ofNullable(specs).ifPresent(list -> {
-            list.forEach(item -> item.setProductId(spu.getId()));
-            iPmsProductSpecValueService.saveBatch(list);
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSpecificationValueService.saveBatch(list);
         });
 
         // sku保存
         Optional.ofNullable(skuList).ifPresent(list -> {
-            list.forEach(item -> item.setProductId(spu.getId()));
-            iPmsInventoryService.saveBatch(skuList);
+            list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSkuService.saveBatch(skuList);
         });
 
         return true;
@@ -83,7 +83,7 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     public com.youlai.mall.pms.pojo.bo.admin.ProductBO getBySpuId(Long id) {
         // spu
         ProductDTO ProductDTO = new ProductDTO();
-        PmsProduct spu = this.getById(id);
+        PmsSpu spu = this.getById(id);
         BeanUtil.copyProperties(spu, ProductDTO);
 
         if (StrUtil.isNotBlank(spu.getPics())) {
@@ -93,12 +93,12 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
         }
 
         // 属性
-        List<PmsProductAttrValue> attrs = iPmsProductAttrValueService.
-                list(new LambdaQueryWrapper<PmsProductAttrValue>().eq(PmsProductAttrValue::getProductId, id));
+        List<PmsAttributeValue> attrs = iPmsAttributeValueService.
+                list(new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, id));
         // 规格
-        List<PmsProductSpecValue> specs = iPmsProductSpecValueService.list(new LambdaQueryWrapper<PmsProductSpecValue>().eq(PmsProductSpecValue::getProductId, id));
+        List<PmsSpecificationValue> specs = iPmsSpecificationValueService.list(new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getSpuId, id));
         // sku
-        List<PmsInventory> skuList = iPmsInventoryService.list(new LambdaQueryWrapper<PmsInventory>().eq(PmsInventory::getProductId, id));
+        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
         com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO = new com.youlai.mall.pms.pojo.bo.admin.ProductBO(ProductDTO, attrs, specs, skuList);
@@ -110,12 +110,12 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
         ProductDTO ProductDTO = spuBO.getProduct();
 
-        List<PmsProductAttrValue> attrs = spuBO.getAttrs();
-        List<PmsProductSpecValue> specs = spuBO.getSpecs();
-        List<PmsInventory> skuList = spuBO.getSkuList();
+        List<PmsAttributeValue> attrs = spuBO.getAttrs();
+        List<PmsSpecificationValue> specs = spuBO.getSpecs();
+        List<PmsSku> skuList = spuBO.getSkuList();
 
         // spu保存
-        PmsProduct spu = new PmsProduct();
+        PmsSpu spu = new PmsSpu();
         BeanUtil.copyProperties(ProductDTO, spu);
         if (ProductDTO.getPicUrls() != null) {
             String picUrls = JSONUtil.toJsonStr(ProductDTO.getPicUrls());
@@ -125,53 +125,53 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
 
         // 属性保存
         Optional.ofNullable(attrs).ifPresent(list -> {
-            list.forEach(item -> item.setProductId(spu.getId()));
+            list.forEach(item -> item.setSpuId(spu.getId()));
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsProductAttrValueService.list(new LambdaQueryWrapper<PmsProductAttrValue>().eq(PmsProductAttrValue::getProductId, spu.getId())
-                    .select(PmsProductAttrValue::getId))
+            List<Long> dbIds = iPmsAttributeValueService.list(new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, spu.getId())
+                    .select(PmsAttributeValue::getId))
                     .stream()
                     .map(item -> item.getId())
                     .collect(Collectors.toList());
             List<Long> removeIds = dbIds.stream().filter(id -> !ids.contains(id)).collect(Collectors.toList());
-            iPmsProductAttrValueService.removeByIds(removeIds);
+            iPmsAttributeValueService.removeByIds(removeIds);
 
-            iPmsProductAttrValueService.saveOrUpdateBatch(list);
+            iPmsAttributeValueService.saveOrUpdateBatch(list);
         });
 
         // 规格保存
         Optional.ofNullable(specs).ifPresent(list -> {
-            list.forEach(item -> item.setProductId(spu.getId()));
+            list.forEach(item -> item.setSpuId(spu.getId()));
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsProductSpecValueService.list(new LambdaQueryWrapper<PmsProductSpecValue>().eq(PmsProductSpecValue::getProductId, spu.getId())
-                    .select(PmsProductSpecValue::getId))
+            List<Long> dbIds = iPmsSpecificationValueService.list(new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getSpuId, spu.getId())
+                    .select(PmsSpecificationValue::getId))
                     .stream()
                     .map(item -> item.getId())
                     .collect(Collectors.toList());
             List<Long> removeIds = dbIds.stream().filter(id -> !ids.contains(id)).collect(Collectors.toList());
-            iPmsProductSpecValueService.removeByIds(removeIds);
+            iPmsSpecificationValueService.removeByIds(removeIds);
 
-            iPmsProductSpecValueService.saveOrUpdateBatch(list);
+            iPmsSpecificationValueService.saveOrUpdateBatch(list);
         });
 
         // sku保存
         Optional.ofNullable(skuList).ifPresent(list -> {
-            list.forEach(item -> item.setProductId(spu.getId()));
+            list.forEach(item -> item.setSpuId(spu.getId()));
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsInventoryService.list(new LambdaQueryWrapper<PmsInventory>().eq(PmsInventory::getProductId, spu.getId())
-                    .select(PmsInventory::getId))
+            List<Long> dbIds = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spu.getId())
+                    .select(PmsSku::getId))
                     .stream()
                     .map(item -> item.getId())
                     .collect(Collectors.toList());
             List<Long> removeIds = dbIds.stream().filter(id -> !ids.contains(id)).collect(Collectors.toList());
-            iPmsInventoryService.removeByIds(removeIds);
+            iPmsSkuService.removeByIds(removeIds);
 
-            iPmsInventoryService.saveOrUpdateBatch(skuList);
+            iPmsSkuService.saveOrUpdateBatch(skuList);
         });
         return true;
     }
@@ -181,11 +181,11 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
         Optional.ofNullable(spuIds).ifPresent(
                 ids -> ids.forEach(spuId -> {
                     // sku
-                    iPmsInventoryService.remove(new LambdaQueryWrapper<PmsInventory>().eq(PmsInventory::getProductId, spuId));
+                    iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
                     // 规格
-                    iPmsProductSpecValueService.remove(new LambdaQueryWrapper<PmsProductSpecValue>().eq(PmsProductSpecValue::getId, spuId));
+                    iPmsSpecificationValueService.remove(new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getId, spuId));
                     // 属性
-                    iPmsProductAttrValueService.remove(new LambdaQueryWrapper<PmsProductAttrValue>().eq(PmsProductAttrValue::getProductId, spuId));
+                    iPmsAttributeValueService.remove(new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, spuId));
                     // spu
                     this.removeById(spuId);
                 })
@@ -196,7 +196,7 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     @Override
     public ProductBO getProductByIdForApp(Long spuId) {
         // spu
-        PmsProduct spu = this.getById(spuId);
+        PmsSpu spu = this.getById(spuId);
         ProductDTO ProductDTO = new ProductDTO();
         BeanUtil.copyProperties(spu, ProductDTO);
         if (StrUtil.isNotBlank(spu.getPics())) {
@@ -205,16 +205,16 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
             ProductDTO.setPicUrls(pics);
         }
         // 属性
-        List<PmsProductAttrValue> attrs = iPmsProductAttrValueService.list(
-                new LambdaQueryWrapper<PmsProductAttrValue>(
-                ).eq(PmsProductAttrValue::getProductId, spuId)
+        List<PmsAttributeValue> attrs = iPmsAttributeValueService.list(
+                new LambdaQueryWrapper<PmsAttributeValue>(
+                ).eq(PmsAttributeValue::getSpuId, spuId)
         );
 
         // 规格
-        List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
+        List<PmsSpecification> specs = iPmsSpecificationService.listBySpuId(spuId);
 
         // sku
-        List<PmsInventory> skuList = iPmsInventoryService.list(new LambdaQueryWrapper<PmsInventory>().eq(PmsInventory::getProductId, spuId));
+        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
 
         ProductBO product = new ProductBO(ProductDTO, attrs, specs, skuList);
         return product;

@@ -6,9 +6,9 @@ import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.domain.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
-import com.youlai.mall.pms.service.IPmsAttrService;
+import com.youlai.mall.pms.service.IPmsAttributeService;
 import com.youlai.mall.pms.service.IPmsCategoryService;
-import com.youlai.mall.pms.service.IPmsSpecService;
+import com.youlai.mall.pms.service.IPmsSpecificationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,12 +30,10 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private IPmsCategoryService iPmsCategoryService;
+    private IPmsAttributeService iPmsAttributeService;
+    private IPmsSpecificationService iPmsSpecificationService;
 
-    private IPmsAttrService iPmsAttrService;
-
-    private IPmsSpecService iPmsSpecService;
-
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "分类列表", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "String"),
     })
@@ -54,7 +52,7 @@ public class CategoryController {
         }
     }
 
-    @ApiOperation(value = "商品分类详情", httpMethod = "GET")
+    @ApiOperation(value = "分类详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品分类id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -62,7 +60,7 @@ public class CategoryController {
         return Result.success(category);
     }
 
-    @ApiOperation(value = "新增商品分类", httpMethod = "POST")
+    @ApiOperation(value = "新增分类", httpMethod = "POST")
     @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     @PostMapping
     public Result add(@RequestBody PmsCategory category) {
@@ -72,14 +70,14 @@ public class CategoryController {
         return Result.success(categoryVO);
     }
 
-    @ApiOperation(value = "修改商品分类", httpMethod = "PUT")
+    @ApiOperation(value = "修改分类", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品分类id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Integer id,
+            @PathVariable Long id,
             @RequestBody PmsCategory category) {
         iPmsCategoryService.updateById(category);
         return Result.success(category);
@@ -87,13 +85,13 @@ public class CategoryController {
 
     @ApiOperation(value = "删除商品分类", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", dataType = "String")
-    @DeleteMapping
-    public Result delete(@RequestParam String ids) {
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable String ids) {
         List<String> idList = Arrays.asList(ids.split(","));
         Optional.ofNullable(idList).ifPresent(list -> {
             list.forEach(id -> {
-                iPmsAttrService.removeById(id);
-                iPmsSpecService.removeById(id);
+                iPmsAttributeService.removeById(id);
+                iPmsSpecificationService.removeById(id);
             });
             iPmsCategoryService.removeByIds(idList.stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         });
@@ -106,7 +104,7 @@ public class CategoryController {
             @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     })
     @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Integer id, @RequestBody PmsCategory category) {
+    public Result patch(@PathVariable Long id, @RequestBody PmsCategory category) {
         LambdaUpdateWrapper<PmsCategory> updateWrapper = new LambdaUpdateWrapper<PmsCategory>().eq(PmsCategory::getId, id);
         updateWrapper.set(category.getStatus() != null, PmsCategory::getStatus, category.getStatus());
         boolean update = iPmsCategoryService.update(updateWrapper);

@@ -2,9 +2,9 @@ package com.youlai.mall.pms.controller.admin;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsInventory;
+import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
-import com.youlai.mall.pms.service.IPmsInventoryService;
+import com.youlai.mall.pms.service.IPmsSkuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "【系统管理】商品库存")
 @RestController
-@RequestMapping("/api.admin/v1/inventories")
+@RequestMapping("/api.admin/v1/skus")
 @Slf4j
 @AllArgsConstructor
-public class InventoryController {
+public class SkuController {
 
-    private IPmsInventoryService iPmsInventoryService;
+    private IPmsSkuService iPmsSkuService;
 
     @ApiOperation(value = "商品库存明细", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品SkuID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result<InventoryDTO> detail(@PathVariable Long id) {
-        PmsInventory sku = iPmsInventoryService.getById(id);
+        PmsSku sku = iPmsSkuService.getById(id);
         InventoryDTO InventoryDTO = new InventoryDTO();
         BeanUtil.copyProperties(sku, InventoryDTO);
         return Result.success(InventoryDTO);
@@ -40,8 +40,8 @@ public class InventoryController {
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Long id,
-            @RequestBody PmsInventory sku) {
-        boolean status = iPmsInventoryService.updateById(sku);
+            @RequestBody PmsSku sku) {
+        boolean status = iPmsSkuService.updateById(sku);
         return Result.judge(status);
     }
 
@@ -53,9 +53,9 @@ public class InventoryController {
     })
     @PutMapping("/{id}/stock")
     public Result updateStock(@PathVariable Long id, @RequestParam Integer num) {
-        PmsInventory sku = iPmsInventoryService.getById(id);
+        PmsSku sku = iPmsSkuService.getById(id);
         sku.setInventory(sku.getInventory() + num);
-        boolean result = iPmsInventoryService.updateById(sku);
+        boolean result = iPmsSkuService.updateById(sku);
         return Result.judge(result);
     }
 

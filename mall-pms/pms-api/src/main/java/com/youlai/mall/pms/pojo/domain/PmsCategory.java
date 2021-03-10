@@ -11,20 +11,13 @@ public class PmsCategory extends BaseEntity {
 
     @TableId(type= IdType.AUTO)
     private Long id;
-
     private String name;
-
     private Long parentId;
-
     private String icon;
-
-
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private Integer level;
-
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private Integer sort;
-
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private Integer status;
 }
