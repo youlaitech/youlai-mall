@@ -79,8 +79,12 @@ public class LoginRecordController {
         List<LoginRecord> list = elasticSearchService.search(queryBuilder, sortBuilder, page, limit, LoginRecord.class, ESConstants.LOGIN_INDEX_PATTERN);
 
         // 遍历获取会话状态
-        list.forEach(item->{
-            int tokenStatus = tokenService.getTokenStatus(item.getToken());
+        list.forEach(item -> {
+            String token = item.getToken();
+            int tokenStatus = 0;
+            if (StrUtil.isNotBlank(token)) {
+                tokenStatus = tokenService.getTokenStatus(item.getToken());
+            }
             item.setStatus(tokenStatus);
         });
 
