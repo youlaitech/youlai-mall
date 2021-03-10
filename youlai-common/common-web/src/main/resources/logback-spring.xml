@@ -37,7 +37,7 @@
                         "clientIP": "%X{clientIP}",
                         "region":"%X{region}",
                         "token":"%X{token}",
-                        "loginTime": "%date{\"yyyy-MM-dd HH:mm:ss\"}",
+                        "loginTime": "%date{\"yyyy-MM-dd HH:mm:ss\"}{}",
                         "description":"%X{description}"
                         }
                     </pattern>

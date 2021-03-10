@@ -6,7 +6,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.youlai.common.redis.utils.RedisUtils;
 import com.youlai.common.web.util.BeanMapperUtils;
-import com.youlai.mall.pms.api.ProductFeignService;
 import com.youlai.mall.sms.pojo.domain.SmsSeckillSession;
 import com.youlai.mall.sms.pojo.domain.SmsSeckillSkuRelation;
 import com.youlai.mall.sms.pojo.to.SeckillSkuRedisTO;
@@ -48,8 +47,6 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired
     private RedisUtils redisUtils;
 
-    @Resource
-    private ProductFeignService productFeignService;
 
     @Autowired
     private RedissonClient redissonClient;
