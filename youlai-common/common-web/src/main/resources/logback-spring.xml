@@ -26,20 +26,19 @@
                 <pattern>
                     <pattern>
                         {
-                            "project": "${APP_NAME}",
-                            "time": "%date{\"yyyy-MM-dd HH:mm:ss\"}",
-                            "date": "%X{date}", <!-- 索引名时区同步 -->
-                            "action":"login",
-                            "pid": "${PID:-}",
-                            "thread": "%thread",
-                            "message": "%message",
-                            "elapsedTime": "%X{elapsedTime}",
-                            "description": "%X{description}",
-                            "clientIP": "%X{clientIP}",
-                            "url": "%X{url}",
-                            "method": "%X{method}",
-                            "username":"%X{username}",
-                            "accessToken":"%X{accessToken}"
+                        "project": "${APP_NAME}",
+                        "date": "%X{date}", <!-- 索引名时区同步 -->
+                        "action":"login",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "message": "%message",
+                        "elapsedTime": "%X{elapsedTime}",
+                        "username":"%X{username}",
+                        "clientIP": "%X{clientIP}",
+                        "region":"%X{region}",
+                        "token":"%X{token}",
+                        "loginTime": "%date{\"yyyy-MM-dd HH:mm:ss\"}",
+                        "description":"%X{description}"
                         }
                     </pattern>
                 </pattern>
@@ -54,7 +53,7 @@
     </logger>
 
     <!-- 根logger -->
-   <root level="INFO">
-        <appender-ref ref="CONSOLE" />
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
