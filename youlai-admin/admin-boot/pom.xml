@@ -25,12 +25,6 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
             <version>${youlai.version}</version>
         </dependency>
@@ -49,6 +43,12 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
