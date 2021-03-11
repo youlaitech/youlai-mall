@@ -29,9 +29,9 @@ import com.youlai.mall.oms.service.CartService;
 import com.youlai.mall.oms.service.OrderGoodsService;
 import com.youlai.mall.oms.service.OrderLogsService;
 import com.youlai.mall.oms.service.OrderService;
-import com.youlai.mall.pms.api.InventoryFeignService;
+import com.youlai.mall.pms.api.SkuFeignService;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
-import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
 import com.youlai.mall.ums.api.MemberFeignService;
 import com.youlai.mall.ums.pojo.dto.UmsAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -59,7 +59,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     private CartService cartService;
 
-    private InventoryFeignService inventoryFeignService;
+    private SkuFeignService skuFeignService;
 
     private MemberFeignService memberFeignService;
 
@@ -96,15 +96,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         }
 
         // feign调用商品接口，获取商品信息
-        Map<Long, InventoryDTO> skuMap = new HashMap<>(items.size());
+        Map<Long, SkuDTO> skuMap = new HashMap<>(items.size());
         List<String> skuIds = items.stream().map(item -> item.getSkuId().toString()).collect(Collectors.toList());
-        List<InventoryDTO> skuInfos = inventoryFeignService.listBySkuIds(String.join(",", skuIds)).getData();
+        List<SkuDTO> skuInfos = skuFeignService.listBySkuIds(String.join(",", skuIds)).getData();
         if (!CollectionUtil.isEmpty(skuInfos)) {
-            skuMap = skuInfos.stream().collect(Collectors.toMap(InventoryDTO::getId, Function.identity()));
+            skuMap = skuInfos.stream().collect(Collectors.toMap(SkuDTO::getId, Function.identity()));
         }
 
         for (OrderItemVO item : items) {
-            InventoryDTO info = skuMap.get(item.getSkuId());
+            SkuDTO info = skuMap.get(item.getSkuId());
             if (info != null) {
                 item.setPrice(info.getPrice());
                 item.setSkuImg(info.getPic());
@@ -288,13 +288,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
     private void lockStock(List<OrderGoodsEntity> orderGoods) {
-        List<InventoryNumDTO> items = orderGoods.stream().map(good -> {
-            InventoryNumDTO item = new InventoryNumDTO();
+        List<InventoryDTO> items = orderGoods.stream().map(good -> {
+            InventoryDTO item = new InventoryDTO();
             item.setInventoryId(good.getSkuId());
             item.setNum(good.getSkuQuantity());
             return item;
         }).collect(Collectors.toList());
-        Result result = inventoryFeignService.lockStock(items);
+        Result result = skuFeignService.lockStock(items);
         if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
             log.error("锁定库存异常，商品列表={}", items);
             throw new BizException("下单失败，锁定库存错误");
@@ -363,14 +363,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         }
 
         List<String> skuIds = orderGoods.stream().map(vo -> vo.getSkuId().toString()).collect(Collectors.toList());
-        Result<List<InventoryDTO>> response = inventoryFeignService.listBySkuIds(String.join(",", skuIds));
-        List<InventoryDTO> skuInfos = response.getData();
+        Result<List<SkuDTO>> response = skuFeignService.listBySkuIds(String.join(",", skuIds));
+        List<SkuDTO> skuInfos = response.getData();
         if (skuInfos == null) {
             return null;
         }
-        Map<Long, InventoryDTO> skuMap = skuInfos.stream().collect(Collectors.toMap(InventoryDTO::getId, Function.identity(), (o1, o2) -> o2));
+        Map<Long, SkuDTO> skuMap = skuInfos.stream().collect(Collectors.toMap(SkuDTO::getId, Function.identity(), (o1, o2) -> o2));
         for (OrderGoodsEntity good : orderGoods) {
-            InventoryDTO skuInfo = skuMap.get(good.getSkuId());
+            SkuDTO skuInfo = skuMap.get(good.getSkuId());
             if (skuInfo == null) {
                 throw new BizException("订单商品库存为空");
             }

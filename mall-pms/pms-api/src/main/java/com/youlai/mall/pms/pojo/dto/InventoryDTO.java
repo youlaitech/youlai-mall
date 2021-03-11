@@ -1,42 +1,22 @@
 package com.youlai.mall.pms.pojo.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @author huawei
- * @desc
- * @email huawei_code@163.com
- * @date 2021/1/13
+ * @description 库存数量
+ * @author haoxr
+ * @createTime 2021-03-07 15:14
  */
 @Data
+@ApiModel
 public class InventoryDTO {
 
-    private Long id;
+    @ApiModelProperty("库存ID")
+    private Long inventoryId;
 
-    private String code;
-
-    private String name;
-
-    private String pic;
-
-    private Long originPrice;
-
-    private Long price;
-
-    private Integer inventory;
-
-    private Long spuId;
-
-    private String productName;
-
-    private String productPic;
-
-    private Long brandId;
-
-    private String brandName;
-
-    private Long categoryId;
-
-    private String categoryName;
+    @ApiModelProperty("数量")
+    private Integer num;
 
 }
