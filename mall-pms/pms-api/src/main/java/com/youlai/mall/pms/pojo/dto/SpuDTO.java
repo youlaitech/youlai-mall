@@ -4,7 +4,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProductDTO {
+public class SpuDTO {
 
     private Long id;
     private String name;
@@ -13,8 +13,8 @@ public class ProductDTO {
     private Long originPrice;
     private Long price;
     private Integer sales;
-    private String picUrl;
-    private List<String> picUrls;
+    private String pic;
+    private List<String> pics;
     private String unit;
     private String description;
     private String detail;

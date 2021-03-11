@@ -2,7 +2,7 @@ package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
-import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -42,5 +42,5 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
             " WHERE t1.id in (#{skuIds})",
             "</script>"
     })
-    List<InventoryDTO> listBySkuIds(String skuIds);
+    List<SkuDTO> listBySkuIds(String skuIds);
 }

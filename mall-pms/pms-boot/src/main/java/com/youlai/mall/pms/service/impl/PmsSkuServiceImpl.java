@@ -8,8 +8,8 @@ import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.common.constant.RedisConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
-import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean lockInventory(List<InventoryNumDTO> inventories) {
+    public boolean lockInventory(List<InventoryDTO> inventories) {
         log.info("锁定库存: {}", inventories);
 
         inventories.forEach(item -> {
@@ -47,7 +47,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     }
 
     @Override
-    public boolean unlockInventory(List<InventoryNumDTO> inventories) {
+    public boolean unlockInventory(List<InventoryDTO> inventories) {
         log.info("释放库存:{}", inventories);
 
         inventories.forEach(item -> {
@@ -97,7 +97,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     }
 
     @Override
-    public List<InventoryDTO> listBySkuIds(String ids) {
+    public List<SkuDTO> listBySkuIds(String ids) {
         return this.listBySkuIds(ids);
     }
 }
