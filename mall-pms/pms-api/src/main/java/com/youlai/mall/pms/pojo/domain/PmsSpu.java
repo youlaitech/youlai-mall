@@ -43,7 +43,7 @@ public class PmsSpu extends BaseEntity {
     private String brandName;
 
     @TableField(exist = false)
-    private List<PmsSku> skuList;
+    private List<PmsSku> skus;
 
     @TableField(exist = false)
     private List<String> picList;

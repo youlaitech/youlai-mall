@@ -12,8 +12,8 @@ import com.youlai.mall.oms.pojo.entity.OrderGoodsEntity;
 import com.youlai.mall.oms.service.OrderGoodsService;
 import com.youlai.mall.oms.service.OrderRabbitService;
 import com.youlai.mall.oms.service.OrderService;
-import com.youlai.mall.pms.api.InventoryFeignService;
-import com.youlai.mall.pms.pojo.dto.InventoryNumDTO;
+import com.youlai.mall.pms.api.SkuFeignService;
+import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
 
     private OrderGoodsService orderGoodsService;
 
-    private InventoryFeignService inventoryFeignService;
+    private SkuFeignService skuFeignService;
 
     /**
      * 接收超时订单消息
@@ -68,13 +68,13 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
 
     private void unlockInventory(Long orderId) {
         List<OrderGoodsEntity> orderGoods = orderGoodsService.getByOrderId(orderId);
-        List<InventoryNumDTO> items = orderGoods.stream().map(good -> {
-            InventoryNumDTO item = new InventoryNumDTO();
+        List<InventoryDTO> items = orderGoods.stream().map(good -> {
+            InventoryDTO item = new InventoryDTO();
             item.setInventoryId(good.getSkuId());
             item.setNum(good.getSkuQuantity());
             return item;
         }).collect(Collectors.toList());
-        Result result = inventoryFeignService.unlockInventory(items);
+        Result result = skuFeignService.unlockInventory(items);
         if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
             log.error("释放库存异常，商品列表={}", items);
             throw new BizException("关闭订单失败，释放库存错误");

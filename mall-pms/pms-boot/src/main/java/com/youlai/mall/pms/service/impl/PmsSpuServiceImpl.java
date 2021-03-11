@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.mapper.PmsProductMapper;
+import com.youlai.mall.pms.pojo.bo.admin.ProductBO;
 import com.youlai.mall.pms.pojo.domain.*;
-import com.youlai.mall.pms.pojo.dto.ProductDTO;
+import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,23 +43,23 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
 
     @Override
     @Transactional
-    public boolean add(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
-        ProductDTO ProductDTO = spuBO.getProduct();
-        List<PmsAttributeValue> attrs = spuBO.getAttrs();
-        List<PmsSpecificationValue> specs = spuBO.getSpecs();
-        List<PmsSku> skuList = spuBO.getSkuList();
+    public boolean add(ProductBO spuBO) {
+        SpuDTO SpuDTO = spuBO.getSpu();
+        List<PmsAttributeValue> attrValues = spuBO.getAttrValues();
+        List<PmsSpecificationValue> specs = spuBO.getSpecValues();
+        List<PmsSku> skuList = spuBO.getSkus();
 
         // spu保存
         PmsSpu spu = new PmsSpu();
-        BeanUtil.copyProperties(ProductDTO, spu);
-        if (ProductDTO.getPicUrls() != null) {
-            String picUrls = JSONUtil.toJsonStr(ProductDTO.getPicUrls());
+        BeanUtil.copyProperties(SpuDTO, spu);
+        if (SpuDTO.getPics() != null) {
+            String picUrls = JSONUtil.toJsonStr(SpuDTO.getPics());
             spu.setPics(picUrls);
         }
         this.save(spu);
 
         // 属性保存
-        Optional.ofNullable(attrs).ifPresent(list -> {
+        Optional.ofNullable(attrValues).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
             iPmsAttributeValueService.saveBatch(list);
         });
@@ -82,14 +82,14 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
     @Override
     public com.youlai.mall.pms.pojo.bo.admin.ProductBO getBySpuId(Long id) {
         // spu
-        ProductDTO ProductDTO = new ProductDTO();
+        SpuDTO spuDTO = new SpuDTO();
         PmsSpu spu = this.getById(id);
-        BeanUtil.copyProperties(spu, ProductDTO);
+        BeanUtil.copyProperties(spu, spuDTO);
 
         if (StrUtil.isNotBlank(spu.getPics())) {
             // spu专辑图片转换处理 json字符串 -> List
             List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
-            ProductDTO.setPicUrls(pics);
+            spuDTO.setPics(pics);
         }
 
         // 属性
@@ -98,33 +98,33 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
         // 规格
         List<PmsSpecificationValue> specs = iPmsSpecificationValueService.list(new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getSpuId, id));
         // sku
-        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
+        List<PmsSku> skus = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-        com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO = new com.youlai.mall.pms.pojo.bo.admin.ProductBO(ProductDTO, attrs, specs, skuList);
+          ProductBO spuBO = new ProductBO(spuDTO, attrs, specs, skus);
         return spuBO;
     }
 
 
     @Override
     public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
-        ProductDTO ProductDTO = spuBO.getProduct();
+        SpuDTO SpuDTO = spuBO.getSpu();
 
-        List<PmsAttributeValue> attrs = spuBO.getAttrs();
-        List<PmsSpecificationValue> specs = spuBO.getSpecs();
-        List<PmsSku> skuList = spuBO.getSkuList();
+        List<PmsAttributeValue> attrValues = spuBO.getAttrValues();
+        List<PmsSpecificationValue> specs = spuBO.getSpecValues();
+        List<PmsSku> skuList = spuBO.getSkus();
 
         // spu保存
         PmsSpu spu = new PmsSpu();
-        BeanUtil.copyProperties(ProductDTO, spu);
-        if (ProductDTO.getPicUrls() != null) {
-            String picUrls = JSONUtil.toJsonStr(ProductDTO.getPicUrls());
-            spu.setPics(picUrls);
+        BeanUtil.copyProperties(SpuDTO, spu);
+        if (SpuDTO.getPics() != null) {
+            String pics = JSONUtil.toJsonStr(SpuDTO.getPics());
+            spu.setPics(pics);
         }
         this.updateById(spu);
 
         // 属性保存
-        Optional.ofNullable(attrs).ifPresent(list -> {
+        Optional.ofNullable(attrValues).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
 
             // 删除此次保存删除的
@@ -194,15 +194,15 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
     }
 
     @Override
-    public ProductBO getProductByIdForApp(Long spuId) {
+    public com.youlai.mall.pms.pojo.bo.app.ProductBO getProductByIdForApp(Long spuId) {
         // spu
         PmsSpu spu = this.getById(spuId);
-        ProductDTO ProductDTO = new ProductDTO();
-        BeanUtil.copyProperties(spu, ProductDTO);
+        SpuDTO SpuDTO = new SpuDTO();
+        BeanUtil.copyProperties(spu, SpuDTO);
         if (StrUtil.isNotBlank(spu.getPics())) {
             // spu专辑图片转换处理 json字符串 -> List
             List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
-            ProductDTO.setPicUrls(pics);
+            SpuDTO.setPics(pics);
         }
         // 属性
         List<PmsAttributeValue> attrs = iPmsAttributeValueService.list(
@@ -216,7 +216,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
 
-        ProductBO product = new ProductBO(ProductDTO, attrs, specs, skuList);
+        com.youlai.mall.pms.pojo.bo.app.ProductBO product = new com.youlai.mall.pms.pojo.bo.app.ProductBO(SpuDTO, attrs, specs, skuList);
         return product;
     }
 }

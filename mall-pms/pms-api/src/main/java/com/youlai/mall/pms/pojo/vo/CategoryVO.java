@@ -16,7 +16,7 @@ public class CategoryVO {
 
     private Integer level;
 
-    private String iconUrl;
+    private String icon;
 
     private Integer sort;
 

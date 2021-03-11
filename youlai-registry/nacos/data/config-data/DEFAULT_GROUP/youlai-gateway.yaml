@@ -3,11 +3,11 @@
 # 项目对你有帮助麻烦给个❤，感激不尽！https://github.com/hxrui
 spring:
   security:
-    oauth2:
+    oauth2: 
       resourceserver:
         jwt:
           jwk-set-uri: 'http://localhost:8000/getPublicKey'
-  redis:
+  redis: 
     database: 0
     host: www.youlai.store
     port: 6379
@@ -72,7 +72,7 @@ whitelist:
       - /*/v2/api-docs
 
 # 是否演示环境
-demo: false 
+demo: true 
 
 # 全局参数设置
 ribbon:
