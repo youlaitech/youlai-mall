@@ -6,9 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-
 import java.util.List;
 
 /**
@@ -17,10 +14,8 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-@Document(indexName = "pms_spu", replicas = 1, shards = 1, createIndex = true)
 public class PmsSpu extends BaseEntity {
 
-    @Id
     @TableId(type = IdType.AUTO)
     private Long id;
     private String name;
