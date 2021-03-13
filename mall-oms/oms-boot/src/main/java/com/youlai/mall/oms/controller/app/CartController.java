@@ -1,9 +1,9 @@
 package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.oms.bo.CartItemBo;
+import com.youlai.mall.oms.bo.CartItemBO;
 import com.youlai.mall.oms.bo.CartItemCheckBo;
-import com.youlai.mall.oms.pojo.vo.CartVo;
+import com.youlai.mall.oms.pojo.vo.CartVO;
 import com.youlai.mall.oms.service.CartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -24,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  * @date 2020-12-30 22:31:10
  */
 
-@Api(tags = "购物车接口")
+@Api(tags = "【移动端】购物车")
 @RestController
 @RequestMapping("/api.app/v1/carts")
 @Slf4j
@@ -35,8 +34,8 @@ public class CartController {
 
     @ApiOperation(value = "查询购物车", httpMethod = "GET")
     @GetMapping
-    public Result<CartVo> detail() {
-        CartVo cart = cartService.detail();
+    public Result<CartVO> detail() {
+        CartVO cart = cartService.detail();
         return Result.success(cart);
     }
 
@@ -51,7 +50,7 @@ public class CartController {
     @ApiOperation(value = "修改购物车商品数量", httpMethod = "PUT")
     @ApiImplicitParam(name = "cartItemBo", value = "实体JSON对象", required = true, paramType = "body", dataType = "CartItemBo")
     @PutMapping
-    public Result<Object> update(@Validated @RequestBody CartItemBo cartItemBo) {
+    public Result<Object> update(@Validated @RequestBody CartItemBO cartItemBo) {
         cartService.update(cartItemBo);
         return Result.success();
     }

@@ -15,6 +15,7 @@
         <module>youlai-auth</module>
         <module>youlai-gateway</module>
         <module>youlai-registry</module>
+        <module>youlai-test</module>
         <module>mall-sms</module>
         <module>mall-ums</module>
         <module>mall-pms</module>
@@ -38,18 +39,20 @@
         <lombok.version>1.18.18</lombok.version>
         <hutool.version>5.5.8</hutool.version>
         <mysql.version>8.0.19</mysql.version>
-        <druid.version>1.2.4</druid.version>
+        <druid.version>1.2.5</druid.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <minio.version>7.1.0</minio.version>
         <weixin-java-miniapp.version>4.0.4.B</weixin-java-miniapp.version>
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
         <seata.version>1.4.1</seata.version>
-        <commons-pool2-version>2.9.0</commons-pool2-version>
+        <commons-pool2.version>2.9.0</commons-pool2.version>
         <knife4j.version>2.0.8</knife4j.version>
         <redisson.version>3.11.1</redisson.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
         <elasticsearch.version>7.10.1</elasticsearch.version>
         <ip2region.version>1.7.2</ip2region.version>
+        <dozer.version>6.2.0</dozer.version>
+        <swagger.version>1.6.2</swagger.version>
     </properties>
 
     <dependencies>
@@ -76,7 +79,7 @@
                 <scope>import</scope>
             </dependency>
 
-            <!--Spring Cloud Alibaba 相关依赖-->
+            <!--Spring Cloud & Alibaba 相关依赖-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -89,6 +92,18 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
             </dependency>
 
             <dependency>
@@ -124,7 +139,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
-                <version>${commons-pool2-version}</version>
+                <version>${commons-pool2.version}</version>
             </dependency>
 
             <dependency>
@@ -180,6 +195,57 @@
                 <artifactId>ip2region</artifactId>
                 <version>${ip2region.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.dozermapper</groupId>
+                <artifactId>dozer-core</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-core</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-elasticsearch</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-mybatis</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-rabbitmq</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-redis</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-web</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

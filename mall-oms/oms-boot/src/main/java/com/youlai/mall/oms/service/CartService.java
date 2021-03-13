@@ -1,8 +1,8 @@
 package com.youlai.mall.oms.service;
 
-import com.youlai.mall.oms.bo.CartItemBo;
+import com.youlai.mall.oms.bo.CartItemBO;
 import com.youlai.mall.oms.bo.CartItemCheckBo;
-import com.youlai.mall.oms.pojo.vo.CartVo;
+import com.youlai.mall.oms.pojo.vo.CartVO;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -22,7 +22,7 @@ public interface CartService {
      * 修改购物车商品数量
      * @param cartItemBo
      */
-    void update(CartItemBo cartItemBo);
+    void update(CartItemBO cartItemBo);
 
     /**
      * 修改购物车中商品是否选中状态
@@ -52,7 +52,7 @@ public interface CartService {
      * 查询购物车详情
      * @return
      */
-    CartVo detail();
+    CartVO detail();
 
     /**
      * 清空购物车

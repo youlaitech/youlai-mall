@@ -12,7 +12,7 @@ import com.youlai.mall.oms.pojo.entity.OrderGoodsEntity;
 import com.youlai.mall.oms.service.OrderGoodsService;
 import com.youlai.mall.oms.service.OrderRabbitService;
 import com.youlai.mall.oms.service.OrderService;
-import com.youlai.mall.pms.api.SkuFeignService;
+import com.youlai.mall.pms.api.app.InventoryFeignService;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
@@ -35,7 +35,7 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
 
     private OrderGoodsService orderGoodsService;
 
-    private SkuFeignService skuFeignService;
+    private InventoryFeignService inventoryFeignService;
 
     /**
      * 接收超时订单消息
@@ -54,7 +54,7 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
 
         try {
             OrderEntity order = orderService.getByOrderSn(orderSn);
-            if (order.getStatus().equals(OrderStatusEnum.NEED_PAY.code)) {
+            if (order.getStatus().equals(OrderStatusEnum.NEED_PAY.getCode())) {
                 if (orderService.closeOrderBySystem(orderSn)){
                     unlockInventory(order.getId());
                 }
@@ -74,7 +74,7 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
             item.setNum(good.getSkuQuantity());
             return item;
         }).collect(Collectors.toList());
-        Result result = skuFeignService.unlockInventory(items);
+        Result result = inventoryFeignService.unlockInventory(items);
         if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
             log.error("释放库存异常，商品列表={}", items);
             throw new BizException("关闭订单失败，释放库存错误");

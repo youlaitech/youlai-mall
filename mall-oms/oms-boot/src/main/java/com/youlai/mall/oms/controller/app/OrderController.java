@@ -19,13 +19,12 @@ import java.util.concurrent.ExecutionException;
 
 
 /**
- * 订单详情表
  *
  * @author huawei
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-@Api(tags = "APP订单详情接口")
+@Api(tags = "【移动端】订单服务")
 @RestController
 @RequestMapping("/api.app/v1/orders")
 @Slf4j
@@ -78,61 +77,5 @@ public class OrderController {
 
         return Result.success(orderList);
     }
-
-
-    /**
-     * 信息
-     */
-    @RequestMapping("/info/{id}")
-    @GlobalTransactional
-    //@RequiresPermissions("oms:order:info")
-    public Result<OrderEntity> info(@PathVariable("id") Long id) {
-        OrderEntity order = orderService.getById(id);
-
-        return Result.success(order);
-    }
-
-    /**
-     * 保存
-     */
-    @RequestMapping("/save")
-    //@RequiresPermissions("oms:order:save")
-    public Result<Object> save(@RequestBody OrderEntity order) {
-        orderService.save(order);
-
-        return Result.success();
-    }
-
-    /**
-     * 修改
-     */
-    @RequestMapping("/update")
-    //@RequiresPermissions("oms:order:update")
-    public Result<Object> update(@RequestBody OrderEntity order) {
-        orderService.updateById(order);
-
-        return Result.success();
-    }
-
-    /**
-     * 取消订单
-     */
-    @PutMapping("/cancel")
-    @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "param", dataType = "String")
-    public Result<Object> cancelOrder(@RequestParam("id") String id) {
-        orderService.cancelOrder(id);
-        return Result.success();
-    }
-
-    /**
-     * 删除
-     */
-    @DeleteMapping
-    @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "param", dataType = "String")
-    public Result<Object> delete(@RequestParam("id") String id) {
-        orderService.deleteOrder(id);
-        return Result.success();
-    }
-
 
 }

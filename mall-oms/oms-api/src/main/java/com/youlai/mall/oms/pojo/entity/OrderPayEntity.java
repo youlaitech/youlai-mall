@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * 支付信息表
- * 
+ *
  * @author huawei
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
@@ -25,7 +25,7 @@ public class OrderPayEntity  extends BaseEntity {
 	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
-	 * 订单id
+	 * 订单ID
 	 */
 	private Long orderId;
 	/**

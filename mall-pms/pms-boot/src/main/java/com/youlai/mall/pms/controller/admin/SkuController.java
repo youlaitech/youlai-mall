@@ -22,7 +22,7 @@ public class SkuController {
 
     private IPmsSkuService iPmsSkuService;
 
-    @ApiOperation(value = "商品库存明细", httpMethod = "GET")
+    @ApiOperation(value = "库存明细", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品SkuID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result<SkuDTO> detail(@PathVariable Long id) {

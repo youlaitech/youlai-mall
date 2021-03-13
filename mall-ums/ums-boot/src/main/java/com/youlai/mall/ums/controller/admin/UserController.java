@@ -8,12 +8,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
-import com.youlai.mall.ums.pojo.UmsUser;
+import com.youlai.mall.ums.pojo.domain.UmsUser;
 import com.youlai.mall.ums.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,9 @@ import java.util.Arrays;
 @RestController("AdminUserController")
 @RequestMapping("/api.admin/v1/users")
 @Slf4j
+@AllArgsConstructor
 public class UserController {
 
-    @Autowired
     private IUmsUserService iUmsUserService;
 
     @ApiOperation(value = "列表分页", httpMethod = "GET")
@@ -54,7 +55,7 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "获取会员信息", httpMethod = "GET")
+    @ApiOperation(value = "会员详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result getMemberById(
@@ -77,13 +78,12 @@ public class UserController {
         return Result.judge(status);
     }
 
-
-    @ApiOperation(value = "修改会员【部分更新】", httpMethod = "PATCH")
+    @ApiOperation(value = "局部更新", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
-    @PatchMapping(value = "/{id}")
+    @PatchMapping("/{id}")
     public Result patch(@PathVariable Long id, @RequestBody UmsUser user) {
         LambdaUpdateWrapper<UmsUser> updateWrapper = new LambdaUpdateWrapper<UmsUser>().eq(UmsUser::getId, id);
         updateWrapper.set(user.getStatus() != null, UmsUser::getStatus, user.getStatus());
@@ -91,25 +91,7 @@ public class UserController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改会员积分", httpMethod = "POST")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Long")
-    })
-    @PutMapping("/{id}/point")
-    public Result updatePoint(@PathVariable Long id, @RequestParam Integer num) {
-        UmsUser user = iUmsUserService.getById(id);
-        user.setPoint(user.getPoint() + num);
-        boolean result = iUmsUserService.updateById(user);
-        try {
-            Thread.sleep(15 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return Result.judge(result);
-    }
-
-    @ApiOperation(value = "删除会员【逻辑删除】", httpMethod = "DELETE")
+    @ApiOperation(value = "删除会员", httpMethod = "DELETE")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
@@ -117,5 +99,19 @@ public class UserController {
                 .in(UmsUser::getId, Arrays.asList(ids.split(",")))
                 .set(UmsUser::getDeleted, GlobalConstants.DELETED_VALUE));
         return Result.judge(status);
+    }
+
+    @ApiOperation(value = "扣减余额")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "amount", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
+    })
+    @PatchMapping("/{id}/balance/_deduct")
+    public Result deductBalance(@PathVariable Long id, @RequestParam Long amount) {
+        LambdaUpdateWrapper<UmsUser> updateWrapper = new LambdaUpdateWrapper<UmsUser>().eq(UmsUser::getId, id);
+        updateWrapper.setSql(" balance = balance - " + amount);
+        updateWrapper.gt(UmsUser::getBalance, amount);
+        boolean result = iUmsUserService.update(updateWrapper);
+        return Result.judge(result);
     }
 }

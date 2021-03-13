@@ -25,7 +25,7 @@ public enum QueryModeEnum {
                 return value;
             }
         }
-        return PAGE;
+        return PAGE; // 默认分页查询
     }
 
 }

@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Api(tags = "字典接口")
+@Api(tags = "字典项接口")
 @RestController
 @RequestMapping("/api.admin/v1/dict-items")
 @Slf4j
@@ -66,7 +66,7 @@ public class DictItemController {
         }
     }
 
-    @ApiOperation(value = "字典详情", httpMethod = "GET")
+    @ApiOperation(value = "字典项详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -74,7 +74,7 @@ public class DictItemController {
         return Result.success(dictItem);
     }
 
-    @ApiOperation(value = "新增字典", httpMethod = "POST")
+    @ApiOperation(value = "新增字典项", httpMethod = "POST")
     @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
     @PostMapping
     public Result add(@RequestBody SysDictItem dictItem) {
@@ -82,7 +82,7 @@ public class DictItemController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改字典", httpMethod = "PUT")
+    @ApiOperation(value = "修改字典项", httpMethod = "PUT")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
@@ -96,8 +96,8 @@ public class DictItemController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除字典", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
+    @ApiOperation(value = "删除字典数据", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "ids", value = "主键ID集合，以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         boolean status = iSysDictItemService.removeByIds(Arrays.asList(ids.split(",")));
@@ -105,9 +105,9 @@ public class DictItemController {
     }
 
 
-    @ApiOperation(value = "修改字典", httpMethod = "PATCH")
+    @ApiOperation(value = "局部更新字典数据", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
     })
     @PatchMapping(value = "/{id}")

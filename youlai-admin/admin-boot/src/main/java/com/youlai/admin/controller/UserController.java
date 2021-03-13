@@ -98,7 +98,7 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "修改用户", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     })
     @PutMapping(value = "/{id}")
@@ -117,13 +117,13 @@ public class UserController extends BaseController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改用户【部分更新】", httpMethod = "PATCH")
+    @ApiOperation(value = "局部更新", httpMethod = "PATCH")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     })
     @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Integer id, @RequestBody SysUser user) {
+    public Result patch(@PathVariable Long id, @RequestBody SysUser user) {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
         updateWrapper.set(user.getStatus() != null, SysUser::getStatus, user.getStatus());
         updateWrapper.set(user.getPassword() != null, SysUser::getPassword, passwordEncoder.encode(user.getPassword()));
