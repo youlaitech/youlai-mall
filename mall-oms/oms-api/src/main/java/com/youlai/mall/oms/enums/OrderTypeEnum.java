@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.enums;
 
 import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.Getter;
 
 /**
  * @author huawei
@@ -9,16 +9,23 @@ import lombok.ToString;
  * @email huawei_code@163.com
  * @date 2021/1/16
  */
-@ToString
+
 @AllArgsConstructor
-public enum OrderTypeEnum {
+public enum OrderTypeEnum  {
 
-    WEB(0, "PC订单"),
-    APP(1, "APP订单"),
+    WEB(0), // PC订单
+    APP(1), // APP订单
     ;
-    public final Integer code;
 
-    public final String desc;
+    @Getter
+    public Integer code;
 
-
+    public static OrderTypeEnum getValue(Integer code){
+        for (OrderTypeEnum value : values()) {
+            if (value.getCode().equals(code)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

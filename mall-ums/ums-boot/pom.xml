@@ -31,19 +31,16 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-mybatis</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-web</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
@@ -102,6 +99,42 @@
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-spring-boot-starter</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.2.6.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-openfeign-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-commons</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter</artifactId>
+            <version>2.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+            <version>2.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
+            <version>2.2.6.RELEASE</version>
         </dependency>
     </dependencies>
 

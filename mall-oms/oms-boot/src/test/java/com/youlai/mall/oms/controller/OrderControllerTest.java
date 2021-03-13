@@ -5,8 +5,8 @@ import com.youlai.common.result.ResultCode;
 import com.youlai.mall.oms.controller.admin.OrderController;
 import com.youlai.mall.oms.pojo.OmsOrder;
 import com.youlai.mall.oms.service.IOmsOrderService;
-import com.youlai.mall.pms.api.SkuFeignService;
-import com.youlai.mall.ums.api.MemberFeignService;
+import com.youlai.mall.pms.api.app.InventoryFeignService;
+import com.youlai.mall.ums.api.app.MemberFeignService;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -56,7 +56,7 @@ public class OrderControllerTest {
 
 
     @Autowired
-    private SkuFeignService skuFeignService;
+    private InventoryFeignService inventoryFeignService;
 
     @Autowired
     private MemberFeignService memberFeignService;

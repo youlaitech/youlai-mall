@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.ums.pojo.UmsUser;
+import com.youlai.mall.ums.pojo.domain.UmsUser;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import com.youlai.mall.ums.pojo.vo.MemberVO;

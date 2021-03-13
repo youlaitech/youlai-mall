@@ -16,7 +16,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>admin-api</artifactId>
@@ -26,13 +25,11 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-elasticsearch</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>

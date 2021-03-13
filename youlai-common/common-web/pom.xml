@@ -11,15 +11,10 @@
 
     <artifactId>common-web</artifactId>
 
-    <properties>
-        <youlai.version>1.0.0</youlai.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
@@ -37,7 +32,6 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations.version}</version>
         </dependency>
 
         <dependency>
@@ -53,7 +47,6 @@
         <dependency>
             <groupId>com.github.dozermapper</groupId>
             <artifactId>dozer-core</artifactId>
-            <version>6.2.0</version>
         </dependency>
 
     </dependencies>

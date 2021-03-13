@@ -4,14 +4,12 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.oms.common.Query;
-import com.youlai.common.mybatis.utils.PageUtils;
+
+
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.oms.common.EnumUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.RequestUtils;
@@ -29,10 +27,10 @@ import com.youlai.mall.oms.service.CartService;
 import com.youlai.mall.oms.service.OrderGoodsService;
 import com.youlai.mall.oms.service.OrderLogsService;
 import com.youlai.mall.oms.service.OrderService;
-import com.youlai.mall.pms.api.SkuFeignService;
+import com.youlai.mall.pms.api.app.InventoryFeignService;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
-import com.youlai.mall.ums.api.MemberFeignService;
+import com.youlai.mall.ums.api.app.MemberFeignService;
 import com.youlai.mall.ums.pojo.dto.UmsAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
@@ -59,7 +57,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     private CartService cartService;
 
-    private SkuFeignService skuFeignService;
+    private InventoryFeignService inventoryFeignService;
 
     private MemberFeignService memberFeignService;
 
@@ -77,15 +75,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     private RabbitTemplate rabbitTemplate;
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<OrderEntity> page = this.page(
-                new Query<OrderEntity>().getPage(params),
-                new QueryWrapper<OrderEntity>()
-        );
-
-        return new PageUtils(page);
-    }
 
     @Override
     public OrderConfirmVO confirm(String skuId, Integer number) {
@@ -98,7 +87,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         // feign调用商品接口，获取商品信息
         Map<Long, SkuDTO> skuMap = new HashMap<>(items.size());
         List<String> skuIds = items.stream().map(item -> item.getSkuId().toString()).collect(Collectors.toList());
-        List<SkuDTO> skuInfos = skuFeignService.listBySkuIds(String.join(",", skuIds)).getData();
+        List<SkuDTO> skuInfos = inventoryFeignService.listBySkuIds(String.join(",", skuIds)).getData();
         if (!CollectionUtil.isEmpty(skuInfos)) {
             skuMap = skuInfos.stream().collect(Collectors.toMap(SkuDTO::getId, Function.identity()));
         }
@@ -203,15 +192,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     public boolean closeOrderBySystem(String orderSn) {
         log.info("订单超时未支付，系统自动关闭，orderSn={}", orderSn);
         OrderEntity order = getByOrderSn(orderSn);
-        if (!order.getStatus().equals(OrderStatusEnum.NEED_PAY.code)) {
+        if (!order.getStatus().equals(OrderStatusEnum.NEED_PAY.getCode())) {
             log.info("订单状态异常，系统无法自动关闭，orderSn={}，orderStatus={}", orderSn, order.getStatus());
             return false;
         }
-        order.setStatus(OrderStatusEnum.SYS_CANCEL.code);
+        order.setStatus(OrderStatusEnum.SYS_CANCEL.getCode());
         baseMapper.updateById(order);
         // 添加订单操作日志
         orderLogsService.addOrderLogs(order.getId(), order.getStatus(),
-                "系统操作", OrderStatusEnum.SYS_CANCEL.desc);
+                "系统操作", OrderStatusEnum.SYS_CANCEL.getText());
         return true;
 
     }
@@ -220,14 +209,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     public boolean cancelOrder(String id) {
         log.info("会员取消订单，orderId={}", id);
         OrderEntity order = getByOrderId(id);
-        if (!order.getStatus().equals(OrderStatusEnum.NEED_PAY.code)) {
+        if (!order.getStatus().equals(OrderStatusEnum.NEED_PAY.getCode())) {
             log.info("订单状态异常，会员无法取消，orderId={}，orderStatus={}", id, order.getStatus());
             return false;
         }
-        order.setStatus(OrderStatusEnum.USER_CANCEL.code);
+        order.setStatus(OrderStatusEnum.USER_CANCEL.getCode());
         baseMapper.updateById(order);
         // 添加订单操作日志
-        orderLogsService.addOrderLogs(order.getId(), order.getStatus(), OrderStatusEnum.USER_CANCEL.desc);
+        orderLogsService.addOrderLogs(order.getId(), order.getStatus(), OrderStatusEnum.USER_CANCEL.getText());
         return true;
     }
 
@@ -236,9 +225,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     public boolean deleteOrder(String id) {
         // 查询订单，校验订单状态
         OrderEntity order = this.getByOrderId(id);
-        if (!order.getStatus().equals(OrderStatusEnum.SYS_CANCEL.code) &&
-                order.getStatus().equals(OrderStatusEnum.USER_CANCEL.code)) {
-            throw new BizException(StrUtil.format("订单无法删除，订单状态【{}】", Objects.requireNonNull(EnumUtils.getByCode(order.getStatus(), OrderStatusEnum.class)).desc));
+        if (!order.getStatus().equals(OrderStatusEnum.SYS_CANCEL.getCode()) &&
+                order.getStatus().equals(OrderStatusEnum.USER_CANCEL.getCode())) {
+            throw new BizException(StrUtil.format("订单无法删除，订单状态【{}】", Objects.requireNonNull(OrderStatusEnum.getValue(order.getStatus())).getText()));
         }
 
         orderDao.deleteById(id);
@@ -264,7 +253,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         Map<Long, List<OrderGoodsEntity>> orderGoodsMap = orderGoodsService.getByOrderIds(orderIds);
         List<OrderListVO> result = orderList.stream().map(orderEntity -> {
             OrderListVO orderListVO = BeanMapperUtils.map(orderEntity, OrderListVO.class);
-            orderListVO.setStatusDesc(EnumUtils.getByCode(orderListVO.getStatus(), OrderStatusEnum.class).desc);
+            orderListVO.setStatusDesc(OrderStatusEnum.getValue(orderListVO.getStatus()).getText());
             List<OrderGoodsEntity> orderGoodsEntities = orderGoodsMap.get(orderListVO.getId());
             if (orderGoodsEntities != null && orderGoodsEntities.size() > 0) {
                 List<OrderListVO.GoodsListBean> goodsListBeans = orderGoodsEntities.stream().map(orderGoodsEntity -> BeanMapperUtils.map(orderGoodsEntity, OrderListVO.GoodsListBean.class)).collect(Collectors.toList());
@@ -282,7 +271,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         queryWrapper.eq("member_id", userId).eq("id", id);
         OrderEntity orderEntity = this.getOne(queryWrapper);
         if (orderEntity == null) {
-            throw new BizException("订单不存在，订单id非法");
+            throw new BizException("订单不存在，订单ID非法");
         }
         return orderEntity;
     }
@@ -294,7 +283,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             item.setNum(good.getSkuQuantity());
             return item;
         }).collect(Collectors.toList());
-        Result result = skuFeignService.lockStock(items);
+        Result result = inventoryFeignService.lockInventory(items);
         if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
             log.error("锁定库存异常，商品列表={}", items);
             throw new BizException("下单失败，锁定库存错误");
@@ -345,7 +334,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         log.info("创建订单商品实体类，submit:{}", submit);
         List<OrderGoodsEntity> orderGoods = null;
         if (ObjectUtil.isNull(submit.getSkuId())) {
-            CartVo detail = cartService.detail();
+            CartVO detail = cartService.detail();
             log.info("从购物车中获取已选择商品信息：{}", detail);
             orderGoods = detail.getItems().stream().map(item -> {
                 OrderGoodsEntity good = new OrderGoodsEntity();
@@ -363,7 +352,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         }
 
         List<String> skuIds = orderGoods.stream().map(vo -> vo.getSkuId().toString()).collect(Collectors.toList());
-        Result<List<SkuDTO>> response = skuFeignService.listBySkuIds(String.join(",", skuIds));
+        Result<List<SkuDTO>> response = inventoryFeignService.listBySkuIds(String.join(",", skuIds));
         List<SkuDTO> skuInfos = response.getData();
         if (skuInfos == null) {
             return null;
@@ -393,7 +382,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         OrderEntity order = new OrderEntity();
         order.setOrderSn(IdWorker.getTimeId());
         order.setRemark(submit.getRemark());
-        order.setStatus(OrderStatusEnum.NEED_PAY.code);
+        order.setStatus(OrderStatusEnum.NEED_PAY.getCode());
         order.setSourceType(OrderTypeEnum.APP.code);
         order.setMemberId(RequestUtils.getUserId());
         return order;
@@ -440,8 +429,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             return Arrays.asList(itemVO);
 
         }
-        CartVo cartVo = cartService.detail();
-        List<OrderItemVO> items = cartVo.getItems().stream().filter(CartItemVo::isChecked).map(cart -> OrderItemVO.builder().skuId(cart.getSkuId()).number(cart.getNumber()).build()).collect(Collectors.toList());
+        CartVO cartVo = cartService.detail();
+        List<OrderItemVO> items = cartVo.getItems().stream().filter(CartItemVO::isChecked).map(cart -> OrderItemVO.builder().skuId(cart.getSkuId()).number(cart.getNumber()).build()).collect(Collectors.toList());
         return items;
     }
 

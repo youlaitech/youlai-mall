@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common-redis</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>com.youlai</groupId>

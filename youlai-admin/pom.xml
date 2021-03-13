@@ -17,23 +17,4 @@
         <module>admin-boot</module>
     </modules>
 
-    <properties>
-        <youlai.version>1.0.0</youlai.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-core</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
-
-    </dependencies>
-
 </project>
