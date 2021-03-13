@@ -2,12 +2,12 @@ package com.youlai.mall.oms.service.impl;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.pms.api.SkuFeignService;
-import com.youlai.mall.oms.bo.CartItemBo;
+import com.youlai.mall.pms.api.app.InventoryFeignService;
+import com.youlai.mall.oms.bo.CartItemBO;
 import com.youlai.mall.oms.bo.CartItemCheckBo;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.oms.pojo.vo.CartItemVo;
-import com.youlai.mall.oms.pojo.vo.CartVo;
+import com.youlai.mall.oms.pojo.vo.CartItemVO;
+import com.youlai.mall.oms.pojo.vo.CartVO;
 import com.youlai.mall.oms.service.CartService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class CartServiceImpl implements CartService {
 
     private RedisTemplate redisTemplate;
 
-    private SkuFeignService skuFeignService;
+    private InventoryFeignService inventoryFeignService;
 
 
     @Override
@@ -53,18 +53,18 @@ public class CartServiceImpl implements CartService {
         log.info("添加商品到购物车，form:{}", skuId);
         BoundHashOperations cartOps = getCartOps();
         if (cartOps.get(skuId) != null) {
-            CartItemVo cartItem = (CartItemVo) cartOps.get(skuId);
+            CartItemVO cartItem = (CartItemVO) cartOps.get(skuId);
             Integer number = cartItem.getNumber() + 1;
             cartItem.setNumber(number);
             cartOps.put(skuId, cartItem);
             return;
         }
 
-        CartItemVo cartItem = new CartItemVo();
+        CartItemVO cartItem = new CartItemVO();
         // 添加新商品到购物车
         CompletableFuture<Void> skuInfoFuture = CompletableFuture.runAsync(() -> {
             //1、远程查询商品详情
-            Result<SkuDTO> skuInfo = skuFeignService.getInventoryById(Long.parseLong(skuId));
+            Result<SkuDTO> skuInfo = inventoryFeignService.getInventoryById(Long.parseLong(skuId));
             SkuDTO data = skuInfo.getData();
             cartItem.setSkuId(Long.parseLong(skuId));
             cartItem.setChecked(true);
@@ -85,10 +85,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void update(CartItemBo cartItemBo) {
+    public void update(CartItemBO cartItemBo) {
         log.info("修改购物车商品数量，form:{}", cartItemBo);
         BoundHashOperations cartOps = getCartOps();
-        CartItemVo cartItem = (CartItemVo) cartOps.get(cartItemBo.getSkuId().toString());
+        CartItemVO cartItem = (CartItemVO) cartOps.get(cartItemBo.getSkuId().toString());
         if (cartItem == null) {
             return;
         }
@@ -100,7 +100,7 @@ public class CartServiceImpl implements CartService {
     public void check(CartItemCheckBo cartItemCheckBo) {
         log.info("修改购物车商品选中状态，form:{}", cartItemCheckBo);
         BoundHashOperations cartOps = getCartOps();
-        CartItemVo cartItem = (CartItemVo) cartOps.get(cartItemCheckBo.getSkuId().toString());
+        CartItemVO cartItem = (CartItemVO) cartOps.get(cartItemCheckBo.getSkuId().toString());
         if (cartItem == null) {
             return;
         }
@@ -113,7 +113,7 @@ public class CartServiceImpl implements CartService {
         log.info("全选/全不选购物车商品状态，check:{}", check);
         BoundHashOperations cartOps = getCartOps();
         for (Object value : cartOps.values()) {
-            CartItemVo cartItem = (CartItemVo) value;
+            CartItemVO cartItem = (CartItemVO) value;
             cartItem.setChecked(check == 1);
             cartOps.put(cartItem.getSkuId().toString(), cartItem);
         }
@@ -136,11 +136,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartVo detail() {
+    public CartVO detail() {
         log.info("查询购物车详情");
         BoundHashOperations cartOps = getCartOps();
-        List<CartItemVo> items = cartOps.values();
-        CartVo cartVo = new CartVo();
+        List<CartItemVO> items = cartOps.values();
+        CartVO cartVo = new CartVO();
         cartVo.setItems(items);
         return cartVo;
     }
@@ -159,7 +159,7 @@ public class CartServiceImpl implements CartService {
         log.info("清空购物车中已选择商品");
         BoundHashOperations cartOps = getCartOps();
         for (Object value : cartOps.values()) {
-            CartItemVo cartItem = (CartItemVo) value;
+            CartItemVO cartItem = (CartItemVO) value;
             if (cartItem.isChecked()) {
                 log.info("清空购物车中商品，商品id：{} | 名称：{}", cartItem.getSkuId(), cartItem.getSkuName());
                 cartOps.delete(cartItem.getSkuId().toString());

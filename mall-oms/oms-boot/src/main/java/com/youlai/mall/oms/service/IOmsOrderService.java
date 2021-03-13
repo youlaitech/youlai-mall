@@ -9,8 +9,4 @@ public interface IOmsOrderService extends IService<OmsOrder> {
     boolean save(OrderBO orderBO);
 
     OrderBO getByOrderId(Long id);
-
-    boolean submit();
-
-    boolean submitWithGlobalTransactional();
 }

@@ -1,6 +1,5 @@
 package com.youlai.auth.service;
 
-import cn.hutool.core.util.StrUtil;
 import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.admin.api.UserFeignService;
 import com.youlai.auth.domain.User;
@@ -9,7 +8,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
-import com.youlai.mall.ums.api.MemberFeignService;
+import com.youlai.mall.ums.api.app.MemberFeignService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
@@ -18,8 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**

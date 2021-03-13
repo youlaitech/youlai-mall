@@ -2,6 +2,7 @@ package com.youlai.mall.oms.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.enums.BusinessTypeEnum;
 import com.youlai.common.enums.QueryModeEnum;
@@ -60,9 +61,7 @@ public class OrderController {
                                 "date_format (gmt_crate,'%Y-%m-%d') <= date_format('" + endDate + "','%Y-%m-%d')")
                         .orderByDesc(OmsOrder::getGmtModified)
                         .orderByDesc(OmsOrder::getGmtCreate);
-
                 Page<OmsOrder> result = iOmsOrderService.page(new Page<>(page, limit), queryWrapper);
-
                 return Result.success(result.getRecords(), result.getTotal());
             default:
                 return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
@@ -70,7 +69,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "订单详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
         OrderBO order = iOmsOrderService.getByOrderId(id);
@@ -87,7 +86,7 @@ public class OrderController {
 
     @ApiOperation(value = "修改订单", httpMethod = "PUT")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "order", value = "实体JSON对象", required = true, paramType = "body", dataType = "OmsOrder")
     })
     @PutMapping(value = "/{id}")
@@ -98,21 +97,22 @@ public class OrderController {
         return Result.judge(status);
     }
 
-
-    @ApiOperation(value = "订单提交", httpMethod = "POST")
-    @PostMapping("/submit")
-    public Result submit(Boolean openTransaction) {
-        boolean status;
-        if (openTransaction) {
-            status = iOmsOrderService.submitWithGlobalTransactional();
-        } else {
-            status = iOmsOrderService.submit();
-        }
-        return Result.judge(status);
+    @ApiOperation(value = "局部更新", httpMethod = "PATCH")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "status", value = "订单状态", paramType = "query", dataType = "Integer")
+    })
+    @PatchMapping(value = "/{id}")
+    public Result patch(@PathVariable Long id,
+                        @RequestParam Integer status) {
+        LambdaUpdateWrapper<OmsOrder> updateWrapper = new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, id);
+        updateWrapper.set(status != null, OmsOrder::getStatus, status);
+        boolean result = iOmsOrderService.update(updateWrapper);
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "订单详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}/detail")
     public Result orderDetail(@PathVariable Long id) {
         OmsOrder order = iOmsOrderService.getById(id);

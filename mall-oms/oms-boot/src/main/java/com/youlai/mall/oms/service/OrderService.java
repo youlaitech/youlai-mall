@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.common.mybatis.utils.PageUtils;
+
 import com.youlai.mall.oms.pojo.entity.OrderEntity;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderListVO;
@@ -9,7 +9,6 @@ import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -20,8 +19,6 @@ import java.util.concurrent.ExecutionException;
  * @date 2020-12-30 22:31:10
  */
 public interface OrderService extends IService<OrderEntity> {
-
-    PageUtils queryPage(Map<String, Object> params);
 
     /**
      * 订单确认页信息
@@ -57,7 +54,7 @@ public interface OrderService extends IService<OrderEntity> {
     /**
      * 取消订单接口
      *
-     * @param id 订单id
+     * @param id 订单ID
      * @return 是否取消成功
      */
     boolean cancelOrder(String id);
@@ -65,7 +62,7 @@ public interface OrderService extends IService<OrderEntity> {
     /**
      * 删除订单
      *
-     * @param id 订单id
+     * @param id 订单ID
      * @return 是否删除成功
      */
     boolean deleteOrder(String id);
@@ -79,9 +76,9 @@ public interface OrderService extends IService<OrderEntity> {
     List<OrderListVO> list(Integer status);
 
     /**
-     * 根据订单id获取订单信息
+     * 根据订单ID获取订单信息
      *
-     * @param id 订单id
+     * @param id 订单ID
      * @return 订单信息
      */
     OrderEntity getByOrderId(String id);

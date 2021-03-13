@@ -13,7 +13,7 @@ import lombok.Data;
 public class OrderSubmitResultVO extends BaseVO {
 
     /**
-     * 订单id
+     * 订单ID
      */
     private Long id;
 

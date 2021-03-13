@@ -38,7 +38,7 @@ public class TokenServiceImpl implements TokenService {
         String userId = RequestUtils.getUserId().toString();
         //生成UUID
         String token = IdUtil.randomUUID();
-        //前缀 + 用户id + UUID组成 token
+        //前缀 + 用户ID + UUID组成 token
         String key = sb.append(TOKEN_VERIFY).append(userId).append(':').append(token).toString();
         //将token写入redis并设置过期时间
         redisTemplate.opsForValue().set(key, key, REDIS_KEY_TIME_OUT);

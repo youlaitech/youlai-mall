@@ -83,7 +83,7 @@ INSERT INTO `oms_order` VALUES (1351548262424821786, '20210218204700114136238311
 DROP TABLE IF EXISTS `oms_order_delivery`;
 CREATE TABLE `oms_order_delivery`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `order_id` bigint(0) NOT NULL COMMENT '订单id',
+  `order_id` bigint(0) NOT NULL COMMENT '订单ID',
   `delivery_company` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '物流公司(配送方式)',
   `delivery_sn` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '物流单号',
   `receiver_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '收货人姓名',
@@ -158,7 +158,7 @@ CREATE TABLE `oms_order_goods`  (
   `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_order_id`(`order_id`) USING BTREE COMMENT '订单id索引'
+  INDEX `index_order_id`(`order_id`) USING BTREE COMMENT '订单ID索引'
 ) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单商品信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -197,7 +197,7 @@ INSERT INTO `oms_order_goods` VALUES (26, 1351548262424821786, 1, '1611500180237
 DROP TABLE IF EXISTS `oms_order_logs`;
 CREATE TABLE `oms_order_logs`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `order_id` bigint(0) NOT NULL COMMENT '订单id',
+  `order_id` bigint(0) NOT NULL COMMENT '订单ID',
   `user` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '操作人[用户；系统；后台管理员]',
   `detail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '操作详情',
   `order_status` tinyint(0) DEFAULT NULL COMMENT '操作时订单状态',
@@ -234,7 +234,7 @@ INSERT INTO `oms_order_logs` VALUES (16, 1351548262424821786, '系统操作', '�
 DROP TABLE IF EXISTS `oms_order_pay`;
 CREATE TABLE `oms_order_pay`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `order_id` bigint(0) NOT NULL COMMENT '订单id',
+  `order_id` bigint(0) NOT NULL COMMENT '订单ID',
   `pay_sn` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '支付流水号',
   `pay_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '应付总额(分)',
   `pay_time` datetime(0) DEFAULT NULL COMMENT '支付时间',

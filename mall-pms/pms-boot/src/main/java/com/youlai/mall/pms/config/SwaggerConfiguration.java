@@ -64,7 +64,7 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("商品中心REST接口")
+                .title("商品中心")
                 .description("<div style='font-size:14px;color:red;'>商品管理、库存、分类、品牌、规格、参数等接口</div>")
                 .termsOfServiceUrl("https://www.youlai.store")
                 .contact(new Contact("yl", "https://github.com/hxrui", "1490493387@qq.com"))

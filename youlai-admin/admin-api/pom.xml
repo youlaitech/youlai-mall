@@ -16,6 +16,19 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-core</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-web</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>

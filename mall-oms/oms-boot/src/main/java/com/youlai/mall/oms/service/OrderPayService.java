@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.common.mybatis.utils.PageUtils;
+
 import com.youlai.mall.oms.pojo.entity.OrderPayEntity;
 import com.youlai.mall.oms.pojo.vo.PayInfoVO;
 
@@ -15,12 +15,9 @@ import java.util.Map;
  * @date 2020-12-30 22:31:10
  */
 public interface OrderPayService extends IService<OrderPayEntity> {
-
-    PageUtils queryPage(Map<String, Object> params);
-
     /**
      * 获取订单支付详情
-     * @param orderId 订单id
+     * @param orderId 订单ID
      * @return
      */
     PayInfoVO info(String orderId);

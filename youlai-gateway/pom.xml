@@ -75,13 +75,11 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
