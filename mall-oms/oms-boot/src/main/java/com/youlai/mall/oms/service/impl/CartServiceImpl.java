@@ -6,7 +6,7 @@ import com.youlai.mall.pms.api.app.InventoryFeignService;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.oms.pojo.vo.CartItemVO;
 import com.youlai.mall.oms.pojo.vo.CartVO;
-import com.youlai.mall.oms.service.CartService;
+import com.youlai.mall.oms.service.ICartService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ import static com.youlai.mall.oms.common.RedisConstants.CART_KEY;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class CartServiceImpl implements CartService {
+public class CartServiceImpl implements ICartService {
 
     private RedisTemplate redisTemplate;
 
@@ -129,7 +129,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void cleanSelected() {
+    public void deleteSelectedItem() {
         log.info("清空购物车中已选择商品");
         BoundHashOperations cartHashOpts = getCartHashOpts();
         for (Object value : cartHashOpts.values()) {

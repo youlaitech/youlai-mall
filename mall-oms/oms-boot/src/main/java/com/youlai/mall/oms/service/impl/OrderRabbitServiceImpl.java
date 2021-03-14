@@ -10,7 +10,7 @@ import com.youlai.mall.oms.config.rabbitmq.OmsRabbitConstants;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
-import com.youlai.mall.oms.service.OrderGoodsService;
+import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.OrderRabbitService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.InventoryFeignService;
@@ -32,9 +32,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderRabbitServiceImpl implements OrderRabbitService {
 
-    private IOrderService IOrderService;
+    private IOrderService orderService;
 
-    private OrderGoodsService orderGoodsService;
+    private IOrderItemService orderItemService;
 
     private InventoryFeignService inventoryFeignService;
 
@@ -54,9 +54,9 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
         log.info("获取到消息，msgTag={}，message={}，body={}", msgTag, message.toString(), orderSn);
 
         try {
-            OmsOrder order =  IOrderService.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn,orderSn));
+            OmsOrder order = orderService.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSn));
             if (order.getStatus().equals(OrderStatusEnum.NEED_PAY.getCode())) {
-                if (IOrderService.closeOrderBySystem(orderSn)){
+                if (orderService.closeOrderBySystem(orderSn)) {
                     unlockInventory(order.getId());
                 }
             }
@@ -68,13 +68,8 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
     }
 
     private void unlockInventory(Long orderId) {
-        List<OmsOrderItem> orderGoods = orderGoodsService.getByOrderId(orderId);
-        List<InventoryDTO> items = orderGoods.stream().map(good -> {
-            InventoryDTO item = new InventoryDTO();
-            item.setInventoryId(good.getSkuId());
-            item.setNum(good.getSkuQuantity());
-            return item;
-        }).collect(Collectors.toList());
+        List<OmsOrderItem> orderItems = orderItemService.getByOrderId(orderId);
+        List<InventoryDTO> items = orderItems.stream().map(item -> InventoryDTO.builder().skuId(item.getSkuId()).num(item.getSkuQuantity()).build()).collect(Collectors.toList());
         Result result = inventoryFeignService.unlockInventory(items);
         if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
             log.error("释放库存异常，商品列表={}", items);

@@ -13,7 +13,7 @@ import java.util.Map;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-public interface OrderGoodsService extends IService<OmsOrderItem> {
+public interface  IOrderItemService extends IService<OmsOrderItem> {
 
     List<OmsOrderItem> getByOrderId(Long orderId);
 

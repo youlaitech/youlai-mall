@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.dao;
 
-import com.youlai.mall.oms.pojo.entity.OrderLogsEntity;
+import com.youlai.mall.oms.pojo.domain.OmsOrderLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020-12-30 22:31:10
  */
 @Mapper
-public interface OrderLogDao extends BaseMapper<OrderLogsEntity> {
+public interface OrderLogDao extends BaseMapper<OmsOrderLog> {
 
 }

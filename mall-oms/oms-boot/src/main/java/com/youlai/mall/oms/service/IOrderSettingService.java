@@ -11,6 +11,6 @@ import com.youlai.mall.oms.pojo.domain.OmsOrderSetting;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-public interface OrderSettingService extends IService<OmsOrderSetting> {
+public interface IOrderSettingService extends IService<OmsOrderSetting> {
 }
 

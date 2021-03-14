@@ -49,7 +49,7 @@ public interface IOrderService extends IService<OmsOrder> {
      * @param id 订单ID
      * @return 是否取消成功
      */
-    boolean cancelOrder(String id);
+    boolean cancelOrder(Long id);
 
     /**
      * 删除订单
@@ -57,7 +57,7 @@ public interface IOrderService extends IService<OmsOrder> {
      * @param id 订单ID
      * @return 是否删除成功
      */
-    boolean deleteOrder(String id);
+    boolean deleteOrder(Long id);
 
     /**
      * 订单列表查询
@@ -73,6 +73,6 @@ public interface IOrderService extends IService<OmsOrder> {
      * @param id 订单ID
      * @return 订单信息
      */
-    OmsOrder getByOrderId(String id);
+    OmsOrder getByOrderId(Long id);
 }
 

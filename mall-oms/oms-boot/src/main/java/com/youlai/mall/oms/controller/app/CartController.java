@@ -2,7 +2,7 @@ package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.pojo.vo.CartVO;
-import com.youlai.mall.oms.service.CartService;
+import com.youlai.mall.oms.service.ICartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class CartController {
 
-    private CartService cartService;
+    private ICartService ICartService;
 
     @ApiOperation(value = "查询购物车", httpMethod = "GET")
     @GetMapping
     public Result getCart() {
-        CartVO cart = cartService.getCart();
+        CartVO cart = ICartService.getCart();
         return Result.success(cart);
     }
 
@@ -38,7 +38,7 @@ public class CartController {
     @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
     @PostMapping
     public Result addCartItem(@RequestParam Long skuId) {
-        cartService.addCartItem(skuId);
+        ICartService.addCartItem(skuId);
         return Result.success();
     }
 
@@ -49,7 +49,7 @@ public class CartController {
             Integer num,
             Boolean checked
     ) {
-        cartService.updateCartItem(skuId, num, checked);
+        ICartService.updateCartItem(skuId, num, checked);
         return Result.success();
     }
 
@@ -57,7 +57,7 @@ public class CartController {
     @ApiImplicitParam(name = "checked", value = "全选/全不选", required = true, paramType = "param", dataType = "Boolean")
     @PatchMapping("/batch")
     public Result checkAll(Boolean checked) {
-        cartService.checkAll(checked);
+        ICartService.checkAll(checked);
         return Result.success();
     }
 
@@ -65,14 +65,14 @@ public class CartController {
     @ApiImplicitParam(name = "skuId", value = "SKU ID集合", required = true, paramType = "param", dataType = "Long")
     @DeleteMapping("/skuId/{skuId}")
     public Result deleteCartItem(@PathVariable Long skuId) {
-        cartService.deleteCartItem(skuId);
+        ICartService.deleteCartItem(skuId);
         return Result.success();
     }
 
     @ApiOperation(value = "清空购物车", httpMethod = "DELETE")
     @DeleteMapping
     public Result deleteCart() {
-        cartService.deleteCart();
+        ICartService.deleteCart();
         return Result.success();
     }
 }

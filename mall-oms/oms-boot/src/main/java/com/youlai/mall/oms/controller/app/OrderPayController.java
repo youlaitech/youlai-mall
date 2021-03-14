@@ -5,7 +5,7 @@ import com.youlai.common.result.Result;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.form.OrderPayForm;
 import com.youlai.mall.oms.pojo.vo.PayInfoVO;
-import com.youlai.mall.oms.service.OrderPayService;
+import com.youlai.mall.oms.service.IOrderPayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class OrderPayController {
     @Autowired
-    private OrderPayService orderPayService;
+    private IOrderPayService orderPayService;
 
     /**
      * 订单支付
@@ -42,7 +42,7 @@ public class OrderPayController {
     @ApiOperation("订单支付")
     @PostMapping
     public Result doPay(@Validated @RequestBody OrderPayForm orderPayForm) {
-        PayTypeEnum payTypeEnum =PayTypeEnum.getValue(orderPayForm.getPayType());
+        PayTypeEnum payTypeEnum = PayTypeEnum.getValue(orderPayForm.getPayType());
         if (payTypeEnum == null) {
             return Result.failed("请选择正确的支付方式");
         }
@@ -55,7 +55,9 @@ public class OrderPayController {
 
     @ApiOperation(value = "获取订单支付详情")
     @GetMapping("/info")
-    public Result<PayInfoVO> info(@ApiParam(name = "orderId", value = "订单ID", required = true, defaultValue = "1") @RequestParam("orderId") String orderId) {
+    public Result<PayInfoVO> info(
+            @ApiParam(name = "orderId", value = "订单ID", required = true, defaultValue = "1")
+            @RequestParam("orderId") Long orderId) {
         return Result.success(orderPayService.info(orderId));
     }
 
