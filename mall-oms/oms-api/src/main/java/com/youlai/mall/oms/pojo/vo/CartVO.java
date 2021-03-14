@@ -33,7 +33,7 @@ public class CartVO implements Serializable {
     public Integer getTotalNum() {
         int total = 0;
         if (items != null && items.size() > 0) {
-            total = items.stream().filter(CartItemVO::isChecked).mapToInt(CartItemVO::getNumber).sum();
+            total = items.stream().filter(CartItemVO::isChecked).mapToInt(CartItemVO::getNum).sum();
         }
         return total;
     }
@@ -45,7 +45,7 @@ public class CartVO implements Serializable {
     public Long getTotalPrice() {
         long total = 0L;
         if (items != null && items.size() > 0) {
-            total = items.stream().filter(CartItemVO::isChecked).mapToLong(CartItemVO::getSubTotal).sum();
+            total = items.stream().filter(CartItemVO::isChecked).mapToLong(CartItemVO::getSubtotal).sum();
         }
         return total;
     }

@@ -9,9 +9,6 @@ import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.redis.component.BusinessNoGenerator;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.oms.bo.OrderBO;
-import com.youlai.mall.oms.service.IOmsOrderService;
-import com.youlai.mall.oms.pojo.OmsOrder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -52,16 +49,16 @@ public class OrderController {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
         switch (queryModeEnum) {
             case PAGE:
-                LambdaQueryWrapper<OmsOrder> queryWrapper = new LambdaQueryWrapper<OmsOrder>()
-                        .like(StrUtil.isNotBlank(orderSn), OmsOrder::getOrderSn, orderSn)
-                        .eq(status != null, OmsOrder::getStatus, status)
+                LambdaQueryWrapper<OmsOrder1> queryWrapper = new LambdaQueryWrapper<OmsOrder1>()
+                        .like(StrUtil.isNotBlank(orderSn), OmsOrder1::getOrderSn, orderSn)
+                        .eq(status != null, OmsOrder1::getStatus, status)
                         .apply(StrUtil.isNotBlank(startDate),
                                 "date_format (gmt_crate,'%Y-%m-%d') >= date_format('" + startDate + "','%Y-%m-%d')")
                         .apply(StrUtil.isNotBlank(endDate),
                                 "date_format (gmt_crate,'%Y-%m-%d') <= date_format('" + endDate + "','%Y-%m-%d')")
-                        .orderByDesc(OmsOrder::getGmtModified)
-                        .orderByDesc(OmsOrder::getGmtCreate);
-                Page<OmsOrder> result = iOmsOrderService.page(new Page<>(page, limit), queryWrapper);
+                        .orderByDesc(OmsOrder1::getGmtModified)
+                        .orderByDesc(OmsOrder1::getGmtCreate);
+                Page<OmsOrder1> result = iOmsOrderService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());
             default:
                 return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
@@ -92,7 +89,7 @@ public class OrderController {
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Long id,
-            @RequestBody OmsOrder order) {
+            @RequestBody OmsOrder1 order) {
         boolean status = iOmsOrderService.updateById(order);
         return Result.judge(status);
     }
@@ -105,8 +102,8 @@ public class OrderController {
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Long id,
                         @RequestParam Integer status) {
-        LambdaUpdateWrapper<OmsOrder> updateWrapper = new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, id);
-        updateWrapper.set(status != null, OmsOrder::getStatus, status);
+        LambdaUpdateWrapper<OmsOrder1> updateWrapper = new LambdaUpdateWrapper<OmsOrder1>().eq(OmsOrder1::getId, id);
+        updateWrapper.set(status != null, OmsOrder1::getStatus, status);
         boolean result = iOmsOrderService.update(updateWrapper);
         return Result.judge(result);
     }
@@ -115,7 +112,7 @@ public class OrderController {
     @ApiImplicitParam(name = "id", value = "订单ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}/detail")
     public Result orderDetail(@PathVariable Long id) {
-        OmsOrder order = iOmsOrderService.getById(id);
+        OmsOrder1 order = iOmsOrderService.getById(id);
         return Result.success(order);
     }
 

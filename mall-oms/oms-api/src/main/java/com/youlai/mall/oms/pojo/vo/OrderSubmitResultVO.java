@@ -11,7 +11,6 @@ import lombok.Data;
  */
 @Data
 public class OrderSubmitResultVO extends BaseVO {
-
     /**
      * 订单ID
      */

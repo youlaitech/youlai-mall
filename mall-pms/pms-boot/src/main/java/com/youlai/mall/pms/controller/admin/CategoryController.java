@@ -8,7 +8,7 @@ import com.youlai.mall.pms.pojo.domain.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsAttributeService;
 import com.youlai.mall.pms.service.IPmsCategoryService;
-import com.youlai.mall.pms.service.IPmsSpecificationService;
+import com.youlai.mall.pms.service.IPmsSpecService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,7 +31,7 @@ public class CategoryController {
 
     private IPmsCategoryService iPmsCategoryService;
     private IPmsAttributeService iPmsAttributeService;
-    private IPmsSpecificationService iPmsSpecificationService;
+    private IPmsSpecService iPmsSpecService;
 
     @ApiOperation(value = "分类列表", httpMethod = "GET")
     @ApiImplicitParams({
@@ -91,7 +91,7 @@ public class CategoryController {
         Optional.ofNullable(idList).ifPresent(list -> {
             list.forEach(id -> {
                 iPmsAttributeService.removeById(id);
-                iPmsSpecificationService.removeById(id);
+                iPmsSpecService.removeById(id);
             });
             iPmsCategoryService.removeByIds(idList.stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         });

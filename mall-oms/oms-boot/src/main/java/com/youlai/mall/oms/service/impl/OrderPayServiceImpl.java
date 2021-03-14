@@ -1,7 +1,5 @@
 package com.youlai.mall.oms.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 
@@ -12,12 +10,12 @@ import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.dao.OrderPayDao;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
-import com.youlai.mall.oms.pojo.entity.OrderEntity;
-import com.youlai.mall.oms.pojo.entity.OrderPayEntity;
+import com.youlai.mall.oms.pojo.domain.OmsOrder;
+import com.youlai.mall.oms.pojo.domain.OmsOrderPay;
 import com.youlai.mall.oms.pojo.vo.PayInfoVO;
 import com.youlai.mall.oms.service.OrderLogsService;
 import com.youlai.mall.oms.service.OrderPayService;
-import com.youlai.mall.oms.service.OrderService;
+import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.ums.api.app.MemberFeignService;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -26,15 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Map;
 
 
 @Slf4j
 @AllArgsConstructor
 @Service("orderPayService")
-public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OrderPayEntity> implements OrderPayService {
+public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> implements OrderPayService {
 
-    private OrderService orderService;
+    private IOrderService IOrderService;
 
     private OrderLogsService orderLogsService;
 
@@ -45,8 +42,8 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OrderPayEntity
         Long userId = RequestUtils.getUserId();
         PayInfoVO payInfoVO = new PayInfoVO();
         // 1、获取订单应支付金额
-        OrderEntity orderEntity = orderService.getByOrderId(orderId);
-        payInfoVO.setPayPrice(orderEntity.getPayAmount());
+        OmsOrder omsOrder = IOrderService.getByOrderId(orderId);
+        payInfoVO.setPayPrice(omsOrder.getPayAmount());
 
         // 2、获取会员余额
         try {
@@ -71,7 +68,7 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OrderPayEntity
     public void balancePay(String orderId) {
         // 1、查询订单详情，判断订单状态是否是待支付状态
         log.info("订单进入支付流程，orderId：{}", orderId);
-        OrderEntity order = orderService.getByOrderId(orderId);
+        OmsOrder order = IOrderService.getByOrderId(orderId);
         OrderStatusEnum orderStatusEnum =  OrderStatusEnum.getValue(order.getStatus()) ;
         if (orderStatusEnum != OrderStatusEnum.NEED_PAY) {
             log.error("订单状态异常无法支付，orderStatus={}", orderStatusEnum.getText());
@@ -98,13 +95,13 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OrderPayEntity
         order.setStatus(OrderStatusEnum.IS_PAY.getCode());
         order.setPayTime(new Date());
         order.setPayType(PayTypeEnum.BALANCE.getCode());
-        orderService.updateById(order);
+        IOrderService.updateById(order);
         this.save(createOrderPay(order, PayTypeEnum.BALANCE.getCode()));
         orderLogsService.addOrderLogs(order.getId(), OrderStatusEnum.IS_PAY.getCode(), userId.toString(), "支付订单");
     }
 
-    private OrderPayEntity createOrderPay(OrderEntity order, Integer payType) {
-        OrderPayEntity payEntity = new OrderPayEntity();
+    private OmsOrderPay createOrderPay(OmsOrder order, Integer payType) {
+        OmsOrderPay payEntity = new OmsOrderPay();
         payEntity.setOrderId(order.getId());
         payEntity.setPayAmount(order.getPayAmount());
         payEntity.setPayTime(new Date());

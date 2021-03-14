@@ -20,7 +20,11 @@ spring:
       mandatory: true
     # 开启confirmCallBack配置
     publisher-confirm-type: correlated
-
+  redis:
+    database: 0
+    host: www.youlai.store
+    port: 6379
+    password: 123456
 mybatis-plus:
   configuration:
     # 驼峰下划线转换

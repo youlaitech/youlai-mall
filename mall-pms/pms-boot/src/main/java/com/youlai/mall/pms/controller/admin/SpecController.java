@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.domain.PmsSpecification;
-import com.youlai.mall.pms.service.IPmsSpecificationService;
+import com.youlai.mall.pms.service.IPmsSpecService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SpecController {
 
-    private IPmsSpecificationService iPmsSpecificationService;
+    private IPmsSpecService iPmsSpecService;
 
     @ApiOperation(value = "分类规格列表", httpMethod = "GET")
     @ApiImplicitParams({
@@ -31,7 +31,7 @@ public class SpecController {
     })
     @GetMapping
     public Result list(Long categoryId) {
-        List<PmsSpecification> list = iPmsSpecificationService
+        List<PmsSpecification> list = iPmsSpecService
                 .list(new LambdaQueryWrapper<PmsSpecification>()
                         .eq(PmsSpecification::getCategoryId, categoryId));
         return Result.success(list);
@@ -51,7 +51,7 @@ public class SpecController {
 
         List<Long> formIds = specCategories.stream().map(item -> item.getId()).collect(Collectors.toList());
 
-        List<Long> databaseIds = iPmsSpecificationService
+        List<Long> databaseIds = iPmsSpecService
                 .list(new LambdaQueryWrapper<PmsSpecification>()
                         .eq(PmsSpecification::getCategoryId, categoryId)
                         .select(PmsSpecification::getId)
@@ -65,10 +65,10 @@ public class SpecController {
                     .filter(id -> CollectionUtil.isEmpty(formIds) || !formIds.contains(id))
                     .collect(Collectors.toList());
             if (CollectionUtil.isNotEmpty(removeIds)) {
-                iPmsSpecificationService.removeByIds(removeIds);
+                iPmsSpecService.removeByIds(removeIds);
             }
         }
-        boolean result = iPmsSpecificationService.saveOrUpdateBatch(specCategories);
+        boolean result = iPmsSpecService.saveOrUpdateBatch(specCategories);
         return Result.judge(result);
     }
 }
