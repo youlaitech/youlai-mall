@@ -27,7 +27,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderController {
 
-    private IOrderService IOrderService;
+    private IOrderService orderService;
 
     /**
      * 订单确认信息，生成订单
@@ -46,7 +46,7 @@ public class OrderController {
            Long skuId,
            Integer num
     ) {
-        OrderConfirmVO confirm = IOrderService.confirm(skuId, num);
+        OrderConfirmVO confirm = orderService.confirm(skuId, num);
         return Result.success(confirm);
     }
 
@@ -54,7 +54,7 @@ public class OrderController {
     @ApiImplicitParam(name = "orderSubmitVO", value = "提交订单信息", required = true, paramType = "body", dataType = "OrderSubmitVO")
     @PostMapping("/_submit")
     public Result submit(@Valid @RequestBody OrderSubmitInfoDTO orderSubmitInfoDTO)  {
-        OrderSubmitResultVO result = IOrderService.submit(orderSubmitInfoDTO);
+        OrderSubmitResultVO result = orderService.submit(orderSubmitInfoDTO);
         return Result.success(result);
     }
 
@@ -68,9 +68,8 @@ public class OrderController {
     @ApiOperation("订单列表查询")
     @GetMapping("/list")
     public Result<List<OrderListVO>> list(@ApiParam(name = "status", value = "订单状态", required = true, defaultValue = "0")
-                                          @RequestParam(value = "status", required = true, defaultValue = "0") Integer status) {
-        List<OrderListVO> orderList = IOrderService.list(status);
-
+                                          @RequestParam(value = "status", defaultValue = "0") Integer status) {
+        List<OrderListVO> orderList = orderService.list(status);
         return Result.success(orderList);
     }
 
