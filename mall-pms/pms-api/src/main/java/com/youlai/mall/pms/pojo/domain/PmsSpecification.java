@@ -12,12 +12,15 @@ import java.util.List;
 @Data
 public class PmsSpecification extends BaseEntity {
 
+    /**
+     * 全面屏手机 颜色 版本
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long categoryId;
     private String name;
 
     @TableField(exist = false)
-    private List<PmsSpecificationValue> values = new ArrayList<>();
+    private List<PmsSpuSpecValue> values = new ArrayList<>();
 
 }

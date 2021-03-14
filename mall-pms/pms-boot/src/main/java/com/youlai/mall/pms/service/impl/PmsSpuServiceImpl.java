@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
 public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> implements IPmsSpuService {
 
     private IPmsSkuService iPmsSkuService;
-    private IPmsAttributeValueService iPmsAttributeValueService;
-    private IPmsSpecificationValueService iPmsSpecificationValueService;
-    private IPmsSpecificationService iPmsSpecificationService;
+    private IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
+    private IPmsSpuSpecValueService iPmsSpuSpecValueService;
+    private IPmsSpecService iPmsSpecService;
 
 
     @Override
@@ -45,8 +45,8 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
     @Transactional
     public boolean add(ProductBO spuBO) {
         SpuDTO SpuDTO = spuBO.getSpu();
-        List<PmsAttributeValue> attrValues = spuBO.getAttrValues();
-        List<PmsSpecificationValue> specs = spuBO.getSpecValues();
+        List<PmsSpuAttributeValue> attrValues = spuBO.getAttrs();
+        List<PmsSpuSpecValue> specs = spuBO.getSpecs();
         List<PmsSku> skuList = spuBO.getSkus();
 
         // spu保存
@@ -61,13 +61,13 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
         // 属性保存
         Optional.ofNullable(attrValues).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsAttributeValueService.saveBatch(list);
+            iPmsSpuAttributeValueService.saveBatch(list);
         });
 
         // 规格保存
         Optional.ofNullable(specs).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSpecificationValueService.saveBatch(list);
+            iPmsSpuSpecValueService.saveBatch(list);
         });
 
         // sku保存
@@ -93,10 +93,10 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
         }
 
         // 属性
-        List<PmsAttributeValue> attrs = iPmsAttributeValueService.
-                list(new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, id));
+        List<PmsSpuAttributeValue> attrs = iPmsSpuAttributeValueService.
+                list(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, id));
         // 规格
-        List<PmsSpecificationValue> specs = iPmsSpecificationValueService.list(new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getSpuId, id));
+        List<PmsSpuSpecValue> specs = iPmsSpuSpecValueService.list(new LambdaQueryWrapper<PmsSpuSpecValue>().eq(PmsSpuSpecValue::getSpuId, id));
         // sku
         List<PmsSku> skus = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
@@ -110,8 +110,8 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
     public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
         SpuDTO SpuDTO = spuBO.getSpu();
 
-        List<PmsAttributeValue> attrValues = spuBO.getAttrValues();
-        List<PmsSpecificationValue> specs = spuBO.getSpecValues();
+        List<PmsSpuAttributeValue> attrValues = spuBO.getAttrs();
+        List<PmsSpuSpecValue> specs = spuBO.getSpecs();
         List<PmsSku> skuList = spuBO.getSkus();
 
         // spu保存
@@ -129,15 +129,15 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsAttributeValueService.list(new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, spu.getId())
-                    .select(PmsAttributeValue::getId))
+            List<Long> dbIds = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, spu.getId())
+                    .select(PmsSpuAttributeValue::getId))
                     .stream()
                     .map(item -> item.getId())
                     .collect(Collectors.toList());
             List<Long> removeIds = dbIds.stream().filter(id -> !ids.contains(id)).collect(Collectors.toList());
-            iPmsAttributeValueService.removeByIds(removeIds);
+            iPmsSpuAttributeValueService.removeByIds(removeIds);
 
-            iPmsAttributeValueService.saveOrUpdateBatch(list);
+            iPmsSpuAttributeValueService.saveOrUpdateBatch(list);
         });
 
         // 规格保存
@@ -146,15 +146,15 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsSpecificationValueService.list(new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getSpuId, spu.getId())
-                    .select(PmsSpecificationValue::getId))
+            List<Long> dbIds = iPmsSpuSpecValueService.list(new LambdaQueryWrapper<PmsSpuSpecValue>().eq(PmsSpuSpecValue::getSpuId, spu.getId())
+                    .select(PmsSpuSpecValue::getId))
                     .stream()
                     .map(item -> item.getId())
                     .collect(Collectors.toList());
             List<Long> removeIds = dbIds.stream().filter(id -> !ids.contains(id)).collect(Collectors.toList());
-            iPmsSpecificationValueService.removeByIds(removeIds);
+            iPmsSpuSpecValueService.removeByIds(removeIds);
 
-            iPmsSpecificationValueService.saveOrUpdateBatch(list);
+            iPmsSpuSpecValueService.saveOrUpdateBatch(list);
         });
 
         // sku保存
@@ -183,9 +183,9 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
                     // sku
                     iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
                     // 规格
-                    iPmsSpecificationValueService.remove(new LambdaQueryWrapper<PmsSpecificationValue>().eq(PmsSpecificationValue::getId, spuId));
+                    iPmsSpuSpecValueService.remove(new LambdaQueryWrapper<PmsSpuSpecValue>().eq(PmsSpuSpecValue::getId, spuId));
                     // 属性
-                    iPmsAttributeValueService.remove(new LambdaQueryWrapper<PmsAttributeValue>().eq(PmsAttributeValue::getSpuId, spuId));
+                    iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, spuId));
                     // spu
                     this.removeById(spuId);
                 })
@@ -205,13 +205,13 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
             SpuDTO.setPics(pics);
         }
         // 属性
-        List<PmsAttributeValue> attrs = iPmsAttributeValueService.list(
-                new LambdaQueryWrapper<PmsAttributeValue>(
-                ).eq(PmsAttributeValue::getSpuId, spuId)
+        List<PmsSpuAttributeValue> attrs = iPmsSpuAttributeValueService.list(
+                new LambdaQueryWrapper<PmsSpuAttributeValue>(
+                ).eq(PmsSpuAttributeValue::getSpuId, spuId)
         );
 
         // 规格
-        List<PmsSpecification> specs = iPmsSpecificationService.listBySpuId(spuId);
+        List<PmsSpecification> specs = iPmsSpecService.listBySpuId(spuId);
 
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));

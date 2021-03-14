@@ -6,13 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.oms.bo.OrderBO;
 import com.youlai.mall.oms.mapper.OmsOrderMapper;
-import com.youlai.mall.oms.pojo.OmsOrder;
-import com.youlai.mall.oms.pojo.OmsOrderItem;
-import com.youlai.mall.oms.service.IOmsOrderItemService;
-import com.youlai.mall.oms.service.IOmsOrderService;
-import com.youlai.mall.pms.api.app.InventoryFeignService;
 import com.youlai.mall.ums.api.app.MemberFeignService;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import lombok.AllArgsConstructor;
@@ -26,7 +20,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> implements IOmsOrderService {
+public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder1> implements IOmsOrderService {
 
     private IOmsOrderItemService iOmsOrderItemService;
 
@@ -40,13 +34,13 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     @Override
     public boolean save(OrderBO orderBO) {
         // 订单
-        OmsOrder order = orderBO.getOrder();
+        OmsOrder1 order = orderBO.getOrder();
         String orderSn = IdUtil.createSnowflake(1, 1).nextIdStr();
         order.setOrderSn(orderSn);
         this.save(order);
 
         // 订单明细
-        List<OmsOrderItem> orderItems = orderBO.getOrderItems();
+        List<OmsOrderItem1> orderItems = orderBO.getOrderItems();
         if (CollectionUtil.isEmpty(orderItems)) {
             throw new BizException("订单明细不能为空");
         }
@@ -61,13 +55,13 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     public OrderBO getByOrderId(Long orderId) {
         OrderBO orderBO = new OrderBO();
         // 订单
-        OmsOrder order = this.getById(orderId);
+        OmsOrder1 order = this.getById(orderId);
         if (order == null) {
             throw new BizException("订单不存在");
         }
         // 订单明细
-        List<OmsOrderItem> orderItems = iOmsOrderItemService.list(
-                new LambdaQueryWrapper<OmsOrderItem>().eq(OmsOrderItem::getOrderId, orderId)
+        List<OmsOrderItem1> orderItems = iOmsOrderItemService.list(
+                new LambdaQueryWrapper<OmsOrderItem1>().eq(OmsOrderItem1::getOrderId, orderId)
         );
         orderItems = Optional.ofNullable(orderItems).orElse(new ArrayList<>());
 

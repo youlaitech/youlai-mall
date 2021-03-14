@@ -3,8 +3,6 @@ package com.youlai.mall.oms.controller;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.oms.controller.admin.OrderController;
-import com.youlai.mall.oms.pojo.OmsOrder;
-import com.youlai.mall.oms.service.IOmsOrderService;
 import com.youlai.mall.pms.api.app.InventoryFeignService;
 import com.youlai.mall.ums.api.app.MemberFeignService;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -73,6 +71,6 @@ public class OrderControllerTest {
         // 增加积分
         memberFeignService.updatePoint(1l, 10);
         // 修改订单状态
-        iOmsOrderService.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, 1l).set(OmsOrder::getStatus, 901));
+        iOmsOrderService.update(new LambdaUpdateWrapper<OmsOrder1>().eq(OmsOrder1::getId, 1l).set(OmsOrder1::getStatus, 901));
     }
 }

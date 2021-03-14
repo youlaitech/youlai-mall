@@ -18,7 +18,7 @@ public enum OrderTypeEnum  {
     ;
 
     @Getter
-    public Integer code;
+    private Integer code;
 
     public static OrderTypeEnum getValue(Integer code){
         for (OrderTypeEnum value : values()) {

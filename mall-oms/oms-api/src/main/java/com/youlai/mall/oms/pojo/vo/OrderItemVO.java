@@ -54,9 +54,9 @@ public class OrderItemVO extends BaseVO {
      * 小计
      */
     @Setter
-    private Long subTotal;
+    private Long subtotal;
 
-    public Long getSubTotal() {
+    public Long getSubtotal() {
         Long total = 0L;
         if (price != null && number != null){
             total = price * number;

@@ -4,7 +4,7 @@
 <mapper namespace="com.youlai.mall.oms.dao.OrderDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.youlai.mall.oms.pojo.entity.OrderEntity" id="orderMap">
+    <resultMap type="com.youlai.mall.oms.pojo.domain.OmsOrder" id="orderMap">
         <result property="id" column="id"/>
         <result property="orderSn" column="order_sn"/>
         <result property="totalAmount" column="total_amount"/>

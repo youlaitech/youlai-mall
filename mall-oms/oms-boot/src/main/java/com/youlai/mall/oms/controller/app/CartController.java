@@ -1,8 +1,6 @@
 package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.oms.bo.CartItemBO;
-import com.youlai.mall.oms.bo.CartItemCheckBo;
 import com.youlai.mall.oms.pojo.vo.CartVO;
 import com.youlai.mall.oms.service.CartService;
 import io.swagger.annotations.Api;
@@ -10,10 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * 购物车
@@ -34,56 +29,50 @@ public class CartController {
 
     @ApiOperation(value = "查询购物车", httpMethod = "GET")
     @GetMapping
-    public Result<CartVO> detail() {
-        CartVO cart = cartService.detail();
+    public Result getCart() {
+        CartVO cart = cartService.getCart();
         return Result.success(cart);
     }
 
-    @ApiOperation(value = "添加购物车", httpMethod = "POST")
-    @ApiImplicitParam(name = "skuId", value = "商品SKU Id", required = true, paramType = "param", dataType = "String")
+    @ApiOperation(value = "添加购物车商品", httpMethod = "POST")
+    @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
     @PostMapping
-    public Result<Object> save(@RequestParam("skuId") String skuId) throws ExecutionException, InterruptedException {
-        cartService.save(skuId);
+    public Result addCartItem(@RequestParam Long skuId) {
+        cartService.addCartItem(skuId);
         return Result.success();
     }
 
-    @ApiOperation(value = "修改购物车商品数量", httpMethod = "PUT")
-    @ApiImplicitParam(name = "cartItemBo", value = "实体JSON对象", required = true, paramType = "body", dataType = "CartItemBo")
-    @PutMapping
-    public Result<Object> update(@Validated @RequestBody CartItemBO cartItemBo) {
-        cartService.update(cartItemBo);
+    @ApiOperation(value = "局部更新购物车商品", httpMethod = "PUT")
+    @PutMapping("/skuId/{skuId}")
+    public Result updateCartItem(
+            @PathVariable Long skuId,
+            Integer num,
+            Boolean checked
+    ) {
+        cartService.updateCartItem(skuId, num, checked);
         return Result.success();
     }
 
-    @ApiOperation(value = "是否选择购物车中商品", httpMethod = "PUT")
-    @ApiImplicitParam(name = "cartItemChooseBo", value = "实体JSON对象", required = true, paramType = "body", dataType = "CartItemChooseBo")
-    @PutMapping("/check")
-    public Result<Object> check(@Validated @RequestBody CartItemCheckBo cartItemCheckBo) {
-        cartService.check(cartItemCheckBo);
+    @ApiOperation(value = "全选/全不选择购物车商品", httpMethod = "PUT")
+    @ApiImplicitParam(name = "checked", value = "全选/全不选", required = true, paramType = "param", dataType = "Boolean")
+    @PatchMapping("/batch")
+    public Result checkAll(Boolean checked) {
+        cartService.checkAll(checked);
         return Result.success();
     }
 
-    @ApiOperation(value = "全选/全不选择购物车", httpMethod = "PUT")
-    @ApiImplicitParam(name = "check", value = "全选/全不选", required = true, paramType = "param", dataType = "Long")
-    @PutMapping("/checkAll")
-    public Result<Object> checkAll(@RequestParam("check") Integer check) {
-        cartService.checkAll(check);
+    @ApiOperation(value = "删除购物车商品", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "skuId", value = "SKU ID集合", required = true, paramType = "param", dataType = "Long")
+    @DeleteMapping("/skuId/{skuId}")
+    public Result deleteCartItem(@PathVariable Long skuId) {
+        cartService.deleteCartItem(skuId);
         return Result.success();
     }
 
-    @ApiOperation(value = "批量删除购物车", httpMethod = "DELETE")
-    @ApiImplicitParam(name = "skuIds", value = "商品sku id集合", required = true, paramType = "param", dataType = "List")
+    @ApiOperation(value = "清空购物车", httpMethod = "DELETE")
     @DeleteMapping
-    public Result<Boolean> delete(@RequestParam("skuIds") List<String> skuIds) {
-        cartService.deleteBatch(skuIds);
+    public Result deleteCart() {
+        cartService.deleteCart();
         return Result.success();
     }
-
-    @ApiOperation(value = "清空购物车", httpMethod = "GET")
-    @GetMapping("/clear")
-    public Result<Boolean> clear() {
-        cartService.clear();
-        return Result.success();
-    }
-
 }

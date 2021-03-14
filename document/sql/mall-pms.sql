@@ -198,10 +198,10 @@ INSERT INTO `pms_sku` VALUES (195, 54, '测试手机1 白 6+128 ', '161546463324
 INSERT INTO `pms_sku` VALUES (196, 54, '测试手机1 白 8+256 ', '1615464630696', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505517558,1615464621209', 34900, 299900, 9999, 0, '2021-03-11 20:10:35', '2021-03-11 20:10:35');
 
 -- ----------------------------
--- Table structure for pms_specification
+-- Table structure for pms_spec
 -- ----------------------------
-DROP TABLE IF EXISTS `pms_specification`;
-CREATE TABLE `pms_specification`  (
+DROP TABLE IF EXISTS `pms_spec`;
+CREATE TABLE `pms_spec`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `category_id` bigint(0) NOT NULL COMMENT '商品分类ID',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格名称',
@@ -212,124 +212,124 @@ CREATE TABLE `pms_specification`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of pms_specification
+-- Records of pms_spec
 -- ----------------------------
-INSERT INTO `pms_specification` VALUES (1, 2, '颜色', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (2, 2, '版本', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (3, 24, '颜色', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (4, 24, '尺寸', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (6, 47, '颜色', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (7, 47, '尺寸', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (8, 26, '颜色', NULL, '2021-02-28 16:19:07');
-INSERT INTO `pms_specification` VALUES (9, 26, '版本', NULL, '2021-02-28 16:19:07');
-INSERT INTO `pms_specification` VALUES (10, 28, '价钱', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (11, 44, '颜色', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (12, 44, '尺寸', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (16, 61, '颜色', NULL, '2021-02-28 17:53:45');
-INSERT INTO `pms_specification` VALUES (17, 79, 'vvv', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (18, 79, '222', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (19, 79, 'vvv', NULL, NULL);
-INSERT INTO `pms_specification` VALUES (20, 61, '尺寸', '2021-02-28 17:53:45', '2021-02-28 17:53:45');
+INSERT INTO `pms_spec` VALUES (1, 2, '颜色', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (2, 2, '版本', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (3, 24, '颜色', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (4, 24, '尺寸', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (6, 47, '颜色', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (7, 47, '尺寸', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (8, 26, '颜色', NULL, '2021-02-28 16:19:07');
+INSERT INTO `pms_spec` VALUES (9, 26, '版本', NULL, '2021-02-28 16:19:07');
+INSERT INTO `pms_spec` VALUES (10, 28, '价钱', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (11, 44, '颜色', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (12, 44, '尺寸', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (16, 61, '颜色', NULL, '2021-02-28 17:53:45');
+INSERT INTO `pms_spec` VALUES (17, 79, 'vvv', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (18, 79, '222', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (19, 79, 'vvv', NULL, NULL);
+INSERT INTO `pms_spec` VALUES (20, 61, '尺寸', '2021-02-28 17:53:45', '2021-02-28 17:53:45');
 
 -- ----------------------------
--- Table structure for pms_specification_value
+-- Table structure for pms_spec_value
 -- ----------------------------
-DROP TABLE IF EXISTS `pms_specification_value`;
-CREATE TABLE `pms_specification_value`  (
+DROP TABLE IF EXISTS `pms_spec_value`;
+CREATE TABLE `pms_spec_value`  (
   `id` bigint(0) NOT NULL COMMENT '主键',
   `spu_id` bigint(0) DEFAULT NULL COMMENT 'SPU ID',
-  `specification_id` bigint(0) DEFAULT NULL COMMENT '规格ID',
+  `spec_id` bigint(0) DEFAULT NULL COMMENT '规格ID',
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '规格值',
   `gmt_create` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `gmt_modified` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_specification_pms_sku`(`spu_id`) USING BTREE,
-  INDEX `fk_pms_sku_specification_pms_specification`(`specification_id`) USING BTREE
+  INDEX `fk_pms_sku_specification_pms_spec`(`spec_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of pms_specification_value
+-- Records of pms_spec_value
 -- ----------------------------
-INSERT INTO `pms_specification_value` VALUES (1608802056776, 38, 1, '湖光秋色', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1608802062976, 38, 1, '碧海星辰', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1608802070118, 38, 1, '静默星空', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1608802076696, 38, 2, '6+128G', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1608802116726, 38, 2, '8+128G', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1608802138192, 38, 2, '8+256G', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000033689, 39, 1, '1', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000035657, 39, 2, '2', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000038179, 39, 1, '3', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000040282, 39, 2, '4', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000055065, 39, 1, '4', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000056291, 39, 2, '5', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000644446, 40, 1, '1', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000645513, 40, 2, '2', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000647035, 40, 1, '3', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000648202, 40, 2, '4', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000649901, 40, 1, '5', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609000651182, 40, 2, '6', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042088936, 41, 1, '1', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042089916, 41, 2, '2', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042091253, 41, 1, '3', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042092450, 41, 2, '4', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042094404, 41, 1, '5', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042095699, 41, 2, '6', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042347511, 42, 1, '1', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042348372, 42, 2, '2', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042349850, 42, 1, '3', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042350769, 42, 2, '4', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042352933, 42, 1, '5', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042353617, 42, 2, '6', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042602199, 43, 1, '1', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042603267, 43, 2, '2', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042604496, 43, 1, '3', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609042605719, 43, 2, '4', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609043070853, 43, 1, '5', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609069095406, 44, 3, '粉色', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609069098669, 44, 3, '蓝色', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609069102134, 44, 3, '白色', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609069106105, 44, 4, 'M', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609069109683, 44, 4, 'L', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609069113091, 44, 4, 'XL', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609327260839, 45, 6, '粉', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609327264431, 45, 6, '蓝', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609327268527, 45, 7, 'M', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609327271672, 45, 7, 'L', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609327275785, 45, 7, 'XL', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609327278984, 45, 6, '白', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609329141929, 46, 6, '蓝', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609329145746, 46, 7, 'M', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609329150111, 46, 6, '绿', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609329153393, 46, 7, 'L', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609329157057, 46, 7, 'XL', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609465174892, 47, 6, '黄', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609465178593, 47, 6, '蓝', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609465182665, 47, 6, '绿', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609465184422, 47, 7, 'M', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609465189213, 47, 7, 'L', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609465196239, 47, 7, 'XL', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609861048903, 48, 8, '水水水水', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609861053728, 48, 9, '22222', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609861060714, 48, 8, '1111', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609861063662, 48, 8, '3223232', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1609861160023, 48, 9, '112332', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1610678793825, 49, 8, '2', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1610678796037, 49, 9, '2', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1610961553389, 50, 8, '34', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1610961561656, 50, 9, '434 ', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1611107644444, 51, 8, '高端', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1611107652289, 51, 9, '上档次', NULL, NULL);
-INSERT INTO `pms_specification_value` VALUES (1614505504702, 54, 8, '黑', '2021-02-28 17:45:42', '2021-03-11 20:10:35');
-INSERT INTO `pms_specification_value` VALUES (1614505510650, 54, 9, '6+128', '2021-02-28 17:45:42', '2021-03-11 20:10:35');
-INSERT INTO `pms_specification_value` VALUES (1614505517558, 54, 9, '8+256', '2021-02-28 17:45:42', '2021-03-11 20:10:35');
-INSERT INTO `pms_specification_value` VALUES (1614505920109, 52, 8, '黑', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
-INSERT INTO `pms_specification_value` VALUES (1614505925142, 52, 9, '4+64', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
-INSERT INTO `pms_specification_value` VALUES (1614505931577, 52, 9, '6+128', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
-INSERT INTO `pms_specification_value` VALUES (1614505936504, 52, 9, '8+256', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
-INSERT INTO `pms_specification_value` VALUES (1614506161188, 53, 16, '白', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
-INSERT INTO `pms_specification_value` VALUES (1614506165004, 53, 20, 'L', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
-INSERT INTO `pms_specification_value` VALUES (1614506167997, 53, 20, 'M', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
-INSERT INTO `pms_specification_value` VALUES (1615464621209, 54, 8, '白', '2021-03-11 20:10:35', '2021-03-11 20:10:35');
+INSERT INTO `pms_spec_value` VALUES (1608802056776, 38, 1, '湖光秋色', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1608802062976, 38, 1, '碧海星辰', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1608802070118, 38, 1, '静默星空', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1608802076696, 38, 2, '6+128G', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1608802116726, 38, 2, '8+128G', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1608802138192, 38, 2, '8+256G', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000033689, 39, 1, '1', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000035657, 39, 2, '2', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000038179, 39, 1, '3', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000040282, 39, 2, '4', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000055065, 39, 1, '4', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000056291, 39, 2, '5', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000644446, 40, 1, '1', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000645513, 40, 2, '2', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000647035, 40, 1, '3', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000648202, 40, 2, '4', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000649901, 40, 1, '5', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609000651182, 40, 2, '6', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042088936, 41, 1, '1', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042089916, 41, 2, '2', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042091253, 41, 1, '3', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042092450, 41, 2, '4', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042094404, 41, 1, '5', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042095699, 41, 2, '6', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042347511, 42, 1, '1', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042348372, 42, 2, '2', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042349850, 42, 1, '3', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042350769, 42, 2, '4', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042352933, 42, 1, '5', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042353617, 42, 2, '6', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042602199, 43, 1, '1', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042603267, 43, 2, '2', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042604496, 43, 1, '3', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609042605719, 43, 2, '4', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609043070853, 43, 1, '5', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609069095406, 44, 3, '粉色', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609069098669, 44, 3, '蓝色', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609069102134, 44, 3, '白色', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609069106105, 44, 4, 'M', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609069109683, 44, 4, 'L', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609069113091, 44, 4, 'XL', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609327260839, 45, 6, '粉', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609327264431, 45, 6, '蓝', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609327268527, 45, 7, 'M', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609327271672, 45, 7, 'L', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609327275785, 45, 7, 'XL', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609327278984, 45, 6, '白', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609329141929, 46, 6, '蓝', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609329145746, 46, 7, 'M', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609329150111, 46, 6, '绿', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609329153393, 46, 7, 'L', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609329157057, 46, 7, 'XL', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609465174892, 47, 6, '黄', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609465178593, 47, 6, '蓝', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609465182665, 47, 6, '绿', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609465184422, 47, 7, 'M', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609465189213, 47, 7, 'L', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609465196239, 47, 7, 'XL', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609861048903, 48, 8, '水水水水', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609861053728, 48, 9, '22222', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609861060714, 48, 8, '1111', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609861063662, 48, 8, '3223232', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1609861160023, 48, 9, '112332', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1610678793825, 49, 8, '2', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1610678796037, 49, 9, '2', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1610961553389, 50, 8, '34', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1610961561656, 50, 9, '434 ', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1611107644444, 51, 8, '高端', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1611107652289, 51, 9, '上档次', NULL, NULL);
+INSERT INTO `pms_spec_value` VALUES (1614505504702, 54, 8, '黑', '2021-02-28 17:45:42', '2021-03-11 20:10:35');
+INSERT INTO `pms_spec_value` VALUES (1614505510650, 54, 9, '6+128', '2021-02-28 17:45:42', '2021-03-11 20:10:35');
+INSERT INTO `pms_spec_value` VALUES (1614505517558, 54, 9, '8+256', '2021-02-28 17:45:42', '2021-03-11 20:10:35');
+INSERT INTO `pms_spec_value` VALUES (1614505920109, 52, 8, '黑', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+INSERT INTO `pms_spec_value` VALUES (1614505925142, 52, 9, '4+64', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+INSERT INTO `pms_spec_value` VALUES (1614505931577, 52, 9, '6+128', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+INSERT INTO `pms_spec_value` VALUES (1614505936504, 52, 9, '8+256', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
+INSERT INTO `pms_spec_value` VALUES (1614506161188, 53, 16, '白', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
+INSERT INTO `pms_spec_value` VALUES (1614506165004, 53, 20, 'L', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
+INSERT INTO `pms_spec_value` VALUES (1614506167997, 53, 20, 'M', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
+INSERT INTO `pms_spec_value` VALUES (1615464621209, 54, 8, '白', '2021-03-11 20:10:35', '2021-03-11 20:10:35');
 
 -- ----------------------------
 -- Table structure for pms_spu

@@ -39,8 +39,11 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
             "  LEFT JOIN pms_spu t2 ON t1.spu_id = t2.id",
             "  LEFT JOIN pms_category t3 ON t2.category_id = t3.id",
             "  LEFT JOIN pms_brand t4 ON t2.brand_id = t4.id",
-            " WHERE t1.id in (#{skuIds})",
+            " WHERE t1.id in ",
+            "  <foreach collection='skuIds' item='skuId' open='(' separator=',' close=')'>",
+            "      #{skuId}",
+            "  </foreach>",
             "</script>"
     })
-    List<SkuDTO> listBySkuIds(String skuIds);
+    List<SkuDTO> listBySkuIds(List<Long> skuIds);
 }

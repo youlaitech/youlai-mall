@@ -1,17 +1,18 @@
 package com.youlai.mall.oms.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rabbitmq.client.Channel;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.config.rabbitmq.OmsRabbitConstants;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
-import com.youlai.mall.oms.pojo.entity.OrderEntity;
-import com.youlai.mall.oms.pojo.entity.OrderGoodsEntity;
+import com.youlai.mall.oms.pojo.domain.OmsOrder;
+import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.service.OrderGoodsService;
 import com.youlai.mall.oms.service.OrderRabbitService;
-import com.youlai.mall.oms.service.OrderService;
+import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.InventoryFeignService;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderRabbitServiceImpl implements OrderRabbitService {
 
-    private OrderService orderService;
+    private IOrderService IOrderService;
 
     private OrderGoodsService orderGoodsService;
 
@@ -53,9 +54,9 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
         log.info("获取到消息，msgTag={}，message={}，body={}", msgTag, message.toString(), orderSn);
 
         try {
-            OrderEntity order = orderService.getByOrderSn(orderSn);
+            OmsOrder order =  IOrderService.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn,orderSn));
             if (order.getStatus().equals(OrderStatusEnum.NEED_PAY.getCode())) {
-                if (orderService.closeOrderBySystem(orderSn)){
+                if (IOrderService.closeOrderBySystem(orderSn)){
                     unlockInventory(order.getId());
                 }
             }
@@ -67,7 +68,7 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
     }
 
     private void unlockInventory(Long orderId) {
-        List<OrderGoodsEntity> orderGoods = orderGoodsService.getByOrderId(orderId);
+        List<OmsOrderItem> orderGoods = orderGoodsService.getByOrderId(orderId);
         List<InventoryDTO> items = orderGoods.stream().map(good -> {
             InventoryDTO item = new InventoryDTO();
             item.setInventoryId(good.getSkuId());

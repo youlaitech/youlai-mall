@@ -97,7 +97,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     }
 
     @Override
-    public List<SkuDTO> listBySkuIds(String ids) {
-        return this.listBySkuIds(ids);
+    public List<SkuDTO> listBySkuIds(List<Long> ids) {
+        return this.baseMapper.listBySkuIds(ids);
     }
 }
