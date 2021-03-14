@@ -11,7 +11,7 @@ import com.youlai.mall.oms.pojo.domain.OmsOrderLog;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-public interface OrderLogsService extends IService<OmsOrderLog> {
+public interface IOrderLogService extends IService<OmsOrderLog> {
 
     /**
      * 添加订单操作日志记录

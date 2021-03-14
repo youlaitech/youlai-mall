@@ -19,5 +19,5 @@ public class OrderPayForm implements Serializable {
     private Integer payType;
 
     @NotBlank(message = "订单ID不能为空")
-    private String orderId;
+    private Long orderId;
 }

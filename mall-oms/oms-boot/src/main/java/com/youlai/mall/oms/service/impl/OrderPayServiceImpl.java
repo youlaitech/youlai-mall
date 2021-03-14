@@ -13,8 +13,8 @@ import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderPay;
 import com.youlai.mall.oms.pojo.vo.PayInfoVO;
-import com.youlai.mall.oms.service.OrderLogsService;
-import com.youlai.mall.oms.service.OrderPayService;
+import com.youlai.mall.oms.service.IOrderLogService;
+import com.youlai.mall.oms.service.IOrderPayService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.ums.api.app.MemberFeignService;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
@@ -27,22 +27,22 @@ import java.util.Date;
 
 
 @Slf4j
+@Service
 @AllArgsConstructor
-@Service("orderPayService")
-public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> implements OrderPayService {
+public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> implements IOrderPayService {
 
-    private IOrderService IOrderService;
+    private IOrderService orderService;
 
-    private OrderLogsService orderLogsService;
+    private IOrderLogService orderLogService;
 
     private MemberFeignService memberFeignService;
 
     @Override
-    public PayInfoVO info(String orderId) {
+    public PayInfoVO info(Long orderId) {
         Long userId = RequestUtils.getUserId();
         PayInfoVO payInfoVO = new PayInfoVO();
         // 1、获取订单应支付金额
-        OmsOrder omsOrder = IOrderService.getByOrderId(orderId);
+        OmsOrder omsOrder = orderService.getByOrderId(orderId);
         payInfoVO.setPayPrice(omsOrder.getPayAmount());
 
         // 2、获取会员余额
@@ -65,10 +65,10 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> i
 
     @Override
     @GlobalTransactional(rollbackFor = Exception.class)
-    public void balancePay(String orderId) {
+    public void balancePay(Long orderId) {
         // 1、查询订单详情，判断订单状态是否是待支付状态
         log.info("订单进入支付流程，orderId：{}", orderId);
-        OmsOrder order = IOrderService.getByOrderId(orderId);
+        OmsOrder order = orderService.getByOrderId(orderId);
         OrderStatusEnum orderStatusEnum =  OrderStatusEnum.getValue(order.getStatus()) ;
         if (orderStatusEnum != OrderStatusEnum.NEED_PAY) {
             log.error("订单状态异常无法支付，orderStatus={}", orderStatusEnum.getText());
@@ -95,9 +95,9 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> i
         order.setStatus(OrderStatusEnum.IS_PAY.getCode());
         order.setPayTime(new Date());
         order.setPayType(PayTypeEnum.BALANCE.getCode());
-        IOrderService.updateById(order);
+        orderService.updateById(order);
         this.save(createOrderPay(order, PayTypeEnum.BALANCE.getCode()));
-        orderLogsService.addOrderLogs(order.getId(), OrderStatusEnum.IS_PAY.getCode(), userId.toString(), "支付订单");
+        orderLogService.addOrderLogs(order.getId(), OrderStatusEnum.IS_PAY.getCode(), userId.toString(), "支付订单");
     }
 
     private OmsOrderPay createOrderPay(OmsOrder order, Integer payType) {

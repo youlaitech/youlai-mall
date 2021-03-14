@@ -5,7 +5,7 @@ import com.youlai.mall.oms.pojo.vo.CartVO;
 /**
  * 购物车业务接口
  */
-public interface CartService {
+public interface ICartService {
 
     /**
      * 添加商品到购物车
@@ -41,7 +41,7 @@ public interface CartService {
     /**
      * 清空购物车中已选择商品
      */
-    void cleanSelected();
+    void deleteSelectedItem();
 
 
 }
