@@ -4,7 +4,7 @@
 <mapper namespace="com.youlai.mall.oms.dao.OrderSettingDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.youlai.mall.oms.pojo.entity.OrderSettingEntity" id="orderSettingMap">
+    <resultMap type="com.youlai.mall.oms.pojo.domain.OmsOrderSetting" id="orderSettingMap">
         <result property="id" column="id"/>
         <result property="flashOrderOvertime" column="flash_order_overtime"/>
         <result property="normalOrderOvertime" column="normal_order_overtime"/>

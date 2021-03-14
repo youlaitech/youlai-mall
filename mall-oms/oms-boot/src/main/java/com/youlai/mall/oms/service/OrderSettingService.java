@@ -2,7 +2,7 @@ package com.youlai.mall.oms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import com.youlai.mall.oms.pojo.entity.OrderSettingEntity;
+import com.youlai.mall.oms.pojo.domain.OmsOrderSetting;
 
 /**
  * 订单配置信息
@@ -11,6 +11,6 @@ import com.youlai.mall.oms.pojo.entity.OrderSettingEntity;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-public interface OrderSettingService extends IService<OrderSettingEntity> {
+public interface OrderSettingService extends IService<OmsOrderSetting> {
 }
 

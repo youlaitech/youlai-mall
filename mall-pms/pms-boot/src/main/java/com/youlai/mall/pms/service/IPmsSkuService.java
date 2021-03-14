@@ -37,5 +37,5 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @param ids
      * @return
      */
-    List<SkuDTO> listBySkuIds(String ids);
+    List<SkuDTO> listBySkuIds(List<Long> ids);
 }

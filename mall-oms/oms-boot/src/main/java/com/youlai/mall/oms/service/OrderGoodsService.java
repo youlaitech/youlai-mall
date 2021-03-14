@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.oms.pojo.entity.OrderGoodsEntity;
+import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 
 import java.util.List;
 import java.util.Map;
@@ -13,11 +13,11 @@ import java.util.Map;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-public interface OrderGoodsService extends IService<OrderGoodsEntity> {
+public interface OrderGoodsService extends IService<OmsOrderItem> {
 
-    List<OrderGoodsEntity> getByOrderId(Long orderId);
+    List<OmsOrderItem> getByOrderId(Long orderId);
 
-    Map<Long,List<OrderGoodsEntity>> getByOrderIds(List<Long> orderIds);
+    Map<Long,List<OmsOrderItem>> getByOrderIds(List<Long> orderIds);
 
 }
 

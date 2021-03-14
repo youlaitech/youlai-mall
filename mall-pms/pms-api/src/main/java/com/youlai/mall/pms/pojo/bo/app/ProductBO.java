@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.pojo.bo.app;
 
 import com.youlai.mall.pms.pojo.domain.PmsSku;
-import com.youlai.mall.pms.pojo.domain.PmsAttributeValue;
+import com.youlai.mall.pms.pojo.domain.PmsSpuAttributeValue;
 import com.youlai.mall.pms.pojo.domain.PmsSpecification;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public class ProductBO {
 
     private SpuDTO spu;
 
-    private List<PmsAttributeValue> attrValues;
+    private List<PmsSpuAttributeValue> attrs;
 
     private List<PmsSpecification> specs;
 

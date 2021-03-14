@@ -2,9 +2,7 @@ package com.youlai.mall.oms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import com.youlai.mall.oms.pojo.entity.OrderDeliveryEntity;
-
-import java.util.Map;
+import com.youlai.mall.oms.pojo.domain.OmsOrderDelivery;
 
 /**
  * 订单物流记录表
@@ -13,6 +11,6 @@ import java.util.Map;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-public interface OrderDeliveryService extends IService<OrderDeliveryEntity> {
+public interface OrderDeliveryService extends IService<OmsOrderDelivery> {
 }
 
