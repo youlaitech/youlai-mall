@@ -37,7 +37,7 @@ public class OrderItemVO extends BaseVO {
      */
     @Getter
     @Setter
-    private Integer number;
+    private Integer num;
 
     /**
      * 商品单价
@@ -58,8 +58,8 @@ public class OrderItemVO extends BaseVO {
 
     public Long getSubtotal() {
         Long total = 0L;
-        if (price != null && number != null){
-            total = price * number;
+        if (price != null && num != null){
+            total = price * num;
         }
         return total;
     }

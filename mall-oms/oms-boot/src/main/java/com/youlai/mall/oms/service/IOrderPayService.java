@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 
 public interface IOrderPayService extends IService<OmsOrderPay> {
 
-    boolean payWithBalance(Long orderId);
+    void payWithBalance(Long orderId);
 
-    PayInfoVO getByOrderId(Long orderId);
+    PayInfoVO getPayInfo(Long orderId);
 }
 

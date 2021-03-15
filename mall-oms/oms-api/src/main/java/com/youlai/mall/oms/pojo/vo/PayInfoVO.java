@@ -19,7 +19,7 @@ public class PayInfoVO extends BaseVO {
      * 支付金额
      */
     @ApiModelProperty("支付金额")
-    private Long payPrice;
+    private Long payAmount;
 
     /**
      * 会员余额

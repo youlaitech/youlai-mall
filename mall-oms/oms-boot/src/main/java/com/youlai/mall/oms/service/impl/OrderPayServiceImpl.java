@@ -23,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -32,50 +33,59 @@ import java.util.Date;
 public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> implements IOrderPayService {
 
     private IOrderService orderService;
-
     private IOrderLogService orderLogService;
-
     private MemberFeignService memberFeignService;
 
     @Override
     @GlobalTransactional(rollbackFor = Exception.class)
-    public boolean payWithBalance(Long orderId) {
-        // 1、查询订单详情，判断订单状态是否是待支付状态
-        log.info("订单进入支付流程，orderId：{}", orderId);
+    public void payWithBalance(Long orderId) {
+
+        // 1. 查询订单详情，判断订单状态是否是待支付状态
         OmsOrder order = orderService.getByOrderId(orderId);
-        if (!OrderStatusEnum.NEED_PAY.getCode().equals(order.getStatus())) {
+        if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             throw new BizException("订单" + OrderStatusEnum.getValue(order.getStatus()).getText());
         }
 
-        // 2、远程调用查询会员余额
+        // 2. 远程调用查询会员余额
         Long userId = RequestUtils.getUserId();
         Long balance = memberFeignService.getUserById(userId).getData().getBalance();
 
-        if(Long.compare(balance,order.getPayAmount())==-1){
-            throw new BizException("会员余额不足，无法支付，请先充值");
+        if (Long.compare(balance, order.getPayAmount()) == -1) {
+            throw new BizException("会员余额不足，请先充值");
         }
 
-        // 3、更新用户余额
+        // 3. 更新用户余额
         memberFeignService.updateBalance(userId, order.getPayAmount());
 
-        // 4、更新订单状态、添加订单支付记录、添加订单操作记录
-        order.setStatus(OrderStatusEnum.IS_PAY.getCode());
+        // 4. 更新订单状态
+        order.setStatus(OrderStatusEnum.PAID.getCode());
         order.setPayTime(new Date());
         order.setPayType(PayTypeEnum.BALANCE.getCode());
         orderService.updateById(order);
-        this.save(createOrderPay(order, PayTypeEnum.BALANCE.getCode()));
-        orderLogService.addOrderLogs(order.getId(), OrderStatusEnum.IS_PAY.getCode(), userId.toString(), "支付订单");
 
-        return false;
+
+        // 5. 添加订单支付记录
+        OmsOrderPay orderPay = OmsOrderPay.builder()
+                .orderId(orderId)
+                .payAmount(order.getPayAmount())
+                .payTime(new Date())
+                .payType(PayTypeEnum.BALANCE.getCode())
+                .build();
+
+        this.save(orderPay);
+
+        // 6. 添加操作日志
+        orderLogService.addOrderLogs(order.getId(), OrderStatusEnum.PAID.getCode(), userId.toString(), "支付订单");
+
     }
 
     @Override
-    public PayInfoVO getByOrderId(Long orderId) {
+    public PayInfoVO getPayInfo(Long orderId) {
         Long userId = RequestUtils.getUserId();
         PayInfoVO payInfoVO = new PayInfoVO();
         // 1、获取订单应支付金额
         OmsOrder omsOrder = orderService.getByOrderId(orderId);
-        payInfoVO.setPayPrice(omsOrder.getPayAmount());
+        payInfoVO.setPayAmount(omsOrder.getPayAmount());
 
         // 2、获取会员余额
         try {
@@ -93,15 +103,6 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> i
         }
 
         return payInfoVO;
-    }
-
-    private OmsOrderPay createOrderPay(OmsOrder order, Integer payType) {
-        OmsOrderPay payEntity = new OmsOrderPay();
-        payEntity.setOrderId(order.getId());
-        payEntity.setPayAmount(order.getPayAmount());
-        payEntity.setPayTime(new Date());
-        payEntity.setPayType(payType);
-        return payEntity;
     }
 
 }

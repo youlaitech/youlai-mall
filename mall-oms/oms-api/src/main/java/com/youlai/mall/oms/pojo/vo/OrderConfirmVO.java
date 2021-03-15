@@ -12,6 +12,14 @@ import java.util.List;
 
 public class OrderConfirmVO extends BaseVO {
 
+
+    /**
+     * 订单总额
+     */
+    @Setter
+    private Long totalPrice;
+
+
     /**
      * 商品列表
      */
@@ -29,17 +37,12 @@ public class OrderConfirmVO extends BaseVO {
     @Setter
     private Integer integration;
 
-    /**
-     * 订单总额
-     */
-    @Setter
-    private Long totalPrice;
 
     /**
      * 应付价格
      */
     @Setter
-    private Long payPrice;
+    private Long payAmount;
 
     public Long getTotalPrice() {
         Long total = 0L;
