@@ -1,6 +1,6 @@
 package com.youlai.mall.sms.scheduled;
 
-import com.youlai.mall.sms.service.SeckillService;
+import com.youlai.mall.sms.service.ISeckillService;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -23,7 +23,7 @@ public class SeckillSkuScheduled {
     private static final String SECKILL_SKU_LATEST_3_DAY= "seckillSkuLatest3Days";
 
     @Autowired
-    private SeckillService seckillService;
+    private ISeckillService ISeckillService;
 
 
     @Autowired
@@ -38,7 +38,7 @@ public class SeckillSkuScheduled {
         lock.lock(10, TimeUnit.SECONDS);
 
         try {
-            seckillService.updateSeckillSkuLatest3Days();
+            ISeckillService.updateSeckillSkuLatest3Days();
         } finally {
             lock.unlock();
         }
