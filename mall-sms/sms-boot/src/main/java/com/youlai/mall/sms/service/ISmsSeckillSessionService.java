@@ -12,7 +12,7 @@ import java.util.List;
  * @email huawei_code@163.com
  * @date 2021/3/5
  */
-public interface SmsSeckillSessionService extends IService<SmsSeckillSession> {
+public interface ISmsSeckillSessionService extends IService<SmsSeckillSession> {
 
     /**
      * 根据起始时间和结束时间查询秒杀活动列表

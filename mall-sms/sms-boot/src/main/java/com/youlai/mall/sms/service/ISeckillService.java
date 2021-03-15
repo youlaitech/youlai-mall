@@ -10,7 +10,7 @@ import java.util.List;
  * @email huawei_code@163.com
  * @date 2021/3/5
  */
-public interface SeckillService {
+public interface ISeckillService {
 
     void updateSeckillSkuLatest3Days();
 

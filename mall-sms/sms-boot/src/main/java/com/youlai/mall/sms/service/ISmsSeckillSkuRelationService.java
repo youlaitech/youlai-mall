@@ -11,7 +11,7 @@ import java.util.List;
  * @email huawei_code@163.com
  * @date 2021/3/5
  */
-public interface SmsSeckillSkuRelationService extends IService<SmsSeckillSkuRelation> {
+public interface ISmsSeckillSkuRelationService extends IService<SmsSeckillSkuRelation> {
 
     /**
      * 根据秒杀活动ID获取关联商品
