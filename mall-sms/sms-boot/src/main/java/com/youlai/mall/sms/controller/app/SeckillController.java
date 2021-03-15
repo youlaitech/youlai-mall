@@ -2,7 +2,7 @@ package com.youlai.mall.sms.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.sms.pojo.vo.SmsSeckillSkuVO;
-import com.youlai.mall.sms.service.SeckillService;
+import com.youlai.mall.sms.service.ISeckillService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,11 @@ import java.util.List;
 public class SeckillController {
 
     @Autowired
-    private SeckillService seckillService;
+    private ISeckillService ISeckillService;
 
     @GetMapping
     public Result getCurrentSeckillSession() {
-        List<SmsSeckillSkuVO> currentSeckills = seckillService.getCurrentSeckillSession();
+        List<SmsSeckillSkuVO> currentSeckills = ISeckillService.getCurrentSeckillSession();
         return Result.success();
     }
 }
