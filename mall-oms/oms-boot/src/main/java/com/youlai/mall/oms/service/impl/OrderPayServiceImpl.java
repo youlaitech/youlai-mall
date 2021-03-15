@@ -38,7 +38,39 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> i
     private MemberFeignService memberFeignService;
 
     @Override
-    public PayInfoVO info(Long orderId) {
+    @GlobalTransactional(rollbackFor = Exception.class)
+    public boolean payWithBalance(Long orderId) {
+        // 1、查询订单详情，判断订单状态是否是待支付状态
+        log.info("订单进入支付流程，orderId：{}", orderId);
+        OmsOrder order = orderService.getByOrderId(orderId);
+        if (!OrderStatusEnum.NEED_PAY.getCode().equals(order.getStatus())) {
+            throw new BizException("订单" + OrderStatusEnum.getValue(order.getStatus()).getText());
+        }
+
+        // 2、远程调用查询会员余额
+        Long userId = RequestUtils.getUserId();
+        Long balance = memberFeignService.getUserById(userId).getData().getBalance();
+
+        if(Long.compare(balance,order.getPayAmount())==-1){
+            throw new BizException("会员余额不足，无法支付，请先充值");
+        }
+
+        // 3、更新用户余额
+        memberFeignService.updateBalance(userId, order.getPayAmount());
+
+        // 4、更新订单状态、添加订单支付记录、添加订单操作记录
+        order.setStatus(OrderStatusEnum.IS_PAY.getCode());
+        order.setPayTime(new Date());
+        order.setPayType(PayTypeEnum.BALANCE.getCode());
+        orderService.updateById(order);
+        this.save(createOrderPay(order, PayTypeEnum.BALANCE.getCode()));
+        orderLogService.addOrderLogs(order.getId(), OrderStatusEnum.IS_PAY.getCode(), userId.toString(), "支付订单");
+
+        return false;
+    }
+
+    @Override
+    public PayInfoVO getByOrderId(Long orderId) {
         Long userId = RequestUtils.getUserId();
         PayInfoVO payInfoVO = new PayInfoVO();
         // 1、获取订单应支付金额
@@ -61,43 +93,6 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayDao, OmsOrderPay> i
         }
 
         return payInfoVO;
-    }
-
-    @Override
-    @GlobalTransactional(rollbackFor = Exception.class)
-    public void balancePay(Long orderId) {
-        // 1、查询订单详情，判断订单状态是否是待支付状态
-        log.info("订单进入支付流程，orderId：{}", orderId);
-        OmsOrder order = orderService.getByOrderId(orderId);
-        OrderStatusEnum orderStatusEnum =  OrderStatusEnum.getValue(order.getStatus()) ;
-        if (orderStatusEnum != OrderStatusEnum.NEED_PAY) {
-            log.error("订单状态异常无法支付，orderStatus={}", orderStatusEnum.getText());
-            throw new BizException("订单" + orderStatusEnum.getText());
-        }
-
-        // 2、查询用户信息，判断用户余额是否足够
-        Long userId = RequestUtils.getUserId();
-        Result<MemberDTO> memberInfo = memberFeignService.getUserById(userId);
-        MemberDTO memberInfoData = memberInfo.getData();
-        if (memberInfo == null || !memberInfo.getCode().equals(ResultCode.SUCCESS.getCode()) || memberInfoData == null) {
-            log.error("会员信息异常，无法支付");
-            throw new BizException("会员信息异常，无法支付");
-        }
-        if (memberInfoData.getBalance() < order.getPayAmount()) {
-            log.error("会员余额不足，无法支付，请先充值");
-            throw new BizException("会员余额不足，无法支付，请先充值");
-        }
-
-        // 3、更新用户余额
-        memberFeignService.updateBalance(userId, order.getPayAmount());
-
-        // 4、更新订单状态、添加订单支付记录、添加订单操作记录
-        order.setStatus(OrderStatusEnum.IS_PAY.getCode());
-        order.setPayTime(new Date());
-        order.setPayType(PayTypeEnum.BALANCE.getCode());
-        orderService.updateById(order);
-        this.save(createOrderPay(order, PayTypeEnum.BALANCE.getCode()));
-        orderLogService.addOrderLogs(order.getId(), OrderStatusEnum.IS_PAY.getCode(), userId.toString(), "支付订单");
     }
 
     private OmsOrderPay createOrderPay(OmsOrder order, Integer payType) {

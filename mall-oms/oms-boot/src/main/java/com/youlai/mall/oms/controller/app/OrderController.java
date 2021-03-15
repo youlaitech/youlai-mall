@@ -43,17 +43,17 @@ public class OrderController {
     })
     @PostMapping("/_confirm")
     public Result<OrderConfirmVO> confirm(
-           Long skuId,
-           Integer num
+            Long skuId,
+            Integer num
     ) {
         OrderConfirmVO confirm = orderService.confirm(skuId, num);
         return Result.success(confirm);
     }
 
     @ApiOperation(value = "提交订单", httpMethod = "POST")
-    @ApiImplicitParam(name = "orderSubmitVO", value = "提交订单信息", required = true, paramType = "body", dataType = "OrderSubmitVO")
+    @ApiImplicitParam(name = "orderSubmitInfoDTO", value = "提交订单信息", required = true, paramType = "body", dataType = "OrderSubmitInfoDTO")
     @PostMapping("/_submit")
-    public Result submit(@Valid @RequestBody OrderSubmitInfoDTO orderSubmitInfoDTO)  {
+    public Result submit(@Valid @RequestBody OrderSubmitInfoDTO orderSubmitInfoDTO) {
         OrderSubmitResultVO result = orderService.submit(orderSubmitInfoDTO);
         return Result.success(result);
     }
@@ -67,8 +67,9 @@ public class OrderController {
      */
     @ApiOperation("订单列表查询")
     @GetMapping("/list")
-    public Result<List<OrderListVO>> list(@ApiParam(name = "status", value = "订单状态", required = true, defaultValue = "0")
-                                          @RequestParam(value = "status", defaultValue = "0") Integer status) {
+    public Result<List<OrderListVO>> list(
+            @ApiParam(name = "status", value = "订单状态", required = true, defaultValue = "0")
+            @RequestParam(value = "status", defaultValue = "0") Integer status) {
         List<OrderListVO> orderList = orderService.list(status);
         return Result.success(orderList);
     }

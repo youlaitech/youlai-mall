@@ -15,17 +15,9 @@ import org.springframework.stereotype.Service;
  */
 
 public interface IOrderPayService extends IService<OmsOrderPay> {
-    /**
-     * 获取订单支付详情
-     * @param orderId 订单ID
-     * @return
-     */
-    PayInfoVO info(Long orderId);
 
-    /**
-     * 订单支付
-     * @param orderId 订单ID
-     */
-    void balancePay(Long orderId);
+    boolean payWithBalance(Long orderId);
+
+    PayInfoVO getByOrderId(Long orderId);
 }
 
