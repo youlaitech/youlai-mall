@@ -3,6 +3,7 @@ package com.youlai.mall.oms.pojo.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @date 2020-12-30 22:31:10
  */
 @Data
+@Builder
 public class OmsOrderPay extends BaseEntity {
 
 	/**

@@ -1,5 +1,6 @@
 package com.youlai.mall.oms.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.oms.dao.OrderItemDao;
@@ -32,14 +33,14 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OmsOrderItem
                 .orderByDesc(OmsOrderItem::getOrderId)
                 .orderByDesc(OmsOrderItem::getId);
 
-        List<OmsOrderItem> orderGoods = this.list(queryWrapper);
-        if (orderGoods == null || orderGoods.size() == 0) {
+        List<OmsOrderItem> orderItems = this.list(queryWrapper);
+        if (CollectionUtil.isEmpty(orderItems)) {
             log.info("根据订单ID列表查询商品为空，orderIds={}", orderIds);
             return new HashMap<>(8);
         }
-        Map<Long, List<OmsOrderItem>> orderGoodsMap = orderGoods.stream()
+        Map<Long, List<OmsOrderItem>> orderItemsMap = orderItems.stream()
                 .collect(Collectors.groupingBy(OmsOrderItem::getOrderId));
-        return orderGoodsMap;
+        return orderItemsMap;
     }
 
 }
