@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.sms.mapper.SmsCouponDao">
+    <resultMap id="BaseResultMap" type="com.youlai.mall.sms.pojo.domain.SmsCoupon">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="img" jdbcType="VARCHAR" property="img"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="publish" jdbcType="VARCHAR" property="publish"/>
+        <result column="condition_price" jdbcType="BIGINT" property="conditionPrice"/>
+        <result column="price" jdbcType="BIGINT" property="price"/>
+        <result column="publish_count" jdbcType="INTEGER" property="publishCount"/>
+        <result column="limit_count" jdbcType="INTEGER" property="limitCount"/>
+        <result column="take_count" jdbcType="INTEGER" property="takeCount"/>
+        <result column="used_count" jdbcType="INTEGER" property="usedCount"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="valid_days" jdbcType="INTEGER" property="validDays"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, title, img, `type`, publish, condition_price, price, publish_count,limit_count, take_count,
+    used_count, start_time, end_time, valid_days, `status`, gmt_create, gmt_modified
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_coupon
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sms_coupon
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.youlai.mall.sms.pojo.domain.SmsCoupon" useGeneratedKeys="true">
+        insert into sms_coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="img != null">
+                img,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="publish != null">
+                publish,
+            </if>
+            <if test="conditionPrice != null">
+                condition_price,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="publishCount != null">
+                publish_count,
+            </if>
+            <if test="limitCount != null">
+                limit_count,
+            </if>
+            <if test="takeCount != null">
+                take_count,
+            </if>
+            <if test="usedCount != null">
+                used_count,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="validDays != null">
+                valid_days,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null">
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="publish != null">
+                #{publish,jdbcType=VARCHAR},
+            </if>
+            <if test="conditionPrice != null">
+                #{conditionPrice,jdbcType=BIGINT},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=BIGINT},
+            </if>
+            <if test="publishCount != null">
+                #{publishCount,jdbcType=INTEGER},
+            </if>
+            <if test="limitCount != null">
+                #{limitCount,jdbcType=INTEGER},
+            </if>
+            <if test="takeCount != null">
+                #{takeCount,jdbcType=INTEGER},
+            </if>
+            <if test="usedCount != null">
+                #{usedCount,jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="validDays != null">
+                #{validDays,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.youlai.mall.sms.pojo.domain.SmsCoupon">
+        update sms_coupon
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null">
+                img = #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="publish != null">
+                publish = #{publish,jdbcType=VARCHAR},
+            </if>
+            <if test="conditionPrice != null">
+                condition_price = #{conditionPrice,jdbcType=BIGINT},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=BIGINT},
+            </if>
+            <if test="publishCount != null">
+                publish_count = #{publishCount,jdbcType=INTEGER},
+            </if>
+            <if test="limitCount != null">
+                limit_count = #{limitCount,jdbcType=INTEGER},
+            </if>
+            <if test="takeCount != null">
+                take_count = #{takeCount,jdbcType=INTEGER},
+            </if>
+            <if test="usedCount != null">
+                used_count = #{usedCount,jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="validDays != null">
+                valid_days = #{validDays,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.youlai.mall.sms.pojo.domain.SmsCoupon">
+        update sms_coupon
+        set title           = #{title,jdbcType=VARCHAR},
+            img             = #{img,jdbcType=VARCHAR},
+            `type`          = #{type,jdbcType=INTEGER},
+            publish         = #{publish,jdbcType=VARCHAR},
+            condition_price = #{conditionPrice,jdbcType=BIGINT},
+            price           = #{price,jdbcType=BIGINT},
+            publish_count   = #{publishCount,jdbcType=INTEGER},
+            limit_count     = #{limitCount,jdbcType=INTEGER},
+            take_count      = #{takeCount,jdbcType=INTEGER},
+            used_count      = #{usedCount,jdbcType=INTEGER},
+            start_time      = #{startTime,jdbcType=TIMESTAMP},
+            end_time        = #{endTime,jdbcType=TIMESTAMP},
+            valid_days      = #{validDays,jdbcType=INTEGER},
+            `status`        = #{status,jdbcType=INTEGER},
+            gmt_create      = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modified    = #{gmtModified,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 更新已领库存数量 -->
+    <update id="updateTakeStock">
+        update sms_coupon
+        set take_count = take_count + 1
+        where id = #{id}
+    </update>
+</mapper>

@@ -10,16 +10,15 @@ import com.youlai.mall.sms.pojo.domain.SmsSeckillSession;
 import com.youlai.mall.sms.pojo.domain.SmsSeckillSkuRelation;
 import com.youlai.mall.sms.pojo.to.SeckillSkuRedisTO;
 import com.youlai.mall.sms.pojo.vo.SmsSeckillSkuVO;
-import com.youlai.mall.sms.service.SeckillService;
-import com.youlai.mall.sms.service.SmsSeckillSessionService;
-import com.youlai.mall.sms.service.SmsSeckillSkuRelationService;
+import com.youlai.mall.sms.service.ISeckillService;
+import com.youlai.mall.sms.service.ISmsSeckillSessionService;
+import com.youlai.mall.sms.service.ISmsSeckillSkuRelationService;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RSemaphore;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,17 +31,17 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class SeckillServiceImpl implements SeckillService {
+public class SeckillServiceImpl implements ISeckillService {
 
     private static final String SECKILL_SESSION_CACHE_PREFIX = "seckill:sessions:";
     private static final String SECKILL_SKU_CACHE_PREFIX = "seckill:skus";
     private static final String SECKILL_SKU_SEMAPHORE = "seckill:stock:";
 
     @Autowired
-    private SmsSeckillSessionService seckillSessionService;
+    private ISmsSeckillSessionService seckillSessionService;
 
     @Autowired
-    private SmsSeckillSkuRelationService seckillSkuRelationService;
+    private ISmsSeckillSkuRelationService seckillSkuRelationService;
 
     @Autowired
     private RedisUtils redisUtils;

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.sms.mapper.SmsSeckillSkuRelationMapper;
 import com.youlai.mall.sms.pojo.domain.SmsSeckillSkuRelation;
-import com.youlai.mall.sms.service.SmsSeckillSkuRelationService;
+import com.youlai.mall.sms.service.ISmsSeckillSkuRelationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class SmsSeckillSkuRelationServiceImpl extends ServiceImpl<SmsSeckillSkuRelationMapper, SmsSeckillSkuRelation> implements SmsSeckillSkuRelationService {
+public class SmsSeckillSkuRelationServiceImpl extends ServiceImpl<SmsSeckillSkuRelationMapper, SmsSeckillSkuRelation> implements ISmsSeckillSkuRelationService {
     @Override
     public List<SmsSeckillSkuRelation> selectBySessionId(Long sessionId) {
         log.info("根据秒杀活动场次ID查询关联商品列表，sessionId={}",sessionId);
