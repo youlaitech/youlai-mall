@@ -3,14 +3,14 @@ package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.enums.PayTypeEnum;
-import com.youlai.mall.oms.pojo.form.OrderPayForm;
 import com.youlai.mall.oms.pojo.vo.PayInfoVO;
 import com.youlai.mall.oms.service.IOrderPayService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -57,18 +57,18 @@ public class OrderPayController {
                 // TODO
                 break;
             case BALANCE:
-                result = orderPayService.payWithBalance(orderId);
+                 orderPayService.payWithBalance(orderId);
                 break;
             default:
                 return Result.failed("系统暂不支持该支付方式~");
         }
-        return Result.judge(result);
+        return Result.success();
     }
 
     @ApiOperation(value = "获取订单支付详情")
     @GetMapping("/orderId/{orderId}")
-    public Result<PayInfoVO> detail(@PathVariable Long orderId) {
-        orderPayService.getByOrderId(orderId);
-        return Result.success();
+    public Result detail(@PathVariable Long orderId) {
+        PayInfoVO payInfo = orderPayService.getPayInfo(orderId);
+        return Result.success(payInfo);
     }
 }

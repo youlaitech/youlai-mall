@@ -4,15 +4,15 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://www.youlai.store:3306/youlai?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
-    username: root
-    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver 
+    url: jdbc:mysql://111.229.45.125:3306/youlai?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: nacos
+    password: txwang12
   redis:
     database: 0
-    host: www.youlai.store
+    host: 111.229.45.125
     port: 6379
-    password: 123456
+    password: txwang12
   elasticsearch:
     rest:
       uris: ["http://g.youlai.store:9200"]

@@ -118,9 +118,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
                 OmsOrder order = new OmsOrder();
                 order.setOrderSn(IdWorker.getTimeId())
                         .setRemark(submitInfo.getRemark())
-                        .setStatus(OrderStatusEnum.NEED_PAY.getCode())
+                        .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
                         .setSourceType(OrderTypeEnum.APP.getCode())
-                        .setMemberId(RequestUtils.getUserId());
+                        .setUserId(RequestUtils.getUserId());
                 orderBO.setOrder(order);
 
             }, executor);
@@ -138,7 +138,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
                 List<OmsOrderItem> orderItems;
                 if (submitInfoDTO.getSkuId() != null) { // 直接下单
                     orderItems = new ArrayList<>();
-                    orderItems.add(OmsOrderItem.builder().skuId(submitInfo.getSkuId()).skuQuantity(submitInfo.getSkuNumber()).build());
+                    orderItems.add(OmsOrderItem.builder().skuId(submitInfo.getSkuId()).skuQuantity(submitInfo.getSkuNum()).build());
                 } else { // 购物车下单
                     CartVO cart = cartService.getCart();
                     orderItems = cart.getItems().stream().map(cartItem -> OmsOrderItem.builder().skuId(cartItem.getSkuId())
@@ -283,33 +283,27 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
 
 
     @Override
-    public boolean closeOrderBySystem(String orderSn) {
+    public boolean autoCancelOrder(String orderSn) {
         log.info("订单超时未支付，系统自动关闭，orderSn={}", orderSn);
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSn));
-        if (!order.getStatus().equals(OrderStatusEnum.NEED_PAY.getCode())) {
-            log.info("订单状态异常，系统无法自动关闭，orderSn={}，orderStatus={}", orderSn, order.getStatus());
-            return false;
+        if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
+            throw new BizException("系统自动取消订单失败");
         }
-        order.setStatus(OrderStatusEnum.SYS_CANCEL.getCode());
-        baseMapper.updateById(order);
-        // 添加订单操作日志
-        orderLogService.addOrderLogs(order.getId(), order.getStatus(),
-                "系统操作", OrderStatusEnum.SYS_CANCEL.getText());
+        order.setStatus(OrderStatusEnum.AUTO_CANCEL.getCode());
+        this.updateById(order);
+        orderLogService.addOrderLogs(order.getId(), order.getStatus(), "系统操作", OrderStatusEnum.AUTO_CANCEL.getText());
         return true;
-
     }
 
     @Override
     public boolean cancelOrder(Long id) {
         log.info("会员取消订单，orderId={}", id);
         OmsOrder order = getByOrderId(id);
-        if (!order.getStatus().equals(OrderStatusEnum.NEED_PAY.getCode())) {
-            log.info("订单状态异常，会员无法取消，orderId={}，orderStatus={}", id, order.getStatus());
-            return false;
+        if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
+            throw new BizException("订单状态非待支付，取消失败");
         }
         order.setStatus(OrderStatusEnum.USER_CANCEL.getCode());
-        baseMapper.updateById(order);
-        // 添加订单操作日志
+        this.updateById(order);
         orderLogService.addOrderLogs(order.getId(), order.getStatus(), OrderStatusEnum.USER_CANCEL.getText());
         return true;
     }
@@ -319,9 +313,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
     public boolean deleteOrder(Long id) {
         // 查询订单，校验订单状态
         OmsOrder order = this.getByOrderId(id);
-        if (!order.getStatus().equals(OrderStatusEnum.SYS_CANCEL.getCode()) &&
-                order.getStatus().equals(OrderStatusEnum.USER_CANCEL.getCode())) {
-            throw new BizException(StrUtil.format("订单无法删除，订单状态【{}】", Objects.requireNonNull(OrderStatusEnum.getValue(order.getStatus())).getText()));
+        if (!OrderStatusEnum.AUTO_CANCEL.getCode().equals(order.getStatus()) &&
+                !OrderStatusEnum.USER_CANCEL.getCode().equals(order.getStatus())) {
+            throw new BizException("订单状态不允许删除");
         }
         this.removeById(id);
         orderLogService.addOrderLogs(order.getId(), order.getStatus(), "会员删除订单");
@@ -342,15 +336,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
             return null;
         }
 
-        List<Long> orderIds = orderList.stream().map(orderEntity -> orderEntity.getId()).collect(Collectors.toList());
-        Map<Long, List<OmsOrderItem>> orderGoodsMap = orderItemService.getByOrderIds(orderIds);
-        List<OrderListVO> result = orderList.stream().map(orderEntity -> {
-            OrderListVO orderListVO = BeanMapperUtils.map(orderEntity, OrderListVO.class);
+        List<Long> orderIds = orderList.stream().map(order -> order.getId()).collect(Collectors.toList());
+        Map<Long, List<OmsOrderItem>> orderItemsMap = orderItemService.getByOrderIds(orderIds);
+
+        List<OrderListVO> result = orderList.stream().map(order -> {
+            OrderListVO orderListVO = BeanMapperUtils.map(order, OrderListVO.class);
             orderListVO.setStatusDesc(OrderStatusEnum.getValue(orderListVO.getStatus()).getText());
-            List<OmsOrderItem> orderGoodsEntities = orderGoodsMap.get(orderListVO.getId());
-            if (orderGoodsEntities != null && orderGoodsEntities.size() > 0) {
-                List<OrderListVO.GoodsListBean> goodsListBeans = orderGoodsEntities.stream().map(orderGoodsEntity -> BeanMapperUtils.map(orderGoodsEntity, OrderListVO.GoodsListBean.class)).collect(Collectors.toList());
-                orderListVO.setGoodsList(goodsListBeans);
+            List<OmsOrderItem> orderItems = orderItemsMap.get(orderListVO.getId());
+            if (CollectionUtil.isNotEmpty(orderItems)) {
+                List<OrderListVO.OrderItemBean> orderItemBeans = orderItems.stream()
+                        .map(orderItem -> BeanMapperUtils.map(orderItem, OrderListVO.OrderItemBean.class))
+                        .collect(Collectors.toList());
+                orderListVO.setOrderItemLIst(orderItemBeans);
             }
             return orderListVO;
         }).collect(Collectors.toList());
@@ -360,11 +357,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
     @Override
     public OmsOrder getByOrderId(Long id) {
         Long userId = RequestUtils.getUserId();
-        QueryWrapper<OmsOrder> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("member_id", userId).eq("id", id);
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getId, id)
-                .eq(OmsOrder::getMemberId, userId));
+                .eq(OmsOrder::getUserId, userId));
         if (order == null) {
             throw new BizException("订单不存在，订单ID非法");
         }
@@ -381,7 +376,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
         if (skuId != null) { // 直接购买
             OrderItemVO itemVO = OrderItemVO.builder()
                     .skuId(skuId)
-                    .number(num)
+                    .num(num)
                     .build();
             return Arrays.asList(itemVO);
         }
@@ -389,7 +384,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
         CartVO cart = cartService.getCart();
         List<OrderItemVO> items = cart.getItems().stream()
                 .filter(CartItemVO::isChecked)
-                .map(item -> OrderItemVO.builder().skuId(item.getSkuId()).number(item.getNum()).build())
+                .map(item -> OrderItemVO.builder().skuId(item.getSkuId()).num(item.getNum()).build())
                 .collect(Collectors.toList());
         return items;
     }

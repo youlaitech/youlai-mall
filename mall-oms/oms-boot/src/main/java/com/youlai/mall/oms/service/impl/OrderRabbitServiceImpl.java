@@ -33,9 +33,7 @@ import java.util.stream.Collectors;
 public class OrderRabbitServiceImpl implements OrderRabbitService {
 
     private IOrderService orderService;
-
     private IOrderItemService orderItemService;
-
     private InventoryFeignService inventoryFeignService;
 
     /**
@@ -52,28 +50,25 @@ public class OrderRabbitServiceImpl implements OrderRabbitService {
     public void releaseOrder(String orderSn, Message message, Channel channel) {
         long msgTag = message.getMessageProperties().getDeliveryTag();
         log.info("获取到消息，msgTag={}，message={}，body={}", msgTag, message.toString(), orderSn);
-
         try {
-            OmsOrder order = orderService.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSn));
-            if (order.getStatus().equals(OrderStatusEnum.NEED_PAY.getCode())) {
-                if (orderService.closeOrderBySystem(orderSn)) {
-                    unlockInventory(order.getId());
+            OmsOrder order = orderService.getOne(new LambdaQueryWrapper<OmsOrder>()
+                    .eq(OmsOrder::getOrderSn, orderSn));
+            if (order.getStatus().equals(OrderStatusEnum.PENDING_PAYMENT.getCode())) { // 待支付订单超时未支付系统自动取消
+                if (orderService.autoCancelOrder(orderSn)) {
+                    List<OmsOrderItem> orderItems = orderItemService.getByOrderId(order.getId());
+                    List<InventoryDTO> items = orderItems.stream().map(item -> InventoryDTO.builder()
+                            .skuId(item.getSkuId())
+                            .num(item.getSkuQuantity()).build())
+                            .collect(Collectors.toList());
+                    Result result = inventoryFeignService.unlockInventory(items);
+                    if (!StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
+                        throw new BizException("关闭订单失败，释放库存错误");
+                    }
                 }
             }
             channel.basicAck(msgTag, false);
         } catch (Exception e) {
-            log.error("关闭订单失败，orderSn={}", orderSn);
             throw new BizException("关闭订单失败，orderSn=" + orderSn);
-        }
-    }
-
-    private void unlockInventory(Long orderId) {
-        List<OmsOrderItem> orderItems = orderItemService.getByOrderId(orderId);
-        List<InventoryDTO> items = orderItems.stream().map(item -> InventoryDTO.builder().skuId(item.getSkuId()).num(item.getSkuQuantity()).build()).collect(Collectors.toList());
-        Result result = inventoryFeignService.unlockInventory(items);
-        if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
-            log.error("释放库存异常，商品列表={}", items);
-            throw new BizException("关闭订单失败，释放库存错误");
         }
     }
 }

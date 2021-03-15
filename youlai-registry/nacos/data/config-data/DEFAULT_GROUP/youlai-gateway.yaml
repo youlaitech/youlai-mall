@@ -9,9 +9,9 @@ spring:
           jwk-set-uri: 'http://localhost:8000/getPublicKey'
   redis: 
     database: 0
-    host: www.youlai.store
+    host: 111.229.45.125
     port: 6379
-    password: 123456
+    password: txwang12
   cloud:
     gateway:
       discovery:

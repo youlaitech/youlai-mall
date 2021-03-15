@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 15/03/2021 01:05:06
+ Date: 16/03/2021 00:49:04
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `oms_order`  (
   `source_type` tinyint(0) NOT NULL DEFAULT 1 COMMENT '订单来源[0->PC订单；1->app订单]',
   `status` int(0) NOT NULL DEFAULT 101 COMMENT '订单状态【101->待付款；102->用户取消；103->系统取消；201->已付款；202->申请退款；203->已退款；301->待发货；401->已发货；501->用户收货；502->系统收货；901->已完成】',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '订单备注',
-  `member_id` bigint(0) NOT NULL DEFAULT 0 COMMENT '会员id',
+  `user_id` bigint(0) NOT NULL DEFAULT 0 COMMENT '会员id',
   `coupon_id` bigint(0) NOT NULL DEFAULT 0 COMMENT '使用的优惠券',
   `coupon_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '优惠券抵扣金额（分）',
   `freight_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '运费金额（分）',
@@ -273,20 +273,5 @@ CREATE TABLE `oms_order_setting`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单配置信息' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for undo_log
--- ----------------------------
-DROP TABLE IF EXISTS `undo_log`;
-CREATE TABLE `undo_log`  (
-  `branch_id` bigint(0) NOT NULL COMMENT 'branch transaction id',
-  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'global transaction id',
-  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'undo_log context,such as serialization',
-  `rollback_info` longblob NOT NULL COMMENT 'rollback info',
-  `log_status` int(0) NOT NULL COMMENT '0:normal status,1:defense status',
-  `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
-  `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
-  UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'AT transaction mode undo table' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

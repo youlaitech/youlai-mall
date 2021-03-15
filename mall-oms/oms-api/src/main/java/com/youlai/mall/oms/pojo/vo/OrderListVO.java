@@ -35,10 +35,10 @@ public class OrderListVO extends BaseVO {
     private String time;
     private Integer status;
     private String statusDesc;
-    private List<GoodsListBean> goodsList;
+    private List<OrderItemBean> orderItemLIst;
 
     @Data
-    public static class GoodsListBean extends BaseVO {
+    public static class OrderItemBean extends BaseVO {
 
         /**
          * title : 古黛妃 短袖t恤女 春夏装2019新款韩版宽松

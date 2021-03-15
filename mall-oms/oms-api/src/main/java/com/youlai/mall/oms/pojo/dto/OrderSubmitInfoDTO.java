@@ -29,7 +29,7 @@ public class OrderSubmitInfoDTO  {
     /**
      * 直接下单时商品数量
      */
-    private Integer skuNumber;
+    private Integer skuNum;
 
     /**
      * 优惠券id

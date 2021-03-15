@@ -35,7 +35,7 @@ public class OrderServiceImpl implements IOrderService {
         log.info("========================扣减账户余额::End======================");
 
         log.info("========================修改订单状态::Begin======================");
-        orderFeignService.updateOrderStatus(order.getOrderId(), OrderStatusEnum.FINISH.getCode());
+        orderFeignService.updateOrderStatus(order.getOrderId(), OrderStatusEnum.FINISHED.getCode());
         log.info("========================修改订单状态::End======================");
 
         return true;
@@ -52,7 +52,7 @@ public class OrderServiceImpl implements IOrderService {
         log.info("========================扣减账户余额::End======================");
 
         log.info("========================修改订单状态::Begin======================");
-        orderFeignService.updateOrderStatus(order.getOrderId(), OrderStatusEnum.FINISH.getCode());
+        orderFeignService.updateOrderStatus(order.getOrderId(), OrderStatusEnum.FINISHED.getCode());
         log.info("========================修改订单状态::End======================");
 
         return true;
