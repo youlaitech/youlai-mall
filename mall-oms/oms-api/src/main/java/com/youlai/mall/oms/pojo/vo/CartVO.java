@@ -53,16 +53,4 @@ public class CartVO implements Serializable {
     public void setTotalPrice(Long totalPrice) {
         this.totalPrice = totalPrice;
     }
-
-    public Long getTotalCoupon() {
-        long total = 0L;
-//        if (items != null && items.size() > 0) {
-//            total = items.stream().filter(CartItemVo::isChecked).mapToLong(CartItemVo::getCoupon).sum();
-//        }
-        return total;
-    }
-
-    public void setTotalCoupon(Long totalCoupon) {
-        this.totalCoupon = totalCoupon;
-    }
 }
