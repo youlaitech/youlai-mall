@@ -6,7 +6,7 @@ import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderListVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitInfoDTO;
+import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 
 import java.util.List;
 
@@ -31,9 +31,9 @@ public interface IOrderService extends IService<OmsOrder> {
     /**
      * 提交订单
      *
-     * @param orderSubmitInfoDTO 提交订单信息
+     * @param orderSubmitDTO 提交订单信息
      */
-    OrderSubmitResultVO submit(OrderSubmitInfoDTO orderSubmitInfoDTO) ;
+    OrderSubmitResultVO submit(OrderSubmitDTO orderSubmitDTO) ;
 
 
     /**

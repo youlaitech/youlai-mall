@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  * @date 2021/1/16
  */
 @Data
-public class OrderSubmitInfoDTO  {
+public class OrderSubmitDTO {
 
     private Long skuId;
 
