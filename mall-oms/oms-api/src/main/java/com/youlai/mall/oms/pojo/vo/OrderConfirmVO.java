@@ -12,7 +12,6 @@ import java.util.List;
 
 public class OrderConfirmVO extends BaseVO {
 
-
     /**
      * 订单总额
      */
@@ -21,38 +20,14 @@ public class OrderConfirmVO extends BaseVO {
 
 
     /**
-     * 商品列表
+     * 订单商品
      */
     @Getter
     @Setter
     private List<OrderItemVO> items;
 
-    // 优惠券信息
-    @Getter
-    @Setter
-    private List<CouponVO> coupons;
-
-    // 积分信息
-    @Getter
-    @Setter
-    private Integer integration;
-
-
-    /**
-     * 应付价格
-     */
-    @Setter
-    private Long payAmount;
 
     public Long getTotalPrice() {
-        Long total = 0L;
-        if (items != null && items.size() > 0) {
-            total = items.stream().mapToLong(OrderItemVO::getSubtotal).sum();
-        }
-        return total;
-    }
-
-    public Long getPayPrice() {
         Long total = 0L;
         if (items != null && items.size() > 0) {
             total = items.stream().mapToLong(OrderItemVO::getSubtotal).sum();

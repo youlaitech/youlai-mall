@@ -108,4 +108,17 @@ public class UserController {
         boolean result = iUmsUserService.updateById(user);
         return Result.judge(result);
     }
+
+    @ApiOperation(value = "获取会员余额", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
+    @GetMapping("/{id}/balance")
+    public Result<Long> updateBalance(@PathVariable Long id) {
+        Long balance = 0l;
+        UmsUser user = iUmsUserService.getById(id);
+        if (user != null) {
+            balance = user.getBalance();
+        }
+        return Result.success(balance);
+    }
+
 }

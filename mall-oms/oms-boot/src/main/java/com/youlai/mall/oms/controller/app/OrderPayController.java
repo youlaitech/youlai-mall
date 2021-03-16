@@ -41,8 +41,9 @@ public class OrderPayController {
     @ApiOperation("订单支付")
     @PostMapping
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "payType", value = "支付方式", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "query", dataType = "Long")
+            @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "payType", value = "支付方式", paramType = "query", dataType = "Integer")
+
     })
     public Result pay(
             Integer payType,
@@ -50,14 +51,13 @@ public class OrderPayController {
     ) {
         PayTypeEnum payTypeEnum = PayTypeEnum.getValue(payType);
 
-        boolean result = false;
         switch (payTypeEnum) {
             case ALIPAY:
             case WEIXIN:
                 // TODO
                 break;
             case BALANCE:
-                 orderPayService.payWithBalance(orderId);
+                orderPayService.payWithBalance(orderId);
                 break;
             default:
                 return Result.failed("系统暂不支持该支付方式~");

@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.youlai.mall.oms.common.RedisConstants.REDIS_KEY_TIME_OUT;
-import static com.youlai.mall.oms.common.RedisConstants.TOKEN_VERIFY;
+import static com.youlai.mall.oms.constant.OmsConstants.REDIS_KEY_TIME_OUT;
+import static com.youlai.mall.oms.constant.OmsConstants.TOKEN_VERIFY;
 
 
 /**
