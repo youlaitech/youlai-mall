@@ -27,7 +27,7 @@ public class CartItemVO implements Serializable {
 
     private Integer inventory;
 
-    private Integer num;
+    private Integer count;
 
     private Long price;
 

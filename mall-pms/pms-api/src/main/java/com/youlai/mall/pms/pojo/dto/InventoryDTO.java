@@ -21,6 +21,6 @@ public class InventoryDTO {
     private Long skuId;
 
     @ApiModelProperty("数量")
-    private Integer num;
+    private Integer count;
 
 }

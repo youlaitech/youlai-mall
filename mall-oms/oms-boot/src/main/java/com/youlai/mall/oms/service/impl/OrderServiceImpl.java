@@ -8,27 +8,24 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
-
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.dao.OrderDao;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.pojo.bo.app.OrderBO;
-import com.youlai.mall.oms.pojo.domain.OmsOrderDelivery;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
+import com.youlai.mall.oms.pojo.domain.OmsOrderDelivery;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitInfoDTO;
 import com.youlai.mall.oms.pojo.vo.*;
 import com.youlai.mall.oms.service.*;
 import com.youlai.mall.pms.api.app.InventoryFeignService;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.ums.api.app.MemberFeignService;
 import com.youlai.mall.ums.pojo.dto.UmsAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -42,7 +39,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -71,10 +71,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
 
 
     @Override
-    public OrderConfirmVO confirm(Long skuId, Integer num) {
-        List<OrderItemVO> orderItems = getOrderItem(skuId, num);
-        if (CollectionUtil.isEmpty(orderItems)) { // 订单中无商品，直接返回
-            return new OrderConfirmVO();
+    public OrderConfirmVO confirm(Long skuId, Integer count) {
+
+        OrderConfirmVO orderConfirmVO=new OrderConfirmVO();
+
+        List<OrderItemVO> orderItems = getOrderItems(skuId, count);
+        if (CollectionUtil.isEmpty(orderItems)) {
+            return orderConfirmVO;
         }
 
         // 远程获取商品信息填充订单商品属性
@@ -89,9 +92,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
                     });
         }
 
-        OrderConfirmVO confirm = new OrderConfirmVO();
-        confirm.setItems(orderItems);
-        return confirm;
+        OrderConfirmVO confirmVO = new OrderConfirmVO();
+        confirmVO.setOrderItems(orderItems);
+        return confirmVO;
     }
 
     @Override
@@ -112,7 +115,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
             orderFuture = CompletableFuture.runAsync(() -> {
                 RequestContextHolder.setRequestAttributes(attributes);
                 threadLocal.set(submitInfoDTO);
-
                 OrderSubmitInfoDTO submitInfo = threadLocal.get();
                 log.info("订单提交信息:{}", submitInfo);
                 OmsOrder order = new OmsOrder();
@@ -132,23 +134,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
             orderItemFuture = CompletableFuture.runAsync(() -> {
                 RequestContextHolder.setRequestAttributes(attributes);
                 threadLocal.set(submitInfoDTO);
-                log.info("创建订单商品，submitInfoDTO:{}", submitInfoDTO);
                 OrderSubmitInfoDTO submitInfo = threadLocal.get();
-                log.info("创建订单商品，submitInfo:{}", submitInfo);
-
                 List<OmsOrderItem> orderItems;
-
-                log.info("判断结果，{}", submitInfoDTO.getSkuId() != null);
                 if (submitInfoDTO.getSkuId() != null) { // 直接下单
-                    log.info("直接下单");
                     orderItems = new ArrayList<>();
                     orderItems.add(OmsOrderItem.builder().skuId(submitInfo.getSkuId()).skuQuantity(submitInfo.getSkuNum()).build());
                 } else { // 购物车下单
-                    log.info("准备获取购物车");
                     CartVO cart = cartService.getCart();
-                    log.info("购物车：{}", cart.toString());
                     orderItems = cart.getItems().stream().map(cartItem -> OmsOrderItem.builder().skuId(cartItem.getSkuId())
-                            .skuQuantity(cartItem.getNum())
+                            .skuQuantity(cartItem.getCount())
                             .build()
                     ).collect(Collectors.toList());
                 }
@@ -177,12 +171,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
             orderDeliveryFuture = CompletableFuture.runAsync(() -> {
                 RequestContextHolder.setRequestAttributes(attributes);
                 threadLocal.set(submitInfoDTO);
-
                 String addressId = threadLocal.get().getAddressId();
                 UmsAddressDTO userAddress = memberFeignService.getAddressById(addressId).getData();
-                log.debug("获取用户地址：{}", userAddress.toString());
                 if (userAddress == null) {
-                    throw new BizException("提交订单失败，无法获取用户地址信息");
+                    throw new BizException("会员地址不存在");
                 }
                 OmsOrderDelivery orderDelivery = OmsOrderDelivery.builder()
                         .receiverName(userAddress.getName())
@@ -239,12 +231,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
             List<OmsOrderItem> orderItems = orderBO.getOrderItems();
             List<InventoryDTO> items = orderItems.stream().map(orderItem -> InventoryDTO.builder()
                     .skuId(orderItem.getSkuId())
-                    .num(orderItem.getSkuQuantity())
+                    .count(orderItem.getSkuQuantity())
                     .build())
                     .collect(Collectors.toList());
 
             Result result = inventoryFeignService.lockInventory(items);
-            if (result == null || !StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
+            if (!StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
                 throw new BizException("下单失败，锁定库存错误");
             }
         }
@@ -270,14 +262,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
         }
 
         // 将订单放入延时队列，超时未支付系统自动关单
-        rabbitTemplate.convertAndSend("order_event_exchange", "order:create", orderBO.getOrder().getOrderSn());
-
-        // 保存日志
-        orderLogService.addOrderLogs(orderId,
-                orderBO.getOrder().getStatus(),
-                RequestUtils.getUserId().toString(),
-                "创建订单"
-        );
+        rabbitTemplate.convertAndSend("order_event_exchange", "order:create", orderId);
 
         OrderSubmitResultVO result = new OrderSubmitResultVO();
         result.setId(orderId);
@@ -287,8 +272,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
 
 
     @Override
-    public boolean closeOrder(String orderSn) {
-        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSn));
+    public boolean closeOrder(Long orderId) {
+        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getId, orderId));
         if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             return false;
         }
@@ -372,14 +357,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
 
     /**
      * 获取订单商品 1. 直接购买  2. 购物车结算
-     *
-     * @return
      */
-    private List<OrderItemVO> getOrderItem(Long skuId, Integer num) {
+    private List<OrderItemVO> getOrderItems(Long skuId, Integer count) {
         if (skuId != null) { // 直接购买
             OrderItemVO itemVO = OrderItemVO.builder()
                     .skuId(skuId)
-                    .num(num)
+                    .count(count)
                     .build();
             return Arrays.asList(itemVO);
         }
@@ -387,7 +370,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
         CartVO cart = cartService.getCart();
         List<OrderItemVO> items = cart.getItems().stream()
                 .filter(CartItemVO::isChecked)
-                .map(item -> OrderItemVO.builder().skuId(item.getSkuId()).num(item.getNum()).build())
+                .map(item -> OrderItemVO.builder().skuId(item.getSkuId()).count(item.getCount()).build())
                 .collect(Collectors.toList());
         return items;
     }

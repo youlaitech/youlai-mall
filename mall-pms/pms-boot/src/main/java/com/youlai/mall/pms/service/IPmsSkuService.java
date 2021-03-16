@@ -38,4 +38,6 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @return
      */
     List<SkuDTO> listBySkuIds(List<Long> ids);
+
+    boolean minusInventory(List<InventoryDTO> list);
 }
