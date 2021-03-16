@@ -41,7 +41,7 @@ public interface IOrderService extends IService<OmsOrder> {
      *
      * @param orderSn 订单号
      */
-    boolean autoCancelOrder(String orderSn);
+    boolean closeOrder(String orderSn);
 
     /**
      * 取消订单接口

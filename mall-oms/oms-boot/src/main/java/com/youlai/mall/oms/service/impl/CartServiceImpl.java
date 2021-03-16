@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static com.youlai.mall.oms.common.RedisConstants.CART_KEY;
+import static com.youlai.mall.oms.constant.OmsConstants.CART_KEY;
 
 
 /**

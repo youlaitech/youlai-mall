@@ -43,7 +43,7 @@ public class SkuController {
 
     @ApiOperation(value = "锁定库存", httpMethod = "PUT")
     @ApiImplicitParam(name = "list", value = "锁定库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
-    @PatchMapping("/batch/_lock")
+    @PutMapping("/batch/lock_inventory")
     public Result<Boolean> lockInventory(@RequestBody List<InventoryDTO> list) {
         boolean result = iPmsSkuService.lockInventory(list);
         return Result.judge(result);
@@ -52,7 +52,7 @@ public class SkuController {
 
     @ApiOperation(value = "解锁库存", httpMethod = "PUT")
     @ApiImplicitParam(name = "list", value = "释放库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
-    @PatchMapping("/batch/_unlock")
+    @PutMapping("/batch/unlock_inventory")
     public Result<Boolean> unlockInventory(@RequestBody List<InventoryDTO> list) {
         boolean result = iPmsSkuService.unlockInventory(list);
         return Result.judge(result);

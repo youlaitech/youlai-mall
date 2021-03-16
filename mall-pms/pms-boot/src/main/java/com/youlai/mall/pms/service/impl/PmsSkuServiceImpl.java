@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.pms.common.constant.RedisConstants;
+import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
@@ -75,7 +75,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     public Integer getInventoryById(Long id) {
         Integer inventory = 0;
         // 读->缓存
-        Object cacheVal = redisTemplate.opsForValue().get(RedisConstants.PRODUCT_INVENTORY_PREFIX + id);
+        Object cacheVal = redisTemplate.opsForValue().get(PmsConstants.PRODUCT_INVENTORY_PREFIX + id);
         if (cacheVal != null) {
             inventory = Convert.toInt(cacheVal);
             return inventory;
@@ -89,7 +89,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         if (pmsSku != null) {
             inventory = pmsSku.getInventory();
             // 写->缓存
-            redisTemplate.opsForValue().set(RedisConstants.PRODUCT_INVENTORY_PREFIX + id, inventory);
+            redisTemplate.opsForValue().set(PmsConstants.PRODUCT_INVENTORY_PREFIX + id, inventory);
         }
 
         return inventory;
