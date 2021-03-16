@@ -4,7 +4,7 @@ import com.youlai.common.result.Result;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderListVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitInfoDTO;
+import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.service.IOrderService;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
@@ -53,8 +53,8 @@ public class OrderController {
     @ApiOperation(value = "提交订单", httpMethod = "POST")
     @ApiImplicitParam(name = "orderSubmitInfoDTO", value = "提交订单信息", required = true, paramType = "body", dataType = "OrderSubmitInfoDTO")
     @PostMapping("/_submit")
-    public Result submit(@Valid @RequestBody OrderSubmitInfoDTO orderSubmitInfoDTO) {
-        OrderSubmitResultVO result = orderService.submit(orderSubmitInfoDTO);
+    public Result submit(@Valid @RequestBody OrderSubmitDTO orderSubmitDTO) {
+        OrderSubmitResultVO result = orderService.submit(orderSubmitDTO);
         return Result.success(result);
     }
 

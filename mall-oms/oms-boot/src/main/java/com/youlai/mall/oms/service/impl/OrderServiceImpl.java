@@ -20,7 +20,7 @@ import com.youlai.mall.oms.pojo.bo.app.OrderBO;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderDelivery;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitInfoDTO;
+import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.pojo.vo.*;
 import com.youlai.mall.oms.service.*;
 import com.youlai.mall.pms.api.app.InventoryFeignService;
@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements IOrderService {
 
-    private static final ThreadLocal<OrderSubmitInfoDTO> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<OrderSubmitDTO> threadLocal = new ThreadLocal<>();
 
     private ICartService cartService;
 
@@ -100,7 +100,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
     @Override
     @GlobalTransactional
     @SneakyThrows
-    public OrderSubmitResultVO submit(OrderSubmitInfoDTO submitInfoDTO) {
+    public OrderSubmitResultVO submit(OrderSubmitDTO submitInfoDTO) {
         log.info("开始创建订单：{}", submitInfoDTO);
         threadLocal.set(submitInfoDTO);
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
@@ -115,7 +115,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
             orderFuture = CompletableFuture.runAsync(() -> {
                 RequestContextHolder.setRequestAttributes(attributes);
                 threadLocal.set(submitInfoDTO);
-                OrderSubmitInfoDTO submitInfo = threadLocal.get();
+                OrderSubmitDTO submitInfo = threadLocal.get();
                 log.info("订单提交信息:{}", submitInfo);
                 OmsOrder order = new OmsOrder();
                 order.setOrderSn(IdWorker.getTimeId())
@@ -134,7 +134,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
             orderItemFuture = CompletableFuture.runAsync(() -> {
                 RequestContextHolder.setRequestAttributes(attributes);
                 threadLocal.set(submitInfoDTO);
-                OrderSubmitInfoDTO submitInfo = threadLocal.get();
+                OrderSubmitDTO submitInfo = threadLocal.get();
                 List<OmsOrderItem> orderItems;
                 if (submitInfoDTO.getSkuId() != null) { // 直接下单
                     orderItems = new ArrayList<>();
@@ -215,7 +215,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
             }
 
 
-            OrderSubmitInfoDTO orderSubmitInfo = threadLocal.get();
+            OrderSubmitDTO orderSubmitInfo = threadLocal.get();
             int compare = Long.compare(orderSubmitInfo.getPayAmount().longValue(), payAmount.longValue());
             if (compare != 0) {
                 throw new BizException("订单价格变化，请重新提交");
