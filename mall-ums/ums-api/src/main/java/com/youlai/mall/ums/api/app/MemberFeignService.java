@@ -50,6 +50,13 @@ public interface MemberFeignService {
     @PutMapping("/api.app/v1/users/{id}/balance")
     Result updateBalance(@PathVariable Long id, @RequestParam Long balance);
 
+
+    /**
+     * 获取会员余额
+     */
+    @GetMapping("/api.app/v1/users/{id}/balance")
+    Result<Long> getBalance(@PathVariable Long id);
+
 }
 
 

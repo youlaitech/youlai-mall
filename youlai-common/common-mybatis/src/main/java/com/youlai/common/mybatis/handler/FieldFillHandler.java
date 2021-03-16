@@ -13,7 +13,6 @@ public class FieldFillHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("自动填充时间字段");
         this.setFieldValByName("gmtCreate", new Date(), metaObject);
         this.setFieldValByName("gmtModified", new Date(), metaObject);
     }

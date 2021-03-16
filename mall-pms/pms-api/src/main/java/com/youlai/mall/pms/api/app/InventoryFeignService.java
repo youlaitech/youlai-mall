@@ -26,13 +26,13 @@ public interface InventoryFeignService {
     /**
      * 锁定库存
      */
-    @PatchMapping("/api.app/v1/skus/batch/lock_inventory")
+    @PutMapping("/api.app/v1/skus/batch/lock_inventory")
     Result lockInventory(@RequestBody List<InventoryDTO> list);
 
     /**
      * 解锁库存
      */
-    @PatchMapping("/api.app/v1/skus/batch/unlock_inventory")
+    @PutMapping("/api.app/v1/skus/batch/unlock_inventory")
     Result<Boolean> unlockInventory(@RequestBody List<InventoryDTO> list);
 
 

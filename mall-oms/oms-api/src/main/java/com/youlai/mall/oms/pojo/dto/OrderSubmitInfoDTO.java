@@ -14,32 +14,18 @@ import javax.validation.constraints.Size;
 @Data
 public class OrderSubmitInfoDTO  {
 
-    /**
-     * 用户选择地址id
-     */
+    private Long skuId;
+
+    private Integer skuNum;
+
+    private Long payAmount;
+
+    private String couponId;
+
     @NotBlank(message = "请选择收货地址")
     private String addressId;
 
-    /**
-     * 如果携带skuId则表示该订单通过直接下单方式生成
-     * 否则从购物车中生成 -- 清空购物车
-     */
-    private Long skuId;
-
-    /**
-     * 直接下单时商品数量
-     */
-    private Integer skuNum;
-
-    /**
-     * 优惠券id
-     */
-    private String couponId;
-
     @Size(max = 500, message = "订单备注长度不能超过500")
     private String remark;
-
-
-    private Long payAmount;
 
 }
