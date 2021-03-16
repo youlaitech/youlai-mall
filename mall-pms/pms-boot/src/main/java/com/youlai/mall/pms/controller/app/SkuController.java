@@ -58,6 +58,17 @@ public class SkuController {
         return Result.judge(result);
     }
 
+    @ApiOperation(value = "扣减库存", httpMethod = "PUT")
+    @ApiImplicitParam(name = "list", value = "释放库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
+    @PutMapping("/batch/minus_inventory")
+    public Result<Boolean> minusInventory(@RequestBody List<InventoryDTO> list) {
+        boolean result = iPmsSkuService.minusInventory(list);
+        return Result.judge(result);
+    }
+
+
+
+
 
     @ApiOperation(value = "库存列表", httpMethod = "GET")
     @ApiImplicitParam(name = "skuIds", value = "库存ID集合", required = true, paramType = "body", dataType = "String")

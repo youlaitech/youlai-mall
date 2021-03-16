@@ -22,7 +22,6 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OmsOrderItem
 
     @Override
     public List<OmsOrderItem> getByOrderId(Long orderId) {
-        log.info("根据订单ID，查询订单商品列表，orderId={}", orderId);
         LambdaQueryWrapper queryWrapper = new LambdaQueryWrapper<OmsOrderItem>().eq(OmsOrderItem::getOrderId, orderId);
         return this.list(queryWrapper);
     }
@@ -35,7 +34,6 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OmsOrderItem
 
         List<OmsOrderItem> orderItems = this.list(queryWrapper);
         if (CollectionUtil.isEmpty(orderItems)) {
-            log.info("根据订单ID列表查询商品为空，orderIds={}", orderIds);
             return new HashMap<>(8);
         }
         Map<Long, List<OmsOrderItem>> orderItemsMap = orderItems.stream()

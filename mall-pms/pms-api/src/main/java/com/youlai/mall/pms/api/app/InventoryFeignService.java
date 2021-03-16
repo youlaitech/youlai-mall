@@ -36,4 +36,8 @@ public interface InventoryFeignService {
     Result<Boolean> unlockInventory(@RequestBody List<InventoryDTO> list);
 
 
+    @PutMapping("/api.app/v1/skus/batch/minus_inventory")
+    Result minusInventory(@RequestBody List<InventoryDTO> list);
+
+
 }

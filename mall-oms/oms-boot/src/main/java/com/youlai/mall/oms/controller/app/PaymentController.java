@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "【移动端】订单支付")
 @RestController
-@RequestMapping("/api.app/v1/order_pays")
+@RequestMapping("/api.app/v1/payments")
 @Slf4j
 @AllArgsConstructor
-public class OrderPayController {
+public class PaymentController {
 
     private IOrderPayService orderPayService;
 

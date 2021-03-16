@@ -35,11 +35,11 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         inventories.forEach(item -> {
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
                     .eq(PmsSku::getId, item.getSkuId())
-                    .apply("inventory >= locked_inventory + {0}", item.getNum())
-                    .setSql("locked_inventory = locked_inventory + " + item.getNum())
+                    .apply("inventory >= locked_inventory + {0}", item.getCount())
+                    .setSql("locked_inventory = locked_inventory + " + item.getCount())
             );
             if (!result) {
-                throw new BizException("锁定库存失败，库存ID:" + item.getSkuId() + "，数量:" + item.getNum());
+                throw new BizException("锁定库存失败，库存ID:" + item.getSkuId() + "，数量:" + item.getCount());
             }
         });
 
@@ -48,18 +48,32 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
     @Override
     public boolean unlockInventory(List<InventoryDTO> inventories) {
-        log.info("释放库存:{}", inventories);
-
         inventories.forEach(item -> {
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
                     .eq(PmsSku::getId, item.getSkuId())
-                    .setSql("locked_inventory = locked_inventory - " + item.getNum())
+                    .setSql("locked_inventory = locked_inventory - " + item.getCount())
             );
             if (!result) {
-                throw new BizException("解锁库存失败，库存ID:" + item.getSkuId() + "，数量:" + item.getNum());
+                throw new BizException("解锁库存失败，库存ID:" + item.getSkuId() + "，数量:" + item.getCount());
             }
         });
         return true;
+    }
+
+
+    @Override
+    public boolean minusInventory(List<InventoryDTO> inventories) {
+        inventories.forEach(item -> {
+            boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
+                    .eq(PmsSku::getId, item.getSkuId())
+                    .setSql("locked_inventory = locked_inventory - " + item.getCount())
+                    .setSql("inventory = inventory - " + item.getCount())
+            );
+            if (!result) {
+                throw new BizException("扣减库存失败");
+            }
+        });
+        return false;
     }
 
 
@@ -100,4 +114,6 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     public List<SkuDTO> listBySkuIds(List<Long> ids) {
         return this.baseMapper.listBySkuIds(ids);
     }
+
+
 }
