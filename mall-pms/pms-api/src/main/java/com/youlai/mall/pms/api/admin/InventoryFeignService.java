@@ -12,7 +12,7 @@ public interface InventoryFeignService {
     /**
      * 扣减库存
      */
-    @PostMapping("/api.app/v1/skus/{id}/inventory/_deduct")
+    @PostMapping("/api.app/v1/skus/{id}/stock/_deduct")
     Result deductInventory(@PathVariable Long id, @RequestParam Integer num);
 
 

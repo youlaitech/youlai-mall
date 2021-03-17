@@ -73,7 +73,7 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OmsOrderPay
                 .build())
                 .collect(Collectors.toList());
 
-        inventoryFeignService.minusInventory(inventoryList);
+        inventoryFeignService.deductStock(inventoryList);
 
         // 添加订单支付记录
         OmsOrderPay orderPay = OmsOrderPay.builder()

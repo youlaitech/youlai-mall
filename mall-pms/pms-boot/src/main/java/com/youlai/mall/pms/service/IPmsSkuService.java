@@ -14,14 +14,14 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @param list
      * @return 库存锁定结果
      */
-    boolean lockInventory(List<InventoryDTO> list);
+    boolean lockStock(List<InventoryDTO> list);
 
     /**
      * 解锁库存
      * @param  list
      * @return 解锁库存结果
      */
-    boolean unlockInventory(List<InventoryDTO>  list);
+    boolean unlockStock(List<InventoryDTO>  list);
 
 
     /**
@@ -29,7 +29,7 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @param id 库存ID
      * @return
      */
-    Integer getInventoryById(Long id);
+    Integer getStockById(Long id);
 
 
     /**
@@ -39,5 +39,5 @@ public interface IPmsSkuService extends IService<PmsSku> {
      */
     List<SkuDTO> listBySkuIds(List<Long> ids);
 
-    boolean minusInventory(List<InventoryDTO> list);
+    boolean deductStock(List<InventoryDTO> list);
 }

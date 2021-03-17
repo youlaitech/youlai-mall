@@ -16,7 +16,7 @@ public class PmsSku extends BaseEntity {
     private String pic;
     private Long originPrice;
     private Long price;
-    private Integer inventory;
-    private Integer lockedInventory;
+    private Integer stock;
+    private Integer lockedStock;
     private String specValueIds;
 }

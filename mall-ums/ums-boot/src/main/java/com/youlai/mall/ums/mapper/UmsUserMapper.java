@@ -17,7 +17,7 @@ public interface UmsUserMapper extends BaseMapper<UmsMember> {
 
 
     @Select("<script>" +
-            " SELECT * from ums_user " +
+            " SELECT * from ums_member " +
             " <if test ='user.nickname !=null and user.nickname.trim() neq \"\" ' >" +
             "       AND nickname like concat('%',#{user.nickname},'%')" +
             " </if>" +

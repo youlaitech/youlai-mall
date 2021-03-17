@@ -15,9 +15,9 @@ import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
-import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
+import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.pojo.bo.app.OrderBO;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderDelivery;
@@ -33,13 +33,10 @@ import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.ums.api.app.UmsAddressFeignService;
 import com.youlai.mall.ums.api.app.UmsMemberFeignService;
 import com.youlai.mall.ums.pojo.domain.UmsAddress;
-import io.netty.util.concurrent.CompleteFuture;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -279,7 +276,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                     .build())
                     .collect(Collectors.toList());
 
-            Result result = inventoryFeignService.lockInventory(items);
+            Result result = inventoryFeignService.lockStock(items);
             if (!StrUtil.equals(result.getCode(), ResultCode.SUCCESS.getCode())) {
                 throw new BizException("下单失败，锁定库存错误");
             }
