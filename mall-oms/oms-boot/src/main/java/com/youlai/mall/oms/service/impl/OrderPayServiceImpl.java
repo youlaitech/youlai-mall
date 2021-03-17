@@ -14,7 +14,7 @@ import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderPayService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
-import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.ums.api.UmsMemberFeignService;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
@@ -36,7 +36,7 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OmsOrderPay
 
     private IOrderItemService orderItemService;
 
-    private PmsSkuFeignService inventoryFeignService;
+    private PmsSkuFeignService skuFeignService;
 
     @Override
     @GlobalTransactional(rollbackFor = Exception.class)
@@ -67,13 +67,13 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OmsOrderPay
 
         // 扣减库存
         List<OmsOrderItem> orderItems = orderItemService.getByOrderId(orderId);
-        List<InventoryDTO> inventoryList = orderItems.stream().map(orderItem -> InventoryDTO.builder()
+        List<SkuLockDTO> stockLick = orderItems.stream().map(orderItem -> SkuLockDTO.builder()
                 .skuId(orderItem.getSkuId())
                 .count(orderItem.getSkuQuantity())
                 .build())
                 .collect(Collectors.toList());
 
-        inventoryFeignService.deductStock(inventoryList);
+        skuFeignService.deductStock(stockLick);
 
         // 添加订单支付记录
         OmsOrderPay orderPay = OmsOrderPay.builder()

@@ -5,7 +5,7 @@ import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
-import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -32,7 +32,7 @@ public class RabbitMQListener {
 
     IOrderItemService orderItemService;
 
-    PmsSkuFeignService inventoryFeignService;
+    PmsSkuFeignService skuFeignService;
 
     RabbitTemplate rabbitTemplate;
 
@@ -47,12 +47,12 @@ public class RabbitMQListener {
                 // 如果关单成功，发送消息释放库存
                 // rabbitTemplate.convertAndSend("product_event_change", "stock:unlock", orderSn);
                 List<OmsOrderItem> orderItems = orderItemService.getByOrderId(orderId);
-                List<InventoryDTO> inventoryList = orderItems.stream().map(orderItem -> InventoryDTO.builder()
+                List<SkuLockDTO> stockLick = orderItems.stream().map(orderItem -> SkuLockDTO.builder()
                         .skuId(orderItem.getSkuId())
                         .count(orderItem.getSkuQuantity())
                         .build())
                         .collect(Collectors.toList());
-                inventoryFeignService.unlockStock(inventoryList);
+                skuFeignService.unlockStock(stockLick);
             } else {
                 // 如果关单失败，则订单可能已经被处理，直接手动ACK确认消息
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);

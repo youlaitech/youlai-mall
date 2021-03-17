@@ -3,7 +3,7 @@ package com.youlai.mall.pms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 
 import java.util.List;
 
@@ -14,14 +14,14 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @param list
      * @return 库存锁定结果
      */
-    boolean lockStock(List<InventoryDTO> list);
+    boolean lockStock(List<SkuLockDTO> list);
 
     /**
      * 解锁库存
      * @param  list
      * @return 解锁库存结果
      */
-    boolean unlockStock(List<InventoryDTO>  list);
+    boolean unlockStock(List<SkuLockDTO>  list);
 
 
     /**
@@ -39,5 +39,5 @@ public interface IPmsSkuService extends IService<PmsSku> {
      */
     List<SkuDTO> listBySkuIds(List<Long> ids);
 
-    boolean deductStock(List<InventoryDTO> list);
+    boolean deductStock(List<SkuLockDTO> list);
 }

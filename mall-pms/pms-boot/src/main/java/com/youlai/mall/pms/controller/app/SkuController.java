@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller.app;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,7 +41,7 @@ public class SkuController {
     @ApiOperation(value = "锁定库存", httpMethod = "PUT")
     @ApiImplicitParam(name = "list", value = "锁定库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
     @PutMapping("/batch/lock_stock")
-    public Result<Boolean> lockStock(@RequestBody List<InventoryDTO> list) {
+    public Result<Boolean> lockStock(@RequestBody List<SkuLockDTO> list) {
         boolean result = iPmsSkuService.lockStock(list);
         return Result.judge(result);
     }
@@ -50,7 +50,7 @@ public class SkuController {
     @ApiOperation(value = "解锁库存", httpMethod = "PUT")
     @ApiImplicitParam(name = "list", value = "释放库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
     @PutMapping("/batch/unlock_stock")
-    public Result<Boolean> unlockStock(@RequestBody List<InventoryDTO> list) {
+    public Result<Boolean> unlockStock(@RequestBody List<SkuLockDTO> list) {
         boolean result = iPmsSkuService.unlockStock(list);
         return Result.judge(result);
     }
@@ -58,7 +58,7 @@ public class SkuController {
     @ApiOperation(value = "扣减库存", httpMethod = "PUT")
     @ApiImplicitParam(name = "list", value = "释放库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
     @PutMapping("/batch/deduct_stock")
-    public Result<Boolean> deductStock(@RequestBody List<InventoryDTO> list) {
+    public Result<Boolean> deductStock(@RequestBody List<SkuLockDTO> list) {
         boolean result = iPmsSkuService.deductStock(list);
         return Result.judge(result);
     }

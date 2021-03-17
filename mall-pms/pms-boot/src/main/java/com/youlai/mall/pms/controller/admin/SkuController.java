@@ -54,7 +54,7 @@ public class SkuController {
     @PutMapping("/{id}/stock")
     public Result updateStock(@PathVariable Long id, @RequestParam Integer num) {
         PmsSku sku = iPmsSkuService.getById(id);
-        sku.setInventory(sku.getInventory() + num);
+        sku.setStock(sku.getStock() + num);
         boolean result = iPmsSkuService.updateById(sku);
         return Result.judge(result);
     }

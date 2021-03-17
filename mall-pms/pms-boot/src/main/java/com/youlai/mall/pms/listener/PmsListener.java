@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  * @date 2021-03-16
  */
 @Component
-public class InventoryListener {
+public class PmsListener {
 
 
     /**
