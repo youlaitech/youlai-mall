@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,14 +22,18 @@ public class OrderSubmitDTO {
 
     private List<OrderItemVO> orderItems;
 
-    private Long payAmount;
-
-    private String couponId;
+    // 验价前台传值
+    private Long totalPrice;
 
     @NotBlank(message = "请选择收货地址")
     private String addressId;
 
     @Size(max = 500, message = "订单备注长度不能超过500")
     private String remark;
+
+
+    private Long payAmount;
+
+    private String couponId;
 
 }

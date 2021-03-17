@@ -3,7 +3,7 @@ package com.youlai.mall.pms.api.app;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.InventoryDTO;
+import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,17 +28,17 @@ public interface PmsSkuFeignService {
      * 锁定库存
      */
     @PutMapping("/api.app/v1/skus/batch/lock_stock")
-    Result lockStock(@RequestBody List<InventoryDTO> list);
+    Result lockStock(@RequestBody List<SkuLockDTO> list);
 
     /**
      * 解锁库存
      */
     @PutMapping("/api.app/v1/skus/batch/unlock_stock")
-    Result<Boolean> unlockStock(@RequestBody List<InventoryDTO> list);
+    Result<Boolean> unlockStock(@RequestBody List<SkuLockDTO> list);
 
 
     @PutMapping("/api.app/v1/skus/batch/deduct_stock")
-    Result deductStock(@RequestBody List<InventoryDTO> list);
+    Result deductStock(@RequestBody List<SkuLockDTO> list);
 
 
 }

@@ -28,7 +28,7 @@ public class CartVO implements Serializable {
 
         private Integer count;
 
-        private Long price;
+        private Long price; // 加入购物车价格，因会变动，不能作为订单计算因子，订单验价时需重新获取商品价格即可
 
         private Long coupon;
 
