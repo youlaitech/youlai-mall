@@ -2,7 +2,7 @@ package com.youlai.mall.oms;
 
 
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
-import com.youlai.mall.ums.api.app.UmsMemberFeignService;
+import com.youlai.mall.ums.api.UmsMemberFeignService;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

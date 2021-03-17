@@ -1,16 +1,14 @@
-package com.youlai.mall.ums.api.app;
+package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.pojo.domain.UmsAddress;
-import com.youlai.mall.ums.pojo.domain.UmsMember;
-import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
-import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(value = "mall-ums")
+@FeignClient(name = "ums-address")
 public interface UmsAddressFeignService {
 
     /**
