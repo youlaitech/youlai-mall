@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2021/1/21
  */
 @Data
-public class OrderSubmitResultVO extends BaseVO {
+public class OrderSubmitVO extends BaseVO {
     /**
      * 订单ID
      */

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class UmsUser extends BaseEntity {
+public class UmsMember extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;

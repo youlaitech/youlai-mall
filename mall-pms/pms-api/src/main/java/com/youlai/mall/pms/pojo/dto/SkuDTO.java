@@ -15,28 +15,14 @@ public class SkuDTO {
 
     private String code;
 
-    private String name;
+    private String title;
 
     private String pic;
 
-    private Long originPrice;
-
     private Long price;
-
-    private Integer inventory;
 
     private Long spuId;
 
-    private String productName;
 
-    private String productPic;
-
-    private Long brandId;
-
-    private String brandName;
-
-    private Long categoryId;
-
-    private String categoryName;
 
 }

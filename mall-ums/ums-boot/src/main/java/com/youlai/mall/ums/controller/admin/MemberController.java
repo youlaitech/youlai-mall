@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
-import com.youlai.mall.ums.pojo.domain.UmsUser;
+import com.youlai.mall.ums.pojo.domain.UmsMember;
 import com.youlai.mall.ums.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -16,7 +16,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -26,7 +25,7 @@ import java.util.Arrays;
 @RequestMapping("/api.admin/v1/users")
 @Slf4j
 @AllArgsConstructor
-public class UserController {
+public class MemberController {
 
     private IUmsUserService iUmsUserService;
 
@@ -45,12 +44,12 @@ public class UserController {
             String nickname
     ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
-        LambdaQueryWrapper<UmsUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.ne(UmsUser::getDeleted, GlobalConstants.DELETED_VALUE);
+        LambdaQueryWrapper<UmsMember> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.ne(UmsMember::getDeleted, GlobalConstants.DELETED_VALUE);
         switch (queryModeEnum) {
             default: // PAGE
-                queryWrapper.like(StrUtil.isNotBlank(nickname), UmsUser::getNickname, nickname);
-                IPage<UmsUser> result = iUmsUserService.list(new Page<>(page, limit), new UmsUser().setNickname(nickname));
+                queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickname, nickname);
+                IPage<UmsMember> result = iUmsUserService.list(new Page<>(page, limit), new UmsMember().setNickname(nickname));
                 return Result.success(result.getRecords(), result.getTotal());
         }
     }
@@ -61,7 +60,7 @@ public class UserController {
     public Result getMemberById(
             @PathVariable Long id
     ) {
-        UmsUser user = iUmsUserService.getById(id);
+        UmsMember user = iUmsUserService.getById(id);
         return Result.success(user);
     }
 
@@ -73,7 +72,7 @@ public class UserController {
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Integer id,
-            @RequestBody UmsUser user) {
+            @RequestBody UmsMember user) {
         boolean status = iUmsUserService.updateById(user);
         return Result.judge(status);
     }
@@ -84,9 +83,9 @@ public class UserController {
             @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PatchMapping("/{id}")
-    public Result patch(@PathVariable Long id, @RequestBody UmsUser user) {
-        LambdaUpdateWrapper<UmsUser> updateWrapper = new LambdaUpdateWrapper<UmsUser>().eq(UmsUser::getId, id);
-        updateWrapper.set(user.getStatus() != null, UmsUser::getStatus, user.getStatus());
+    public Result patch(@PathVariable Long id, @RequestBody UmsMember user) {
+        LambdaUpdateWrapper<UmsMember> updateWrapper = new LambdaUpdateWrapper<UmsMember>().eq(UmsMember::getId, id);
+        updateWrapper.set(user.getStatus() != null, UmsMember::getStatus, user.getStatus());
         boolean status = iUmsUserService.update(updateWrapper);
         return Result.judge(status);
     }
@@ -95,9 +94,9 @@ public class UserController {
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
-        boolean status = iUmsUserService.update(new LambdaUpdateWrapper<UmsUser>()
-                .in(UmsUser::getId, Arrays.asList(ids.split(",")))
-                .set(UmsUser::getDeleted, GlobalConstants.DELETED_VALUE));
+        boolean status = iUmsUserService.update(new LambdaUpdateWrapper<UmsMember>()
+                .in(UmsMember::getId, Arrays.asList(ids.split(",")))
+                .set(UmsMember::getDeleted, GlobalConstants.DELETED_VALUE));
         return Result.judge(status);
     }
 
@@ -108,9 +107,9 @@ public class UserController {
     })
     @PatchMapping("/{id}/balance/_deduct")
     public Result deductBalance(@PathVariable Long id, @RequestParam Long amount) {
-        LambdaUpdateWrapper<UmsUser> updateWrapper = new LambdaUpdateWrapper<UmsUser>().eq(UmsUser::getId, id);
+        LambdaUpdateWrapper<UmsMember> updateWrapper = new LambdaUpdateWrapper<UmsMember>().eq(UmsMember::getId, id);
         updateWrapper.setSql(" balance = balance - " + amount);
-        updateWrapper.gt(UmsUser::getBalance, amount);
+        updateWrapper.gt(UmsMember::getBalance, amount);
         boolean result = iUmsUserService.update(updateWrapper);
         return Result.judge(result);
     }

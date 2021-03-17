@@ -1,9 +1,8 @@
 package com.youlai.mall.oms;
 
 
-import com.youlai.mall.pms.api.app.InventoryFeignService;
-import com.youlai.mall.ums.api.app.MemberFeignService;
-import org.mybatis.spring.annotation.MapperScan;
+import com.youlai.mall.pms.api.app.PmsSkuFeignService;
+import com.youlai.mall.ums.api.app.UmsMemberFeignService;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,8 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableDiscoveryClient
-@EnableFeignClients(basePackageClasses = { MemberFeignService.class, InventoryFeignService.class})
-@MapperScan({ "com.youlai.mall.oms.mapper","com.youlai.mall.oms.dao"})
+@EnableFeignClients(basePackageClasses = { UmsMemberFeignService.class, PmsSkuFeignService.class})
 @EnableRabbit
 public class OmsApplication {
 

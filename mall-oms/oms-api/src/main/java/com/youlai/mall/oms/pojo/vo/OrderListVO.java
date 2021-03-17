@@ -53,7 +53,7 @@ public class OrderListVO extends BaseVO {
         private String skuPic;
         private Integer skuQuantity;
         private Long skuTotalPrice;
-        private String skuName;
+        private String title;
         private Long price;
         private String image;
         private Integer number;

@@ -10,8 +10,8 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.ums.api.app.MemberFeignService;
-import com.youlai.mall.ums.pojo.domain.UmsUser;
+import com.youlai.mall.ums.api.app.UmsMemberFeignService;
+import com.youlai.mall.ums.pojo.domain.UmsMember;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,7 +23,6 @@ import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,7 +85,7 @@ public class AuthController {
 
 
     private WxMaService wxService;
-    private MemberFeignService memberFeignService;
+    private UmsMemberFeignService memberFeignService;
     private PasswordEncoder passwordEncoder;
 
     public OAuth2AccessToken handleForWxAuth(Principal principal, Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
@@ -116,7 +115,7 @@ public class AuthController {
             if (userInfo == null) {
                 throw new BizException("获取用户信息失败");
             }
-            UmsUser user = new UmsUser()
+            UmsMember user = new UmsMember()
                     .setNickname(userInfo.getNickName())
                     .setAvatar(userInfo.getAvatarUrl())
                     .setGender(Integer.valueOf(userInfo.getGender()))
