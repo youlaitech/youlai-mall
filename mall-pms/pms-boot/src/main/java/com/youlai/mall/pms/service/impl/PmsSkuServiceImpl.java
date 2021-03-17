@@ -29,13 +29,13 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean lockInventory(List<InventoryDTO> inventories) {
+    public boolean lockStock(List<InventoryDTO> inventories) {
         log.info("锁定库存: {}", inventories);
 
         inventories.forEach(item -> {
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
                     .eq(PmsSku::getId, item.getSkuId())
-                    .apply("inventory >= locked_inventory + {0}", item.getCount())
+                    .apply("stock >= locked_inventory + {0}", item.getCount())
                     .setSql("locked_inventory = locked_inventory + " + item.getCount())
             );
             if (!result) {
@@ -47,7 +47,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     }
 
     @Override
-    public boolean unlockInventory(List<InventoryDTO> inventories) {
+    public boolean unlockStock(List<InventoryDTO> inventories) {
         inventories.forEach(item -> {
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
                     .eq(PmsSku::getId, item.getSkuId())
@@ -62,12 +62,12 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
 
     @Override
-    public boolean minusInventory(List<InventoryDTO> inventories) {
+    public boolean deductStock(List<InventoryDTO> inventories) {
         inventories.forEach(item -> {
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
                     .eq(PmsSku::getId, item.getSkuId())
                     .setSql("locked_inventory = locked_inventory - " + item.getCount())
-                    .setSql("inventory = inventory - " + item.getCount())
+                    .setSql("stock = stock - " + item.getCount())
             );
             if (!result) {
                 throw new BizException("扣减库存失败");
@@ -86,13 +86,13 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
      * @return
      */
     @Override
-    public Integer getInventoryById(Long id) {
-        Integer inventory = 0;
+    public Integer getStockById(Long id) {
+        Integer stock = 0;
         // 读->缓存
         Object cacheVal = redisTemplate.opsForValue().get(PmsConstants.PRODUCT_INVENTORY_PREFIX + id);
         if (cacheVal != null) {
-            inventory = Convert.toInt(cacheVal);
-            return inventory;
+            stock = Convert.toInt(cacheVal);
+            return stock;
         }
 
         // 读->数据库
@@ -101,12 +101,12 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
                 .select(PmsSku::getInventory));
 
         if (pmsSku != null) {
-            inventory = pmsSku.getInventory();
+            stock = pmsSku.getInventory();
             // 写->缓存
-            redisTemplate.opsForValue().set(PmsConstants.PRODUCT_INVENTORY_PREFIX + id, inventory);
+            redisTemplate.opsForValue().set(PmsConstants.PRODUCT_INVENTORY_PREFIX + id, stock);
         }
 
-        return inventory;
+        return stock;
 
     }
 
