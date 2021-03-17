@@ -1,6 +1,5 @@
 package com.youlai.mall.pms.pojo.dto;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +14,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InventoryDTO {
+public class SkuLockDTO {
 
-    @ApiModelProperty("库存ID")
     private Long skuId;
 
-    @ApiModelProperty("数量")
     private Integer count;
+
+    private String orderToken;
+
+    private Boolean locked;
 
 }
