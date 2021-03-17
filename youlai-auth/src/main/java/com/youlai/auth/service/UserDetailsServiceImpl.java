@@ -8,7 +8,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
-import com.youlai.mall.ums.api.app.MemberFeignService;
+import com.youlai.mall.ums.api.app.UmsMemberFeignService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserFeignService userFeignService;
-    private MemberFeignService memberFeignService;
+    private UmsMemberFeignService memberFeignService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -39,7 +39,7 @@ public class OmsOrderItem extends BaseEntity {
     /**
      * 商品sku名字
      */
-    private String skuName;
+    private String title;
     /**
      * 商品sku图片
      */

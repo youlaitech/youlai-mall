@@ -30,7 +30,7 @@ public class OrderItemVO extends BaseVO {
      */
     @Getter
     @Setter
-    private String skuName;
+    private String title;
 
     /**
      * 商品数量

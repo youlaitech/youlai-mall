@@ -3,7 +3,7 @@ package com.youlai.mall.ums.controller.admin;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.result.Result;
-import com.youlai.mall.ums.pojo.domain.UmsUser;
+import com.youlai.mall.ums.pojo.domain.UmsMember;
 import com.youlai.mall.ums.pojo.dto.RechargeDTO;
 import com.youlai.mall.ums.pojo.dto.ResultPayDTO;
 import com.youlai.mall.ums.service.IUmsUserService;
@@ -113,7 +113,7 @@ public class RechargeController {
         //处理自己的业务逻辑
         //例如开通会员、用户充值等等。。。
         String thirduid = resultPay.getThirduid();
-        UmsUser user = iUmsUserService.getById(thirduid);
+        UmsMember user = iUmsUserService.getById(thirduid);
         if (user != null) {
             user.setBalance((long) (user.getBalance() + Float.valueOf(resultPay.getPrice()) * 100 * 10000));
         }

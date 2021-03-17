@@ -12,45 +12,27 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder
+@Data
 public class CartVO implements Serializable {
 
-    private List<CartItemVO> items;
+    private List<CartItem> items;
 
-    private Integer totalNum;
+    @Data
+    public static class CartItem {
 
-    private Long totalPrice;
+        private Long skuId;
 
-    private Long totalCoupon;
+        private String title; // 标题
 
-    public List<CartItemVO> getItems() {
-        return items;
-    }
+        private String pic;
 
-    public void setItems(List<CartItemVO> items) {
-        this.items = items;
-    }
+        private Integer count;
 
-    public Integer getTotalNum() {
-        int total = 0;
-        if (items != null && items.size() > 0) {
-            total = items.stream().filter(CartItemVO::isChecked).mapToInt(CartItemVO::getNum).sum();
-        }
-        return total;
-    }
+        private Long price;
 
-    public void setTotalNum(Integer totalNum) {
-        this.totalNum = totalNum;
-    }
+        private Long coupon;
 
-    public Long getTotalPrice() {
-        long total = 0L;
-        if (items != null && items.size() > 0) {
-            total = items.stream().filter(CartItemVO::isChecked).mapToLong(CartItemVO::getSubtotal).sum();
-        }
-        return total;
-    }
+        private boolean checked;
 
-    public void setTotalPrice(Long totalPrice) {
-        this.totalPrice = totalPrice;
     }
 }

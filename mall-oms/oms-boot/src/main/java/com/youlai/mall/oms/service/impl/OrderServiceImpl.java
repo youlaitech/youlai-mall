@@ -2,6 +2,7 @@ package com.youlai.mall.oms.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,27 +14,34 @@ import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.oms.dao.OrderDao;
+import com.youlai.mall.oms.constant.OmsConstants;
+import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.pojo.bo.app.OrderBO;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderDelivery;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
+import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.pojo.vo.*;
 import com.youlai.mall.oms.service.*;
-import com.youlai.mall.pms.api.app.InventoryFeignService;
+import com.youlai.mall.pms.api.app.PmsSkuFeignService;
+import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.ums.api.app.MemberFeignService;
-import com.youlai.mall.ums.pojo.dto.UmsAddressDTO;
+import com.youlai.mall.ums.api.app.UmsAddressFeignService;
+import com.youlai.mall.ums.api.app.UmsMemberFeignService;
+import com.youlai.mall.ums.pojo.domain.UmsAddress;
+import io.netty.util.concurrent.CompleteFuture;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
@@ -44,20 +52,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
 @Service
-public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements IOrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements IOrderService {
 
     private static final ThreadLocal<OrderSubmitDTO> threadLocal = new ThreadLocal<>();
 
     private ICartService cartService;
 
-    private InventoryFeignService inventoryFeignService;
+    private PmsSkuFeignService skuFeignService;
 
-    private MemberFeignService memberFeignService;
+    private UmsMemberFeignService memberFeignService;
+
+    private UmsAddressFeignService addressFeignService;
 
     private AsyncTaskExecutor executor;
 
@@ -69,38 +80,71 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
 
     private RabbitTemplate rabbitTemplate;
 
+    private RedisTemplate redisTemplate;
+
+    private ThreadPoolExecutor threadPoolExecutor;
+
 
     @Override
-    public OrderConfirmVO confirm(Long skuId, Integer count) {
+    public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
+        OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
+        // 获取购买商品信息
+        CompletableFuture<Void> orderItemsCompletableFuture = CompletableFuture.runAsync(() -> {
+            List<OrderItemVO> orderItems = new ArrayList<>();
+            if (orderConfirmDTO.getSkuId() != null) { // 直接购买商品结算
+                OrderItemVO orderItemVO = OrderItemVO.builder()
+                        .skuId(orderConfirmDTO.getSkuId())
+                        .count(orderConfirmDTO.getCount())
+                        .build();
+                PmsSku sku = skuFeignService.getSkuById(orderConfirmDTO.getSkuId()).getData();
+                orderItemVO.setPrice(sku.getPrice());
+                orderItemVO.setSkuPic(sku.getPic());
+                orderItemVO.setTitle(sku.getTitle());
+                orderItems.add(orderItemVO);
+            } else { // 购物车中商品结算
+                List<CartVO.CartItem> cartItems = cartService.getCartItems();
+                List<OrderItemVO> items = cartItems.stream()
+                        .filter(CartVO.CartItem::isChecked)
+                        .map(cartItem -> OrderItemVO.builder()
+                                .skuId(cartItem.getSkuId())
+                                .count(cartItem.getCount())
+                                .price(cartItem.getPrice())
+                                .title(cartItem.getTitle())
+                                .skuPic(cartItem.getPic())
+                                .build())
+                        .collect(Collectors.toList());
+                orderItems.addAll(items);
+            }
+            orderConfirmVO.setOrderItems(orderItems);
+        }, threadPoolExecutor);
 
-        OrderConfirmVO orderConfirmVO=new OrderConfirmVO();
+        // 获取会员地址列表
+        CompletableFuture<Void> addressesCompletableFuture = CompletableFuture.runAsync(() -> {
+            List<UmsAddress> addresses = addressFeignService.list().getData();
+            orderConfirmVO.setAddresses(addresses);
+        }, threadPoolExecutor);
 
-        List<OrderItemVO> orderItems = getOrderItems(skuId, count);
-        if (CollectionUtil.isEmpty(orderItems)) {
-            return orderConfirmVO;
-        }
 
-        // 远程获取商品信息填充订单商品属性
-        List<Long> skuIds = orderItems.stream().map(item -> item.getSkuId()).collect(Collectors.toList());
-        List<SkuDTO> skus = inventoryFeignService.listBySkuIds(skuIds).getData();
-        for (OrderItemVO orderItem : orderItems) {
-            skus.stream().filter(sku -> sku.getId().equals(orderItem.getSkuId())).findFirst()
-                    .ifPresent(skuItem -> {
-                        orderItem.setPrice(skuItem.getPrice());
-                        orderItem.setSkuImg(skuItem.getPic());
-                        orderItem.setSkuName(skuItem.getName());
-                    });
-        }
+        // 生成唯一标识，防止订单重复提交
+        CompletableFuture<Void> orderTokenCompletableFuture = CompletableFuture.runAsync(() -> {
+            String orderToken = IdUtil.randomUUID();
+            orderConfirmVO.setOrderToken(orderToken);
+            redisTemplate.opsForValue().set(OmsConstants.ORDER_TOKEN_PREFIX + orderToken, orderToken);
+        }, threadPoolExecutor);
 
-        OrderConfirmVO confirmVO = new OrderConfirmVO();
-        confirmVO.setOrderItems(orderItems);
-        return confirmVO;
+        CompletableFuture.allOf(orderItemsCompletableFuture, addressesCompletableFuture, orderTokenCompletableFuture);
+        return orderConfirmVO;
     }
 
     @Override
     @GlobalTransactional
-    @SneakyThrows
-    public OrderSubmitResultVO submit(OrderSubmitDTO submitInfoDTO) {
+    public OrderSubmitVO submit(OrderSubmitDTO submitDTO) {
+
+        submitDTO.
+
+
+
+
         log.info("开始创建订单：{}", submitInfoDTO);
         threadLocal.set(submitInfoDTO);
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
@@ -262,9 +306,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OmsOrder> implements
         }
 
         // 将订单放入延时队列，超时未支付系统自动关单
-        rabbitTemplate.convertAndSend("order_event_exchange", "order:create", orderId);
+        rabbitTemplate.convertAndSend("order-exchange", "order:create", orderId);
 
-        OrderSubmitResultVO result = new OrderSubmitResultVO();
+        OrderSubmitVO result = new OrderSubmitVO();
         result.setId(orderId);
         result.setOrderSn(order.getOrderSn());
         return result;

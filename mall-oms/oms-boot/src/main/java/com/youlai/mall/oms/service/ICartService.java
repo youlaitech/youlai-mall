@@ -2,46 +2,28 @@ package com.youlai.mall.oms.service;
 
 import com.youlai.mall.oms.pojo.vo.CartVO;
 
+import java.util.List;
+
 /**
  * 购物车业务接口
  */
 public interface ICartService {
 
-    /**
-     * 添加商品到购物车
-     */
-    void addCartItem(Long skuId);
 
-    /**
-     * 修改购物车商品数量
-     */
-    void updateCartItem(Long skuId,Integer num,Boolean checked);
-
-
-    /**
-     * 全选/全不选购物车
-     */
-    void checkAll(Boolean checked);
-
-    /**
-     * 批量删除购物车中的商品
-     */
-    void deleteCartItem(Long skuId);
-
-    /**
-     * 查询购物车详情
-     */
     CartVO getCart();
 
-    /**
-     * 清空购物车
-     */
-    void deleteCart();
+    List<CartVO.CartItem> getCartItems();
 
-    /**
-     * 清空购物车中已选择商品
-     */
-    void deleteSelectedItem();
+    boolean deleteCart();
 
+    boolean addCartItem(Long skuId);
+
+    boolean updateCartItem(CartVO.CartItem cartItem);
+
+    boolean removeCartItem(Long skuId);
+
+    boolean removeCheckedItem();
+
+    boolean checkAll(boolean checked);
 
 }
