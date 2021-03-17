@@ -29,7 +29,7 @@ public interface UmsMemberFeignService {
     /**
      * 修改会员积分
      */
-    @PutMapping("/api.admin/v1/members/{id}/point")
+    @PutMapping("/api.admin/v1/members/{id}/points")
     Result updatePoint(@PathVariable Long id, @RequestParam Integer num);
 
     /**

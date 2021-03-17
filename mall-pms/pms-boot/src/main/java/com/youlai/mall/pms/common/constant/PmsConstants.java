@@ -6,6 +6,6 @@ package com.youlai.mall.pms.common.constant;
  */
 public interface PmsConstants {
 
-    String PRODUCT_INVENTORY_PREFIX = "pms:inventory:";
+    String PRODUCT_INVENTORY_PREFIX = "pms:stock:";
 
 }

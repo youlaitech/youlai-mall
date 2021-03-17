@@ -13,7 +13,7 @@ public class InventoryListener {
     /**
      * 支付成功减库存
      */
-    public void minusInventory(){
+    public void deductStock(){
 
     }
 

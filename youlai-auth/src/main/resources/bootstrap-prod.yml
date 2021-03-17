@@ -13,5 +13,4 @@ spring:
         # docker启动nacos-server需要配置
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        prefix: ${spring.application.name}
         namespace: prod_namespace_id

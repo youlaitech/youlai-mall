@@ -45,14 +45,14 @@ public class RabbitMQListener {
         try {
             if (orderService.closeOrder(orderId)) {
                 // 如果关单成功，发送消息释放库存
-                // rabbitTemplate.convertAndSend("product_event_change", "inventory:unlock", orderSn);
+                // rabbitTemplate.convertAndSend("product_event_change", "stock:unlock", orderSn);
                 List<OmsOrderItem> orderItems = orderItemService.getByOrderId(orderId);
                 List<InventoryDTO> inventoryList = orderItems.stream().map(orderItem -> InventoryDTO.builder()
                         .skuId(orderItem.getSkuId())
                         .count(orderItem.getSkuQuantity())
                         .build())
                         .collect(Collectors.toList());
-                inventoryFeignService.unlockInventory(inventoryList);
+                inventoryFeignService.unlockStock(inventoryList);
             } else {
                 // 如果关单失败，则订单可能已经被处理，直接手动ACK确认消息
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);

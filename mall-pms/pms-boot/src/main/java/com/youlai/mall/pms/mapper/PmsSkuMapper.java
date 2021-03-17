@@ -26,7 +26,7 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
             "  t1.pic,",
             "  t1.origin_price,",
             "  t1.price price,",
-            "  t1.inventory inventory,",
+            "  t1.stock stock,",
             "  t2.id spu_id,",
             "  t2.NAME product_name,",
             "  t2.pic product_pic,",
