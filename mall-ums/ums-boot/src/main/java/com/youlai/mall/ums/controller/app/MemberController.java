@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.ums.pojo.domain.UmsUser;
+import com.youlai.mall.ums.pojo.domain.UmsMember;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import com.youlai.mall.ums.pojo.vo.MemberVO;
@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "【移动端】会员服务")
 @RestController
-@RequestMapping("/api.app/v1/users")
+@RequestMapping("/api.app/v1/members")
 @Slf4j
 @AllArgsConstructor
-public class UserController {
+public class MemberController {
 
     private IUmsUserService iUmsUserService;
 
@@ -34,10 +34,10 @@ public class UserController {
             @PathVariable Long id
     ) {
         MemberDTO memberDTO = new MemberDTO();
-        UmsUser user = iUmsUserService.getOne(
-                new LambdaQueryWrapper<UmsUser>()
-                        .select(UmsUser::getId, UmsUser::getNickname, UmsUser::getMobile, UmsUser::getBalance)
-                        .eq(UmsUser::getId, id)
+        UmsMember user = iUmsUserService.getOne(
+                new LambdaQueryWrapper<UmsMember>()
+                        .select(UmsMember::getId, UmsMember::getNickname, UmsMember::getMobile, UmsMember::getBalance)
+                        .eq(UmsMember::getId, id)
         );
         if (user != null) {
             BeanUtil.copyProperties(user, memberDTO);
@@ -51,8 +51,8 @@ public class UserController {
     public Result getMemberByOpenid(
             @PathVariable String openid
     ) {
-        UmsUser user = iUmsUserService.getOne(new LambdaQueryWrapper<UmsUser>()
-                .eq(UmsUser::getOpenid, openid));
+        UmsMember user = iUmsUserService.getOne(new LambdaQueryWrapper<UmsMember>()
+                .eq(UmsMember::getOpenid, openid));
         if (user == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
@@ -64,7 +64,7 @@ public class UserController {
     @ApiOperation(value = "新增会员", httpMethod = "POST")
     @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     @PostMapping
-    public Result add(@RequestBody UmsUser user) {
+    public Result add(@RequestBody UmsMember user) {
         boolean status = iUmsUserService.save(user);
         return Result.judge(status);
     }
@@ -73,7 +73,7 @@ public class UserController {
     @GetMapping("/me")
     public Result getMemberInfo() {
         Long userId = RequestUtils.getUserId();
-        UmsUser user = iUmsUserService.getById(userId);
+        UmsMember user = iUmsUserService.getById(userId);
         if (user == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
@@ -88,9 +88,9 @@ public class UserController {
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Integer")
     })
-    @PutMapping("/{id}/point")
+    @PutMapping("/{id}/points")
     public Result updatePoint(@PathVariable Long id, @RequestParam Integer num) {
-        UmsUser user = iUmsUserService.getById(id);
+        UmsMember user = iUmsUserService.getById(id);
         user.setPoint(user.getPoint() + num);
         boolean result = iUmsUserService.updateById(user);
         return Result.judge(result);
@@ -101,9 +101,9 @@ public class UserController {
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "balance", value = "会员余额", required = true, paramType = "query", dataType = "Long")
     })
-    @PutMapping("/{id}/balance")
+    @PutMapping("/{id}/balances")
     public Result updateBalance(@PathVariable Long id, @RequestParam Long balance) {
-        UmsUser user = iUmsUserService.getById(id);
+        UmsMember user = iUmsUserService.getById(id);
         user.setBalance(user.getBalance() - balance);
         boolean result = iUmsUserService.updateById(user);
         return Result.judge(result);
@@ -111,10 +111,10 @@ public class UserController {
 
     @ApiOperation(value = "获取会员余额", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}/balance")
+    @GetMapping("/{id}/balances")
     public Result<Long> updateBalance(@PathVariable Long id) {
         Long balance = 0l;
-        UmsUser user = iUmsUserService.getById(id);
+        UmsMember user = iUmsUserService.getById(id);
         if (user != null) {
             balance = user.getBalance();
         }

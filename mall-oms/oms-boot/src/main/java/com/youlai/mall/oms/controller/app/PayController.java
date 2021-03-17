@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * 订单支付服务
- *
  * @author huawei
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
@@ -26,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api.app/v1/payments")
 @Slf4j
 @AllArgsConstructor
-public class PaymentController {
+public class PayController {
 
     private IOrderPayService orderPayService;
 

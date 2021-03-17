@@ -3,7 +3,7 @@ package com.youlai.mall.oms.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.oms.dao.OrderItemDao;
+import com.youlai.mall.oms.mapper.OrderItemMapper;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.service.IOrderItemService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OmsOrderItem> implements IOrderItemService {
+public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OmsOrderItem> implements IOrderItemService {
 
 
     @Override

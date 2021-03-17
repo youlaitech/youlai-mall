@@ -4,7 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
-import com.youlai.mall.pms.api.app.InventoryFeignService;
+import com.youlai.mall.pms.api.app.PmsSkuFeignService;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @date 2021-03-16
  */
 
-//@Component
+@Component
 @AllArgsConstructor
 @Slf4j
 public class RabbitMQListener {
@@ -32,7 +32,7 @@ public class RabbitMQListener {
 
     IOrderItemService orderItemService;
 
-    InventoryFeignService inventoryFeignService;
+    PmsSkuFeignService inventoryFeignService;
 
     RabbitTemplate rabbitTemplate;
 

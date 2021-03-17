@@ -25,11 +25,9 @@ public class SkuController {
     @ApiOperation(value = "商品库存详情", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "商品库存ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result<SkuDTO> detail(@PathVariable Long id) {
+    public Result detail(@PathVariable Long id) {
         PmsSku sku = iPmsSkuService.getById(id);
-        SkuDTO SkuDTO = new SkuDTO();
-        BeanUtil.copyProperties(sku, SkuDTO);
-        return Result.success(SkuDTO);
+        return Result.success(sku);
     }
 
     @ApiOperation("获取商品的库存数量")

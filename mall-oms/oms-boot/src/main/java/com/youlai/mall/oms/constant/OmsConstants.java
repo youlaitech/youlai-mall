@@ -5,11 +5,10 @@ package com.youlai.mall.oms.constant;
  * @date 2021-03-16
  */
 public interface OmsConstants {
-    Long REDIS_KEY_TIME_OUT = 3600 * 24L;
 
-    String CART_KEY = "cart:";
+    String CART_PREFIX = "mall:cart:";
 
-    String TOKEN_VERIFY = "token_verify:";
+    String ORDER_TOKEN_PREFIX = "mall:order:token:";
 
     String BUSINESS_NO_PREFIX = "businessno:";
 

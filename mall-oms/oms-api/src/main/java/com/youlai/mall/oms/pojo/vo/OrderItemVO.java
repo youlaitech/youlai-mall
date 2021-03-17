@@ -14,11 +14,8 @@ import lombok.Setter;
 public class OrderItemVO extends BaseVO {
 
     private Long skuId;
-    private String skuImg;
-    private String skuName;
     private Integer count;
+    private String skuPic;
+    private String title;
     private Long price;
-    private Long coupon;
-
-
 }

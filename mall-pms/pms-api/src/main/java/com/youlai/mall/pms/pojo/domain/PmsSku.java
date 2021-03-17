@@ -11,7 +11,7 @@ public class PmsSku extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long spuId;
-    private String name;
+    private String title;
     private String code;
     private String pic;
     private Long originPrice;
