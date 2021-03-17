@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.api.app;
+package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
@@ -7,7 +7,7 @@ import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "mall-ums")
+@FeignClient(name = "ums-member")
 public interface UmsMemberFeignService {
 
     @PostMapping("/api.app/v1/users")
@@ -44,7 +44,6 @@ public interface UmsMemberFeignService {
      */
     @GetMapping("/api.app/v1/members/{id}/balances")
     Result<Long> getBalance(@PathVariable Long id);
-
 
 
 }

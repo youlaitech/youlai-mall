@@ -15,7 +15,7 @@ import com.youlai.mall.oms.service.IOrderPayService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
 import com.youlai.mall.pms.pojo.dto.InventoryDTO;
-import com.youlai.mall.ums.api.app.UmsMemberFeignService;
+import com.youlai.mall.ums.api.UmsMemberFeignService;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
