@@ -25,12 +25,28 @@ public class CartController {
 
     private ICartService cartService;
 
-    @ApiOperation(value = "查询用户购物车", httpMethod = "GET")
+    @ApiOperation(value = "查询购物车", httpMethod = "GET")
     @GetMapping
-    public Result get() {
+    public Result getCart() {
         CartVO cart = cartService.getCart();
         return Result.success(cart);
     }
+
+    @ApiOperation(value = "全选/全不选 购物车商品", httpMethod = "PUT")
+    @ApiImplicitParam(name = "checked", value = "全选/全不选", required = true, paramType = "param", dataType = "Boolean")
+    @PatchMapping("/_check")
+    public Result check(boolean checked) {
+        boolean result = cartService.checkAll(checked);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "清空购物车", httpMethod = "DELETE")
+    @DeleteMapping
+    public Result deleteCart() {
+        boolean result = cartService.deleteCart();
+        return Result.judge(result);
+    }
+
 
     @ApiOperation(value = "添加购物车商品", httpMethod = "POST")
     @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
@@ -47,13 +63,6 @@ public class CartController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "全选/全不选择购物车商品", httpMethod = "PUT")
-    @ApiImplicitParam(name = "checked", value = "全选/全不选", required = true, paramType = "param", dataType = "Boolean")
-    @PatchMapping("/batch")
-    public Result checkAll(boolean checked) {
-        boolean result = cartService.checkAll(checked);
-        return Result.judge(result);
-    }
 
     @ApiOperation(value = "删除购物车商品", httpMethod = "DELETE")
     @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
@@ -63,10 +72,5 @@ public class CartController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "清空购物车", httpMethod = "DELETE")
-    @DeleteMapping
-    public Result deleteCart() {
-        boolean result = cartService.deleteCart();
-        return Result.judge(result);
-    }
+
 }
