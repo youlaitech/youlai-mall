@@ -1,50 +1,46 @@
 package com.youlai.mall.oms.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.result.Result;
-import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.mapper.OrderMapper;
-import com.youlai.mall.oms.pojo.bo.app.OrderBO;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
-import com.youlai.mall.oms.pojo.domain.OmsOrderDelivery;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.pojo.vo.*;
-import com.youlai.mall.oms.service.*;
+import com.youlai.mall.oms.service.ICartService;
+import com.youlai.mall.oms.service.IOrderItemService;
+import com.youlai.mall.oms.service.IOrderLogService;
+import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.ums.api.UmsAddressFeignService;
-import com.youlai.mall.ums.api.UmsMemberFeignService;
 import com.youlai.mall.ums.pojo.domain.UmsAddress;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
@@ -56,31 +52,18 @@ import static com.youlai.mall.oms.constant.OmsConstants.*;
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements IOrderService {
 
-    private static final ThreadLocal<OrderSubmitDTO> threadLocal = new ThreadLocal<>();
-
     private ICartService cartService;
-
     private PmsSkuFeignService skuFeignService;
-
-    private UmsMemberFeignService memberFeignService;
-
     private UmsAddressFeignService addressFeignService;
-
-    private AsyncTaskExecutor executor;
-
     private IOrderItemService orderItemService;
-
-    private IOrderDeliveryService orderDeliveryService;
-
     private IOrderLogService orderLogService;
-
     private RabbitTemplate rabbitTemplate;
-
     private StringRedisTemplate redisTemplate;
-
     private ThreadPoolExecutor threadPoolExecutor;
 
-
+    /**
+     * 订单确认
+     */
     @Override
     public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
@@ -132,6 +115,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         return orderConfirmVO;
     }
 
+    /**
+     * 订单提交
+     */
     @Override
     @GlobalTransactional
     public OrderSubmitVO submit(OrderSubmitDTO submitDTO) {
@@ -177,7 +163,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             throw new BizException(Result.failed().getMsg());
         }
 
-        // 保存订单
+        // 创建订单(状态：待支付)
         OmsOrder order = new OmsOrder();
         order.setOrderSn(IdWorker.getTimeId())
                 .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
@@ -186,7 +172,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .setRemark(submitDTO.getRemark());
         this.save(order);
 
-        // 保存订单商品
+        // 创建订单商品
         List<OmsOrderItem> orderItemList = orderItems.stream().map(item -> OmsOrderItem.builder()
                 .orderId(order.getId())
                 .skuId(item.getSkuId())
@@ -197,15 +183,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         orderItemService.saveBatch(orderItemList);
 
         // 将订单放入延时队列，超时未支付系统自动关单
-        rabbitTemplate.convertAndSend("order-exchange", "order:create", orderToken);
-
-        // 记录发货 TODO
+        rabbitTemplate.convertAndSend("order.exchange", "order:create", orderToken);
 
         OrderSubmitVO submitVO = new OrderSubmitVO();
         submitVO.setId(order.getId());
         submitVO.setOrderSn(order.getOrderSn());
         return submitVO;
-
     }
 
 
@@ -230,7 +213,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
         order.setStatus(OrderStatusEnum.USER_CANCEL.getCode());
         this.updateById(order);
-        orderLogService.addOrderLogs(order.getId(), order.getStatus(), OrderStatusEnum.USER_CANCEL.getText());
         return true;
     }
 
@@ -244,7 +226,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             throw new BizException("订单状态不允许删除");
         }
         this.removeById(id);
-        orderLogService.addOrderLogs(order.getId(), order.getStatus(), "会员删除订单");
         return true;
     }
 
@@ -291,7 +272,4 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
         return order;
     }
-
-
-
 }

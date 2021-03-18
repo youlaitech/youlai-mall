@@ -7,7 +7,7 @@ import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "ums-member")
+@FeignClient(name = "mall-ums",contextId = "member")
 public interface UmsMemberFeignService {
 
     @PostMapping("/api.app/v1/users")
