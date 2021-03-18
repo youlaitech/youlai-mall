@@ -1,22 +1,16 @@
 package com.youlai.mall.oms.listener;
 
 import com.rabbitmq.client.Channel;
-import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
-import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 /**
  * @author hxr
@@ -29,13 +23,9 @@ import java.util.stream.Collectors;
 public class OmsListener {
 
     IOrderService orderService;
-
     IOrderItemService orderItemService;
-
     PmsSkuFeignService skuFeignService;
-
     RabbitTemplate rabbitTemplate;
-
 
     /**
      * 订单超时未支付，关闭订单，释放库存
@@ -48,6 +38,7 @@ public class OmsListener {
                 skuFeignService.unlockStock(orderToken);
             } else {
                 // 如果关单失败，则订单可能已经被处理，直接手动ACK确认消息
+                // basicAck(tag,multiple)，multiple为true开启批量确认，小于tag值队列中未被消费的消息一次性确认
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
             }
         } catch (IOException e) {
