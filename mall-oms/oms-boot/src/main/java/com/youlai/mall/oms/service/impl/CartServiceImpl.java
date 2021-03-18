@@ -109,6 +109,10 @@ public class CartServiceImpl implements ICartService {
         BoundHashOperations cartHashOperations = getCartHashOperations();
         String hKey = cartItem.getSkuId() + "";
         if (cartHashOperations.get(hKey) != null) {
+
+            CartVO.CartItem  cacheCartItem = (CartVO.CartItem) cartHashOperations.get(hKey);
+
+
             cartHashOperations.put(hKey, cartItem);
         }
         return true;
