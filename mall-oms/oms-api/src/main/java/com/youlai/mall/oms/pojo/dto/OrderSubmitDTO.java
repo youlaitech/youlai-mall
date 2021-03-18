@@ -1,6 +1,7 @@
 package com.youlai.mall.oms.pojo.dto;
 
 import com.youlai.mall.oms.pojo.vo.OrderItemVO;
+import com.youlai.mall.ums.pojo.domain.UmsAddress;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -25,8 +26,9 @@ public class OrderSubmitDTO {
     // 验价前台传值
     private Long totalPrice;
 
-    @NotBlank(message = "请选择收货地址")
-    private String addressId;
+    // 收货地址
+    private UmsAddress deliveryAddress;
+
 
     @Size(max = 500, message = "订单备注长度不能超过500")
     private String remark;

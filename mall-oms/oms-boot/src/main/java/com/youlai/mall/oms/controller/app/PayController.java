@@ -3,7 +3,7 @@ package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.enums.PayTypeEnum;
-import com.youlai.mall.oms.pojo.vo.PayInfoVO;
+import com.youlai.mall.oms.pojo.vo.PayVO;
 import com.youlai.mall.oms.service.IOrderPayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -55,7 +55,7 @@ public class PayController {
                 // TODO
                 break;
             case BALANCE:
-                orderPayService.payWithBalance(orderId);
+                orderPayService.pay(orderId);
                 break;
             default:
                 return Result.failed("系统暂不支持该支付方式~");
@@ -66,7 +66,7 @@ public class PayController {
     @ApiOperation(value = "获取订单支付详情")
     @GetMapping("/orderId/{orderId}")
     public Result detail(@PathVariable Long orderId) {
-        PayInfoVO payInfo = orderPayService.getPayInfo(orderId);
+        PayVO payInfo = orderPayService.getByOrderId(orderId);
         return Result.success(payInfo);
     }
 }

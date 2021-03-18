@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "ums-address")
+@FeignClient(name = "mall-ums",contextId = "address")
 public interface UmsAddressFeignService {
 
     /**

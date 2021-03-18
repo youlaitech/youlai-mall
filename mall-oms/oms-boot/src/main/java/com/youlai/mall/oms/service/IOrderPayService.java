@@ -3,8 +3,7 @@ package com.youlai.mall.oms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.youlai.mall.oms.pojo.domain.OmsOrderPay;
-import com.youlai.mall.oms.pojo.vo.PayInfoVO;
-import org.springframework.stereotype.Service;
+import com.youlai.mall.oms.pojo.vo.PayVO;
 
 /**
  * 支付信息表
@@ -16,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 public interface IOrderPayService extends IService<OmsOrderPay> {
 
-    void payWithBalance(Long orderId);
+    void pay(Long orderId);
 
-    PayInfoVO getPayInfo(Long orderId);
+    PayVO getByOrderId(Long orderId);
 }
 

@@ -46,7 +46,7 @@
         <seata.version>1.4.1</seata.version>
         <commons-pool2.version>2.9.0</commons-pool2.version>
         <knife4j.version>2.0.8</knife4j.version>
-        <redisson.version>3.11.1</redisson.version>
+        <redisson.version>3.15.1</redisson.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
         <elasticsearch.version>7.10.1</elasticsearch.version>
         <ip2region.version>1.7.2</ip2region.version>
@@ -159,6 +159,7 @@
                 <version>${knife4j.version}</version>
             </dependency>
 
+            <!-- ELK -->
             <dependency>
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
@@ -183,12 +184,14 @@
                 <version>${elasticsearch.version}</version>
             </dependency>
 
+            <!-- 分布式锁 -->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
 
+            <!-- IP转地区工具 -->
             <dependency>
                 <groupId>org.lionsoul</groupId>
                 <artifactId>ip2region</artifactId>
@@ -206,8 +209,6 @@
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-
-
 
             <dependency>
                 <groupId>com.youlai</groupId>
@@ -244,8 +245,6 @@
                 <artifactId>common-web</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
-
-
         </dependencies>
     </dependencyManagement>
 
