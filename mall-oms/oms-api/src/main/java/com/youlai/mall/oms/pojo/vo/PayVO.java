@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @ApiModel("支付订单详情模型")
 @Data
-public class PayInfoVO extends BaseVO {
+public class PayVO extends BaseVO {
 
     /**
      * 支付金额

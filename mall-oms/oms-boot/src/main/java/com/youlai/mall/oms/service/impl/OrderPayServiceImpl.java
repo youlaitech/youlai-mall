@@ -9,7 +9,7 @@ import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.pojo.domain.OmsOrderPay;
-import com.youlai.mall.oms.pojo.vo.PayInfoVO;
+import com.youlai.mall.oms.pojo.vo.PayVO;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderPayService;
 import com.youlai.mall.oms.service.IOrderService;
@@ -33,14 +33,12 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OmsOrderPay
 
     private IOrderService orderService;
     private UmsMemberFeignService memberFeignService;
-
     private IOrderItemService orderItemService;
-
     private PmsSkuFeignService skuFeignService;
 
     @Override
     @GlobalTransactional(rollbackFor = Exception.class)
-    public void payWithBalance(Long orderId) {
+    public void pay(Long orderId) {
 
         //  查询订单状态
         OmsOrder order = orderService.getByOrderId(orderId);
@@ -86,19 +84,19 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OmsOrderPay
     }
 
     @Override
-    public PayInfoVO getPayInfo(Long orderId) {
-        PayInfoVO payInfoVO = new PayInfoVO();
+    public PayVO getByOrderId(Long orderId) {
+        PayVO payVO = new PayVO();
 
         // 1、获取订单应支付金额
         OmsOrder omsOrder = orderService.getByOrderId(orderId);
-        payInfoVO.setPayAmount(omsOrder.getPayAmount());
+        payVO.setPayAmount(omsOrder.getPayAmount());
 
         // 2、获取会员余额
         Long userId = RequestUtils.getUserId();
         Long balance = memberFeignService.getBalance(userId).getData();
-        payInfoVO.setBalance(balance);
+        payVO.setBalance(balance);
 
-        return payInfoVO;
+        return payVO;
     }
 
 }

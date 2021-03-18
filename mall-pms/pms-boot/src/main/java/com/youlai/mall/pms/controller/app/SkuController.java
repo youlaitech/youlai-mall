@@ -21,16 +21,16 @@ public class SkuController {
 
     private IPmsSkuService iPmsSkuService;
 
-    @ApiOperation(value = "商品库存详情", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", value = "商品库存ID", required = true, paramType = "path", dataType = "Long")
+    @ApiOperation(value = "商品详情", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result getById(@PathVariable Long id) {
+    public Result detail(@PathVariable Long id) {
         PmsSku sku = iPmsSkuService.getById(id);
         return Result.success(sku);
     }
 
     @ApiOperation("获取商品的库存数量")
-    @ApiImplicitParam(name = "id", value = "商品库存ID", required = true, paramType = "path", dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}/stock")
     public Result<Integer> getStockById(@PathVariable Long id) {
         Integer stock = iPmsSkuService.getStockById(id);
@@ -38,8 +38,8 @@ public class SkuController {
     }
 
 
-    @ApiOperation(value = "锁定库存", httpMethod = "PUT")
-    @ApiImplicitParam(name = "list", value = "锁定库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
+    @ApiOperation(value = "批量锁定库存", httpMethod = "PUT")
+    @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
     @PutMapping("/batch/lock_stock")
     public Result<Boolean> lockStock(@RequestBody List<SkuLockDTO> list) {
         boolean result = iPmsSkuService.lockStock(list);
@@ -47,25 +47,24 @@ public class SkuController {
     }
 
 
-    @ApiOperation(value = "解锁库存", httpMethod = "PUT")
-    @ApiImplicitParam(name = "list", value = "释放库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
+    @ApiOperation(value = "批量解锁库存", httpMethod = "PUT")
+    @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
     @PutMapping("/batch/unlock_stock")
     public Result<Boolean> unlockStock(@RequestBody List<SkuLockDTO> list) {
         boolean result = iPmsSkuService.unlockStock(list);
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "扣减库存", httpMethod = "PUT")
-    @ApiImplicitParam(name = "list", value = "释放库存", required = true, paramType = "body", dataType = "InventoryNumDTO")
+    @ApiOperation(value = "批量扣减库存", httpMethod = "PUT")
+    @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
     @PutMapping("/batch/deduct_stock")
     public Result<Boolean> deductStock(@RequestBody List<SkuLockDTO> list) {
         boolean result = iPmsSkuService.deductStock(list);
         return Result.judge(result);
     }
 
-
-    @ApiOperation(value = "库存列表", httpMethod = "GET")
-    @ApiImplicitParam(name = "skuIds", value = "库存ID集合", required = true, paramType = "body", dataType = "String")
+    @ApiOperation(value = "商品列表", httpMethod = "GET")
+    @ApiImplicitParam(name = "skuIds", value = "商品ID集合", required = true, paramType = "body", dataType = "String")
     @GetMapping
     public Result list(@RequestParam List<Long> ids) {
         List<SkuDTO> list = iPmsSkuService.listBySkuIds(ids);
