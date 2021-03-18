@@ -36,7 +36,7 @@ public interface IOrderService extends IService<OmsOrder> {
     /**
      * 系统关闭订单
      */
-    boolean closeOrder(Long orderId);
+    boolean closeOrder(String orderToken);
 
     /**
      * 取消订单接口

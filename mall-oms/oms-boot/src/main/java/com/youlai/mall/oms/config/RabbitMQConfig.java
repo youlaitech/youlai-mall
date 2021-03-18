@@ -32,6 +32,7 @@ public class RabbitMQConfig {
     public Exchange exchange() {
         return new TopicExchange("order.exchange", true, false);
     }
+
     /**
      * 延时队列
      */
@@ -41,7 +42,7 @@ public class RabbitMQConfig {
         Map<String, Object> args = new HashMap<>();
         args.put("x-dead-letter-exchange", "order.exchange");
         args.put("x-dead-letter-routing-key", "order:close"); // 死信路由Key
-        args.put("x-message-ttl", 60000); // 单位：毫秒，配置1分钟测试使用
+        args.put("x-message-ttl", 60000); // 单位：毫秒，1分钟测试使用
         return new Queue("order.delay.queue", true, false, false, args);
     }
 

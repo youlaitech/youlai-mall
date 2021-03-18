@@ -77,6 +77,7 @@ public class CartServiceImpl implements ICartService {
         if (cartHashOperations.get(hKey) != null) {
             cartItem = (CartVO.CartItem) cartHashOperations.get(hKey);
             cartItem.setCount(cartItem.getCount() + 1); // 点击一次“加入购物车”，数量+1
+            cartItem.setChecked(true);
             cartHashOperations.put(hKey, cartItem);
             return true;
         }
@@ -91,9 +92,12 @@ public class CartServiceImpl implements ICartService {
                 cartItem.setPic(sku.getPic());
                 cartItem.setSkuId(sku.getId());
                 cartItem.setTitle(sku.getTitle());
+                cartItem.setStock(sku.getStock());
+                cartItem.setChecked(true);
             }
         });
         CompletableFuture.allOf(cartItemCompletableFuture).join();
+        cartHashOperations.put(hKey,cartItem);
         return true;
     }
 

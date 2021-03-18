@@ -36,7 +36,6 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
 
-
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         String path = request.getMethodValue() + "_" + request.getURI().getPath();
         log.info("请求，path={}", path);
