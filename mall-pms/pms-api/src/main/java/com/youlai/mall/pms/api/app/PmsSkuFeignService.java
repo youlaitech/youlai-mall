@@ -27,18 +27,18 @@ public interface PmsSkuFeignService {
     /**
      * 锁定库存
      */
-    @PutMapping("/api.app/v1/skus/batch/lock_stock")
+    @PutMapping("/api.app/v1/skus/lock_stock")
     Result lockStock(@RequestBody List<SkuLockDTO> list);
 
     /**
      * 解锁库存
      */
-    @PutMapping("/api.app/v1/skus/batch/unlock_stock")
-    Result<Boolean> unlockStock(@RequestBody List<SkuLockDTO> list);
+    @PutMapping("/api.app/v1/skus/unlock_stock")
+    Result<Boolean> unlockStock(@RequestParam String orderToken);
 
 
-    @PutMapping("/api.app/v1/skus/batch/deduct_stock")
-    Result deductStock(@RequestBody List<SkuLockDTO> list);
+    @PutMapping("/api.app/v1/skus/deduct_stock")
+    Result deductStock(@RequestParam  String orderToken);
 
 
 }

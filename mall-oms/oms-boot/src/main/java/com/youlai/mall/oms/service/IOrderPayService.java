@@ -15,7 +15,7 @@ import com.youlai.mall.oms.pojo.vo.PayVO;
 
 public interface IOrderPayService extends IService<OmsOrderPay> {
 
-    void pay(Long orderId);
+    boolean pay(Long orderId);
 
     PayVO getByOrderId(Long orderId);
 }

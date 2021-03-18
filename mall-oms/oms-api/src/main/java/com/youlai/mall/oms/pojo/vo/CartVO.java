@@ -26,13 +26,15 @@ public class CartVO implements Serializable {
 
         private String pic;
 
-        private Integer count;
+        private Integer count; // 商品数量
 
         private Long price; // 加入购物车价格，因会变动，不能作为订单计算因子，订单验价时需重新获取商品价格即可
 
         private Long coupon;
 
         private boolean checked;
+
+        private Integer stock;// 商品库存数量，页面控制能选择最大数量
 
     }
 }
