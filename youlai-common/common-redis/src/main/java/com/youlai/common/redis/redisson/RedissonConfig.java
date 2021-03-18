@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
  * @email huawei_code@163.com
  * @date 2021/2/22
  */
-@Component
 @Configuration
 public class RedissonConfig {
 

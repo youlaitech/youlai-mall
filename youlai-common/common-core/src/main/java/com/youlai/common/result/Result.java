@@ -75,4 +75,11 @@ public class Result<T> implements Serializable {
         return result;
     }
 
+
+    public static boolean isSuccess(Result result) {
+        if(ResultCode.SUCCESS.getCode().equals(result.getCode())){
+            return true;
+        }
+        return false;
+    }
 }

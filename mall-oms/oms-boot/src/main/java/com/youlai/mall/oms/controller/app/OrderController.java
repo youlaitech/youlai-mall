@@ -46,8 +46,8 @@ public class OrderController {
         return Result.success(result);
     }
 
-    @ApiOperation("订单列表查询")
-    @GetMapping("/list")
+    @ApiOperation("订单列表")
+    @GetMapping
     public Result<List<OrderListVO>> list(
             @ApiParam(name = "status", value = "订单状态", required = true, defaultValue = "0")
             @RequestParam(value = "status", defaultValue = "0") Integer status) {

@@ -5,7 +5,6 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
@@ -165,7 +164,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 创建订单(状态：待支付)
         OmsOrder order = new OmsOrder();
-        order.setOrderSn(IdWorker.getTimeId())
+        order.setOrderSn(orderToken) // 把orderToken赋值给订单编号【!】
                 .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
                 .setSourceType(OrderTypeEnum.APP.getCode())
                 .setMemberId(RequestUtils.getUserId())
@@ -183,7 +182,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         orderItemService.saveBatch(orderItemList);
 
         // 将订单放入延时队列，超时未支付系统自动关单
-        rabbitTemplate.convertAndSend("order.exchange", "order:create", orderToken);
+        rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
 
         OrderSubmitVO submitVO = new OrderSubmitVO();
         submitVO.setId(order.getId());
@@ -193,27 +192,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
 
     @Override
-    public boolean closeOrder(Long orderId) {
-        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getId, orderId));
+    public boolean closeOrder(String orderToken) {
+        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
+                .eq(OmsOrder::getOrderSn, orderToken));
         if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
-            return false;
+           throw new BizException("关单失败，订单状态不支持关闭");
         }
         order.setStatus(OrderStatusEnum.AUTO_CANCEL.getCode());
-        this.updateById(order);
-        orderLogService.addOrderLogs(order.getId(), order.getStatus(), "系统操作", OrderStatusEnum.AUTO_CANCEL.getText());
-        return true;
+        return this.updateById(order);
     }
 
     @Override
     public boolean cancelOrder(Long id) {
-        log.info("会员取消订单，orderId={}", id);
         OmsOrder order = getByOrderId(id);
         if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
-            throw new BizException("订单状态非待支付，取消失败");
+            throw new BizException("取消失败，订单状态不支持取消");
         }
         order.setStatus(OrderStatusEnum.USER_CANCEL.getCode());
-        this.updateById(order);
-        return true;
+        return this.updateById(order);
     }
 
     @Override
@@ -223,10 +219,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OmsOrder order = this.getByOrderId(id);
         if (!OrderStatusEnum.AUTO_CANCEL.getCode().equals(order.getStatus()) &&
                 !OrderStatusEnum.USER_CANCEL.getCode().equals(order.getStatus())) {
-            throw new BizException("订单状态不允许删除");
+            throw new BizException("删除失败，订单状态不允许删除");
         }
-        this.removeById(id);
-        return true;
+        return this.removeById(id);
     }
 
     @Override

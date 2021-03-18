@@ -32,7 +32,6 @@ import static com.youlai.mall.pms.common.constant.PmsConstants.STOCK_LOCKED_PREF
 @AllArgsConstructor
 public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements IPmsSkuService {
 
-
     private StringRedisTemplate redisTemplate;
 
     private RedissonClient redissonClient;

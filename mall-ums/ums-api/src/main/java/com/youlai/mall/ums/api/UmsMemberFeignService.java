@@ -33,16 +33,16 @@ public interface UmsMemberFeignService {
     Result updatePoint(@PathVariable Long id, @RequestParam Integer num);
 
     /**
-     * 修改会员余额
+     * 扣减会员余额
      */
-    @PutMapping("/api.app/v1/members/{id}/balances")
-    Result updateBalance(@PathVariable Long id, @RequestParam Long balance);
+    @PutMapping("/api.app/v1/members/{id}/balance")
+    Result deductBalance(@PathVariable Long id, @RequestParam Long balance);
 
 
     /**
      * 获取会员余额
      */
-    @GetMapping("/api.app/v1/members/{id}/balances")
+    @GetMapping("/api.app/v1/members/{id}/balance")
     Result<Long> getBalance(@PathVariable Long id);
 
 

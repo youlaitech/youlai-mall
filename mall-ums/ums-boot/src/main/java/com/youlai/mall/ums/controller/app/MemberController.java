@@ -101,7 +101,7 @@ public class MemberController {
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "balance", value = "会员余额", required = true, paramType = "query", dataType = "Long")
     })
-    @PutMapping("/{id}/balances")
+    @PutMapping("/{id}/balance")
     public Result updateBalance(@PathVariable Long id, @RequestParam Long balance) {
         UmsMember user = iUmsUserService.getById(id);
         user.setBalance(user.getBalance() - balance);
@@ -111,7 +111,7 @@ public class MemberController {
 
     @ApiOperation(value = "获取会员余额", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}/balances")
+    @GetMapping("/{id}/balance")
     public Result<Long> updateBalance(@PathVariable Long id) {
         Long balance = 0l;
         UmsMember user = iUmsUserService.getById(id);

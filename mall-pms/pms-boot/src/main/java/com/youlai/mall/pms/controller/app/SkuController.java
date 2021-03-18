@@ -38,28 +38,28 @@ public class SkuController {
     }
 
 
-    @ApiOperation(value = "批量锁定库存", httpMethod = "PUT")
+    @ApiOperation(value = "锁定库存", httpMethod = "PUT")
     @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
-    @PutMapping("/batch/lock_stock")
+    @PutMapping("/lock_stock")
     public Result<Boolean> lockStock(@RequestBody List<SkuLockDTO> list) {
         boolean result = iPmsSkuService.lockStock(list);
         return Result.judge(result);
     }
 
 
-    @ApiOperation(value = "批量解锁库存", httpMethod = "PUT")
-    @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
-    @PutMapping("/batch/unlock_stock")
-    public Result<Boolean> unlockStock(@RequestBody List<SkuLockDTO> list) {
-        boolean result = iPmsSkuService.unlockStock(list);
+    @ApiOperation(value = "解锁库存", httpMethod = "PUT")
+    @ApiImplicitParam(name = "orderToken", value = "订单令牌", required = true, paramType = "body", dataType = "String")
+    @PutMapping("/unlock_stock")
+    public Result<Boolean> unlockStock(String orderToken) {
+        boolean result = iPmsSkuService.unlockStock(orderToken);
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "批量扣减库存", httpMethod = "PUT")
-    @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
-    @PutMapping("/batch/deduct_stock")
-    public Result<Boolean> deductStock(@RequestBody List<SkuLockDTO> list) {
-        boolean result = iPmsSkuService.deductStock(list);
+    @ApiOperation(value = "扣减库存", httpMethod = "PUT")
+    @ApiImplicitParam(name = "orderToken", value = "订单令牌", required = true, paramType = "body", dataType = "String")
+    @PutMapping("/deduct_stock")
+    public Result<Boolean> deductStock(String orderToken) {
+        boolean result = iPmsSkuService.deductStock(orderToken);
         return Result.judge(result);
     }
 

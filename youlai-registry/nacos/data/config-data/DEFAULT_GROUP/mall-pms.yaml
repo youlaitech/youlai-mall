@@ -51,3 +51,9 @@ seata:
       server-addr: c.youlai.store:8848
       namespace: seata_namespace_id
       group: SEATA_GROUP
+      
+# redisson配置
+redisson:
+  server-address: redis://www.youlai.store
+  port: 6379
+  password: 123456

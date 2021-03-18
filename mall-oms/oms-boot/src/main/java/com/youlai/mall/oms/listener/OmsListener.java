@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class RabbitMQListener {
+public class OmsListener {
 
     IOrderService orderService;
 
@@ -41,18 +41,11 @@ public class RabbitMQListener {
      * 订单超时未支付，关闭订单，释放库存
      */
     @RabbitListener(queues = "order.close.queue")
-    public void closeOrder(Long orderId, Message message, Channel channel) {
+    public void closeOrder(String orderToken, Message message, Channel channel) {
         try {
-            if (orderService.closeOrder(orderId)) {
+            if (orderService.closeOrder(orderToken)) {
                 // 如果关单成功，发送消息释放库存
-                // rabbitTemplate.convertAndSend("product_event_change", "stock:unlock", orderSn);
-                List<OmsOrderItem> orderItems = orderItemService.getByOrderId(orderId);
-                List<SkuLockDTO> stockLick = orderItems.stream().map(orderItem -> SkuLockDTO.builder()
-                        .skuId(orderItem.getSkuId())
-                        .count(orderItem.getSkuQuantity())
-                        .build())
-                        .collect(Collectors.toList());
-                skuFeignService.unlockStock(stockLick);
+                skuFeignService.unlockStock(orderToken);
             } else {
                 // 如果关单失败，则订单可能已经被处理，直接手动ACK确认消息
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
@@ -62,7 +55,7 @@ public class RabbitMQListener {
             try {
                 channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
             } catch (IOException ioException) {
-                log.error("释放库存失败,orderId=[{}]", orderId);
+                log.error("系统关单失败");
             }
         }
     }
