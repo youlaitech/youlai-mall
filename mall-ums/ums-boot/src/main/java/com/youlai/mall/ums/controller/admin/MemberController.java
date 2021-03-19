@@ -29,7 +29,7 @@ public class MemberController {
 
     private IUmsUserService iUmsUserService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
@@ -54,7 +54,7 @@ public class MemberController {
         }
     }
 
-    @ApiOperation(value = "会员详情", httpMethod = "GET")
+    @ApiOperation(value = "会员详情")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result getMemberById(
@@ -64,7 +64,7 @@ public class MemberController {
         return Result.success(user);
     }
 
-    @ApiOperation(value = "修改会员", httpMethod = "PUT")
+    @ApiOperation(value = "修改会员")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "资源id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
@@ -77,7 +77,7 @@ public class MemberController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "局部更新", httpMethod = "PATCH")
+    @ApiOperation(value = "局部更新")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
@@ -90,7 +90,7 @@ public class MemberController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除会员", httpMethod = "DELETE")
+    @ApiOperation(value = "删除会员")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {

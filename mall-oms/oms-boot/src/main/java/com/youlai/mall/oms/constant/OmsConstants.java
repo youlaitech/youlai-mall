@@ -6,9 +6,9 @@ package com.youlai.mall.oms.constant;
  */
 public interface OmsConstants {
 
-    String CART_PREFIX = "mall:cart:";
+    String CART_PREFIX = "cart:";
 
-    String ORDER_TOKEN_PREFIX = "mall:order:token:";
+    String ORDER_TOKEN_PREFIX = "order:token:";
 
     String BUSINESS_NO_PREFIX = "businessno:";
 

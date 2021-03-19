@@ -32,7 +32,7 @@ public class CartVO implements Serializable {
 
         private Long coupon;
 
-        private boolean checked;
+        private Boolean checked;
 
         private Integer stock;// 商品库存数量，页面控制能选择最大数量
 

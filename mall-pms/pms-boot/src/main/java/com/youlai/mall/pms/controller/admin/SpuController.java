@@ -29,7 +29,7 @@ public class SpuController {
 
     private IPmsSpuService iPmsSpuService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
@@ -58,7 +58,7 @@ public class SpuController {
         }
     }
 
-    @ApiOperation(value = "商品详情", httpMethod = "GET")
+    @ApiOperation(value = "商品详情")
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
@@ -67,7 +67,7 @@ public class SpuController {
     }
 
 
-    @ApiOperation(value = "新增商品", httpMethod = "POST")
+    @ApiOperation(value = "新增商品")
     @ApiImplicitParam(name = "spuBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpuBO")
     @PostMapping
     public Result add(@RequestBody ProductBO spuBO) {
@@ -75,7 +75,7 @@ public class SpuController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改商品", httpMethod = "PUT")
+    @ApiOperation(value = "修改商品")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "spu", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpu")
@@ -88,7 +88,7 @@ public class SpuController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除商品", httpMethod = "DELETE")
+    @ApiOperation(value = "删除商品")
     @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
@@ -96,7 +96,7 @@ public class SpuController {
         return Result.success();
     }
 
-    @ApiOperation(value = "修改商品", httpMethod = "PATCH")
+    @ApiOperation(value = "修改商品")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "spu", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpu")

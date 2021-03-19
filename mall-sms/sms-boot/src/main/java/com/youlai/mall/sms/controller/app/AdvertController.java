@@ -23,7 +23,7 @@ public class AdvertController {
 
     private ISmsAdvertService iSmsAdvertService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @GetMapping
     public Result list() {
         LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()

@@ -3,7 +3,6 @@ package com.youlai.mall.oms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.youlai.mall.oms.pojo.domain.OmsOrderPay;
-import com.youlai.mall.oms.pojo.vo.PayVO;
 
 /**
  * 支付信息表
@@ -17,6 +16,5 @@ public interface IOrderPayService extends IService<OmsOrderPay> {
 
     boolean pay(Long orderId);
 
-    PayVO getByOrderId(Long orderId);
 }
 
