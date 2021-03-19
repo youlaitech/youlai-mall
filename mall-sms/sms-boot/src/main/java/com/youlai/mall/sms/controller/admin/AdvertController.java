@@ -29,7 +29,7 @@ public class AdvertController {
 
     private ISmsAdvertService iSmsAdvertService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
@@ -56,7 +56,7 @@ public class AdvertController {
         }
     }
 
-    @ApiOperation(value = "广告详情", httpMethod = "GET")
+    @ApiOperation(value = "广告详情")
     @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -64,7 +64,7 @@ public class AdvertController {
         return Result.success(advert);
     }
 
-    @ApiOperation(value = "新增广告", httpMethod = "POST")
+    @ApiOperation(value = "新增广告")
     @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")
     @PostMapping
     public Result add(@RequestBody SmsAdvert advert) {
@@ -72,7 +72,7 @@ public class AdvertController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改广告", httpMethod = "PUT")
+    @ApiOperation(value = "修改广告")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")
@@ -86,7 +86,7 @@ public class AdvertController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除广告", httpMethod = "DELETE")
+    @ApiOperation(value = "删除广告")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable("ids") String ids) {
@@ -94,7 +94,7 @@ public class AdvertController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改广告(局部更新)", httpMethod = "PATCH")
+    @ApiOperation(value = "修改广告(局部更新)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")

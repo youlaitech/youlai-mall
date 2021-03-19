@@ -40,7 +40,7 @@ public class DashboardController {
 
     ElasticSearchService elasticSearchService;
 
-    @ApiOperation(value = "控制台数据", httpMethod = "GET")
+    @ApiOperation(value = "控制台数据")
     @GetMapping
     public Result data() {
         Map<String, Object> data = new HashMap<>();

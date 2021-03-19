@@ -22,7 +22,7 @@ public class SkuController {
 
     private IPmsSkuService iPmsSkuService;
 
-    @ApiOperation(value = "商品详情", httpMethod = "GET")
+    @ApiOperation(value = "商品详情")
     @ApiImplicitParam(name = "id", value = "商品SkuID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
@@ -30,7 +30,7 @@ public class SkuController {
         return Result.success(sku);
     }
 
-    @ApiOperation(value = "修改库存", httpMethod = "PUT")
+    @ApiOperation(value = "修改库存")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "sku", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSku")
@@ -44,7 +44,7 @@ public class SkuController {
     }
 
 
-    @ApiOperation(value = "修改库存", httpMethod = "PUT")
+    @ApiOperation(value = "修改库存")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Sku ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "num", value = "库存数量", required = true, paramType = "query", dataType = "Long")

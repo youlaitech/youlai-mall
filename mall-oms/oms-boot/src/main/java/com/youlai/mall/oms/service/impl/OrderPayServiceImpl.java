@@ -9,7 +9,7 @@ import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.mapper.OrderPayMapper;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderPay;
-import com.youlai.mall.oms.pojo.vo.PayVO;
+import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderPayService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
@@ -30,6 +30,7 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OmsOrderPay
     private IOrderService orderService;
     private UmsMemberFeignService memberFeignService;
     private PmsSkuFeignService skuFeignService;
+    private ICartService cartService;
 
     @Override
     @GlobalTransactional(rollbackFor = Exception.class)
@@ -44,39 +45,25 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OmsOrderPay
         Long userId = RequestUtils.getUserId();
         Long payAmount = order.getPayAmount();
         Result deductBalanceResult = memberFeignService.deductBalance(userId, payAmount);
-        if (Result.isSuccess(deductBalanceResult)) {
+        if (!Result.isSuccess(deductBalanceResult)) {
             throw new BizException("扣减账户余额失败");
         }
 
         // 扣减库存
         Result deductStockResult = skuFeignService.deductStock(order.getOrderSn());
-        if (Result.isSuccess(deductStockResult)) {
+        if (!Result.isSuccess(deductStockResult)) {
             throw new BizException("扣减商品库存失败");
         }
 
-        // 更新订单
+        // 更新订单状态
         order.setStatus(OrderStatusEnum.PAID.getCode());
         order.setPayType(PayTypeEnum.BALANCE.getCode());
         order.setPayTime(new Date());
-        boolean result = orderService.updateById(order);
+        orderService.updateById(order);
 
-        return result;
+        // 支付成功删除购物车已勾选的商品
+        cartService.removeCheckedItem();
+
+        return true;
     }
-
-    @Override
-    public PayVO getByOrderId(Long orderId) {
-        PayVO payVO = new PayVO();
-
-        // 1、获取订单应支付金额
-        OmsOrder omsOrder = orderService.getByOrderId(orderId);
-        payVO.setPayAmount(omsOrder.getPayAmount());
-
-        // 2、获取会员余额
-        Long userId = RequestUtils.getUserId();
-        Long balance = memberFeignService.getBalance(userId).getData();
-        payVO.setBalance(balance);
-
-        return payVO;
-    }
-
 }

@@ -33,7 +33,7 @@ public class MenuController {
     private ISysMenuService iSysMenuService;
     private ISysRoleMenuService iSysRoleMenuService;
 
-    @ApiOperation(value = "菜单列表", httpMethod = "GET")
+    @ApiOperation(value = "菜单列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "Long"),
@@ -68,7 +68,7 @@ public class MenuController {
         return Result.success(list);
     }
 
-    @ApiOperation(value = "菜单详情", httpMethod = "GET")
+    @ApiOperation(value = "菜单详情")
     @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -76,7 +76,7 @@ public class MenuController {
         return Result.success(menu);
     }
 
-    @ApiOperation(value = "新增菜单", httpMethod = "POST")
+    @ApiOperation(value = "新增菜单")
     @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
     @PostMapping
     public Result add(@RequestBody SysMenu menu) {
@@ -84,7 +84,7 @@ public class MenuController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改菜单", httpMethod = "PUT")
+    @ApiOperation(value = "修改菜单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")
@@ -97,7 +97,7 @@ public class MenuController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除菜单", httpMethod = "DELETE")
+    @ApiOperation(value = "删除菜单")
     @ApiImplicitParam(name = "ids", value = "id集合字符串，以,分割", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable("ids") String ids) {
@@ -105,7 +105,7 @@ public class MenuController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改菜单", httpMethod = "PATCH")
+    @ApiOperation(value = "修改菜单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "menu", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysMenu")

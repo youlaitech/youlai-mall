@@ -16,11 +16,11 @@ import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
+import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.pojo.vo.*;
 import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderItemService;
-import com.youlai.mall.oms.service.IOrderLogService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
@@ -55,7 +55,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private PmsSkuFeignService skuFeignService;
     private UmsAddressFeignService addressFeignService;
     private IOrderItemService orderItemService;
-    private IOrderLogService orderLogService;
     private RabbitTemplate rabbitTemplate;
     private StringRedisTemplate redisTemplate;
     private ThreadPoolExecutor threadPoolExecutor;
@@ -66,29 +65,30 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     @Override
     public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
+        Long memberId = RequestUtils.getUserId();
         // 获取购买商品信息
         CompletableFuture<Void> orderItemsCompletableFuture = CompletableFuture.runAsync(() -> {
-            List<OrderItemVO> orderItems = new ArrayList<>();
+            List<OrderItemDTO> orderItems = new ArrayList<>();
             if (orderConfirmDTO.getSkuId() != null) { // 直接购买商品结算
-                OrderItemVO orderItemVO = OrderItemVO.builder()
+                OrderItemDTO orderItemDTO = OrderItemDTO.builder()
                         .skuId(orderConfirmDTO.getSkuId())
                         .count(orderConfirmDTO.getCount())
                         .build();
                 PmsSku sku = skuFeignService.getSkuById(orderConfirmDTO.getSkuId()).getData();
-                orderItemVO.setPrice(sku.getPrice());
-                orderItemVO.setSkuPic(sku.getPic());
-                orderItemVO.setTitle(sku.getTitle());
-                orderItems.add(orderItemVO);
+                orderItemDTO.setPrice(sku.getPrice());
+                orderItemDTO.setPic(sku.getPic());
+                orderItemDTO.setTitle(sku.getTitle());
+                orderItems.add(orderItemDTO);
             } else { // 购物车中商品结算
-                List<CartVO.CartItem> cartItems = cartService.getCartItems();
-                List<OrderItemVO> items = cartItems.stream()
-                        .filter(CartVO.CartItem::isChecked)
-                        .map(cartItem -> OrderItemVO.builder()
+                List<CartVO.CartItem> cartItems = cartService.getCartItems(memberId);
+                List<OrderItemDTO> items = cartItems.stream()
+                        .filter(CartVO.CartItem::getChecked)
+                        .map(cartItem -> OrderItemDTO.builder()
                                 .skuId(cartItem.getSkuId())
                                 .count(cartItem.getCount())
                                 .price(cartItem.getPrice())
                                 .title(cartItem.getTitle())
-                                .skuPic(cartItem.getPic())
+                                .pic(cartItem.getPic())
                                 .build())
                         .collect(Collectors.toList());
                 orderItems.addAll(items);
@@ -98,7 +98,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 获取会员地址列表
         CompletableFuture<Void> addressesCompletableFuture = CompletableFuture.runAsync(() -> {
-            List<UmsAddress> addresses = addressFeignService.list().getData();
+            List<UmsAddress> addresses = addressFeignService.list(memberId).getData();
             orderConfirmVO.setAddresses(addresses);
         }, threadPoolExecutor);
 
@@ -110,7 +110,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             redisTemplate.opsForValue().set(ORDER_TOKEN_PREFIX + orderToken, orderToken);
         }, threadPoolExecutor);
 
-        CompletableFuture.allOf(orderItemsCompletableFuture, addressesCompletableFuture, orderTokenCompletableFuture);
+        CompletableFuture.allOf(orderItemsCompletableFuture, addressesCompletableFuture, orderTokenCompletableFuture).join();
         return orderConfirmVO;
     }
 
@@ -126,11 +126,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
         Long result = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
 
-        if (ObjectUtil.equals(result, RELEASE_LOCK_SUCCESS_RESULT)) {
+        if (!ObjectUtil.equals(result, RELEASE_LOCK_SUCCESS_RESULT)) {
             throw new BizException("订单不可重复提交");
         }
 
-        List<OrderItemVO> orderItems = submitDTO.getOrderItems();
+        List<OrderItemDTO> orderItems = submitDTO.getOrderItems();
         if (CollectionUtil.isEmpty(orderItems)) {
             throw new BizException("请选择商品再提交");
         }
@@ -168,7 +168,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
                 .setSourceType(OrderTypeEnum.APP.getCode())
                 .setMemberId(RequestUtils.getUserId())
-                .setRemark(submitDTO.getRemark());
+                .setRemark(submitDTO.getRemark())
+                .setPayAmount(submitDTO.getPayAmount());
         this.save(order);
 
         // 创建订单商品
@@ -176,7 +177,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .orderId(order.getId())
                 .skuId(item.getSkuId())
                 .skuPrice(item.getPrice())
-                .skuPic(item.getSkuPic())
+                .skuPic(item.getPic())
                 .skuQuantity(item.getCount())
                 .build()).collect(Collectors.toList());
         orderItemService.saveBatch(orderItemList);
@@ -185,7 +186,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
 
         OrderSubmitVO submitVO = new OrderSubmitVO();
-        submitVO.setId(order.getId());
+        submitVO.setOrderId(order.getId());
         submitVO.setOrderSn(order.getOrderSn());
         return submitVO;
     }

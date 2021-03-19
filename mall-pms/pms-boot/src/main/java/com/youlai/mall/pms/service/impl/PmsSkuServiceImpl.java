@@ -42,7 +42,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     @Override
     public boolean lockStock(List<SkuLockDTO> skuLockList) {
 
-        if (CollectionUtil.isNotEmpty(skuLockList)) {
+        if (CollectionUtil.isEmpty(skuLockList)) {
             throw new BizException("锁定的商品列表为空");
         }
 
@@ -113,7 +113,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     @Override
     public boolean deductStock(String orderToken) {
         String json = redisTemplate.opsForValue().get(STOCK_LOCKED_PREFIX + orderToken);
-        if (StrUtil.isNotBlank(json)) {
+        if (StrUtil.isBlank(json)) {
             return true;
         }
 

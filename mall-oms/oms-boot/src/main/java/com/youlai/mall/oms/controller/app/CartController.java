@@ -25,14 +25,14 @@ public class CartController {
 
     private ICartService cartService;
 
-    @ApiOperation(value = "查询购物车", httpMethod = "GET")
+    @ApiOperation(value = "查询购物车")
     @GetMapping
     public Result getCart() {
         CartVO cart = cartService.getCart();
         return Result.success(cart);
     }
 
-    @ApiOperation(value = "全选/全不选 购物车商品", httpMethod = "PUT")
+    @ApiOperation(value = "全选/全不选 购物车商品")
     @ApiImplicitParam(name = "checked", value = "全选/全不选", required = true, paramType = "param", dataType = "Boolean")
     @PatchMapping("/_check")
     public Result check(boolean checked) {
@@ -40,7 +40,7 @@ public class CartController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "清空购物车", httpMethod = "DELETE")
+    @ApiOperation(value = "清空购物车")
     @DeleteMapping
     public Result deleteCart() {
         boolean result = cartService.deleteCart();
@@ -48,7 +48,7 @@ public class CartController {
     }
 
 
-    @ApiOperation(value = "添加购物车商品", httpMethod = "POST")
+    @ApiOperation(value = "添加购物车商品")
     @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
     @PostMapping
     public Result addCartItem(@RequestParam Long skuId) {
@@ -56,15 +56,16 @@ public class CartController {
         return Result.success();
     }
 
-    @ApiOperation(value = "更新购物车商品", httpMethod = "PUT")
+    @ApiOperation(value = "更新购物车商品")
     @PutMapping("/skuId/{skuId}")
-    public Result updateCartItem(@RequestBody CartVO.CartItem cartItem) {
+    public Result updateCartItem(@PathVariable Long skuId,@RequestBody CartVO.CartItem cartItem) {
+        cartItem.setSkuId(skuId);
         boolean result = cartService.updateCartItem(cartItem);
         return Result.judge(result);
     }
 
 
-    @ApiOperation(value = "删除购物车商品", httpMethod = "DELETE")
+    @ApiOperation(value = "删除购物车商品")
     @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
     @DeleteMapping("/skuId/{skuId}")
     public Result removeCartItem(@PathVariable Long skuId) {
