@@ -32,17 +32,18 @@ public class OmsListener {
      */
     @RabbitListener(queues = "order.close.queue")
     public void closeOrder(String orderToken, Message message, Channel channel) {
+        log.info("=======================订单超时未支付，开始系统自动关闭订单=======================");
         try {
             if (orderService.closeOrder(orderToken)) {
-                // 如果关单成功，释放库存
+                log.info("=======================关闭订单成功，开始释放已锁定的库存=======================");
                 skuFeignService.unlockStock(orderToken);
             } else {
-                // 如果关单失败，则订单可能已经被处理，直接手动ACK确认消息
+                log.info("=======================关单失败，订单状态已处理，手动确认消息处理完毕=======================");
                 // basicAck(tag,multiple)，multiple为true开启批量确认，小于tag值队列中未被消费的消息一次性确认
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
             }
         } catch (IOException e) {
-            // 消费失败后，重新入队
+            log.info("=======================系统自动关闭订单消息消费失败，重新入队=======================");
             try {
                 channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
             } catch (IOException ioException) {

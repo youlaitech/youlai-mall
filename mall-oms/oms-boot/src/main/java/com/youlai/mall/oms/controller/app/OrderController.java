@@ -31,8 +31,16 @@ import java.util.List;
 public class OrderController {
 
     private IOrderService orderService;
-
     private IOrderPayService orderPayService;
+
+
+    @ApiOperation("订单列表")
+    @GetMapping
+    @ApiImplicitParam(name = "status", value = "订单状态", required = true, defaultValue = "0")
+    public Result<List<OrderListVO>> list(Integer status) {
+        List<OrderListVO> orderList = orderService.list(status);
+        return Result.success(orderList);
+    }
 
     @ApiOperation( "订单确认")
     @ApiImplicitParam(name = "orderConfirm",value = "确认订单信息",required = true, paramType = "body", dataType = "OrderConfirmDTO")
@@ -69,12 +77,5 @@ public class OrderController {
         return Result.success();
     }
 
-    @ApiOperation("订单列表")
-    @GetMapping
-    public Result<List<OrderListVO>> list(
-            @ApiParam(name = "status", value = "订单状态", required = true, defaultValue = "0")
-            @RequestParam(value = "status", defaultValue = "0") Integer status) {
-        List<OrderListVO> orderList = orderService.list(status);
-        return Result.success(orderList);
-    }
+
 }
