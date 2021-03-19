@@ -34,7 +34,7 @@ public class OmsListener {
     public void closeOrder(String orderToken, Message message, Channel channel) {
         try {
             if (orderService.closeOrder(orderToken)) {
-                // 如果关单成功，发送消息释放库存
+                // 如果关单成功，释放库存
                 skuFeignService.unlockStock(orderToken);
             } else {
                 // 如果关单失败，则订单可能已经被处理，直接手动ACK确认消息
