@@ -48,7 +48,7 @@ public class RechargeController {
     private String appSecret;
 
 
-    @ApiOperation(value = "账户余额充值订单", httpMethod = "POST")
+    @ApiOperation(value = "账户余额充值订单")
     @PostMapping
     public Result recharge(@RequestBody RechargeDTO rechargeDTO) {
         HttpHeaders headers = new HttpHeaders();

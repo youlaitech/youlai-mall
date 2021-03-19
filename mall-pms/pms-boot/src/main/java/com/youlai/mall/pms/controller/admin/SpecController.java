@@ -25,7 +25,7 @@ public class SpecController {
 
     private IPmsSpecService iPmsSpecService;
 
-    @ApiOperation(value = "分类规格列表", httpMethod = "GET")
+    @ApiOperation(value = "分类规格列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "categoryId", value = "分类ID", paramType = "query", dataType = "Long")
     })
@@ -37,7 +37,7 @@ public class SpecController {
         return Result.success(list);
     }
 
-    @ApiOperation(value = "新增规格", httpMethod = "POST")
+    @ApiOperation(value = "新增规格")
     @ApiImplicitParam(name = "specCategories", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpecCategory")
     @PostMapping
     public Result save(@RequestBody List<PmsSpecification> specCategories) {

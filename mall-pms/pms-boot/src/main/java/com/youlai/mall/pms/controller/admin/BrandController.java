@@ -30,7 +30,7 @@ public class BrandController {
 
     private IPmsBrandService iPmsBrandService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
@@ -56,7 +56,7 @@ public class BrandController {
         }
     }
 
-    @ApiOperation(value = "品牌详情", httpMethod = "GET")
+    @ApiOperation(value = "品牌详情")
     @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -64,7 +64,7 @@ public class BrandController {
         return Result.success(brand);
     }
 
-    @ApiOperation(value = "新增品牌", httpMethod = "POST")
+    @ApiOperation(value = "新增品牌")
     @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
     @PostMapping
     public Result add(@RequestBody PmsBrand brand) {
@@ -72,7 +72,7 @@ public class BrandController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改品牌", httpMethod = "PUT")
+    @ApiOperation(value = "修改品牌")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
@@ -85,7 +85,7 @@ public class BrandController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除品牌", httpMethod = "DELETE")
+    @ApiOperation(value = "删除品牌")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable("ids") String ids) {
@@ -93,7 +93,7 @@ public class BrandController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改品牌", httpMethod = "PATCH")
+    @ApiOperation(value = "修改品牌")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")

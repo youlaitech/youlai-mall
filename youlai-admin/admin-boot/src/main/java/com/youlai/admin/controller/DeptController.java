@@ -34,7 +34,7 @@ public class DeptController {
     @Autowired
     private ISysDeptService iSysDeptService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "部门名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "status", value = "部门状态", paramType = "query", dataType = "Long"),
@@ -67,7 +67,7 @@ public class DeptController {
         }
     }
 
-    @ApiOperation(value = "部门详情", httpMethod = "GET")
+    @ApiOperation(value = "部门详情")
     @ApiImplicitParam(name = "id", value = "部门id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -75,7 +75,7 @@ public class DeptController {
         return Result.success(sysDept);
     }
 
-    @ApiOperation(value = "新增部门", httpMethod = "POST")
+    @ApiOperation(value = "新增部门")
     @ApiImplicitParam(name = "sysDept", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDept")
     @PostMapping
     public Result add(@RequestBody SysDept sysDept) {
@@ -85,7 +85,7 @@ public class DeptController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改部门", httpMethod = "PUT")
+    @ApiOperation(value = "修改部门")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "部门id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "sysDept", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDept")
@@ -101,7 +101,7 @@ public class DeptController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除部门", httpMethod = "DELETE")
+    @ApiOperation(value = "删除部门")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable("ids") String ids) {

@@ -21,7 +21,7 @@ public class SkuController {
 
     private IPmsSkuService iPmsSkuService;
 
-    @ApiOperation(value = "商品详情", httpMethod = "GET")
+    @ApiOperation(value = "商品详情")
     @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
@@ -38,7 +38,7 @@ public class SkuController {
     }
 
 
-    @ApiOperation(value = "锁定库存", httpMethod = "PUT")
+    @ApiOperation(value = "锁定库存")
     @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
     @PutMapping("/lock_stock")
     public Result<Boolean> lockStock(@RequestBody List<SkuLockDTO> list) {
@@ -47,7 +47,7 @@ public class SkuController {
     }
 
 
-    @ApiOperation(value = "解锁库存", httpMethod = "PUT")
+    @ApiOperation(value = "解锁库存")
     @ApiImplicitParam(name = "orderToken", value = "订单令牌", required = true, paramType = "body", dataType = "String")
     @PutMapping("/unlock_stock")
     public Result<Boolean> unlockStock(String orderToken) {
@@ -55,7 +55,7 @@ public class SkuController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "扣减库存", httpMethod = "PUT")
+    @ApiOperation(value = "扣减库存")
     @ApiImplicitParam(name = "orderToken", value = "订单令牌", required = true, paramType = "body", dataType = "String")
     @PutMapping("/deduct_stock")
     public Result<Boolean> deductStock(String orderToken) {
@@ -63,7 +63,7 @@ public class SkuController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "商品列表", httpMethod = "GET")
+    @ApiOperation(value = "商品列表")
     @ApiImplicitParam(name = "skuIds", value = "商品ID集合", required = true, paramType = "body", dataType = "String")
     @GetMapping
     public Result list(@RequestParam List<Long> ids) {

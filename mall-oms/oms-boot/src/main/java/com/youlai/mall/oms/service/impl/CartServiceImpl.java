@@ -22,9 +22,9 @@ import java.util.concurrent.CompletableFuture;
  * 技术点：BoundHashOperations
  * 数据格式：
  * -- key <----> 购物车
- * -- hKey:value <----> 购物车商品1
- * -- hKey:value <----> 购物车商品2
- * -- hKey:value <----> 购物车商品3
+ * -- hKey:value <----> 商品1
+ * -- hKey:value <----> 商品2
+ * -- hKey:value <----> 商品3
  */
 @Service
 @Slf4j
@@ -40,15 +40,16 @@ public class CartServiceImpl implements ICartService {
     @Override
     public CartVO getCart() {
         CartVO cart = new CartVO();
-        BoundHashOperations cartHashOperations = getCartHashOperations();
+        Long memberId=RequestUtils.getUserId();
+        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         List<CartVO.CartItem> cartItems = cartHashOperations.values();
         cart.setItems(cartItems);
         return cart;
     }
 
     @Override
-    public List<CartVO.CartItem> getCartItems() {
-        BoundHashOperations cartHashOperations = getCartHashOperations();
+    public List<CartVO.CartItem> getCartItems(Long memberId) {
+        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         List<CartVO.CartItem> cartItems = cartHashOperations.values();
         return cartItems;
     }
@@ -69,7 +70,8 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean addCartItem(Long skuId) {
-        BoundHashOperations cartHashOperations = getCartHashOperations();
+        Long memberId=RequestUtils.getUserId();
+        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
 
         CartVO.CartItem cartItem;
@@ -106,14 +108,18 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean updateCartItem(CartVO.CartItem cartItem) {
-        BoundHashOperations cartHashOperations = getCartHashOperations();
+        Long memberId=RequestUtils.getUserId();
+        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
         if (cartHashOperations.get(hKey) != null) {
-
             CartVO.CartItem  cacheCartItem = (CartVO.CartItem) cartHashOperations.get(hKey);
-
-
-            cartHashOperations.put(hKey, cartItem);
+            if(cartItem.getChecked()!=null){
+                cacheCartItem.setChecked(cartItem.getChecked());
+            }
+            if(cartItem.getCount()!=null){
+                cacheCartItem.setCount(cartItem.getCount());
+            }
+            cartHashOperations.put(hKey, cacheCartItem);
         }
         return true;
     }
@@ -123,7 +129,8 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCartItem(Long skuId) {
-        BoundHashOperations cartHashOperations = getCartHashOperations();
+        Long memberId=RequestUtils.getUserId();
+        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
         cartHashOperations.delete(hKey);
         return true;
@@ -135,7 +142,8 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean checkAll(boolean checked) {
-        BoundHashOperations cartHashOperations = getCartHashOperations();
+        Long memberId=RequestUtils.getUserId();
+        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
             CartVO.CartItem cartItem = (CartVO.CartItem) value;
             cartItem.setChecked(checked);
@@ -152,10 +160,11 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCheckedItem() {
-        BoundHashOperations cartHashOperations = getCartHashOperations();
+        Long memberId=RequestUtils.getUserId();
+        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
             CartVO.CartItem cartItem = (CartVO.CartItem) value;
-            if (cartItem.isChecked()) {
+            if (cartItem.getChecked()) {
                 cartHashOperations.delete(cartItem.getSkuId()+"");
             }
         }
@@ -165,9 +174,8 @@ public class CartServiceImpl implements ICartService {
     /**
      * 获取第一层，即某个用户的购物车
      */
-    private BoundHashOperations getCartHashOperations() {
-        Long userId = RequestUtils.getUserId();
-        String cartKey = OmsConstants.CART_PREFIX + userId;
+    private BoundHashOperations getCartHashOperations(Long memberId) {
+        String cartKey = OmsConstants.CART_PREFIX + memberId;
         BoundHashOperations operations = redisTemplate.boundHashOps(cartKey);
         return operations;
     }
