@@ -60,7 +60,8 @@
     </logger>
 
     <!-- 根logger -->
-    <root level="INFO">
+    <root>
+        <level>INFO</level>
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>

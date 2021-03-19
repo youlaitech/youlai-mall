@@ -64,6 +64,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     @Override
     public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
+        log.info("=======================订单确认=======================");
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
         Long memberId = RequestUtils.getUserId();
         // 获取购买商品信息
@@ -111,6 +112,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }, threadPoolExecutor);
 
         CompletableFuture.allOf(orderItemsCompletableFuture, addressesCompletableFuture, orderTokenCompletableFuture).join();
+        log.info("获取确认信息",orderConfirmVO.toString());
         return orderConfirmVO;
     }
 
@@ -120,7 +122,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     @Override
     @GlobalTransactional
     public OrderSubmitVO submit(OrderSubmitDTO submitDTO) {
-
+        log.info("=======================订单提交=======================");
         // 订单重复提交校验
         String orderToken = submitDTO.getOrderToken();
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
@@ -188,6 +190,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OrderSubmitVO submitVO = new OrderSubmitVO();
         submitVO.setOrderId(order.getId());
         submitVO.setOrderSn(order.getOrderSn());
+        log.info("订单提交返回结果：{}",submitVO.toString());
         return submitVO;
     }
 
@@ -259,10 +262,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
     @Override
     public OmsOrder getByOrderId(Long id) {
-        Long userId = RequestUtils.getUserId();
+        Long memberId = RequestUtils.getUserId();
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getId, id)
-                .eq(OmsOrder::getMemberId, userId));
+                .eq(OmsOrder::getMemberId, memberId));
         if (order == null) {
             throw new BizException("订单不存在，订单ID非法");
         }
