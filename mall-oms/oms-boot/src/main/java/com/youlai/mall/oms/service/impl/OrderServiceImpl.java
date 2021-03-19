@@ -197,7 +197,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderSn, orderToken));
         if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
-           throw new BizException("关单失败，订单状态不支持关闭");
+          return false;
         }
         order.setStatus(OrderStatusEnum.AUTO_CANCEL.getCode());
         return this.updateById(order);
