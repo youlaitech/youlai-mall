@@ -1,11 +1,12 @@
 package com.youlai.mall.oms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
-import com.youlai.mall.oms.pojo.vo.OrderListVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 
@@ -30,9 +31,6 @@ public interface IOrderService extends IService<OmsOrder> {
      */
     OrderSubmitVO submit(OrderSubmitDTO orderSubmitDTO) ;
 
-
-
-
     /**
      * 系统关闭订单
      */
@@ -48,14 +46,7 @@ public interface IOrderService extends IService<OmsOrder> {
      */
     boolean deleteOrder(Long id);
 
-    /**
-     * 订单列表查询
-     */
-    List<OrderListVO> list(Integer status);
 
-    /**
-     * 根据订单ID获取订单信息
-     */
-    OmsOrder getByOrderId(Long id);
+    IPage<OmsOrder> list(Page<OmsOrder> omsOrderPage, OmsOrder order);
 }
 

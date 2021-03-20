@@ -36,7 +36,7 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OmsOrderPay
     @GlobalTransactional(rollbackFor = Exception.class)
     public boolean pay(Long orderId) {
 
-        OmsOrder order = orderService.getByOrderId(orderId);
+        OmsOrder order = orderService.getById(orderId);
         if (order != null && !OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             throw new BizException("支付失败，请检查订单状态");
         }

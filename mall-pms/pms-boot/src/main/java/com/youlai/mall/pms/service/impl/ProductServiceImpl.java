@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.mapper.PmsProductMapper;
+import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.pojo.domain.PmsSpuAttributeValue;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class ProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> implements IProductService {
+public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IProductService {
 
     private IPmsSkuService iPmsSkuService;
     private IPmsSpuAttributeValueService iPmsSpuAttributeValueService;

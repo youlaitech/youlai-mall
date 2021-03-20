@@ -3,8 +3,10 @@ package com.youlai.mall.oms.pojo.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -17,8 +19,9 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class OmsOrderItem extends BaseEntity {
-
     /**
      * id
      */
@@ -88,5 +91,7 @@ public class OmsOrderItem extends BaseEntity {
      * 逻辑删除【0->正常；1->已删除】
      */
     private Integer deleted;
+
+
 
 }

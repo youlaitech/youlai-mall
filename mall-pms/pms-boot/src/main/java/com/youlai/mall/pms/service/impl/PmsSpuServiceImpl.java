@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.mapper.PmsProductMapper;
+import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.bo.admin.ProductBO;
 import com.youlai.mall.pms.pojo.domain.*;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> implements IPmsSpuService {
+public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
 
     private IPmsSkuService iPmsSkuService;
     private IPmsSpuAttributeValueService iPmsSpuAttributeValueService;

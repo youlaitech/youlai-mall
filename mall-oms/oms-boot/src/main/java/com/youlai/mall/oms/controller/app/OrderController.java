@@ -1,10 +1,12 @@
 package com.youlai.mall.oms.controller.app;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.enums.PayTypeEnum;
+import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
-import com.youlai.mall.oms.pojo.vo.OrderListVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.service.IOrderPayService;
@@ -13,9 +15,7 @@ import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import java.util.List;
 
 
 /**
@@ -33,24 +33,31 @@ public class OrderController {
     private IOrderService orderService;
     private IOrderPayService orderPayService;
 
-
     @ApiOperation("订单列表")
     @GetMapping
-    @ApiImplicitParam(name = "status", value = "订单状态", required = true, defaultValue = "0")
-    public Result<List<OrderListVO>> list(Integer status) {
-        List<OrderListVO> orderList = orderService.list(status);
-        return Result.success(orderList);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit",defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "status", value = "订单状态", paramType = "query", dataType = "Integer")
+    })
+    public Result list(
+            Long page,
+             Long limit,
+            Integer status
+    ) {
+        IPage<OmsOrder> result = orderService.list(new Page<>(page, limit), new OmsOrder().setStatus(status));
+        return Result.success(result.getRecords(), result.getTotal());
     }
 
-    @ApiOperation( "订单确认")
-    @ApiImplicitParam(name = "orderConfirm",value = "确认订单信息",required = true, paramType = "body", dataType = "OrderConfirmDTO")
+    @ApiOperation("订单确认")
+    @ApiImplicitParam(name = "orderConfirm", value = "确认订单信息", required = true, paramType = "body", dataType = "OrderConfirmDTO")
     @PostMapping("/_confirm")
     public Result<OrderConfirmVO> confirm(@RequestBody OrderConfirmDTO orderConfirm) {
         OrderConfirmVO result = orderService.confirm(orderConfirm);
         return Result.success(result);
     }
 
-    @ApiOperation( "订单提交")
+    @ApiOperation("订单提交")
     @ApiImplicitParam(name = "orderSubmitDTO", value = "提交订单信息", required = true, paramType = "body", dataType = "orderSubmitDTO")
     @PostMapping("/_submit")
     public Result submit(@Valid @RequestBody OrderSubmitDTO orderSubmitDTO) {
