@@ -2,6 +2,7 @@ package com.youlai.mall.ums.controller.app;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.RequestUtils;
@@ -96,16 +97,17 @@ public class MemberController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改会员余额")
+    @ApiOperation(value = "扣减会员余额")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "balance", value = "会员余额", required = true, paramType = "query", dataType = "Long")
     })
-    @PutMapping("/{id}/balance")
+    @PutMapping("/{id}/deduct_balance")
     public Result updateBalance(@PathVariable Long id, @RequestParam Long balance) {
-        UmsMember user = iUmsUserService.getById(id);
-        user.setBalance(user.getBalance() - balance);
-        boolean result = iUmsUserService.updateById(user);
+        boolean result = iUmsUserService.update(new LambdaUpdateWrapper<UmsMember>()
+                .setSql("balance = balance - " + balance)
+                .eq(UmsMember::getId, id)
+        );
         return Result.judge(result);
     }
 

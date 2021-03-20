@@ -35,7 +35,7 @@ public interface UmsMemberFeignService {
     /**
      * 扣减会员余额
      */
-    @PutMapping("/api.app/v1/members/{id}/balance")
+    @PutMapping("/api.app/v1/members/{id}/deduct_balance")
     Result deductBalance(@PathVariable Long id, @RequestParam Long balance);
 
 

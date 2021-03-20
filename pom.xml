@@ -38,7 +38,7 @@
         <lombok.version>1.18.18</lombok.version>
         <hutool.version>5.5.8</hutool.version>
         <mysql.version>8.0.19</mysql.version>
-        <druid.version>1.2.5</druid.version>
+        <druid.version>1.2.4</druid.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <minio.version>7.1.0</minio.version>
         <weixin-java-miniapp.version>4.0.4.B</weixin-java-miniapp.version>

@@ -77,7 +77,7 @@ public class Result<T> implements Serializable {
 
 
     public static boolean isSuccess(Result result) {
-        if(ResultCode.SUCCESS.getCode().equals(result.getCode())){
+        if(result!=null&&ResultCode.SUCCESS.getCode().equals(result.getCode())){
             return true;
         }
         return false;
