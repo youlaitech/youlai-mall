@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2020-11-06
  */
 @Mapper
-public interface PmsProductMapper extends BaseMapper<PmsSpu> {
+public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
 
     @Select("<script>" +
             " SELECT  " +

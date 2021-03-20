@@ -5,6 +5,8 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
@@ -24,6 +26,7 @@ import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
+import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.ums.api.UmsAddressFeignService;
 import com.youlai.mall.ums.pojo.domain.UmsAddress;
@@ -64,7 +67,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     @Override
     public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
-        log.info("=======================订单确认=======================");
+        log.info("=======================订单确认=======================\n订单确认信息：{}",orderConfirmDTO);
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
         Long memberId = RequestUtils.getUserId();
         // 获取购买商品信息
@@ -112,7 +115,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }, threadPoolExecutor);
 
         CompletableFuture.allOf(orderItemsCompletableFuture, addressesCompletableFuture, orderTokenCompletableFuture).join();
-        log.info("获取确认信息",orderConfirmVO.toString());
+        log.info("订单确认响应：{}", orderConfirmVO.toString());
         return orderConfirmVO;
     }
 
@@ -122,7 +125,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     @Override
     @GlobalTransactional
     public OrderSubmitVO submit(OrderSubmitDTO submitDTO) {
-        log.info("=======================订单提交=======================");
+        log.info("=======================订单提交=======================\n订单提交信息：{}",submitDTO);
         // 订单重复提交校验
         String orderToken = submitDTO.getOrderToken();
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
@@ -134,7 +137,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         List<OrderItemDTO> orderItems = submitDTO.getOrderItems();
         if (CollectionUtil.isEmpty(orderItems)) {
-            throw new BizException("请选择商品再提交");
+            throw new BizException("订单");
         }
 
         // 订单验价
@@ -184,23 +187,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .build()).collect(Collectors.toList());
         orderItemService.saveBatch(orderItemList);
 
-        // 将订单放入延时队列，超时未支付系统自动关单
+        // 将订单放入延时队列，超时未支付由交换机order.exchange切换到死信队列完成系统自动关单
         rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
 
         OrderSubmitVO submitVO = new OrderSubmitVO();
         submitVO.setOrderId(order.getId());
         submitVO.setOrderSn(order.getOrderSn());
-        log.info("订单提交返回结果：{}",submitVO.toString());
+        log.info("订单提交响应：{}", submitVO.toString());
         return submitVO;
     }
 
 
     @Override
     public boolean closeOrder(String orderToken) {
+        log.info("=======================订单关闭，订单SN：{}=======================", orderToken);
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderSn, orderToken));
         if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
-          return false;
+            return false;
         }
         order.setStatus(OrderStatusEnum.AUTO_CANCEL.getCode());
         return this.updateById(order);
@@ -208,67 +212,47 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
     @Override
     public boolean cancelOrder(Long id) {
-        OmsOrder order = getByOrderId(id);
-        if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
-            throw new BizException("取消失败，订单状态不支持取消");
+        log.info("=======================订单取消，订单ID：{}=======================", id);
+        OmsOrder order = this.getById(id);
+
+        if ( order != null &&!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus()) ) {
+            throw new BizException("取消失败，订单状态不支持取消"); // 通过自定义异常，将异常信息抛出由异常处理器捕获显示给前端页面
         }
         order.setStatus(OrderStatusEnum.USER_CANCEL.getCode());
-        return this.updateById(order);
+        boolean result = this.updateById(order);
+        if(result){
+            // 释放被锁定的库存
+            Result unlockResult = skuFeignService.unlockStock(order.getOrderSn());
+            if(!Result.isSuccess(unlockResult)){
+              throw new BizException(unlockResult.getMsg());
+            }
+            result=true;
+        }
+        return result;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteOrder(Long id) {
-        // 查询订单，校验订单状态
-        OmsOrder order = this.getByOrderId(id);
-        if (!OrderStatusEnum.AUTO_CANCEL.getCode().equals(order.getStatus()) &&
-                !OrderStatusEnum.USER_CANCEL.getCode().equals(order.getStatus())) {
-            throw new BizException("删除失败，订单状态不允许删除");
+        log.info("=======================订单删除，订单ID：{}=======================", id);
+        OmsOrder order = this.getById(id);
+        if (
+                order != null &&
+                        !OrderStatusEnum.AUTO_CANCEL.getCode().equals(order.getStatus()) &&
+                        !OrderStatusEnum.USER_CANCEL.getCode().equals(order.getStatus())
+        ) {
+            throw new BizException("订单删除失败，订单不存在或订单状态不支持删除");
         }
         return this.removeById(id);
     }
 
-    @Override
-    public List<OrderListVO> list(Integer status) {
-        log.info("订单列表查询，status={}", status);
-        QueryWrapper<OmsOrder> orderQuery = new QueryWrapper<>();
-        if (status != 0) {
-            orderQuery.eq("status", status);
-        }
-        orderQuery.orderByDesc("id");
-        List<OmsOrder> orderList = this.list(orderQuery);
-        if (orderList == null || orderList.size() <= 0) {
-            log.info("订单列表查询结果为空，status={}", status);
-            return null;
-        }
 
-        List<Long> orderIds = orderList.stream().map(order -> order.getId()).collect(Collectors.toList());
-        Map<Long, List<OmsOrderItem>> orderItemsMap = orderItemService.getByOrderIds(orderIds);
-
-        List<OrderListVO> result = orderList.stream().map(order -> {
-            OrderListVO orderListVO = BeanMapperUtils.map(order, OrderListVO.class);
-            orderListVO.setStatusDesc(OrderStatusEnum.getValue(orderListVO.getStatus()).getText());
-            List<OmsOrderItem> orderItems = orderItemsMap.get(orderListVO.getId());
-            if (CollectionUtil.isNotEmpty(orderItems)) {
-                List<OrderListVO.OrderItemBean> orderItemBeans = orderItems.stream()
-                        .map(orderItem -> BeanMapperUtils.map(orderItem, OrderListVO.OrderItemBean.class))
-                        .collect(Collectors.toList());
-                orderListVO.setOrderItemLIst(orderItemBeans);
-            }
-            return orderListVO;
-        }).collect(Collectors.toList());
-        return result;
-    }
 
     @Override
-    public OmsOrder getByOrderId(Long id) {
-        Long memberId = RequestUtils.getUserId();
-        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
-                .eq(OmsOrder::getId, id)
-                .eq(OmsOrder::getMemberId, memberId));
-        if (order == null) {
-            throw new BizException("订单不存在，订单ID非法");
-        }
-        return order;
+    public IPage<OmsOrder> list(Page<OmsOrder> page, OmsOrder order) {
+        List<OmsOrder> list = this.baseMapper.list(page, order);
+        page.setRecords(list);
+        return page;
     }
+
 }

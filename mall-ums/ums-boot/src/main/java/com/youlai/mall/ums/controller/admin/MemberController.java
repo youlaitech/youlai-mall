@@ -99,18 +99,4 @@ public class MemberController {
                 .set(UmsMember::getDeleted, GlobalConstants.DELETED_VALUE));
         return Result.judge(status);
     }
-
-    @ApiOperation(value = "扣减余额")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "amount", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
-    })
-    @PatchMapping("/{id}/balance/_deduct")
-    public Result deductBalance(@PathVariable Long id, @RequestParam Long amount) {
-        LambdaUpdateWrapper<UmsMember> updateWrapper = new LambdaUpdateWrapper<UmsMember>().eq(UmsMember::getId, id);
-        updateWrapper.setSql(" balance = balance - " + amount);
-        updateWrapper.gt(UmsMember::getBalance, amount);
-        boolean result = iUmsUserService.update(updateWrapper);
-        return Result.judge(result);
-    }
 }
