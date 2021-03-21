@@ -46,7 +46,7 @@ public class OmsListener {
             log.info("=======================系统自动关闭订单消息消费失败，重新入队=======================");
             try {
                 channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
-            } catch (IOException ioException) {
+            } catch (Exception ioException) {
                 log.error("系统关单失败");
             }
         }

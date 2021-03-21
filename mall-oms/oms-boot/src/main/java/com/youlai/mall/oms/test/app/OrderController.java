@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.controller.app;
+package com.youlai.mall.oms.test.app;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,7 +9,6 @@ import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
-import com.youlai.mall.oms.service.IOrderPayService;
 import com.youlai.mall.oms.service.IOrderService;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
@@ -32,7 +31,6 @@ import javax.validation.Valid;
 public class OrderController {
 
     private IOrderService orderService;
-    private IOrderPayService orderPayService;
 
     @ApiOperation("订单列表")
     @GetMapping
@@ -73,11 +71,11 @@ public class OrderController {
             @ApiImplicitParam(name = "payType", value = "支付方式", paramType = "query", dataType = "Integer")
     })
     public Result pay(@PathVariable Long orderId, Integer payType) {
-        PayTypeEnum payTypeEnum = PayTypeEnum.getValue(payType);
+        PayTypeEnum payTypeEnum = PayTypeEnum.getByCode(payType);
 
         switch (payTypeEnum) {
             case BALANCE:
-                orderPayService.pay(orderId);
+                orderService.pay(orderId);
                 break;
             default:
                 return Result.failed("系统暂不支持该支付方式~");

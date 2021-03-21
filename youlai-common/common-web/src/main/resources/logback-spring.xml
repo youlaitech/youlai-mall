@@ -59,21 +59,8 @@
         <appender-ref ref="LOGIN_LOGSTASH"/>
     </logger>
 
-    <logger name="com.alibaba.nacos" level="ERROR" additivity="true">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-
-    <logger name="org.springframework.data.redis" level="ERROR" additivity="true">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-
-    <logger name="io.lettuce" level="ERROR" additivity="true">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-
     <!-- 根logger -->
-    <root>
-        <level>INFO</level>
+    <root level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
