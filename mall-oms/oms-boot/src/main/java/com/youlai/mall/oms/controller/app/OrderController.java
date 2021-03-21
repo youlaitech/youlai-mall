@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.test.app;
+package com.youlai.mall.oms.controller.app;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

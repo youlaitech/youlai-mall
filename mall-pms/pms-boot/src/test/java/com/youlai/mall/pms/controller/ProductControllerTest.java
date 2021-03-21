@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.controller.admin.SpuController;
-import com.youlai.mall.pms.pojo.domain.PmsSpecification;
+import com.youlai.mall.pms.pojo.domain.PmsSpec;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.service.IPmsSpecService;
 import com.youlai.mall.pms.service.IPmsSpuService;
@@ -55,7 +55,7 @@ public class ProductControllerTest {
 
     @Test
     public void getProductSpecList() {
-        List<PmsSpecification> specifications = iPmsSpecService.listBySpuId(1l);
+        List<PmsSpec> specifications = iPmsSpecService.listBySpuId(1l);
         log.info(specifications.toString());
     }
 

@@ -1,16 +1,15 @@
 package com.youlai.mall.oms.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.enums.BusinessTypeEnum;
+import com.youlai.common.redis.component.BusinessNoGenerator;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
@@ -21,13 +20,14 @@ import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
-import com.youlai.mall.oms.pojo.vo.*;
+import com.youlai.mall.oms.pojo.vo.CartVO;
+import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
+import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
-import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.ums.api.UmsAddressFeignService;
 import com.youlai.mall.ums.api.UmsMemberFeignService;
@@ -41,7 +41,10 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
@@ -62,6 +65,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private ThreadPoolExecutor threadPoolExecutor;
     private UmsMemberFeignService memberFeignService;
 
+    private BusinessNoGenerator businessNoGenerator;
+
     /**
      * 订单确认
      */
@@ -81,7 +86,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 PmsSku sku = skuFeignService.getSkuById(orderConfirmDTO.getSkuId()).getData();
                 orderItemDTO.setPrice(sku.getPrice());
                 orderItemDTO.setPic(sku.getPic());
-                orderItemDTO.setTitle(sku.getName());
+                orderItemDTO.setSkuName(sku.getName());
+                orderItemDTO.setSkuCode(sku.getCode());
                 orderItems.add(orderItemDTO);
             } else { // 购物车中商品结算
                 List<CartVO.CartItem> cartItems = cartService.getCartItems(memberId);
@@ -91,7 +97,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                                 .skuId(cartItem.getSkuId())
                                 .count(cartItem.getCount())
                                 .price(cartItem.getPrice())
-                                .title(cartItem.getTitle())
+                                .skuName(cartItem.getSkuName())
+                                .skuCode(cartItem.getSkuCode())
                                 .pic(cartItem.getPic())
                                 .build())
                         .collect(Collectors.toList());
@@ -109,7 +116,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 生成唯一标识，防止订单重复提交
         CompletableFuture<Void> orderTokenCompletableFuture = CompletableFuture.runAsync(() -> {
-            String orderToken = IdUtil.randomUUID();
+            String orderToken = businessNoGenerator.generate(BusinessTypeEnum.ORDER);
             orderConfirmVO.setOrderToken(orderToken);
             redisTemplate.opsForValue().set(ORDER_TOKEN_PREFIX + orderToken, orderToken);
         }, threadPoolExecutor);
@@ -184,15 +191,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         List<OmsOrderItem> orderItemList = orderItems.stream().map(item -> OmsOrderItem.builder()
                 .orderId(order.getId())
                 .skuId(item.getSkuId())
-                .skuName(item.getTitle())
+                .skuName(item.getSkuName())
                 .skuPrice(item.getPrice())
                 .skuPic(item.getPic())
                 .skuQuantity(item.getCount())
+                .skuCode(item.getSkuCode())
                 .build()).collect(Collectors.toList());
         orderItemService.saveBatch(orderItemList);
 
         // 将订单放入延时队列，超时未支付由交换机order.exchange切换到死信队列完成系统自动关单
-        log.info("订单超时取消RabbitMQ消息发送，订单SN：{}",orderToken);
+        log.info("订单超时取消RabbitMQ消息发送，订单SN：{}", orderToken);
         rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
 
         OrderSubmitVO submitVO = new OrderSubmitVO();
@@ -205,6 +213,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
     /**
      * 订单支付
+     *
      * @param orderId
      * @return
      */
@@ -248,7 +257,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         log.info("=======================订单关闭，订单SN：{}=======================", orderToken);
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderSn, orderToken));
-        if (order==null||!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
+        if (order == null || !OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             return false;
         }
         order.setStatus(OrderStatusEnum.AUTO_CANCEL.getCode());

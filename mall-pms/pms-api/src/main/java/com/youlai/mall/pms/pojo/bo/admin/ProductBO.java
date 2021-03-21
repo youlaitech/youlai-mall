@@ -1,6 +1,7 @@
 package com.youlai.mall.pms.pojo.bo.admin;
 
 import com.youlai.mall.pms.pojo.domain.PmsSku;
+import com.youlai.mall.pms.pojo.domain.PmsSpec;
 import com.youlai.mall.pms.pojo.domain.PmsSpuAttributeValue;
 import com.youlai.mall.pms.pojo.domain.PmsSpuSpecValue;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
