@@ -100,4 +100,10 @@ public class OmsOrder extends BaseEntity {
 	@TableField(exist = false)
 	private List<OmsOrderItem> orderItems;
 
+	@TableField(exist = false)
+	private String startDate;
+
+	@TableField(exist = false)
+	private String endDate;
+
 }

@@ -45,29 +45,12 @@ public class OrderController {
     @GetMapping
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "status", value = "订单状态", paramType = "query", dataType = "Integer"),
-
+            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long")
     })
-    public Result list(
-            @RequestParam(defaultValue = "1") Long page,
-            @RequestParam(defaultValue = "10") Long limit,
-            Integer status,
-             String startDate,
-             String endDate,
-            String orderSn
-    ) {
-        LambdaQueryWrapper<OmsOrder> queryWrapper = new LambdaQueryWrapper<OmsOrder>()
-                .like(StrUtil.isNotBlank(orderSn), OmsOrder::getOrderSn, orderSn)
-                .eq(status != null, OmsOrder::getStatus, status)
-                .apply(StrUtil.isNotBlank(startDate),
-                        "date_format (gmt_crate,'%Y-%m-%d') >= date_format('" + startDate + "','%Y-%m-%d')")
-                .apply(StrUtil.isNotBlank(endDate),
-                        "date_format (gmt_crate,'%Y-%m-%d') <= date_format('" + endDate + "','%Y-%m-%d')")
-                .orderByDesc(OmsOrder::getGmtModified)
-                .orderByDesc(OmsOrder::getGmtCreate);
-
-        IPage<OmsOrder> result = orderService.list(new Page<>(page, limit), new OmsOrder().setStatus(status));
+    public Result list(@RequestParam(defaultValue = "1") Long page,
+                       @RequestParam(defaultValue = "10") Long limit,
+                       OmsOrder order) {
+        IPage<OmsOrder> result = orderService.list(new Page<>(page, limit), order);
         return Result.success(result.getRecords(), result.getTotal());
     }
 
