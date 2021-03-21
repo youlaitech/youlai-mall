@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class MemberVO {
 
+    private Long id;
+
     private String nickname;
 
 
