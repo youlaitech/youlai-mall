@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.test.app;
+package com.youlai.mall.oms.controller.app;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.youlai.common.result.Result;
@@ -41,7 +41,6 @@ public class CartController {
         boolean result = cartService.deleteCart();
         return Result.judge(result);
     }
-
 
 
 

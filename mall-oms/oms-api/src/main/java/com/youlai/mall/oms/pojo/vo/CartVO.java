@@ -22,7 +22,9 @@ public class CartVO implements Serializable {
 
         private Long skuId;
 
-        private String title; // 标题
+        private String skuName; // 标题
+
+        private String skuCode;
 
         private String pic;
 

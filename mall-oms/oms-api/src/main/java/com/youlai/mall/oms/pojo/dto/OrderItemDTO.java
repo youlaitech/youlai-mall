@@ -13,8 +13,9 @@ import lombok.*;
 public class OrderItemDTO extends BaseVO {
 
     private Long skuId;
+    private String skuName;
+    private String skuCode;
     private Integer count;
     private String pic;
-    private String title;
     private Long price;
 }

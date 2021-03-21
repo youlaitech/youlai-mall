@@ -18,7 +18,7 @@ public interface OrderMapper extends BaseMapper<OmsOrder> {
 
 
     @Select("<script>" +
-            " select id,order_sn,total_amount,pay_amount,status,total_amount,total_quantity,gmt_create from oms_order" +
+            " select id,order_sn,total_amount,pay_amount,status,total_amount,total_quantity,gmt_create,member_id,source_type from oms_order" +
             " where 1=1 " +
             " <if test ='order.status !=null ' >" +
             "   AND status= #{order.status} " +
