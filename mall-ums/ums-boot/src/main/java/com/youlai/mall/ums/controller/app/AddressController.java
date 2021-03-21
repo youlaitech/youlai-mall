@@ -30,7 +30,7 @@ public class AddressController {
 
     @ApiOperation(value = "获取会员的地址列表")
     @GetMapping
-    public Result list(@RequestParam Long memberId) {
+    public Result list(@RequestParam(required = false) Long memberId) {
         List<UmsAddress> addressList = iUmsAddressService.list(new LambdaQueryWrapper<UmsAddress>()
                 .eq(UmsAddress::getMemberId, memberId)
                 .orderByDesc(UmsAddress::getDefaulted));
