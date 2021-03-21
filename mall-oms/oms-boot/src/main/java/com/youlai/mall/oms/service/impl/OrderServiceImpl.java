@@ -39,10 +39,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
@@ -67,7 +64,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     @Override
     public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
-        log.info("=======================订单确认=======================\n订单确认信息：{}",orderConfirmDTO);
+        log.info("=======================订单确认=======================\n订单确认信息：{}", orderConfirmDTO);
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
         Long memberId = RequestUtils.getUserId();
         // 获取购买商品信息
@@ -125,7 +122,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     @Override
     @GlobalTransactional
     public OrderSubmitVO submit(OrderSubmitDTO submitDTO) {
-        log.info("=======================订单提交=======================\n订单提交信息：{}",submitDTO);
+        log.info("=======================订单提交=======================\n订单提交信息：{}", submitDTO);
         // 订单重复提交校验
         String orderToken = submitDTO.getOrderToken();
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
@@ -174,13 +171,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .setSourceType(OrderTypeEnum.APP.getCode())
                 .setMemberId(RequestUtils.getUserId())
                 .setRemark(submitDTO.getRemark())
-                .setPayAmount(submitDTO.getPayAmount());
+                .setPayAmount(submitDTO.getPayAmount())
+                .setTotalQuantity(orderItems.stream().map(item -> item.getCount()).reduce(0, (x, y) -> x + y))
+                .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0l, (x, y) -> x + y))
+                .setGmtCreate(new Date());
+        ;
         this.save(order);
 
         // 创建订单商品
         List<OmsOrderItem> orderItemList = orderItems.stream().map(item -> OmsOrderItem.builder()
                 .orderId(order.getId())
                 .skuId(item.getSkuId())
+                .skuName(item.getTitle())
                 .skuPrice(item.getPrice())
                 .skuPic(item.getPic())
                 .skuQuantity(item.getCount())
@@ -215,18 +217,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         log.info("=======================订单取消，订单ID：{}=======================", id);
         OmsOrder order = this.getById(id);
 
-        if ( order != null &&!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus()) ) {
+        if (order != null && !OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             throw new BizException("取消失败，订单状态不支持取消"); // 通过自定义异常，将异常信息抛出由异常处理器捕获显示给前端页面
         }
         order.setStatus(OrderStatusEnum.USER_CANCEL.getCode());
         boolean result = this.updateById(order);
-        if(result){
+        if (result) {
             // 释放被锁定的库存
             Result unlockResult = skuFeignService.unlockStock(order.getOrderSn());
-            if(!Result.isSuccess(unlockResult)){
-              throw new BizException(unlockResult.getMsg());
+            if (!Result.isSuccess(unlockResult)) {
+                throw new BizException(unlockResult.getMsg());
             }
-            result=true;
+            result = true;
         }
         return result;
     }
@@ -245,7 +247,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
         return this.removeById(id);
     }
-
 
 
     @Override

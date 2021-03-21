@@ -10,5 +10,7 @@ public class MemberVO {
 
     private String avatar;
 
+    private Long balance;
+
 
 }

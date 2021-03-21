@@ -39,6 +39,10 @@ public class OmsOrderItem extends BaseEntity {
      * 商品sku编号
      */
     private String skuCode;
+
+
+    private String skuName;
+
     /**
      * 商品sku名字
      */
@@ -91,7 +95,5 @@ public class OmsOrderItem extends BaseEntity {
      * 逻辑删除【0->正常；1->已删除】
      */
     private Integer deleted;
-
-
 
 }

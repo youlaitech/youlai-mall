@@ -15,6 +15,7 @@ import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 
@@ -36,13 +37,13 @@ public class OrderController {
     @ApiOperation("订单列表")
     @GetMapping
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page",defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit",defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "status", value = "订单状态", paramType = "query", dataType = "Integer")
     })
     public Result list(
-            Long page,
-             Long limit,
+            @RequestParam(defaultValue = "1") Long page,
+            @RequestParam(defaultValue = "10") Long limit,
             Integer status
     ) {
         IPage<OmsOrder> result = orderService.list(new Page<>(page, limit), new OmsOrder().setStatus(status));
