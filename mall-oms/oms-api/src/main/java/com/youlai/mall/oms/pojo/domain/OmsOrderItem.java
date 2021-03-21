@@ -44,10 +44,6 @@ public class OmsOrderItem extends BaseEntity {
     private String skuName;
 
     /**
-     * 商品sku名字
-     */
-    private String title;
-    /**
      * 商品sku图片
      */
     private String skuPic;
