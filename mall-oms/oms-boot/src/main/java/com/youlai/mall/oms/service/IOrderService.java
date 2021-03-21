@@ -27,9 +27,15 @@ public interface IOrderService extends IService<OmsOrder> {
     OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO);
 
     /**
-     * 提交订单
+     * 订单提交
      */
     OrderSubmitVO submit(OrderSubmitDTO orderSubmitDTO) ;
+
+    /**
+     * 订单支付
+     */
+    boolean pay(Long orderId);
+
 
     /**
      * 系统关闭订单

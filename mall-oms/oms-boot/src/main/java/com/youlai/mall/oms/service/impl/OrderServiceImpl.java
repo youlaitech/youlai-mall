@@ -14,6 +14,7 @@ import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
+import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
@@ -29,6 +30,7 @@ import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.ums.api.UmsAddressFeignService;
+import com.youlai.mall.ums.api.UmsMemberFeignService;
 import com.youlai.mall.ums.pojo.domain.UmsAddress;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
@@ -58,6 +60,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private RabbitTemplate rabbitTemplate;
     private StringRedisTemplate redisTemplate;
     private ThreadPoolExecutor threadPoolExecutor;
+    private UmsMemberFeignService memberFeignService;
 
     /**
      * 订单确认
@@ -78,7 +81,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 PmsSku sku = skuFeignService.getSkuById(orderConfirmDTO.getSkuId()).getData();
                 orderItemDTO.setPrice(sku.getPrice());
                 orderItemDTO.setPic(sku.getPic());
-                orderItemDTO.setTitle(sku.getTitle());
+                orderItemDTO.setTitle(sku.getName());
                 orderItems.add(orderItemDTO);
             } else { // 购物车中商品结算
                 List<CartVO.CartItem> cartItems = cartService.getCartItems(memberId);
@@ -134,7 +137,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         List<OrderItemDTO> orderItems = submitDTO.getOrderItems();
         if (CollectionUtil.isEmpty(orderItems)) {
-            throw new BizException("订单");
+            throw new BizException("订单没有商品，请选择商品后提交");
         }
 
         // 订单验价
@@ -175,7 +178,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .setTotalQuantity(orderItems.stream().map(item -> item.getCount()).reduce(0, (x, y) -> x + y))
                 .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0l, (x, y) -> x + y))
                 .setGmtCreate(new Date());
-        ;
         this.save(order);
 
         // 创建订单商品
@@ -190,6 +192,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         orderItemService.saveBatch(orderItemList);
 
         // 将订单放入延时队列，超时未支付由交换机order.exchange切换到死信队列完成系统自动关单
+        log.info("订单超时取消RabbitMQ消息发送，订单SN：{}",orderToken);
         rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
 
         OrderSubmitVO submitVO = new OrderSubmitVO();
@@ -200,12 +203,52 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     }
 
 
+    /**
+     * 订单支付
+     * @param orderId
+     * @return
+     */
+    @Override
+    @GlobalTransactional(rollbackFor = Exception.class)
+    public boolean pay(Long orderId) {
+
+        OmsOrder order = this.getById(orderId);
+        if (order != null && !OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
+            throw new BizException("支付失败，请检查订单状态");
+        }
+
+        // 扣减余额
+        Long userId = RequestUtils.getUserId();
+        Long payAmount = order.getPayAmount();
+        Result deductBalanceResult = memberFeignService.deductBalance(userId, payAmount);
+        if (!Result.isSuccess(deductBalanceResult)) {
+            throw new BizException("扣减账户余额失败");
+        }
+
+        // 扣减库存
+        Result deductStockResult = skuFeignService.deductStock(order.getOrderSn());
+        if (!Result.isSuccess(deductStockResult)) {
+            throw new BizException("扣减商品库存失败");
+        }
+
+        // 更新订单状态
+        order.setStatus(OrderStatusEnum.PAID.getCode());
+        order.setPayType(PayTypeEnum.BALANCE.getCode());
+        order.setPayTime(new Date());
+        this.updateById(order);
+
+        // 支付成功删除购物车已勾选的商品
+        cartService.removeCheckedItem();
+
+        return true;
+    }
+
     @Override
     public boolean closeOrder(String orderToken) {
         log.info("=======================订单关闭，订单SN：{}=======================", orderToken);
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderSn, orderToken));
-        if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
+        if (order==null||!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             return false;
         }
         order.setStatus(OrderStatusEnum.AUTO_CANCEL.getCode());

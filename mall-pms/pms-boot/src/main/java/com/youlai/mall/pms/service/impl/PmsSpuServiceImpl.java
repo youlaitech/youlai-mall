@@ -43,11 +43,11 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
     @Override
     @Transactional
-    public boolean add(ProductBO spuBO) {
-        SpuDTO SpuDTO = spuBO.getSpu();
-        List<PmsSpuAttributeValue> attrValues = spuBO.getAttrs();
-        List<PmsSpuSpecValue> specs = spuBO.getSpecs();
-        List<PmsSku> skuList = spuBO.getSkus();
+    public boolean add(ProductBO productBO) {
+        SpuDTO SpuDTO = productBO.getSpu();
+        List<PmsSpuAttributeValue> attrValues = productBO.getAttrs();
+        List<PmsSpuSpecValue> specs = productBO.getSpecs();
+        List<PmsSku> skuList = productBO.getSkus();
 
         // spu保存
         PmsSpu spu = new PmsSpu();
@@ -101,18 +101,18 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skus = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-          ProductBO spuBO = new ProductBO(spuDTO, attrs, specs, skus);
-        return spuBO;
+          ProductBO productBO = new ProductBO(spuDTO, attrs, specs, skus);
+        return productBO;
     }
 
 
     @Override
-    public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
-        SpuDTO SpuDTO = spuBO.getSpu();
+    public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO productBO) {
+        SpuDTO SpuDTO = productBO.getSpu();
 
-        List<PmsSpuAttributeValue> attrValues = spuBO.getAttrs();
-        List<PmsSpuSpecValue> specs = spuBO.getSpecs();
-        List<PmsSku> skuList = spuBO.getSkus();
+        List<PmsSpuAttributeValue> attrValues = productBO.getAttrs();
+        List<PmsSpuSpecValue> specs = productBO.getSpecs();
+        List<PmsSku> skuList = productBO.getSkus();
 
         // spu保存
         PmsSpu spu = new PmsSpu();
