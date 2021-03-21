@@ -68,10 +68,10 @@ public class SpuController {
 
 
     @ApiOperation(value = "新增商品")
-    @ApiImplicitParam(name = "spuBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpuBO")
+    @ApiImplicitParam(name = "productBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "ProductBO")
     @PostMapping
-    public Result add(@RequestBody ProductBO spuBO) {
-        boolean status = iPmsSpuService.add(spuBO);
+    public Result add(@RequestBody ProductBO productBO) {
+        boolean status = iPmsSpuService.add(productBO);
         return Result.judge(status);
     }
 
