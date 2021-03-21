@@ -56,11 +56,9 @@ public class DictController {
             case PAGE:
                 Page<SysDict> result = iSysDictService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());
-            case LIST:
+            default:
                 List<SysDict> list = iSysDictService.list(queryWrapper);
                 return Result.success(list);
-            default:
-                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
     }
 

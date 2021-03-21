@@ -24,7 +24,7 @@ import java.util.List;
 
 @Api(tags = "字典项接口")
 @RestController
-@RequestMapping("/api.admin/v1/dict-items")
+@RequestMapping("/api.admin/v1/dict_items")
 @Slf4j
 @AllArgsConstructor
 public class DictItemController {

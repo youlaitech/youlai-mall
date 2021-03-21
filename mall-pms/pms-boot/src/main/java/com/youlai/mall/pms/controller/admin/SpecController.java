@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller.admin;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsSpecification;
+import com.youlai.mall.pms.pojo.domain.PmsSpec;
 import com.youlai.mall.pms.service.IPmsSpecService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,16 +30,16 @@ public class SpecController {
     })
     @GetMapping
     public Result list(Long categoryId) {
-        List<PmsSpecification> list = iPmsSpecService
-                .list(new LambdaQueryWrapper<PmsSpecification>()
-                        .eq(PmsSpecification::getCategoryId, categoryId));
+        List<PmsSpec> list = iPmsSpecService
+                .list(new LambdaQueryWrapper<PmsSpec>()
+                        .eq(PmsSpec::getCategoryId, categoryId));
         return Result.success(list);
     }
 
     @ApiOperation(value = "新增规格")
     @ApiImplicitParam(name = "specCategories", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpecCategory")
     @PostMapping
-    public Result save(@RequestBody List<PmsSpecification> specCategories) {
+    public Result save(@RequestBody List<PmsSpec> specCategories) {
 
         if (CollectionUtil.isEmpty(specCategories)) {
             return Result.failed("至少提交一条规格");
@@ -52,9 +51,9 @@ public class SpecController {
         List<Long> formIds = specCategories.stream().map(item -> item.getId()).collect(Collectors.toList());
 
         List<Long> databaseIds = iPmsSpecService
-                .list(new LambdaQueryWrapper<PmsSpecification>()
-                        .eq(PmsSpecification::getCategoryId, categoryId)
-                        .select(PmsSpecification::getId)
+                .list(new LambdaQueryWrapper<PmsSpec>()
+                        .eq(PmsSpec::getCategoryId, categoryId)
+                        .select(PmsSpec::getId)
                 ).stream()
                 .map(item -> item.getId())
                 .collect(Collectors.toList());

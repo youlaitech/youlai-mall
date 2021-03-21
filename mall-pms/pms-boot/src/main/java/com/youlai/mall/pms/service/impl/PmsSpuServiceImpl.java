@@ -140,7 +140,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             iPmsSpuAttributeValueService.saveOrUpdateBatch(list);
         });
 
-        // 规格保存
+        // 规格值保存
         Optional.ofNullable(specs).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
 
@@ -211,7 +211,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         );
 
         // 规格
-        List<PmsSpecification> specs = iPmsSpecService.listBySpuId(spuId);
+        List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
 
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));

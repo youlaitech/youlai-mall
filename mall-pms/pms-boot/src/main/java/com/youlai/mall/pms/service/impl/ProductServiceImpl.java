@@ -9,7 +9,7 @@ import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.pojo.domain.PmsSpuAttributeValue;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
-import com.youlai.mall.pms.pojo.domain.PmsSpecification;
+import com.youlai.mall.pms.pojo.domain.PmsSpec;
 import com.youlai.mall.pms.pojo.domain.PmsSpu;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
@@ -51,7 +51,7 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
         );
 
         // 规格
-        List<PmsSpecification> specs = iPmsSpecService.listBySpuId(spuId);
+        List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
 
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
