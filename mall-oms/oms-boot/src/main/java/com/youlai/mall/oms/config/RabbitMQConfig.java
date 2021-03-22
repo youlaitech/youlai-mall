@@ -34,7 +34,7 @@ public class RabbitMQConfig {
     }
 
     /**
-     * 延时队列
+     * 延时队列（超时会通过交换机和路由key转发到死信队列），没有消费者
      */
     @Bean
     public Queue delayQueue() {
@@ -49,7 +49,7 @@ public class RabbitMQConfig {
 
     /**
      * 延时队列绑定交换机，路由键order.create
-     * 订单提交时会发送routingKey=order.create.order的消息至exchange，然后会被路由到上面的delayQueue延时队列，延时队列没有消费者，到期后会降消息转发
+     * 订单提交时会发送routingKey=order.create.order的消息至exchange，然后会被路由到上面的delayQueue延时队列，延时队列没有消费者，到期后会将消息转发
      */
     @Bean
     public Binding delayQueueBinding() {
