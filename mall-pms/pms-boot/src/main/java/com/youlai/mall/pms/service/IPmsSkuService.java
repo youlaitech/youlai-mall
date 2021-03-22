@@ -29,9 +29,5 @@ public interface IPmsSkuService extends IService<PmsSku> {
      */
     Integer getStockById(Long id);
 
-    /**
-     * 获取商品列表
-     */
-    List<SkuDTO> listBySkuIds(List<Long> ids);
-
+    SkuDTO getSkuById(Long id);
 }

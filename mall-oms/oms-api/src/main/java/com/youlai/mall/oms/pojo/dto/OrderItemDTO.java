@@ -18,4 +18,6 @@ public class OrderItemDTO extends BaseVO {
     private Integer count;
     private String pic;
     private Long price;
+
+    private String spuName;
 }

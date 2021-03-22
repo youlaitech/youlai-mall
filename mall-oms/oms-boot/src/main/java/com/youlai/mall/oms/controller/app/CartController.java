@@ -42,8 +42,6 @@ public class CartController {
         return Result.judge(result);
     }
 
-
-
     @ApiOperation(value = "添加购物车商品")
     @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
     @PostMapping
