@@ -72,7 +72,6 @@ public class OrderController {
     })
     public Result pay(@PathVariable Long orderId, Integer payType) {
         PayTypeEnum payTypeEnum = PayTypeEnum.getByCode(payType);
-
         switch (payTypeEnum) {
             case BALANCE:
                 orderService.pay(orderId);
@@ -83,5 +82,11 @@ public class OrderController {
         return Result.success();
     }
 
-
+    @ApiOperation("订单删除")
+    @PostMapping("/{orderId}")
+    @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "path", dataType = "Long")
+    public Result deleteOrder(@PathVariable Long orderId) {
+        boolean result = orderService.deleteOrder(orderId);
+        return Result.judge(result);
+    }
 }

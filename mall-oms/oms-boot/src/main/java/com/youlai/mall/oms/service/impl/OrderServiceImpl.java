@@ -195,6 +195,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .skuPrice(item.getPrice())
                 .skuPic(item.getPic())
                 .skuQuantity(item.getCount())
+                .skuTotalPrice(item.getCount() * item.getPrice())
                 .skuCode(item.getSkuCode())
                 .build()).collect(Collectors.toList());
         orderItemService.saveBatch(orderItemList);
