@@ -3,6 +3,7 @@ package com.youlai.mall.oms.controller.app;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
+import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
@@ -44,7 +45,10 @@ public class OrderController {
             @RequestParam(defaultValue = "10") Long limit,
             Integer status
     ) {
-        IPage<OmsOrder> result = orderService.list(new Page<>(page, limit), new OmsOrder().setStatus(status));
+        IPage<OmsOrder> result = orderService.list(new Page<>(page, limit),
+                new OmsOrder()
+                        .setStatus(status)
+                        .setMemberId(RequestUtils.getUserId()));
         return Result.success(result.getRecords(), result.getTotal());
     }
 

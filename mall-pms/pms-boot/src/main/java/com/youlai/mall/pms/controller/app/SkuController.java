@@ -25,7 +25,7 @@ public class SkuController {
     @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
-        PmsSku sku = iPmsSkuService.getById(id);
+        SkuDTO sku = iPmsSkuService.getSkuById(id);
         return Result.success(sku);
     }
 
@@ -63,12 +63,5 @@ public class SkuController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "商品列表")
-    @ApiImplicitParam(name = "skuIds", value = "商品ID集合", required = true, paramType = "body", dataType = "String")
-    @GetMapping
-    public Result list(@RequestParam List<Long> ids) {
-        List<SkuDTO> list = iPmsSkuService.listBySkuIds(ids);
-        return Result.success(list);
-    }
 
 }

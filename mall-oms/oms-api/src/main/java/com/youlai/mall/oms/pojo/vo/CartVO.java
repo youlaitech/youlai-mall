@@ -38,5 +38,7 @@ public class CartVO implements Serializable {
 
         private Integer stock;// 商品库存数量，页面控制能选择最大数量
 
+        private String spuName;
+
     }
 }

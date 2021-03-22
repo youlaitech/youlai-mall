@@ -23,6 +23,9 @@ public interface OrderMapper extends BaseMapper<OmsOrder> {
             " <if test ='order.status !=null ' >" +
             "   AND status= #{order.status} " +
             " </if>" +
+            " <if test ='order.memberId !=null ' >" +
+            "   AND member_id= #{order.memberId} " +
+            " </if>" +
             " <if test ='order.orderSn !=null and order.orderSn.trim() neq \"\"' >" +
             "   AND order_sn= #{order.orderSn} " +
             " </if>" +

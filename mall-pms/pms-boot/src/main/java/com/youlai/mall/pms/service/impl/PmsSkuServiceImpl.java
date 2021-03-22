@@ -170,13 +170,11 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         }
 
         return stock;
-
     }
 
     @Override
-    public List<SkuDTO> listBySkuIds(List<Long> ids) {
-        return this.baseMapper.listBySkuIds(ids);
+    public SkuDTO getSkuById(Long id) {
+        return this.baseMapper.getSkuById(id);
     }
-
 
 }

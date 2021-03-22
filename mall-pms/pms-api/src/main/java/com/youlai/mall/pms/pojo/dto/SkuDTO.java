@@ -12,17 +12,12 @@ import lombok.Data;
 public class SkuDTO {
 
     private Long id;
-
     private String code;
-
-    private String title;
-
+    private String name;
     private String pic;
-
     private Long price;
 
-    private Long spuId;
-
-
+    private Integer stock;
+    private String spuName;
 
 }

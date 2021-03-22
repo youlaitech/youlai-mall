@@ -28,6 +28,7 @@ import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
 import com.youlai.mall.pms.pojo.domain.PmsSku;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.ums.api.UmsAddressFeignService;
 import com.youlai.mall.ums.api.UmsMemberFeignService;
@@ -83,11 +84,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         .skuId(orderConfirmDTO.getSkuId())
                         .count(orderConfirmDTO.getCount())
                         .build();
-                PmsSku sku = skuFeignService.getSkuById(orderConfirmDTO.getSkuId()).getData();
+                SkuDTO sku = skuFeignService.getSkuById(orderConfirmDTO.getSkuId()).getData();
                 orderItemDTO.setPrice(sku.getPrice());
                 orderItemDTO.setPic(sku.getPic());
                 orderItemDTO.setSkuName(sku.getName());
                 orderItemDTO.setSkuCode(sku.getCode());
+                orderItemDTO.setSpuName(sku.getSpuName());
                 orderItems.add(orderItemDTO);
             } else { // 购物车中商品结算
                 List<CartVO.CartItem> cartItems = cartService.getCartItems(memberId);
@@ -99,6 +101,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                                 .price(cartItem.getPrice())
                                 .skuName(cartItem.getSkuName())
                                 .skuCode(cartItem.getSkuCode())
+                                .spuName(cartItem.getSpuName())
                                 .pic(cartItem.getPic())
                                 .build())
                         .collect(Collectors.toList());
@@ -149,7 +152,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 订单验价
         Long currentTotalPrice = orderItems.stream().map(item -> {
-            PmsSku sku = skuFeignService.getSkuById(item.getSkuId()).getData();
+            SkuDTO sku = skuFeignService.getSkuById(item.getSkuId()).getData();
             if (sku != null) {
                 return sku.getPrice() * item.getCount();
             }
