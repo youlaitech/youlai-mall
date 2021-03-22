@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : a.youlai.store
+ Source Server         : www.youlai.store
  Source Server Type    : MySQL
  Source Server Version : 80023
- Source Host           : a.youlai.store:3306
- Source Schema         : mall-pms
+ Source Host           : www.youlai.store:3306
+ Source Schema         : mall_pms
 
  Target Server Type    : MySQL
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 15/03/2021 01:05:19
+ Date: 22/03/2021 09:27:30
 */
 
 SET NAMES utf8mb4;
@@ -25,8 +25,8 @@ CREATE TABLE `pms_attribute`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称',
   `category_id` bigint(0) NOT NULL COMMENT '分类ID',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_attr_pms_category`(`category_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性表' ROW_FORMAT = Dynamic;
@@ -62,11 +62,11 @@ CREATE TABLE `pms_brand`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '品牌名称',
   `first_letter` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '首字母',
-  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'LOGO图片',
-  `sort` int(0) NULL DEFAULT NULL COMMENT '排序',
-  `status` tinyint(0) NULL DEFAULT NULL COMMENT '状态: 0-禁用  1-正常 ',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'LOGO图片',
+  `sort` int(0) DEFAULT NULL COMMENT '排序',
+  `status` tinyint(0) DEFAULT NULL COMMENT '状态: 0-禁用  1-正常 ',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = Dynamic;
 
@@ -83,12 +83,12 @@ CREATE TABLE `pms_category`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品分类名称',
   `parent_id` bigint(0) NOT NULL COMMENT '父级ID',
-  `level` int(0) NULL DEFAULT NULL COMMENT '层级',
-  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标地址',
-  `sort` int(0) NULL DEFAULT NULL COMMENT '排序',
-  `status` tinyint(1) NULL DEFAULT 1 COMMENT '显示状态: 0-隐藏 1-显示',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `level` int(0) DEFAULT NULL COMMENT '层级',
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '图标地址',
+  `sort` int(0) DEFAULT NULL COMMENT '排序',
+  `status` tinyint(1) DEFAULT 1 COMMENT '显示状态: 0-隐藏 1-显示',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
 
@@ -146,32 +146,32 @@ DROP TABLE IF EXISTS `pms_sku`;
 CREATE TABLE `pms_sku`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `spu_id` bigint(0) NOT NULL COMMENT 'SPU ID',
-  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU名称',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU编码',
-  `pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU图片',
-  `spec_value_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品规格值ID，以,分割',
+  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '标题',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'SKU编码',
+  `pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'SKU图片',
+  `spec_value_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商品规格值ID，以,分割',
   `origin_price` bigint(0) NOT NULL COMMENT '原价',
   `price` bigint(0) NOT NULL COMMENT '现价',
-  `inventory` int(0) NOT NULL DEFAULT 0 COMMENT '库存',
-  `locked_inventory` int(0) NOT NULL DEFAULT 0 COMMENT '锁定库存',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `stock` int(0) NOT NULL DEFAULT 0 COMMENT '库存',
+  `locked_stock` int(0) NOT NULL DEFAULT 0 COMMENT '锁定库存',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_pms_spu`(`spu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 197 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 199 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pms_sku
 -- ----------------------------
-INSERT INTO `pms_sku` VALUES (186, 54, '测试手机1 黑 6+128 ', '1614505517559', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505504702,1614505510650', 399900, 299900, 9999, 0, '2021-02-28 17:45:43', '2021-03-11 20:10:35');
-INSERT INTO `pms_sku` VALUES (187, 54, '测试手机1 黑 8+256 ', '1614505517560', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505504702,1614505517558', 399900, 299900, 9999, 0, '2021-02-28 17:45:43', '2021-03-11 20:10:35');
-INSERT INTO `pms_sku` VALUES (190, 52, '测试手机2 黑 4+64 ', '1614505936507', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', '1614505920109,1614505925142', 199900, 159900, 9999, 0, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
-INSERT INTO `pms_sku` VALUES (191, 52, '测试手机2 黑 6+128 ', '1614505936509', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', '1614505920109,1614505931577', 199900, 179900, 9999, 0, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
-INSERT INTO `pms_sku` VALUES (192, 52, '测试手机2 黑 8+256 ', '1614505936511', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', '1614505920109,1614505936504', 199900, 199900, 9999, 0, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
-INSERT INTO `pms_sku` VALUES (193, 53, '测试衣服1 白 L ', '1614507069889', 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', '1614506161188,1614506165004', 39900, 29900, 9999, 0, '2021-02-28 17:56:10', '2021-02-28 18:11:13');
-INSERT INTO `pms_sku` VALUES (194, 53, '测试衣服1 白 M ', '1614506168001', 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', '1614506161188,1614506167997', 39900, 29900, 9999, 0, '2021-02-28 17:56:10', '2021-02-28 18:11:13');
-INSERT INTO `pms_sku` VALUES (195, 54, '测试手机1 白 6+128 ', '1615464633246', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505510650,1615464621209', 29900, 299900, 9999, 0, '2021-03-11 20:10:35', '2021-03-11 20:10:35');
-INSERT INTO `pms_sku` VALUES (196, 54, '测试手机1 白 8+256 ', '1615464630696', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505517558,1615464621209', 34900, 299900, 9999, 0, '2021-03-11 20:10:35', '2021-03-11 20:10:35');
+INSERT INTO `pms_sku` VALUES (186, 54, '测试手机1 黑 6+128 ', '1614505517559', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505504702,1614505510650', 399900, 299900, 999, 0, '2021-02-28 17:45:43', '2021-03-11 20:10:35');
+INSERT INTO `pms_sku` VALUES (187, 54, '测试手机1 黑 8+256 ', '1614505517560', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505504702,1614505517558', 399900, 299900, 999, 0, '2021-02-28 17:45:43', '2021-03-11 20:10:35');
+INSERT INTO `pms_sku` VALUES (190, 52, '测试手机2 黑 4+64 ', '1614505936507', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', '1614505920109,1614505925142', 199900, 159900, 984, 32, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
+INSERT INTO `pms_sku` VALUES (191, 52, '测试手机2 黑 6+128 ', '1614505936509', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', '1614505920109,1614505931577', 199900, 179900, 998, 0, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
+INSERT INTO `pms_sku` VALUES (192, 52, '测试手机2 黑 8+256 ', '1614505936511', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', '1614505920109,1614505936504', 199900, 199900, 999, 0, '2021-02-28 17:52:33', '2021-02-28 18:13:28');
+INSERT INTO `pms_sku` VALUES (195, 54, '测试手机1 白 6+128 ', '1615464633246', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505510650,1615464621209', 29900, 299900, 999, 0, '2021-03-11 20:10:35', '2021-03-11 20:10:35');
+INSERT INTO `pms_sku` VALUES (196, 54, '测试手机1 白 8+256 ', '1615464630696', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '1614505517558,1615464621209', 34900, 299900, 999, 0, '2021-03-11 20:10:35', '2021-03-11 20:10:35');
+INSERT INTO `pms_sku` VALUES (197, 53, '测试衣服1 白 M ', '1616310848932', 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', '1616310839626,1616310844063', 39900, 29900, 9999, 0, '2021-03-21 15:14:13', '2021-03-21 15:42:04');
+INSERT INTO `pms_sku` VALUES (198, 53, '测试衣服1 白 L ', '1616310848933', 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', '1616310839626,1616310848931', 39900, 29900, 9999, 0, '2021-03-21 15:14:13', '2021-03-21 15:42:04');
 
 -- ----------------------------
 -- Table structure for pms_spec
@@ -181,8 +181,8 @@ CREATE TABLE `pms_spec`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `category_id` bigint(0) NOT NULL COMMENT '商品分类ID',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格名称',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spec_pms_category`(`category_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格表' ROW_FORMAT = Dynamic;
@@ -215,18 +215,18 @@ CREATE TABLE `pms_spu`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称',
   `category_id` bigint(0) NOT NULL COMMENT '商品类型ID',
-  `brand_id` bigint(0) NULL DEFAULT NULL COMMENT '商品品牌ID',
+  `brand_id` bigint(0) DEFAULT NULL COMMENT '商品品牌ID',
   `origin_price` bigint(0) NOT NULL COMMENT '原价【起】',
   `price` bigint(0) NOT NULL COMMENT '现价【起】',
-  `sales` int(0) NULL DEFAULT 0 COMMENT '销量',
-  `pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品主图',
-  `pics` json NULL COMMENT '商品相册',
-  `unit` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '单位',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品简介',
-  `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '商品详情',
-  `status` tinyint(0) NULL DEFAULT NULL COMMENT '商品状态：0-下架 1-上架',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `sales` int(0) DEFAULT 0 COMMENT '销量',
+  `pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商品主图',
+  `pics` json COMMENT '商品相册',
+  `unit` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '单位',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商品简介',
+  `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '商品详情',
+  `status` tinyint(0) DEFAULT NULL COMMENT '商品状态：0-下架 1-上架',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_pms_brand`(`brand_id`) USING BTREE,
   INDEX `fk_pms_spu_pms_category`(`category_id`) USING BTREE
@@ -236,7 +236,7 @@ CREATE TABLE `pms_spu`  (
 -- Records of pms_spu
 -- ----------------------------
 INSERT INTO `pms_spu` VALUES (52, '测试手机2', 26, 4, 199900, 159900, 0, 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', '[\"http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg\"]', '台', '测试手机使用', '<p>测试手机使用</p>', 1, NULL, '2021-02-28 18:13:26');
-INSERT INTO `pms_spu` VALUES (53, '测试衣服1', 61, 4, 39900, 29900, 0, 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', '[\"http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg\"]', '件', '测试', '<p>不错</p>', 1, '2021-02-22 09:33:05', '2021-02-28 18:11:12');
+INSERT INTO `pms_spu` VALUES (53, '测试衣服1', 61, 4, 39900, 29900, 0, 'http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg', '[\"http://a.youlai.store:9000/default/063350d473a64ee7857e91841add1177.jpg\"]', '件', '测试', '<p>不错</p>', 1, '2021-02-22 09:33:05', '2021-03-21 15:42:04');
 INSERT INTO `pms_spu` VALUES (54, '测试手机1', 26, 4, 399900, 299900, 0, 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', '[\"http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg\"]', '台', '有来全面屏智能手机1', '<p>123</p>', 1, '2021-02-28 17:45:42', '2021-03-11 20:10:35');
 
 -- ----------------------------
@@ -246,11 +246,11 @@ DROP TABLE IF EXISTS `pms_spu_attribute_value`;
 CREATE TABLE `pms_spu_attribute_value`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `spu_id` bigint(0) NOT NULL COMMENT 'SPU ID',
-  `attribute_id` bigint(0) NULL DEFAULT NULL COMMENT '属性ID',
+  `attribute_id` bigint(0) DEFAULT NULL COMMENT '属性ID',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称【冗余字段】',
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性值',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_attr`(`name`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_spu`(`spu_id`) USING BTREE
@@ -259,7 +259,7 @@ CREATE TABLE `pms_spu_attribute_value`  (
 -- ----------------------------
 -- Records of pms_spu_attribute_value
 -- ----------------------------
-INSERT INTO `pms_spu_attribute_value` VALUES (50, 53, NULL, '上市时间', '2020-02-28', '2021-02-22 16:30:43', '2021-02-28 18:11:12');
+INSERT INTO `pms_spu_attribute_value` VALUES (50, 53, NULL, '上市时间', '2020-02-28', '2021-02-22 16:30:43', '2021-03-21 15:42:04');
 INSERT INTO `pms_spu_attribute_value` VALUES (52, 54, 7, '上市时间', '2020-02-28', '2021-02-28 17:45:42', '2021-03-11 20:10:35');
 INSERT INTO `pms_spu_attribute_value` VALUES (53, 52, 7, '上市时间', '2020-02-28', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
 
@@ -269,11 +269,11 @@ INSERT INTO `pms_spu_attribute_value` VALUES (53, 52, 7, '上市时间', '2020-0
 DROP TABLE IF EXISTS `pms_spu_spec_value`;
 CREATE TABLE `pms_spu_spec_value`  (
   `id` bigint(0) NOT NULL COMMENT '主键',
-  `spu_id` bigint(0) NULL DEFAULT NULL COMMENT 'SPU ID',
-  `spec_id` bigint(0) NULL DEFAULT NULL COMMENT '规格ID',
-  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格值',
-  `gmt_create` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `spu_id` bigint(0) DEFAULT NULL COMMENT 'SPU ID',
+  `spec_id` bigint(0) DEFAULT NULL COMMENT '规格ID',
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '规格值',
+  `gmt_create` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `gmt_modified` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_specification_pms_sku`(`spu_id`) USING BTREE,
   INDEX `fk_pms_sku_specification_pms_specification`(`spec_id`) USING BTREE
@@ -358,10 +358,10 @@ INSERT INTO `pms_spu_spec_value` VALUES (1614505920109, 52, 8, '黑', '2021-02-2
 INSERT INTO `pms_spu_spec_value` VALUES (1614505925142, 52, 9, '4+64', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
 INSERT INTO `pms_spu_spec_value` VALUES (1614505931577, 52, 9, '6+128', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
 INSERT INTO `pms_spu_spec_value` VALUES (1614505936504, 52, 9, '8+256', '2021-02-28 17:52:33', '2021-02-28 18:13:27');
-INSERT INTO `pms_spu_spec_value` VALUES (1614506161188, 53, 16, '白', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
-INSERT INTO `pms_spu_spec_value` VALUES (1614506165004, 53, 20, 'L', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
-INSERT INTO `pms_spu_spec_value` VALUES (1614506167997, 53, 20, 'M', '2021-02-28 17:56:10', '2021-02-28 18:11:12');
 INSERT INTO `pms_spu_spec_value` VALUES (1615464621209, 54, 8, '白', '2021-03-11 20:10:35', '2021-03-11 20:10:35');
+INSERT INTO `pms_spu_spec_value` VALUES (1616310839626, 53, 16, '白', '2021-03-21 07:40:34', '2021-03-21 15:42:04');
+INSERT INTO `pms_spu_spec_value` VALUES (1616310844063, 53, 20, 'M', '2021-03-21 07:40:38', '2021-03-21 15:42:04');
+INSERT INTO `pms_spu_spec_value` VALUES (1616310848931, 53, 20, 'L', '2021-03-21 07:40:44', '2021-03-21 15:42:04');
 
 -- ----------------------------
 -- Table structure for undo_log
