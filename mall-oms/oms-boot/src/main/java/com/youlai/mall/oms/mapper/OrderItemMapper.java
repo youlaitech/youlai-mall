@@ -19,7 +19,7 @@ import java.util.List;
 public interface OrderItemMapper extends BaseMapper<OmsOrderItem> {
 
     @Select("<script>" +
-            "  select id,order_id,sku_id,sku_name,sku_pic,sku_price,sku_quantity from oms_order_item where order_id=#{orderId}" +
+            "  select id,order_id,sku_id,sku_name,sku_pic,sku_price,sku_quantity,sku_total_price from oms_order_item where order_id=#{orderId}" +
             "</script>")
     List<OmsOrderItem> listByOrderId(Long orderId);
 
