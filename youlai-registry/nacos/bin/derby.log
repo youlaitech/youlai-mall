@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Mon Mar 22 00:16:09 CST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0178-5592-828a-000013a50ef8 
-on database directory C:\projects\java\mall\youlai-mall\youlai-registry\nacos\data\derby-data with class loader org.springframework.boot.loader.LaunchedURLClassLoader@5910e440 
-Loaded from jar:file:/C:/projects/java/mall/youlai-mall/youlai-registry/nacos/target/nacos-server.jar!/BOOT-INF/lib/derby-10.14.2.0.jar!/
+Mon Mar 22 08:56:54 CST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0178-576f-4671-000013cc3c30 
+on database directory C:\projects\temp\youlai-mall\youlai-registry\nacos\data\derby-data with class loader org.springframework.boot.loader.LaunchedURLClassLoader@5910e440 
+Loaded from jar:file:/C:/projects/temp/youlai-mall/youlai-registry/nacos/target/nacos-server.jar!/BOOT-INF/lib/derby-10.14.2.0.jar!/
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_131-b11
-user.dir=C:\projects\java\mall\youlai-mall\youlai-registry\nacos\bin
+user.dir=C:\projects\temp\youlai-mall\youlai-registry\nacos\bin
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
