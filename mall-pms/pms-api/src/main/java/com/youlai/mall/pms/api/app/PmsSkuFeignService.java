@@ -13,16 +13,10 @@ import java.util.List;
 public interface PmsSkuFeignService {
 
     /**
-     * 获取库存列表
-     */
-    @GetMapping("/api.app/v1/skus")
-    Result<List<SkuDTO>> listBySkuIds(@RequestParam List<Long> ids);
-
-    /**
      * 获取库存信息
      */
     @GetMapping("/api.app/v1/skus/{id}")
-    Result<PmsSku> getSkuById(@PathVariable Long id);
+    Result<SkuDTO> getSkuById(@PathVariable Long id);
 
     /**
      * 锁定库存
