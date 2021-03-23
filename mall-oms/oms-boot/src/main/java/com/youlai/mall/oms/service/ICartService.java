@@ -12,7 +12,7 @@ public interface ICartService {
 
     CartVO getCart();
 
-    List<CartVO.CartItem> getCartItems();
+    List<CartVO.CartItem> getCartItems(Long memberId);
 
     boolean deleteCart();
 

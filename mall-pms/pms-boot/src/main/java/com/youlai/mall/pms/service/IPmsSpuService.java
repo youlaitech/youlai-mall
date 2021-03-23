@@ -12,13 +12,13 @@ public interface IPmsSpuService extends IService<PmsSpu> {
 
     IPage<PmsSpu> list(Page<PmsSpu> page, PmsSpu spu);
 
-    boolean add(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO);
+    boolean add(com.youlai.mall.pms.pojo.bo.admin.ProductBO productBO);
 
     com.youlai.mall.pms.pojo.bo.admin.ProductBO getBySpuId(Long id);
 
     boolean removeBySpuIds(List<Long> spuIds);
 
-    boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO);
+    boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO productBO);
 
     ProductBO getProductByIdForApp(Long id);
 }

@@ -35,7 +35,7 @@ public class CouponController {
     }
 
     @ApiOperation("查询优惠券详情")
-    @RequestMapping("/${couponId}/detail")
+    @RequestMapping("/{couponId}/detail")
     public Result detail(@ApiParam("删除商品分页列表查询") @PathVariable("couponId") String couponId) {
         return Result.success(couponService.detail(couponId));
     }

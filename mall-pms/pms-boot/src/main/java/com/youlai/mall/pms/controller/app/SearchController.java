@@ -23,7 +23,7 @@ public class SearchController {
 
     private ElasticSearchService elasticSearchService;
 
-    @ApiOperation(value = "关键字搜索商品", httpMethod = "GET")
+    @ApiOperation(value = "关键字搜索商品")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "key", value = "关键字", paramType = "query", dataType = "String"),
     })

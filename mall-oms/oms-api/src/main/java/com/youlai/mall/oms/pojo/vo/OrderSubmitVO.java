@@ -14,10 +14,11 @@ public class OrderSubmitVO extends BaseVO {
     /**
      * 订单ID
      */
-    private Long id;
+    private Long orderId;
 
     /**
-     * 订单号
+     * 订单编号，进入支付页面显示
      */
     private String orderSn;
+
 }

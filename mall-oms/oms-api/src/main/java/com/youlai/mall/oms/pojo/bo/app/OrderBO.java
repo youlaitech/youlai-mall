@@ -1,11 +1,10 @@
 package com.youlai.mall.oms.pojo.bo.app;
 
-import com.youlai.common.base.BaseVO;
-import com.youlai.mall.oms.pojo.domain.OmsOrderDelivery;
 import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
-import com.youlai.mall.oms.pojo.domain.OmsOrderLog;
+import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -16,14 +15,13 @@ import java.util.List;
  * @date 2021/1/19
  */
 @Data
+@Accessors(chain = true)
 public class OrderBO {
 
     private OmsOrder order;
 
     private List<OmsOrderItem> orderItems;
 
-    private OmsOrderLog orderLog;
-
-    private OmsOrderDelivery orderDelivery;
+    private MemberDTO member;
 
 }
