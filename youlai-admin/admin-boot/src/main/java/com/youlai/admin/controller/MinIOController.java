@@ -25,7 +25,7 @@ public class MinIOController {
     private MinIOService minIOService;
 
     @PostMapping
-    @ApiOperation(value = "文件上传", httpMethod = "POST")
+    @ApiOperation(value = "文件上传")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "文件", paramType = "form", dataType = "__file"),
             @ApiImplicitParam(name = "bucketName", value = "桶名称", paramType = "query", dataType = "string")
@@ -45,7 +45,7 @@ public class MinIOController {
     }
 
     @DeleteMapping
-    @ApiOperation(value = "文件删除", httpMethod = "DELETE")
+    @ApiOperation(value = "文件删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "path", value = "文件路径", required = true, paramType = "query"),
     })

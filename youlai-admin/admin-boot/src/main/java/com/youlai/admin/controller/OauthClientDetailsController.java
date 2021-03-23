@@ -27,7 +27,7 @@ public class OauthClientDetailsController {
 
     private IOauthClientDetailsService iOauthClientDetailsService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
@@ -44,7 +44,7 @@ public class OauthClientDetailsController {
         return Result.success(result.getRecords(), result.getTotal());
     }
 
-    @ApiOperation(value = "客户端详情", httpMethod = "GET")
+    @ApiOperation(value = "客户端详情")
     @ApiImplicitParam(name = "clientId", value = "客户端id", required = true, paramType = "path", dataType = "String")
     @GetMapping("/{clientId}")
     public Result detail(@PathVariable String clientId) {
@@ -52,7 +52,7 @@ public class OauthClientDetailsController {
         return Result.success(client);
     }
 
-    @ApiOperation(value = "新增客户端", httpMethod = "POST")
+    @ApiOperation(value = "新增客户端")
     @ApiImplicitParam(name = "client", value = "实体JSON对象", required = true, paramType = "body", dataType = "OauthClientDetails")
     @PostMapping
     public Result add(@RequestBody OauthClientDetails client) {
@@ -60,7 +60,7 @@ public class OauthClientDetailsController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改客户端", httpMethod = "PUT")
+    @ApiOperation(value = "修改客户端")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "clientId", value = "客户端id", required = true, paramType = "path", dataType = "String"),
             @ApiImplicitParam(name = "client", value = "实体JSON对象", required = true, paramType = "body", dataType = "OauthClientDetails")
@@ -73,7 +73,7 @@ public class OauthClientDetailsController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除客户端", httpMethod = "DELETE")
+    @ApiOperation(value = "删除客户端")
     @ApiImplicitParam(name = "ids", value = "id集合,以,拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable("ids") String ids) {

@@ -24,7 +24,7 @@ public class PermissionController {
 
     private ISysPermissionService iSysPermissionService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
@@ -63,7 +63,7 @@ public class PermissionController {
         }
     }
 
-    @ApiOperation(value = "权限详情", httpMethod = "GET")
+    @ApiOperation(value = "权限详情")
     @ApiImplicitParam(name = "id", value = "权限ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
@@ -71,7 +71,7 @@ public class PermissionController {
         return Result.success(permission);
     }
 
-    @ApiOperation(value = "新增权限", httpMethod = "POST")
+    @ApiOperation(value = "新增权限")
     @ApiImplicitParam(name = "permission", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysPermission")
     @PostMapping
     public Result add(@RequestBody SysPermission permission) {
@@ -82,7 +82,7 @@ public class PermissionController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改权限", httpMethod = "PUT")
+    @ApiOperation(value = "修改权限")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "权限id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "permission", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysPermission")
@@ -98,7 +98,7 @@ public class PermissionController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "删除权限", httpMethod = "DELETE")
+    @ApiOperation(value = "删除权限")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "Long")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {

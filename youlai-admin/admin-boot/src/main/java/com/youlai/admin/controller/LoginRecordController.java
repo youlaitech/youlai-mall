@@ -37,7 +37,7 @@ public class LoginRecordController {
 
     ITokenService tokenService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", defaultValue = "1", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", defaultValue = "10", paramType = "query", dataType = "Long"),
@@ -92,7 +92,7 @@ public class LoginRecordController {
     }
 
 
-    @ApiOperation(value = "删除登录记录", httpMethod = "DELETE")
+    @ApiOperation(value = "删除登录记录")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping
     public Result delete(@RequestBody List<BaseDocument> documents) {

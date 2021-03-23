@@ -25,7 +25,7 @@ public class AttributeController {
 
     private IPmsAttributeService iPmsAttributeService;
 
-    @ApiOperation(value = "属性列表", httpMethod = "GET")
+    @ApiOperation(value = "属性列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "categoryId", value = "商品分类ID", paramType = "query", dataType = "Long")
     })
@@ -36,7 +36,7 @@ public class AttributeController {
         return Result.success(list);
     }
 
-    @ApiOperation(value = "批量新增", httpMethod = "POST")
+    @ApiOperation(value = "批量新增")
     @ApiImplicitParam(name = "attributes", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsAttribute")
     @PostMapping("/batch")
     public Result saveBatch(@RequestBody List<PmsAttribute> attributes) {

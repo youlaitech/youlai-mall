@@ -22,7 +22,7 @@ public enum PayTypeEnum  {
     @Getter
     private String text;
 
-    public static PayTypeEnum getValue(Integer code){
+    public static PayTypeEnum getByCode(Integer code){
         for (PayTypeEnum value : values()) {
             if (value.getCode().equals(code)) {
                 return value;
@@ -30,5 +30,4 @@ public enum PayTypeEnum  {
         }
         return null;
     }
-
 }

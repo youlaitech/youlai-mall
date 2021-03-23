@@ -26,7 +26,7 @@ public class CategoryController {
 
     private IPmsCategoryService iPmsCategoryService;
 
-    @ApiOperation(value = "分类列表", httpMethod = "GET")
+    @ApiOperation(value = "分类列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "parentId", paramType = "query", dataType = "Long")
     })

@@ -28,7 +28,7 @@ public class TokenController {
 
     ITokenService tokenService;
 
-    @ApiOperation(value = "强制下线", httpMethod = "POST")
+    @ApiOperation(value = "强制下线")
     @ApiImplicitParam(name = "token", value = "访问令牌", required = true, paramType = "query", dataType = "String")
     @PostMapping("/{token}/_invalidate")
     @SneakyThrows

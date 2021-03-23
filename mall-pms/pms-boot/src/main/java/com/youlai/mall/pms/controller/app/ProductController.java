@@ -30,7 +30,7 @@ public class ProductController {
 
     private IProductService iProductService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", defaultValue = "1", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", defaultValue = "10", paramType = "query", dataType = "Long"),
@@ -60,7 +60,7 @@ public class ProductController {
         return Result.success(list, result.getTotal());
     }
 
-    @ApiOperation(value = "商品详情", httpMethod = "GET")
+    @ApiOperation(value = "商品详情")
     @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {

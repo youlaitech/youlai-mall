@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.mapper.PmsProductMapper;
+import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.bo.admin.ProductBO;
 import com.youlai.mall.pms.pojo.domain.*;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> implements IPmsSpuService {
+public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
 
     private IPmsSkuService iPmsSkuService;
     private IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
@@ -43,11 +43,11 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
 
     @Override
     @Transactional
-    public boolean add(ProductBO spuBO) {
-        SpuDTO SpuDTO = spuBO.getSpu();
-        List<PmsSpuAttributeValue> attrValues = spuBO.getAttrs();
-        List<PmsSpuSpecValue> specs = spuBO.getSpecs();
-        List<PmsSku> skuList = spuBO.getSkus();
+    public boolean add(ProductBO productBO) {
+        SpuDTO SpuDTO = productBO.getSpu();
+        List<PmsSpuAttributeValue> attrValues = productBO.getAttrs();
+        List<PmsSpuSpecValue> specs = productBO.getSpecs();
+        List<PmsSku> skuList = productBO.getSkus();
 
         // spu保存
         PmsSpu spu = new PmsSpu();
@@ -101,18 +101,18 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
         List<PmsSku> skus = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-          ProductBO spuBO = new ProductBO(spuDTO, attrs, specs, skus);
-        return spuBO;
+          ProductBO productBO = new ProductBO(spuDTO, attrs, specs, skus);
+        return productBO;
     }
 
 
     @Override
-    public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO spuBO) {
-        SpuDTO SpuDTO = spuBO.getSpu();
+    public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO productBO) {
+        SpuDTO SpuDTO = productBO.getSpu();
 
-        List<PmsSpuAttributeValue> attrValues = spuBO.getAttrs();
-        List<PmsSpuSpecValue> specs = spuBO.getSpecs();
-        List<PmsSku> skuList = spuBO.getSkus();
+        List<PmsSpuAttributeValue> attrValues = productBO.getAttrs();
+        List<PmsSpuSpecValue> specs = productBO.getSpecs();
+        List<PmsSku> skuList = productBO.getSkus();
 
         // spu保存
         PmsSpu spu = new PmsSpu();
@@ -140,7 +140,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
             iPmsSpuAttributeValueService.saveOrUpdateBatch(list);
         });
 
-        // 规格保存
+        // 规格值保存
         Optional.ofNullable(specs).ifPresent(list -> {
             list.forEach(item -> item.setSpuId(spu.getId()));
 
@@ -211,7 +211,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsProductMapper, PmsSpu> imp
         );
 
         // 规格
-        List<PmsSpecification> specs = iPmsSpecService.listBySpuId(spuId);
+        List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
 
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));

@@ -1,11 +1,9 @@
 package com.youlai.mall.oms.pojo.dto;
 
-import com.youlai.mall.oms.pojo.vo.OrderItemVO;
+import com.youlai.mall.ums.pojo.domain.UmsAddress;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -20,20 +18,19 @@ public class OrderSubmitDTO {
     // 提交订单确认页面签发的令牌
     private String orderToken;
 
-    private List<OrderItemVO> orderItems;
+    private List<OrderItemDTO> orderItems;
 
     // 验价前台传值
     private Long totalPrice;
 
-    @NotBlank(message = "请选择收货地址")
-    private String addressId;
+    // 收货地址
+    private UmsAddress deliveryAddress;
 
     @Size(max = 500, message = "订单备注长度不能超过500")
     private String remark;
 
+    private String couponId;
 
     private Long payAmount;
-
-    private String couponId;
 
 }

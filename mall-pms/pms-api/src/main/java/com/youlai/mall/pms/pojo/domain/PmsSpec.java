@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PmsSpecification extends BaseEntity {
+public class PmsSpec extends BaseEntity {
 
     /**
      * 全面屏手机 颜色 版本

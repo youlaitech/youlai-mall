@@ -24,14 +24,14 @@ import java.util.List;
 
 @Api(tags = "字典项接口")
 @RestController
-@RequestMapping("/api.admin/v1/dict-items")
+@RequestMapping("/api.admin/v1/dict_items")
 @Slf4j
 @AllArgsConstructor
 public class DictItemController {
 
     private ISysDictItemService iSysDictItemService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
@@ -66,7 +66,7 @@ public class DictItemController {
         }
     }
 
-    @ApiOperation(value = "字典项详情", httpMethod = "GET")
+    @ApiOperation(value = "字典项详情")
     @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -74,7 +74,7 @@ public class DictItemController {
         return Result.success(dictItem);
     }
 
-    @ApiOperation(value = "新增字典项", httpMethod = "POST")
+    @ApiOperation(value = "新增字典项")
     @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
     @PostMapping
     public Result add(@RequestBody SysDictItem dictItem) {
@@ -82,7 +82,7 @@ public class DictItemController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改字典项", httpMethod = "PUT")
+    @ApiOperation(value = "修改字典项")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
@@ -96,7 +96,7 @@ public class DictItemController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除字典数据", httpMethod = "DELETE")
+    @ApiOperation(value = "删除字典数据")
     @ApiImplicitParam(name = "ids", value = "主键ID集合，以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
@@ -105,7 +105,7 @@ public class DictItemController {
     }
 
 
-    @ApiOperation(value = "局部更新字典数据", httpMethod = "PATCH")
+    @ApiOperation(value = "局部更新字典数据")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
