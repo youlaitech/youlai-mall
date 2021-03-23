@@ -33,7 +33,7 @@ public class CategoryController {
     private IPmsAttributeService iPmsAttributeService;
     private IPmsSpecService iPmsSpecService;
 
-    @ApiOperation(value = "分类列表", httpMethod = "GET")
+    @ApiOperation(value = "分类列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "String"),
     })
@@ -52,7 +52,7 @@ public class CategoryController {
         }
     }
 
-    @ApiOperation(value = "分类详情", httpMethod = "GET")
+    @ApiOperation(value = "分类详情")
     @ApiImplicitParam(name = "id", value = "商品分类id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -60,7 +60,7 @@ public class CategoryController {
         return Result.success(category);
     }
 
-    @ApiOperation(value = "新增分类", httpMethod = "POST")
+    @ApiOperation(value = "新增分类")
     @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
     @PostMapping
     public Result add(@RequestBody PmsCategory category) {
@@ -70,7 +70,7 @@ public class CategoryController {
         return Result.success(categoryVO);
     }
 
-    @ApiOperation(value = "修改分类", httpMethod = "PUT")
+    @ApiOperation(value = "修改分类")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品分类id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")
@@ -83,7 +83,7 @@ public class CategoryController {
         return Result.success(category);
     }
 
-    @ApiOperation(value = "删除商品分类", httpMethod = "DELETE")
+    @ApiOperation(value = "删除商品分类")
     @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
@@ -98,7 +98,7 @@ public class CategoryController {
         return Result.success();
     }
 
-    @ApiOperation(value = "修改分类", httpMethod = "PATCH")
+    @ApiOperation(value = "修改分类")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "category", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsCategory")

@@ -17,33 +17,10 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
     List<PmsSku> listBySpuId(Long spuId);
 
 
-    @Select({
-            "<script>",
-            " SELECT",
-            "  t1.id,",
-            "  t1.CODE,",
-            "  t1.NAME,",
-            "  t1.pic,",
-            "  t1.origin_price,",
-            "  t1.price price,",
-            "  t1.stock stock,",
-            "  t2.id spu_id,",
-            "  t2.NAME product_name,",
-            "  t2.pic product_pic,",
-            "  t3.id category_id,",
-            "  t3.NAME category_name,",
-            "  t4.id brand_id,",
-            "  t4.NAME brand_name",
-            " FROM",
-            "  pms_sku t1",
-            "  LEFT JOIN pms_spu t2 ON t1.spu_id = t2.id",
-            "  LEFT JOIN pms_category t3 ON t2.category_id = t3.id",
-            "  LEFT JOIN pms_brand t4 ON t2.brand_id = t4.id",
-            " WHERE t1.id in ",
-            "  <foreach collection='skuIds' item='skuId' open='(' separator=',' close=')'>",
-            "      #{skuId}",
-            "  </foreach>",
-            "</script>"
-    })
-    List<SkuDTO> listBySkuIds(List<Long> skuIds);
+    @Select("<script>" +
+            "  select t1.id,t1.code,t1.name,t1.pic,t1.price,(t1.stock-t1.locked_stock) as stock,t2.name as spu_name from pms_sku t1" +
+            "  left join pms_spu t2 on t1.spu_id=t2.id" +
+            "  where t1.id=#{id}" +
+            "</script>")
+    SkuDTO getSkuById(Long id);
 }

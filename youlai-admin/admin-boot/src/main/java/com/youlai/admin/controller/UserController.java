@@ -42,7 +42,7 @@ public class UserController extends BaseController {
 
     private final ISysPermissionService iSysPermissionService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
@@ -71,7 +71,7 @@ public class UserController extends BaseController {
         return Result.success(result.getRecords(), result.getTotal());
     }
 
-    @ApiOperation(value = "用户详情", httpMethod = "GET")
+    @ApiOperation(value = "用户详情")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(
@@ -88,7 +88,7 @@ public class UserController extends BaseController {
         return Result.success(user);
     }
 
-    @ApiOperation(value = "新增用户", httpMethod = "POST")
+    @ApiOperation(value = "新增用户")
     @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     @PostMapping
     public Result add(@RequestBody SysUser user) {
@@ -96,7 +96,7 @@ public class UserController extends BaseController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改用户", httpMethod = "PUT")
+    @ApiOperation(value = "修改用户")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
@@ -109,7 +109,7 @@ public class UserController extends BaseController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "删除用户", httpMethod = "DELETE")
+    @ApiOperation(value = "删除用户")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
@@ -117,7 +117,7 @@ public class UserController extends BaseController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "局部更新", httpMethod = "PATCH")
+    @ApiOperation(value = "局部更新")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
@@ -138,7 +138,7 @@ public class UserController extends BaseController {
      * @param username
      * @return
      */
-    @ApiOperation(value = "根据用户名获取用户信息", httpMethod = "GET")
+    @ApiOperation(value = "根据用户名获取用户信息")
     @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
     @GetMapping("/username/{username}")
     public Result getUserByUsername(
@@ -166,7 +166,7 @@ public class UserController extends BaseController {
     }
 
 
-    @ApiOperation(value = "获取当前用户信息", httpMethod = "GET")
+    @ApiOperation(value = "获取当前用户信息")
     @GetMapping("/me")
     public Result<UserVO> getCurrentUser() {
         UserVO userVO = new UserVO();

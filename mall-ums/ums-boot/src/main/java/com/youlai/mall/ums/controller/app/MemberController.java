@@ -2,6 +2,7 @@ package com.youlai.mall.ums.controller.app;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.RequestUtils;
@@ -27,7 +28,7 @@ public class MemberController {
 
     private IUmsUserService iUmsUserService;
 
-    @ApiOperation(value = "获取会员信息", httpMethod = "GET")
+    @ApiOperation(value = "获取会员信息")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result getMemberById(
@@ -45,7 +46,7 @@ public class MemberController {
         return Result.success(memberDTO);
     }
 
-    @ApiOperation(value = "根据openid获取会员信息", httpMethod = "GET")
+    @ApiOperation(value = "根据openid获取会员信息")
     @ApiImplicitParam(name = "openid", value = "微信身份唯一标识", required = true, paramType = "path", dataType = "String")
     @GetMapping("/openid/{openid}")
     public Result getMemberByOpenid(
@@ -61,7 +62,7 @@ public class MemberController {
         return Result.success(authMemberDTO);
     }
 
-    @ApiOperation(value = "新增会员", httpMethod = "POST")
+    @ApiOperation(value = "新增会员")
     @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     @PostMapping
     public Result add(@RequestBody UmsMember user) {
@@ -69,7 +70,7 @@ public class MemberController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "获取当前请求的会员信息", httpMethod = "GET")
+    @ApiOperation(value = "获取当前请求的会员信息")
     @GetMapping("/me")
     public Result getMemberInfo() {
         Long userId = RequestUtils.getUserId();
@@ -83,7 +84,7 @@ public class MemberController {
     }
 
 
-    @ApiOperation(value = "修改会员积分", httpMethod = "POST")
+    @ApiOperation(value = "修改会员积分")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Integer")
@@ -96,22 +97,23 @@ public class MemberController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改会员余额", httpMethod = "POST")
+    @ApiOperation(value = "扣减会员余额")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "balance", value = "会员余额", required = true, paramType = "query", dataType = "Long")
     })
-    @PutMapping("/{id}/balances")
+    @PutMapping("/{id}/deduct_balance")
     public Result updateBalance(@PathVariable Long id, @RequestParam Long balance) {
-        UmsMember user = iUmsUserService.getById(id);
-        user.setBalance(user.getBalance() - balance);
-        boolean result = iUmsUserService.updateById(user);
+        boolean result = iUmsUserService.update(new LambdaUpdateWrapper<UmsMember>()
+                .setSql("balance = balance - " + balance)
+                .eq(UmsMember::getId, id)
+        );
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "获取会员余额", httpMethod = "GET")
+    @ApiOperation(value = "获取会员余额")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}/balances")
+    @GetMapping("/{id}/balance")
     public Result<Long> updateBalance(@PathVariable Long id) {
         Long balance = 0l;
         UmsMember user = iUmsUserService.getById(id);

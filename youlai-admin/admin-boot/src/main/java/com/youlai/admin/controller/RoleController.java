@@ -41,7 +41,7 @@ public class RoleController {
 
     private ISysPermissionService iSysPermissionService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
@@ -76,7 +76,7 @@ public class RoleController {
     }
 
 
-    @ApiOperation(value = "新增角色", httpMethod = "POST")
+    @ApiOperation(value = "新增角色")
     @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     @PostMapping
     public Result add(@RequestBody SysRole role) {
@@ -87,7 +87,7 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改角色", httpMethod = "PUT")
+    @ApiOperation(value = "修改角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
@@ -103,7 +103,7 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "删除角色", httpMethod = "DELETE")
+    @ApiOperation(value = "删除角色")
     @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
@@ -115,7 +115,7 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "局部更新角色", httpMethod = "PATCH")
+    @ApiOperation(value = "局部更新角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
@@ -132,7 +132,7 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "角色拥有的菜单ID集合", httpMethod = "GET")
+    @ApiOperation(value = "角色拥有的菜单ID集合")
     @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}/menu_ids")
     public Result roleMenuIds(@PathVariable("id") Long roleId) {
@@ -140,7 +140,7 @@ public class RoleController {
         return Result.success(menuIds);
     }
 
-    @ApiOperation(value = "角色拥有的权限ID集合", httpMethod = "GET")
+    @ApiOperation(value = "角色拥有的权限ID集合")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
@@ -152,7 +152,7 @@ public class RoleController {
     }
 
 
-    @ApiOperation(value = "修改角色菜单", httpMethod = "PUT")
+    @ApiOperation(value = "修改角色菜单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
@@ -167,7 +167,7 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改角色权限", httpMethod = "PUT")
+    @ApiOperation(value = "修改角色权限")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "rolePermission", value = "实体JSON对象", required = true, paramType = "body", dataType = "RolePermissionDTO")

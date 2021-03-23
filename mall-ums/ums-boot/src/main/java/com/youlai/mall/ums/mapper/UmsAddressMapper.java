@@ -11,7 +11,7 @@ import java.util.List;
 public interface UmsAddressMapper extends BaseMapper<UmsAddress> {
 
     @Select("<script>" +
-            " SELECT * from ums_address where user_id =#{userId} " +
+            " SELECT * from ums_address where member_id =#{userId} " +
             "</script>")
     List<UmsAddress> listByUserId(Long userId);
 

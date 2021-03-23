@@ -1,12 +1,16 @@
 package com.youlai.mall.oms.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单详情表
@@ -93,5 +97,13 @@ public class OmsOrder extends BaseEntity {
 	 */
 	private Integer deleted;
 
+	@TableField(exist = false)
+	private List<OmsOrderItem> orderItems;
+
+	@TableField(exist = false)
+	private String startDate;
+
+	@TableField(exist = false)
+	private String endDate;
 
 }

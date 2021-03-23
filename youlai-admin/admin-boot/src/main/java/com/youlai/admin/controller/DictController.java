@@ -19,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +34,7 @@ public class DictController {
 
     private ISysDictItemService iSysDictItemService;
 
-    @ApiOperation(value = "列表分页", httpMethod = "GET")
+    @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
@@ -57,15 +56,13 @@ public class DictController {
             case PAGE:
                 Page<SysDict> result = iSysDictService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());
-            case LIST:
+            default:
                 List<SysDict> list = iSysDictService.list(queryWrapper);
                 return Result.success(list);
-            default:
-                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
         }
     }
 
-    @ApiOperation(value = "字典详情", httpMethod = "GET")
+    @ApiOperation(value = "字典详情")
     @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
@@ -73,7 +70,7 @@ public class DictController {
         return Result.success(dict);
     }
 
-    @ApiOperation(value = "新增字典", httpMethod = "POST")
+    @ApiOperation(value = "新增字典")
     @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
     @PostMapping
     public Result add(@RequestBody SysDict dict) {
@@ -81,7 +78,7 @@ public class DictController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改字典", httpMethod = "PUT")
+    @ApiOperation(value = "修改字典")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
@@ -103,7 +100,7 @@ public class DictController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除字典", httpMethod = "DELETE")
+    @ApiOperation(value = "删除字典")
     @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
@@ -119,7 +116,7 @@ public class DictController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "局部更新字典", httpMethod = "PATCH")
+    @ApiOperation(value = "局部更新字典")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
