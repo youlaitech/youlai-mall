@@ -92,7 +92,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         log.info("=======================订单超时未支付系统自动关单释放库存=======================");
         String json = redisTemplate.opsForValue().get(LOCKED_STOCK_PREFIX + orderToken);
         log.info("释放库存信息：{}", json);
-        if (StrUtil.isNotBlank(json)) {
+        if (StrUtil.isBlank(json)) {
             return true;
         }
 
