@@ -31,14 +31,14 @@
 
 ## 项目地址
 
-### 1. 体验 (小程序近期更新中...)
+### 1. 体验 
 **商城管理平台访问地址:** [http://www.youlai.store](https://www.youlai.store/)
  
 【有来小店】微信小程序体验码，扫描后申请体验看到直接通过
 
  交流群二维码过期，加我微信我直接拉你进群
 
-![](https://gitee.com/haoxr/image/raw/master/default/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg)
+![](https://gitee.com/haoxr/image/raw/master/default/initpintu.jpg)
 ### 2. 源码
  项目名称 | Github | 码云
  ---|---|---
