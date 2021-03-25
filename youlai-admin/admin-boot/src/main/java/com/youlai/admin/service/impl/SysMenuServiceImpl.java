@@ -55,7 +55,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     RouterVO routerVO = new RouterVO();
                     routerVO.setName(menu.getName());
                     if (AdminConstants.ROOT_MENU_ID.equals(parentId)) {
-                        routerVO.setAlwaysShow(Boolean.TRUE);
                         routerVO.setPath(menu.getPath());
                         routerVO.setComponent("Layout");
                     } else {
@@ -72,6 +71,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     routerVO.setHidden(!GlobalConstants.VISIBLE_SHOW_VALUE.equals(menu.getVisible()) ? true : false);
                     List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
+                    if(CollectionUtil.isNotEmpty(children)){
+                        routerVO.setAlwaysShow(Boolean.TRUE);
+                    }
                     list.add(routerVO);
                 }));
         return list;
