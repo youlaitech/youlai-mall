@@ -72,7 +72,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
                     if(CollectionUtil.isNotEmpty(children)){
-                        routerVO.setAlwaysShow(Boolean.TRUE);
+                        routerVO.setAlwaysShow(Boolean.TRUE); // 显示子节点
                     }
                     list.add(routerVO);
                 }));
