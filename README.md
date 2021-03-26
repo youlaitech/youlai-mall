@@ -197,6 +197,9 @@ youlai-mall
 4. [Docker实战 | 第四篇：Docker安装Nginx，实现基于vue-element-admin框架构建的项目线上部署](https://www.cnblogs.com/haoxianrui/p/14091762.html) 
 5. [Docker实战 | 第五篇：Docker启用TLS加密解决暴露2375端口引发的安全漏洞，被黑掉三台云主机的教训总结](https://www.cnblogs.com/haoxianrui/p/14095306.html)
 
+> 分布式
+
+1. [分布式实战 | 第一篇 ：ELK在开源全栈有来商城的应用，不仅仅是分布式日志收集](https://www.cnblogs.com/haoxianrui/p/14581061.html)
 
 ## 接口文档
 
