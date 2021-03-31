@@ -8,8 +8,11 @@
 out
 gen
 target
-*.loginLog
+*.log
 
-logs
 !**/nacos/target
-logPath_IS_UNDEFINED
+**/nacos/bin/work
+**/nacos/data
+logs
+**/nacos/LICENSE
+**/nacos/NOTICE
