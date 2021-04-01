@@ -91,9 +91,9 @@ youlai-mall
 ## 核心技术栈
 | 后端技术 |  版本号                     
 | -------------------- |  -------------------- |                             
-| SpringBoot|2.4.2                    
-| Spring Cloud|2020.0.1
-| Spring Cloud Alibaba|  2.2.5.RELEASE
+| SpringBoot|2.4.4                    
+| Spring Cloud|2020.0.2
+| Spring Cloud Alibaba| 2020.0.RC1
 | MyBatis-Plus|3.4.0
 | Lombok |1.18.18
 | Hutool |5.5.8
