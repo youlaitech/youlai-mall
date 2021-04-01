@@ -2,9 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <artifactId>youlai-mall</artifactId>
         <groupId>com.youlai</groupId>
@@ -19,8 +17,7 @@
     </properties>
 
     <dependencies>
-
-        <!--Spring Cloud & Alibaba 依赖-->
+        <!--Spring Cloud & Alibaba-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
@@ -31,33 +28,19 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
+        <!-- 注册中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
-
+        <!-- 配置中心 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
-
-        <!-- OAuth2资源服务器依赖-->
+        <!-- OAuth2资源服务器-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
@@ -71,6 +54,28 @@
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
 
+        <!-- 流量控制、熔断降级 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+        <!-- Api文档 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- 配置读取 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+
         <!-- 公共依赖 -->
         <dependency>
             <groupId>com.youlai</groupId>
@@ -81,16 +86,6 @@
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -100,40 +95,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Jib插件构建镜像上传至阿里云镜像仓库 -->
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>2.7.1</version>
-                <configuration>
-                    <from>
-                        <image>openjdk:8-jdk-alpine</image>
-                    </from>
-                    <to>
-                        <!-- 阿里云镜像仓库公网地址-->
-                        <image>registry.cn-shanghai.aliyuncs.com/youlai/youlai-gateway</image>
-                        <!-- 镜像版本号 -->
-                        <tags>
-                            <tag>latest</tag>
-                        </tags>
-                        <auth>
-                            <username>1490493387@qq.com</username>
-                            <password>hxr1006111026</password>
-                        </auth>
-                    </to>
-                </configuration>
-                <executions>
-                    <!--<execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>-->
-                </executions>
-            </plugin>
-
-
-            <!-- docker-maven-plugin 构建镜像上传至云服务器 -->
+            <!-- docker-maven-plugin 构建镜像上传至云服务器 参考文章： https://www.cnblogs.com/haoxianrui/p/14088400.html-->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>

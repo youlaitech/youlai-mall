@@ -53,7 +53,7 @@ public class AuthController {
             @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码"),
 
             // 微信小程序认证参数（无小程序可忽略）
-            @ApiImplicitParam(name = "code", value = "小程序code"),
+            @ApiImplicitParam(name = "code", value = "小程序授权code"),
             @ApiImplicitParam(name = "encryptedData", value = "包括敏感数据在内的完整用户信息的加密数据"),
             @ApiImplicitParam(name = "iv", value = "加密算法的初始向量"),
     })
@@ -98,6 +98,7 @@ public class AuthController {
 
         WxMaJscode2SessionResult session = null;
         try {
+            // 根据授权code获取微信用户信息
             session = wxService.getUserService().getSessionInfo(code);
         } catch (WxErrorException e) {
             e.printStackTrace();
@@ -130,7 +131,7 @@ public class AuthController {
             }
         }
 
-        // oauth2认证参数对应授权登录时注册会员的username、password信息，模拟通过oauth2的密码模式认证
+        // oauth2认证参数对应授权登录时注册会员的username、password信息，模拟通过oauth2的密码模式认证生成JWT
         parameters.put("username", openid);
         parameters.put("password", openid);
 
