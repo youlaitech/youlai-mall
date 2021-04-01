@@ -12,6 +12,7 @@
     <artifactId>sms-api</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
@@ -21,6 +22,23 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <!-- 远程调用HTTP客户端 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+
+        <!-- Api文档 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-micro-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -35,25 +53,5 @@
             <version>${youlai.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!-- openfeign依赖 1. http客户端选择okhttp 2. loadbalancer替换ribbon -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-okhttp</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
     </dependencies>
 </project>
