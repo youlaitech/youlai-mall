@@ -97,7 +97,7 @@ youlai-mall
 | MyBatis-Plus|3.4.0
 | Lombok |1.18.18
 | Hutool |5.5.8
-| Knife4j | 2.0.5
+| Knife4j | 2.0.8
 | MinIO | 7.1.0
 
 | 后台前端 |  版本号 | 微信小程序 |  版本号| APP |  版本号
