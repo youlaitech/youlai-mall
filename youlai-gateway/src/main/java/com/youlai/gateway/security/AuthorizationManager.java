@@ -39,7 +39,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         // Restful接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14396990.html
         String restPath = request.getMethodValue() + "_" + request.getURI().getPath();
-        log.info("请求路径={}", restPath);
+        log.info("请求路径：{}", restPath);
         PathMatcher pathMatcher = new AntPathMatcher();
         // 对应跨域的预检请求直接放行
         if (request.getMethod() == HttpMethod.OPTIONS) {
@@ -48,7 +48,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
         // 非管理端路径无需鉴权直接放行
         if (!pathMatcher.match(AuthConstants.ADMIN_URL_PATTERN, restPath)) {
-            log.info("请求无需鉴权，请求路径={}", restPath);
+            log.info("请求无需鉴权，请求路径：{}", restPath);
             return Mono.just(new AuthorizationDecision(true));
         }
 
