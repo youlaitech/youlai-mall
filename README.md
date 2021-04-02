@@ -32,7 +32,7 @@
 ## 项目地址
 
 ### 1. 体验 
-**商城管理平台访问地址:** [http://www.youlai.store](https://www.youlai.store/)
+**商城管理平台访问地址:** [http://www.youlai.store](http://47.117.115.107/)
  
 【有来小店】微信小程序体验码，扫描后申请体验看到直接通过
 
