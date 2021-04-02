@@ -90,7 +90,7 @@ public interface AuthConstants {
     /**
      * 后台管理接口路径匹配
      */
-    String ADMIN_URL_PATTERN = "*_/youlai-admin/**";
+    String ADMIN_URL_PATTERN = "/api.admin/**";
 
 
     String LOGOUT_PATH = "/youlai-auth/oauth/logout";
