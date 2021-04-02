@@ -52,7 +52,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             return WebUtils.writeFailedToResponse(response, ResultCode.FORBIDDEN_OPERATION);
         }
 
-        // 无token放行
+        // 非JWT或者JWT为空不作处理
         String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
         if (StrUtil.isBlank(token) || !token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
             return chain.filter(exchange);

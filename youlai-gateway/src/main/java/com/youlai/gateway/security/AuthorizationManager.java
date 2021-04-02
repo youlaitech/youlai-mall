@@ -37,8 +37,9 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
 
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
-        String path = request.getMethodValue() + "_" + request.getURI().getPath();
-        log.info("请求，path={}", path);
+        // Restful接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14396990.html
+        String restPath = request.getMethodValue() + "_" + request.getURI().getPath();
+        log.info("请求路径={}", restPath);
         PathMatcher pathMatcher = new AntPathMatcher();
         // 对应跨域的预检请求直接放行
         if (request.getMethod() == HttpMethod.OPTIONS) {
@@ -46,19 +47,10 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
 
         // 非管理端路径无需鉴权直接放行
-        if (!pathMatcher.match(AuthConstants.ADMIN_URL_PATTERN, path)) {
-            log.info("请求无需鉴权，path={}", path);
+        if (!pathMatcher.match(AuthConstants.ADMIN_URL_PATTERN, restPath)) {
+            log.info("请求无需鉴权，请求路径={}", restPath);
             return Mono.just(new AuthorizationDecision(true));
         }
-
-
-        // token为空拒绝访问
-        String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isBlank(token)) {
-            log.info("请求token为空拒绝访问，path={}", path);
-            return Mono.just(new AuthorizationDecision(false));
-        }
-
 
         // 从缓存取资源权限角色关系列表
         Map<Object, Object> permissionRoles = redisTemplate.opsForHash().entries(AuthConstants.PERMISSION_ROLES_KEY);
@@ -67,11 +59,10 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         Set<String> authorities = new HashSet<>();
         while (iterator.hasNext()) {
             String pattern = (String) iterator.next();
-            if (pathMatcher.match(pattern, path)) {
+            if (pathMatcher.match(pattern, restPath)) {
                 authorities.addAll(Convert.toList(String.class, permissionRoles.get(pattern)));
             }
         }
-        log.info("require authorities:{}", authorities);
 
         Mono<AuthorizationDecision> authorizationDecisionMono = mono
                 .filter(Authentication::isAuthenticated)
@@ -79,9 +70,9 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 .map(GrantedAuthority::getAuthority)
                 .any(roleId -> {
                     // roleId是请求用户的角色(格式:ROLE_{roleId})，authorities是请求资源所需要角色的集合
-                    log.info("访问路径：{}", path);
-                    log.info("用户角色信息：{}", roleId);
-                    log.info("资源需要权限authorities：{}", authorities);
+                    log.info("访问路径：{}", restPath);
+                    log.info("用户角色：{}", roleId);
+                    log.info("资源需要角色：{}", authorities);
                     return authorities.contains(roleId);
                 })
                 .map(AuthorizationDecision::new)
