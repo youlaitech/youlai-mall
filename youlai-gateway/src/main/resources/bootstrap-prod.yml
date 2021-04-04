@@ -9,9 +9,30 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://c.youlai.store:8848
+        server-addr: http://106.75.231.227:8848
         namespace: prod_namespace_id
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
         namespace: prod_namespace_id
+    sentinel:
+      eager: true
+      transport:
+        dashboard: e.youlai.tech:8858
+      datasource:
+        # 网关限流
+        gw-flow:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-gw-flow-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: gw-flow
+        # 网关API自定义分组
+        gw-api-group:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-gw-api-group-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: gw-api-group

@@ -3,12 +3,40 @@ server:
 
 spring:
   application:
-    name:  youlai-gateway
+    name: youlai-gateway
   cloud:
     nacos:
+      # 注册中心
       discovery:
         server-addr: http://localhost:8848
+      # 配置中心
       config:
-        # docker启动nacos-server需要配置
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
+    sentinel:
+      eager: true
+      transport:
+        dashboard: e.youlai.tech:8858
+      datasource:
+        # 网关限流
+        gw-flow:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-gw-flow-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: gw-flow
+        # 网关API自定义分组
+        gw-api-group:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-gw-api-group-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: gw-api-group
+
+
+
+
+
+
