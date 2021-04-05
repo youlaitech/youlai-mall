@@ -16,9 +16,9 @@ spring:
     sentinel:
       eager: true
       transport:
-        dashboard: e.youlai.tech:8858
+        dashboard: localhost:8080
       datasource:
-        # 网关限流
+        # 网关限流规则，gw-flow为key，随便定义
         gw-flow:
           nacos:
             server-addr: ${spring.cloud.nacos.discovery.server-addr}
@@ -34,9 +34,6 @@ spring:
             groupId: SENTINEL_GROUP
             data-type: json
             rule-type: gw-api-group
-
-
-
-
+      enabled: false
 
 
