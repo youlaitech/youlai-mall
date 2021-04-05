@@ -34,6 +34,6 @@ spring:
             groupId: SENTINEL_GROUP
             data-type: json
             rule-type: gw-api-group
-      enabled: false
+      enabled: true
 
 
