@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/youlai--mall-v1.0.0-blue)
 [![](https://img.shields.io/github/stars/hxrui/youlai-mall.svg?style=social&label=Stars)](https://github.com/hxrui/youlai-mall/stargazers)
 [![](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/hxrui/youlai-mall/blob/master/LICENSE)
-![](https://img.shields.io/badge/SpringBoot-2.4.2-brightgreen.svg)
+![](https://img.shields.io/badge/SpringBoot-2.4.4-brightgreen.svg)
 ![](https://img.shields.io/badge/SpringCloud-2020-green.svg)
 ![](https://img.shields.io/badge/vue--element--admin-v4.4.0-orange)
 
@@ -94,6 +94,9 @@ youlai-mall
 | SpringBoot|2.4.4                    
 | Spring Cloud|2020.0.2
 | Spring Cloud Alibaba| 2020.0.RC1
+| Nacos| 2.0.0
+| Seata| 1.4.1
+|Sentinel | 1.8.1
 | MyBatis-Plus|3.4.0
 | Lombok |1.18.18
 | Hutool |5.5.8
