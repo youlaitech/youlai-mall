@@ -118,7 +118,8 @@ youlai-mall
 
 1. **启动`Nacos`服务**
 
-    IDEA下方工具栏点击Terminal终端命令行，执行`cd youlai-registry/nacos/bin`命令切换到Nacos的启动脚本文件夹下，然后执行`startup -m standalone`命令启动Nacos服务；
+    IDEA下方工具栏点击Terminal终端命令行，执行`cd youlai-middleware/nacos/bin`命令切换到Nacos的启动脚本文件夹下，然后执行`startup -m 
+   standalone`命令启动Nacos服务；
 
 2. **启动平台基础服务**
 
