@@ -14,6 +14,7 @@ spring:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
     sentinel:
+      enabled: false
       eager: true
       transport:
         dashboard: localhost:8080
@@ -34,6 +35,6 @@ spring:
             groupId: SENTINEL_GROUP
             data-type: json
             rule-type: gw-api-group
-      enabled: false
+
 
 

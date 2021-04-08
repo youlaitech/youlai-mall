@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.logging.log4j.util.Strings;
@@ -43,7 +44,7 @@ public class AuthController {
 
     private TokenEndpoint tokenEndpoint;
 
-    @ApiOperation(value = "OAuth2认证",notes = "login")
+    @ApiOperation(value = "OAuth2认证", notes = "login")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
             @ApiImplicitParam(name = "client_id", defaultValue = "client", value = "Oauth2客户端ID", required = true),
@@ -88,6 +89,7 @@ public class AuthController {
     private UmsMemberFeignService memberFeignService;
     private PasswordEncoder passwordEncoder;
 
+    @SneakyThrows
     public OAuth2AccessToken handleForWxAuth(Principal principal, Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
 
         String code = parameters.get("code");
@@ -97,12 +99,8 @@ public class AuthController {
         }
 
         WxMaJscode2SessionResult session = null;
-        try {
-            // 根据授权code获取微信用户信息
-            session = wxService.getUserService().getSessionInfo(code);
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-        }
+        // 根据授权code获取微信用户信息
+        session = wxService.getUserService().getSessionInfo(code);
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
