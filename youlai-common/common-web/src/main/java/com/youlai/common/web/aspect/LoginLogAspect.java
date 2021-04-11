@@ -29,11 +29,11 @@ import java.time.format.DateTimeFormatter;
  * @author hxr
  * @date 2021-03-01
  */
-@Aspect
+/*@Aspect
 @Component
 @AllArgsConstructor
 @Slf4j
-@ConditionalOnProperty(value = "spring.application.name", havingValue = "youlai-auth")
+@ConditionalOnProperty(value = "spring.application.name", havingValue = "youlai-auth")*/
 public class LoginLogAspect {
 
     @Pointcut("execution(public * com.youlai.auth.controller.AuthController.postAccessToken(..))")
@@ -86,7 +86,7 @@ public class LoginLogAspect {
         MDC.put("token", token);
         MDC.put("clientIP", clientIP);
 
-        log.info("{} 登录，耗费时间 {} 毫秒", username, elapsedTime); // 收集日志这里必须打印一条日志，内容随便吧，记录在message字段，具体看logback-spring.xml文件
+        //log.info("{} 登录，耗费时间 {} 毫秒", username, elapsedTime); // 收集日志这里必须打印一条日志，内容随便吧，记录在message字段，具体看logback-spring.xml文件
         return result;
     }
 }
