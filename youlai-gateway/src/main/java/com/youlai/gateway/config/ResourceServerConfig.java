@@ -59,7 +59,6 @@ public class ResourceServerConfig {
         return (exchange, denied) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
                     .flatMap(response ->WebUtils.writeFailedToResponse(response,ResultCode.ACCESS_UNAUTHORIZED));
-
             return mono;
         };
     }
