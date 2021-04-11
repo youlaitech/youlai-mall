@@ -11,5 +11,18 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-
-
+    sentinel:
+      enabled: false
+      eager: true # 取消控制台懒加载，项目启动即连接Sentinel
+      transport:
+        client-ip: localhost
+        dashboard: localhost:8080
+      datasource:
+        # 限流规则，flow为key，随便定义
+        flow:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: flow
