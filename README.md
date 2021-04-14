@@ -38,7 +38,7 @@
 
  交流群二维码过期，加我微信我直接拉你进群
 
-![](https://gitee.com/haoxr/image/raw/master/default/20210406004619.jpg)
+![](https://gitee.com/haoxr/image/raw/master/default/%E5%9B%A2%E9%98%9FLOGO_%E5%89%AF%E6%9C%AC.png)
 
 ### 2. 源码
  项目名称 | Github | 码云
@@ -86,7 +86,7 @@ youlai-mall
 ├── youlai-auth     -- 认证中心【Oauth2认证服务器】
 ├── youlai-common   -- 公共模块
 └── youlai-gateway  -- Gateway网关【Oauth2资源服务器】
-└── youlai-registry -- Nacos应用
+└── youlai-middleware -- Nacos应用
 ```
 
 ## 核心技术栈
@@ -143,11 +143,11 @@ youlai-mall
     
     - 新建平台数据库，执行项目`document/sql`下的SQL脚本完成数据库创建，基础sql脚本为`youlai.sql`，商城脚本为`mall-*`，商城数据库按需创建
    
-    - 创建`Nacos`数据库，执行脚本`youlai-registry/nacos/conf/nacos-mysql.sql`完成`Nacos`数据库的初始化
+    - 创建`Nacos`数据库，执行脚本`youlai-middleware/nacos/conf/nacos-mysql.sql`完成`Nacos`数据库的初始化
     
 3. **Nacos配置**
     
-    - 修改`Nacos`数据源，进入配置`youlai-registry/nacos/conf/application.properties`将数据源修改为自己的环境连接
+    - 修改`Nacos`数据源，进入配置`youlai-middleware/nacos/conf/application.properties`将数据源修改为自己的环境连接
     
     - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`document/nacos/DEFAULT_GROUP.zip`配置，然后分别进入各个微服务配置修改Redis、MySQL、MinIO以及微服务的注册IP
    
@@ -205,7 +205,7 @@ youlai-mall
 
 > 分布式
 
-1. [分布式实战 | 第一篇 ：ELK在开源全栈有来商城的应用，不仅仅是分布式日志收集](https://www.cnblogs.com/haoxianrui/p/14581061.html)
+1. [分布式实战 | 第一篇 ：SpringBoot整合ELK实现分布式登录日志收集和统计](https://www.cnblogs.com/haoxianrui/p/14596252.html)
 
 ## 接口文档
 
