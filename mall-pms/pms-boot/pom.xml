@@ -113,6 +113,7 @@
     </dependencies>
 
     <build>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -149,9 +150,9 @@
                     <entryPoint>["java","-jar","${project.build.finalName}.jar"]</entryPoint>
 
                     <!-- 指定远程 Docker API地址  -->
-                    <dockerHost>https://f.youlai.store:2376</dockerHost>
+                    <dockerHost>https://f.youlai.tech:2376</dockerHost>
                     <!-- 指定tls证书的目录 -->
-                    <dockerCertPath>C:\cert\docker\f.youlai.store</dockerCertPath>
+                    <dockerCertPath>C:\cert\docker\f.youlai.tech</dockerCertPath>
 
                     <!-- 复制 jar包到docker容器指定目录-->
                     <resources>

@@ -99,6 +99,7 @@
     </dependencies>
 
     <build>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -112,13 +113,13 @@
                 <version>1.0.0</version>
                 <executions>
                     <!--执行mvn package,即执行 mvn clean package docker:build-->
-                    <!--<execution>
+                    <execution>
                         <id>build-image</id>
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
-                    </execution>-->
+                    </execution>
                 </executions>
 
                 <configuration>
@@ -137,9 +138,9 @@
                     <entryPoint>["java","-jar","${project.build.finalName}.jar"]</entryPoint>
 
                     <!-- 指定远程 Docker API地址  -->
-                    <dockerHost>https://a.youlai.store:2376</dockerHost>
+                    <dockerHost>https://a.youlai.tech:2376</dockerHost>
                     <!-- 指定tls证书的目录 -->
-                    <dockerCertPath>C:\certs\docker\a.youlai.store</dockerCertPath>
+                    <dockerCertPath>C:\cert\docker\a.youlai.tech</dockerCertPath>
 
                     <!-- 复制 jar包到docker容器指定目录-->
                     <resources>
