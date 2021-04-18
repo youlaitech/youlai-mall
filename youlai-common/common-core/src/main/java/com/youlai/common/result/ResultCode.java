@@ -1,5 +1,6 @@
 package com.youlai.common.result;
 
+import com.youlai.common.enums.QueryModeEnum;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -92,5 +93,15 @@ public enum ResultCode implements IResultCode, Serializable {
                 "\"code\":\"" + code + '\"' +
                 ", \"msg\":\"" + msg + '\"' +
                 '}';
+    }
+
+
+    public static ResultCode getValue(String code){
+        for (ResultCode value : values()) {
+            if (value.getCode().equals(code)) {
+                return value;
+            }
+        }
+        return SYSTEM_EXECUTION_ERROR; // 默认分页查询
     }
 }
