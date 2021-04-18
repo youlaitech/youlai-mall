@@ -6,6 +6,7 @@ import com.youlai.auth.domain.User;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.RequestUtils;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.api.UmsMemberFeignService;
@@ -34,25 +35,29 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String clientId = RequestUtils.getAuthClientId();
 
         User user = null;
+        Result result;
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
-                Result<UserDTO> userRes = userFeignService.getUserByUsername(username);
-                if (ResultCode.USER_NOT_EXIST.getCode().equals(userRes.getCode())) {
-                    throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
+                result = userFeignService.getUserByUsername(username);
+                if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
+                    UserDTO userDTO = (UserDTO) result.getData();
+                    user = new User(userDTO);
+                } else {
+                    throw new BizException(ResultCode.getValue(result.getCode()));
                 }
-                UserDTO userDTO = userRes.getData();
-                userDTO.setClientId(clientId);
-                user = new User(userDTO);
                 break;
             case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
-                Result<AuthMemberDTO> memberRes = memberFeignService.getUserByOpenid(username);
-                if (ResultCode.USER_NOT_EXIST.getCode().equals(memberRes.getCode())) {
-                    throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
+                result = memberFeignService.getUserByOpenid(username);
+                if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
+                    AuthMemberDTO authMemberDTO = (AuthMemberDTO) result.getData();
+                    user = new User(authMemberDTO);
+                } else {
+                    throw new BizException(ResultCode.getValue(result.getCode()));
                 }
-                AuthMemberDTO authMemberDTO = memberRes.getData();
-                authMemberDTO.setClientId(clientId);
-                user = new User(authMemberDTO);
                 break;
+        }
+        if (user == null) {
+            throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
         }
         if (!user.isEnabled()) {
             throw new DisabledException("该账户已被禁用!");
