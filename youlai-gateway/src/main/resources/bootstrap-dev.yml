@@ -14,7 +14,7 @@ spring:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
     sentinel:
-      enabled: false
+      enabled: false # 网关流控开关
       eager: true # 取消控制台懒加载，项目启动即连接Sentinel
       transport:
         client-ip: localhost

@@ -1,15 +1,15 @@
 package com.youlai.auth.service;
 
-import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.admin.api.UserFeignService;
+import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.auth.domain.User;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.api.UmsMemberFeignService;
+import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
@@ -43,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     UserDTO userDTO = (UserDTO) result.getData();
                     user = new User(userDTO);
                 } else {
-                    throw new BizException(ResultCode.getValue(result.getCode()));
+                    throw new BizException(result.getMsg());
                 }
                 break;
             case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
@@ -51,8 +51,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
                     AuthMemberDTO authMemberDTO = (AuthMemberDTO) result.getData();
                     user = new User(authMemberDTO);
-                } else {
-                    throw new BizException(ResultCode.getValue(result.getCode()));
+                }  else {
+                    throw new BizException(result.getMsg());
                 }
                 break;
         }
