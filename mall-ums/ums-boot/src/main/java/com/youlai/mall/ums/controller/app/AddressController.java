@@ -28,9 +28,10 @@ public class AddressController {
 
     private final Integer ADDRESS_DEFAULTED = 1;
 
-    @ApiOperation(value = "获取会员的地址列表")
+    @ApiOperation(value = "获取登录会员的地址列表")
     @GetMapping
-    public Result list(@RequestParam(required = false) Long memberId) {
+    public Result list() {
+        Long memberId = RequestUtils.getUserId();
         List<UmsAddress> addressList = iUmsAddressService.list(new LambdaQueryWrapper<UmsAddress>()
                 .eq(UmsAddress::getMemberId, memberId)
                 .orderByDesc(UmsAddress::getDefaulted));
@@ -42,11 +43,11 @@ public class AddressController {
     @ApiImplicitParam(name = "address", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsAddress")
     @PostMapping
     public Result add(@RequestBody UmsAddress address) {
-        Long userId = RequestUtils.getUserId();
-        address.setMemberId(userId);
+        Long memberId = RequestUtils.getUserId();
+        address.setMemberId(memberId);
         if (ADDRESS_DEFAULTED.equals(address.getDefaulted())) { // 修改其他默认地址为非默认
             iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
-                    .eq(UmsAddress::getMemberId, userId)
+                    .eq(UmsAddress::getMemberId, memberId)
                     .eq(UmsAddress::getDefaulted, 1)
                     .set(UmsAddress::getDefaulted, 0)
             );
@@ -65,10 +66,10 @@ public class AddressController {
     public Result update(
             @PathVariable Long id,
             @RequestBody UmsAddress address) {
-        Long userId = RequestUtils.getUserId();
+        Long memberId = RequestUtils.getUserId();
         if (address.getDefaulted().equals(1)) { // 修改其他默认地址为非默认
             iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
-                    .eq(UmsAddress::getMemberId, userId)
+                    .eq(UmsAddress::getMemberId, memberId)
                     .eq(UmsAddress::getDefaulted, 1)
                     .set(UmsAddress::getDefaulted, 0)
             );

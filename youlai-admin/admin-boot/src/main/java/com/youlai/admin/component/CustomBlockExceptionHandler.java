@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author haoxr
- * @description TODO
+ * @description 自定义流控异常
  * @createTime 2021/4/12 22:57
  */
 @Component
@@ -26,8 +26,11 @@ public class CustomBlockExceptionHandler implements BlockExceptionHandler {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
 
+        ObjectMapper objectMapper = new ObjectMapper();
+
         if(e instanceof FlowException){
-            new ObjectMapper().writeValue(response.getWriter(), Result.failed(ResultCode.FLOW_LIMITING));
+            // objectMapper.writeValue 用于将java对象转位JSON格式返回调用方
+            objectMapper.writeValue(response.getWriter(), Result.failed(ResultCode.FLOW_LIMITING));
         }
     }
 }
