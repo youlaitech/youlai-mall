@@ -26,3 +26,11 @@ spring:
             groupId: SENTINEL_GROUP
             data-type: json
             rule-type: flow
+        # 限流规则，flow为key，随便定义
+        degrade:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: degrade
