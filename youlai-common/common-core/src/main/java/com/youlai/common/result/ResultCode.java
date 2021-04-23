@@ -49,7 +49,7 @@ public enum ResultCode implements IResultCode, Serializable {
 
     SYSTEM_DISASTER_RECOVERY_TRIGGER("B0200", "系统容灾功能被出发"),
     FLOW_LIMITING("B0210", "系统限流"),
-    SYSTEM_FUNCTION_DEGRADATION("B0220", "系统功能降级"),
+    DEGRADATION("B0220", "系统功能降级"),
 
     SYSTEM_RESOURCE_ERROR("B0300", "系统资源异常"),
     SYSTEM_RESOURCE_EXHAUSTION("B0310", "系统资源耗尽"),

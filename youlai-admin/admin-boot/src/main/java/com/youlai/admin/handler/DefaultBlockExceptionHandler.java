@@ -1,7 +1,8 @@
-package com.youlai.admin.component;
+package com.youlai.admin.handler;
 
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youlai.common.result.Result;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @createTime 2021/4/12 22:57
  */
 @Component
-public class CustomBlockExceptionHandler implements BlockExceptionHandler {
+public class DefaultBlockExceptionHandler implements BlockExceptionHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {
@@ -31,6 +32,8 @@ public class CustomBlockExceptionHandler implements BlockExceptionHandler {
         if(e instanceof FlowException){
             // objectMapper.writeValue 用于将java对象转位JSON格式返回调用方
             objectMapper.writeValue(response.getWriter(), Result.failed(ResultCode.FLOW_LIMITING));
+        }else if(e instanceof DegradeException){
+            objectMapper.writeValue(response.getWriter(),Result.failed(ResultCode.DEGRADATION));
         }
     }
 }

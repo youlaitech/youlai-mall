@@ -2,11 +2,13 @@ package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.common.enums.PermTypeEnum;
+import com.youlai.admin.handler.UserBlockHandler;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.dto.UserDTO;
@@ -166,7 +168,9 @@ public class UserController extends BaseController {
     }
 
 
-    @ApiOperation(value = "获取当前用户信息")
+    @ApiOperation(value = "获取当前登陆的用户信息")
+    @SentinelResource(value = "getCurrentUser",blockHandlerClass = UserBlockHandler.class,blockHandler =
+            "handleGetCurrentUserBlock")
     @GetMapping("/me")
     public Result<UserVO> getCurrentUser() {
         UserVO userVO = new UserVO();
