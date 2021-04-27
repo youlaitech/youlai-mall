@@ -2,7 +2,7 @@ package com.youlai.mall.oms;
 
 
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
-import com.youlai.mall.ums.api.UmsMemberFeignService;
+import com.youlai.mall.ums.api.MemberFeignClient;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableDiscoveryClient
-@EnableFeignClients(basePackageClasses = { UmsMemberFeignService.class, PmsSkuFeignService.class})
+@EnableFeignClients(basePackageClasses = { MemberFeignClient.class, PmsSkuFeignService.class})
 @EnableRabbit
 public class OmsApplication {
 

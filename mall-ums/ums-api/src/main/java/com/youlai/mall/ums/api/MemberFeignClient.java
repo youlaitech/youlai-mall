@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "mall-ums",contextId = "member")
-public interface UmsMemberFeignService {
+public interface MemberFeignClient {
 
     @PostMapping("/api.app/v1/members")
     Result add(@RequestBody UmsMember user);

@@ -10,6 +10,8 @@ import java.io.Serializable;
  * @date 2020-06-23
  **/
 @Data
+// 忽略null值
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Result<T> implements Serializable {
 
     private String code;
@@ -18,7 +20,6 @@ public class Result<T> implements Serializable {
 
     private String msg;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer total;
 
     public static <T> Result<T> success() {

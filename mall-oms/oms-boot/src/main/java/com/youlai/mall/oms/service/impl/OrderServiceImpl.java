@@ -27,11 +27,10 @@ import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
-import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
-import com.youlai.mall.ums.api.UmsAddressFeignService;
-import com.youlai.mall.ums.api.UmsMemberFeignService;
+import com.youlai.mall.ums.api.MemberAddressFeignClient;
+import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.pojo.domain.UmsAddress;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
@@ -59,12 +58,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
     private ICartService cartService;
     private PmsSkuFeignService skuFeignService;
-    private UmsAddressFeignService addressFeignService;
+    private MemberAddressFeignClient addressFeignService;
     private IOrderItemService orderItemService;
     private RabbitTemplate rabbitTemplate;
     private StringRedisTemplate redisTemplate;
     private ThreadPoolExecutor threadPoolExecutor;
-    private UmsMemberFeignService memberFeignService;
+    private MemberFeignClient memberFeignClient;
 
     private BusinessNoGenerator businessNoGenerator;
 
@@ -233,7 +232,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 扣减余额
         Long userId = RequestUtils.getUserId();
         Long payAmount = order.getPayAmount();
-        Result deductBalanceResult = memberFeignService.deductBalance(userId, payAmount);
+        Result deductBalanceResult = memberFeignClient.deductBalance(userId, payAmount);
         if (!Result.isSuccess(deductBalanceResult)) {
             throw new BizException("扣减账户余额失败");
         }

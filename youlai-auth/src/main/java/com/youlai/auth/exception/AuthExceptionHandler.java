@@ -4,6 +4,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,6 +12,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class AuthExceptionHandler {
+
+    /**
+     * 用户不存在
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public Result handleUsernameNotFoundException(UsernameNotFoundException e) {
+        return Result.failed(ResultCode.USER_NOT_EXIST);
+    }
+
 
     /**
      * 用户名和密码异常

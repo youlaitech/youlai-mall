@@ -1,7 +1,6 @@
 package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -146,6 +145,8 @@ public class UserController extends BaseController {
     public Result getUserByUsername(
             @PathVariable String username
     ) {
+        log.info("进入getUserByUsername方法");
+        int i = 1 / 0;
         SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username));
 
@@ -169,10 +170,13 @@ public class UserController extends BaseController {
 
 
     @ApiOperation(value = "获取当前登陆的用户信息")
-    @SentinelResource(value = "getCurrentUser",blockHandlerClass = UserBlockHandler.class,blockHandler =
-            "handleGetCurrentUserBlock")
+    @SentinelResource(value = "getCurrentUser",
+            blockHandlerClass = UserBlockHandler.class, blockHandler = "handleGetCurrentUserBlock"
+    )
     @GetMapping("/me")
     public Result<UserVO> getCurrentUser() {
+        log.info("获取当前登陆的用户信息 begin");
+
         UserVO userVO = new UserVO();
 
         // 用户基本信息

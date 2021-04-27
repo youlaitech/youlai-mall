@@ -1,6 +1,5 @@
 package com.youlai.mall.oms.controller.admin;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,7 +9,7 @@ import com.youlai.mall.oms.pojo.domain.OmsOrder;
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
-import com.youlai.mall.ums.api.UmsMemberFeignService;
+import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,7 +38,7 @@ public class OrderController {
 
     private IOrderService orderService;
     private IOrderItemService orderItemService;
-    private UmsMemberFeignService memberFeignService;
+    private MemberFeignClient memberFeignClient;
 
     @ApiOperation("订单列表")
     @GetMapping
@@ -70,7 +69,7 @@ public class OrderController {
         orderItems = Optional.ofNullable(orderItems).orElse(new ArrayList<>());
 
         // 会员明细
-        Result<MemberDTO> result = memberFeignService.getUserById(order.getMemberId());
+        Result<MemberDTO> result = memberFeignClient.getUserById(order.getMemberId());
         MemberDTO member = result.getData();
         orderBO.setOrder(order).setOrderItems(orderItems).setMember(member);
         return Result.success(orderBO);
