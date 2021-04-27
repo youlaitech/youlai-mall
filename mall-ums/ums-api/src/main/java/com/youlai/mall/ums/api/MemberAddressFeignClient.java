@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @FeignClient(name = "mall-ums",contextId = "address")
-public interface UmsAddressFeignService {
+public interface MemberAddressFeignClient {
 
     /**
      * 获取地址详情

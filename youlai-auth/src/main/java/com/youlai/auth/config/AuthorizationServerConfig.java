@@ -3,7 +3,6 @@ package com.youlai.auth.config;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.domain.User;
-import com.youlai.auth.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
 import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.constant.AuthConstants;
@@ -17,6 +16,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -47,6 +48,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private DataSource dataSource;
     private AuthenticationManager authenticationManager;
     private UserDetailsServiceImpl userDetailsService;
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 配置客户端详情(数据库)
@@ -86,20 +88,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        /*security.allowFormAuthenticationForClients();*/
-        CustomClientCredentialsTokenEndpointFilter endpointFilter = new CustomClientCredentialsTokenEndpointFilter(security);
-        endpointFilter.afterPropertiesSet();
-        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
-        security.addTokenEndpointAuthenticationFilter(endpointFilter);
-
-        security.authenticationEntryPoint(authenticationEntryPoint())
-                .tokenKeyAccess("isAuthenticated()")
-                .checkTokenAccess("permitAll()");
+        security.allowFormAuthenticationForClients();
     }
 
 
     /**
      * 自定义认证异常响应数据
+     *
      * @return
      */
     @Bean
@@ -133,8 +128,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public KeyPair keyPair() {
         KeyStoreKeyFactory factory = new KeyStoreKeyFactory(
                 new ClassPathResource("youlai.jks"), "123456".toCharArray());
-        KeyPair keyPair = factory.getKeyPair(
-                "youlai", "123456".toCharArray());
+        KeyPair keyPair = factory.getKeyPair("youlai", "123456".toCharArray());
         return keyPair;
     }
 
@@ -148,9 +142,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             User user = (User) authentication.getUserAuthentication().getPrincipal();
             map.put(AuthConstants.USER_ID_KEY, user.getId());
             map.put(AuthConstants.CLIENT_ID_KEY, user.getClientId());
-            map.put(AuthConstants.USER_NAME_KEY,user.getUsername());
+            map.put(AuthConstants.USER_NAME_KEY, user.getUsername());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(map);
             return accessToken;
         };
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setHideUserNotFoundExceptions(false);
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder);
+        return provider;
     }
 }

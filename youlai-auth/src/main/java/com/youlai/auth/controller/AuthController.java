@@ -10,7 +10,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.RequestUtils;
-import com.youlai.mall.ums.api.UmsMemberFeignService;
+import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import io.swagger.annotations.Api;
@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -86,7 +85,7 @@ public class AuthController {
 
 
     private WxMaService wxService;
-    private UmsMemberFeignService memberFeignService;
+    private MemberFeignClient memberFeignClient;
     private PasswordEncoder passwordEncoder;
 
     @SneakyThrows
@@ -104,7 +103,7 @@ public class AuthController {
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
-        Result<AuthMemberDTO> result = memberFeignService.getUserByOpenid(openid);
+        Result<AuthMemberDTO> result = memberFeignClient.getUserByOpenid(openid);
 
         if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) { // 微信授权登录 会员信息不存在时 注册会员
             String encryptedData = parameters.get("encryptedData");
@@ -123,7 +122,7 @@ public class AuthController {
                     .setPassword(passwordEncoder.encode(openid).replace(AuthConstants.BCRYPT, Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
                     .setStatus(GlobalConstants.STATUS_NORMAL_VALUE);
 
-            Result res = memberFeignService.add(user);
+            Result res = memberFeignClient.add(user);
             if (!ResultCode.SUCCESS.getCode().equals(res.getCode())) {
                 throw new BizException("注册会员失败");
             }
