@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -48,7 +49,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private DataSource dataSource;
     private AuthenticationManager authenticationManager;
     private UserDetailsServiceImpl userDetailsService;
-    private PasswordEncoder passwordEncoder;
 
     /**
      * 配置客户端详情(数据库)
@@ -72,9 +72,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenEnhancers.add(tokenEnhancer());
         tokenEnhancers.add(jwtAccessTokenConverter());
         tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
-
         endpoints
-
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
@@ -94,14 +92,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
      * 自定义认证异常响应数据
-     *
-     * @return
      */
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, e) -> {
             response.setStatus(HttpStatus.HTTP_OK);
-            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Cache-Control", "no-cache");
             Result result = Result.failed(ResultCode.CLIENT_AUTHENTICATION_FAILED);
@@ -126,8 +122,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Bean
     public KeyPair keyPair() {
-        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(
-                new ClassPathResource("youlai.jks"), "123456".toCharArray());
+        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("youlai.jks"), "123456".toCharArray());
         KeyPair keyPair = factory.getKeyPair("youlai", "123456".toCharArray());
         return keyPair;
     }
@@ -151,9 +146,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setHideUserNotFoundExceptions(false);
+        provider.setHideUserNotFoundExceptions(false); // 用户不存在异常抛出
         provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder);
+        provider.setPasswordEncoder(passwordEncoder());
         return provider;
+    }
+
+    /**
+     * 密码编码器
+     * 密码判读 DaoAuthenticationProvider#additionalAuthenticationChecks
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

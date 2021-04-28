@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
 /**
  * 自定义用户认证和授权
  */
@@ -40,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         switch (clientId) {
             case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
                 result = userFeignClient.getUserByUsername(username);
-                log.info("获取用户信息：{}",result.toString());
+                log.info("获取用户信息：{}", result.toString());
                 if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
                     UserDTO userDTO = (UserDTO) result.getData();
                     user = new User(userDTO);

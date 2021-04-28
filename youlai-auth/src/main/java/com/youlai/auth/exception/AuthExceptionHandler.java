@@ -24,7 +24,6 @@ public class AuthExceptionHandler {
         return Result.failed(ResultCode.USER_NOT_EXIST);
     }
 
-
     /**
      * 用户名和密码异常
      *
