@@ -142,11 +142,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "根据用户名获取用户信息")
     @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
     @GetMapping("/username/{username}")
-    public Result getUserByUsername(
-            @PathVariable String username
-    ) {
-        log.info("进入getUserByUsername方法");
-        int i = 1 / 0;
+    public Result getUserByUsername(@PathVariable String username) {
         SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username));
 
