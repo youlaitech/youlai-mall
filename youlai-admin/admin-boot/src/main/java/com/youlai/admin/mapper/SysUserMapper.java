@@ -20,7 +20,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
             "       left join sys_dept d on u.dept_id= d.id " +
             "       left join sys_user_role ur on u.id=ur.user_id " +
             "       left join sys_role r on ur.role_id=r.id " +
-            "   where deleted != 1 " +
+            "   where u.deleted != 1 " +
             " <if test ='user.username!=null and user.username.trim() neq \"\"'>" +
             "       and u.username like concat('%',#{user.username},'%')" +
             " </if>" +
