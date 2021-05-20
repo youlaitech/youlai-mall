@@ -3,8 +3,8 @@ package com.youlai.auth.config;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.domain.User;
-import com.youlai.auth.service.JdbcClientDetailsServiceImpl;
-import com.youlai.auth.service.UserDetailsServiceImpl;
+import com.youlai.auth.service.impl.JdbcClientDetailsServiceImpl;
+import com.youlai.auth.service.impl.UserDetailsServiceImpl;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
@@ -135,9 +135,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return (accessToken, authentication) -> {
             Map<String, Object> map = new HashMap<>(8);
             User user = (User) authentication.getUserAuthentication().getPrincipal();
-            map.put(AuthConstants.USER_ID_KEY, user.getId());
-            map.put(AuthConstants.CLIENT_ID_KEY, user.getClientId());
-            map.put(AuthConstants.USER_NAME_KEY, user.getUsername());
+            map.put("userId", user.getId());
+            map.put("username", user.getUsername());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(map);
             return accessToken;
         };

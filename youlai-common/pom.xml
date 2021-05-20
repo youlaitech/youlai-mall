@@ -19,6 +19,6 @@
         <module>common-web</module>
         <module>common-mybatis</module>
         <module>common-rabbitmq</module>
-        <module>common-elasticsearch</module>
+        <module>common-es</module>
     </modules>
 </project>
