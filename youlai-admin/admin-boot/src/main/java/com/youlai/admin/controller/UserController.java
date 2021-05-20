@@ -13,7 +13,6 @@ import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.dto.UserDTO;
 import com.youlai.admin.pojo.vo.UserVO;
 import com.youlai.admin.service.*;
-import com.youlai.common.base.BaseController;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.RequestUtils;
@@ -35,7 +34,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api.admin/v1/users")
 @Slf4j
 @AllArgsConstructor
-public class UserController extends BaseController {
+public class UserController {
 
     private final ISysUserService iSysUserService;
     private final ISysUserRoleService iSysUserRoleService;

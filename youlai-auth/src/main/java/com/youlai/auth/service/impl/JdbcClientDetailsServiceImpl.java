@@ -1,4 +1,4 @@
-package com.youlai.auth.service;
+package com.youlai.auth.service.impl;
 
 import lombok.SneakyThrows;
 import org.springframework.security.oauth2.provider.ClientDetails;

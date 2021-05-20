@@ -47,7 +47,7 @@ public class BrandController {
                 Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());
             case LIST:
-                queryWrapper.eq(PmsBrand::getStatus, GlobalConstants.STATUS_NORMAL_VALUE)
+                queryWrapper.eq(PmsBrand::getStatus, GlobalConstants.STATUS_YES)
                         .select(PmsBrand::getId, PmsBrand::getName);
                 List<PmsBrand> list = iPmsBrandService.list(queryWrapper);
                 return Result.success(list);

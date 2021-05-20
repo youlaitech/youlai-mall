@@ -34,7 +34,7 @@ public class CategoryController {
     public Result list(Long parentId) {
         PmsCategory category = new PmsCategory();
         category.setParentId(parentId);
-        category.setStatus(GlobalConstants.STATUS_NORMAL_VALUE);
+        category.setStatus(GlobalConstants.STATUS_YES);
         List<CategoryVO> list = iPmsCategoryService.listForTree(category);
         return Result.success(list);
     }
