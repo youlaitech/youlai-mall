@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common-elasticsearch</artifactId>
+    <artifactId>common-es</artifactId>
 
     <dependencies>
 

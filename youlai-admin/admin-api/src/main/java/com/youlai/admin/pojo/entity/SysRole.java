@@ -13,10 +13,13 @@ import java.util.List;
 @Data
 public class SysRole extends BaseEntity {
 
-    @TableId(type= IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     private String name;
+
+    @ApiModelProperty("角色编码")
+    private String code;
 
     private Integer sort;
 

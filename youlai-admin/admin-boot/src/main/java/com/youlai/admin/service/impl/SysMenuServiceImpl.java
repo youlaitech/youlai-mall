@@ -68,7 +68,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                             menu.getRoles()
                     ));
                     // 菜单显示隐藏
-                    routerVO.setHidden(!GlobalConstants.VISIBLE_SHOW_VALUE.equals(menu.getVisible()) ? true : false);
+                    routerVO.setHidden(!GlobalConstants.STATUS_YES.equals(menu.getVisible()) );
                     List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
                     routerVO.setChildren(children);
                     if(CollectionUtil.isNotEmpty(children)){

@@ -102,7 +102,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-elasticsearch</artifactId>
+            <artifactId>common-es</artifactId>
         </dependency>
 
         <dependency>

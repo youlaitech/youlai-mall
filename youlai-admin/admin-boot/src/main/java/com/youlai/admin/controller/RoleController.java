@@ -67,7 +67,7 @@ public class RoleController {
                 return Result.success(result.getRecords(), result.getTotal());
             case LIST:
                 List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
-                        .eq(SysRole::getStatus, GlobalConstants.STATUS_NORMAL_VALUE));
+                        .eq(SysRole::getStatus, GlobalConstants.STATUS_YES));
                 return Result.success(list);
             default:
                 return Result.failed(ResultCode.QUERY_MODE_IS_NULL);

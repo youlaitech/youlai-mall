@@ -13,7 +13,7 @@ import lombok.Setter;
 
 public enum PermTypeEnum {
 
-    ROUTE(1, "路由权限"),
+    ROUTE(1, "接口权限"),
     BUTTON(2, "按钮权限");
 
     @Getter

@@ -20,45 +20,6 @@
             </pattern>
         </encoder>
     </appender>
-
-    <!-- Logstash收集登录日志输出到ElasticSearch  -->
-    <appender name="LOGIN_LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>g.youlai.tech:5044</destination>
-        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <timestamp>
-                    <timeZone>Asia/Shanghai</timeZone>
-                </timestamp>
-                <!--自定义日志输出格式-->
-                <pattern>
-                    <pattern>
-                        {
-                        "project": "${APP_NAME}",
-                        "date": "%X{date}", <!-- 索引名时区同步 -->
-                        "action":"login",
-                        "pid": "${PID:-}",
-                        "thread": "%thread",
-                        "message": "%message",
-                        "elapsedTime": "%X{elapsedTime}",
-                        "username":"%X{username}",
-                        "clientIP": "%X{clientIP}",
-                        "region":"%X{region}",
-                        "token":"%X{token}",
-                        "loginTime": "%date{\"yyyy-MM-dd HH:mm:ss\"}",
-                        "description":"%X{description}"
-                        }
-                    </pattern>
-                </pattern>
-            </providers>
-        </encoder>
-        <keepAliveDuration>5 minutes</keepAliveDuration>
-    </appender>
-
-    <!-- additivity 默认是true，标识该logger的日志会在root的appender再打印一次 -->
-    <logger name="com.youlai.common.web.aspect.LoginLogAspect" level="INFO" additivity="false">
-        <appender-ref ref="LOGIN_LOGSTASH"/>
-    </logger>
-
     <logger name="com.alibaba.nacos.client.naming" level="ERROR" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
