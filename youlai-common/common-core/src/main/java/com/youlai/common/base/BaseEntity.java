@@ -18,10 +18,10 @@ public class BaseEntity implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date gmtCreate;
+    private Date createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date gmtModified;
+    private Date updateTime;
 }

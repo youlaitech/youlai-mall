@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Api(tags = "菜单接口")
 @RestController
-@RequestMapping("/api.admin/v1/menus")
+@RequestMapping("/menus")
 @Slf4j
 @AllArgsConstructor
 public class MenuController {
@@ -40,14 +40,14 @@ public class MenuController {
             @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum")
     })
     @GetMapping
-    public Result list(String queryMode, String name, Long roleId) {
+    public Result list(String queryMode, String name) {
 
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
 
         LambdaQueryWrapper<SysMenu> baseQuery = new LambdaQueryWrapper<SysMenu>()
                 .orderByAsc(SysMenu::getSort)
-                .orderByDesc(SysMenu::getGmtModified)
-                .orderByDesc(SysMenu::getGmtCreate);
+                .orderByDesc(SysMenu::getUpdateTime)
+                .orderByDesc(SysMenu::getCreateTime);
         List list;
         switch (queryModeEnum) {
             case LIST:

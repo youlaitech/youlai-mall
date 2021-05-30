@@ -3,7 +3,7 @@ package com.youlai.admin.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.common.constant.AdminConstants;
+import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.DeptVO;
 import com.youlai.admin.mapper.SysDeptMapper;
@@ -21,14 +21,14 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public List<DeptVO> listDeptVO(LambdaQueryWrapper<SysDept> baseQuery) {
         List<SysDept> deptList = this.baseMapper.selectList(baseQuery);
-        List<DeptVO> list = recursionForTree(AdminConstants.ROOT_DEPT_ID, deptList);
+        List<DeptVO> list = recursionForTree(SystemConstants.ROOT_DEPT_ID, deptList);
         return list;
     }
 
     @Override
     public List<TreeVO> listTreeVO(LambdaQueryWrapper<SysDept> baseQuery) {
         List<SysDept> deptList = this.baseMapper.selectList(baseQuery);
-        List<TreeVO> list = recursionForTreeSelect(AdminConstants.ROOT_DEPT_ID, deptList);
+        List<TreeVO> list = recursionForTreeSelect(SystemConstants.ROOT_DEPT_ID, deptList);
         return list;
     }
 

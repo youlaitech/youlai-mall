@@ -15,7 +15,6 @@ public interface ISysPermissionService extends IService<SysPermission> {
 
     boolean refreshPermissionRolesCache();
 
-
     List<String> listPermsByRoleIds(List<Long> roleIds, Integer type);
 
 }

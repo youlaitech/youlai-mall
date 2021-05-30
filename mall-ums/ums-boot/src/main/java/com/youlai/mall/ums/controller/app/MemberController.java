@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.common.web.util.RequestUtils;
+import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
@@ -73,7 +73,7 @@ public class MemberController {
     @ApiOperation(value = "获取当前请求的会员信息")
     @GetMapping("/me")
     public Result getMemberInfo() {
-        Long userId = RequestUtils.getUserId();
+        Long userId = JwtUtils.getUserId();
         UmsMember user = iUmsUserService.getById(userId);
         if (user == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);

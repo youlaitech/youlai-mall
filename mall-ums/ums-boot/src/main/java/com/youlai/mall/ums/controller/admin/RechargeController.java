@@ -26,7 +26,7 @@ import java.util.Map;
 
 @Api(tags = "【系统管理】会员充值")
 @RestController("AdminAdminRechargeController")
-@RequestMapping("/api.admin/v1/recharge_orders")
+@RequestMapping("/v1/recharge_orders")
 @Slf4j
 public class RechargeController {
 

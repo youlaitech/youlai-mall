@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 @Api(tags = "权限接口")
 @RestController
-@RequestMapping("/api.admin/v1/permissions")
+@RequestMapping("/permissions")
 @AllArgsConstructor
 public class PermissionController {
 
@@ -32,7 +32,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "name", value = "权限名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "permission", value = "权限标识", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "moduleId", value = "菜单ID", paramType = "query", dataType = "Long")
+            @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Long")
     })
     @GetMapping
     public Result list(
@@ -40,21 +40,16 @@ public class PermissionController {
             Integer page,
             Integer limit,
             String name,
-            String permission,
-            Long moduleId,
-            Integer type
+            Long menuId
     ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
-
         switch (queryModeEnum) {
             case PAGE:
                 IPage<SysPermission> result = iSysPermissionService.list(
                         new Page<>(page, limit),
                         new SysPermission()
-                                .setPerm(permission)
-                                .setModuleId(moduleId)
+                                .setMenuId(menuId)
                                 .setName(name)
-                                .setType(type)
                 );
                 return Result.success(result.getRecords(), result.getTotal());
 

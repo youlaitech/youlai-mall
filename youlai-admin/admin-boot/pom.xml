@@ -91,7 +91,6 @@
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-es</artifactId>
@@ -112,7 +111,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.2.2</version>
 
-                <!--将插件绑定在某个phase执行-->
+                <!--将插件绑定在某个阶段执行-->
                 <executions>
                     <execution>
                         <id>build-image</id>

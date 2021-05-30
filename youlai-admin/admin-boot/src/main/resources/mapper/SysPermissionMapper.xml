@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.admin.mapper.SysPermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.youlai.admin.pojo.entity.SysPermission">
+        <id property="id" column="pid" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="menuId" column="menu_id" jdbcType="BIGINT"/>
+        <result property="urlPerm" column="url_perm" jdbcType="VARCHAR"/>
+        <result property="btnPerm" column="btn_perm" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <collection property="roles" ofType="String">
+            <constructor>
+                <arg column="code"/>
+            </constructor>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,name,menu_id,
+        url_perm,btn_perm,create_time,
+        update_time
+    </sql>
+
+    <select id="listPermRoles" resultType="com.youlai.admin.pojo.entity.SysPermission">
+        select t1.id, t1.name, t1.menu_id, t1.url_perm, t1.btn_perm, t3.code
+        from sys_permission t1,
+             sys_role_permission t2,
+             sys_role t3
+        where t1.id = t2.permission_id
+          and t2.role_id = t3.id
+    </select>
+
+
+</mapper>

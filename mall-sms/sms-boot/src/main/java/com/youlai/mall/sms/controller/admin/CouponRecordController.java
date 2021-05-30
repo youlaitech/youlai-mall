@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.base.BasePageQuery;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.RequestUtils;
+import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.pojo.domain.SmsCouponRecord;
 import com.youlai.mall.sms.service.ICouponRecordService;
 import io.swagger.annotations.Api;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "优惠券领券记录服务")
 @RestController
-@RequestMapping("/api.admin/v1/coupon_record")
+@RequestMapping("/v1/coupon_record")
 public class CouponRecordController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class CouponRecordController {
     @ApiOperation(value = "分页获取会员领券记录")
     @GetMapping("/page")
     public Result page(BasePageQuery pageQuery) {
-        Long userId = RequestUtils.getUserId();
+        Long userId = JwtUtils.getUserId();
         QueryWrapper<SmsCouponRecord> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId).orderByDesc("create_time");
         Page<SmsCouponRecord> page = new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize());
@@ -42,7 +42,7 @@ public class CouponRecordController {
     @ApiOperation(value = "获取优惠券记录详情")
     @GetMapping("/{id}/detail")
     public Result detail(@ApiParam(value = "优惠券记录ID") @PathVariable("id") String id) {
-        Long userId = RequestUtils.getUserId();
+        Long userId = JwtUtils.getUserId();
         QueryWrapper<SmsCouponRecord> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId ).eq("id", id);
         SmsCouponRecord result = couponRecordService.getOne(queryWrapper);

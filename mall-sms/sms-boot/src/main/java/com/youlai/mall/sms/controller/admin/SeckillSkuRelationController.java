@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "秒杀活动商品关联管理模块")
 @RestController
-@RequestMapping("/api.admin/v1/seckill/sku/relation")
+@RequestMapping("/v1/seckill/sku/relation")
 public class SeckillSkuRelationController {
 }

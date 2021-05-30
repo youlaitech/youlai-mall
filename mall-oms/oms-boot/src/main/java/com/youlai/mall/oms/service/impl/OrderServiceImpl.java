@@ -10,7 +10,7 @@ import com.youlai.common.enums.BusinessTypeEnum;
 import com.youlai.common.redis.component.BusinessNoGenerator;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.util.RequestUtils;
+import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.enums.PayTypeEnum;
@@ -74,7 +74,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
         log.info("=======================订单确认=======================\n订单确认信息：{}", orderConfirmDTO);
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
-        Long memberId = RequestUtils.getUserId();
+        Long memberId = JwtUtils.getUserId();
         // 获取购买商品信息
         CompletableFuture<Void> orderItemsCompletableFuture = CompletableFuture.runAsync(() -> {
             List<OrderItemDTO> orderItems = new ArrayList<>();
@@ -181,7 +181,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         order.setOrderSn(orderToken) // 把orderToken赋值给订单编号【!】
                 .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
                 .setSourceType(OrderTypeEnum.APP.getCode())
-                .setMemberId(RequestUtils.getUserId())
+                .setMemberId(JwtUtils.getUserId())
                 .setRemark(submitDTO.getRemark())
                 .setPayAmount(submitDTO.getPayAmount())
                 .setTotalQuantity(orderItems.stream().map(item -> item.getCount()).reduce(0, (x, y) -> x + y))
@@ -230,7 +230,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
 
         // 扣减余额
-        Long userId = RequestUtils.getUserId();
+        Long userId = JwtUtils.getUserId();
         Long payAmount = order.getPayAmount();
         Result deductBalanceResult = memberFeignClient.deductBalance(userId, payAmount);
         if (!Result.isSuccess(deductBalanceResult)) {

@@ -17,7 +17,7 @@ public interface OrderFeignService {
     /**
      * 修改订单状态
      */
-    @PutMapping("/api.admin/v1/orders/{id}")
+    @PutMapping("/v1/orders/{id}")
     Result updateOrderStatus(@PathVariable Long id, @RequestParam Integer status);
 
 }

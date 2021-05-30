@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "【系统管理】商品规格")
 @RestController
-@RequestMapping("/api.admin/v1/specs")
+@RequestMapping("/v1/specs")
 @Slf4j
 @AllArgsConstructor
 public class SpecController {
