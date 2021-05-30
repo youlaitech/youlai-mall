@@ -22,7 +22,7 @@ import java.util.List;
 
 @Api(tags = "【系统管理】营销广告")
 @RestController("AdminAdvertController")
-@RequestMapping("/api.admin/v1/adverts")
+@RequestMapping("/v1/adverts")
 @Slf4j
 @AllArgsConstructor
 public class AdvertController {
@@ -48,8 +48,8 @@ public class AdvertController {
                 LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
                         .like(StrUtil.isNotBlank(name), SmsAdvert::getName, name)
                         .orderByAsc(SmsAdvert::getSort)
-                        .orderByDesc(SmsAdvert::getGmtModified)
-                        .orderByDesc(SmsAdvert::getGmtCreate);
+                        .orderByDesc(SmsAdvert::getUpdateTime)
+                        .orderByDesc(SmsAdvert::getCreateTime);
 
                 Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());
@@ -94,7 +94,7 @@ public class AdvertController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改广告(局部更新)")
+    @ApiOperation(value = "修改广告(选择性更新)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")

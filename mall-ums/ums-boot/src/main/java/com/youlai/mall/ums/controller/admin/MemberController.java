@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 @Api(tags = "【系统管理】会员管理")
 @RestController("AdminUserController")
-@RequestMapping("/api.admin/v1/users")
+@RequestMapping("/v1/users")
 @Slf4j
 @AllArgsConstructor
 public class MemberController {
@@ -77,7 +77,7 @@ public class MemberController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "局部更新")
+    @ApiOperation(value = "选择性更新")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")

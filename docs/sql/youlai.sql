@@ -40,7 +40,7 @@ CREATE TABLE `oauth_client_details`  (
 -- Records of oauth_client_details
 -- ----------------------------
 INSERT INTO `oauth_client_details` VALUES ('client', NULL, '123456', 'all', 'authorization_code,password,refresh_token,implicit', NULL, NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `oauth_client_details` VALUES ('youlai-admin', '', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', '', NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('youlai-system', '', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', '', NULL, 3600, 7200, NULL, 'true');
 INSERT INTO `oauth_client_details` VALUES ('youlai-mall-weapp', '', '123456', 'all', 'authorization_code,password,refresh_token,implicit', NULL, NULL, 3600, 7200, NULL, 'true');
 
 -- ----------------------------
@@ -145,7 +145,7 @@ CREATE TABLE `sys_menu`  (
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, '/admin', 'Layout', '', 'table', 1, 1, '2020-09-23 09:12:21', '2021-03-23 18:33:43');
-INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'user', 'admin/user/index', '', 'user', 3, 1, NULL, '2021-03-25 15:05:31');
+INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'OAuthUserDetails', 'admin/OAuthUserDetails/index', '', 'OAuthUserDetails', 3, 1, NULL, '2021-03-25 15:05:31');
 INSERT INTO `sys_menu` VALUES (4, '菜单管理', 1, 'menu', 'admin/menu/index', NULL, 'tree-table', 3, 1, '2020-09-23 09:12:21', '2021-03-09 09:30:44');
 INSERT INTO `sys_menu` VALUES (5, '字典管理', 1, 'dict', 'admin/dict/index', NULL, 'education', 5, 1, '2020-09-23 09:12:21', '2021-03-09 09:30:53');
 INSERT INTO `sys_menu` VALUES (6, '部门管理', 1, 'dept', 'admin/dept/index', NULL, 'tree', 4, 1, '2020-09-23 09:12:21', '2021-03-09 09:30:50');
@@ -156,8 +156,8 @@ INSERT INTO `sys_menu` VALUES (11, '商品管理', 0, '/pms', 'Layout', NULL, 'p
 INSERT INTO `sys_menu` VALUES (12, '商品列表', 11, 'product', 'pms/product/index', NULL, 'component', 1, 1, '2020-11-06 11:54:37', '2021-03-11 20:18:14');
 INSERT INTO `sys_menu` VALUES (13, '订单管理', 0, '/oms', 'Layout', NULL, 'shopping', 3, 1, '2020-10-31 10:49:46', '2021-03-02 18:00:08');
 INSERT INTO `sys_menu` VALUES (14, '订单列表', 13, 'order', 'oms/order', '', 'component', 3, 1, '2020-10-31 10:50:23', '2021-03-25 19:52:05');
-INSERT INTO `sys_menu` VALUES (15, '会员管理', 0, '/ums', 'Layout', NULL, 'user', 4, 1, '2020-10-31 10:51:07', '2021-02-06 14:57:13');
-INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 'user', 'ums/user/index', NULL, 'peoples', 1, 1, '2020-10-31 10:51:43', '2021-03-02 10:41:56');
+INSERT INTO `sys_menu` VALUES (15, '会员管理', 0, '/ums', 'Layout', NULL, 'OAuthUserDetails', 4, 1, '2020-10-31 10:51:07', '2021-02-06 14:57:13');
+INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 'OAuthUserDetails', 'ums/OAuthUserDetails/index', NULL, 'peoples', 1, 1, '2020-10-31 10:51:43', '2021-03-02 10:41:56');
 INSERT INTO `sys_menu` VALUES (17, '品牌管理', 11, 'brand', 'pms/brand/index', NULL, 'component', 4, 1, '2020-09-23 09:12:21', '2021-02-01 19:25:06');
 INSERT INTO `sys_menu` VALUES (18, '商品分类', 11, 'category', 'pms/category/index', NULL, 'component', 3, 1, '2020-09-23 09:12:21', '2021-03-17 11:17:06');
 INSERT INTO `sys_menu` VALUES (22, '商品上架', 11, 'product_add', 'pms/product/detail', '', 'component', 2, 1, NULL, '2021-02-19 18:43:23');
@@ -192,24 +192,24 @@ INSERT INTO `sys_permission` VALUES (9, '营销管理', '/mall-sms/**', '*', 1, 
 INSERT INTO `sys_permission` VALUES (12, '订单管理', '/mall-oms/**', '*', 1, 13, '2020-10-31 10:40:35', '2021-02-05 19:59:17');
 INSERT INTO `sys_permission` VALUES (13, '会员管理', '/mall-ums/**', '*', 1, 15, '2020-10-31 10:41:08', '2021-02-05 19:59:23');
 INSERT INTO `sys_permission` VALUES (14, '商品管理', '/mall-pms/**', '*', 1, 11, '2020-10-31 10:41:37', '2021-02-05 19:59:01');
-INSERT INTO `sys_permission` VALUES (18, '查询用户', '/youlai-admin/api.admin/v1/users/**', 'GET', 1, 2, '2021-02-02 14:16:07', '2021-02-10 10:19:28');
-INSERT INTO `sys_permission` VALUES (19, '新增', 'system:user:add', NULL, 2, 2, '2021-02-02 14:16:46', '2021-02-22 17:03:21');
-INSERT INTO `sys_permission` VALUES (21, '修改', 'system:user:edit', NULL, 2, 2, '2021-02-02 14:19:45', '2021-02-03 00:20:32');
-INSERT INTO `sys_permission` VALUES (22, '删除', 'system:user:delete', NULL, 2, 2, '2021-02-02 14:20:12', '2021-02-28 17:22:52');
-INSERT INTO `sys_permission` VALUES (23, '查询', 'system:user:query', NULL, 2, 2, '2021-02-02 14:20:42', '2021-02-03 00:20:21');
-INSERT INTO `sys_permission` VALUES (26, '重置密码', 'system:user:reset_password', NULL, 2, 2, '2021-02-05 14:31:53', '2021-02-05 14:33:27');
-INSERT INTO `sys_permission` VALUES (30, '新增用户', '/youlai-admin/api.admin/v1/users/**', 'POST', 1, 2, '2021-02-10 10:20:08', '2021-02-10 10:20:08');
-INSERT INTO `sys_permission` VALUES (31, '修改用户', '/youlai-admin/api.admin/v1/users/**', 'PUT', 1, 2, '2021-02-10 10:20:32', '2021-02-10 10:20:32');
-INSERT INTO `sys_permission` VALUES (32, '删除用户', '/youlai-admin/api.admin/v1/users/**', 'DELETE', 1, 2, '2021-02-10 10:20:47', '2021-02-10 10:20:47');
-INSERT INTO `sys_permission` VALUES (34, '菜单所有', '/youlai-admin/api.admin/v1/menus/**', '*', 1, 4, '2021-02-10 11:00:26', '2021-02-10 11:00:26');
-INSERT INTO `sys_permission` VALUES (35, '部门所有', '/youlai-admin/api.admin/v1/depts/**', '*', 1, 6, '2021-02-10 11:02:45', '2021-02-10 11:02:45');
-INSERT INTO `sys_permission` VALUES (36, '角色所有', '/youlai-admin/api.admin/v1/roles/**', '*', 1, 23, '2021-02-10 11:03:05', '2021-03-10 17:36:53');
-INSERT INTO `sys_permission` VALUES (37, '字典所有', '/youlai-admin/api.admin/v1/dicts/**', '*', 1, 5, '2021-02-10 11:03:49', '2021-02-10 11:03:49');
-INSERT INTO `sys_permission` VALUES (38, '客户端所有', '/youlai-admin/api.admin/v1/clients/**', '*', 1, 8, '2021-02-10 11:05:34', '2021-02-10 11:05:34');
-INSERT INTO `sys_permission` VALUES (39, '权限所有', '/youlai-admin/api.admin/v1/permissions/**', '*', 1, 4, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (42, '字典项所有', '/youlai-admin/api.admin/v1/dict_items/**', '*', 1, 5, '2021-02-14 10:48:17', '2021-03-21 16:11:38');
+INSERT INTO `sys_permission` VALUES (18, '查询用户', '/youlai-system/api.admin/v1/users/**', 'GET', 1, 2, '2021-02-02 14:16:07', '2021-02-10 10:19:28');
+INSERT INTO `sys_permission` VALUES (19, '新增', 'system:OAuthUserDetails:add', NULL, 2, 2, '2021-02-02 14:16:46', '2021-02-22 17:03:21');
+INSERT INTO `sys_permission` VALUES (21, '修改', 'system:OAuthUserDetails:edit', NULL, 2, 2, '2021-02-02 14:19:45', '2021-02-03 00:20:32');
+INSERT INTO `sys_permission` VALUES (22, '删除', 'system:OAuthUserDetails:delete', NULL, 2, 2, '2021-02-02 14:20:12', '2021-02-28 17:22:52');
+INSERT INTO `sys_permission` VALUES (23, '查询', 'system:OAuthUserDetails:query', NULL, 2, 2, '2021-02-02 14:20:42', '2021-02-03 00:20:21');
+INSERT INTO `sys_permission` VALUES (26, '重置密码', 'system:OAuthUserDetails:reset_password', NULL, 2, 2, '2021-02-05 14:31:53', '2021-02-05 14:33:27');
+INSERT INTO `sys_permission` VALUES (30, '新增用户', '/youlai-system/api.admin/v1/users/**', 'POST', 1, 2, '2021-02-10 10:20:08', '2021-02-10 10:20:08');
+INSERT INTO `sys_permission` VALUES (31, '修改用户', '/youlai-system/api.admin/v1/users/**', 'PUT', 1, 2, '2021-02-10 10:20:32', '2021-02-10 10:20:32');
+INSERT INTO `sys_permission` VALUES (32, '删除用户', '/youlai-system/api.admin/v1/users/**', 'DELETE', 1, 2, '2021-02-10 10:20:47', '2021-02-10 10:20:47');
+INSERT INTO `sys_permission` VALUES (34, '菜单所有', '/youlai-system/api.admin/v1/menus/**', '*', 1, 4, '2021-02-10 11:00:26', '2021-02-10 11:00:26');
+INSERT INTO `sys_permission` VALUES (35, '部门所有', '/youlai-system/api.admin/v1/depts/**', '*', 1, 6, '2021-02-10 11:02:45', '2021-02-10 11:02:45');
+INSERT INTO `sys_permission` VALUES (36, '角色所有', '/youlai-system/api.admin/v1/roles/**', '*', 1, 23, '2021-02-10 11:03:05', '2021-03-10 17:36:53');
+INSERT INTO `sys_permission` VALUES (37, '字典所有', '/youlai-system/api.admin/v1/dicts/**', '*', 1, 5, '2021-02-10 11:03:49', '2021-02-10 11:03:49');
+INSERT INTO `sys_permission` VALUES (38, '客户端所有', '/youlai-system/api.admin/v1/clients/**', '*', 1, 8, '2021-02-10 11:05:34', '2021-02-10 11:05:34');
+INSERT INTO `sys_permission` VALUES (39, '权限所有', '/youlai-system/api.admin/v1/permissions/**', '*', 1, 4, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (42, '字典项所有', '/youlai-system/api.admin/v1/dict_items/**', '*', 1, 5, '2021-02-14 10:48:17', '2021-03-21 16:11:38');
 INSERT INTO `sys_permission` VALUES (44, '新增', 'system:dict:add', NULL, 2, 5, '2021-02-23 13:24:31', '2021-02-23 13:24:31');
-INSERT INTO `sys_permission` VALUES (45, '文件上传', '/youlai-admin/api.admin/v1/files', '*', 1, 34, '2021-02-27 23:35:27', '2021-02-27 23:35:27');
+INSERT INTO `sys_permission` VALUES (45, '文件上传', '/youlai-system/api.admin/v1/files', '*', 1, 34, '2021-02-27 23:35:27', '2021-02-27 23:35:27');
 
 -- ----------------------------
 -- Table structure for sys_role

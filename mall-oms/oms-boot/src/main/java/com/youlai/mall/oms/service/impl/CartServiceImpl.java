@@ -1,11 +1,10 @@
 package com.youlai.mall.oms.service.impl;
 
-import com.youlai.common.web.util.RequestUtils;
+import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.vo.CartVO;
 import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.pms.api.app.PmsSkuFeignService;
-import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +40,7 @@ public class CartServiceImpl implements ICartService {
     @Override
     public CartVO getCart() {
         CartVO cart = new CartVO();
-        Long memberId=RequestUtils.getUserId();
+        Long memberId= JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         List<CartVO.CartItem> cartItems = cartHashOperations.values();
         cart.setItems(cartItems);
@@ -60,7 +59,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean deleteCart() {
-        String key = OmsConstants.CART_PREFIX + RequestUtils.getUserId();
+        String key = OmsConstants.CART_PREFIX + JwtUtils.getUserId();
         redisTemplate.delete(key);
         return true;
     }
@@ -70,7 +69,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean addCartItem(Long skuId) {
-        Long memberId=RequestUtils.getUserId();
+        Long memberId= JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
 
@@ -109,7 +108,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean updateCartItem(CartVO.CartItem cartItem) {
-        Long memberId=RequestUtils.getUserId();
+        Long memberId= JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
         if (cartHashOperations.get(hKey) != null) {
@@ -130,7 +129,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCartItem(Long skuId) {
-        Long memberId=RequestUtils.getUserId();
+        Long memberId= JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
         cartHashOperations.delete(hKey);
@@ -143,7 +142,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean checkAll(boolean checked) {
-        Long memberId=RequestUtils.getUserId();
+        Long memberId= JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
             CartVO.CartItem cartItem = (CartVO.CartItem) value;
@@ -161,7 +160,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCheckedItem() {
-        Long memberId=RequestUtils.getUserId();
+        Long memberId= JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
             CartVO.CartItem cartItem = (CartVO.CartItem) value;
