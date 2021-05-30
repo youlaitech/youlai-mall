@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "【系统管理】商品库存")
 @RestController
-@RequestMapping("/api.admin/v1/skus")
+@RequestMapping("/v1/skus")
 @Slf4j
 @AllArgsConstructor
 public class SkuController {

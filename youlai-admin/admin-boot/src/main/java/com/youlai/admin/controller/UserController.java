@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.common.enums.PermTypeEnum;
-import com.youlai.admin.handler.UserBlockHandler;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.dto.UserDTO;
@@ -15,7 +14,7 @@ import com.youlai.admin.pojo.vo.UserVO;
 import com.youlai.admin.service.*;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.common.web.util.RequestUtils;
+import com.youlai.common.web.util.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "用户接口")
 @RestController
-@RequestMapping("/api.admin/v1/users")
+@RequestMapping("/users")
 @Slf4j
 @AllArgsConstructor
 public class UserController {
@@ -39,7 +38,6 @@ public class UserController {
     private final ISysUserService iSysUserService;
     private final ISysUserRoleService iSysUserRoleService;
     private final PasswordEncoder passwordEncoder;
-
     private final ISysPermissionService iSysPermissionService;
 
     @ApiOperation(value = "列表分页")
@@ -117,7 +115,7 @@ public class UserController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "局部更新")
+    @ApiOperation(value = "选择性更新")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
@@ -165,9 +163,6 @@ public class UserController {
 
 
     @ApiOperation(value = "获取当前登陆的用户信息")
-    @SentinelResource(value = "getCurrentUser",
-            blockHandlerClass = UserBlockHandler.class, blockHandler = "handleGetCurrentUserBlock"
-    )
     @GetMapping("/me")
     public Result<UserVO> getCurrentUser() {
         log.info("获取当前登陆的用户信息 begin");
@@ -175,12 +170,12 @@ public class UserController {
         UserVO userVO = new UserVO();
 
         // 用户基本信息
-        Long userId = RequestUtils.getUserId();
+        Long userId = JwtUtils.getUserId();
         SysUser user = iSysUserService.getById(userId);
         BeanUtil.copyProperties(user, userVO);
 
         // 用户角色信息
-        List<Long> roleIds = RequestUtils.getRoleIds();
+        List<Long> roleIds = JwtUtils.getRoleIds();
         userVO.setRoles(roleIds);
 
         // 用户按钮权限信息

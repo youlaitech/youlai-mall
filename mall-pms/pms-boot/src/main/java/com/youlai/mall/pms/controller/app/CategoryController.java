@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "【移动端】商品分类")
+@Api(tags = "【,.l】商品分类")
+
 @RestController("AppCategoryController")
 @RequestMapping("/api.app/v1/categories")
 @Slf4j

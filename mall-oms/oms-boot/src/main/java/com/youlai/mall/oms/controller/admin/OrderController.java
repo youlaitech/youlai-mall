@@ -31,7 +31,7 @@ import java.util.Optional;
  */
 @Api(tags = "【系统管理】订单服务")
 @RestController("AdminOrderController")
-@RequestMapping("/api.admin/v1/orders")
+@RequestMapping("/v1/orders")
 @Slf4j
 @AllArgsConstructor
 public class OrderController {

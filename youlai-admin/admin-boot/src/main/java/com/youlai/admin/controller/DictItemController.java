@@ -19,12 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Api(tags = "字典项接口")
 @RestController
-@RequestMapping("/api.admin/v1/dict_items")
+@RequestMapping("/dict-items")
 @Slf4j
 @AllArgsConstructor
 public class DictItemController {
@@ -91,7 +90,6 @@ public class DictItemController {
     public Result update(
             @PathVariable Long id,
             @RequestBody SysDictItem dictItem) {
-        dictItem.setGmtModified(new Date());
         boolean status = iSysDictItemService.updateById(dictItem);
         return Result.judge(status);
     }
@@ -105,7 +103,7 @@ public class DictItemController {
     }
 
 
-    @ApiOperation(value = "局部更新字典数据")
+    @ApiOperation(value = "选择性更新字典数据")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")

@@ -23,7 +23,7 @@ import java.util.List;
 
 @Api(tags = "【系统管理】品牌接口")
 @RestController
-@RequestMapping("/api.admin/v1/brands")
+@RequestMapping("/v1/brands")
 @Slf4j
 @AllArgsConstructor
 public class BrandController {

@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.common.constant.AdminConstants;
+import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
 import com.youlai.admin.pojo.vo.RouterVO;
@@ -29,21 +29,21 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<MenuVO> listMenuVO(LambdaQueryWrapper<SysMenu> baseQuery) {
         List<SysMenu> menuList = this.baseMapper.selectList(baseQuery);
-        List<MenuVO> list = recursionForTree(AdminConstants.ROOT_MENU_ID, menuList);
+        List<MenuVO> list = recursionForTree(SystemConstants.ROOT_MENU_ID, menuList);
         return list;
     }
 
     @Override
     public List<TreeVO> listTreeVO(LambdaQueryWrapper<SysMenu> baseQuery) {
         List<SysMenu> menuList = this.list(baseQuery);
-        List<TreeVO> list = recursionForTreeSelect(AdminConstants.ROOT_MENU_ID, menuList);
+        List<TreeVO> list = recursionForTreeSelect(SystemConstants.ROOT_MENU_ID, menuList);
         return list;
     }
 
     @Override
     public List<RouterVO> listRouterVO() {
         List<SysMenu> menuList = this.baseMapper.listForRouter();
-        List<RouterVO> list = recursionForRoutes(AdminConstants.ROOT_MENU_ID, menuList);
+        List<RouterVO> list = recursionForRoutes(SystemConstants.ROOT_MENU_ID, menuList);
         return list;
     }
 
@@ -54,7 +54,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .forEach(menu -> {
                     RouterVO routerVO = new RouterVO();
                     routerVO.setName(menu.getName());
-                    if (AdminConstants.ROOT_MENU_ID.equals(parentId)) {
+                    if (SystemConstants.ROOT_MENU_ID.equals(parentId)) {
                         routerVO.setPath(menu.getPath());
                         routerVO.setComponent("Layout");
                     } else {

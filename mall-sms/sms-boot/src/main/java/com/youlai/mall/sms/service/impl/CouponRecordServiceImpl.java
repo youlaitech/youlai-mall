@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.util.RequestUtils;
+import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.mapper.SmsCouponRecordDao;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.domain.SmsCouponRecord;
@@ -40,7 +40,7 @@ public class CouponRecordServiceImpl extends ServiceImpl<SmsCouponRecordDao, Sms
 
     @Override
     public void add(String couponId) {
-        Long userId = RequestUtils.getUserId();
+        Long userId = JwtUtils.getUserId();
         RLock lock = redissonClient.getLock(COUPON_LOCK + couponId);
         lock.lock();
 
@@ -53,8 +53,8 @@ public class CouponRecordServiceImpl extends ServiceImpl<SmsCouponRecordDao, Sms
             couponRecord.setStartTime(new Date());
             couponRecord.setEndTime(DateUtil.offsetDay(new Date(), coupon.getValidDays()));
             couponRecord.setUseState(CouponStateEnum.NEW.name());
-            couponRecord.setUserId(RequestUtils.getUserId());
-            couponRecord.setUserName(RequestUtils.getUsername());
+            couponRecord.setUserId(JwtUtils.getUserId());
+            couponRecord.setUserName(JwtUtils.getUsername());
             couponRecord.setCouponId(coupon.getId());
             couponRecord.setId(null);
 

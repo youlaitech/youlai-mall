@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "【系统管理】商品属性")
 @RestController
-@RequestMapping("/api.admin/v1/attributes")
+@RequestMapping("/v1/attributes")
 @Slf4j
 @AllArgsConstructor
 public class AttributeController {

@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags = "文件接口")
 @RestController
-@RequestMapping("/api.admin/v1/files")
+@RequestMapping("/files")
 @Slf4j
 @AllArgsConstructor
 public class MinIOController {

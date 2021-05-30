@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "令牌接口")
 @RestController
-@RequestMapping("/api.admin/v1/tokens")
+@RequestMapping("/tokens")
 @Slf4j
 @AllArgsConstructor
 public class TokenController {

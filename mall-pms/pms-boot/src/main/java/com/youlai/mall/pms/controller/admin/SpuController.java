@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "【系统管理】商品信息")
 @RestController
-@RequestMapping("/api.admin/v1/spus")
+@RequestMapping("/v1/spus")
 @Slf4j
 @AllArgsConstructor
 public class SpuController {

@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "角色接口")
 @RestController
-@RequestMapping("/api.admin/v1/roles")
+@RequestMapping("/roles")
 @Slf4j
 @AllArgsConstructor
 public class RoleController {
@@ -61,8 +61,8 @@ public class RoleController {
                 LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<SysRole>()
                         .like(StrUtil.isNotBlank(name), SysRole::getName, name)
                         .orderByAsc(SysRole::getSort)
-                        .orderByDesc(SysRole::getGmtModified)
-                        .orderByDesc(SysRole::getGmtCreate);
+                        .orderByDesc(SysRole::getUpdateTime)
+                        .orderByDesc(SysRole::getCreateTime);
                 Page<SysRole> result = iSysRoleService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());
             case LIST:
@@ -115,7 +115,7 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "局部更新角色")
+    @ApiOperation(value = "选择性更新角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
