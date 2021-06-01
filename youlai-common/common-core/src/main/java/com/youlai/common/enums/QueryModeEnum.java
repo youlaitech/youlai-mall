@@ -19,7 +19,7 @@ public enum QueryModeEnum {
         this.code=code;
     }
 
-    public static QueryModeEnum getValue(String code){
+    public static QueryModeEnum getByCode(String code){
         for (QueryModeEnum value : values()) {
             if (value.getCode().equals(code)) {
                 return value;

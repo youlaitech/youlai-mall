@@ -13,7 +13,7 @@ public class UserVO {
 
     private String avatar;
 
-    private List<Long> roles;
+    private List<String> roles;
 
     private List<String> perms ;
 

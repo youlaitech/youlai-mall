@@ -43,7 +43,7 @@ public class MemberController {
             Integer limit,
             String nickname
     ) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         LambdaQueryWrapper<UmsMember> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.ne(UmsMember::getDeleted, GlobalConstants.DELETED_VALUE);
         switch (queryModeEnum) {

@@ -80,6 +80,8 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
 
+
+
         <!-- 配置读取 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -95,6 +97,12 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-log</artifactId>
+            <version>${youlai.version}</version>
         </dependency>
     </dependencies>
 

@@ -42,7 +42,7 @@ public class AdvertController {
             Integer page,
             Integer limit,
             String name) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         switch (queryModeEnum) {
             default:
                 LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
