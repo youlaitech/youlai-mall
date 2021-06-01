@@ -1,5 +1,6 @@
 package com.youlai.admin.controller;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -14,6 +15,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
+import com.youlai.common.web.util.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,7 +23,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 public class RoleController {
+
 
     private ISysRoleService iSysRoleService;
 
@@ -47,19 +49,24 @@ public class RoleController {
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "tenantId", value = "租户编码", paramType = "query", dataType = "Long")
     })
     @GetMapping
     public Result list(
             String queryMode,
             Integer page,
             Integer limit,
-            String name
+            String name,
+            Integer tenantId
     ) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
+        List<String> roles = JwtUtils.getRoles();
+        boolean isRoot = roles.contains(GlobalConstants.ROOT_ROLE_CODE);  // 判断是否是超级管理员
         switch (queryModeEnum) {
             case PAGE:
                 LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<SysRole>()
                         .like(StrUtil.isNotBlank(name), SysRole::getName, name)
+                        .ne(!isRoot, SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
                         .orderByAsc(SysRole::getSort)
                         .orderByDesc(SysRole::getUpdateTime)
                         .orderByDesc(SysRole::getCreateTime);
@@ -67,7 +74,10 @@ public class RoleController {
                 return Result.success(result.getRecords(), result.getTotal());
             case LIST:
                 List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
-                        .eq(SysRole::getStatus, GlobalConstants.STATUS_YES));
+                        .eq(SysRole::getStatus, GlobalConstants.STATUS_YES)
+                        .ne(!isRoot, SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
+                        .orderByAsc(SysRole::getSort)
+                );
                 return Result.success(list);
             default:
                 return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
@@ -80,9 +90,14 @@ public class RoleController {
     @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     @PostMapping
     public Result add(@RequestBody SysRole role) {
+        int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
+                .eq(SysRole::getCode, role.getCode())
+                .ne(SysRole::getDeleted, 1)
+        );
+        Assert.isTrue(count == 0, "角色编码已存在");
         boolean result = iSysRoleService.save(role);
         if (result) {
-            iSysPermissionService.refreshPermissionRolesCache();
+            iSysPermissionService.refreshPermRolesCache();
         }
         return Result.judge(result);
     }
@@ -96,9 +111,15 @@ public class RoleController {
     public Result update(
             @PathVariable Long id,
             @RequestBody SysRole role) {
+        int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
+                .eq(SysRole::getCode, role.getCode())
+                .ne(SysRole::getId, id)
+                .ne(SysRole::getDeleted, 1)
+        );
+        Assert.isTrue(count == 0, "角色编码已存在");
         boolean result = iSysRoleService.updateById(role);
         if (result) {
-            iSysPermissionService.refreshPermissionRolesCache();
+            iSysPermissionService.refreshPermRolesCache();
         }
         return Result.judge(result);
     }
@@ -110,7 +131,7 @@ public class RoleController {
         boolean result = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()
                 .map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         if (result) {
-            iSysPermissionService.refreshPermissionRolesCache();
+            iSysPermissionService.refreshPermRolesCache();
         }
         return Result.judge(result);
     }
@@ -127,38 +148,37 @@ public class RoleController {
                 .set(role.getStatus() != null, SysRole::getStatus, role.getStatus());
         boolean result = iSysRoleService.update(updateWrapper);
         if (result) {
-            iSysPermissionService.refreshPermissionRolesCache();
+            iSysPermissionService.refreshPermRolesCache();
         }
         return Result.judge(result);
     }
 
     @ApiOperation(value = "角色拥有的菜单ID集合")
     @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}/menu_ids")
-    public Result roleMenuIds(@PathVariable("id") Long roleId) {
+    @GetMapping("/{id}/menus")
+    public Result listRoleMenu(@PathVariable("id") Long roleId) {
         List<Long> menuIds = iSysRoleMenuService.listMenuIds(roleId);
         return Result.success(menuIds);
     }
 
     @ApiOperation(value = "角色拥有的权限ID集合")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "type", value = "权限类型", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Integer"),
     })
-    @GetMapping("/{id}/permission_ids")
-    public Result rolePermissionIds(@PathVariable("id") Long roleId, @RequestParam Integer type) {
-        List<Long> permissionIds = iSysRolePermissionService.listPermissionIds(roleId, type);
+    @GetMapping("/{id}/permissions")
+    public Result listRolePermission(@PathVariable("id") Long roleId, Long menuId) {
+        List<Long> permissionIds = iSysRolePermissionService.listPermissionIds(menuId, roleId);
         return Result.success(permissionIds);
     }
-
 
     @ApiOperation(value = "修改角色菜单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     })
-    @PutMapping(value = "/{id}/menu_ids")
-    public Result updateRoleMenuIds(
+    @PutMapping(value = "/{id}/menus")
+    public Result updateRoleMenu(
             @PathVariable("id") Long roleId,
             @RequestBody SysRole role) {
 
@@ -172,14 +192,14 @@ public class RoleController {
             @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "rolePermission", value = "实体JSON对象", required = true, paramType = "body", dataType = "RolePermissionDTO")
     })
-    @PutMapping(value = "/{id}/permission_ids")
-    public Result updateRolePermissionIds(
+    @PutMapping(value = "/{id}/permissions")
+    public Result updateRolePermission(
             @PathVariable("id") Long roleId,
             @RequestBody RolePermissionDTO rolePermission) {
         rolePermission.setRoleId(roleId);
         boolean result = iSysRolePermissionService.update(rolePermission);
         if (result) {
-            iSysPermissionService.refreshPermissionRolesCache();
+            iSysPermissionService.refreshPermRolesCache();
         }
         return Result.judge(result);
     }

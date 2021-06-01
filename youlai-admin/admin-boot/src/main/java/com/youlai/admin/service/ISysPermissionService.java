@@ -9,12 +9,11 @@ import java.util.List;
 
 public interface ISysPermissionService extends IService<SysPermission> {
 
-    List<SysPermission> listPermissionRoles();
+    List<SysPermission> listPermRoles();
 
     IPage<SysPermission> list(Page<SysPermission> page, SysPermission permission);
 
-    boolean refreshPermissionRolesCache();
+    boolean refreshPermRolesCache();
 
-    List<String> listPermsByRoleIds(List<Long> roleIds, Integer type);
-
+    List<String> listPermByRoles(List<String> roles);
 }

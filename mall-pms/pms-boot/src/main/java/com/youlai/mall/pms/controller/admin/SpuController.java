@@ -45,7 +45,7 @@ public class SpuController {
             String name,
             Long categoryId
     ) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         switch (queryModeEnum) {
             case PAGE:
                 IPage<PmsSpu> result = iPmsSpuService.list(

@@ -2,7 +2,9 @@ package com.youlai.auth.service;
 
 import com.youlai.admin.api.UserFeignClient;
 import com.youlai.admin.pojo.dto.UserDTO;
+import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.auth.domain.OAuthUserDetails;
+import com.youlai.auth.enums.OAuthClientEnum;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
@@ -33,36 +35,36 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String clientId = JwtUtils.getAuthClientId();
+        OAuthClientEnum client = OAuthClientEnum.getByClientId(clientId);
 
-        OAuthUserDetails OAuthUserDetails = null;
         Result result;
-        switch (clientId) {
-            case AuthConstants.ADMIN_CLIENT_ID: // 后台用户
-                result = userFeignClient.getUserByUsername(username);
-                log.info("获取用户信息：{}", result.toString());
-                if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
-                    UserDTO userDTO = (UserDTO) result.getData();
-                    OAuthUserDetails = new OAuthUserDetails(userDTO);
-                }
-                break;
-            case AuthConstants.WEAPP_CLIENT_ID: // 小程序会员
+        OAuthUserDetails oauthUser = null;
+        switch (client) {
+            case WEAPP: // 小程序会员
                 result = memberFeignClient.getUserByOpenid(username);
                 if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
                     AuthMemberDTO authMemberDTO = (AuthMemberDTO) result.getData();
-                    OAuthUserDetails = new OAuthUserDetails(authMemberDTO);
+                    oauthUser = new OAuthUserDetails(authMemberDTO);
+                }
+                break;
+            default:
+                result = userFeignClient.getUserByUsername(username);
+                if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
+                    SysUser sysUser = (SysUser)result.getData();
+                    oauthUser = new OAuthUserDetails(sysUser);
                 }
                 break;
         }
-        if (OAuthUserDetails == null || OAuthUserDetails.getId() == null) {
+        if (oauthUser == null || oauthUser.getId() == null) {
             throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
-        } else if (!OAuthUserDetails.isEnabled()) {
+        } else if (!oauthUser.isEnabled()) {
             throw new DisabledException("该账户已被禁用!");
-        } else if (!OAuthUserDetails.isAccountNonLocked()) {
+        } else if (!oauthUser.isAccountNonLocked()) {
             throw new LockedException("该账号已被锁定!");
-        } else if (!OAuthUserDetails.isAccountNonExpired()) {
+        } else if (!oauthUser.isAccountNonExpired()) {
             throw new AccountExpiredException("该账号已过期!");
         }
-        return OAuthUserDetails;
+        return oauthUser;
     }
 
 }

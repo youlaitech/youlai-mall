@@ -29,6 +29,8 @@ public class SysUser extends BaseEntity {
 
     private String password;
 
+    private String email;
+
     private Integer status;
 
     private Long deptId;
@@ -45,5 +47,9 @@ public class SysUser extends BaseEntity {
 
     @TableField(exist = false)
     private String roleNames;
+
+    @TableField(exist = false)
+    private List<String> roles;
+
 
 }
