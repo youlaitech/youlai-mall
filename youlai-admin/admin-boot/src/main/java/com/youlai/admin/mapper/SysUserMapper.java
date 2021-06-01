@@ -41,4 +41,5 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     })
     List<SysUser> list(Page<SysUser> page, SysUser user);
 
+    SysUser getByUsername(String username);
 }

@@ -9,4 +9,10 @@ public interface GlobalConstants {
 
     Integer DELETED_VALUE = 1;
 
+    String ROOT_ROLE_CODE  = "ROOT";
+
+
+    String URL_PERM_ROLES_PREFIX = "system:permission:url_perm_roles:";
+    String BTN_PERM_ROLES_PREFIX = "system:permission:btn_perm_roles:";
+
 }

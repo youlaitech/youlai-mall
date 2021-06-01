@@ -50,7 +50,7 @@ public class DeptController {
                 .orderByAsc(SysDept::getSort)
                 .orderByDesc(SysDept::getUpdateTime)
                 .orderByDesc(SysDept::getCreateTime);
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
 
         switch (queryModeEnum) {
             case LIST:

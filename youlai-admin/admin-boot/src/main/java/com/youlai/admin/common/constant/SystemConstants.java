@@ -12,6 +12,6 @@ public interface SystemConstants {
     String ROOT_ROLE_CODE = "ROOT";
 
 
-    String BTN_PERM_ROLES_PREFIX="system:btn_perm_roles:";
-    String URL_PERM_ROLES_PREFIX="system:url_perm_roles:";
+    String BTN_PERM_ROLES_KEY="system:btn_perm_roles:";
+    String URL_PERM_ROLES_KEY="system:url_perm_roles:";
 }

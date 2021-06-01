@@ -39,7 +39,7 @@ public class BrandController {
     })
     @GetMapping
     public Result list(String queryMode, Integer page, Integer limit, String name) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<>();
         switch (queryModeEnum) {
             case PAGE:

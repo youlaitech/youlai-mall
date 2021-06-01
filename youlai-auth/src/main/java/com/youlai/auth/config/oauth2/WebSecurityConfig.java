@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/getPublicKey","/oauth/logout").permitAll()
+                .authorizeRequests().antMatchers("/oauth/public-key","/oauth/logout").permitAll()
 
                  // @link https://gitee.com/xiaoym/knife4j/issues/I1Q5X6 (Security放行url)
                 .antMatchers("/webjars/**","/doc.html","/swagger-resources/**","/v2/api-docs").permitAll()

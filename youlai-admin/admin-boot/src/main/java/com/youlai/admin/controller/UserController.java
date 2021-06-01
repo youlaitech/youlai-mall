@@ -139,26 +139,9 @@ public class UserController {
     @ApiOperation(value = "根据用户名获取用户信息")
     @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
     @GetMapping("/username/{username}")
-    public Result getUserByUsername(@PathVariable String username) {
-        SysUser user = iSysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUsername, username));
-
-        // 用户不存在，返回自定义异常，让调用端处理后续逻辑
-        if (user == null) {
-            return Result.failed(ResultCode.USER_NOT_EXIST);
-        }
-
-        // Entity->DTO
-        UserDTO userDTO = new UserDTO();
-        BeanUtil.copyProperties(user, userDTO);
-
-        // 获取用户的角色ID集合
-        List<Long> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                .eq(SysUserRole::getUserId, user.getId())
-        ).stream().map(item -> item.getRoleId()).collect(Collectors.toList());
-        userDTO.setRoleIds(roleIds);
-
-        return Result.success(userDTO);
+    public Result<SysUser> getUserByUsername(@PathVariable String username) {
+        SysUser user = iSysUserService.getByUsername(username);
+        return Result.success(user);
     }
 
 
@@ -175,11 +158,11 @@ public class UserController {
         BeanUtil.copyProperties(user, userVO);
 
         // 用户角色信息
-        List<Long> roleIds = JwtUtils.getRoleIds();
-        userVO.setRoles(roleIds);
+        List<String> roles = JwtUtils.getRoles();
+        userVO.setRoles(roles);
 
         // 用户按钮权限信息
-        List<String> perms = iSysPermissionService.listPermsByRoleIds(roleIds, PermTypeEnum.BUTTON.getValue());
+        List<String> perms = iSysPermissionService.listPermByRoles(roles);
         userVO.setPerms(perms);
 
         return Result.success(userVO);

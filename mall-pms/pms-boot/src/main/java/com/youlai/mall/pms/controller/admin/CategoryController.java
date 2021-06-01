@@ -39,7 +39,7 @@ public class CategoryController {
     })
     @GetMapping
     public Result list(String queryMode) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         PmsCategory category = new PmsCategory();
         List list;
         switch (queryModeEnum) {

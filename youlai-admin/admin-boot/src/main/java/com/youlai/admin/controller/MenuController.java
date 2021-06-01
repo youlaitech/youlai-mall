@@ -42,7 +42,7 @@ public class MenuController {
     @GetMapping
     public Result list(String queryMode, String name) {
 
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
 
         LambdaQueryWrapper<SysMenu> baseQuery = new LambdaQueryWrapper<SysMenu>()
                 .orderByAsc(SysMenu::getSort)

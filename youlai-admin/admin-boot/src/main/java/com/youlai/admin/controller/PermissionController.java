@@ -42,7 +42,7 @@ public class PermissionController {
             String name,
             Long menuId
     ) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         switch (queryModeEnum) {
             case PAGE:
                 IPage<SysPermission> result = iSysPermissionService.list(
@@ -72,7 +72,7 @@ public class PermissionController {
     public Result add(@RequestBody SysPermission permission) {
         boolean result = iSysPermissionService.save(permission);
         if (result) {
-            iSysPermissionService.refreshPermissionRolesCache();
+            iSysPermissionService.refreshPermRolesCache();
         }
         return Result.judge(result);
     }
@@ -88,7 +88,7 @@ public class PermissionController {
             @RequestBody SysPermission permission) {
         boolean result = iSysPermissionService.updateById(permission);
         if (result) {
-            iSysPermissionService.refreshPermissionRolesCache();
+            iSysPermissionService.refreshPermRolesCache();
         }
         return Result.judge(result);
     }

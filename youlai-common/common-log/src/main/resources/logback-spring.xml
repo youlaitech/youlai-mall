@@ -24,6 +24,11 @@
         <appender-ref ref="CONSOLE"/>
     </logger>
 
+    <!--nacos 心跳 INFO 屏蔽-->
+    <logger name="com.alibaba.nacos" level="OFF">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
     <!-- 根logger -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>

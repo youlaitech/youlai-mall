@@ -12,10 +12,8 @@
         <result property="btnPerm" column="btn_perm" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <collection property="roles" ofType="String">
-            <constructor>
-                <arg column="code"/>
-            </constructor>
+        <collection property="roles" ofType="String" javaType="list">
+            <result column="code"/>
         </collection>
     </resultMap>
 
@@ -26,7 +24,7 @@
         update_time
     </sql>
 
-    <select id="listPermRoles" resultType="com.youlai.admin.pojo.entity.SysPermission">
+    <select id="listPermRoles" resultMap="BaseResultMap">
         select t1.id, t1.name, t1.menu_id, t1.url_perm, t1.btn_perm, t3.code
         from sys_permission t1,
              sys_role_permission t2,
@@ -34,6 +32,15 @@
         where t1.id = t2.permission_id
           and t2.role_id = t3.id
     </select>
-
-
+    <select id="listPermByRoles" resultType="java.lang.String">
+        SELECT
+        t1.btn_perm
+        FROM
+        sys_permission t1,sys_role_permission t2 ,sys_role t3
+        WHERE t1.id=t2.permission_id and t2.role_id=t3.id and
+        t3.code IN
+        <foreach collection='roles' item='role' open='(' separator=',' close=')'>
+            #{role}
+        </foreach>
+    </select>
 </mapper>

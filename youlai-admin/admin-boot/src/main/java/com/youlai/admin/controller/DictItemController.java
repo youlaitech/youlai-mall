@@ -46,7 +46,7 @@ public class DictItemController {
             String name,
             String dictCode
     ) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getValue(queryMode);
+        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         switch (queryModeEnum) {
             case PAGE:
                 IPage<SysDictItem> result = iSysDictItemService.list(new Page<>(page, limit), new SysDictItem().setName(name).setDictCode(dictCode));
