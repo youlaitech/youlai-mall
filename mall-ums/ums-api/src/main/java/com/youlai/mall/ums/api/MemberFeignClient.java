@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "mall-ums",contextId = "member")
 public interface MemberFeignClient {
 
-    @PostMapping("/api.app/v1/members")
+    @PostMapping("/v1/members")
     Result add(@RequestBody UmsMember user);
 
     /**
      * 获取会员信息
      */
-    @GetMapping("/api.app/v1/members/{id}")
+    @GetMapping("/v1/members/{id}")
     Result<MemberDTO> getUserById(@PathVariable Long id);
 
 
     /**
      * 获取认证会员信息
      */
-    @GetMapping("/api.app/v1/members/openid/{openid}")
+    @GetMapping("/v1/members/openid/{openid}")
     Result<AuthMemberDTO> getUserByOpenid(@PathVariable String openid);
 
     /**
@@ -35,14 +35,14 @@ public interface MemberFeignClient {
     /**
      * 扣减会员余额
      */
-    @PutMapping("/api.app/v1/members/{id}/deduct_balance")
+    @PutMapping("/v1/members/{id}/deduct_balance")
     Result deductBalance(@PathVariable Long id, @RequestParam Long balance);
 
 
     /**
      * 获取会员余额
      */
-    @GetMapping("/api.app/v1/members/{id}/balance")
+    @GetMapping("/v1/members/{id}/balance")
     Result<Long> getBalance(@PathVariable Long id);
 
 

@@ -121,7 +121,7 @@
                         <id>build-image</id>
                         <phase>package</phase>
                         <goals>
-                            <!-- <goal>build</goal>-->
+                            <goal>build</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.bo.app.ProductBO;
-import com.youlai.mall.pms.pojo.domain.PmsSpu;
+import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.dto.app.ProductDTO;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import com.youlai.mall.pms.service.IProductService;
@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Api(tags = "【移动端】商品信息")
-@RestController("AppSpuController")
-@RequestMapping("/api.app/v1/products")
+@RestController("APPSpuController")
+@RequestMapping("/app-api/v1/products")
 @AllArgsConstructor
 public class ProductController {
 

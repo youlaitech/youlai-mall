@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
  */
 public class WebUtils {
 
-    public static Mono writeFailedToResponse(ServerHttpResponse response,ResultCode resultCode){
+    public static Mono writeErrorInfoToResponse(ServerHttpResponse response,ResultCode resultCode){
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getHeaders().set("Access-Control-Allow-Origin", "*");

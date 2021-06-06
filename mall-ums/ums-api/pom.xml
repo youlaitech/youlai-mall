@@ -20,6 +20,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- 远程调用HTTP客户端 -->

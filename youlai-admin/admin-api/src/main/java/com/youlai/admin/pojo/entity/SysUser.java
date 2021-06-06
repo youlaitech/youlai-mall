@@ -36,7 +36,7 @@ public class SysUser extends BaseEntity {
     private Long deptId;
 
     @ApiModelProperty("逻辑删除标识 0-未删除 1-已删除")
-    @TableLogic(value = "0", delval = "1")
+    // @TableLogic(value = "0", delval = "1")
     private Integer deleted;
 
     @TableField(exist = false)

@@ -18,23 +18,22 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
 
 
     @Override
-    public List<Long> listPermissionIds(Long roleId) {
-        return this.baseMapper.listPermissionIds(null, roleId);
+    public List<Long> listPermissionId(Long roleId) {
+        return this.baseMapper.listPermissionId(null, roleId);
     }
 
     @Override
-    public List<Long> listPermissionIds(Long moduleId, Long roleId) {
-        return this.baseMapper.listPermissionIds(moduleId, roleId);
+    public List<Long> listPermissionId(Long menuId, Long roleId) {
+        return this.baseMapper.listPermissionId(menuId, roleId);
     }
 
     @Override
     public boolean update(RolePermissionDTO rolePermission) {
         boolean result = true;
         List<Long> permissionIds = rolePermission.getPermissionIds();
-        Long moduleId = rolePermission.getModuleId();
+        Long menuId = rolePermission.getMenuId();
         Long roleId = rolePermission.getRoleId();
-        Integer type = rolePermission.getType();
-        List<Long> dbPermissionIds = this.baseMapper.listPermissionIds(moduleId, roleId);
+        List<Long> dbPermissionIds = this.baseMapper.listPermissionId(menuId, roleId);
 
         // 删除数据库存在此次提交不存在的
         if (CollectionUtil.isNotEmpty(dbPermissionIds)) {

@@ -1,11 +1,11 @@
 package com.youlai.auth.config.oauth2;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.domain.OAuthUserDetails;
-import com.youlai.auth.service.CustomJdbcClientDetailsService;
-import com.youlai.auth.service.CustomUserDetailsService;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.auth.service.ClientDetailsServiceImpl;
+import com.youlai.auth.service.UserDetailsServiceImpl;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.AllArgsConstructor;
@@ -24,42 +24,36 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 授权服务配置
+ * 认证授权配置
  */
 @Configuration
 @EnableAuthorizationServer
 @AllArgsConstructor
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private DataSource dataSource;
     private AuthenticationManager authenticationManager;
-    private CustomUserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
+    private ClientDetailsServiceImpl clientDetailsService;
 
     /**
-     * 配置客户端详情(数据库)
+     * OAuth2客户端【数据库加载】
      */
     @Override
     @SneakyThrows
     public void configure(ClientDetailsServiceConfigurer clients) {
-        CustomJdbcClientDetailsService jdbcClientDetailsService = new CustomJdbcClientDetailsService(dataSource);
-        jdbcClientDetailsService.setFindClientDetailsSql(AuthConstants.FIND_CLIENT_DETAILS_SQL);
-        jdbcClientDetailsService.setSelectClientDetailsSql(AuthConstants.SELECT_CLIENT_DETAILS_SQL);
-        clients.withClientDetails(jdbcClientDetailsService);
+        clients.withClientDetails(clientDetailsService);
     }
 
     /**
@@ -84,29 +78,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
 
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) {
-        security.allowFormAuthenticationForClients();
-    }
-
-
-    /**
-     * 自定义认证异常响应数据
-     */
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint() {
-        return (request, response, e) -> {
-            response.setStatus(HttpStatus.HTTP_OK);
-            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Cache-Control", "no-cache");
-            Result result = Result.failed(ResultCode.CLIENT_AUTHENTICATION_FAILED);
-            response.getWriter().print(JSONUtil.toJsonStr(result));
-            response.getWriter().flush();
-        };
-    }
-
-
     /**
      * 使用非对称加密算法对token签名
      */
@@ -122,8 +93,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Bean
     public KeyPair keyPair() {
-        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("youlai.jks"), "123456".toCharArray());
-        KeyPair keyPair = factory.getKeyPair("youlai", "123456".toCharArray());
+        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
+        KeyPair keyPair = factory.getKeyPair("jwt", "123456".toCharArray());
         return keyPair;
     }
 
@@ -133,11 +104,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            Map<String, Object> map = new HashMap<>(8);
+            Map<String, Object> additionalInfo = CollectionUtil.newHashMap();
             OAuthUserDetails OAuthUserDetails = (OAuthUserDetails) authentication.getUserAuthentication().getPrincipal();
-            map.put("userId", OAuthUserDetails.getId());
-            map.put("username", OAuthUserDetails.getUsername());
-            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(map);
+            additionalInfo.put("userId", OAuthUserDetails.getId());
+            additionalInfo.put("username", OAuthUserDetails.getUsername());
+            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         };
     }
@@ -153,11 +124,30 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
      * 密码编码器
+     * <p>
+     * 委托方式，根据密码的前缀选择对应的encoder，例如：{bcypt}前缀->标识BCYPT算法加密；{noop}->标识不使用任何加密即明文的方式
      * 密码判读 DaoAuthenticationProvider#additionalAuthenticationChecks
+     *
      * @return
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    /**
+     * 自定义认证异常响应数据
+     */
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, e) -> {
+            response.setStatus(HttpStatus.HTTP_OK);
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Cache-Control", "no-cache");
+            Result result = Result.failed(ResultCode.CLIENT_AUTHENTICATION_FAILED);
+            response.getWriter().print(JSONUtil.toJsonStr(result));
+            response.getWriter().flush();
+        };
     }
 }

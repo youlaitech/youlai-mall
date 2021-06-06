@@ -58,7 +58,6 @@ public class JwtUtils {
 
         // 从请求头获取
         String basic = request.getHeader(AuthConstants.AUTHORIZATION_KEY);
-        basic = request.getHeader(AuthConstants.AUTHORIZATION_KEY);
         if (StrUtil.isNotBlank(basic) && basic.startsWith(AuthConstants.BASIC_PREFIX)) {
             basic = basic.replace(AuthConstants.BASIC_PREFIX, Strings.EMPTY);
             String basicPlainText = new String(new BASE64Decoder().decodeBuffer(basic), "UTF-8");

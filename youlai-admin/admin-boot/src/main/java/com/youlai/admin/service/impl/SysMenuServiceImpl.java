@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
-import com.youlai.admin.pojo.vo.RouterVO;
+import com.youlai.admin.pojo.vo.RouteVO;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.vo.TreeVO;
 import com.youlai.admin.service.ISysMenuService;
@@ -40,47 +40,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return list;
     }
 
-    @Override
-    public List<RouterVO> listRouterVO() {
-        List<SysMenu> menuList = this.baseMapper.listForRouter();
-        List<RouterVO> list = recursionForRoutes(SystemConstants.ROOT_MENU_ID, menuList);
-        return list;
-    }
-
-    // 递归生成路由
-    private List<RouterVO> recursionForRoutes(Long parentId, List<SysMenu> menuList) {
-        List<RouterVO> list = new ArrayList<>();
-        Optional.ofNullable(menuList).ifPresent(menus -> menus.stream().filter(menu -> menu.getParentId().equals(parentId))
-                .forEach(menu -> {
-                    RouterVO routerVO = new RouterVO();
-                    routerVO.setName(menu.getName());
-                    if (SystemConstants.ROOT_MENU_ID.equals(parentId)) {
-                        routerVO.setPath(menu.getPath());
-                        routerVO.setComponent("Layout");
-                    } else {
-                        routerVO.setPath(menu.getPath());// 显示在地址栏上
-                        routerVO.setComponent(menu.getComponent());
-                    }
-                    routerVO.setRedirect(menu.getRedirect());
-                    routerVO.setMeta(routerVO.new Meta(
-                            menu.getName(),
-                            menu.getIcon(),
-                            menu.getRoles()
-                    ));
-                    // 菜单显示隐藏
-                    routerVO.setHidden(!GlobalConstants.STATUS_YES.equals(menu.getVisible()) );
-                    List<RouterVO> children = recursionForRoutes(menu.getId(), menuList);
-                    routerVO.setChildren(children);
-                    if(CollectionUtil.isNotEmpty(children)){
-                        routerVO.setAlwaysShow(Boolean.TRUE); // 显示子节点
-                    }
-                    list.add(routerVO);
-                }));
-        return list;
-    }
 
     /**
-     * 递归生成部门表格数据
+     * 递归生成表格数据
      *
      * @param parentId
      * @param menuList
@@ -129,4 +91,45 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return list;
     }
 
+
+    @Override
+    public List<RouteVO> listRoute() {
+        List<SysMenu> menuList = this.baseMapper.listRoute();
+        List<RouteVO> list = recursionRoute(SystemConstants.ROOT_MENU_ID, menuList);
+        return list;
+    }
+
+    // 递归生成路由
+    private List<RouteVO> recursionRoute(Long parentId, List<SysMenu> menuList) {
+        List<RouteVO> list = new ArrayList<>();
+        Optional.ofNullable(menuList).ifPresent(menus -> menus.stream().filter(menu -> menu.getParentId().equals(parentId))
+                .forEach(menu -> {
+                    RouteVO routeVO = new RouteVO();
+
+                    routeVO.setName(menu.getRouteName()); // 根据name路由跳转 this.$router.push({path:xxx})
+                    routeVO.setPath(menu.getRoutePath()); // 根据path路由跳转 this.$router.push({name:xxx})
+
+                    if (SystemConstants.ROOT_MENU_ID.equals(parentId)) {
+                        routeVO.setComponent("Layout");
+                    } else {
+                        routeVO.setComponent(menu.getComponent());
+                    }
+                    routeVO.setRedirect(menu.getRedirect());
+                    routeVO.setMeta(routeVO.new Meta(
+                            menu.getName(),
+                            menu.getIcon(),
+                            menu.getRoles()
+                    ));
+                    // 菜单显示隐藏
+                    routeVO.setHidden(!GlobalConstants.STATUS_YES.equals(menu.getVisible()));
+                    List<RouteVO> children = recursionRoute(menu.getId(), menuList);
+                    routeVO.setChildren(children);
+                    if (CollectionUtil.isNotEmpty(children)) {
+                        routeVO.setAlwaysShow(Boolean.TRUE); // 显示子节点
+                    }
+                    list.add(routeVO);
+                }));
+        return list;
+
+    }
 }

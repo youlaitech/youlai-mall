@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ISysRolePermissionService extends IService<SysRolePermission> {
 
-    List<Long> listPermissionIds(Long moduleId,Long roleId);
-    List<Long> listPermissionIds(Long roleId);
+    List<Long> listPermissionId(Long moduleId,Long roleId);
+    List<Long> listPermissionId(Long roleId);
     boolean update(RolePermissionDTO rolePermission);
 
 

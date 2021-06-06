@@ -26,7 +26,15 @@ public class SysMenu extends BaseEntity {
 
     private String icon;
 
-    private String path;
+    /**
+     * 路由名称
+     */
+    private String routeName;
+
+    /**
+     * 路由路径
+     */
+    private String routePath;
 
     private String component;
 
@@ -37,6 +45,6 @@ public class SysMenu extends BaseEntity {
     private String redirect;
 
     @TableField(exist = false)
-    private List<Integer> roles;
+    private List<String> roles;
 
 }

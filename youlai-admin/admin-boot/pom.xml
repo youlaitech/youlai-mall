@@ -102,6 +102,12 @@
             <version>${youlai.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-mybatis</artifactId>
+            <version>${youlai.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -123,7 +129,7 @@
                         <id>build-image</id>
                         <phase>package</phase>
                         <goals>
-                           <!-- <goal>build</goal>-->
+                            <goal>build</goal>
                         </goals>
                     </execution>
                 </executions>

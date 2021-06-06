@@ -32,13 +32,10 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
+            <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-mybatis</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
+
 
         <!-- Api文档 -->
         <dependency>

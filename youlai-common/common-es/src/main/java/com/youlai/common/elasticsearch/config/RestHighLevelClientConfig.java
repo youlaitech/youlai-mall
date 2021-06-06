@@ -27,7 +27,6 @@ public class RestHighLevelClientConfig {
 
     @Bean
     public RestHighLevelClient restHighLevelClient() {
-
         HttpHost[] hosts = clusterNodes.stream()
                 .map(this::buildHttpHost) // eg: new HttpHost("127.0.0.1", 9200, "http")
                 .toArray(HttpHost[]::new);

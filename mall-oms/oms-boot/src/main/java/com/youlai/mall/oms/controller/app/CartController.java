@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "【移动端】购物车")
 @RestController
-@RequestMapping("/api.app/v1/carts")
+@RequestMapping("/app-api/v1/carts")
 @Slf4j
 @AllArgsConstructor
 public class CartController {

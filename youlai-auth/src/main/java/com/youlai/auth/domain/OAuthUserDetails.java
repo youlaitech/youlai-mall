@@ -2,6 +2,7 @@ package com.youlai.auth.domain;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.admin.pojo.entity.SysUser;
+import com.youlai.auth.enums.PasswordEncoderTypeEnum;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import lombok.Data;
@@ -12,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static com.youlai.common.constant.GlobalConstants.STATUS_YES;
 
 
 /**
@@ -36,19 +39,19 @@ public class OAuthUserDetails implements UserDetails {
     public OAuthUserDetails(SysUser user) {
         this.setId(user.getId());
         this.setUsername(user.getUsername());
-        this.setPassword(AuthConstants.BCRYPT + user.getPassword());
-        this.setEnabled(Integer.valueOf(1).equals(user.getStatus()));
+        this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword());
+        this.setEnabled(STATUS_YES.equals(user.getStatus()));
         if (CollectionUtil.isNotEmpty(user.getRoles())) {
             authorities = new ArrayList<>();
             user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
         }
     }
 
-    public OAuthUserDetails(AuthMemberDTO member){
+    public OAuthUserDetails(AuthMemberDTO member) {
         this.setId(member.getId());
         this.setUsername(member.getUsername());
-        this.setPassword(AuthConstants.BCRYPT + member.getPassword());
-        this.setEnabled( Integer.valueOf(1).equals(member.getStatus()));
+        this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + member.getPassword());
+        this.setEnabled(STATUS_YES.equals(member.getStatus()));
     }
 
 

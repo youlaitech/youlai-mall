@@ -1,9 +1,7 @@
 package com.youlai.mall.pms.controller.admin;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsSku;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "【系统管理】商品库存")
 @RestController
-@RequestMapping("/v1/skus")
+@RequestMapping("/api/v1/skus")
 @Slf4j
 @AllArgsConstructor
 public class SkuController {

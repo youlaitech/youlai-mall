@@ -22,7 +22,7 @@ import java.util.List;
 
 @Api(tags = "【系统管理】营销广告")
 @RestController("AdminAdvertController")
-@RequestMapping("/v1/adverts")
+@RequestMapping("/api/v1/adverts")
 @Slf4j
 @AllArgsConstructor
 public class AdvertController {
@@ -81,7 +81,6 @@ public class AdvertController {
     public Result update(
             @PathVariable Integer id,
             @RequestBody SmsAdvert advert) {
-        advert.setGmtModified(new Date());
         boolean status = iSmsAdvertService.updateById(advert);
         return Result.judge(status);
     }

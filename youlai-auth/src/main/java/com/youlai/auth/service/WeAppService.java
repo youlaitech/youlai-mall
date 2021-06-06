@@ -4,6 +4,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.util.StrUtil;
+import com.youlai.auth.enums.PasswordEncoderTypeEnum;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
@@ -75,7 +76,8 @@ public class WeAppService {
                     .setGender(Integer.valueOf(userInfo.getGender()))
                     .setOpenid(openid)
                     .setUsername(openid)
-                    .setPassword(passwordEncoder.encode(openid).replace(AuthConstants.BCRYPT, Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
+                    .setPassword(passwordEncoder.encode(openid).replace(PasswordEncoderTypeEnum.BCRYPT.getPrefix(),
+                            Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
                     .setStatus(GlobalConstants.STATUS_YES);
 
             Result res = memberFeignClient.add(user);

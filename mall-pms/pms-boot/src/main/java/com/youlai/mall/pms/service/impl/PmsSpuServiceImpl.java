@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.bo.admin.ProductBO;
-import com.youlai.mall.pms.pojo.domain.*;
+import com.youlai.mall.pms.pojo.entity.*;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.service.*;
 import lombok.AllArgsConstructor;

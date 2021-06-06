@@ -1,5 +1,6 @@
 package com.youlai.admin.service.impl;
 
+import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.pojo.entity.SysRole;
@@ -33,11 +34,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public boolean delete(List<Long> ids) {
         Optional.ofNullable(ids).orElse(new ArrayList<>()).forEach(id -> {
             int count = iSysUserRoleService.count(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getRoleId, id));
-            if (count > 0) {
-                throw new BizException("该角色已分配用户，无法删除");
-            }
+            Assert.isTrue(count <= 0, "该角色已分配用户，无法删除");
             iSysRoleMenuService.remove(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getRoleId, id));
-            iSysRolePermissionService.remove(new LambdaQueryWrapper<SysRolePermission>().eq(SysRolePermission::getRoleId,id));
+            iSysRolePermissionService.remove(new LambdaQueryWrapper<SysRolePermission>().eq(SysRolePermission::getRoleId, id));
         });
         return this.removeByIds(ids);
     }

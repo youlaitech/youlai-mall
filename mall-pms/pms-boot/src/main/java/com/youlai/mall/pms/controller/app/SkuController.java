@@ -1,7 +1,6 @@
 package com.youlai.mall.pms.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
@@ -14,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(tags = "【移动端】商品库存")
-@RestController("AppSkuController")
-@RequestMapping("/api.app/v1/skus")
+@RestController("APPSkuController")
+@RequestMapping("/app-api/v1/skus")
 @AllArgsConstructor
 public class SkuController {
 

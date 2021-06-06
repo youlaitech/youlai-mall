@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
  * @createTime 2021/3/7 22:55
  */
 @Api(tags = "【移动端】商品搜索")
-@RestController("AppSearchController")
-@RequestMapping("/api.app/v1/search")
+@RestController("APPSearchController")
+@RequestMapping("/app-api/v1/search")
 @AllArgsConstructor
 public class SearchController {
 

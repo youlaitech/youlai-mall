@@ -3,7 +3,6 @@ package com.youlai.admin.pojo.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
-
 import java.util.List;
 
 @Data
@@ -18,7 +17,9 @@ public class MenuVO extends BaseEntity {
 
     private String icon;
 
-    private String path;
+    private String routeName;
+
+    private String routePath;
 
     private String component;
 

@@ -15,11 +15,11 @@ public interface MemberAddressFeignClient {
     /**
      * 获取地址详情
      */
-    @GetMapping("/api.app/v1/addresses/{id}")
+    @GetMapping("/v1/addresses/{id}")
     Result<UmsAddress> getById(@PathVariable("id") Long id);
 
 
-    @GetMapping("/api.app/v1/addresses")
+    @GetMapping("/v1/addresses")
     Result<List<UmsAddress>> list(@RequestParam Long memberId);
 
 }

@@ -18,7 +18,7 @@ import java.util.List;
 public interface OrderMapper extends BaseMapper<OmsOrder> {
 
     @Select("<script>" +
-            " select id,order_sn,total_amount,pay_amount,pay_type,status,total_amount,total_quantity,gmt_create,member_id,source_type from oms_order" +
+            " select id,order_sn,total_amount,pay_amount,pay_type,status,total_amount,total_quantity,create_time,member_id,source_type from oms_order" +
             " where 1=1 " +
             " <if test ='order.status !=null ' >" +
             "   AND status= #{order.status} " +
@@ -35,7 +35,7 @@ public interface OrderMapper extends BaseMapper<OmsOrder> {
             " <if test ='order.endDate !=null and order.endDate.trim() neq \"\"' >" +
             "   AND date_format (gmt_crate,'%Y-%m-%d') &lt;= date_format(#{order.endDate},'%Y-%m-%d') " +
             " </if>" +
-            " order by gmt_create desc "+
+            " order by create_time desc "+
             "</script>")
     @Results({
             @Result(id = true, column = "id", property = "id"),

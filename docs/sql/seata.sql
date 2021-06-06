@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS `global_table`
     `timeout`                   INT,
     `begin_time`                BIGINT,
     `application_data`          VARCHAR(2000),
-    `gmt_create`                DATETIME,
-    `gmt_modified`              DATETIME,
+    `create_time`                DATETIME,
+    `update_time`              DATETIME,
     PRIMARY KEY (`xid`),
-    KEY `idx_gmt_modified_status` (`gmt_modified`, `status`),
+    KEY `idx_update_time_status` (`update_time`, `status`),
     KEY `idx_transaction_id` (`transaction_id`)
     ) ENGINE = InnoDB
     DEFAULT CHARSET = utf8;
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `branch_table`
     `status`            TINYINT,
     `client_id`         VARCHAR(64),
     `application_data`  VARCHAR(2000),
-    `gmt_create`        DATETIME(6),
-    `gmt_modified`      DATETIME(6),
+    `create_time`        DATETIME(6),
+    `update_time`      DATETIME(6),
     PRIMARY KEY (`branch_id`),
     KEY `idx_xid` (`xid`)
     ) ENGINE = InnoDB
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `lock_table`
     `resource_id`    VARCHAR(256),
     `table_name`     VARCHAR(32),
     `pk`             VARCHAR(36),
-    `gmt_create`     DATETIME,
-    `gmt_modified`   DATETIME,
+    `create_time`     DATETIME,
+    `update_time`   DATETIME,
     PRIMARY KEY (`row_key`),
     KEY `idx_branch_id` (`branch_id`)
     ) ENGINE = InnoDB

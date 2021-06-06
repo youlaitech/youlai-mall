@@ -21,7 +21,7 @@ public interface UmsUserMapper extends BaseMapper<UmsMember> {
             " <if test ='user.nickname !=null and user.nickname.trim() neq \"\" ' >" +
             "       AND nickname like concat('%',#{user.nickname},'%')" +
             " </if>" +
-            " ORDER BY gmt_modified DESC, gmt_create DESC" +
+            " ORDER BY update_time DESC, create_time DESC" +
             "</script>")
     @Results({
             @Result(id = true, column = "id", property = "id"),
