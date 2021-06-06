@@ -2,7 +2,7 @@ package com.youlai.mall.pms.controller.app;
 
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsCategory;
+import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import io.swagger.annotations.Api;
@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "【,.l】商品分类")
-
-@RestController("AppCategoryController")
-@RequestMapping("/api.app/v1/categories")
+@Api(tags = "【移动端】商品分类")
+@RestController("APPCategoryController")
+@RequestMapping("/app-api/v1/categories")
 @Slf4j
 @AllArgsConstructor
 public class CategoryController {

@@ -17,15 +17,6 @@ import java.util.List;
 @Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
-    @Select("<script>" +
-            "   select id,name,parent_id,path,component,icon,sort,visible,redirect from sys_menu " +
-            "   where visible=1" +
-            "   order by sort asc" +
-            "</script>")
-    @Results({
-            @Result(id = true, column = "id", property = "id"),
-            // 一对多关联查询拥有菜单访问权限的角色ID集合
-            @Result(property = "roles", column = "id", many = @Many(select = "com.youlai.admin.mapper.SysRoleMenuMapper.listByMenuId"))
-    })
-    List<SysMenu> listForRouter();
+    List<SysMenu> listRoute();
+
 }

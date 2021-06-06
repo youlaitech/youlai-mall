@@ -30,8 +30,8 @@ import java.util.Optional;
  * @date 2020-12-30 22:31:10
  */
 @Api(tags = "【系统管理】订单服务")
-@RestController("AdminOrderController")
-@RequestMapping("/v1/orders")
+@RestController("V1-OrderController")
+@RequestMapping("/api/v1/orders")
 @Slf4j
 @AllArgsConstructor
 public class OrderController {

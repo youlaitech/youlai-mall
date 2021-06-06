@@ -9,7 +9,7 @@ public enum QueryModeEnum {
     LIST("list"), //列表查询
     TREE("tree"),//树形列表
     CASCADER("cascader"), //  级联列表 对应级联选择器的下拉格式数据
-    ROUTER("router") ;// 路由列表
+    ;
 
     @Getter
     @Setter

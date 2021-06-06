@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller.admin;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsSpec;
+import com.youlai.mall.pms.pojo.entity.PmsSpec;
 import com.youlai.mall.pms.service.IPmsSpecService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "【系统管理】商品规格")
 @RestController
-@RequestMapping("/v1/specs")
+@RequestMapping("/api/v1/specs")
 @Slf4j
 @AllArgsConstructor
 public class SpecController {

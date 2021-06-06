@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller.admin;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsAttribute;
+import com.youlai.mall.pms.pojo.entity.PmsAttribute;
 import com.youlai.mall.pms.service.IPmsAttributeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "【系统管理】商品属性")
 @RestController
-@RequestMapping("/v1/attributes")
+@RequestMapping("/api/v1/attributes")
 @Slf4j
 @AllArgsConstructor
 public class AttributeController {

@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.controller.admin.SpuController;
-import com.youlai.mall.pms.pojo.domain.PmsSpec;
+import com.youlai.mall.pms.pojo.entity.PmsSpec;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.service.IPmsSpecService;
 import com.youlai.mall.pms.service.IPmsSpuService;

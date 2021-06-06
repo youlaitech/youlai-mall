@@ -9,12 +9,12 @@
     <result column="seckill_count" jdbcType="INTEGER" property="seckillCount" />
     <result column="seckill_limit" jdbcType="INTEGER" property="seckillLimit" />
     <result column="seckill_sort" jdbcType="INTEGER" property="seckillSort" />
-    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, session_id, sku_id, seckill_price, seckill_count, seckill_limit, seckill_sort, 
-    gmt_create, gmt_modified
+    id, session_id, sku_id, seckill_price, seckill_count, seckill_limit, seckill_sort,
+    create_time, update_time
   </sql>
 
 </mapper>

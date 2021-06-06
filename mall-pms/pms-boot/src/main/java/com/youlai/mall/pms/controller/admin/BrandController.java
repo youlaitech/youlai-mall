@@ -8,7 +8,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.pms.pojo.domain.PmsBrand;
+import com.youlai.mall.pms.pojo.entity.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,7 +23,7 @@ import java.util.List;
 
 @Api(tags = "【系统管理】品牌接口")
 @RestController
-@RequestMapping("/v1/brands")
+@RequestMapping("/api/v1/brands")
 @Slf4j
 @AllArgsConstructor
 public class BrandController {

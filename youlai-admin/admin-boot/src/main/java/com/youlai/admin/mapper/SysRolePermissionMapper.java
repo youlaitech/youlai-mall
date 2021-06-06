@@ -25,7 +25,7 @@ public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
             "   AND t1.role_id = #{roleId} ",
             " </if>",
             "</script>"})
-    List<Long> listPermissionIds(Long moduleId, Long roleId);
+    List<Long> listPermissionId(Long menuId, Long roleId);
 
 
 }

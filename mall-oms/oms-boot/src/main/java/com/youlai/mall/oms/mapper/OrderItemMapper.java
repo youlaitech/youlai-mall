@@ -2,7 +2,6 @@ package com.youlai.mall.oms.mapper;
 
 import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.domain.PmsSku;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

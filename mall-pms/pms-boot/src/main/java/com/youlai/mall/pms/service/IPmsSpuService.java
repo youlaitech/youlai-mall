@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.bo.app.ProductBO;
-import com.youlai.mall.pms.pojo.domain.PmsSpu;
+import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import java.util.List;
 
 

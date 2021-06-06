@@ -23,10 +23,4 @@ public class SysDept extends BaseEntity {
 
     private Integer deleted;
 
-    private String leader;
-
-    private String mobile;
-
-    private String email;
-
 }

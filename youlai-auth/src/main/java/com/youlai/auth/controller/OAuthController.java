@@ -69,7 +69,7 @@ public class OAuthController {
             case WEAPP:  // 微信小程序
                 oAuth2AccessToken = weAppService.login(principal, parameters);
                 break;
-            case CLIENT: // knife4j接口测试文档使用 client_id/client_secret : client/123456
+            case TEST: // knife4j接口测试文档使用 client_id/client_secret : client/123456
                 return tokenEndpoint.postAccessToken(principal, parameters).getBody();
             default:
                 oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();

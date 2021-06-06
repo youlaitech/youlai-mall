@@ -9,9 +9,9 @@ import lombok.Getter;
  */
 public enum OAuthClientEnum {
 
-    CLIENT("client", "测试客户端"),
+    TEST("client", "测试客户端"),
     ADMIN("youlai-admin", "系统管理端"),
-    WEAPP("youlai-mall-weapp", "微信小程序端");
+    WEAPP("youlai-weapp", "微信小程序端");
 
 
     @Getter

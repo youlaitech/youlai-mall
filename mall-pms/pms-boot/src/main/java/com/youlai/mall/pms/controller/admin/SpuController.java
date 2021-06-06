@@ -7,7 +7,7 @@ import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.pms.pojo.bo.admin.ProductBO;
-import com.youlai.mall.pms.pojo.domain.PmsSpu;
+import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "【系统管理】商品信息")
 @RestController
-@RequestMapping("/v1/spus")
+@RequestMapping("/api/v1/spus")
 @Slf4j
 @AllArgsConstructor
 public class SpuController {
