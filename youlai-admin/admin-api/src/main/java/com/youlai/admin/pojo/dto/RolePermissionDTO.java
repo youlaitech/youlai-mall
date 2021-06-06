@@ -9,7 +9,5 @@ import java.util.List;
 public class RolePermissionDTO {
     private Long roleId;
     private List<Long> permissionIds;
-    private Integer type;
-
-    private Long moduleId;
+    private Long menuId;
 }

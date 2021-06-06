@@ -3,7 +3,6 @@ package com.youlai.common.elasticsearch.service;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.base.BaseDocument;
-import com.youlai.common.elasticsearch.constant.ESConstants;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -139,7 +138,7 @@ public class ElasticSearchService {
 
     @SneakyThrows
     public <T extends BaseDocument> List<T> search(QueryBuilder queryBuilder, Class<T> clazz, String... indices) {
-        List<T> list = this.search(queryBuilder, null, 1, ESConstants.DEFAULT_PAGE_SIZE, clazz, indices);
+        List<T> list = this.search(queryBuilder, null, 1, 10, clazz, indices);
         return list;
     }
 

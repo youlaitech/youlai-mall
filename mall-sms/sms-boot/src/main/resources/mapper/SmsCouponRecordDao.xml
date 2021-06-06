@@ -15,15 +15,15 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Base_Column_List">
     id, coupon_id, use_state, user_id, user_name, coupon_type, coupon_title,
-    condition_price, price, start_time, end_time, order_id, `status`, gmt_create, gmt_modified
+    condition_price, price, start_time, end_time, order_id, `status`, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from sms_coupon_record
     where id = #{id,jdbcType=BIGINT}
@@ -73,10 +73,10 @@
         `status`,
       </if>
       <if test="gmtCreate != null">
-        gmt_create,
+        create_time,
       </if>
       <if test="gmtModified != null">
-        gmt_modified,
+        update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -165,10 +165,10 @@
         `status` = #{status,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+        create_time = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
       <if test="gmtModified != null">
-        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+        update_time = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -187,8 +187,8 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       order_id = #{orderId,jdbcType=BIGINT},
       `status` = #{status,jdbcType=INTEGER},
-      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+      create_time = #{gmtCreate,jdbcType=TIMESTAMP},
+      update_time = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

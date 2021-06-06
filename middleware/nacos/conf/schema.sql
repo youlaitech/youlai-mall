@@ -24,8 +24,8 @@ CREATE TABLE config_info (
   app_name varchar(128),
   content CLOB,
   md5 varchar(32) DEFAULT NULL,
-  gmt_create timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
-  gmt_modified timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
+  create_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
+  update_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
   src_user varchar(128) DEFAULT NULL,
   src_ip varchar(50) DEFAULT NULL,
   c_desc varchar(256) DEFAULT NULL,
@@ -49,16 +49,16 @@ CREATE TABLE his_config_info (
   app_name varchar(128),
   content CLOB,
   md5 varchar(32) DEFAULT NULL,
-  gmt_create timestamp NOT NULL DEFAULT '2010-05-05 00:00:00.000',
-  gmt_modified timestamp NOT NULL DEFAULT '2010-05-05 00:00:00.000',
+  create_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00.000',
+  update_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00.000',
   src_user varchar(128),
   src_ip varchar(50) DEFAULT NULL,
   op_type char(10) DEFAULT NULL,
   constraint hisconfiginfo_nid_key PRIMARY KEY (nid));
 
 CREATE INDEX hisconfiginfo_dataid_key_idx ON his_config_info(data_id);
-CREATE INDEX hisconfiginfo_gmt_create_idx ON his_config_info(gmt_create);
-CREATE INDEX hisconfiginfo_gmt_modified_idx ON his_config_info(gmt_modified);
+CREATE INDEX hisconfiginfo_create_time_idx ON his_config_info(create_time);
+CREATE INDEX hisconfiginfo_update_time_idx ON his_config_info(update_time);
 
 
 CREATE TABLE config_info_beta (
@@ -70,8 +70,8 @@ CREATE TABLE config_info_beta (
   content CLOB,
   beta_ips varchar(1024),
   md5 varchar(32) DEFAULT NULL,
-  gmt_create timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
-  gmt_modified timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
+  create_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
+  update_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
   src_user varchar(128),
   src_ip varchar(50) DEFAULT NULL,
   constraint configinfobeta_id_key PRIMARY KEY (id),
@@ -86,8 +86,8 @@ CREATE TABLE config_info_tag (
   app_name varchar(128),
   content CLOB,
   md5 varchar(32) DEFAULT NULL,
-  gmt_create timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
-  gmt_modified timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
+  create_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
+  update_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
   src_user varchar(128),
   src_ip varchar(50) DEFAULT NULL,
   constraint configinfotag_id_key PRIMARY KEY (id),
@@ -101,7 +101,7 @@ CREATE TABLE config_info_aggr (
   datum_id varchar(255) NOT NULL,
   app_name varchar(128),
   content CLOB,
-  gmt_modified timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
+  update_time timestamp NOT NULL DEFAULT '2010-05-05 00:00:00',
   constraint configinfoaggr_id_key PRIMARY KEY (id),
   constraint uk_configinfoaggr_datagrouptenantdatum UNIQUE (data_id,group_id,tenant_id,datum_id));
 
@@ -120,7 +120,7 @@ CREATE TABLE app_configdata_relation_subs (
   app_name varchar(128) NOT NULL,
   data_id varchar(255) NOT NULL,
   group_id varchar(128) NOT NULL,
-  gmt_modified timestamp DEFAULT '2010-05-05 00:00:00',
+  update_time timestamp DEFAULT '2010-05-05 00:00:00',
   constraint configdatarelationsubs_id_key PRIMARY KEY (id),
   constraint uk_app_sub_config_datagroup UNIQUE (app_name, data_id, group_id));
 
@@ -130,7 +130,7 @@ CREATE TABLE app_configdata_relation_pubs (
   app_name varchar(128) NOT NULL,
   data_id varchar(255) NOT NULL,
   group_id varchar(128) NOT NULL,
-  gmt_modified timestamp DEFAULT '2010-05-05 00:00:00',
+  update_time timestamp DEFAULT '2010-05-05 00:00:00',
   constraint configdatarelationpubs_id_key PRIMARY KEY (id),
   constraint uk_app_pub_config_datagroup UNIQUE (app_name, data_id, group_id));
 
@@ -156,8 +156,8 @@ CREATE TABLE group_capacity (
   max_aggr_count int DEFAULT 0,
   max_aggr_size int DEFAULT 0,
   max_history_count int DEFAULT 0,
-  gmt_create timestamp DEFAULT '2010-05-05 00:00:00',
-  gmt_modified timestamp DEFAULT '2010-05-05 00:00:00',
+  create_time timestamp DEFAULT '2010-05-05 00:00:00',
+  update_time timestamp DEFAULT '2010-05-05 00:00:00',
   constraint group_capacity_id_key PRIMARY KEY (id),
   constraint uk_group_id UNIQUE (group_id));
 
@@ -170,8 +170,8 @@ CREATE TABLE tenant_capacity (
   max_aggr_count int DEFAULT 0,
   max_aggr_size int DEFAULT 0,
   max_history_count int DEFAULT 0,
-  gmt_create timestamp DEFAULT '2010-05-05 00:00:00',
-  gmt_modified timestamp DEFAULT '2010-05-05 00:00:00',
+  create_time timestamp DEFAULT '2010-05-05 00:00:00',
+  update_time timestamp DEFAULT '2010-05-05 00:00:00',
   constraint tenant_capacity_id_key PRIMARY KEY (id),
   constraint uk_tenant_id UNIQUE (tenant_id));
 
@@ -182,8 +182,8 @@ CREATE TABLE tenant_info (
   tenant_name varchar(128)  DEFAULT '',
   tenant_desc varchar(256)  DEFAULT NULL,
   create_source varchar(32) DEFAULT NULL,
-  gmt_create bigint NOT NULL,
-  gmt_modified bigint NOT NULL,
+  create_time bigint NOT NULL,
+  update_time bigint NOT NULL,
   constraint tenant_info_id_key PRIMARY KEY (id),
   constraint uk_tenant_info_kptenantid UNIQUE (kp,tenant_id));
 CREATE INDEX tenant_info_tenant_id_idx ON tenant_info(tenant_id);

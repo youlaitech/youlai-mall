@@ -4,7 +4,7 @@ import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.vo.CartVO;
 import com.youlai.mall.oms.service.ICartService;
-import com.youlai.mall.pms.api.app.PmsSkuFeignService;
+import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ import java.util.concurrent.CompletableFuture;
 public class CartServiceImpl implements ICartService {
 
     private RedisTemplate redisTemplate;
-    private PmsSkuFeignService skuFeignService;
+    private SkuFeignClient skuFeignService;
 
     /**
      * 获取用户购物车

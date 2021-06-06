@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.admin.mapper.SysPermissionMapper">
 
     <resultMap id="BaseResultMap" type="com.youlai.admin.pojo.entity.SysPermission">
-        <id property="id" column="pid" jdbcType="BIGINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="menuId" column="menu_id" jdbcType="BIGINT"/>
         <result property="urlPerm" column="url_perm" jdbcType="VARCHAR"/>
@@ -31,16 +31,35 @@
              sys_role t3
         where t1.id = t2.permission_id
           and t2.role_id = t3.id
+          and t3.code is not null
     </select>
-    <select id="listPermByRoles" resultType="java.lang.String">
+
+    <select id="listBtnPermByRoles" resultType="java.lang.String">
         SELECT
-        t1.btn_perm
+        distinct (t1.btn_perm)
         FROM
         sys_permission t1,sys_role_permission t2 ,sys_role t3
-        WHERE t1.id=t2.permission_id and t2.role_id=t3.id and
+        WHERE t1.btn_perm is not null and t1.id=t2.permission_id and t2.role_id=t3.id and
         t3.code IN
         <foreach collection='roles' item='role' open='(' separator=',' close=')'>
             #{role}
         </foreach>
+    </select>
+
+    <select id="list" resultType="com.youlai.admin.pojo.entity.SysPermission">
+        SELECT
+        	t1.*
+        FROM
+        	sys_permission t1
+        	LEFT JOIN sys_menu t2 ON t1.menu_id = t2.id
+        WHERE 1=1
+        <if test='permission.name != null and permission.name.trim() neq ""'>
+            and t1.name like concat('%',#{permission.name},'%')
+          </if>
+        <if test='permission.menuId !=null '>
+            and t1.menu_id = #{permission.menuId}
+          </if>
+        ORDER BY t1.update_time DESC,t1.create_time DESC
+
     </select>
 </mapper>

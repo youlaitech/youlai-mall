@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
-import com.youlai.admin.pojo.vo.RouterVO;
+import com.youlai.admin.pojo.vo.RouteVO;
 import com.youlai.admin.pojo.vo.TreeVO;
 
 import java.util.List;
@@ -19,5 +19,5 @@ public interface ISysMenuService extends IService<SysMenu> {
 
     List<TreeVO> listTreeVO(LambdaQueryWrapper<SysMenu> baseQuery);
 
-    List<RouterVO> listRouterVO();
+    List<RouteVO> listRoute();
 }

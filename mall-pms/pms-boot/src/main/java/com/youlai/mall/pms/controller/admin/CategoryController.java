@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.domain.PmsCategory;
+import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsAttributeService;
 import com.youlai.mall.pms.service.IPmsCategoryService;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Api(tags = "【系统管理】商品分类")
 @RestController
-@RequestMapping("/v1/categories")
+@RequestMapping("/api/v1/categories")
 @Slf4j
 @AllArgsConstructor
 public class CategoryController {

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "优惠券领券记录服务")
 @RestController
-@RequestMapping("/v1/coupon_record")
+@RequestMapping("/api/v1/coupon_record")
 public class CouponRecordController {
 
     @Autowired

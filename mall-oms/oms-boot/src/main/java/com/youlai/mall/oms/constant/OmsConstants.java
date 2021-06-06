@@ -10,9 +10,6 @@ public interface OmsConstants {
 
     String ORDER_TOKEN_PREFIX = "order:token:";
 
-    String BUSINESS_NO_PREFIX = "businessno:";
-
-
     /**
      * 释放锁lua脚本
      */

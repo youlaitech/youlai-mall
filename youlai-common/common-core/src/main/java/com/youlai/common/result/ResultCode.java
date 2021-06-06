@@ -102,6 +102,6 @@ public enum ResultCode implements IResultCode, Serializable {
                 return value;
             }
         }
-        return SYSTEM_EXECUTION_ERROR; // 默认分页查询
+        return SYSTEM_EXECUTION_ERROR; // 默认系统执行错误
     }
 }

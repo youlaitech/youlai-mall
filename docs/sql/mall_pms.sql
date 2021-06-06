@@ -25,8 +25,8 @@ CREATE TABLE `pms_attribute`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称',
   `category_id` bigint(0) NOT NULL COMMENT '分类ID',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_attr_pms_category`(`category_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性表' ROW_FORMAT = Dynamic;
@@ -65,8 +65,8 @@ CREATE TABLE `pms_brand`  (
   `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'LOGO图片',
   `sort` int(0) DEFAULT NULL COMMENT '排序',
   `status` tinyint(0) DEFAULT NULL COMMENT '状态: 0-禁用  1-正常 ',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = Dynamic;
 
@@ -87,8 +87,8 @@ CREATE TABLE `pms_category`  (
   `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '图标地址',
   `sort` int(0) DEFAULT NULL COMMENT '排序',
   `status` tinyint(1) DEFAULT 1 COMMENT '显示状态: 0-隐藏 1-显示',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
 
@@ -154,8 +154,8 @@ CREATE TABLE `pms_sku`  (
   `price` bigint(0) NOT NULL COMMENT '现价',
   `stock` int(0) NOT NULL DEFAULT 0 COMMENT '库存',
   `locked_stock` int(0) NOT NULL DEFAULT 0 COMMENT '锁定库存',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_pms_spu`(`spu_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 199 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = Dynamic;
@@ -181,8 +181,8 @@ CREATE TABLE `pms_spec`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
   `category_id` bigint(0) NOT NULL COMMENT '商品分类ID',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格名称',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spec_pms_category`(`category_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格表' ROW_FORMAT = Dynamic;
@@ -225,8 +225,8 @@ CREATE TABLE `pms_spu`  (
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商品简介',
   `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '商品详情',
   `status` tinyint(0) DEFAULT NULL COMMENT '商品状态：0-下架 1-上架',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_pms_brand`(`brand_id`) USING BTREE,
   INDEX `fk_pms_spu_pms_category`(`category_id`) USING BTREE
@@ -249,8 +249,8 @@ CREATE TABLE `pms_spu_attribute_value`  (
   `attribute_id` bigint(0) DEFAULT NULL COMMENT '属性ID',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称【冗余字段】',
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性值',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_attr`(`name`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_spu`(`spu_id`) USING BTREE
@@ -272,8 +272,8 @@ CREATE TABLE `pms_spu_spec_value`  (
   `spu_id` bigint(0) DEFAULT NULL COMMENT 'SPU ID',
   `spec_id` bigint(0) DEFAULT NULL COMMENT '规格ID',
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '规格值',
-  `gmt_create` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `create_time` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_specification_pms_sku`(`spu_id`) USING BTREE,
   INDEX `fk_pms_sku_specification_pms_specification`(`spec_id`) USING BTREE

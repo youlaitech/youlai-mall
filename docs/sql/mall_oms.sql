@@ -40,8 +40,8 @@ CREATE TABLE `oms_order`  (
   `receive_time` datetime(0) DEFAULT NULL COMMENT '确认收货时间',
   `comment_time` datetime(0) DEFAULT NULL COMMENT '评价时间',
   `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `index_order_sn`(`order_sn`) USING BTREE COMMENT '订单号唯一索引'
 ) ENGINE = InnoDB AUTO_INCREMENT = 1351548262424821854 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单详情表' ROW_FORMAT = Dynamic;
@@ -90,8 +90,8 @@ CREATE TABLE `oms_order_delivery`  (
   `delivery_time` datetime(0) DEFAULT NULL COMMENT '发货时间',
   `receive_time` datetime(0) DEFAULT NULL COMMENT '确认收货时间',
   `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单物流记录表' ROW_FORMAT = Dynamic;
 
@@ -117,8 +117,8 @@ CREATE TABLE `oms_order_item`  (
   `category_id` bigint(0) NOT NULL DEFAULT 0 COMMENT '商品分类id',
   `category_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '商品分类名称',
   `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_order_id`(`order_id`) USING BTREE COMMENT '订单id索引'
 ) ENGINE = InnoDB AUTO_INCREMENT = 99 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单商品信息表' ROW_FORMAT = Dynamic;
@@ -163,8 +163,8 @@ CREATE TABLE `oms_order_log`  (
   `order_status` int(0) DEFAULT NULL COMMENT '操作时订单状态',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '备注',
   `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单操作历史记录' ROW_FORMAT = Dynamic;
 
@@ -185,8 +185,8 @@ CREATE TABLE `oms_order_pay`  (
   `callback_time` datetime(0) DEFAULT NULL COMMENT '回调时间',
   `pay_subject` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '交易内容',
   `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '支付信息表' ROW_FORMAT = Dynamic;
 
@@ -203,8 +203,8 @@ CREATE TABLE `oms_order_setting`  (
   `comment_overtime` int(0) DEFAULT NULL COMMENT '订单完成后自动好评时间（天）',
   `member_level` tinyint(0) DEFAULT NULL COMMENT '会员等级【0-不限会员等级，全部通用；其他-对应的其他会员等级】',
   `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `gmt_create` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单配置信息' ROW_FORMAT = Dynamic;
 

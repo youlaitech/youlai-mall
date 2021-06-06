@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021/3/4
  */
 @Api(tags = "秒杀活动场次管理")
-@RestController("AdminSeckillController")
-@RequestMapping("/v1/seckill")
+@RestController
+@RequestMapping("/api/v1/seckill")
 public class SeckillController {
 }

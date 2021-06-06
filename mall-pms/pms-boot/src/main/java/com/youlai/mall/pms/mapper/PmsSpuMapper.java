@@ -2,7 +2,7 @@ package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.pms.pojo.domain.PmsSpu;
+import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -31,7 +31,7 @@ public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
             " <if test ='spu.categoryId !=null and spu.categoryId > 0' >" +
             "       AND t2.id = #{spu.categoryId} " +
             " </if>" +
-            " ORDER BY t1.gmt_create DESC" +
+            " ORDER BY t1.create_time DESC" +
             "</script>")
     @Results({
             @Result(id = true, column = "id", property = "id"),

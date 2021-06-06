@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "【移动端】订单服务")
 @RestController
-@RequestMapping("/api.app/v1/orders")
+@RequestMapping("/app-api/v1/orders")
 @Slf4j
 @AllArgsConstructor
 public class OrderController {
