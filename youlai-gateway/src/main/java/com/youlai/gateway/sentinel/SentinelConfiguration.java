@@ -1,4 +1,4 @@
-package com.youlai.gateway.config;
+package com.youlai.gateway.sentinel;
 
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.BlockRequestHandler;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;

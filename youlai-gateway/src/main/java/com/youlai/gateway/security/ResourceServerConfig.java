@@ -3,11 +3,9 @@ package com.youlai.gateway.security;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.ArrayUtil;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.ResultCode;
-import com.youlai.gateway.security.AuthorizationManager;
-import com.youlai.gateway.util.WebUtils;
+import com.youlai.gateway.util.ResponseUtils;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -28,16 +26,10 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
 import reactor.core.publisher.Mono;
-import sun.misc.BASE64Decoder;
-import sun.security.rsa.RSAPublicKeyImpl;
 
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.math.BigInteger;
 import java.security.KeyFactory;
-import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
-import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.List;
 
@@ -83,7 +75,7 @@ public class ResourceServerConfig {
     ServerAccessDeniedHandler accessDeniedHandler() {
         return (exchange, denied) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
-                    .flatMap(response -> WebUtils.writeErrorInfoToResponse(response, ResultCode.ACCESS_UNAUTHORIZED));
+                    .flatMap(response -> ResponseUtils.writeErrorInfo(response, ResultCode.ACCESS_UNAUTHORIZED));
             return mono;
         };
     }
@@ -95,7 +87,7 @@ public class ResourceServerConfig {
     ServerAuthenticationEntryPoint authenticationEntryPoint() {
         return (exchange, e) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
-                    .flatMap(response -> WebUtils.writeErrorInfoToResponse(response, ResultCode.TOKEN_INVALID_OR_EXPIRED));
+                    .flatMap(response -> ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_INVALID_OR_EXPIRED));
             return mono;
         };
     }
