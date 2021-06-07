@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.controller.v2;
+package com.youlai.mall.ums.controller.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api(tags = "【移动端】会员地址")
 @RestController
-@RequestMapping("/v2/addresses")
+@RequestMapping("/app-api/v1/addresses")
 @Slf4j
 @AllArgsConstructor
 public class AddressController {

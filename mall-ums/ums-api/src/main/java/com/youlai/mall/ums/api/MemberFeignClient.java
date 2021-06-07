@@ -35,7 +35,7 @@ public interface MemberFeignClient {
     /**
      * 扣减会员余额
      */
-    @PutMapping("/v1/members/{id}/deduct_balance")
+    @PutMapping("/v1/members/{id}/deduct-balance")
     Result deductBalance(@PathVariable Long id, @RequestParam Long balance);
 
 

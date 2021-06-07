@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.controller.v2;
+package com.youlai.mall.ums.controller.app;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "【移动端】会员服务")
 @RestController
-@RequestMapping("/v2/members")
+@RequestMapping("/app-api/v1/members")
 @Slf4j
 @AllArgsConstructor
 public class MemberController {
@@ -102,7 +102,7 @@ public class MemberController {
             @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "balance", value = "会员余额", required = true, paramType = "query", dataType = "Long")
     })
-    @PutMapping("/{id}/deduct_balance")
+    @PutMapping("/{id}/deduct-balance")
     public Result updateBalance(@PathVariable Long id, @RequestParam Long balance) {
         boolean result = iUmsUserService.update(new LambdaUpdateWrapper<UmsMember>()
                 .setSql("balance = balance - " + balance)
