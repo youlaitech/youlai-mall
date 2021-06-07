@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.controller.v1;
+package com.youlai.mall.ums.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 @Api(tags = "【系统管理】会员管理")
-@RestController("V1-UserController")
-@RequestMapping("/v1/users")
+@RestController("AdminMemberController")
+@RequestMapping("/api/v1/users")
 @Slf4j
 @AllArgsConstructor
 public class MemberController {
