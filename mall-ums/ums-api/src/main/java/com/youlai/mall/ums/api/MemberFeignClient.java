@@ -10,39 +10,39 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "mall-ums",contextId = "member")
 public interface MemberFeignClient {
 
-    @PostMapping("/v1/members")
+    @PostMapping("/app-api/v1/members")
     Result add(@RequestBody UmsMember user);
 
     /**
      * 获取会员信息
      */
-    @GetMapping("/v1/members/{id}")
+    @GetMapping("/app-api/v1/members/{id}")
     Result<MemberDTO> getUserById(@PathVariable Long id);
 
 
     /**
      * 获取认证会员信息
      */
-    @GetMapping("/v1/members/openid/{openid}")
+    @GetMapping("/app-api/v1/members/openid/{openid}")
     Result<AuthMemberDTO> getUserByOpenid(@PathVariable String openid);
 
     /**
      * 修改会员积分
      */
-    @PutMapping("/v1/members/{id}/points")
+    @PutMapping("/app-api/v1/members/{id}/points")
     Result updatePoint(@PathVariable Long id, @RequestParam Integer num);
 
     /**
      * 扣减会员余额
      */
-    @PutMapping("/v1/members/{id}/deduct-balance")
+    @PutMapping("/app-api/v1/members/{id}/deduct-balance")
     Result deductBalance(@PathVariable Long id, @RequestParam Long balance);
 
 
     /**
      * 获取会员余额
      */
-    @GetMapping("/v1/members/{id}/balance")
+    @GetMapping("/app-api/v1/members/{id}/balance")
     Result<Long> getBalance(@PathVariable Long id);
 
 
