@@ -53,7 +53,6 @@ public class OAuthController {
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
     ) throws HttpRequestMethodNotSupportedException {
-        JwtTokenPair jwtTokenPair = new JwtTokenPair();
 
         /**
          * 获取登录认证的客户端ID
@@ -64,18 +63,14 @@ public class OAuthController {
          */
         String clientId = JwtUtils.getAuthClientId();
         OAuthClientEnum client = OAuthClientEnum.getByClientId(clientId);
-
         switch (client) {
             case WEAPP:  // 微信小程序
-                jwtTokenPair = weAppService.login(parameters);
-                break;
+                return Result.success(weAppService.login(parameters));
             case TEST: // knife4j接口测试文档使用 client_id/client_secret : client/123456
                 return tokenEndpoint.postAccessToken(principal, parameters).getBody();
             default:
-//                oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-                break;
+                return Result.success(tokenEndpoint.postAccessToken(principal, parameters).getBody());
         }
-        return Result.success(jwtTokenPair);
     }
 
     @ApiOperation(value = "注销", notes = "logout")
