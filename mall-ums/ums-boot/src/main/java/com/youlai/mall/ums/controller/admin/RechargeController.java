@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.controller.v1;
+package com.youlai.mall.ums.controller.admin;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -25,8 +25,8 @@ import java.util.Map;
 
 
 @Api(tags = "【系统管理】会员充值")
-@RestController("V1-RechargeController")
-@RequestMapping("/v1/recharge_orders")
+@RestController("AdminRechargeController")
+@RequestMapping("/api/v1/recharge-orders")
 @Slf4j
 public class RechargeController {
 
