@@ -16,11 +16,10 @@ import java.nio.charset.Charset;
 /**
  * @Author haoxr
  * @Date 2021-01-29 13:30
- * @Version 1.0.0
  */
-public class WebUtils {
+public class ResponseUtils {
 
-    public static Mono writeErrorInfoToResponse(ServerHttpResponse response,ResultCode resultCode){
+    public static Mono writeErrorInfo(ServerHttpResponse response, ResultCode resultCode){
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getHeaders().set("Access-Control-Allow-Origin", "*");
