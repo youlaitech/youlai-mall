@@ -6,7 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.ResultCode;
-import com.youlai.gateway.util.WebUtils;
+import com.youlai.gateway.util.ResponseUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -28,7 +28,7 @@ import reactor.core.publisher.Mono;
  */
 @Component
 @Slf4j
-public class AuthGlobalFilter implements GlobalFilter, Ordered {
+public class JwtGlobalFilter implements GlobalFilter, Ordered {
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -49,7 +49,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                 && HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
                 && HttpMethod.PUT.toString().equals(request.getMethodValue()) // 修改方法
         ) {
-            return WebUtils.writeErrorInfoToResponse(response, ResultCode.FORBIDDEN_OPERATION);
+            return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
         }
 
         // 非JWT或者JWT为空不作处理
@@ -66,7 +66,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         String jti = jsonObject.getStr(AuthConstants.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti);
         if (isBlack) {
-            return WebUtils.writeErrorInfoToResponse(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
+            return ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
         }
 
         // 存在token且不是黑名单，request写入JWT的载体信息

@@ -25,6 +25,8 @@ import static com.youlai.common.constant.AuthConstants.AUTHORITY_PREFIX;
 
 /**
  * 网关自定义鉴权管理器
+ * @author hxr
+ * @date 2021-06-07
  */
 @Component
 @AllArgsConstructor
