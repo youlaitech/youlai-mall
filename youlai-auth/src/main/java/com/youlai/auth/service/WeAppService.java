@@ -53,6 +53,7 @@ public class WeAppService {
     public JwtTokenPair login(Map<String, String> parameters) {
 
         String code = parameters.get("code");
+        String userInfo = parameters.get("userInfo");
 
         if (StrUtil.isBlank(code)) {
             throw new BizException("code不能为空");
