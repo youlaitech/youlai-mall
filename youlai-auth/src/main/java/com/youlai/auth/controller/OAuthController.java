@@ -4,6 +4,7 @@ import cn.hutool.json.JSONObject;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.youlai.auth.enums.OAuthClientEnum;
+import com.youlai.auth.jwt.JwtTokenPair;
 import com.youlai.auth.service.WeAppService;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
@@ -15,7 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +53,7 @@ public class OAuthController {
             @ApiIgnore Principal principal,
             @ApiIgnore @RequestParam Map<String, String> parameters
     ) throws HttpRequestMethodNotSupportedException {
-        OAuth2AccessToken oAuth2AccessToken;
+        JwtTokenPair jwtTokenPair = new JwtTokenPair();
 
         /**
          * 获取登录认证的客户端ID
@@ -67,15 +67,15 @@ public class OAuthController {
 
         switch (client) {
             case WEAPP:  // 微信小程序
-                oAuth2AccessToken = weAppService.login(principal, parameters);
+                jwtTokenPair = weAppService.login(parameters);
                 break;
             case TEST: // knife4j接口测试文档使用 client_id/client_secret : client/123456
                 return tokenEndpoint.postAccessToken(principal, parameters).getBody();
             default:
-                oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+//                oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
                 break;
         }
-        return Result.success(oAuth2AccessToken);
+        return Result.success(jwtTokenPair);
     }
 
     @ApiOperation(value = "注销", notes = "logout")

@@ -4,8 +4,9 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.util.StrUtil;
+import com.youlai.auth.jwt.JwtTokenGenerator;
+import com.youlai.auth.jwt.JwtTokenPair;
 import com.youlai.auth.enums.PasswordEncoderTypeEnum;
-import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
@@ -17,11 +18,13 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -37,16 +40,17 @@ public class WeAppService {
     private PasswordEncoder passwordEncoder;
     private TokenEndpoint tokenEndpoint;
 
+    @Resource
+    private JwtTokenGenerator jwtTokenGenerator;
 
     /**
-     * @param principal
      * @param parameters code=小程序授权code
      *                   encryptedData=包括敏感数据在内的完整用户信息的加密数据
      *                   iv=加密算法的初始向量
      * @return
      */
     @SneakyThrows
-    public OAuth2AccessToken login(Principal principal, Map<String, String> parameters) {
+    public JwtTokenPair login(Map<String, String> parameters) {
 
         String code = parameters.get("code");
 
@@ -61,6 +65,7 @@ public class WeAppService {
         String sessionKey = session.getSessionKey();
 
         Result<AuthMemberDTO> result = memberFeignClient.getUserByOpenid(openid);
+        Long userId = result.getData().getId();
 
         if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) { // 微信授权登录 会员信息不存在时 注册会员
             String encryptedData = parameters.get("encryptedData");
@@ -86,11 +91,9 @@ public class WeAppService {
             }
         }
 
-        // oauth2认证参数对应授权登录时注册会员的username、password信息，模拟通过oauth2的密码模式认证生成JWT
-        parameters.put("username", openid);
-        parameters.put("password", openid);
-
-        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-        return oAuth2AccessToken;
+        HashSet<String> roles = new HashSet<>();
+        HashMap<String, String> additional = new HashMap<>();
+        additional.put("userId", String.valueOf(userId));
+        return jwtTokenGenerator.jwtTokenPair(openid, roles, additional);
     }
 }
