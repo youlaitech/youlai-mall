@@ -1,4 +1,4 @@
-package com.youlai.auth.enums;
+package com.youlai.auth.common.enums;
 
 import lombok.Getter;
 

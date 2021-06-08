@@ -1,30 +1,21 @@
-package com.youlai.auth.service;
+package com.youlai.auth.service.impl;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import cn.hutool.core.util.StrUtil;
-import com.youlai.auth.jwt.JwtTokenGenerator;
-import com.youlai.auth.jwt.JwtTokenPair;
-import com.youlai.auth.enums.PasswordEncoderTypeEnum;
-import com.youlai.common.constant.GlobalConstants;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONUtil;
+import com.youlai.auth.common.jwt.JwtGenerator;
+import com.youlai.auth.domain.UserInfo;
+import com.youlai.auth.service.IAuthService;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
-import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -34,34 +25,59 @@ import java.util.Map;
  */
 @Service
 @AllArgsConstructor
-public class WeAppService {
-    private WxMaService wxService;
+public class WeAppServiceImpl implements IAuthService {
+
     private MemberFeignClient memberFeignClient;
     private PasswordEncoder passwordEncoder;
-    private TokenEndpoint tokenEndpoint;
-
-    @Resource
-    private JwtTokenGenerator jwtTokenGenerator;
+    private WxMaService wxMaService;
+    private JwtGenerator jwtGenerator;
 
     /**
      * @param parameters code=小程序授权code
      *                   encryptedData=包括敏感数据在内的完整用户信息的加密数据
-     *                   iv=加密算法的初始向量
+     *                   iv=
      * @return
      */
     @SneakyThrows
-    public JwtTokenPair login(Map<String, String> parameters) {
-
+    @Override
+    public Map<String, Object> login(Map<String, String> parameters) {
         String code = parameters.get("code");
-        //  String userInfo = parameters.get("userInfo");
+        String rawData = parameters.get("rawData");
+        String signature = parameters.get("signature");
+        WxMaJscode2SessionResult sessionInfo = wxMaService.getUserService().getSessionInfo(code);
+        String sessionKey = sessionInfo.getSessionKey();
+        boolean checkResult = wxMaService.getUserService().checkUserInfo(sessionKey, rawData, signature);
+        if (checkResult) {
+            String openid = sessionInfo.getOpenid();
+            Result<UmsMember> result = memberFeignClient.getByOpenid(openid);
 
-        if (StrUtil.isBlank(code)) {
+            UmsMember member = null;
+            Result memberResult;
+            if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) {
+                // 用户不存在，注册成为新用户
+                UserInfo userInfo = JSONUtil.toBean(rawData, UserInfo.class);
+                member = new UmsMember();
+                BeanUtil.copyProperties(userInfo, member);
+                memberResult = memberFeignClient.add(member);
+            } else if (ResultCode.SUCCESS.getCode().equals(result.getCode()) && result.getData() != null) {
+                member = result.getData();
+                UserInfo userInfo = JSONUtil.toBean(rawData, UserInfo.class);
+                BeanUtil.copyProperties(userInfo, member);
+                memberResult = memberFeignClient.update(member.getId(), member);
+            }
+
+
+        }
+
+
+        // String userInfo = parameters.get("userInfo");
+       /* if (StrUtil.isBlank(code)) {
             throw new BizException("code不能为空");
         }
 
-        WxMaJscode2SessionResult session = null;
+        WxMaJscode2SessionResult session;
         // 根据授权code获取微信用户信息
-        session = wxService.getUserService().getSessionInfo(code);
+        session = wxMaService.getUserService().getSessionInfo(code);
         String openid = session.getOpenid();
         String sessionKey = session.getSessionKey();
 
@@ -72,7 +88,7 @@ public class WeAppService {
             String encryptedData = parameters.get("encryptedData");
             String iv = parameters.get("iv");
 
-            WxMaUserInfo userInfo = wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
+            WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
             if (userInfo == null) {
                 throw new BizException("获取用户信息失败");
             }
@@ -94,7 +110,8 @@ public class WeAppService {
 
         HashSet<String> roles = new HashSet<>();
         HashMap<String, String> additional = new HashMap<>();
-        additional.put("userId", String.valueOf(userId));
-        return jwtTokenGenerator.jwtTokenPair(openid, roles, additional);
+        additional.put("userId", String.valueOf(userId));*/
+        // jwtGenerator.createAccessToken(openid, roles, additional);
+        return null;
     }
 }

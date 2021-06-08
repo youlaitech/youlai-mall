@@ -1,4 +1,4 @@
-package com.youlai.auth.exception;
+package com.youlai.auth.common.exception;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;

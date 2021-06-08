@@ -2,8 +2,7 @@ package com.youlai.auth.domain;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.admin.pojo.entity.SysUser;
-import com.youlai.auth.enums.PasswordEncoderTypeEnum;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.youlai.auth.config.weapp;
+package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
@@ -27,7 +27,6 @@ public class WeAppConfig {
         config.setSecret(secret);
         return config;
     }
-
 
     @Bean
     public WxMaService wxMaService(WxMaConfig wxMaConfig) {
