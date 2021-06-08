@@ -1,9 +1,9 @@
-package com.youlai.auth.service;
+package com.youlai.auth.security.service;
 
 import com.youlai.admin.api.UserFeignClient;
 import com.youlai.admin.pojo.entity.SysUser;
+import com.youlai.auth.common.enums.OAuthClientEnum;
 import com.youlai.auth.domain.OAuthUserDetails;
-import com.youlai.auth.enums.OAuthClientEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.JwtUtils;
@@ -40,13 +40,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Result result;
         OAuthUserDetails oauthUserDetails = null;
         switch (client) {
-            case WEAPP: // 小程序会员
-                result = memberFeignClient.getUserByOpenid(username);
-                if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
-                    AuthMemberDTO authMemberDTO = (AuthMemberDTO) result.getData();
-                    oauthUserDetails = new OAuthUserDetails(authMemberDTO);
-                }
-                break;
             default:
                 result = userFeignClient.getUserByUsername(username);
                 if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {

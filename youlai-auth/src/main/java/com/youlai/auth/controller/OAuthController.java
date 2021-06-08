@@ -3,9 +3,8 @@ package com.youlai.auth.controller;
 import cn.hutool.json.JSONObject;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import com.youlai.auth.enums.OAuthClientEnum;
-import com.youlai.auth.jwt.JwtTokenPair;
-import com.youlai.auth.service.WeAppService;
+import com.youlai.auth.common.enums.OAuthClientEnum;
+import com.youlai.auth.service.impl.WeAppServiceImpl;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
@@ -35,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class OAuthController {
 
     private TokenEndpoint tokenEndpoint;
-    private WeAppService weAppService;
+    private WeAppServiceImpl weAppServiceImpl;
     private RedisTemplate redisTemplate;
     private KeyPair keyPair;
 
@@ -46,7 +45,7 @@ public class OAuthController {
             @ApiImplicitParam(name = "client_secret", defaultValue = "123456", value = "Oauth2客户端秘钥", required = true),
             @ApiImplicitParam(name = "refresh_token", value = "刷新token"),
             @ApiImplicitParam(name = "username", defaultValue = "admin", value = "登录用户名"),
-            @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码"),
+            @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码")
     })
     @PostMapping("/token")
     public Object postAccessToken(
@@ -65,7 +64,7 @@ public class OAuthController {
         OAuthClientEnum client = OAuthClientEnum.getByClientId(clientId);
         switch (client) {
             case WEAPP:  // 微信小程序
-                return Result.success(weAppService.login(parameters));
+                return Result.success(weAppServiceImpl.login(parameters));
             case TEST: // knife4j接口测试文档使用 client_id/client_secret : client/123456
                 return tokenEndpoint.postAccessToken(principal, parameters).getBody();
             default:
@@ -98,4 +97,5 @@ public class OAuthController {
         RSAKey key = new RSAKey.Builder(publicKey).build();
         return new JWKSet(key).toJSONObject();
     }
+
 }
