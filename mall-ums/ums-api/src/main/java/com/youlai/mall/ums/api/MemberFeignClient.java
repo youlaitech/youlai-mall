@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.*;
 public interface MemberFeignClient {
 
     @PostMapping("/app-api/v1/members")
-    Result add(@RequestBody UmsMember user);
+    Result add(@RequestBody UmsMember member);
+
+
+    @PostMapping("/app-api/v1/members/{id}")
+    Result update(@PathVariable Long id,@RequestBody UmsMember member);
+
 
     /**
      * 获取会员信息
@@ -24,7 +29,7 @@ public interface MemberFeignClient {
      * 获取认证会员信息
      */
     @GetMapping("/app-api/v1/members/openid/{openid}")
-    Result<AuthMemberDTO> getUserByOpenid(@PathVariable String openid);
+    Result<UmsMember> getByOpenid(@PathVariable String openid);
 
     /**
      * 修改会员积分

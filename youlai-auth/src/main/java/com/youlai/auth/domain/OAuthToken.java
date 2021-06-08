@@ -1,6 +1,4 @@
-package com.youlai.auth.service;
-
-import java.util.Map;
+package com.youlai.auth.domain;
 
 /**
  * 描述: [类型描述]
@@ -10,7 +8,8 @@ import java.util.Map;
  * @version 1.0.0
  * @update [序号][日期YYYY-MM-DD] [更改人姓名][变更描述]
  */
-public interface IAuthService {
+public class OAuthToken {
 
-    Map<String,Object> login(Map<String, String> parameters);
+
+
 }

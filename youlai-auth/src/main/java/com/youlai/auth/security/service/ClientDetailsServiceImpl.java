@@ -1,8 +1,7 @@
-package com.youlai.auth.service;
-
+package com.youlai.auth.security.service;
 import com.youlai.admin.api.OAuthClientFeignClient;
 import com.youlai.admin.pojo.entity.SysOauthClient;
-import com.youlai.auth.enums.PasswordEncoderTypeEnum;
+import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
 import com.youlai.common.result.Result;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
     @SneakyThrows
     public ClientDetails loadClientByClientId(String clientId) {
         try {
-
             Result<SysOauthClient> result = oAuthClientFeignClient.getOAuthClientById(clientId);
             if (Result.success().getCode().equals(result.getCode())) {
                 SysOauthClient client = result.getData();

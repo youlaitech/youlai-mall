@@ -24,13 +24,13 @@ public class UmsMember extends BaseEntity {
 
     private Integer gender;
 
-    private String nickname;
+    private String nickName;
 
     private String mobile;
 
     private LocalDate birthday;
 
-    private String avatar;
+    private String avatarUrl;
 
     private String openid;
 
@@ -45,7 +45,14 @@ public class UmsMember extends BaseEntity {
     @TableField(exist = false)
     private List<UmsAddress> addressList;
 
-//    @TableField(exist = false)
     private Long balance;
+
+    private String city;
+
+    private String country;
+
+    private String language;
+
+    private String province;
 
 }

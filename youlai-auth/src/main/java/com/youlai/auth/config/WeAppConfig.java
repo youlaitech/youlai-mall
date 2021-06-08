@@ -28,7 +28,6 @@ public class WeAppConfig {
         return config;
     }
 
-
     @Bean
     public WxMaService wxMaService(WxMaConfig wxMaConfig) {
         WxMaService service = new WxMaServiceImpl();

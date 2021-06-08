@@ -1,11 +1,11 @@
-package com.youlai.auth.config.oauth2;
+package com.youlai.auth.security.config;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.domain.OAuthUserDetails;
-import com.youlai.auth.service.ClientDetailsServiceImpl;
-import com.youlai.auth.service.UserDetailsServiceImpl;
+import com.youlai.auth.security.service.ClientDetailsServiceImpl;
+import com.youlai.auth.security.service.UserDetailsServiceImpl;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.AllArgsConstructor;

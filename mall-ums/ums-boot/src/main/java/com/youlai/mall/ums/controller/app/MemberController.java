@@ -9,7 +9,6 @@ import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
 import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
-import com.youlai.mall.ums.pojo.vo.MemberVO;
 import com.youlai.mall.ums.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,13 +30,13 @@ public class MemberController {
     @ApiOperation(value = "获取会员信息")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result getMemberById(
+    public Result getById(
             @PathVariable Long id
     ) {
         MemberDTO memberDTO = new MemberDTO();
         UmsMember user = iUmsUserService.getOne(
                 new LambdaQueryWrapper<UmsMember>()
-                        .select(UmsMember::getId, UmsMember::getNickname, UmsMember::getMobile, UmsMember::getBalance)
+                        .select(UmsMember::getId, UmsMember::getNickName, UmsMember::getMobile, UmsMember::getBalance)
                         .eq(UmsMember::getId, id)
         );
         if (user != null) {
@@ -49,17 +48,15 @@ public class MemberController {
     @ApiOperation(value = "根据openid获取会员信息")
     @ApiImplicitParam(name = "openid", value = "微信身份唯一标识", required = true, paramType = "path", dataType = "String")
     @GetMapping("/openid/{openid}")
-    public Result getMemberByOpenid(
+    public Result getByOpenid(
             @PathVariable String openid
     ) {
-        UmsMember user = iUmsUserService.getOne(new LambdaQueryWrapper<UmsMember>()
+        UmsMember member = iUmsUserService.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getOpenid, openid));
-        if (user == null) {
+        if (member == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
-        AuthMemberDTO authMemberDTO = new AuthMemberDTO();
-        BeanUtil.copyProperties(user, authMemberDTO);
-        return Result.success(authMemberDTO);
+        return Result.success(member);
     }
 
     @ApiOperation(value = "新增会员")
@@ -67,6 +64,14 @@ public class MemberController {
     @PostMapping
     public Result add(@RequestBody UmsMember user) {
         boolean status = iUmsUserService.save(user);
+        return Result.judge(status);
+    }
+
+    @ApiOperation(value = "新增会员")
+    @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
+    @PutMapping("/{id}")
+    public Result add(@PathVariable Long id,@RequestBody UmsMember user) {
+        boolean status = iUmsUserService.updateById(user);
         return Result.judge(status);
     }
 
@@ -78,9 +83,9 @@ public class MemberController {
         if (user == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
-        MemberVO memberVO = new MemberVO();
-        BeanUtil.copyProperties(user, memberVO);
-        return Result.success(memberVO);
+        MemberDTO memberDTO = new MemberDTO();
+        BeanUtil.copyProperties(user, memberDTO);
+        return Result.success(memberDTO);
     }
 
 
