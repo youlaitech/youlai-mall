@@ -18,10 +18,6 @@ public class UmsMember extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private String username;
-
-    private String password;
-
     private Integer gender;
 
     private String nickName;

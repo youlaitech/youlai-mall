@@ -7,7 +7,9 @@ public class MemberDTO {
 
     private Long id;
 
-    private String nickname;
+    private String nickName;
+
+    private String avatarUrl;
 
     private String mobile;
 

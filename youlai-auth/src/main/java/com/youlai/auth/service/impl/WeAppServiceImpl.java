@@ -3,20 +3,25 @@ package com.youlai.auth.service.impl;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.common.jwt.JwtGenerator;
 import com.youlai.auth.domain.UserInfo;
 import com.youlai.auth.service.IAuthService;
+import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author haoxr
@@ -28,90 +33,70 @@ import java.util.Map;
 public class WeAppServiceImpl implements IAuthService {
 
     private MemberFeignClient memberFeignClient;
-    private PasswordEncoder passwordEncoder;
     private WxMaService wxMaService;
     private JwtGenerator jwtGenerator;
 
     /**
      * @param parameters code=小程序授权code
-     *                   encryptedData=包括敏感数据在内的完整用户信息的加密数据
-     *                   iv=
+     *                   rawData=不包括敏感信息的原始数据字符串，用于计算签名
+     *                   signature=使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，详见 用户数据的签名验证和加解密
      * @return
      */
     @SneakyThrows
     @Override
     public Map<String, Object> login(Map<String, String> parameters) {
+        Map<String, Object> resultMap = new HashMap<>();
+
         String code = parameters.get("code");
         String rawData = parameters.get("rawData");
         String signature = parameters.get("signature");
         WxMaJscode2SessionResult sessionInfo = wxMaService.getUserService().getSessionInfo(code);
         String sessionKey = sessionInfo.getSessionKey();
+        // 校验微信用户信息
         boolean checkResult = wxMaService.getUserService().checkUserInfo(sessionKey, rawData, signature);
         if (checkResult) {
             String openid = sessionInfo.getOpenid();
             Result<UmsMember> result = memberFeignClient.getByOpenid(openid);
 
             UmsMember member = null;
-            Result memberResult;
+            Result memberOptResult = null;
             if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) {
                 // 用户不存在，注册成为新用户
                 UserInfo userInfo = JSONUtil.toBean(rawData, UserInfo.class);
                 member = new UmsMember();
                 BeanUtil.copyProperties(userInfo, member);
-                memberResult = memberFeignClient.add(member);
+                member.setOpenid(openid);
+                member.setSessionKey(sessionKey);
+                memberOptResult = memberFeignClient.add(member);
+                if (ResultCode.SUCCESS.getCode().equals(memberOptResult.getCode())) {
+                    member = (UmsMember) memberOptResult.getData();
+                }
             } else if (ResultCode.SUCCESS.getCode().equals(result.getCode()) && result.getData() != null) {
                 member = result.getData();
                 UserInfo userInfo = JSONUtil.toBean(rawData, UserInfo.class);
                 BeanUtil.copyProperties(userInfo, member);
-                memberResult = memberFeignClient.update(member.getId(), member);
+                member.setSessionKey(sessionKey);
+                memberOptResult = memberFeignClient.update(member.getId(), member);
             }
+            if (memberOptResult != null && ResultCode.SUCCESS.getCode().equals(memberOptResult.getCode())) {
 
+                // JWT授权，一般存放用户的角色标识，用于资源服务器（网关）鉴权
+                Set<String> authorities = new HashSet<>();
 
-        }
+                // JWT增强，携带用户ID等信息
+                Map<String, String> additional = new HashMap<>();
+                additional.put(AuthConstants.USER_ID_KEY, Convert.toStr(member.getId()));
 
+                String accessToken = jwtGenerator.createAccessToken(authorities, additional);
+                String tokenType = "bearer";
 
-        // String userInfo = parameters.get("userInfo");
-       /* if (StrUtil.isBlank(code)) {
-            throw new BizException("code不能为空");
-        }
-
-        WxMaJscode2SessionResult session;
-        // 根据授权code获取微信用户信息
-        session = wxMaService.getUserService().getSessionInfo(code);
-        String openid = session.getOpenid();
-        String sessionKey = session.getSessionKey();
-
-        Result<AuthMemberDTO> result = memberFeignClient.getUserByOpenid(openid);
-        Long userId = result.getData().getId();
-
-        if (ResultCode.USER_NOT_EXIST.getCode().equals(result.getCode())) { // 微信授权登录 会员信息不存在时 注册会员
-            String encryptedData = parameters.get("encryptedData");
-            String iv = parameters.get("iv");
-
-            WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
-            if (userInfo == null) {
-                throw new BizException("获取用户信息失败");
+                resultMap.put("access_token", accessToken);
+                resultMap.put("token_type", tokenType);
+                return resultMap;
             }
-            UmsMember user = new UmsMember()
-                    .setNickname(userInfo.getNickName())
-                    .setAvatar(userInfo.getAvatarUrl())
-                    .setGender(Integer.valueOf(userInfo.getGender()))
-                    .setOpenid(openid)
-                    .setUsername(openid)
-                    .setPassword(passwordEncoder.encode(openid).replace(PasswordEncoderTypeEnum.BCRYPT.getPrefix(),
-                            Strings.EMPTY)) // 加密密码移除前缀加密方式 {bcrypt}
-                    .setStatus(GlobalConstants.STATUS_YES);
-
-            Result res = memberFeignClient.add(user);
-            if (!ResultCode.SUCCESS.getCode().equals(res.getCode())) {
-                throw new BizException("注册会员失败");
-            }
+        } else {
+            throw new BizException("非法用户");
         }
-
-        HashSet<String> roles = new HashSet<>();
-        HashMap<String, String> additional = new HashMap<>();
-        additional.put("userId", String.valueOf(userId));*/
-        // jwtGenerator.createAccessToken(openid, roles, additional);
-        return null;
+        throw new BizException("认证失败");
     }
 }

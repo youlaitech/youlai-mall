@@ -7,9 +7,8 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
-import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
-import com.youlai.mall.ums.service.IUmsUserService;
+import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class MemberController {
 
-    private IUmsUserService iUmsUserService;
+    private IUmsMemberService iUmsMemberService;
 
     @ApiOperation(value = "获取会员信息")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
@@ -34,7 +33,7 @@ public class MemberController {
             @PathVariable Long id
     ) {
         MemberDTO memberDTO = new MemberDTO();
-        UmsMember user = iUmsUserService.getOne(
+        UmsMember user = iUmsMemberService.getOne(
                 new LambdaQueryWrapper<UmsMember>()
                         .select(UmsMember::getId, UmsMember::getNickName, UmsMember::getMobile, UmsMember::getBalance)
                         .eq(UmsMember::getId, id)
@@ -51,7 +50,7 @@ public class MemberController {
     public Result getByOpenid(
             @PathVariable String openid
     ) {
-        UmsMember member = iUmsUserService.getOne(new LambdaQueryWrapper<UmsMember>()
+        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getOpenid, openid));
         if (member == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
@@ -62,16 +61,20 @@ public class MemberController {
     @ApiOperation(value = "新增会员")
     @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     @PostMapping
-    public Result add(@RequestBody UmsMember user) {
-        boolean status = iUmsUserService.save(user);
-        return Result.judge(status);
+    public Result<UmsMember> add(@RequestBody UmsMember member) {
+        boolean status = iUmsMemberService.save(member);
+        if (status) {
+            return Result.success(member);
+        } else {
+            return Result.failed();
+        }
     }
 
-    @ApiOperation(value = "新增会员")
+    @ApiOperation(value = "修改会员")
     @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     @PutMapping("/{id}")
-    public Result add(@PathVariable Long id,@RequestBody UmsMember user) {
-        boolean status = iUmsUserService.updateById(user);
+    public Result add(@PathVariable Long id, @RequestBody UmsMember user) {
+        boolean status = iUmsMemberService.updateById(user);
         return Result.judge(status);
     }
 
@@ -79,12 +82,12 @@ public class MemberController {
     @GetMapping("/me")
     public Result getMemberInfo() {
         Long userId = JwtUtils.getUserId();
-        UmsMember user = iUmsUserService.getById(userId);
-        if (user == null) {
+        UmsMember member = iUmsMemberService.getById(userId);
+        if (member == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
         MemberDTO memberDTO = new MemberDTO();
-        BeanUtil.copyProperties(user, memberDTO);
+        BeanUtil.copyProperties(member, memberDTO);
         return Result.success(memberDTO);
     }
 
@@ -96,9 +99,9 @@ public class MemberController {
     })
     @PutMapping("/{id}/points")
     public Result updatePoint(@PathVariable Long id, @RequestParam Integer num) {
-        UmsMember user = iUmsUserService.getById(id);
+        UmsMember user = iUmsMemberService.getById(id);
         user.setPoint(user.getPoint() + num);
-        boolean result = iUmsUserService.updateById(user);
+        boolean result = iUmsMemberService.updateById(user);
         return Result.judge(result);
     }
 
@@ -109,7 +112,7 @@ public class MemberController {
     })
     @PutMapping("/{id}/deduct-balance")
     public Result updateBalance(@PathVariable Long id, @RequestParam Long balance) {
-        boolean result = iUmsUserService.update(new LambdaUpdateWrapper<UmsMember>()
+        boolean result = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .setSql("balance = balance - " + balance)
                 .eq(UmsMember::getId, id)
         );
@@ -121,7 +124,7 @@ public class MemberController {
     @GetMapping("/{id}/balance")
     public Result<Long> updateBalance(@PathVariable Long id) {
         Long balance = 0l;
-        UmsMember user = iUmsUserService.getById(id);
+        UmsMember user = iUmsMemberService.getById(id);
         if (user != null) {
             balance = user.getBalance();
         }
