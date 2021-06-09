@@ -39,7 +39,6 @@ import java.util.Map;
  */
 @Service
 @AllArgsConstructor
-
 public class ElasticSearchService {
 
     private RestHighLevelClient client;

@@ -158,7 +158,7 @@ DROP TABLE IF EXISTS `oms_order_log`;
 CREATE TABLE `oms_order_log`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `order_id` bigint(0) NOT NULL COMMENT '订单id',
-  `OAuthUserDetails` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '操作人[用户；系统；后台管理员]',
+  `user` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '操作人[用户；系统；后台管理员]',
   `detail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '操作详情',
   `order_status` int(0) DEFAULT NULL COMMENT '操作时订单状态',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '备注',
