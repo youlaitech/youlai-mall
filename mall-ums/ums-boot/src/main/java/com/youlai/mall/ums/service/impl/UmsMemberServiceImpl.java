@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
 import com.youlai.mall.ums.mapper.UmsUserMapper;
-import com.youlai.mall.ums.service.IUmsUserService;
+import com.youlai.mall.ums.service.IUmsMemberService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UmsUserServiceImpl extends ServiceImpl<UmsUserMapper, UmsMember> implements IUmsUserService {
+public class UmsMemberServiceImpl extends ServiceImpl<UmsUserMapper, UmsMember> implements IUmsMemberService {
 
 
     @Override

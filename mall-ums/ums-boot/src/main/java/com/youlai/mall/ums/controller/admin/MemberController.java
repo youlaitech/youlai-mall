@@ -9,7 +9,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.pojo.domain.UmsMember;
-import com.youlai.mall.ums.service.IUmsUserService;
+import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -27,7 +27,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class MemberController {
 
-    private IUmsUserService iUmsUserService;
+    private IUmsMemberService iUmsMemberService;
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
@@ -48,8 +48,8 @@ public class MemberController {
         queryWrapper.ne(UmsMember::getDeleted, GlobalConstants.DELETED_VALUE);
         switch (queryModeEnum) {
             default: // PAGE
-                queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickname, nickname);
-                IPage<UmsMember> result = iUmsUserService.list(new Page<>(page, limit), new UmsMember().setNickname(nickname));
+                queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickName, nickname);
+                IPage<UmsMember> result = iUmsMemberService.list(new Page<>(page, limit), new UmsMember().setNickName(nickname));
                 return Result.success(result.getRecords(), result.getTotal());
         }
     }
@@ -60,7 +60,7 @@ public class MemberController {
     public Result getMemberById(
             @PathVariable Long id
     ) {
-        UmsMember user = iUmsUserService.getById(id);
+        UmsMember user = iUmsMemberService.getById(id);
         return Result.success(user);
     }
 
@@ -71,9 +71,9 @@ public class MemberController {
     })
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Integer id,
-            @RequestBody UmsMember user) {
-        boolean status = iUmsUserService.updateById(user);
+            @PathVariable Long id,
+            @RequestBody UmsMember member) {
+        boolean status = iUmsMemberService.updateById(member);
         return Result.judge(status);
     }
 
@@ -86,7 +86,7 @@ public class MemberController {
     public Result patch(@PathVariable Long id, @RequestBody UmsMember user) {
         LambdaUpdateWrapper<UmsMember> updateWrapper = new LambdaUpdateWrapper<UmsMember>().eq(UmsMember::getId, id);
         updateWrapper.set(user.getStatus() != null, UmsMember::getStatus, user.getStatus());
-        boolean status = iUmsUserService.update(updateWrapper);
+        boolean status = iUmsMemberService.update(updateWrapper);
         return Result.judge(status);
     }
 
@@ -94,7 +94,7 @@ public class MemberController {
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
-        boolean status = iUmsUserService.update(new LambdaUpdateWrapper<UmsMember>()
+        boolean status = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .in(UmsMember::getId, Arrays.asList(ids.split(",")))
                 .set(UmsMember::getDeleted, GlobalConstants.DELETED_VALUE));
         return Result.judge(status);

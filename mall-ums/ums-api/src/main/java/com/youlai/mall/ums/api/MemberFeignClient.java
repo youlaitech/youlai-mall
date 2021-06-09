@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 public interface MemberFeignClient {
 
     @PostMapping("/app-api/v1/members")
-    Result add(@RequestBody UmsMember member);
+    Result<UmsMember> add(@RequestBody UmsMember member);
 
 
-    @PostMapping("/app-api/v1/members/{id}")
+    @PutMapping("/app-api/v1/members/{id}")
     Result update(@PathVariable Long id,@RequestBody UmsMember member);
 
 
