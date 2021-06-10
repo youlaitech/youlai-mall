@@ -14,4 +14,5 @@ public class MemberDTO {
     private String mobile;
 
     private Long balance;
+
 }

@@ -1,5 +1,8 @@
 package com.youlai.auth.service;
 
+import com.youlai.auth.domain.OAuthToken;
+import com.youlai.auth.domain.UserInfo;
+
 import java.util.Map;
 
 /**
@@ -12,5 +15,5 @@ import java.util.Map;
  */
 public interface IAuthService {
 
-    Map<String,Object> login(Map<String, String> parameters);
+    OAuthToken login(String code, UserInfo userInfo);
 }
