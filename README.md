@@ -156,7 +156,7 @@ youlai-mall
 
 ### 2. 后台前端启动 
 
-1. 本机安装Python和Node环境
+1. 本机安装Node环境
 2. npm install
 3. npm run dev
 4. 访问 http://localhost:9527

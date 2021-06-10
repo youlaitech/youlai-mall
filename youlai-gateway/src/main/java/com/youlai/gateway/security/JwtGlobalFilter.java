@@ -46,8 +46,8 @@ public class JwtGlobalFilter implements GlobalFilter, Ordered {
 
         // 演示环境禁止删除和修改
         if (isDemoEnv
-                && HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
-                && HttpMethod.PUT.toString().equals(request.getMethodValue()) // 修改方法
+                && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
+                || HttpMethod.PUT.toString().equals(request.getMethodValue())) // 修改方法
         ) {
             return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
         }
