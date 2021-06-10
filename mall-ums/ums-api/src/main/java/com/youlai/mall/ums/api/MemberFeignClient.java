@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public interface MemberFeignClient {
 
     @PostMapping("/app-api/v1/members")
-    Result<UmsMember> add(@RequestBody UmsMember member);
+    Result<Long > add(@RequestBody UmsMember member);
 
 
     @PutMapping("/app-api/v1/members/{id}")

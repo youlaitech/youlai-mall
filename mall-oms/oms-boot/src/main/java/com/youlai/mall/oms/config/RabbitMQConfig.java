@@ -41,7 +41,7 @@ public class RabbitMQConfig {
         // 延时队列的消息过期了，会自动触发消息的转发，根据routingKey发送到指定的exchange中，exchange路由到死信队列
         Map<String, Object> args = new HashMap<>();
         args.put("x-dead-letter-exchange", "order.exchange");
-        args.put("x-dead-letter-routing-key", "order:close"); // 死信路由Key
+        args.put("x-dead-letter-routing-key", "order.close"); // 死信路由Key
         args.put("x-message-ttl", 60000); // 单位：毫秒，1分钟测试使用
         return new Queue("order.delay.queue", true, false, false, args);
     }
@@ -66,11 +66,11 @@ public class RabbitMQConfig {
 
     /**
      * 死信队列绑定交换机
-     * 其中死信路由的routingKey=order:close和延时队列的routingKey一致，延时队列过期时将消息发送给exchange，exchange再路由到死信队列
+     * 其中死信路由的routingKey=order.close和延时队列的routingKey一致，延时队列过期时将消息发送给exchange，exchange再路由到死信队列
      */
     @Bean
     public Binding closeOrderQueueBinding() {
-        return new Binding("order.close.queue", Binding.DestinationType.QUEUE,"order.exchange","order:close",null);
+        return new Binding("order.close.queue", Binding.DestinationType.QUEUE,"order.exchange","order.close",null);
     }
 
 }

@@ -4,7 +4,9 @@ import cn.hutool.json.JSONObject;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.youlai.auth.common.enums.OAuthClientEnum;
-import com.youlai.auth.service.impl.WeAppServiceImpl;
+import com.youlai.auth.domain.OAuthToken;
+import com.youlai.auth.domain.UserInfo;
+import com.youlai.auth.service.IAuthService;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
@@ -34,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class OAuthController {
 
     private TokenEndpoint tokenEndpoint;
-    private WeAppServiceImpl weAppServiceImpl;
+    private IAuthService wechatAuthService;
     private RedisTemplate redisTemplate;
     private KeyPair keyPair;
 
@@ -63,14 +65,20 @@ public class OAuthController {
         String clientId = JwtUtils.getAuthClientId();
         OAuthClientEnum client = OAuthClientEnum.getByClientId(clientId);
         switch (client) {
-            case WEAPP:  // 微信小程序
-                return Result.success(weAppServiceImpl.login(parameters));
             case TEST: // knife4j接口测试文档使用 client_id/client_secret : client/123456
                 return tokenEndpoint.postAccessToken(principal, parameters).getBody();
             default:
                 return Result.success(tokenEndpoint.postAccessToken(principal, parameters).getBody());
         }
     }
+
+    @ApiOperation(value = "微信登录")
+    @PostMapping("/token/{code}")
+    public Result wechatLogin(@PathVariable String code, @RequestBody UserInfo userInfo) {
+        OAuthToken token = wechatAuthService.login(code, userInfo);
+        return Result.success(token);
+    }
+
 
     @ApiOperation(value = "注销", notes = "logout")
     @DeleteMapping("/logout")

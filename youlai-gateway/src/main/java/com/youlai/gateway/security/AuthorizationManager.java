@@ -40,7 +40,8 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         // Restful接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14396990.html
-        String restPath = request.getMethodValue() + "_" + request.getURI().getPath();
+        String restfulPath = request.getMethodValue() + "_" + request.getURI().getPath();
+        log.info("restful path:{}",restfulPath);
         PathMatcher pathMatcher = new AntPathMatcher();
         // 对应跨域的预检请求直接放行
         if (request.getMethod() == HttpMethod.OPTIONS) {
@@ -52,7 +53,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         boolean needCheck = false; // 是否被设置需要鉴权
         for (Map.Entry<String, Object> permRoles : permRolesRule.entrySet()) {
             String perm = permRoles.getKey(); // URL权限标识
-            if (pathMatcher.match(perm, restPath)) {
+            if (pathMatcher.match(perm, restfulPath)) {
                 List<String> roles = Convert.toList(String.class, permRoles.getValue());
                 hasPermRoles.addAll(Convert.toList(String.class, roles));
                 needCheck = true;

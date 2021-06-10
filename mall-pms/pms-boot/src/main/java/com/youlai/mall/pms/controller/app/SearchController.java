@@ -1,6 +1,5 @@
 package com.youlai.mall.pms.controller.app;
 
-import com.youlai.common.elasticsearch.service.ElasticSearchService;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/app-api/v1/search")
 @AllArgsConstructor
 public class SearchController {
-
-    private ElasticSearchService elasticSearchService;
 
     @ApiOperation(value = "关键字搜索商品")
     @ApiImplicitParams({

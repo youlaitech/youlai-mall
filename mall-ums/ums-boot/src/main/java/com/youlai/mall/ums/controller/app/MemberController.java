@@ -61,10 +61,10 @@ public class MemberController {
     @ApiOperation(value = "新增会员")
     @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     @PostMapping
-    public Result<UmsMember> add(@RequestBody UmsMember member) {
+    public Result<Long> add(@RequestBody UmsMember member) {
         boolean status = iUmsMemberService.save(member);
         if (status) {
-            return Result.success(member);
+            return Result.success(member.getId());
         } else {
             return Result.failed();
         }
@@ -78,7 +78,7 @@ public class MemberController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "获取当前请求的会员信息")
+    @ApiOperation(value = "获取登录会员信息")
     @GetMapping("/me")
     public Result getMemberInfo() {
         Long userId = JwtUtils.getUserId();

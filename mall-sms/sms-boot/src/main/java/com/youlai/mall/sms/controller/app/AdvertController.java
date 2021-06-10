@@ -16,7 +16,7 @@ import java.util.List;
 
 @Api(tags = "【移动端】营销广告")
 @RestController("APPAdvertController")
-@RequestMapping("/api-app/v1/adverts")
+@RequestMapping("/app-api/v1/adverts")
 @Slf4j
 @AllArgsConstructor
 public class AdvertController {
