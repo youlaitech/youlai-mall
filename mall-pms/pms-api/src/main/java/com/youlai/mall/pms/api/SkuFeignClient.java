@@ -30,7 +30,7 @@ public interface SkuFeignClient {
     Result<Boolean> unlockStock(@RequestParam String orderToken);
 
 
-    @PutMapping("/v2/skus/deduct_stock")
+    @PutMapping("/app-api/v1/skus/deduct_stock")
     Result deductStock(@RequestParam  String orderToken);
 
 
