@@ -35,6 +35,9 @@ import java.util.List;
 
 /**
  * 资源服务器配置
+ *
+ * @author haoxr
+ * @date 2020-05-01
  */
 @ConfigurationProperties(prefix = "security")
 @AllArgsConstructor
@@ -42,7 +45,7 @@ import java.util.List;
 @EnableWebFluxSecurity
 public class ResourceServerConfig {
 
-    private AuthorizationManager authorizationManager;
+    private ResourceServerManager resourceServerManager;
 
     @Setter
     private List<String> ignoreUrls;
@@ -56,7 +59,7 @@ public class ResourceServerConfig {
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         http.authorizeExchange()
                 .pathMatchers(Convert.toStrArray(ignoreUrls)).permitAll()
-                .anyExchange().access(authorizationManager)
+                .anyExchange().access(resourceServerManager)
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler()) // 处理未授权

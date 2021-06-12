@@ -24,11 +24,14 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
- * 全局过滤器
+ * 安全拦截全局过滤器
+ *
+ * @author haoxr
+ * @date 2020-06-12
  */
 @Component
 @Slf4j
-public class JwtGlobalFilter implements GlobalFilter, Ordered {
+public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
     @Autowired
     private RedisTemplate redisTemplate;
