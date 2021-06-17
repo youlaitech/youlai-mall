@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
+import static com.youlai.common.constant.GlobalConstants.STATUS_YES;
+
 @Api(tags = "【系统管理】会员管理")
 @RestController("AdminMemberController")
 @RequestMapping("/api/v1/users")
@@ -45,7 +47,7 @@ public class MemberController {
     ) {
         QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         LambdaQueryWrapper<UmsMember> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.ne(UmsMember::getDeleted, GlobalConstants.DELETED_VALUE);
+        queryWrapper.ne(UmsMember::getDeleted, STATUS_YES);
         switch (queryModeEnum) {
             default: // PAGE
                 queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickName, nickname);
@@ -96,7 +98,7 @@ public class MemberController {
     public Result delete(@PathVariable String ids) {
         boolean status = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .in(UmsMember::getId, Arrays.asList(ids.split(",")))
-                .set(UmsMember::getDeleted, GlobalConstants.DELETED_VALUE));
+                .set(UmsMember::getDeleted, STATUS_YES));
         return Result.judge(status);
     }
 }

@@ -113,7 +113,7 @@ public class RoleController {
         Assert.isTrue(count == 0, "角色编码已存在");
         boolean result = iSysRoleService.updateById(role);
         if (result) {
-            iSysPermissionService.refreshPermRolesCache();
+            iSysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -125,7 +125,7 @@ public class RoleController {
         boolean result = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()
                 .map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         if (result) {
-            iSysPermissionService.refreshPermRolesCache();
+            iSysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -142,7 +142,7 @@ public class RoleController {
                 .set(role.getStatus() != null, SysRole::getStatus, role.getStatus());
         boolean result = iSysRoleService.update(updateWrapper);
         if (result) {
-            iSysPermissionService.refreshPermRolesCache();
+            iSysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -193,7 +193,7 @@ public class RoleController {
         rolePermission.setRoleId(roleId);
         boolean result = iSysRolePermissionService.update(rolePermission);
         if (result) {
-            iSysPermissionService.refreshPermRolesCache();
+            iSysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }

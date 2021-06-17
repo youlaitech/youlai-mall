@@ -1,6 +1,7 @@
 package com.youlai.admin.controller.v1;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -18,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,9 +109,7 @@ public class DictController {
         List<String> codeList = iSysDictService.listByIds(idList).stream().map(item -> item.getCode()).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(codeList)) {
             int count = iSysDictItemService.count(new LambdaQueryWrapper<SysDictItem>().in(SysDictItem::getDictCode, codeList));
-            if (count > 0) {
-                return Result.failed("删除字典失败，请先删除关联字典数据");
-            }
+            Assert.isTrue(count == 0, "删除字典失败，请先删除关联字典数据");
         }
         boolean status = iSysDictService.removeByIds(idList);
         return Result.judge(status);

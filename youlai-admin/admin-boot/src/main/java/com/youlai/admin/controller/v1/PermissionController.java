@@ -75,7 +75,7 @@ public class PermissionController {
     public Result add(@RequestBody SysPermission permission) {
         boolean result = iSysPermissionService.save(permission);
         if (result) {
-            iSysPermissionService.refreshPermRolesCache();
+            iSysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -91,7 +91,7 @@ public class PermissionController {
             @RequestBody SysPermission permission) {
         boolean result = iSysPermissionService.updateById(permission);
         if (result) {
-            iSysPermissionService.refreshPermRolesCache();
+            iSysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
