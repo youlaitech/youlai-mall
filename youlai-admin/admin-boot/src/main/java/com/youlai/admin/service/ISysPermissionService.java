@@ -13,7 +13,7 @@ public interface ISysPermissionService extends IService<SysPermission> {
 
     IPage<SysPermission> list(Page<SysPermission> page, SysPermission permission);
 
-    boolean refreshPermRolesCache();
+    boolean refreshPermRolesRules();
 
     List<String> listBtnPermByRoles(List<String> roles);
 }

@@ -11,10 +11,7 @@ public interface GlobalConstants {
 
     String ROOT_ROLE_CODE = "ROOT";
 
-
-    String URL_PERM_ROLES_KEY = "system:permission:url_perm_roles:";
-    String BTN_PERM_ROLES_KEY = "system:permission:btn_perm_roles:";
-
-    String ALL_BTN_PERMISSION = "*:*:*";
+    String URL_PERM_ROLES_KEY = "system:perm_roles_rule:url:";
+    String BTN_PERM_ROLES_KEY = "system:perm_roles_rule:btn:";
 
 }

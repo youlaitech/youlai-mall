@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import reactor.core.publisher.Mono;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +38,6 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
-
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         // 预检请求放行
         if (request.getMethod() == HttpMethod.OPTIONS) {
@@ -47,18 +45,18 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         }
 
         // Restful接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14396990.html
-        String restfulPath = request.getMethodValue() + "_" + request.getURI().getPath();
+        String restfulPath = request.getMethodValue() + ":" + request.getURI().getPath();
         log.info("请求方法 + RESTFul请求路径：{}", restfulPath);
 
         // 缓存取【URL权限标识->角色集合】权限规则
-        Map<String, Object> permRolesRule = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
+        Map<String, Object> permRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
 
         // 根据 “请求路径” 和 权限规则中的“URL权限标识”进行Ant匹配，得出拥有权限的角色集合
         Set<String> hasPermissionRoles = CollectionUtil.newHashSet(); // 【声明定义】有权限的角色集合
         boolean needToCheck = false; // 【声明定义】是否需要被拦截检查的请求，如果缓存中权限规则中没有任何URL权限标识和此次请求的URL匹配，默认不需要被鉴权
         PathMatcher pathMatcher = new AntPathMatcher(); // 【声明定义】Ant路径匹配模式，“请求路径”和缓存中权限规则的“URL权限标识”匹配
 
-        for (Map.Entry<String, Object> permRoles : permRolesRule.entrySet()) {
+        for (Map.Entry<String, Object> permRoles : permRolesRules.entrySet()) {
             String perm = permRoles.getKey(); // 缓存权限规则的键：URL权限标识
             if (pathMatcher.match(perm, restfulPath)) {
                 List<String> roles = Convert.toList(String.class, permRoles.getValue()); // 缓存权限规则的值：有请求路径访问权限的角色集合
