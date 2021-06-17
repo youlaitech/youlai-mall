@@ -18,6 +18,6 @@ public class InitPermissionRoles implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        iSysPermissionService.refreshPermRolesCache();
+        iSysPermissionService.refreshPermRolesRules();
     }
 }
