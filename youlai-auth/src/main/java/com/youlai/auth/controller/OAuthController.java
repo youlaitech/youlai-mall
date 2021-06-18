@@ -43,8 +43,8 @@ public class OAuthController {
     @ApiOperation(value = "OAuth2认证", notes = "login")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
-            @ApiImplicitParam(name = "client_id", defaultValue = "client", value = "Oauth2客户端ID", required = true),
-            @ApiImplicitParam(name = "client_secret", defaultValue = "123456", value = "Oauth2客户端秘钥", required = true),
+            @ApiImplicitParam(name = "client_id", value = "Oauth2客户端ID（新版本需放置请求头）", required = true),
+            @ApiImplicitParam(name = "client_secret", value = "Oauth2客户端秘钥（新版本需放置请求头）", required = true),
             @ApiImplicitParam(name = "refresh_token", value = "刷新token"),
             @ApiImplicitParam(name = "username", defaultValue = "admin", value = "登录用户名"),
             @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码")
@@ -59,7 +59,7 @@ public class OAuthController {
          * 获取登录认证的客户端ID
          *
          * 兼容两种方式获取Oauth2客户端信息（client_id、client_secret）
-         * 方式一：client_id、client_secret放在请求路径中
+         * 方式一：client_id、client_secret放在请求路径中(注：当前版本已废弃)
          * 方式二：放在请求头（Request Headers）中的Authorization字段，且经过加密，例如 Basic Y2xpZW50OnNlY3JldA== 明文等于 client:secret
          */
         String clientId = JwtUtils.getAuthClientId();
@@ -72,30 +72,29 @@ public class OAuthController {
         }
     }
 
-    @ApiOperation(value = "微信登录")
+    @ApiOperation(value = "微信授权登录")
+    @ApiImplicitParam(name = "code",  value = "小程序授权code",paramType = "path")
     @PostMapping("/token/{code}")
     public Result wechatLogin(@PathVariable String code, @RequestBody UserInfo userInfo) {
         OAuthToken token = wechatAuthService.login(code, userInfo);
         return Result.success(token);
     }
 
-
     @ApiOperation(value = "注销", notes = "logout")
     @DeleteMapping("/logout")
     public Result logout() {
-        JSONObject jsonObject = JwtUtils.getJwtPayload();
-        String jti = jsonObject.getStr(AuthConstants.JWT_JTI); // JWT唯一标识
-        Long exp = jsonObject.getLong(AuthConstants.JWT_EXP); // JWT过期时间戳
-        if (exp != null) {
-            long currentTimeSeconds = System.currentTimeMillis() / 1000;
-            if (exp < currentTimeSeconds) { // token已过期，无需加入黑名单
-                return Result.success();
+        JSONObject payload = JwtUtils.getJwtPayload();
+        String jti = payload.getStr(AuthConstants.JWT_JTI); // JWT唯一标识
+        Long expireTime = payload.getLong(AuthConstants.JWT_EXP); // JWT过期时间戳(单位：秒)
+        if (expireTime != null) {
+            long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
+            if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
+                redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
             }
-            redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (exp - currentTimeSeconds), TimeUnit.SECONDS);
         } else { // token 永不过期则永久加入黑名单
             redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null);
         }
-        return Result.success();
+        return Result.success("注销成功");
     }
 
     @ApiOperation(value = "获取公钥", notes = "login")
