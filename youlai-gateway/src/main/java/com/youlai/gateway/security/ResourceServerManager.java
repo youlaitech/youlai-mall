@@ -2,6 +2,7 @@ package com.youlai.gateway.security;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
+import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +21,6 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static com.youlai.common.constant.AuthConstants.AUTHORITY_PREFIX;
 
 /**
  * 网关自定义鉴权管理器
@@ -64,7 +63,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 needToCheck = true;
             }
         }
-        // 如果没有设置权限拦截则放行
+        // 没有设置权限规则放行；注：如果默认想拦截所有的请求请移除needToCheck变量逻辑即可，根据需求定制
         if (needToCheck == false) {
             return Mono.just(new AuthorizationDecision(true));
         }
@@ -75,7 +74,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
                     log.info("用户权限（角色） : {}", authority); // ROLE_ROOT
-                    String role = authority.substring(AUTHORITY_PREFIX.length()); // ROOT
+                    String role = authority.substring(AuthConstants.AUTHORITY_PREFIX.length()); // ROOT
                     if (GlobalConstants.ROOT_ROLE_CODE.equals(role)) { // 如果是超级管理员则放行
                         return true;
                     }
