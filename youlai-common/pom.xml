@@ -7,7 +7,7 @@
     <parent>
         <artifactId>youlai-mall</artifactId>
         <groupId>com.youlai</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
 
     <artifactId>youlai-common</artifactId>
@@ -20,5 +20,6 @@
         <module>common-mybatis</module>
         <module>common-rabbitmq</module>
         <module>common-es</module>
+        <module>common-log</module>
     </modules>
 </project>
