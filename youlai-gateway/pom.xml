@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <youlai.version>1.0.0</youlai.version>
+        <youlai.version>2.0.0</youlai.version>
     </properties>
 
     <dependencies>
