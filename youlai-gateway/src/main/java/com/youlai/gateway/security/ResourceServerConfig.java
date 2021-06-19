@@ -26,7 +26,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
 import reactor.core.publisher.Mono;
-
 import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
@@ -53,8 +52,8 @@ public class ResourceServerConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
-                .publicKey(rsaPublicKey())
-                // .jwkSetUri()  //
+                .publicKey(rsaPublicKey()) // 本地获取公钥
+                //.jwkSetUri() // 远程获取公钥
         ;
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         http.authorizeExchange()
@@ -123,7 +122,7 @@ public class ResourceServerConfig {
         Resource resource = new ClassPathResource("public.key");
         InputStream is = resource.getInputStream();
         String publicKeyData = IoUtil.read(is).toString();
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(( Base64.decode(publicKeyData)));
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec((Base64.decode(publicKeyData)));
 
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         RSAPublicKey rsaPublicKey = (RSAPublicKey)keyFactory.generatePublic(keySpec);
