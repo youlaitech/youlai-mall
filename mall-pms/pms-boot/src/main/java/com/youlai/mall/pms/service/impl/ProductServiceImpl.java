@@ -6,7 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
-import com.youlai.mall.pms.pojo.bo.app.ProductBO;
+import com.youlai.mall.pms.pojo.dto.app.ProductFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttributeValue;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.entity.PmsSpec;
@@ -34,7 +34,7 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
     private IPmsSpecService iPmsSpecService;
 
     @Override
-    public ProductBO getProductById(Long spuId) {
+    public ProductFormDTO getProductById(Long spuId) {
         // spu
         PmsSpu spu = this.getById(spuId);
         SpuDTO SpuDTO = new SpuDTO();
@@ -56,7 +56,7 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
 
-        ProductBO product = new ProductBO(SpuDTO, attrs, specs, skuList);
+        ProductFormDTO product = new ProductFormDTO(SpuDTO, attrs, specs, skuList);
         return product;
     }
 }

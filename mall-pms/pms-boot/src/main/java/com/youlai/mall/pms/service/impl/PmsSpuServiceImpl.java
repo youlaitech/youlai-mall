@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
-import com.youlai.mall.pms.pojo.bo.admin.ProductBO;
+import com.youlai.mall.pms.pojo.dto.admin.ProductFormDTO;
 import com.youlai.mall.pms.pojo.entity.*;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.service.*;
@@ -43,11 +43,11 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
     @Override
     @Transactional
-    public boolean add(ProductBO productBO) {
-        SpuDTO SpuDTO = productBO.getSpu();
-        List<PmsSpuAttributeValue> attrValues = productBO.getAttrs();
-        List<PmsSpuSpecValue> specs = productBO.getSpecs();
-        List<PmsSku> skuList = productBO.getSkus();
+    public boolean add(ProductFormDTO productFormDTO) {
+        SpuDTO SpuDTO = productFormDTO.getSpu();
+        List<PmsSpuAttributeValue> attrValues = productFormDTO.getAttrs();
+        List<PmsSpuSpecValue> specs = productFormDTO.getSpecs();
+        List<PmsSku> skuList = productFormDTO.getSkus();
 
         // spu保存
         PmsSpu spu = new PmsSpu();
@@ -80,7 +80,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public com.youlai.mall.pms.pojo.bo.admin.ProductBO getBySpuId(Long id) {
+    public ProductFormDTO getBySpuId(Long id) {
         // spu
         SpuDTO spuDTO = new SpuDTO();
         PmsSpu spu = this.getById(id);
@@ -101,18 +101,18 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skus = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-          ProductBO productBO = new ProductBO(spuDTO, attrs, specs, skus);
-        return productBO;
+          ProductFormDTO productFormDTO = new ProductFormDTO(spuDTO, attrs, specs, skus);
+        return productFormDTO;
     }
 
 
     @Override
-    public boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO productBO) {
-        SpuDTO SpuDTO = productBO.getSpu();
+    public boolean updateById(ProductFormDTO productFormDTO) {
+        SpuDTO SpuDTO = productFormDTO.getSpu();
 
-        List<PmsSpuAttributeValue> attrValues = productBO.getAttrs();
-        List<PmsSpuSpecValue> specs = productBO.getSpecs();
-        List<PmsSku> skuList = productBO.getSkus();
+        List<PmsSpuAttributeValue> attrValues = productFormDTO.getAttrs();
+        List<PmsSpuSpecValue> specs = productFormDTO.getSpecs();
+        List<PmsSku> skuList = productFormDTO.getSkus();
 
         // spu保存
         PmsSpu spu = new PmsSpu();
@@ -194,7 +194,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
     @Override
-    public com.youlai.mall.pms.pojo.bo.app.ProductBO getProductByIdForApp(Long spuId) {
+    public com.youlai.mall.pms.pojo.dto.app.ProductFormDTO getProductByIdForApp(Long spuId) {
         // spu
         PmsSpu spu = this.getById(spuId);
         SpuDTO SpuDTO = new SpuDTO();
@@ -216,7 +216,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
 
-        com.youlai.mall.pms.pojo.bo.app.ProductBO product = new com.youlai.mall.pms.pojo.bo.app.ProductBO(SpuDTO, attrs, specs, skuList);
+        com.youlai.mall.pms.pojo.dto.app.ProductFormDTO product = new com.youlai.mall.pms.pojo.dto.app.ProductFormDTO(SpuDTO, attrs, specs, skuList);
         return product;
     }
 }

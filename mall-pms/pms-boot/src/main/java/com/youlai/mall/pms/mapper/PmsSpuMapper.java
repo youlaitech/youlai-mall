@@ -31,7 +31,7 @@ public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
             " <if test ='spu.categoryId !=null and spu.categoryId > 0' >" +
             "       AND t2.id = #{spu.categoryId} " +
             " </if>" +
-            " ORDER BY t1.create_time DESC" +
+            " ORDER BY t1.gmt_create DESC" +
             "</script>")
     @Results({
             @Result(id = true, column = "id", property = "id"),

@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : www.youlai.store
+ Source Server         : www.youlai.tech
  Source Server Type    : MySQL
  Source Server Version : 80023
- Source Host           : www.youlai.store:3306
+ Source Host           : www.youlai.tech:3306
  Source Schema         : mall_oms
 
  Target Server Type    : MySQL
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 22/03/2021 09:21:59
+ Date: 20/06/2021 00:40:12
 */
 
 SET NAMES utf8mb4;
@@ -34,40 +34,49 @@ CREATE TABLE `oms_order`  (
   `coupon_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '优惠券抵扣金额（分）',
   `freight_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '运费金额（分）',
   `pay_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '应付总额（分）',
-  `pay_time` datetime(0) DEFAULT NULL COMMENT '支付时间',
-  `pay_type` tinyint(0) DEFAULT NULL COMMENT '支付方式【1->支付宝；2->微信；3->银联； 4->货到付款；】',
-  `delivery_time` datetime(0) DEFAULT NULL COMMENT '发货时间',
-  `receive_time` datetime(0) DEFAULT NULL COMMENT '确认收货时间',
-  `comment_time` datetime(0) DEFAULT NULL COMMENT '评价时间',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `pay_time` datetime(0) NULL DEFAULT NULL COMMENT '支付时间',
+  `pay_type` tinyint(0) NULL DEFAULT NULL COMMENT '支付方式【1->支付宝；2->微信；3->银联； 4->货到付款；】',
+  `delivery_time` datetime(0) NULL DEFAULT NULL COMMENT '发货时间',
+  `receive_time` datetime(0) NULL DEFAULT NULL COMMENT '确认收货时间',
+  `comment_time` datetime(0) NULL DEFAULT NULL COMMENT '评价时间',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `index_order_sn`(`order_sn`) USING BTREE COMMENT '订单号唯一索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 1351548262424821854 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单详情表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1351548262424821912 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单详情表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of oms_order
 -- ----------------------------
-INSERT INTO `oms_order` VALUES (1351548262424821854, '20210321300000001', 159900, 1, 1, 201, '', 1, 0, 0, 0, 159900, '2021-03-21 18:41:39', 3, NULL, NULL, NULL, 0, '2021-03-21 18:41:32', '2021-03-21 18:41:39');
-INSERT INTO `oms_order` VALUES (1351548262424821855, '20210321300000010', 639600, 4, 1, 103, '', 4, 0, 0, 0, 639600, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-21 19:19:00', '2021-03-21 19:20:01');
-INSERT INTO `oms_order` VALUES (1351548262424821856, '20210321300000022', 159900, 1, 1, 103, '', 1, 0, 0, 0, 159900, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-21 19:30:32', '2021-03-21 19:31:33');
-INSERT INTO `oms_order` VALUES (1351548262424821857, '20210321300000030', 639600, 4, 1, 103, '', 4, 0, 0, 0, 639600, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-21 19:43:28', '2021-03-21 19:44:29');
-INSERT INTO `oms_order` VALUES (1351548262424821858, '20210321300000031', 639600, 4, 1, 103, '', 4, 0, 0, 0, 639600, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-21 19:45:33', '2021-03-21 19:46:33');
-INSERT INTO `oms_order` VALUES (1351548262424821859, '20210321300000032', 639600, 4, 1, 103, '', 4, 0, 0, 0, 639600, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-21 19:45:55', '2021-03-21 19:46:55');
-INSERT INTO `oms_order` VALUES (1351548262424821860, '20210321300000033', 159900, 1, 1, 103, '', 1, 0, 0, 0, 159900, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-21 19:55:24', '2021-03-21 19:56:25');
-INSERT INTO `oms_order` VALUES (1351548262424821861, '20210321300000034', 319800, 2, 1, 103, '', 1, 0, 0, 0, 319800, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-21 21:10:13', '2021-03-21 21:11:14');
-INSERT INTO `oms_order` VALUES (1351548262424821862, '20210321300000035', 479700, 3, 1, 201, '', 1, 0, 0, 0, 479700, '2021-03-21 21:15:37', 3, NULL, NULL, NULL, 0, '2021-03-21 21:15:07', '2021-03-21 21:15:37');
-INSERT INTO `oms_order` VALUES (1351548262424821863, '20210321300000036', 159900, 1, 1, 201, '', 1, 0, 0, 0, 159900, '2021-03-21 21:17:21', 3, NULL, NULL, NULL, 0, '2021-03-21 21:17:14', '2021-03-21 21:17:21');
-INSERT INTO `oms_order` VALUES (1351548262424821864, '20210321300000037', 159900, 1, 1, 103, '', 1, 0, 0, 0, 159900, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-21 21:17:38', '2021-03-21 21:18:38');
-INSERT INTO `oms_order` VALUES (1351548262424821865, '20210322300000003', 319800, 2, 1, 201, '', 1, 0, 0, 0, 319800, '2021-03-22 00:40:37', 3, NULL, NULL, NULL, 0, '2021-03-22 00:40:32', '2021-03-22 00:40:37');
-INSERT INTO `oms_order` VALUES (1351548262424821866, '20210322300000004', 159900, 1, 1, 103, '', 1, 0, 0, 0, 159900, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-22 00:42:26', '2021-03-22 00:43:25');
-INSERT INTO `oms_order` VALUES (1351548262424821867, '20210322300000005', 319800, 2, 1, 103, '', 1, 0, 0, 0, 319800, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-22 00:45:12', '2021-03-22 00:46:13');
-INSERT INTO `oms_order` VALUES (1351548262424821868, '20210322300000006', 499700, 3, 1, 201, '', 1, 0, 0, 0, 499700, '2021-03-22 00:47:15', 3, NULL, NULL, NULL, 0, '2021-03-22 00:47:12', '2021-03-22 00:47:15');
-INSERT INTO `oms_order` VALUES (1351548262424821869, '20210322300000007', 159900, 1, 1, 201, '', 1, 0, 0, 0, 159900, '2021-03-22 00:47:54', 3, NULL, NULL, NULL, 0, '2021-03-22 00:47:51', '2021-03-22 00:47:54');
-INSERT INTO `oms_order` VALUES (1351548262424821870, '20210322300000010', 159900, 1, 1, 201, '', 4, 0, 0, 0, 159900, '2021-03-22 07:13:01', 3, NULL, NULL, NULL, 0, '2021-03-22 07:12:58', '2021-03-22 07:13:01');
-INSERT INTO `oms_order` VALUES (1351548262424821871, '20210322300000011', 479700, 3, 1, 201, '', 1, 0, 0, 0, 479700, '2021-03-22 07:17:45', 3, NULL, NULL, NULL, 0, '2021-03-22 07:17:40', '2021-03-22 07:17:45');
-INSERT INTO `oms_order` VALUES (1351548262424821872, '20210322300000012', 159900, 1, 1, 201, '', 1, 0, 0, 0, 159900, '2021-03-22 08:19:23', 3, NULL, NULL, NULL, 0, '2021-03-22 08:19:19', '2021-03-22 08:19:23');
+INSERT INTO `oms_order` VALUES (1351548262424821882, '20210322300000028', 159900, 1, 1, 201, '', 21, 0, 0, 0, 159900, '2021-03-22 23:34:49', 3, NULL, NULL, NULL, 0, '2021-03-22 23:34:43', '2021-03-22 23:34:50');
+INSERT INTO `oms_order` VALUES (1351548262424821883, '20210323300000001', 159900, 1, 1, 201, '', 21, 0, 0, 0, 159900, '2021-03-23 01:03:55', 3, NULL, NULL, NULL, 0, '2021-03-23 01:03:43', '2021-03-23 01:03:55');
+INSERT INTO `oms_order` VALUES (1351548262424821884, '20210323300000002', 319800, 2, 1, 201, '', 21, 0, 0, 0, 319800, '2021-03-23 01:10:24', 3, NULL, NULL, NULL, 0, '2021-03-23 01:10:15', '2021-03-23 01:10:24');
+INSERT INTO `oms_order` VALUES (1351548262424821885, '20210323300000003', 159900, 1, 1, 103, '', 21, 0, 0, 0, 159900, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-23 02:21:24', '2021-03-23 02:22:32');
+INSERT INTO `oms_order` VALUES (1351548262424821886, '20210323300000004', 319800, 2, 1, 201, '', 21, 0, 0, 0, 319800, '2021-03-23 06:37:29', 3, NULL, NULL, NULL, 0, '2021-03-23 06:37:26', '2021-03-23 06:37:29');
+INSERT INTO `oms_order` VALUES (1351548262424821887, '20210323300000005', 159900, 1, 1, 201, '', 21, 0, 0, 0, 159900, '2021-03-23 07:02:30', 3, NULL, NULL, NULL, 0, '2021-03-23 07:02:27', '2021-03-23 07:02:30');
+INSERT INTO `oms_order` VALUES (1351548262424821888, '20210323300000006', 319800, 2, 1, 201, '', 21, 0, 0, 0, 319800, '2021-03-23 07:31:46', 3, NULL, NULL, NULL, 0, '2021-03-23 07:31:42', '2021-03-23 07:31:46');
+INSERT INTO `oms_order` VALUES (1351548262424821889, '20210323300000009', 159900, 1, 1, 201, '', 22, 0, 0, 0, 159900, '2021-03-23 18:55:46', 3, NULL, NULL, NULL, 0, '2021-03-23 18:55:41', '2021-03-23 18:55:46');
+INSERT INTO `oms_order` VALUES (1351548262424821890, '20210325300000001', 319800, 2, 1, 201, '', 21, 0, 0, 0, 319800, '2021-03-25 19:03:03', 3, NULL, NULL, NULL, 0, '2021-03-25 19:02:51', '2021-03-25 19:03:03');
+INSERT INTO `oms_order` VALUES (1351548262424821891, '20210329300000001', 159900, 1, 1, 201, '', 25, 0, 0, 0, 159900, '2021-03-29 15:57:48', 3, NULL, NULL, NULL, 0, '2021-03-29 15:57:45', '2021-03-29 15:57:48');
+INSERT INTO `oms_order` VALUES (1351548262424821892, '20210329300000002', 299900, 1, 1, 201, '', 25, 0, 0, 0, 299900, '2021-03-29 16:02:48', 3, NULL, NULL, NULL, 0, '2021-03-29 16:02:45', '2021-03-29 16:02:48');
+INSERT INTO `oms_order` VALUES (1351548262424821893, '20210331300000001', 159900, 1, 1, 201, '', 25, 0, 0, 0, 159900, '2021-03-31 14:22:38', 3, NULL, NULL, NULL, 0, '2021-03-31 14:22:32', '2021-03-31 14:22:38');
+INSERT INTO `oms_order` VALUES (1351548262424821894, '20210414300000001', 159900, 1, 1, 201, '', 27, 0, 0, 0, 159900, '2021-04-14 22:59:48', 3, NULL, NULL, NULL, 0, '2021-04-14 22:59:42', '2021-04-14 22:59:48');
+INSERT INTO `oms_order` VALUES (1351548262424821895, '20210414300000003', 199900, 1, 1, 201, '', 27, 0, 0, 0, 199900, '2021-04-14 23:03:24', 3, NULL, NULL, NULL, 0, '2021-04-14 23:03:20', '2021-04-14 23:03:24');
+INSERT INTO `oms_order` VALUES (1351548262424821896, '20210414300000005', 159900, 1, 1, 103, '', 31, 0, 0, 0, 159900, NULL, NULL, NULL, NULL, NULL, 0, '2021-04-14 23:33:47', '2021-04-14 23:34:48');
+INSERT INTO `oms_order` VALUES (1351548262424821897, '20210414300000007', 319800, 2, 1, 103, '', 31, 0, 0, 0, 319800, NULL, NULL, NULL, NULL, NULL, 0, '2021-04-14 23:38:15', '2021-04-14 23:39:16');
+INSERT INTO `oms_order` VALUES (1351548262424821898, '20210414300000008', 319800, 2, 1, 103, '', 31, 0, 0, 0, 319800, NULL, NULL, NULL, NULL, NULL, 0, '2021-04-14 23:38:31', '2021-04-14 23:39:31');
+INSERT INTO `oms_order` VALUES (1351548262424821899, '20210414300000010', 319800, 2, 1, 103, '', 31, 0, 0, 0, 319800, NULL, NULL, NULL, NULL, NULL, 0, '2021-04-14 23:42:46', '2021-04-14 23:43:47');
+INSERT INTO `oms_order` VALUES (1351548262424821900, '20210414300000012', 479700, 3, 1, 201, '', 31, 0, 0, 0, 479700, '2021-04-14 23:48:07', 3, NULL, NULL, NULL, 0, '2021-04-14 23:48:04', '2021-04-14 23:48:07');
+INSERT INTO `oms_order` VALUES (1351548262424821901, '20210416300000001', 159900, 1, 1, 201, '', 31, 0, 0, 0, 159900, '2021-04-16 16:18:30', 3, NULL, NULL, NULL, 0, '2021-04-16 16:18:25', '2021-04-16 16:18:30');
+INSERT INTO `oms_order` VALUES (1351548262424821904, '20210611300000001', 200, 1, 1, 103, '', 39, 0, 0, 0, 200, NULL, NULL, NULL, NULL, NULL, 0, '2021-06-11 00:20:24', '2021-06-11 00:21:35');
+INSERT INTO `oms_order` VALUES (1351548262424821905, '20210611300000002', 200, 1, 1, 103, '', 39, 0, 0, 0, 200, NULL, NULL, NULL, NULL, NULL, 0, '2021-06-11 00:24:06', '2021-06-11 00:25:51');
+INSERT INTO `oms_order` VALUES (1351548262424821906, '20210611300000003', 200, 1, 1, 201, '', 39, 0, 0, 0, 200, '2021-06-11 00:26:19', 3, NULL, NULL, NULL, 0, '2021-06-11 00:26:15', '2021-06-11 00:26:19');
+INSERT INTO `oms_order` VALUES (1351548262424821907, '20210611300000004', 200, 1, 1, 201, '', 39, 0, 0, 0, 200, '2021-06-11 00:42:46', 3, NULL, NULL, NULL, 0, '2021-06-11 00:42:40', '2021-06-11 00:42:46');
+INSERT INTO `oms_order` VALUES (1351548262424821908, '20210611300000005', 999900, 1, 1, 201, '', 39, 0, 0, 0, 999900, '2021-06-11 07:58:10', 3, NULL, NULL, NULL, 0, '2021-06-11 07:58:01', '2021-06-11 07:58:10');
+INSERT INTO `oms_order` VALUES (1351548262424821909, '20210611300000007', 1999800, 2, 1, 201, '', 39, 0, 0, 0, 1999800, '2021-06-11 08:35:15', 3, NULL, NULL, NULL, 0, '2021-06-11 08:35:10', '2021-06-11 08:35:15');
+INSERT INTO `oms_order` VALUES (1351548262424821910, '20210612300000001', 999900, 1, 1, 103, '', 39, 0, 0, 0, 999900, NULL, NULL, NULL, NULL, NULL, 0, '2021-06-12 14:16:12', '2021-06-12 14:17:13');
+INSERT INTO `oms_order` VALUES (1351548262424821911, '20210617300000002', 1999800, 2, 1, 201, '', 39, 0, 0, 0, 1999800, '2021-06-17 08:48:52', 3, NULL, NULL, NULL, 0, '2021-06-17 08:48:43', '2021-06-17 08:48:52');
 
 -- ----------------------------
 -- Table structure for oms_order_delivery
@@ -86,14 +95,14 @@ CREATE TABLE `oms_order_delivery`  (
   `receiver_region` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '区',
   `receiver_detail_address` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '详细地址',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '备注',
-  `delivery_status` tinyint(0) DEFAULT 0 COMMENT '物流状态【0->运输中；1->已收货】',
-  `delivery_time` datetime(0) DEFAULT NULL COMMENT '发货时间',
-  `receive_time` datetime(0) DEFAULT NULL COMMENT '确认收货时间',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `delivery_status` tinyint(0) NULL DEFAULT 0 COMMENT '物流状态【0->运输中；1->已收货】',
+  `delivery_time` datetime(0) NULL DEFAULT NULL COMMENT '发货时间',
+  `receive_time` datetime(0) NULL DEFAULT NULL COMMENT '确认收货时间',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单物流记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单物流记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for oms_order_item
@@ -116,40 +125,45 @@ CREATE TABLE `oms_order_item`  (
   `brand_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '品牌名称',
   `category_id` bigint(0) NOT NULL DEFAULT 0 COMMENT '商品分类id',
   `category_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '商品分类名称',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_order_id`(`order_id`) USING BTREE COMMENT '订单id索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 99 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单商品信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 159 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单商品信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of oms_order_item
 -- ----------------------------
-INSERT INTO `oms_order_item` VALUES (95, 1351548262424821850, 190, '', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 13:40:52', '2021-03-21 13:40:52');
-INSERT INTO `oms_order_item` VALUES (96, 1351548262424821851, 190, '', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 13:53:44', '2021-03-21 13:53:44');
-INSERT INTO `oms_order_item` VALUES (97, 1351548262424821852, 190, '', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 14:03:43', '2021-03-21 14:03:43');
-INSERT INTO `oms_order_item` VALUES (98, 1351548262424821853, 190, '', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 14:04:16', '2021-03-21 14:04:16');
-INSERT INTO `oms_order_item` VALUES (99, 1351548262424821854, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 18:41:34', '2021-03-21 18:41:34');
-INSERT INTO `oms_order_item` VALUES (100, 1351548262424821855, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 4, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 19:19:01', '2021-03-21 19:19:01');
-INSERT INTO `oms_order_item` VALUES (101, 1351548262424821856, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 19:30:33', '2021-03-21 19:30:33');
-INSERT INTO `oms_order_item` VALUES (102, 1351548262424821857, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 4, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 19:43:29', '2021-03-21 19:43:29');
-INSERT INTO `oms_order_item` VALUES (103, 1351548262424821858, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 4, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 19:45:34', '2021-03-21 19:45:34');
-INSERT INTO `oms_order_item` VALUES (104, 1351548262424821859, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 4, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 19:45:55', '2021-03-21 19:45:55');
-INSERT INTO `oms_order_item` VALUES (105, 1351548262424821860, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 19:55:25', '2021-03-21 19:55:25');
-INSERT INTO `oms_order_item` VALUES (106, 1351548262424821861, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 2, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 21:10:14', '2021-03-21 21:10:14');
-INSERT INTO `oms_order_item` VALUES (107, 1351548262424821862, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 3, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 21:15:08', '2021-03-21 21:15:08');
-INSERT INTO `oms_order_item` VALUES (108, 1351548262424821863, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 21:17:14', '2021-03-21 21:17:14');
-INSERT INTO `oms_order_item` VALUES (109, 1351548262424821864, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-21 21:17:38', '2021-03-21 21:17:38');
-INSERT INTO `oms_order_item` VALUES (110, 1351548262424821865, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 2, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 00:40:33', '2021-03-22 00:40:33');
-INSERT INTO `oms_order_item` VALUES (111, 1351548262424821866, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 00:42:26', '2021-03-22 00:42:26');
-INSERT INTO `oms_order_item` VALUES (112, 1351548262424821867, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 2, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 00:45:12', '2021-03-22 00:45:12');
-INSERT INTO `oms_order_item` VALUES (113, 1351548262424821868, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 2, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 00:47:13', '2021-03-22 00:47:13');
-INSERT INTO `oms_order_item` VALUES (114, 1351548262424821868, 191, '1614505936509', '测试手机2 黑 6+128 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 179900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 00:47:13', '2021-03-22 00:47:13');
-INSERT INTO `oms_order_item` VALUES (115, 1351548262424821869, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 00:47:52', '2021-03-22 00:47:52');
-INSERT INTO `oms_order_item` VALUES (116, 1351548262424821870, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 07:12:59', '2021-03-22 07:12:59');
-INSERT INTO `oms_order_item` VALUES (117, 1351548262424821871, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 3, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 07:17:41', '2021-03-22 07:17:41');
-INSERT INTO `oms_order_item` VALUES (118, 1351548262424821872, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 0, 0, '', '', 0, '', 0, '', 0, '2021-03-22 08:19:20', '2021-03-22 08:19:20');
+INSERT INTO `oms_order_item` VALUES (128, 1351548262424821882, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-03-22 23:34:46', '2021-03-22 23:34:46');
+INSERT INTO `oms_order_item` VALUES (129, 1351548262424821883, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-03-23 01:03:47', '2021-03-23 01:03:47');
+INSERT INTO `oms_order_item` VALUES (130, 1351548262424821884, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 2, 319800, 0, '', '', 0, '', 0, '', 0, '2021-03-23 01:10:17', '2021-03-23 01:10:17');
+INSERT INTO `oms_order_item` VALUES (131, 1351548262424821885, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-03-23 02:21:27', '2021-03-23 02:21:27');
+INSERT INTO `oms_order_item` VALUES (132, 1351548262424821886, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 2, 319800, 0, '', '', 0, '', 0, '', 0, '2021-03-23 06:37:27', '2021-03-23 06:37:27');
+INSERT INTO `oms_order_item` VALUES (133, 1351548262424821887, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-03-23 07:02:27', '2021-03-23 07:02:27');
+INSERT INTO `oms_order_item` VALUES (134, 1351548262424821888, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 2, 319800, 0, '', '', 0, '', 0, '', 0, '2021-03-23 07:31:43', '2021-03-23 07:31:43');
+INSERT INTO `oms_order_item` VALUES (135, 1351548262424821889, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-03-23 18:55:41', '2021-03-23 18:55:41');
+INSERT INTO `oms_order_item` VALUES (136, 1351548262424821890, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 2, 319800, 0, '', '', 0, '', 0, '', 0, '2021-03-25 19:02:51', '2021-03-25 19:02:51');
+INSERT INTO `oms_order_item` VALUES (137, 1351548262424821891, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-03-29 15:57:45', '2021-03-29 15:57:45');
+INSERT INTO `oms_order_item` VALUES (138, 1351548262424821892, 186, '1614505517559', '测试手机1 黑 6+128 ', 'http://a.youlai.store:9000/default/9715dde8c35c429b8c56cbe800ebd205.jpg', 299900, 1, 299900, 0, '', '', 0, '', 0, '', 0, '2021-03-29 16:02:46', '2021-03-29 16:02:46');
+INSERT INTO `oms_order_item` VALUES (139, 1351548262424821893, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-03-31 14:22:33', '2021-03-31 14:22:33');
+INSERT INTO `oms_order_item` VALUES (140, 1351548262424821894, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.store:9000/default/37729cd58065419f84b15f44b0e4f27f.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-04-14 22:59:43', '2021-04-14 22:59:43');
+INSERT INTO `oms_order_item` VALUES (141, 1351548262424821895, 192, '1614505936511', '测试手机2 黑 8+256 ', 'http://a.youlai.tech:9000/default/3e369c91377a4c9f9eb33f66a6dd6906.jpg', 199900, 1, 199900, 0, '', '', 0, '', 0, '', 0, '2021-04-14 23:03:21', '2021-04-14 23:03:21');
+INSERT INTO `oms_order_item` VALUES (142, 1351548262424821896, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.tech:9000/default/c9f6f4f2e4de46f78d9c7a87d25948e1.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-04-14 23:33:48', '2021-04-14 23:33:48');
+INSERT INTO `oms_order_item` VALUES (143, 1351548262424821897, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.tech:9000/default/c9f6f4f2e4de46f78d9c7a87d25948e1.jpg', 159900, 2, 319800, 0, '', '', 0, '', 0, '', 0, '2021-04-14 23:38:15', '2021-04-14 23:38:15');
+INSERT INTO `oms_order_item` VALUES (144, 1351548262424821898, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.tech:9000/default/c9f6f4f2e4de46f78d9c7a87d25948e1.jpg', 159900, 2, 319800, 0, '', '', 0, '', 0, '', 0, '2021-04-14 23:38:31', '2021-04-14 23:38:31');
+INSERT INTO `oms_order_item` VALUES (145, 1351548262424821899, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.tech:9000/default/c9f6f4f2e4de46f78d9c7a87d25948e1.jpg', 159900, 2, 319800, 0, '', '', 0, '', 0, '', 0, '2021-04-14 23:42:47', '2021-04-14 23:42:47');
+INSERT INTO `oms_order_item` VALUES (146, 1351548262424821900, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.tech:9000/default/c9f6f4f2e4de46f78d9c7a87d25948e1.jpg', 159900, 3, 479700, 0, '', '', 0, '', 0, '', 0, '2021-04-14 23:48:04', '2021-04-14 23:48:04');
+INSERT INTO `oms_order_item` VALUES (147, 1351548262424821901, 190, '1614505936507', '测试手机2 黑 4+64 ', 'http://a.youlai.tech:9000/default/c9f6f4f2e4de46f78d9c7a87d25948e1.jpg', 159900, 1, 159900, 0, '', '', 0, '', 0, '', 0, '2021-04-16 16:18:27', '2021-04-16 16:18:27');
+INSERT INTO `oms_order_item` VALUES (150, 1351548262424821904, 232, '1622008618852', '名称 红色 l ', '', 200, 1, 200, 0, '', '', 0, '', 0, '', 0, '2021-06-11 00:20:33', '2021-06-11 00:20:33');
+INSERT INTO `oms_order_item` VALUES (151, 1351548262424821905, 232, '1622008618852', '名称 红色 l ', '', 200, 1, 200, 0, '', '', 0, '', 0, '', 0, '2021-06-11 00:24:07', '2021-06-11 00:24:07');
+INSERT INTO `oms_order_item` VALUES (152, 1351548262424821906, 232, '1622008618852', '名称 红色 l ', '', 200, 1, 200, 0, '', '', 0, '', 0, '', 0, '2021-06-11 00:26:16', '2021-06-11 00:26:16');
+INSERT INTO `oms_order_item` VALUES (153, 1351548262424821907, 232, '1622008618852', '名称 红色 l ', '', 200, 1, 200, 0, '', '', 0, '', 0, '', 0, '2021-06-11 00:42:43', '2021-06-11 00:42:43');
+INSERT INTO `oms_order_item` VALUES (154, 1351548262424821908, 236, '1623369301480', '测试合约机 黑 6+64g ', 'http://a.youlai.tech:9000/default/c6e941103d8841acaf2f3f7356e11686.jpg', 999900, 1, 999900, 0, '', '', 0, '', 0, '', 0, '2021-06-11 07:58:04', '2021-06-11 07:58:04');
+INSERT INTO `oms_order_item` VALUES (155, 1351548262424821909, 236, '1623369301480', '测试合约机 黑 6+64g ', 'http://a.youlai.tech:9000/default/c6e941103d8841acaf2f3f7356e11686.jpg', 999900, 1, 999900, 0, '', '', 0, '', 0, '', 0, '2021-06-11 08:35:11', '2021-06-11 08:35:11');
+INSERT INTO `oms_order_item` VALUES (156, 1351548262424821909, 244, '1623369301480', '测试合约机 蓝 12+256g ', 'http://a.youlai.tech:9000/default/c6e941103d8841acaf2f3f7356e11686.jpg', 999900, 1, 999900, 0, '', '', 0, '', 0, '', 0, '2021-06-11 08:35:11', '2021-06-11 08:35:11');
+INSERT INTO `oms_order_item` VALUES (157, 1351548262424821910, 236, '1623369301480', '测试合约机 黑 6+64g ', 'http://a.youlai.tech:9000/default/c6e941103d8841acaf2f3f7356e11686.jpg', 999900, 1, 999900, 0, '', '', 0, '', 0, '', 0, '2021-06-12 14:16:13', '2021-06-12 14:16:13');
+INSERT INTO `oms_order_item` VALUES (158, 1351548262424821911, 236, '1623369301480', '测试合约机 黑 6+64g ', 'http://a.youlai.tech:9000/default/c6e941103d8841acaf2f3f7356e11686.jpg', 999900, 2, 1999800, 0, '', '', 0, '', 0, '', 0, '2021-06-17 08:48:45', '2021-06-17 08:48:45');
 
 -- ----------------------------
 -- Table structure for oms_order_log
@@ -158,15 +172,15 @@ DROP TABLE IF EXISTS `oms_order_log`;
 CREATE TABLE `oms_order_log`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `order_id` bigint(0) NOT NULL COMMENT '订单id',
-  `user` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '操作人[用户；系统；后台管理员]',
+  `user` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '操作人[用户；系统；后台管理员]',
   `detail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '操作详情',
-  `order_status` int(0) DEFAULT NULL COMMENT '操作时订单状态',
+  `order_status` int(0) NULL DEFAULT NULL COMMENT '操作时订单状态',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '备注',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单操作历史记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单操作历史记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for oms_order_pay
@@ -177,18 +191,18 @@ CREATE TABLE `oms_order_pay`  (
   `order_id` bigint(0) NOT NULL COMMENT '订单id',
   `pay_sn` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '支付流水号',
   `pay_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '应付总额(分)',
-  `pay_time` datetime(0) DEFAULT NULL COMMENT '支付时间',
-  `pay_type` tinyint(0) DEFAULT NULL COMMENT '支付方式【1->支付宝；2->微信；3->银联； 4->货到付款；】',
-  `pay_status` tinyint(0) DEFAULT NULL COMMENT '支付状态',
-  `confirm_time` datetime(0) DEFAULT NULL COMMENT '确认时间',
+  `pay_time` datetime(0) NULL DEFAULT NULL COMMENT '支付时间',
+  `pay_type` tinyint(0) NULL DEFAULT NULL COMMENT '支付方式【1->支付宝；2->微信；3->银联； 4->货到付款；】',
+  `pay_status` tinyint(0) NULL DEFAULT NULL COMMENT '支付状态',
+  `confirm_time` datetime(0) NULL DEFAULT NULL COMMENT '确认时间',
   `callback_content` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '回调内容',
-  `callback_time` datetime(0) DEFAULT NULL COMMENT '回调时间',
+  `callback_time` datetime(0) NULL DEFAULT NULL COMMENT '回调时间',
   `pay_subject` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '交易内容',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '支付信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '支付信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for oms_order_setting
@@ -196,15 +210,15 @@ CREATE TABLE `oms_order_pay`  (
 DROP TABLE IF EXISTS `oms_order_setting`;
 CREATE TABLE `oms_order_setting`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `flash_order_overtime` int(0) DEFAULT NULL COMMENT '秒杀订单超时关闭时间(分)',
-  `normal_order_overtime` int(0) DEFAULT NULL COMMENT '正常订单超时时间(分)',
-  `confirm_overtime` int(0) DEFAULT NULL COMMENT '发货后自动确认收货时间（天）',
-  `finish_overtime` int(0) DEFAULT NULL COMMENT '自动完成交易时间，不能申请退货（天）',
-  `comment_overtime` int(0) DEFAULT NULL COMMENT '订单完成后自动好评时间（天）',
-  `member_level` tinyint(0) DEFAULT NULL COMMENT '会员等级【0-不限会员等级，全部通用；其他-对应的其他会员等级】',
-  `deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
-  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `flash_order_overtime` int(0) NULL DEFAULT NULL COMMENT '秒杀订单超时关闭时间(分)',
+  `normal_order_overtime` int(0) NULL DEFAULT NULL COMMENT '正常订单超时时间(分)',
+  `confirm_overtime` int(0) NULL DEFAULT NULL COMMENT '发货后自动确认收货时间（天）',
+  `finish_overtime` int(0) NULL DEFAULT NULL COMMENT '自动完成交易时间，不能申请退货（天）',
+  `comment_overtime` int(0) NULL DEFAULT NULL COMMENT '订单完成后自动好评时间（天）',
+  `member_level` tinyint(0) NULL DEFAULT NULL COMMENT '会员等级【0-不限会员等级，全部通用；其他-对应的其他会员等级】',
+  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单配置信息' ROW_FORMAT = Dynamic;
 

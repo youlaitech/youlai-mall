@@ -45,8 +45,8 @@ public class MenuController {
 
         LambdaQueryWrapper<SysMenu> baseQuery = new LambdaQueryWrapper<SysMenu>()
                 .orderByAsc(SysMenu::getSort)
-                .orderByDesc(SysMenu::getUpdateTime)
-                .orderByDesc(SysMenu::getCreateTime);
+                .orderByDesc(SysMenu::getGmtModified)
+                .orderByDesc(SysMenu::getGmtCreate);
         List list;
         switch (queryModeEnum) {
             case LIST:
