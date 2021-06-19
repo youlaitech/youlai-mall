@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.admin.mapper.SysDictItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.youlai.admin.pojo.entity.SysDictItem">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="value" column="value" jdbcType="VARCHAR"/>
+            <result property="dictCode" column="dict_code" jdbcType="VARCHAR"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="BOOLEAN"/>
+            <result property="defaulted" column="defaulted" jdbcType="BOOLEAN"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result  property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,value,
+        dict_code,sort,status,
+        defaulted,remark,gmt_create,
+        gmt_modified
+    </sql>
+
+
+    <select id="list" resultMap="BaseResultMap" >
+        select a.*,b.name as dict_name from sys_dict_item a
+        left join sys_dict b on a.dict_code=b.code
+        where 1=1
+
+        <if test='dictItem.name != null and dictItem.name.trim() neq ""'>
+            and a.name like concat('%',#{dictItem.name},'%')
+        </if>
+        <if test='dictItem.dictCode !=null and dictItem.dictCode.trim() neq ""'>
+            and a.dict_code = #{dictItem.dictCode}
+        </if>
+    </select>
+</mapper>

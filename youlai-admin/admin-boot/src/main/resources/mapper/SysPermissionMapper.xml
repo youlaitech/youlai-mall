@@ -10,8 +10,8 @@
         <result property="menuId" column="menu_id" jdbcType="BIGINT"/>
         <result property="urlPerm" column="url_perm" jdbcType="VARCHAR"/>
         <result property="btnPerm" column="btn_perm" jdbcType="VARCHAR"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result  property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
         <collection property="roles" ofType="String" javaType="list">
             <result column="code"/>
         </collection>
@@ -20,8 +20,8 @@
     <sql id="Base_Column_List">
         id
         ,name,menu_id,
-        url_perm,btn_perm,create_time,
-        update_time
+        url_perm,btn_perm,gmt_create,
+        gmt_modified
     </sql>
 
     <select id="listPermRoles" resultMap="BaseResultMap">
