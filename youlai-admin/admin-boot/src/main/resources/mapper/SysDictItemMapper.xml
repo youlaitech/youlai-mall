@@ -13,15 +13,15 @@
             <result property="status" column="status" jdbcType="BOOLEAN"/>
             <result property="defaulted" column="defaulted" jdbcType="BOOLEAN"/>
             <result property="remark" column="remark" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result  property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,name,value,
         dict_code,sort,status,
-        defaulted,remark,create_time,
-        update_time
+        defaulted,remark,gmt_create,
+        gmt_modified
     </sql>
 
 

@@ -15,8 +15,8 @@
         <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result  property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
         <result property="deleted" column="deleted" jdbcType="BOOLEAN"/>
         <collection property="roles" ofType="string" javaType="list">
             <result column="roleCode"></result>
@@ -28,7 +28,7 @@
         ,username,nickname,
         gender,password,dept_id,
         avatar,mobile,status,
-        email,create_time,update_time,
+        email,gmt_create,gmt_modified,
         deleted
     </sql>
     <select id="getByUsername" resultMap="BaseResultMap">

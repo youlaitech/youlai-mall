@@ -15,8 +15,8 @@
         <result property="icon" column="icon" jdbcType="VARCHAR"/>
         <result property="sort" column="sort" jdbcType="INTEGER"/>
         <result property="visible" column="visible" jdbcType="BOOLEAN"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result  property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
         <collection property="roles" ofType="string" javaType="list">
             <result column="code"/>
         </collection>
@@ -27,7 +27,7 @@
         ,name,parent_id,
         path,component,redirect,
         icon,sort,visible,
-        create_time,update_time
+        gmt_create,gmt_modified
     </sql>
 
     <select id="listRoute" resultMap="BaseResultMap">
