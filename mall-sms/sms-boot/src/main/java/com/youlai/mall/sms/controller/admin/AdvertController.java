@@ -48,8 +48,8 @@ public class AdvertController {
                 LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
                         .like(StrUtil.isNotBlank(name), SmsAdvert::getName, name)
                         .orderByAsc(SmsAdvert::getSort)
-                        .orderByDesc(SmsAdvert::getUpdateTime)
-                        .orderByDesc(SmsAdvert::getCreateTime);
+                        .orderByDesc(SmsAdvert::getGmtModified)
+                        .orderByDesc(SmsAdvert::getGmtCreate);
 
                 Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(page, limit), queryWrapper);
                 return Result.success(result.getRecords(), result.getTotal());

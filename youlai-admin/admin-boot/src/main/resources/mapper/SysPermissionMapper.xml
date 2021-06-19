@@ -61,7 +61,7 @@
         <if test='permission.menuId !=null '>
             and t1.menu_id = #{permission.menuId}
         </if>
-        ORDER BY t1.update_time DESC,t1.create_time DESC
+        ORDER BY t1.gmt_modified DESC,t1.gmt_create DESC
 
     </select>
 </mapper>

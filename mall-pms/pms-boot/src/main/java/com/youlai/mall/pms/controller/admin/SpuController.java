@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.mall.pms.pojo.bo.admin.ProductBO;
+import com.youlai.mall.pms.pojo.dto.admin.ProductFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
@@ -62,7 +62,7 @@ public class SpuController {
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
-        ProductBO spu = iPmsSpuService.getBySpuId(id);
+        ProductFormDTO spu = iPmsSpuService.getBySpuId(id);
         return Result.success(spu);
     }
 
@@ -70,8 +70,8 @@ public class SpuController {
     @ApiOperation(value = "新增商品")
     @ApiImplicitParam(name = "productBO", value = "实体JSON对象", required = true, paramType = "body", dataType = "ProductBO")
     @PostMapping
-    public Result add(@RequestBody ProductBO productBO) {
-        boolean status = iPmsSpuService.add(productBO);
+    public Result add(@RequestBody ProductFormDTO productFormDTO) {
+        boolean status = iPmsSpuService.add(productFormDTO);
         return Result.judge(status);
     }
 
@@ -83,7 +83,7 @@ public class SpuController {
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Long id,
-            @RequestBody ProductBO spu) {
+            @RequestBody ProductFormDTO spu) {
         boolean status = iPmsSpuService.updateById(spu);
         return Result.judge(status);
     }
