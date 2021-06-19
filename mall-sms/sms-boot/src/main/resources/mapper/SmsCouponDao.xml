@@ -17,12 +17,12 @@
         <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
         <result column="valid_days" jdbcType="INTEGER" property="validDays"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="gmtCreate"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
     </resultMap>
     <sql id="Base_Column_List">
         id, title, img, `type`, publish, condition_price, price, publish_count,limit_count, take_count,
-    used_count, start_time, end_time, valid_days, `status`, create_time, update_time
+    used_count, start_time, end_time, valid_days, `status`, gmt_create, gmt_modified
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -83,10 +83,10 @@
                 `status`,
             </if>
             <if test="gmtCreate != null">
-                create_time,
+                gmt_create,
             </if>
             <if test="gmtModified != null">
-                update_time,
+                gmt_modified,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -186,10 +186,10 @@
                 `status` = #{status,jdbcType=INTEGER},
             </if>
             <if test="gmtCreate != null">
-                create_time = #{gmtCreate,jdbcType=TIMESTAMP},
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
             </if>
             <if test="gmtModified != null">
-                update_time = #{gmtModified,jdbcType=TIMESTAMP},
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
@@ -210,8 +210,8 @@
             end_time        = #{endTime,jdbcType=TIMESTAMP},
             valid_days      = #{validDays,jdbcType=INTEGER},
             `status`        = #{status,jdbcType=INTEGER},
-            create_time      = #{gmtCreate,jdbcType=TIMESTAMP},
-            update_time    = #{gmtModified,jdbcType=TIMESTAMP}
+            gmt_create      = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modified    = #{gmtModified,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=BIGINT}
     </update>
 

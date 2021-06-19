@@ -7,11 +7,11 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="status" jdbcType="BOOLEAN" property="status" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, `name`, start_time, end_time, `status`, create_time, update_time
+    id, `name`, start_time, end_time, `status`, gmt_create, gmt_modified
   </sql>
 
 </mapper>
