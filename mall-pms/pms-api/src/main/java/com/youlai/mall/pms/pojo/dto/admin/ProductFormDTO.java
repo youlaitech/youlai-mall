@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo.bo.admin;
+package com.youlai.mall.pms.pojo.dto.admin;
 
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttributeValue;
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductBO {
+public class ProductFormDTO {
 
     private SpuDTO spu;
 

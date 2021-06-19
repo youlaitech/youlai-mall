@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.bo.app.ProductBO;
+import com.youlai.mall.pms.pojo.dto.app.ProductFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.dto.app.ProductDTO;
 import com.youlai.mall.pms.service.IPmsSpuService;
@@ -64,7 +64,7 @@ public class ProductController {
     @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
-        ProductBO product = iProductService.getProductById(id);
+        ProductFormDTO product = iProductService.getProductById(id);
         return Result.success(product);
     }
 

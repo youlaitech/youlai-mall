@@ -51,8 +51,8 @@ public class DictController {
         QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
         LambdaQueryWrapper<SysDict> queryWrapper = new LambdaQueryWrapper<SysDict>()
                 .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
-                .orderByDesc(SysDict::getUpdateTime)
-                .orderByDesc(SysDict::getCreateTime);
+                .orderByDesc(SysDict::getGmtModified)
+                .orderByDesc(SysDict::getGmtCreate);
         switch (queryModeEnum) {
             case PAGE:
                 Page<SysDict> result = iSysDictService.page(new Page<>(page, limit), queryWrapper);
