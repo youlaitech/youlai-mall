@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 20/06/2021 01:56:04
+ Date: 20/06/2021 10:55:31
 */
 
 SET NAMES utf8mb4;
@@ -93,11 +93,11 @@ INSERT INTO `sys_dict_item` VALUES (7, '授权码模式', 'authorization_code', 
 INSERT INTO `sys_dict_item` VALUES (8, '客户端模式', 'client_credentials', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:36', '2020-12-14 10:11:00');
 INSERT INTO `sys_dict_item` VALUES (9, '刷新模式', 'refresh_token', 'grant_type', 1, 1, 0, '', '2020-10-17 09:12:57', '2021-01-08 17:33:12');
 INSERT INTO `sys_dict_item` VALUES (10, '简化模式', 'implicit', 'grant_type', 1, 1, 0, '', '2020-10-17 09:13:23', '2020-12-14 10:11:00');
-INSERT INTO `sys_dict_item` VALUES (38, '系统服务', 'answer-admin', 'micro_service', 1, 1, 0, '', '2021-06-17 00:14:12', '2021-06-17 00:14:12');
-INSERT INTO `sys_dict_item` VALUES (39, '会员服务', 'answer-user', 'micro_service', 2, 1, 0, '', '2021-06-17 00:15:06', '2021-06-17 00:15:06');
-INSERT INTO `sys_dict_item` VALUES (40, '商品服务', 'answer-product', 'micro_service', 3, 1, 0, '', '2021-06-17 00:15:26', '2021-06-17 00:16:18');
-INSERT INTO `sys_dict_item` VALUES (41, '订单服务', 'answer-order', 'micro_service', 4, 1, 0, '', '2021-06-17 00:15:40', '2021-06-17 00:16:10');
-INSERT INTO `sys_dict_item` VALUES (42, '营销服务', 'answer-sms', 'micro_service', 5, 1, 0, '', '2021-06-17 00:16:01', '2021-06-17 00:16:01');
+INSERT INTO `sys_dict_item` VALUES (38, '系统服务', 'youlai-admin', 'micro_service', 1, 1, 0, '', '2021-06-17 00:14:12', '2021-06-17 00:14:12');
+INSERT INTO `sys_dict_item` VALUES (39, '会员服务', 'youlai-ums', 'micro_service', 2, 1, 0, '', '2021-06-17 00:15:06', '2021-06-17 00:15:06');
+INSERT INTO `sys_dict_item` VALUES (40, '商品服务', 'youlai-pms', 'micro_service', 3, 1, 0, '', '2021-06-17 00:15:26', '2021-06-17 00:16:18');
+INSERT INTO `sys_dict_item` VALUES (41, '订单服务', 'youlai-oms', 'micro_service', 4, 1, 0, '', '2021-06-17 00:15:40', '2021-06-17 00:16:10');
+INSERT INTO `sys_dict_item` VALUES (42, '营销服务', 'youlai-sms', 'micro_service', 5, 1, 0, '', '2021-06-17 00:16:01', '2021-06-17 00:16:01');
 INSERT INTO `sys_dict_item` VALUES (43, '不限', '*', 'request_method', 1, 1, 0, '', '2021-06-17 00:18:34', '2021-06-17 00:18:34');
 INSERT INTO `sys_dict_item` VALUES (44, 'GET', 'GET', 'request_method', 2, 1, 0, '', '2021-06-17 00:18:55', '2021-06-17 00:18:55');
 INSERT INTO `sys_dict_item` VALUES (45, 'POST', 'POST', 'request_method', 3, 1, 0, '', '2021-06-17 00:19:06', '2021-06-17 00:19:06');
