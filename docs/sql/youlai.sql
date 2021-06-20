@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 20/06/2021 00:52:36
+ Date: 20/06/2021 01:56:04
 */
 
 SET NAMES utf8mb4;
@@ -147,7 +147,6 @@ INSERT INTO `sys_menu` VALUES (18, '商品分类', 11, 'pms_category', 'category
 INSERT INTO `sys_menu` VALUES (22, '商品上架', 11, 'pms_product_add', 'product_add', 'pms/product/detail', '', 'component', 2, 1, NULL, '2021-02-19 18:43:23');
 INSERT INTO `sys_menu` VALUES (23, '角色管理', 1, 'system_role', 'role', 'admin/role/index', '', 'peoples', 3, 1, NULL, '2021-03-29 10:44:13');
 INSERT INTO `sys_menu` VALUES (41, '登录记录', 1, 'system_login_record', 'login_record', 'admin/record/login/index', '', 'list', 7, 0, '2021-03-09 09:40:37', '2021-06-06 22:44:20');
-INSERT INTO `sys_menu` VALUES (72, 'test', 17, NULL, '', NULL, '', '', 1, 1, '2021-06-16 11:26:31', '2021-06-16 11:26:31');
 
 -- ----------------------------
 -- Table structure for sys_oauth_client
@@ -195,12 +194,10 @@ CREATE TABLE `sys_permission`  (
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
-INSERT INTO `sys_permission` VALUES (1, '查看用户', 2, 'GET:/answer-admin/api/v1/users/*', 'sys:user:view', '2021-02-02 14:16:07', '2021-06-16 22:25:24');
-INSERT INTO `sys_permission` VALUES (74, '编辑用户', 2, 'PUT:/answer-admin/users/*', 'sys:user:edit', '2021-06-16 16:19:44', '2021-06-16 23:36:53');
-INSERT INTO `sys_permission` VALUES (75, '新增用户', 2, 'POST:/answer-admin/api/v1/users', 'sys:user:add', '2021-06-16 23:36:37', '2021-06-16 23:37:03');
-INSERT INTO `sys_permission` VALUES (76, '删除用户', 2, 'DELETE:/answer-admin/api/v1/users/*', 'sys:user:delete', '2021-06-16 23:43:54', '2021-06-16 23:43:54');
-INSERT INTO `sys_permission` VALUES (78, '23', 2, 'undefined_/undefinedPUT:/answer-admin/users/*', 'PUT:/answer-admin/users/*', '2021-06-17 21:53:44', '2021-06-17 21:53:44');
-INSERT INTO `sys_permission` VALUES (79, '1343', 11, '*_/answer-authundefined', 'sys:user', '2021-06-17 22:12:33', '2021-06-17 22:12:33');
+INSERT INTO `sys_permission` VALUES (1, '查看用户', 2, 'GET:/youlai-admin/api/v1/users/*', 'sys:user:view', '2021-02-02 14:16:07', '2021-06-16 22:25:24');
+INSERT INTO `sys_permission` VALUES (74, '编辑用户', 2, 'PUT:/youlai-admin/users/*', 'sys:user:edit', '2021-06-16 16:19:44', '2021-06-16 23:36:53');
+INSERT INTO `sys_permission` VALUES (75, '新增用户', 2, 'POST:/youlai-admin/api/v1/users', 'sys:user:add', '2021-06-16 23:36:37', '2021-06-16 23:37:03');
+INSERT INTO `sys_permission` VALUES (76, '删除用户', 2, 'DELETE:/youlai-admin/api/v1/users/*', 'sys:user:delete', '2021-06-16 23:43:54', '2021-06-16 23:43:54');
 
 -- ----------------------------
 -- Table structure for sys_role
