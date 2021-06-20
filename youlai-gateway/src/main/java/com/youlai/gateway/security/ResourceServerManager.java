@@ -53,7 +53,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
 
         // 移动端请求无需鉴权，只需认证（即JWT的验签和是否过期判断）
         if (pathMatcher.match(GlobalConstants.APP_API_PATTERN, path)) {
-            // 如果token以"bearer "为前缀，则必经过NimbusReactiveJwtDecoder#decode和JwtTimestampValidator#validate等解析和验证通过的，即表示已认证
+            // 如果token以"bearer "为前缀，到这一步说明是经过NimbusReactiveJwtDecoder#decode和JwtTimestampValidator#validate等解析和验证通过的，即已认证
             if (StrUtil.isNotBlank(token) && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
                 return Mono.just(new AuthorizationDecision(true));
             }else{
