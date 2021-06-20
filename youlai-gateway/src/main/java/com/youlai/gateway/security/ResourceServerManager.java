@@ -3,6 +3,7 @@ package com.youlai.gateway.security;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.AllArgsConstructor;
@@ -48,12 +49,14 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         PathMatcher pathMatcher = new AntPathMatcher(); // 【声明定义】Ant路径匹配模式，“请求路径”和缓存中权限规则的“URL权限标识”匹配
         String path = request.getURI().getPath();
 
-        // 移动端请求不鉴权，只需认证
+        String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
+
+        // 移动端请求无需鉴权，只需认证（即JWT的验签和是否过期判断）
         if (pathMatcher.match(GlobalConstants.APP_API_PATTERN, path)) {
-            Authentication authentication = mono.block();
-            if (authentication.isAuthenticated()) {
+            // 如果token以"bearer "为前缀，则必经过NimbusReactiveJwtDecoder#decode和JwtTimestampValidator#validate等解析和验证通过的，即表示已认证
+            if (StrUtil.isNotBlank(token) && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
                 return Mono.just(new AuthorizationDecision(true));
-            } else {
+            }else{
                 return Mono.just(new AuthorizationDecision(false));
             }
         }
@@ -82,6 +85,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         if (needToCheck == false) {
             return Mono.just(new AuthorizationDecision(true));
         }
+
         // 判断用户JWT中携带的角色是否有能通过权限拦截的角色
         Mono<AuthorizationDecision> authorizationDecisionMono = mono
                 .filter(Authentication::isAuthenticated)
