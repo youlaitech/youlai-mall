@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.pojo.domain;
+package com.youlai.mall.ums.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

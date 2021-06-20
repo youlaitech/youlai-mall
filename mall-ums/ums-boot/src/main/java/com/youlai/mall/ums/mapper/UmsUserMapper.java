@@ -2,7 +2,7 @@ package com.youlai.mall.ums.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.ums.pojo.domain.UmsMember;
+import com.youlai.mall.ums.pojo.entity.UmsMember;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;

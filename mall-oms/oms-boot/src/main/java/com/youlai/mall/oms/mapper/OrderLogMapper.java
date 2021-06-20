@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.mapper;
 
-import com.youlai.mall.oms.pojo.domain.OmsOrderLog;
+import com.youlai.mall.oms.pojo.entity.OmsOrderLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

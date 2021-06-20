@@ -3,7 +3,7 @@ package com.youlai.mall.ums.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.ums.pojo.domain.UmsMember;
+import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.mapper.UmsUserMapper;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import org.springframework.stereotype.Service;

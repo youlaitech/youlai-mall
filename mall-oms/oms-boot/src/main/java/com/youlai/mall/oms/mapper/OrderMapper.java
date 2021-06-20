@@ -2,7 +2,7 @@ package com.youlai.mall.oms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.oms.pojo.domain.OmsOrder;
+import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
