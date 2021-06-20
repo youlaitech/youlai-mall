@@ -1,8 +1,7 @@
 package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.ums.pojo.domain.UmsMember;
-import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
+import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;

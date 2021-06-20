@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.pojo.dto;
 
-import com.youlai.mall.ums.pojo.domain.UmsAddress;
+import com.youlai.mall.ums.pojo.entity.UmsAddress;
 import lombok.Data;
 
 import javax.validation.constraints.Size;

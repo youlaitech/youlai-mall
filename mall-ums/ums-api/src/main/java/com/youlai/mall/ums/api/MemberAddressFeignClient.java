@@ -1,7 +1,7 @@
 package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.ums.pojo.domain.UmsAddress;
+import com.youlai.mall.ums.pojo.entity.UmsAddress;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

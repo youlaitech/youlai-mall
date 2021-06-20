@@ -7,11 +7,10 @@ public interface GlobalConstants {
 
     String DEFAULT_USER_PASSWORD = "123456";
 
-    Integer DELETED_VALUE = 1;
-
     String ROOT_ROLE_CODE = "ROOT";
 
     String URL_PERM_ROLES_KEY = "system:perm_roles_rule:url:";
     String BTN_PERM_ROLES_KEY = "system:perm_roles_rule:btn:";
 
+    String APP_API_PATTERN="*/app-api/**";
 }

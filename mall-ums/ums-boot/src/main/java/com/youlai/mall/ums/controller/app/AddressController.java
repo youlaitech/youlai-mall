@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
-import com.youlai.mall.ums.pojo.domain.UmsAddress;
+import com.youlai.mall.ums.pojo.entity.UmsAddress;
 import com.youlai.mall.ums.service.IUmsAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

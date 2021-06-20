@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.enums.PayTypeEnum;
-import com.youlai.mall.oms.pojo.domain.OmsOrder;
+import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;

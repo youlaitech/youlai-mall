@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
-import com.youlai.mall.oms.pojo.bo.app.OrderBO;
-import com.youlai.mall.oms.pojo.domain.OmsOrder;
-import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
+import com.youlai.mall.oms.pojo.dto.OrderDTO;
+import com.youlai.mall.oms.pojo.entity.OmsOrder;
+import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.ums.api.MemberFeignClient;
@@ -58,7 +58,7 @@ public class OrderController {
     @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
-        OrderBO orderBO = new OrderBO();
+        OrderDTO orderDTO = new OrderDTO();
         // 订单
         OmsOrder order = orderService.getById(id);
 
@@ -71,8 +71,8 @@ public class OrderController {
         // 会员明细
         Result<MemberDTO> result = memberFeignClient.getUserById(order.getMemberId());
         MemberDTO member = result.getData();
-        orderBO.setOrder(order).setOrderItems(orderItems).setMember(member);
-        return Result.success(orderBO);
+        orderDTO.setOrder(order).setOrderItems(orderItems).setMember(member);
+        return Result.success(orderDTO);
     }
 
 }

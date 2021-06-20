@@ -1,7 +1,7 @@
-package com.youlai.mall.oms.pojo.bo.app;
+package com.youlai.mall.oms.pojo.dto;
 
-import com.youlai.mall.oms.pojo.domain.OmsOrder;
-import com.youlai.mall.oms.pojo.domain.OmsOrderItem;
+import com.youlai.mall.oms.pojo.entity.OmsOrder;
+import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class OrderBO {
+public class OrderDTO {
 
     private OmsOrder order;
 
