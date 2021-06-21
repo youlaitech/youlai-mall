@@ -9,4 +9,8 @@ public interface PmsConstants {
     String LOCKED_STOCK_PREFIX = "stock:locked:";
 
     String LOCK_SKU_PREFIX="lock:sku:";
+
+    String PRODUCT_DETAIL_CACHE = "product:detail:cache:";
+
+    String LOCK_PRODUCT_DETAIL="lock:product:detail";
 }
