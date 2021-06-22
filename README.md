@@ -1,32 +1,13 @@
 ## 项目信息
 
-#### 项目介绍
+#### 项目简介
 
 [youlai-mall](https://gitee.com/youlaitech/youlai-mall) 是基于Spring Boot 2.5.0、Spring Cloud 2020 & Alibaba 2021、vue、element-ui、uni-app快速构建的一套全栈开源商城项目。
 
 项目采用微服务、前后端分离开发模式；汇集全栈主流的技术栈； 涉及 [后端微服务](https://gitee.com/youlaitech/youlai-mall) 、 [前端管理](https://gitee.com/youlaitech/youlai-mall-admin) 、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp) 和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp) 等多端的开发。
 
-#### 技术栈
-
-- **后端技术栈**
-
-  Spring Boot、Spring Cloud、Spring Cloud Alibaba、Spring Security OAuth2、JWT、Mybatis-Plus、Seata、Sentinel、ELK、Redis
-
-- **前端技术栈**
-
-  vue、element-ui、uni-app、vue-element-admin
-
-#### 项目地址
-
-| 项目名称   | 码云                                                         |
-| ---------- | ------------------------------------------------------------ |
-| 微服务后台 | [youlai-mall](https://gitee.com/youlaitech/youlai-mall)      |
-| 管理前端   | [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin) |
-| 微信小程序 | [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) |
-| APP应用    | [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app) |
-
 #### 项目特色
-
+- Spring Cloud + Vue + Docker全栈开发
 - 项目使用的都是当前主流的技术栈，无过度自定义封装，易学习理解和方便二次扩展
 - 基于Spring Boot 2.5.0、Spring Cloud 2020 & Alibaba 2021一站式微服务解决方案实现快速开发
 - 完整的Spring Security OAuth2 认证中心统一认证授权，网关统一鉴权逻辑
@@ -34,6 +15,43 @@
 - 基于vue-element-admin的后台前端解决方案，实现动态路由
 - 移动端采用uni-app、实现跨多端移动应用开发，包括微信小程序、Android和IOS等
 - Docker快速构建项目环境和一键打包部署微服务项目
+
+#### 项目预览
+
+- **系统管理**
+
+| ![image-20210621004954228](https://gitee.com/haoxr/image/raw/master/image-20210621004954228.png) | ![image-20210621005011310](https://gitee.com/haoxr/image/raw/master/image-20210621005011310.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+|![](https://gitee.com/haoxr/image/raw/master/30719657a4b183428a2472231fee55a6_image-20210621005037964.png) | ![image-20210621005123432](https://gitee.com/haoxr/image/raw/master/image-20210621005123432.png) |
+
+
+
+- **微信小程序**
+
+| ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005253.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005338.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005331.jpg) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005349.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005356.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005344.jpg) |
+
+
+#### 项目架构流程图
+
+![](https://gitee.com/haoxr/image/raw/master/youlai-architecture.jpg)
+
+#### 技术栈
+
+- **后端技术栈：** Spring Boot、Spring Cloud、Spring Cloud Alibaba、Spring Security OAuth2、JWT、Mybatis-Plus、Seata、Sentinel、ELK、Redis
+
+- **前端技术栈：** vue、element-ui、uni-app、vue-element-admin
+
+#### 项目地址
+
+| 项目名称   | 地址                                                        |项目名称   | 地址                                                        |
+| ---------- | ------------------------------------------------------------ |---------- | ------------------------------------------------------------ |
+| 微服务后台 | [youlai-mall](https://gitee.com/youlaitech/youlai-mall)      | 微信小程序 | [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) |
+| 管理前端   | [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin) |APP应用    | [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app) |
+
+
+
 
 #### 项目结构
 
@@ -63,25 +81,8 @@ youlai-mall
 └── youlai-gateway  -- Gateway网关【OAuth2资源服务器】
 ```
 
-#### 项目架构流程图
-
-![](https://gitee.com/haoxr/image/raw/master/youlai-architecture.jpg)
-
-## 项目预览
-
-#### 系统管理
-
-| ![image-20210621004954228](https://gitee.com/haoxr/image/raw/master/image-20210621004954228.png) | ![image-20210621005011310](https://gitee.com/haoxr/image/raw/master/image-20210621005011310.png) |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![image-20210621005037964](C:\Users\haoxr\AppData\Roaming\Typora\typora-user-images\image-20210621005037964.png) | ![image-20210621005123432](https://gitee.com/haoxr/image/raw/master/image-20210621005123432.png) |
 
 
-
-#### 微信小程序
-
-| ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005253.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005338.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005331.jpg) |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005349.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005356.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005344.jpg) |
 
 ## 项目启动
 
