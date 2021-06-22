@@ -45,13 +45,12 @@
 
 #### 项目地址
 
-| 项目名称   | 地址                                                        |项目名称   | 地址                                                        |
+**线上预览地址：** http://www.youlai.tech
+
+| 项目名称   | 源码地址                                                        |项目名称   | 源码地址                                                   |
 | ---------- | ------------------------------------------------------------ |---------- | ------------------------------------------------------------ |
 | 微服务后台 | [youlai-mall](https://gitee.com/youlaitech/youlai-mall)      | 微信小程序 | [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) |
 | 管理前端   | [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin) |APP应用    | [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app) |
-
-
-
 
 #### 项目结构
 
@@ -81,9 +80,6 @@ youlai-mall
 └── youlai-gateway  -- Gateway网关【OAuth2资源服务器】
 ```
 
-
-
-
 ## 项目启动
 
 #### 后台微服务启动
@@ -93,11 +89,8 @@ youlai-mall
    安装`MySQL8`、`Redis`
 
 2. **创建数据库**
-
     - 新建平台数据库，执行项目`document/sql`下的SQL脚本完成数据库创建，基础sql脚本为`youlai.sql`，商城业务的脚本为`mall-*`，商城数据库按需创建
-
     - 创建`Nacos`数据库，执行脚本`middleware/nacos/conf/nacos-mysql.sql`完成`Nacos`数据库的初始化
-
 3. **Nacos配置和启动（非常重要）**
 
     - 修改`Nacos`数据源，进入配置`middleware/nacos/conf/application.properties`将数据源修改为自己的环境连接
@@ -130,8 +123,6 @@ youlai-mall
 4. `Hbuilder X`替换项目AppID成自己的，点击`manifest.json`文件->微信小程序配置
 5. Nacos控制台修改`youlai-auth`配置中的微信小程序AppID和AppSecret为自己申请的小程序
 6. `Hbuilder X`工具栏点击 `运行`->`运行到小程序模拟器`->`微信开发者工具`
-
-
 
 ## 接口测试
 
