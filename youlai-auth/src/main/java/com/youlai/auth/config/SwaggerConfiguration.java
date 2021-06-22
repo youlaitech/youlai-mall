@@ -62,8 +62,8 @@ public class SwaggerConfiguration {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("OAuth2认证中心")
                 .description("<div style='font-size:14px;color:red;'>OAuth2认证、注销、获取验签公钥接口</div>")
-                .termsOfServiceUrl("https://www.youlai.store")
-                .contact(new Contact("yl", "https://github.com/hxrui", "1490493387@qq.com"))
+                .termsOfServiceUrl("https://www.youlai.tech")
+                .contact(new Contact("有来技术团队", "https://github.com/hxrui", "1490493387@qq.com"))
                 .license("Open Source")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .version("1.0.0")
