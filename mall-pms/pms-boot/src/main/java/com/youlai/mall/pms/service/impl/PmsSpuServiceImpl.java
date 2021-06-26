@@ -7,10 +7,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.mall.pms.component.BloomRedisService;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
+import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.pojo.dto.admin.ProductFormDTO;
 import com.youlai.mall.pms.pojo.entity.*;
-import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.youlai.mall.pms.common.constant.PmsConstants.PRODUCT_REDIS_BLOOM_FILTER;
+
 /**
  * @author haoxr
  * @date 2020-11-06
@@ -27,11 +30,11 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
-
     private IPmsSkuService iPmsSkuService;
     private IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
     private IPmsSpuSpecValueService iPmsSpuSpecValueService;
     private IPmsSpecService iPmsSpecService;
+    private BloomRedisService bloomRedisService;
 
 
     @Override
@@ -75,7 +78,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             list.forEach(item -> item.setSpuId(spu.getId()));
             iPmsSkuService.saveBatch(skuList);
         });
-
+        bloomRedisService.addByBloomFilter(PRODUCT_REDIS_BLOOM_FILTER, spu.getId() + "");
         return true;
     }
 
@@ -101,7 +104,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skus = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-          ProductFormDTO productFormDTO = new ProductFormDTO(spuDTO, attrs, specs, skus);
+        ProductFormDTO productFormDTO = new ProductFormDTO(spuDTO, attrs, specs, skus);
         return productFormDTO;
     }
 
