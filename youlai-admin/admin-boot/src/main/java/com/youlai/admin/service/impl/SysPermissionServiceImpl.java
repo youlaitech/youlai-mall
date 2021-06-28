@@ -58,7 +58,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
             if (CollectionUtil.isNotEmpty(btnPermList)) {
                 Map<String, List<String>> btnPermRoles = CollectionUtil.newHashMap();
                 btnPermList.stream().forEach(item -> {
-                    String perm = item.getUrlPerm();
+                    String perm = item.getBtnPerm();
                     List<String> roles = item.getRoles();
                     btnPermRoles.put(perm, roles);
                 });

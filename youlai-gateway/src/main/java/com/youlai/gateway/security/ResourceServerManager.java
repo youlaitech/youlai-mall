@@ -55,7 +55,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
             // 如果token以"bearer "为前缀，到这一步说明是经过NimbusReactiveJwtDecoder#decode和JwtTimestampValidator#validate等解析和验证通过的，即已认证
             if (StrUtil.isNotBlank(token) && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
                 return Mono.just(new AuthorizationDecision(true));
-            }else{
+            } else {
                 return Mono.just(new AuthorizationDecision(false));
             }
         }
@@ -71,13 +71,14 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         Set<String> hasPermissionRoles = CollectionUtil.newHashSet(); // 【声明定义】有权限的角色集合
         boolean needToCheck = false; // 【声明定义】是否需要被拦截检查的请求，如果缓存中权限规则中没有任何URL权限标识和此次请求的URL匹配，默认不需要被鉴权
 
-
         for (Map.Entry<String, Object> permRoles : permRolesRules.entrySet()) {
             String perm = permRoles.getKey(); // 缓存权限规则的键：URL权限标识
             if (pathMatcher.match(perm, restfulPath)) {
                 List<String> roles = Convert.toList(String.class, permRoles.getValue()); // 缓存权限规则的值：有请求路径访问权限的角色集合
                 hasPermissionRoles.addAll(Convert.toList(String.class, roles));
-                needToCheck = true;
+                if (needToCheck == false) {
+                    needToCheck = true;
+                }
             }
         }
         // 没有设置权限规则放行；注：如果默认想拦截所有的请求请移除needToCheck变量逻辑即可，根据需求定制
@@ -92,11 +93,11 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
                     log.info("用户权限（角色） : {}", authority); // ROLE_ROOT
-                    String role = authority.substring(AuthConstants.AUTHORITY_PREFIX.length()); // ROOT
+                    String role = authority.substring(AuthConstants.AUTHORITY_PREFIX.length()); // 角色编码 ROOT
                     if (GlobalConstants.ROOT_ROLE_CODE.equals(role)) { // 如果是超级管理员则放行
                         return true;
                     }
-                    return hasPermissionRoles.contains(role); // 用户角色中只要有一个满足则通过权限校验
+                    return CollectionUtil.isNotEmpty(hasPermissionRoles) && hasPermissionRoles.contains(role); // 用户角色中只要有一个满足则通过权限校验
                 })
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));
