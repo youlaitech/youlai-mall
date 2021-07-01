@@ -5,6 +5,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.gateway.component.AdminRoleLocalCache;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,7 +38,7 @@ import java.util.Set;
 public class ResourceServerManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     private RedisTemplate redisTemplate;
-
+    private AdminRoleLocalCache adminRoleLocalCache;
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
@@ -65,7 +66,11 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         log.info("请求方法:RESTFul请求路径：{}", restfulPath);
 
         // 缓存取【URL权限标识->角色集合】权限规则
-        Map<String, Object> permRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
+        Map<String, Object> permRolesRules = (Map<String, Object>) adminRoleLocalCache.getCache(GlobalConstants.URL_PERM_ROLES_KEY);
+        if(null==permRolesRules){
+            permRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
+            adminRoleLocalCache.setLocalCache(GlobalConstants.URL_PERM_ROLES_KEY,permRolesRules);
+        }
 
         // 根据 “请求路径” 和 权限规则中的“URL权限标识”进行Ant匹配，得出拥有权限的角色集合
         Set<String> hasPermissionRoles = CollectionUtil.newHashSet(); // 【声明定义】有权限的角色集合
