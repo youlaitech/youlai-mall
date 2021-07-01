@@ -1,3 +1,5 @@
+
+
 ## 项目信息
 
 #### 项目简介
@@ -151,10 +153,10 @@ youlai-mall
 
 
 ##  Star 增长趋势
-[![Stargazers over time](https://whnb.wang/stars/youlaitech/youlai-mall)](https://gitee.com/youlaitech/youlai-mall)
+[![Stargazers over time](https://whnb.wang/stars/youlaitech/youlai-mall)](https://whnb.wang/stars/youlaitech/youlai-mall)
 
 ## 贡献者列表
-[![contributors](https://whnb.wang/contributors/youlaitech/youlai-mall)](https://whnb.wang/fuyang_lipengjun/platform)
+[![contributors](https://whnb.wang/contributors/youlaitech/youlai-mall)](https://whnb.wang/contributors/youlaitech/youlai-mall)
 
 
 ## 联系信息
