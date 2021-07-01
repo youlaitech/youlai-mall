@@ -3,6 +3,9 @@ package com.youlai.gateway.security;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.AllArgsConstructor;
@@ -22,7 +25,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -81,6 +83,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 }
             }
         }
+        log.info("拥有接口访问权限的角色：{}", hasPermissionRoles.toString());
         // 没有设置权限规则放行；注：如果默认想拦截所有的请求请移除needToCheck变量逻辑即可，根据需求定制
         if (needToCheck == false) {
             return Mono.just(new AuthorizationDecision(true));
@@ -92,12 +95,13 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
-                    log.info("用户权限（角色） : {}", authority); // ROLE_ROOT
-                    String role = authority.substring(AuthConstants.AUTHORITY_PREFIX.length()); // 角色编码 ROOT
+                    log.info("用户权限 : {}", authority); // ROLE_ROOT
+                    String role = authority.substring(AuthConstants.AUTHORITY_PREFIX.length()); // 角色编码：ROOT
                     if (GlobalConstants.ROOT_ROLE_CODE.equals(role)) { // 如果是超级管理员则放行
                         return true;
                     }
-                    return CollectionUtil.isNotEmpty(hasPermissionRoles) && hasPermissionRoles.contains(role); // 用户角色中只要有一个满足则通过权限校验
+                    boolean hasPermission = CollectionUtil.isNotEmpty(hasPermissionRoles) && hasPermissionRoles.contains(role); // 用户角色中只要有一个满足则通过权限校验
+                    return hasPermission;
                 })
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));
