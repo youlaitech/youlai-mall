@@ -89,7 +89,7 @@ youlai-mall
    安装`MySQL8`、`Redis`
 
 2. **创建数据库**
-    - 新建平台数据库，执行项目`document/sql`下的SQL脚本完成数据库创建，基础sql脚本为`youlai.sql`，商城业务的脚本为`mall-*`，商城数据库按需创建
+    - 新建平台数据库，执行项目`docs/sql`下的SQL脚本完成数据库创建，基础sql脚本为`youlai.sql`，商城业务的脚本为`mall-*`，商城数据库按需创建
     - 创建`Nacos`数据库，执行脚本`middleware/nacos/conf/nacos-mysql.sql`完成`Nacos`数据库的初始化
 3. **Nacos配置和启动（非常重要）**
 
@@ -101,7 +101,7 @@ youlai-mall
 
       ![](https://gitee.com/haoxr/image/raw/master/20210623012937.png)
 
-    - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`document/nacos/DEFAULT_GROUP.zip`配置，然后分别进入各个项目配置文件中修改MySQL、Redis连接信息即可。
+    - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`docs/nacos/DEFAULT_GROUP.zip`配置，然后分别进入各个项目配置文件中修改MySQL、Redis连接信息即可。
 
       ![image-20210623013306256](https://gitee.com/haoxr/image/raw/master/image-20210623013306256.png)
 
@@ -148,8 +148,18 @@ youlai-mall
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![image-20210622000304570](https://gitee.com/haoxr/image/raw/master/image-20210622000304570.png) | ![image-20210622000046029](https://gitee.com/haoxr/image/raw/master/image-20210622000046029.png) |
 
-## 其他说明
 
-如果需要项目文档、进入项目交流群、微信小程序体验或者项目搭建有什么问题，可加我微信（haoxianrui）备注一下“有来”二字即可，放心没有公众号。
 
-最后希望大家一起参与有来开源项目的开发~
+##  Star 增长趋势
+[![Stargazers over time](https://whnb.wang/stars/youlaitech/youlai-mall)](https://gitee.com/youlaitech/youlai-mall)
+
+## 贡献者列表
+[![contributors](https://whnb.wang/contributors/youlaitech/youlai-mall)](https://whnb.wang/fuyang_lipengjun/platform)
+
+
+## 联系信息
+因为微信交流群超过200人了，只能通过邀请进入群聊，添加开发人员（PS:日常上班时间建议选择没有头像的）后由其拉进群，相互交流学习，备注“**有来**”即可。
+
+| ![](https://gitee.com/haoxr/image/raw/master/default/113__6c5ed5b1b73ea9cd4cf32848ed350c07_b9b214638a2a406e52dbf51e9bf9a2ef.png) | ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)        | ![](https://gitee.com/haoxr/image/raw/master/huawei.jpg)     | ![](https://gitee.com/haoxr/image/raw/master/default/1625149769(1).png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![](https://gitee.com/haoxr/image/raw/master/default/7488479b1e2c193b04b56d1e0ff640c.jpg) | ![image-20210701232803265](https://gitee.com/haoxr/image/raw/master/default/image-20210701232803265.png) | ![](https://gitee.com/haoxr/image/raw/master/default/20210701234946.png) | ![image-20210702002909113](C:\Users\xianrui\AppData\Roaming\Typora\typora-user-images\image-20210702002909113.png) |
