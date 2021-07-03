@@ -1,3 +1,10 @@
+[![](https://img.shields.io/badge/Author-有来技术团队-orange.svg)](https://gitee.com/wangjiabin-x/uh5)
+![](https://img.shields.io/badge/youlai--mall-v2.0.0-blue)
+[![](https://img.shields.io/github/stars/hxrui/youlai-mall.svg?style=social&label=Stars)](https://github.com/hxrui/youlai-mall/stargazers)
+[![](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/hxrui/youlai-mall/blob/master/LICENSE)
+![](https://img.shields.io/badge/SpringBoot-2.5.2-brightgreen.svg)
+![](https://img.shields.io/badge/SpringCloud-2020-green.svg)
+![](https://img.shields.io/badge/vue--element--admin-v4.4.0-orange)
 
 
 ## 项目信息
@@ -152,10 +159,14 @@ youlai-mall
 
 
 
-##  Star 增长趋势
-[![Stargazers over time](https://whnb.wang/stars/youlaitech/youlai-mall)](https://whnb.wang/stars/youlaitech/youlai-mall)
+## Stargazers over time
 
-## 贡献者列表
+| Github                                            | 码云(Gitee)                                                |
+    | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [![Stargazers over time](https://starchart.cc/hxrui/youlai-mall.svg)](https://starchart.cc/hxrui/youlai-mall)|[![Stargazers over time](https://whnb.wang/stars/youlaitech/youlai-mall)](https://whnb.wang/stars/youlaitech/youlai-mall)|
+
+
+## 开发人员
 [![contributors](https://whnb.wang/contributors/youlaitech/youlai-mall)](https://whnb.wang/contributors/youlaitech/youlai-mall)
 
 
