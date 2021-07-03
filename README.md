@@ -160,13 +160,10 @@ youlai-mall
 
 
 ## Stargazers over time
+[![Github](https://starchart.cc/hxrui/youlai-mall.svg)](https://starchart.cc/hxrui/youlai-mall)
+[![Gitee](https://whnb.wang/stars/youlaitech/youlai-mall)](https://whnb.wang/stars/youlaitech/youlai-mall)
 
-| Github                                            | 码云(Gitee)                                                |
-    | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [![Stargazers over time](https://starchart.cc/hxrui/youlai-mall.svg)](https://starchart.cc/hxrui/youlai-mall)|[![Stargazers over time](https://whnb.wang/stars/youlaitech/youlai-mall)](https://whnb.wang/stars/youlaitech/youlai-mall)|
-
-
-## 开发人员
+## contributors
 [![contributors](https://whnb.wang/contributors/youlaitech/youlai-mall)](https://whnb.wang/contributors/youlaitech/youlai-mall)
 
 
