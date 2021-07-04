@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface SmsCouponDao extends BaseMapper<SmsCoupon> {
+public interface SmsCouponMapper extends BaseMapper<SmsCoupon> {
     int deleteByPrimaryKey(Long id);
 
     int insertSelective(SmsCoupon record);
