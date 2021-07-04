@@ -5,7 +5,7 @@ import com.youlai.mall.sms.pojo.domain.SmsCouponRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SmsCouponRecordDao extends BaseMapper<SmsCouponRecord> {
+public interface SmsCouponRecordMapper extends BaseMapper<SmsCouponRecord> {
     int deleteByPrimaryKey(Long id);
 
     int insertSelective(SmsCouponRecord record);
