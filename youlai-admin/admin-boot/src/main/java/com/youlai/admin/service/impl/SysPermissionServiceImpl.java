@@ -21,6 +21,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Autowired
     private RedisTemplate redisTemplate;
 
+
     @Override
     public List<SysPermission> listPermRoles() {
         return this.baseMapper.listPermRoles();
@@ -50,6 +51,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                     urlPermRoles.put(perm, roles);
                 });
                 redisTemplate.opsForHash().putAll(GlobalConstants.URL_PERM_ROLES_KEY, urlPermRoles);
+                redisTemplate.convertAndSend("cleanRoleLocalCache","true");
             }
             // 初始化URL【按钮->角色(集合)】规则
             List<SysPermission> btnPermList = permissions.stream()
