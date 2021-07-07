@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 */
 @Slf4j
 @Component
-public class AdminRoleLocalCache<T> {
+public class UrlPermRolesLocalCache<T> {
     private Cache<String,T> localCache = null;
 
    @PostConstruct
