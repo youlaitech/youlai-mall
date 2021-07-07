@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.JwtUtils;
-import com.youlai.mall.sms.mapper.SmsCouponRecordDao;
+import com.youlai.mall.sms.mapper.SmsCouponRecordMapper;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.domain.SmsCouponRecord;
 import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
@@ -30,7 +30,7 @@ import static com.youlai.mall.sms.pojo.constant.AppConstants.COUPON_LOCK;
  */
 @Service
 @Slf4j
-public class CouponRecordServiceImpl extends ServiceImpl<SmsCouponRecordDao, SmsCouponRecord> implements ICouponRecordService {
+public class CouponRecordServiceImpl extends ServiceImpl<SmsCouponRecordMapper, SmsCouponRecord> implements ICouponRecordService {
 
     @Autowired
     private ISmsCouponService couponService;

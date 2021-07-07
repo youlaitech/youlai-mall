@@ -41,15 +41,14 @@ public class SmsSeckillSession implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Date gmtCreate;
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private Date gmtModified;
 
     @TableField(exist = false)
     private List<SmsSeckillSkuRelation> relations;
 
-    private static final long serialVersionUID = 1L;
 }

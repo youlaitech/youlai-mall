@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * @auth haoxr
+ *  @link https://gitee.com/xiaoym/swagger-bootstrap-ui-demo/blob/master/knife4j-spring-cloud-gateway/service-doc/src/main/java/com/xiaominfo/swagger/service/doc/config/SwaggerHeaderFilter.java
+ * @auth xianrui
  * @date 2021-02-25 16:29
- * @link https://gitee.com/xiaoym/swagger-bootstrap-ui-demo/blob/master/knife4j-spring-cloud-gateway/service-doc/src/main/java/com/xiaominfo/swagger/service/doc/config/SwaggerHeaderFilter.java
  */
 @Component
 public class SwaggerHeaderFilter  extends AbstractGatewayFilterFactory {
