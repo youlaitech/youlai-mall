@@ -3,13 +3,10 @@ package com.youlai.gateway.security;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.gateway.component.AdminRoleLocalCache;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -36,16 +33,17 @@ import java.util.Set;
  * @date 2020-05-01
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class ResourceServerManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
-    private RedisTemplate redisTemplate;
-    private AdminRoleLocalCache adminRoleLocalCache;
+    private final RedisTemplate redisTemplate;
+    private final AdminRoleLocalCache adminRoleLocalCache;
 
     // 是否演示环境
     @Value("${demo}")
     private Boolean isDemoEnv;
+
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
@@ -72,11 +70,11 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         String restfulPath = request.getMethodValue() + ":" + path;
         log.info("请求方法:RESTFul请求路径：{}", restfulPath);
         Map<String, Object> permRolesRules = (Map<String, Object>) adminRoleLocalCache.getCache(GlobalConstants.URL_PERM_ROLES_KEY);
-        if (isDemoEnv){
+        if (isDemoEnv) {
             // 缓存取【URL权限标识->角色集合】权限规则
-            if(null==permRolesRules){
+            if (null == permRolesRules) {
                 permRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
-                adminRoleLocalCache.setLocalCache(GlobalConstants.URL_PERM_ROLES_KEY,permRolesRules);
+                adminRoleLocalCache.setLocalCache(GlobalConstants.URL_PERM_ROLES_KEY, permRolesRules);
             }
         }
 
@@ -84,16 +82,19 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         Set<String> hasPermissionRoles = CollectionUtil.newHashSet(); // 【声明定义】有权限的角色集合
         boolean needToCheck = false; // 【声明定义】是否需要被拦截检查的请求，如果缓存中权限规则中没有任何URL权限标识和此次请求的URL匹配，默认不需要被鉴权
 
-        for (Map.Entry<String, Object> permRoles : permRolesRules.entrySet()) {
-            String perm = permRoles.getKey(); // 缓存权限规则的键：URL权限标识
-            if (pathMatcher.match(perm, restfulPath)) {
-                List<String> roles = Convert.toList(String.class, permRoles.getValue()); // 缓存权限规则的值：有请求路径访问权限的角色集合
-                hasPermissionRoles.addAll(Convert.toList(String.class, roles));
-                if (needToCheck == false) {
-                    needToCheck = true;
+        if (CollectionUtil.isNotEmpty(permRolesRules)) {
+            for (Map.Entry<String, Object> ruleEntry : permRolesRules.entrySet()) {
+                String perm = ruleEntry.getKey(); // 缓存权限规则的键：URL权限标识
+                if (pathMatcher.match(perm, restfulPath)) {
+                    List<String> roles = Convert.toList(String.class, ruleEntry.getValue()); // 缓存权限规则的值：有请求路径访问权限的角色集合
+                    hasPermissionRoles.addAll(Convert.toList(String.class, roles));
+                    if (needToCheck == false) {
+                        needToCheck = true;
+                    }
                 }
             }
         }
+
         log.info("拥有接口访问权限的角色：{}", hasPermissionRoles.toString());
         // 没有设置权限规则放行；注：如果默认想拦截所有的请求请移除needToCheck变量逻辑即可，根据需求定制
         if (needToCheck == false) {
