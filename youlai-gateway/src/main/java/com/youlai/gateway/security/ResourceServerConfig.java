@@ -69,9 +69,7 @@ public class ResourceServerConfig {
     }
 
     /**
-     * 未授权
-     *
-     * @return
+     * 自定义未授权响应
      */
     @Bean
     ServerAccessDeniedHandler accessDeniedHandler() {
@@ -114,7 +112,6 @@ public class ResourceServerConfig {
 
     /**
      * 本地获取JWT验签公钥
-     * @return
      */
     @SneakyThrows
     @Bean

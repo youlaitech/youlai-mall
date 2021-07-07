@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.base.BasePageQuery;
 import com.youlai.common.web.util.BeanMapperUtils;
-import com.youlai.mall.sms.mapper.SmsCouponDao;
+import com.youlai.mall.sms.mapper.SmsCouponMapper;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.form.CouponForm;
 import com.youlai.mall.sms.pojo.vo.SmsCouponVO;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponDao, SmsCoupon> implements ISmsCouponService {
+public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon> implements ISmsCouponService {
     @Override
     public SmsCouponVO detail(String couponId) {
         log.info("根据优惠券ID获取优惠券详情，couponId={}", couponId);
