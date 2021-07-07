@@ -7,6 +7,7 @@ import com.nimbusds.jose.JWSObject;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.ResultCode;
 import com.youlai.gateway.util.ResponseUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -30,11 +31,11 @@ import reactor.core.publisher.Mono;
  * @date 2020-06-12
  */
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
     // 是否演示环境
     @Value("${demo}")

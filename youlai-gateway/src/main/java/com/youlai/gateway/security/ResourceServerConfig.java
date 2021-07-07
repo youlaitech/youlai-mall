@@ -93,7 +93,6 @@ public class ResourceServerConfig {
     }
 
     /**
-     * @return
      * @link https://blog.csdn.net/qq_24230139/article/details/105091273
      * ServerHttpSecurity没有将jwt中authorities的负载部分当做Authentication
      * 需要把jwt的Claim中的authorities加入
