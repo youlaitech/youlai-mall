@@ -42,7 +42,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
     // 本地缓存
     private final UrlPermRolesLocalCache urlPermRolesLocalCache;
 
-    // 是否演示环境
+    // 是否开启本地缓存
     @Value("${local-cache.enabled}")
     private Boolean localCacheEnabled;
 
