@@ -1,4 +1,4 @@
-package com.youlai.admin.controller.v1;
+package com.youlai.admin.controller;
 
 import com.youlai.admin.pojo.vo.RouteVO;
 import com.youlai.admin.service.ISysMenuService;

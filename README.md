@@ -157,10 +157,14 @@ youlai-mall
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![image-20210622000304570](https://gitee.com/haoxr/image/raw/master/image-20210622000304570.png) | ![image-20210622000046029](https://gitee.com/haoxr/image/raw/master/image-20210622000046029.png) |
 
+## 项目文档
 
+[项目文档地址](https://www.cnblogs.com/haoxianrui/)
 
-## Stargazers over time
+## Star趋势
+- Github
 [![Github](https://starchart.cc/hxrui/youlai-mall.svg)](https://starchart.cc/hxrui/youlai-mall)
+- Gitee
 [![Gitee](https://whnb.wang/stars/youlaitech/youlai-mall)](https://whnb.wang/stars/youlaitech/youlai-mall)
 
 ## contributors
@@ -168,7 +172,7 @@ youlai-mall
 
 
 ## 联系信息
-因为微信交流群超过200人了，只能通过邀请进入群聊，添加开发人员（PS:日常上班时间建议选择没有头像的）后由其拉进群，相互交流学习，备注“**有来**”即可。
+因为微信交流群满200人只能通过邀请进入，如果想进入交流群学习可添加以下开发人员，备注“**有来**“由其拉进群。
 
 | ![](https://gitee.com/haoxr/image/raw/master/default/113__6c5ed5b1b73ea9cd4cf32848ed350c07_b9b214638a2a406e52dbf51e9bf9a2ef.png) | ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)        | ![](https://gitee.com/haoxr/image/raw/master/huawei.jpg)     | ![](https://gitee.com/haoxr/image/raw/master/default/1625149769(1).png) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
