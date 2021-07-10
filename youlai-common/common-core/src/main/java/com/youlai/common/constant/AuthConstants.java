@@ -2,7 +2,6 @@ package com.youlai.common.constant;
 
 public interface AuthConstants {
 
-
     /**
      * 认证请求头key
      */

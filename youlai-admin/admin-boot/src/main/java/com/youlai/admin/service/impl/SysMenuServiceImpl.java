@@ -106,7 +106,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .forEach(menu -> {
                     RouteVO routeVO = new RouteVO();
 
-                    routeVO.setName(menu.getRouteName()); // 根据name路由跳转 this.$router.push({path:xxx})
+                    routeVO.setName(menu.getId() + ""); // 根据name路由跳转 this.$router.push({path:xxx})
                     routeVO.setPath(menu.getRoutePath()); // 根据path路由跳转 this.$router.push({name:xxx})
                     routeVO.setRedirect(menu.getRedirect());
                     routeVO.setComponent(menu.getComponent());

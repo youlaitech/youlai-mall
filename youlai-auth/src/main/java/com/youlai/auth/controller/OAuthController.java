@@ -61,7 +61,7 @@ public class OAuthController {
          * 方式一：client_id、client_secret放在请求路径中(注：当前版本已废弃)
          * 方式二：放在请求头（Request Headers）中的Authorization字段，且经过加密，例如 Basic Y2xpZW50OnNlY3JldA== 明文等于 client:secret
          */
-        String clientId = JwtUtils.getAuthClientId();
+        String clientId = JwtUtils.getOAuthClientId();
         OAuthClientEnum client = OAuthClientEnum.getByClientId(clientId);
         switch (client) {
             case TEST: // knife4j接口测试文档使用 client_id/client_secret : client/123456

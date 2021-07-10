@@ -1,4 +1,4 @@
-package com.youlai.admin.controller.v1;
+package com.youlai.admin.controller;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
