@@ -5,7 +5,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.gateway.component.AdminRoleLocalCache;
+import com.youlai.gateway.component.UrlPermRolesLocalCache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,15 +22,14 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 网关自定义鉴权管理器
  *
- * @author haoxr
- * @date 2020-05-01
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
 @Component
 @RequiredArgsConstructor
@@ -38,11 +37,13 @@ import java.util.Set;
 public class ResourceServerManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     private final RedisTemplate redisTemplate;
-    private final AdminRoleLocalCache adminRoleLocalCache;
 
-    // 是否演示环境
-    @Value("${demo}")
-    private Boolean isDemoEnv;
+    // 本地缓存
+    private final UrlPermRolesLocalCache urlPermRolesLocalCache;
+
+    // 是否开启本地缓存
+    @Value("${local-cache.enabled}")
+    private Boolean localCacheEnabled;
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
@@ -51,69 +52,68 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         if (request.getMethod() == HttpMethod.OPTIONS) {
             return Mono.just(new AuthorizationDecision(true));
         }
-        PathMatcher pathMatcher = new AntPathMatcher(); // 【声明定义】Ant路径匹配模式，“请求路径”和缓存中权限规则的“URL权限标识”匹配
+        PathMatcher pathMatcher = new AntPathMatcher(); // Ant匹配器
+        String method = request.getMethodValue();
         String path = request.getURI().getPath();
+        String restfulPath = method + ":" + path; // Restful接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14961707.html
 
+
+        // 移动端请求需认证但无需鉴权判断
         String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-
-        // 移动端请求无需鉴权，只需认证（即JWT的验签和是否过期判断）
         if (pathMatcher.match(GlobalConstants.APP_API_PATTERN, path)) {
-            // 如果token以"bearer "为前缀，到这一步说明是经过NimbusReactiveJwtDecoder#decode和JwtTimestampValidator#validate等解析和验证通过的，即已认证
-            if (StrUtil.isNotBlank(token) && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
+            // 如果token以"bearer "为前缀，到这里说明JWT有效即已认证
+            if (StrUtil.isNotBlank(token)
+                    && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
                 return Mono.just(new AuthorizationDecision(true));
             } else {
                 return Mono.just(new AuthorizationDecision(false));
             }
         }
 
-        // Restful接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14396990.html
-        String restfulPath = request.getMethodValue() + ":" + path;
-        log.info("请求方法:RESTFul请求路径：{}", restfulPath);
-        Map<String, Object> permRolesRules = (Map<String, Object>) adminRoleLocalCache.getCache(GlobalConstants.URL_PERM_ROLES_KEY);
-        if (isDemoEnv) {
-            // 缓存取【URL权限标识->角色集合】权限规则
-            if (null == permRolesRules) {
-                permRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
-                adminRoleLocalCache.setLocalCache(GlobalConstants.URL_PERM_ROLES_KEY, permRolesRules);
+        // 缓存取 URL权限-角色集合 规则数据
+        // urlPermRolesRules = [{'key':'GET:/api/v1/users/*','value':['ADMIN','TEST']},...]
+        Map<String, Object> urlPermRolesRules;
+        if (localCacheEnabled) {
+            urlPermRolesRules = (Map<String, Object>) urlPermRolesLocalCache.getCache(GlobalConstants.URL_PERM_ROLES_KEY);
+            if (null == urlPermRolesRules) {
+                urlPermRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
+                urlPermRolesLocalCache.setLocalCache(GlobalConstants.URL_PERM_ROLES_KEY, urlPermRolesRules);
             }
+        } else {
+            urlPermRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
         }
 
-        // 根据 “请求路径” 和 权限规则中的“URL权限标识”进行Ant匹配，得出拥有权限的角色集合
-        Set<String> hasPermissionRoles = CollectionUtil.newHashSet(); // 【声明定义】有权限的角色集合
-        boolean needToCheck = false; // 【声明定义】是否需要被拦截检查的请求，如果缓存中权限规则中没有任何URL权限标识和此次请求的URL匹配，默认不需要被鉴权
 
-        if (CollectionUtil.isNotEmpty(permRolesRules)) {
-            for (Map.Entry<String, Object> ruleEntry : permRolesRules.entrySet()) {
-                String perm = ruleEntry.getKey(); // 缓存权限规则的键：URL权限标识
-                if (pathMatcher.match(perm, restfulPath)) {
-                    List<String> roles = Convert.toList(String.class, ruleEntry.getValue()); // 缓存权限规则的值：有请求路径访问权限的角色集合
-                    hasPermissionRoles.addAll(Convert.toList(String.class, roles));
-                    if (needToCheck == false) {
-                        needToCheck = true;
-                    }
+        // 根据请求路径判断有访问权限的角色列表
+        List<String> authorizedRoles = new ArrayList<>(); // 拥有访问权限的角色
+        boolean requireCheck = false; // 是否需要鉴权，默认“没有设置权限规则”不用鉴权
+
+        for (Map.Entry<String, Object> permRoles : urlPermRolesRules.entrySet()) {
+            String perm = permRoles.getKey();
+            if (pathMatcher.match(perm, restfulPath)) {
+                List<String> roles = Convert.toList(String.class, permRoles.getValue());
+                authorizedRoles.addAll(Convert.toList(String.class, roles));
+                if (requireCheck == false) {
+                    requireCheck = true;
                 }
             }
         }
-
-        log.info("拥有接口访问权限的角色：{}", hasPermissionRoles.toString());
-        // 没有设置权限规则放行；注：如果默认想拦截所有的请求请移除needToCheck变量逻辑即可，根据需求定制
-        if (needToCheck == false) {
+        if (requireCheck == false) {
             return Mono.just(new AuthorizationDecision(true));
         }
 
-        // 判断用户JWT中携带的角色是否有能通过权限拦截的角色
+        // 判断JWT中携带的用户角色是否有权限访问
         Mono<AuthorizationDecision> authorizationDecisionMono = mono
                 .filter(Authentication::isAuthenticated)
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
-                    log.info("用户权限 : {}", authority); // ROLE_ROOT
-                    String role = authority.substring(AuthConstants.AUTHORITY_PREFIX.length()); // 角色编码：ROOT
-                    if (GlobalConstants.ROOT_ROLE_CODE.equals(role)) { // 如果是超级管理员则放行
-                        return true;
+                    String roleCode = authority.substring(AuthConstants.AUTHORITY_PREFIX.length()); // 用户的角色
+                    if (GlobalConstants.ROOT_ROLE_CODE.equals(roleCode)) {
+                        return true; // 如果是超级管理员则放行
                     }
-                    boolean hasPermission = CollectionUtil.isNotEmpty(hasPermissionRoles) && hasPermissionRoles.contains(role); // 用户角色中只要有一个满足则通过权限校验
-                    return hasPermission;
+                    boolean hasAuthorized = CollectionUtil.isNotEmpty(authorizedRoles) && authorizedRoles.contains(roleCode);
+                    return hasAuthorized;
                 })
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));

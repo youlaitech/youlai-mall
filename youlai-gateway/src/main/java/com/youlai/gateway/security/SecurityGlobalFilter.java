@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -24,22 +23,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.net.URLEncoder;
+
 /**
  * 安全拦截全局过滤器
  *
- * @author haoxr
- * @date 2020-06-12
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
 @Component
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
     private final RedisTemplate redisTemplate;
 
-    // 是否演示环境
-    @Value("${demo}")
-    private Boolean isDemoEnv;
+
+    @Value("${spring.profiles.active}")
+    private String env;
 
     @SneakyThrows
     @Override
@@ -48,8 +48,8 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        // 演示环境禁止删除和修改
-        if (isDemoEnv
+        // 线上演示环境禁止修改和删除
+        if (env.equals("prod")
                 && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
                 || HttpMethod.PUT.toString().equals(request.getMethodValue())) // 修改方法
         ) {
@@ -75,7 +75,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
         // 存在token且不是黑名单，request写入JWT的载体信息
         request = exchange.getRequest().mutate()
-                .header(AuthConstants.JWT_PAYLOAD_KEY, payload)
+                .header(AuthConstants.JWT_PAYLOAD_KEY, URLEncoder.encode(payload,"UTF-8"))
                 .build();
         exchange = exchange.mutate().request(request).build();
         return chain.filter(exchange);

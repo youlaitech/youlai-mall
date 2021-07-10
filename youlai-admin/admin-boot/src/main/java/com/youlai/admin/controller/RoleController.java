@@ -1,4 +1,4 @@
-package com.youlai.admin.controller.v1;
+package com.youlai.admin.controller;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
@@ -90,9 +90,11 @@ public class RoleController {
     @PostMapping
     public Result add(@RequestBody SysRole role) {
         int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
-                .eq(SysRole::getCode, role.getCode())
+                .eq(SysRole::getCode, role.getCode() )
+                .or()
+                .eq(SysRole::getName,role.getName())
         );
-        Assert.isTrue(count == 0, "角色编码已存在");
+        Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
         boolean result = iSysRoleService.save(role);
         return Result.judge(result);
     }
@@ -108,9 +110,11 @@ public class RoleController {
             @RequestBody SysRole role) {
         int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
                 .eq(SysRole::getCode, role.getCode())
+                .or()
+                .eq(SysRole::getName,role.getName())
                 .ne(SysRole::getId, id)
         );
-        Assert.isTrue(count == 0, "角色编码已存在");
+        Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
         boolean result = iSysRoleService.updateById(role);
         if (result) {
             iSysPermissionService.refreshPermRolesRules();

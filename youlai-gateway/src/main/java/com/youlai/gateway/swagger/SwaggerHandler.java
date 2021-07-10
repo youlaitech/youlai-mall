@@ -11,7 +11,7 @@ import springfox.documentation.swagger.web.*;
 import java.util.Optional;
 
 /**
- * @Author haoxr
+ * @author  xianrui
  * @Date 2021-02-25 16:34
  * @Version 1.0.0
  * @ https://gitee.com/xiaoym/swagger-bootstrap-ui-demo/blob/master/knife4j-spring-cloud-gateway/service-doc/src/main/java/com/xiaominfo/swagger/service/doc/handler/SwaggerHandler.java

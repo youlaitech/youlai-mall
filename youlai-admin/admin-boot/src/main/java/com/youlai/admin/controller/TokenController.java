@@ -1,4 +1,4 @@
-package com.youlai.admin.controller.v1;
+package com.youlai.admin.controller;
 
 import com.youlai.admin.service.ITokenService;
 import com.youlai.common.result.Result;
