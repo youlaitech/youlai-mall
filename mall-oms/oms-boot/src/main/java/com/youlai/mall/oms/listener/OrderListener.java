@@ -3,7 +3,7 @@ package com.youlai.mall.oms.listener;
 import com.rabbitmq.client.Channel;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
-import com.youlai.mall.pms.api.SkuFeignClient;
+import com.youlai.mall.pms.api.GoodsFeignClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -24,7 +24,7 @@ public class OrderListener {
 
     IOrderService orderService;
     IOrderItemService orderItemService;
-    SkuFeignClient skuFeignService;
+    GoodsFeignClient skuFeignService;
     RabbitTemplate rabbitTemplate;
 
     /**

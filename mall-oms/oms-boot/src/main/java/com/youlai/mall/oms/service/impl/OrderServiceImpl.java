@@ -26,7 +26,7 @@ import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
-import com.youlai.mall.pms.api.SkuFeignClient;
+import com.youlai.mall.pms.api.GoodsFeignClient;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.ums.api.MemberAddressFeignClient;
@@ -57,7 +57,7 @@ import static com.youlai.mall.oms.constant.OmsConstants.*;
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements IOrderService {
 
     private ICartService cartService;
-    private SkuFeignClient skuFeignService;
+    private GoodsFeignClient skuFeignService;
     private MemberAddressFeignClient addressFeignService;
     private IOrderItemService orderItemService;
     private RabbitTemplate rabbitTemplate;

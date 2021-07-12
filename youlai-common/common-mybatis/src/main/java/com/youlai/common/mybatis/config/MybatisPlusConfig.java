@@ -10,8 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
+/**
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ */
 @Configuration
-@Slf4j
 @EnableTransactionManagement
 public class MybatisPlusConfig {
 

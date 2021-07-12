@@ -10,12 +10,12 @@ import com.youlai.mall.pms.config.ProductLocalCache;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.pojo.dto.app.ProductFormDTO;
+import com.youlai.mall.pms.pojo.entity.PmsAttribute;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.entity.PmsSpec;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttributeValue;
+import com.youlai.mall.pms.service.IPmsAttributeService;
 import com.youlai.mall.pms.service.IPmsSkuService;
-import com.youlai.mall.pms.service.IPmsSpecService;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.service.IProductService;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
 
     private final IPmsSkuService iPmsSkuService;
     private final IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
-    private final IPmsSpecService iPmsSpecService;
+    private final IPmsAttributeService iPmsSpecService;
     private final RedisUtils redisUtils;
     private final RedissonClient redissonClient;
     private final ProductLocalCache productLocalCache;
@@ -68,9 +68,9 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
                 PmsSpu spu = this.getById(spuId);
                 SpuDTO SpuDTO = new SpuDTO();
                 BeanUtil.copyProperties(spu, SpuDTO);
-                if (StrUtil.isNotBlank(spu.getPics())) {
+                if (StrUtil.isNotBlank(spu.getAlbum())) {
                     // spu专辑图片转换处理 json字符串 -> List
-                    List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
+                    List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getAlbum()), String.class);
                     SpuDTO.setPics(pics);
                 }
                 // 属性
@@ -79,11 +79,14 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
                         ).eq(PmsSpuAttributeValue::getSpuId, spuId)
                 );
                 // 规格
-                List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
+              //  List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
+
+                List<PmsAttribute> specs=null;
                 // sku
                 List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
 
-                product = new ProductFormDTO(SpuDTO, attrs, specs, skuList);
+               // product = new ProductFormDTO(SpuDTO, attrs, specs, skuList);
+                product = new ProductFormDTO();
                 //TODO 4、需要判断商品是否是秒杀商品，根据秒杀信息更新商品秒杀相关信息
                 log.info("get db product:" + product);
                 redisUtils.set(PRODUCT_DETAIL_CACHE + spuId, product, 3600);
