@@ -30,7 +30,8 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String currentUrl = request.getRequestURI();
+        return true;
+       /* String currentUrl = request.getRequestURI();
         PathMatcher matcher = new AntPathMatcher();
         Map<String, String> pathVariable = matcher.extractUriTemplateVariables("/app-api/v1/products/{id}", currentUrl);
         if (bloomRedisService.includeByBloomFilter(PRODUCT_REDIS_BLOOM_FILTER, pathVariable.get("id"))) {
@@ -41,7 +42,7 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("UTF-8");
         String result = new ObjectMapper().writeValueAsString(Result.failed("产品不存在!"));
         response.getWriter().print(result);
-        return false;
+        return false;*/
 
     }
 
