@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "【移动端】商品信息")
-@RestController("APPSpuController")
+@Api(tags = "移动端-产品")
+@RestController("appSpuController")
 @RequestMapping("/app-api/v1/products")
 @AllArgsConstructor
 public class ProductController {
@@ -49,7 +49,7 @@ public class ProductController {
                 .like(StrUtil.isNotBlank(name), PmsSpu::getName, name)
                 .select(PmsSpu::getId,
                         PmsSpu::getName,
-                        PmsSpu::getPic,
+                        PmsSpu::getPicUrl,
                         PmsSpu::getPrice,
                         PmsSpu::getSales
                 )

@@ -24,16 +24,14 @@ import java.util.stream.Collectors;
 import static com.youlai.mall.pms.common.constant.PmsConstants.PRODUCT_REDIS_BLOOM_FILTER;
 
 /**
- * @author haoxr
- * @date 2020-11-06
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
 @Service
 @AllArgsConstructor
 public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
     private IPmsSkuService iPmsSkuService;
     private IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
-    private IPmsSpuSpecValueService iPmsSpuSpecValueService;
-    private IPmsSpecService iPmsSpecService;
+    private IPmsAttributeService attributeService;
     private BloomRedisService bloomRedisService;
 
 
@@ -49,7 +47,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     public boolean add(ProductFormDTO productFormDTO) {
         SpuDTO SpuDTO = productFormDTO.getSpu();
         List<PmsSpuAttributeValue> attrValues = productFormDTO.getAttrs();
-        List<PmsSpuSpecValue> specs = productFormDTO.getSpecs();
+        List<PmsSpuAttributeValue> specs = productFormDTO.getAttrs();
         List<PmsSku> skuList = productFormDTO.getSkus();
 
         // spu保存
@@ -57,7 +55,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         BeanUtil.copyProperties(SpuDTO, spu);
         if (SpuDTO.getPics() != null) {
             String picUrls = JSONUtil.toJsonStr(SpuDTO.getPics());
-            spu.setPics(picUrls);
+            spu.setAlbum(picUrls);
         }
         this.save(spu);
 
@@ -69,8 +67,8 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
         // 规格保存
         Optional.ofNullable(specs).ifPresent(list -> {
-            list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSpuSpecValueService.saveBatch(list);
+          /*  list.forEach(item -> item.setSpuId(spu.getId()));
+            iPmsSpuSpecValueService.saveBatch(list);*/
         });
 
         // sku保存
@@ -89,9 +87,9 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         PmsSpu spu = this.getById(id);
         BeanUtil.copyProperties(spu, spuDTO);
 
-        if (StrUtil.isNotBlank(spu.getPics())) {
+        if (StrUtil.isNotBlank(spu.getAlbum())) {
             // spu专辑图片转换处理 json字符串 -> List
-            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
+            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getAlbum()), String.class);
             spuDTO.setPics(pics);
         }
 
@@ -99,12 +97,13 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSpuAttributeValue> attrs = iPmsSpuAttributeValueService.
                 list(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, id));
         // 规格
-        List<PmsSpuSpecValue> specs = iPmsSpuSpecValueService.list(new LambdaQueryWrapper<PmsSpuSpecValue>().eq(PmsSpuSpecValue::getSpuId, id));
+        List<PmsSpuAttributeValue> specs = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, id));
         // sku
         List<PmsSku> skus = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
 
         // 组合
-        ProductFormDTO productFormDTO = new ProductFormDTO(spuDTO, attrs, specs, skus);
+        // ProductFormDTO productFormDTO = new ProductFormDTO(spuDTO, attrs, specs, skus);
+        ProductFormDTO productFormDTO = new ProductFormDTO();
         return productFormDTO;
     }
 
@@ -114,7 +113,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         SpuDTO SpuDTO = productFormDTO.getSpu();
 
         List<PmsSpuAttributeValue> attrValues = productFormDTO.getAttrs();
-        List<PmsSpuSpecValue> specs = productFormDTO.getSpecs();
+        List<PmsSpuAttributeValue> specs = productFormDTO.getAttrs();
         List<PmsSku> skuList = productFormDTO.getSkus();
 
         // spu保存
@@ -122,7 +121,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         BeanUtil.copyProperties(SpuDTO, spu);
         if (SpuDTO.getPics() != null) {
             String pics = JSONUtil.toJsonStr(SpuDTO.getPics());
-            spu.setPics(pics);
+            spu.setAlbum(pics);
         }
         this.updateById(spu);
 
@@ -149,15 +148,15 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
             // 删除此次保存删除的
             List<Long> ids = list.stream().map(item -> item.getId()).collect(Collectors.toList());
-            List<Long> dbIds = iPmsSpuSpecValueService.list(new LambdaQueryWrapper<PmsSpuSpecValue>().eq(PmsSpuSpecValue::getSpuId, spu.getId())
-                    .select(PmsSpuSpecValue::getId))
+            List<Long> dbIds = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, spu.getId())
+                    .select(PmsSpuAttributeValue::getId))
                     .stream()
                     .map(item -> item.getId())
                     .collect(Collectors.toList());
             List<Long> removeIds = dbIds.stream().filter(id -> !ids.contains(id)).collect(Collectors.toList());
-            iPmsSpuSpecValueService.removeByIds(removeIds);
+            iPmsSpuAttributeValueService.removeByIds(removeIds);
 
-            iPmsSpuSpecValueService.saveOrUpdateBatch(list);
+            iPmsSpuAttributeValueService.saveOrUpdateBatch(list);
         });
 
         // sku保存
@@ -186,7 +185,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                     // sku
                     iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
                     // 规格
-                    iPmsSpuSpecValueService.remove(new LambdaQueryWrapper<PmsSpuSpecValue>().eq(PmsSpuSpecValue::getId, spuId));
+                    iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getId, spuId));
                     // 属性
                     iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, spuId));
                     // spu
@@ -202,9 +201,9 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         PmsSpu spu = this.getById(spuId);
         SpuDTO SpuDTO = new SpuDTO();
         BeanUtil.copyProperties(spu, SpuDTO);
-        if (StrUtil.isNotBlank(spu.getPics())) {
+        if (StrUtil.isNotBlank(spu.getAlbum())) {
             // spu专辑图片转换处理 json字符串 -> List
-            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
+            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getAlbum()), String.class);
             SpuDTO.setPics(pics);
         }
         // 属性
@@ -214,12 +213,13 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         );
 
         // 规格
-        List<PmsSpec> specs = iPmsSpecService.listBySpuId(spuId);
-
+        //  List<PmsAttribute> specs = attributeService.listBySpuId(spuId);
+        List<PmsAttribute> specs = null;
         // sku
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
 
-        com.youlai.mall.pms.pojo.dto.app.ProductFormDTO product = new com.youlai.mall.pms.pojo.dto.app.ProductFormDTO(SpuDTO, attrs, specs, skuList);
+       // com.youlai.mall.pms.pojo.dto.app.ProductFormDTO product = new com.youlai.mall.pms.pojo.dto.app.ProductFormDTO(SpuDTO, attrs, specs, skuList);
+        com.youlai.mall.pms.pojo.dto.app.ProductFormDTO product=new com.youlai.mall.pms.pojo.dto.app.ProductFormDTO();
         return product;
     }
 }

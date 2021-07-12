@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "【移动端】商品库存")
-@RestController("APPSkuController")
-@RequestMapping("/app-api/v1/skus")
+@Api(tags = "移动端-商品")
+@RestController("appGoodsController")
+@RequestMapping("/app-api/v1/goods")
 @AllArgsConstructor
-public class SkuController {
+public class GoodsController {
 
     private IPmsSkuService iPmsSkuService;
 
@@ -39,7 +39,7 @@ public class SkuController {
 
     @ApiOperation(value = "锁定库存")
     @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
-    @PutMapping("/lock_stock")
+    @PutMapping("/stocks/_lock")
     public Result<Boolean> lockStock(@RequestBody List<SkuLockDTO> list) {
         boolean result = iPmsSkuService.lockStock(list);
         return Result.judge(result);
@@ -48,7 +48,7 @@ public class SkuController {
 
     @ApiOperation(value = "解锁库存")
     @ApiImplicitParam(name = "orderToken", value = "订单令牌", required = true, paramType = "body", dataType = "String")
-    @PutMapping("/unlock_stock")
+    @PutMapping("/stocks/_unlock")
     public Result<Boolean> unlockStock(String orderToken) {
         boolean result = iPmsSkuService.unlockStock(orderToken);
         return Result.judge(result);
@@ -56,11 +56,9 @@ public class SkuController {
 
     @ApiOperation(value = "扣减库存")
     @ApiImplicitParam(name = "orderToken", value = "订单令牌", required = true, paramType = "body", dataType = "String")
-    @PutMapping("/deduct_stock")
+    @PutMapping("/stocks/_deduct")
     public Result<Boolean> deductStock(String orderToken) {
         boolean result = iPmsSkuService.deductStock(orderToken);
         return Result.judge(result);
     }
-
-
 }

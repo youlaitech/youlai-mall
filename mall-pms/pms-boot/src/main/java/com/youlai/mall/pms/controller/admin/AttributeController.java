@@ -1,8 +1,8 @@
 package com.youlai.mall.pms.controller.admin;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
+import com.youlai.mall.pms.pojo.dto.admin.AttributeFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsAttribute;
 import com.youlai.mall.pms.service.IPmsAttributeService;
 import io.swagger.annotations.Api;
@@ -14,9 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Api(tags = "【系统管理】商品属性")
+/**
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ */
+@Api(tags = "系统管理端-属性信息")
 @RestController
 @RequestMapping("/api/v1/attributes")
 @Slf4j
@@ -27,45 +29,23 @@ public class AttributeController {
 
     @ApiOperation(value = "属性列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "categoryId", value = "商品分类ID", paramType = "query", dataType = "Long")
+            @ApiImplicitParam(name = "categoryId", value = "分类ID", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "type", value = "属性类型（1：规格；2：属性）", paramType = "query", dataType = "Integer"),
     })
     @GetMapping
-    public Result list(Long categoryId) {
+    public Result list(Long categoryId, Integer type) {
         List<PmsAttribute> list = iPmsAttributeService.list(new LambdaQueryWrapper<PmsAttribute>()
-                .eq(PmsAttribute::getCategoryId, categoryId));
+                .eq(categoryId != null, PmsAttribute::getCategoryId, categoryId)
+                .eq(type != null, PmsAttribute::getType, type)
+        );
         return Result.success(list);
     }
 
-    @ApiOperation(value = "批量新增")
-    @ApiImplicitParam(name = "attributes", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsAttribute")
+    @ApiOperation(value = "批量新增/修改")
+    @ApiImplicitParam(name = "attributeForm", value = "实体JSON对象", required = true, paramType = "body", dataType = "AttributeFormDTO")
     @PostMapping("/batch")
-    public Result saveBatch(@RequestBody List<PmsAttribute> attributes) {
-
-        if (CollectionUtil.isEmpty(attributes)) {
-            return Result.failed("请至少提交一条属性");
-        }
-
-        Long categoryId = attributes.get(0).getCategoryId();
-        List<Long> formIds = attributes.stream().map(item -> item.getId()).collect(Collectors.toList());
-        List<Long> dbIds = iPmsAttributeService
-                .list(new LambdaQueryWrapper<PmsAttribute>()
-                        .eq(PmsAttribute::getCategoryId, categoryId)
-                        .select(PmsAttribute::getId))
-                .stream()
-                .map(item -> item.getId())
-                .collect(Collectors.toList());
-
-        // 提交删除
-        if (CollectionUtil.isNotEmpty(dbIds)) {
-            List<Long> removeIds = dbIds.stream()
-                    .filter(id -> CollectionUtil.isEmpty(formIds) || !formIds.contains(id))
-                    .collect(Collectors.toList());
-            if (CollectionUtil.isNotEmpty(removeIds)) {
-                iPmsAttributeService.removeByIds(removeIds);
-            }
-        }
-
-        boolean result = iPmsAttributeService.saveOrUpdateBatch(attributes);
+    public Result saveBatch(@RequestBody AttributeFormDTO attributeForm) {
+        boolean result = iPmsAttributeService.saveBatch(attributeForm);
         return Result.judge(result);
     }
 }
