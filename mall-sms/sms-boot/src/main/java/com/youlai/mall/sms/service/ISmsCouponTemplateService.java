@@ -1,8 +1,11 @@
 package com.youlai.mall.sms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.sms.pojo.domain.SmsCouponTemplate;
 import com.youlai.mall.sms.pojo.form.CouponTemplateForm;
+import com.youlai.mall.sms.pojo.query.CouponTemplatePageQuery;
+import com.youlai.mall.sms.pojo.vo.CouponTemplateVO;
 
 import java.util.List;
 
@@ -12,6 +15,9 @@ import java.util.List;
  * @date 2021/6/26
  */
 public interface ISmsCouponTemplateService extends IService<SmsCouponTemplate> {
+
+
+    IPage<SmsCouponTemplate> pageQuery(CouponTemplatePageQuery query);
 
     /**
      * 创建优惠券模板
@@ -29,6 +35,13 @@ public interface ISmsCouponTemplateService extends IService<SmsCouponTemplate> {
      */
     SmsCouponTemplate updateTemplate(CouponTemplateForm form);
 
+
+    /**
+     * 优惠券模板审核
+     * @param id
+     */
+    void confirmTemplate(String id);
+
     /**
      * 查询所有可用优惠券模板列表
      *
@@ -36,7 +49,7 @@ public interface ISmsCouponTemplateService extends IService<SmsCouponTemplate> {
      * @param expired   是否过期
      * @return 优惠券模板
      */
-    List<SmsCouponTemplate> findAllUsableTemplate(boolean available, boolean expired);
+    List<SmsCouponTemplate> findAllUsableTemplate(Integer available, Integer expired);
 
     /**
      * 查询未过期的优惠券模板列表
@@ -46,4 +59,10 @@ public interface ISmsCouponTemplateService extends IService<SmsCouponTemplate> {
      */
     List<SmsCouponTemplate> findAllNotExpiredTemplate(Integer expired);
 
+    /**
+     * 查询优惠券模板详情
+     * @param id 优惠券模板ID
+     * @return 优惠券模板详情
+     */
+    CouponTemplateVO info(String id);
 }

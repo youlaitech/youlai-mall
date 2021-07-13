@@ -2,8 +2,8 @@ package com.youlai.mall.sms.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.mall.sms.pojo.enums.CouponCategoryEnum;
+import com.youlai.mall.sms.pojo.enums.CouponTemplateStateEnum;
 import com.youlai.mall.sms.pojo.enums.DistributeTargetEnum;
-import com.youlai.mall.sms.pojo.enums.ProductLineEnum;
 import com.youlai.mall.sms.pojo.vo.TemplateRuleVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,14 +30,9 @@ public class SmsCouponTemplate {
     private Long id;
 
     /**
-     * 是否是可用状态
+     * 优惠券模板状态(0:待审核、1:进行中、2:已过期)
      */
-    private Integer available;
-
-    /**
-     * 是否过期
-     */
-    private Integer expired;
+    private CouponTemplateStateEnum state;
 
     /**
      * 优惠券名称
@@ -58,11 +53,6 @@ public class SmsCouponTemplate {
      * 优惠券分类
      */
     private CouponCategoryEnum category;
-
-    /**
-     * 产品线
-     */
-    private ProductLineEnum productLine;
 
     /**
      * 总数
@@ -91,5 +81,4 @@ public class SmsCouponTemplate {
     private Date gmtModified;
 
     private String gmtModifiedBy;
-
 }

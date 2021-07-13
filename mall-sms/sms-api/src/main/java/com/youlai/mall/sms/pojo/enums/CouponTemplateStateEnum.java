@@ -9,19 +9,17 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * @author huawei
- * @desc：用户优惠券状态
- * @email huawei_code@163.com
- * @date 2021/2/28
+ * @author xinyi
+ * @desc
+ * @date 2021/7/10
  */
 @Getter
 @AllArgsConstructor
-public enum CouponStateEnum {
+public enum CouponTemplateStateEnum {
 
-    USABLE("可用", 1),
-    USED("已使用", 5),
-    OCCUPY("占用中(下单未付款)", 3),
-    EXPIRED("已过期(未被使用)", 10);
+    INIT("待审核", 0),
+    USED("进行中", 1),
+    FINISH("已过期(活动结束)", 2);
 
     /**
      * 用户优惠券状态描述
@@ -35,7 +33,7 @@ public enum CouponStateEnum {
     @EnumValue
     private Integer code;
 
-    public static CouponStateEnum of(Integer code) {
+    public static CouponTemplateStateEnum of(Integer code) {
         Objects.requireNonNull(code);
         return Stream.of(values())
                 .filter(bean -> bean.code.equals(code))
