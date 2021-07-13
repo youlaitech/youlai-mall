@@ -1,6 +1,9 @@
 package com.youlai.mall.sms.pojo.vo;
 
+import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,91 +13,37 @@ import java.util.Date;
  * @author 
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SmsCouponVO implements Serializable {
     /**
-     * ID
+     * 用户优惠券ID
      */
     private Long id;
 
     /**
-     * 优惠券标题（有图片则显示图片）：无门槛50元优惠券 | 单品最高减2000元
+     * 关联优惠券模板ID
      */
-    private String title;
+    private Long templateId;
 
     /**
-     * 图片
+     * 领取用户
      */
-    private String img;
+    private Long userId;
 
     /**
-     * 1满减券 2叠加满减券 3无门槛券（需要限制大小）
+     * 优惠券码
      */
-    private Integer type;
+    private String couponCode;
 
     /**
-     * 发布状态, PUBLISH发布，DRAFT草稿，OFFLINE下线
+     * 优惠券状态
      */
-    private String publish;
-
-    /**
-     * 满多少才可以使用（为0则不限制金额）
-     */
-    private Long conditionPrice;
-
-    /**
-     * 抵扣价格
-     */
-    private Long price;
-
-    /**
-     * 优惠券总量
-     */
-    private Integer publishCount;
-
-    /**
-     * 每张优惠券限领张数（默认为1，为0不限制）
-     */
-    private Integer limitCount;
-
-    /**
-     * 已领取的优惠券数量
-     */
-    private Integer takeCount;
-
-    /**
-     * 已使用的优惠券数量
-     */
-    private Integer usedCount;
-
-    /**
-     * 发放开始时间
-     */
-    private Date startTime;
-
-    /**
-     * 发放结束时间
-     */
-    private Date endTime;
-
-    /**
-     * 自领取之日起有效天数
-     */
-    private Integer validDays;
-
-    /**
-     * 逻辑删除使用
-     */
-    private Integer status;
+    private CouponStateEnum state;
 
     /**
      * 创建时间
      */
     private Date gmtCreate;
 
-    /**
-     * 修改时间
-     */
-    private Date gmtModified;
-
-    private static final long serialVersionUID = 1L;
 }

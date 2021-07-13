@@ -36,17 +36,15 @@ public class AsyncServiceImpl implements IAsyncService {
     public void asyncConstructCouponByTemplate(SmsCouponTemplate template) {
         Stopwatch watch = Stopwatch.createStarted();
         Set<String> couponCodes = buildCouponCode(template);
-        String couponCodeKey = String.format("%s%s", RedisConstants.SMS_COUPON_TEMPLATE_CODE_KEY, String.valueOf(template.getId()));
+        String couponCodeKey = String.format("%s%s", RedisConstants.SMS_COUPON_TEMPLATE_CODE_KEY, template.getId());
         redisUtils.lSet(couponCodeKey, couponCodes);
         log.info("Push CouponCode To Redis, Coupon Template " +
                 "ID:{}, Name:{}, TOTAL:{}", template.getId(), template.getName(), template.getTotal());
-        template.setAvailable(1);
         couponTemplateMapper.updateById(template);
 
         watch.stop();
         log.info("Construct CouponCode By Coupon Template Use:{}ms", watch.elapsed(TimeUnit.MILLISECONDS));
     }
-
 
     /**
      * 构造优惠券码
@@ -62,7 +60,7 @@ public class AsyncServiceImpl implements IAsyncService {
 
         Stopwatch watch = Stopwatch.createStarted();
         Set<String> result = new HashSet<>(template.getTotal());
-        String prefix4 = template.getProductLine().getCode() + template.getCategory().getCode();
+        String prefix4 = template.getCategory().getCode();
 
         String date = FastDateFormat.getInstance("yyMMdd").format(new Date());
         for (Integer i = 0; i < template.getTotal(); i++) {
