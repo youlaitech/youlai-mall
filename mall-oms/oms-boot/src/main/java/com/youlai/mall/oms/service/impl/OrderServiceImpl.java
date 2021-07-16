@@ -15,17 +15,18 @@ import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.mapper.OrderMapper;
-import com.youlai.mall.oms.pojo.entity.OmsOrder;
-import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
+import com.youlai.mall.oms.pojo.entity.OmsOrder;
+import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.oms.pojo.vo.CartVO;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
+import com.youlai.mall.oms.tcc.service.SeataTccOrderService;
 import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
@@ -56,16 +57,17 @@ import static com.youlai.mall.oms.constant.OmsConstants.*;
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements IOrderService {
 
-    private ICartService cartService;
-    private SkuFeignClient skuFeignService;
-    private MemberAddressFeignClient addressFeignService;
-    private IOrderItemService orderItemService;
-    private RabbitTemplate rabbitTemplate;
-    private StringRedisTemplate redisTemplate;
-    private ThreadPoolExecutor threadPoolExecutor;
-    private MemberFeignClient memberFeignClient;
+    private final ICartService cartService;
+    private final SkuFeignClient skuFeignService;
+    private final MemberAddressFeignClient addressFeignService;
+    private final IOrderItemService orderItemService;
+    private final RabbitTemplate rabbitTemplate;
+    private final StringRedisTemplate redisTemplate;
+    private final ThreadPoolExecutor threadPoolExecutor;
+    private final MemberFeignClient memberFeignClient;
 
-    private BusinessNoGenerator businessNoGenerator;
+    private final BusinessNoGenerator businessNoGenerator;
+    private final SeataTccOrderService seataTccOrderService;
 
     /**
      * 订单确认
@@ -175,7 +177,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         if (!Result.success().getCode().equals(lockResult.getCode())) {
             throw new BizException(Result.failed().getMsg());
         }
-
         // 创建订单(状态：待支付)
         OmsOrder order = new OmsOrder();
         order.setOrderSn(orderToken) // 把orderToken赋值给订单编号【!】
@@ -202,6 +203,63 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .build()).collect(Collectors.toList());
         orderItemService.saveBatch(orderItemList);
 
+        // 将订单放入延时队列，超时未支付由交换机order.exchange切换到死信队列完成系统自动关单
+        log.info("订单超时取消RabbitMQ消息发送，订单SN：{}", orderToken);
+        rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
+
+        OrderSubmitVO submitVO = new OrderSubmitVO();
+        submitVO.setOrderId(order.getId());
+        submitVO.setOrderSn(order.getOrderSn());
+        log.info("订单提交响应：{}", submitVO.toString());
+        return submitVO;
+    }
+
+    @Override
+    @GlobalTransactional(rollbackFor = Exception.class)
+    public OrderSubmitVO submitTcc(OrderSubmitDTO submitDTO) {
+        log.info("=======================订单提交=======================\n订单提交信息：{}", submitDTO);
+        // 订单重复提交校验
+        String orderToken = submitDTO.getOrderToken();
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
+        Long result = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
+
+        if (!ObjectUtil.equals(result, RELEASE_LOCK_SUCCESS_RESULT)) {
+            throw new BizException("订单不可重复提交");
+        }
+
+        List<OrderItemDTO> orderItems = submitDTO.getOrderItems();
+        if (CollectionUtil.isEmpty(orderItems)) {
+            throw new BizException("订单没有商品，请选择商品后提交");
+        }
+
+        // 订单验价
+        Long currentTotalPrice = orderItems.stream().map(item -> {
+            SkuDTO sku = skuFeignService.getSkuById(item.getSkuId()).getData();
+            if (sku != null) {
+                return sku.getPrice() * item.getCount();
+            }
+            return 0l;
+        }).reduce(0l, Long::sum);
+
+        if (currentTotalPrice.compareTo(submitDTO.getTotalPrice()) != 0) {
+            throw new BizException("页面已过期，请重新刷新页面再提交");
+        }
+
+        // 校验库存是否足够和锁库存
+        List<SkuLockDTO> skuLockList = orderItems.stream()
+                .map(item -> SkuLockDTO.builder().skuId(item.getSkuId())
+                        .count(item.getCount())
+                        .orderToken(orderToken)
+                        .build())
+                .collect(Collectors.toList());
+
+        Result lockResult = skuFeignService.lockStock(skuLockList);
+
+        if (!Result.success().getCode().equals(lockResult.getCode())) {
+            throw new BizException(Result.failed().getMsg());
+        }
+        // TCC模式创建订单(状态：待支付)
+        OmsOrder order = seataTccOrderService.prepareSubmitOrder(null, submitDTO);
         // 将订单放入延时队列，超时未支付由交换机order.exchange切换到死信队列完成系统自动关单
         log.info("订单超时取消RabbitMQ消息发送，订单SN：{}", orderToken);
         rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
@@ -310,5 +368,4 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         page.setRecords(list);
         return page;
     }
-
 }

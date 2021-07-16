@@ -13,6 +13,8 @@ import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
+import com.youlai.mall.pms.tcc.service.SeataTccSkuService;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -35,9 +37,21 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
     private RedissonClient redissonClient;
 
+    private SeataTccSkuService seataTccSkuService;
+
+    @GlobalTransactional
+    @Override
+    public boolean lockStockTcc(List<SkuLockDTO> skuLockList) {
+
+        seataTccSkuService.prepareSkuLockList(null,skuLockList);
+        String orderToken = skuLockList.get(0).getOrderToken();
+        redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
+        return true;
+    }
     /**
      * 创建订单时锁定库存
      */
+    @GlobalTransactional
     @Override
     public boolean lockStock(List<SkuLockDTO> skuLockList) {
         log.info("=======================创建订单，开始锁定商品库存=======================");
@@ -45,7 +59,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         if (CollectionUtil.isEmpty(skuLockList)) {
             throw new BizException("锁定的商品列表为空");
         }
-
+        //prepareSkuLockList(null,  skuLockList);
         // 锁定商品
         skuLockList.forEach(item -> {
             RLock lock = redissonClient.getLock(LOCK_SKU_PREFIX + item.getSkuId()); // 获取商品的分布式锁
@@ -83,6 +97,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
         return true;
     }
+
 
     /**
      * 订单超时关单解锁库存
