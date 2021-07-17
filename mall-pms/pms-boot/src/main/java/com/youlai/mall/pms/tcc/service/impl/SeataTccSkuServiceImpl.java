@@ -34,16 +34,13 @@ public class SeataTccSkuServiceImpl implements SeataTccSkuService {
     @Autowired
     private RedissonClient redissonClient;
 
-    @Transactional
     @Override
+    @Transactional
     public boolean prepareSkuLockList(BusinessActionContext businessActionContext, List<SkuLockDTO> skuLockList) {
-        log.info("=======================创建订单，开始锁定商品库存=======================");
-        //防幂等
+
         if (Objects.nonNull(IdempotentUtil.getMarker(getClass(), businessActionContext.getXid()))) {
-            log.info("已执行过try阶段");
             return true;
         }
-        log.info("锁定商品信息：{}", skuLockList.toString());
         if (CollectionUtil.isEmpty(skuLockList)) {
             throw new BizException("锁定的商品列表为空");
         }
@@ -80,9 +77,7 @@ public class SeataTccSkuServiceImpl implements SeataTccSkuService {
     @Transactional
     @Override
     public boolean commitSkuLockList(BusinessActionContext businessActionContext) {
-        log.info("=====================commitSkuLockList 成功=========================");
         if (Objects.isNull(IdempotentUtil.getMarker(getClass(), businessActionContext.getXid()))) {
-            log.info(businessActionContext.getXid() + ": 已执行过commit阶段");
             return true;
         }
         IdempotentUtil.removeMarker(getClass(), businessActionContext.getXid());
@@ -92,9 +87,8 @@ public class SeataTccSkuServiceImpl implements SeataTccSkuService {
     @Transactional
     @Override
     public boolean rollbackSkuLockList(BusinessActionContext businessActionContext) {
-        log.info("======================rollbackSkuLockList========================");
+
         if (Objects.isNull(IdempotentUtil.getMarker(getClass(), businessActionContext.getXid()))) {
-            log.info(businessActionContext.getXid() + ": 已执行过rollback阶段");
             return true;
         }
         JSONArray jsonObjectList = (JSONArray) businessActionContext.getActionContext("skuLockList");
