@@ -6,18 +6,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
+import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.oms.service.IOrderItemService;
-import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.oms.tcc.idempotent.IdempotentUtil;
 import com.youlai.mall.oms.tcc.service.SeataTccOrderService;
 import io.seata.rm.tcc.api.BusinessActionContext;
-import io.seata.rm.tcc.api.LocalTCC;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -26,10 +26,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
-@LocalTCC
+@Component
 public class SeataTccOrderServiceImpl implements SeataTccOrderService {
+
     @Autowired
-    private IOrderService orderService;
+    private OrderMapper orderMapper;
     @Autowired
     private IOrderItemService orderItemService;
 
@@ -50,7 +51,8 @@ public class SeataTccOrderServiceImpl implements SeataTccOrderService {
                 .setTotalQuantity(orderItems.stream().map(item -> item.getCount()).reduce(0, (x, y) -> x + y))
                 .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0l, (x, y) -> x + y))
                 .setGmtCreate(new Date());
-        orderService.save(order);
+        orderMapper.insert(order);
+        int i = 1 / 0;
         // 创建订单商品
         List<OmsOrderItem> orderItemList = orderItems.stream().map(item -> OmsOrderItem.builder()
                 .orderId(order.getId())
@@ -72,9 +74,8 @@ public class SeataTccOrderServiceImpl implements SeataTccOrderService {
     @Override
     @Transactional
     public boolean commitSubmitOrder(BusinessActionContext businessActionContext) {
-        log.info("==========已经完成Confirm-->创建 订单 第二阶段提交,事务组Xid:{} ==========", businessActionContext.getXid());
         if (Objects.isNull(IdempotentUtil.getMarker(getClass(), businessActionContext.getXid()))) {
-            log.info("已执行过Confirm阶段");
+
             return true;
         }
         IdempotentUtil.removeMarker(getClass(), businessActionContext.getXid());
@@ -84,21 +85,18 @@ public class SeataTccOrderServiceImpl implements SeataTccOrderService {
     @Override
     @Transactional
     public boolean rollbackSubmitOrder(BusinessActionContext businessActionContext) {
-        log.info("======================rollbackSubmitOrder========================");
         if (Objects.isNull(IdempotentUtil.getMarker(getClass(), businessActionContext.getXid()))) {
-            log.info("已执行过rollback阶段");
             return true;
         }
         JSONObject jsonObject = (JSONObject) businessActionContext.getActionContext("orderSubmitDTO");
         OrderSubmitDTO orderSubmitDTO = new OrderSubmitDTO();
         BeanUtil.copyProperties(jsonObject, orderSubmitDTO);
-        OmsOrder omsOrder = orderService.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSubmitDTO.getOrderToken()));
+        OmsOrder omsOrder = orderMapper.selectOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSubmitDTO.getOrderToken()));
         if (Objects.nonNull(omsOrder)) {
             orderItemService.remove(new LambdaQueryWrapper<OmsOrderItem>().eq(OmsOrderItem::getOrderId, omsOrder.getId()));
-            orderService.deleteOrder(omsOrder.getId());
+            orderMapper.deleteById(omsOrder.getId());
         }
         IdempotentUtil.removeMarker(getClass(), businessActionContext.getXid());
-        log.info("========== 已经完成Cancle-->第二阶段回滚,事务组Xid:{} ==========" + businessActionContext.getXid());
         return true;
     }
 }

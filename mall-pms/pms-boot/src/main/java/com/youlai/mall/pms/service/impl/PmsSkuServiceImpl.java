@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +31,17 @@ import static com.youlai.mall.pms.common.constant.PmsConstants.LOCK_SKU_PREFIX;
 
 @Service
 @Slf4j
-@AllArgsConstructor
 public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements IPmsSkuService {
 
+    @Autowired
     private StringRedisTemplate redisTemplate;
-
+    @Autowired
     private RedissonClient redissonClient;
-
+    @Autowired
     private SeataTccSkuService seataTccSkuService;
 
-    @GlobalTransactional
     @Override
+    @GlobalTransactional
     public boolean lockStockTcc(List<SkuLockDTO> skuLockList) {
 
         seataTccSkuService.prepareSkuLockList(null,skuLockList);

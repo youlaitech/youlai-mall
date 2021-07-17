@@ -37,6 +37,7 @@ import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private final MemberFeignClient memberFeignClient;
 
     private final BusinessNoGenerator businessNoGenerator;
-    private final SeataTccOrderService seataTccOrderService;
+    private  SeataTccOrderService seataTccOrderService;
 
     /**
      * 订单确认
@@ -220,12 +221,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         log.info("=======================订单提交=======================\n订单提交信息：{}", submitDTO);
         // 订单重复提交校验
         String orderToken = submitDTO.getOrderToken();
-        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
-        Long result = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
-
-        if (!ObjectUtil.equals(result, RELEASE_LOCK_SUCCESS_RESULT)) {
-            throw new BizException("订单不可重复提交");
-        }
+//        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
+//        Long result = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
+//
+//        if (!ObjectUtil.equals(result, RELEASE_LOCK_SUCCESS_RESULT)) {
+//            throw new BizException("订单不可重复提交");
+//        }
 
         List<OrderItemDTO> orderItems = submitDTO.getOrderItems();
         if (CollectionUtil.isEmpty(orderItems)) {
