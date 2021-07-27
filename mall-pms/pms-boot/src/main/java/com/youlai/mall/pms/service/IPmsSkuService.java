@@ -2,8 +2,8 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuLockDTO;
 
 import java.util.List;
 

@@ -3,56 +3,67 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.pms.mapper.PmsSpuMapper">
-
     <resultMap id="BaseResultMap" type="com.youlai.mall.pms.pojo.entity.PmsSpu">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
-            <result property="brandId" column="brand_id" jdbcType="BIGINT"/>
-            <result property="originPrice" column="origin_price" jdbcType="BIGINT"/>
-            <result property="price" column="price" jdbcType="BIGINT"/>
-            <result property="sales" column="sales" jdbcType="INTEGER"/>
-            <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
-            <result property="album" column="album" jdbcType="OTHER"/>
-            <result property="unit" column="unit" jdbcType="VARCHAR"/>
-            <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="detail" column="detail" jdbcType="VARCHAR"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-        <collection property="skuList" ofType="string" javaType="list">
-            <result column="roleCode"></result>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
+        <result property="brandId" column="brand_id" jdbcType="BIGINT"/>
+        <result property="originPrice" column="origin_price" jdbcType="BIGINT"/>
+        <result property="price" column="price" jdbcType="BIGINT"/>
+        <result property="sales" column="sales" jdbcType="INTEGER"/>
+        <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+        <result property="album" column="album" jdbcType="OTHER"/>
+        <result property="unit" column="unit" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="categoryName" column="categoryName" jdbcType="VARCHAR"/>
+        <result property="brandName" column="brandName" jdbcType="VARCHAR"/>
+        <collection property="skuList" ofType="com.youlai.mall.pms.pojo.entity.PmsSku" javaType="list">
+            <id property="id" column="skuId" jdbcType="BIGINT"/>
+            <result property="name" column="skuName" jdbcType="VARCHAR"/>
+            <result property="sn" column="sn" jdbcType="VARCHAR"/>
+            <result property="picUrl" column="skuPicUrl" jdbcType="VARCHAR"/>
+            <result property="specifications" column="specifications" jdbcType="VARCHAR"/>
+            <result property="originPrice" column="skuOriginPrice" jdbcType="BIGINT"/>
+            <result property="price" column="skuPrice" jdbcType="BIGINT"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
         </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,category_id,
+        id
+        ,name,category_id,
         brand_id,origin_price,price,
         sales,pic_url,album,
         unit,description,detail,
         status,gmt_create,gmt_modified
     </sql>
-    <select id="list" resultType="com.youlai.mall.pms.pojo.entity.PmsSpu">
-
-        @Select("<script>" +
-        " SELECT  " +
-        " t1.*," +
-        " t2.NAME AS category_name ," +
-        " t3.NAME AS brand_name " +
-        " FROM " +
-        "  pms_spu t1" +
-        " LEFT JOIN pms_category t2 ON t1.category_id = t2.id " +
-        " LEFT JOIN pms_brand t3 ON t1.brand_id = t3.id " +
-        " WHERE 1=1 " +
-        " <if test ='spu.categoryId !=null and spu.categoryId > 0' >" +
-            "       AND t2.id = #{spu.categoryId} " +
-            " </if>" +
-        " ORDER BY t1.gmt_create DESC" +
-        "</script>")
-        @Results({
-        @Result(id = true, column = "id", property = "id"),
-        @Result(property = "skus",column = "id",many = @Many(select="com.youlai.mall.pms.mapper.PmsSkuMapper.listBySpuId"))
-        })
-
+    <select id="list" resultMap="BaseResultMap">
+        SELECT t1.*,
+               t3.NAME         categoryName,
+               t4.NAME         brandName,
+               t2.id           skuId,
+               t2.NAME         skuName,
+               t2.sn,
+               t2.pic_url      skuPicUrl,
+               t2.specifications,
+               t2.origin_price skuOriginPrice,
+               t2.price        skuPrice,
+               t2.stock
+        FROM pms_spu t1
+                 LEFT JOIN pms_sku t2 ON t1.id = t2.spu_id
+                 LEFT JOIN pms_category t3 ON t1.category_id = t3.id
+                 LEFT JOIN pms_brand t4 ON t1.brand_id = t4.id
+        WHERE 1 = 1
+        <if test="categoryId!=null">
+            AND t1.category_id =#{categoryId}
+        </if>
+        <if test='name!=null and name neq ""'>
+            AND t1.category_id =#{categoryId}
+        </if>
     </select>
 </mapper>

@@ -20,8 +20,8 @@ import java.util.Optional;
 
 
 /**
- * @Author haoxr
- * @Date 2020-11-06
+ * @author xianrui
+ * @date 2020-11-06
  */
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
@@ -107,13 +107,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     RouteVO routeVO = new RouteVO();
 
                     routeVO.setName(menu.getId() + ""); // 根据name路由跳转 this.$router.push({path:xxx})
-                    routeVO.setPath(menu.getRoutePath()); // 根据path路由跳转 this.$router.push({name:xxx})
+                    routeVO.setPath(menu.getPath()); // 根据path路由跳转 this.$router.push({name:xxx})
                     routeVO.setRedirect(menu.getRedirect());
                     routeVO.setComponent(menu.getComponent());
                     routeVO.setRedirect(menu.getRedirect());
                     routeVO.setMeta(routeVO.new Meta(
                             menu.getName(),
-                            menu.getIcon(),
+                            menu.getIconUrl(),
                             menu.getRoles()
                     ));
                     // 菜单显示隐藏

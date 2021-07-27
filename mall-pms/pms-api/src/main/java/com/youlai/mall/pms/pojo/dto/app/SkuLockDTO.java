@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo.dto;
+package com.youlai.mall.pms.pojo.dto.app;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

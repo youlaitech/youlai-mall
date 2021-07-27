@@ -1,6 +1,6 @@
 package com.youlai.mall.sms.pojo.to;
 
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import lombok.Data;
 import lombok.ToString;
 
