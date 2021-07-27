@@ -10,8 +10,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuLockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -126,8 +126,8 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         skuLockList.forEach(item -> {
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
                     .eq(PmsSku::getId, item.getSkuId())
-                    .setSql("stock = stock - " + item.getCount())  // 扣减库存
-                    .setSql("locked_stock = locked_stock - " + item.getCount())
+                    .setSql("inventory = inventory - " + item.getCount())  // 扣减库存
+                    .setSql("locked_inventory = locked_inventory - " + item.getCount())
             );
             if (!result) {
                 throw new BizException("扣减库存失败,商品" + item.getSkuId() + "库存不足");

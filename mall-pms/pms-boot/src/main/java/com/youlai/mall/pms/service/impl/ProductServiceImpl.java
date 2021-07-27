@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.redis.utils.RedisUtils;
 import com.youlai.mall.pms.config.ProductLocalCache;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
-import com.youlai.mall.pms.pojo.dto.SpuDTO;
 import com.youlai.mall.pms.pojo.dto.app.ProductFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsAttribute;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
@@ -50,7 +49,7 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
     public ProductFormDTO getProductById(Long spuId) {
         //1、一级本地缓存设置
         ProductFormDTO product = productLocalCache.get(PRODUCT_DETAIL_CACHE + spuId);
-        if (null != product) {
+       /* if (null != product) {
             log.info("get LocalCache product:" + product);
             return product;
         }
@@ -104,7 +103,7 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
                     lock.unlock();
                 }
             }
-        }
+        }*/
         return product;
     }
 }

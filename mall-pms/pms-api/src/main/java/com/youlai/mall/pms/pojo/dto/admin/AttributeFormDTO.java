@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Data
-@ApiModel("属性表单对象")
+@ApiModel("属性表单")
 public class AttributeFormDTO {
 
     @ApiModelProperty("分类ID")

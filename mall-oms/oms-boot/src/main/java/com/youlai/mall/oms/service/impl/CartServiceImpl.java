@@ -5,7 +5,7 @@ import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.vo.CartVO;
 import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.pms.api.GoodsFeignClient;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundHashOperations;

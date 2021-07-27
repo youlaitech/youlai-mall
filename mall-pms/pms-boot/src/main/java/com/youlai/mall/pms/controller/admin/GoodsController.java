@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.dto.admin.ProductFormDTO;
+import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
+import com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -13,7 +14,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "系统管理端-商品信息")
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("/api/v1/goods")
 @AllArgsConstructor
 public class GoodsController {
 
@@ -38,30 +38,35 @@ public class GoodsController {
     })
     @GetMapping("/page")
     public Result list(Integer page, Integer limit, String name, Long categoryId) {
-        IPage<PmsSpu> result = iPmsSpuService.list(
-                new Page<>(page, limit),
-                new PmsSpu().setName(name).setCategoryId(categoryId)
-        );
+        IPage<PmsSpu> result = iPmsSpuService.list(new Page<>(page, limit), name, categoryId);
         return Result.success(result.getRecords(), result.getTotal());
     }
 
+    @ApiOperation(value = "商品详情")
+    @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
+    @GetMapping("/{id}")
+    public Result detail(@PathVariable Long id) {
+        GoodsDetailVO goodsDetail = iPmsSpuService.getGoodsById(id);
+        return Result.success(goodsDetail);
+    }
+
     @ApiOperation(value = "新增商品")
-    @ApiImplicitParam(name = "productForm", value = "实体JSON对象", required = true, paramType = "body", dataType = "ProductFormDTO")
+    @ApiImplicitParam(name = "goodsForm", value = "实体JSON对象", required = true, paramType = "body", dataType = "GoodsFormDTO")
     @PostMapping
-    public Result add(@RequestBody ProductFormDTO productForm) {
-        boolean status = iPmsSpuService.add(productForm);
-        return Result.judge(status);
+    public Result add(@RequestBody GoodsFormDTO goodsForm) {
+        boolean result = iPmsSpuService.addGoods(goodsForm);
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "修改商品")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "spu", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpu")
+            @ApiImplicitParam(name = "goodsForm", value = "实体JSON对象", required = true, paramType = "body", dataType = "GoodsFormDTO")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable Long id, @RequestBody ProductFormDTO spu) {
-        boolean status = iPmsSpuService.updateById(spu);
-        return Result.judge(status);
+    public Result update(@PathVariable Long id, @RequestBody GoodsFormDTO goodsForm) {
+        boolean result = iPmsSpuService.updateGoods(goodsForm);
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "删除商品")

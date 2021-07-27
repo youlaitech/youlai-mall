@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "系统管理端-库存信息")
 @RestController
-@RequestMapping("/api/v1/goods")
+@RequestMapping("/api/v1/inventories")
 @RequiredArgsConstructor
 public class StockController {
 

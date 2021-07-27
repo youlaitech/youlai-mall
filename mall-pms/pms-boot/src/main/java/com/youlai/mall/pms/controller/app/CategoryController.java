@@ -18,7 +18,7 @@ import java.util.List;
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
 @Api(tags = "移动端-分类信息")
-@RestController("AppCategoryController")
+@RestController("appCategoryController")
 @RequestMapping("/app-api/v1/categories")
 @Slf4j
 @AllArgsConstructor
