@@ -52,23 +52,23 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         if (request.getMethod() == HttpMethod.OPTIONS) {
             return Mono.just(new AuthorizationDecision(true));
         }
-        PathMatcher pathMatcher = new AntPathMatcher(); // Ant匹配器
+        PathMatcher pathMatcher = new AntPathMatcher();
         String method = request.getMethodValue();
         String path = request.getURI().getPath();
         String restfulPath = method + ":" + path; // Restful接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14961707.html
 
 
-        // 移动端请求需认证但无需鉴权判断
         String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-        if (pathMatcher.match(GlobalConstants.APP_API_PATTERN, path)) {
-            // 如果token以"bearer "为前缀，到这里说明JWT有效即已认证
-            if (StrUtil.isNotBlank(token)
-                    && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
+        // 如果token以"bearer "为前缀，到这里说明JWT有效即已认证
+        if (StrUtil.isNotBlank(token) && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
+            // 移动端请求认证即可，不需后续鉴权
+            if (pathMatcher.match(GlobalConstants.APP_API_PATTERN, path)) {
                 return Mono.just(new AuthorizationDecision(true));
-            } else {
-                return Mono.just(new AuthorizationDecision(false));
             }
+        } else {
+            return Mono.just(new AuthorizationDecision(false));
         }
+
 
         // 缓存取 URL权限-角色集合 规则数据
         // urlPermRolesRules = [{'key':'GET:/api/v1/users/*','value':['ADMIN','TEST']},...]
