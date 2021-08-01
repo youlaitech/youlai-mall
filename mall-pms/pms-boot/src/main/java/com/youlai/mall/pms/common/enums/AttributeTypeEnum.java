@@ -7,12 +7,12 @@ import lombok.Getter;
  *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
-public enum GoodsAttrTypeEnum {
+public enum AttributeTypeEnum {
 
     SPECIFICATION(1, "规格"),
     ATTRIBUTE(2, "属性");
 
-    GoodsAttrTypeEnum(int value, String name) {
+    AttributeTypeEnum(int value, String name) {
         this.value = value;
         this.name = name;
     }
@@ -23,15 +23,15 @@ public enum GoodsAttrTypeEnum {
     @Getter
     private String name;
 
-    public static GoodsAttrTypeEnum getByValue(Integer value) {
-        GoodsAttrTypeEnum goodsAttrTypeEnum = null;
+    public static AttributeTypeEnum getByValue(Integer value) {
+        AttributeTypeEnum attributeTypeEnum = null;
 
-        for (GoodsAttrTypeEnum item : values()) {
+        for (AttributeTypeEnum item : values()) {
             if (item.getValue().equals(value)) {
-                goodsAttrTypeEnum = item;
+                attributeTypeEnum = item;
             }
         }
-        return goodsAttrTypeEnum;
+        return attributeTypeEnum;
     }
 
 }

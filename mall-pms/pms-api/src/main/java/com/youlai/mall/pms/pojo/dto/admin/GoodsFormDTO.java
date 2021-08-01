@@ -22,8 +22,24 @@ public class GoodsFormDTO {
     private String description;
     private String detail;
 
-    private List<PmsSpuAttributeValue> attrValueList;
+    private List<AttributeValue> attrList;
+
+    private List<AttributeValue> specList;
 
     private List<PmsSku> skuList;
 
+    @Data
+    public static class AttributeValue{
+
+        private Long attributeId;
+
+        private String id;
+
+        private String name;
+
+        private String value;
+
+        private String picUrl;
+
+    }
 }
