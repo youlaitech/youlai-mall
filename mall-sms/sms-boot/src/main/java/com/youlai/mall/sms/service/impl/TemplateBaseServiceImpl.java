@@ -39,7 +39,7 @@ public class TemplateBaseServiceImpl implements ITemplateBaseService {
 
     @Override
     public List<SmsCouponTemplate> findAllUsableTemplate() {
-        return couponTemplateService.findAllUsableTemplate(true, false);
+        return couponTemplateService.findAllUsableTemplate(1, 0);
     }
 
     @Override

@@ -32,7 +32,7 @@ public interface ICouponRedisService {
      * @param templateId 优惠券模板ID
      * @return 优惠券码
      */
-    String tryToAcquireCouponCodeFromCache(Long templateId);
+    String tryToAcquireCouponCodeFromCache(String templateId);
 
     /**
      * 向缓存中添加用户可用优惠券

@@ -3,17 +3,14 @@ package com.youlai.mall.sms.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.Result;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
-import com.youlai.mall.sms.pojo.domain.SmsCouponTemplate;
 import com.youlai.mall.sms.pojo.form.CouponTemplateForm;
 import com.youlai.mall.sms.pojo.query.CouponPageQuery;
-import com.youlai.mall.sms.pojo.query.CouponTemplatePageQuery;
-import com.youlai.mall.sms.pojo.vo.CouponTemplateVO;
+import com.youlai.mall.sms.pojo.vo.SmsCouponTemplateInfoVO;
+import com.youlai.mall.sms.pojo.vo.SmsCouponTemplateVO;
 import com.youlai.mall.sms.service.ISmsCouponService;
 import com.youlai.mall.sms.service.ISmsCouponTemplateService;
 import com.youlai.mall.sms.service.ITemplateBaseService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -24,10 +21,10 @@ import org.springframework.web.bind.annotation.*;
  * @desc：优惠券模板(管理台API接口)
  * @date 2021/6/26
  */
-@Slf4j
 @Api(tags = "优惠券模板(管理台API接口)")
 @RestController
 @RequestMapping("/api/v1/coupon_template")
+@Slf4j
 public class CouponTemplateController {
 
     @Autowired
@@ -39,10 +36,15 @@ public class CouponTemplateController {
     @Autowired
     private ISmsCouponService couponService;
 
-    @ApiOperation(value = "优惠券模板条件分页查询")
-    @GetMapping("/template/page")
-    public Result page(@ApiParam(value = "优惠券模板条件分页查询") CouponTemplatePageQuery query) {
-        IPage<SmsCouponTemplate> pageResult = couponTemplateService.pageQuery(query);
+    @ApiOperation(value = "列表分页")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "name", value = "广告名称", paramType = "query", dataType = "String")
+    })
+    @GetMapping
+    public Result page(Integer page, Integer limit, String name) {
+        IPage<SmsCouponTemplateVO> pageResult = couponTemplateService.pageQuery(page, limit, name);
         return Result.success(pageResult.getRecords(), pageResult.getTotal());
     }
 
@@ -57,12 +59,12 @@ public class CouponTemplateController {
      * @return result
      */
     @ApiOperation(value = "创建优惠券模板")
-    @PostMapping("/template")
+    @PostMapping()
     public Result<Object> createTemplate(@ApiParam(value = "优惠券模板构建表单")
                                          @Validated
                                          @RequestBody CouponTemplateForm form) {
 
-        log.info("Create Coupon Template , form:{}", form);
+        log.info("Create Coupon Template , Form:{}", form);
         couponTemplateService.createTemplate(form);
         return Result.success();
     }
@@ -102,10 +104,18 @@ public class CouponTemplateController {
 
     @ApiOperation(value = "获取优惠券模板详情")
     @GetMapping("/template/info")
-    public Result<CouponTemplateVO> info(@ApiParam(value = "优惠券模板ID", defaultValue = "1")
+    public Result<SmsCouponTemplateInfoVO> info(@ApiParam(value = "优惠券模板ID", defaultValue = "1")
                                          @RequestParam("id") String id) {
-        CouponTemplateVO templateVO = couponTemplateService.info(id);
+        SmsCouponTemplateInfoVO templateVO = couponTemplateService.info(id);
         return Result.success(templateVO);
+    }
+
+    @ApiOperation(value = "删除优惠券模板详情")
+    @DeleteMapping
+    public Result deleteTemplate(@ApiParam(value = "优惠券模板ID", defaultValue = "1")
+                                                @RequestParam("id") String id) {
+        couponTemplateService.deleteTemplate(id);
+        return Result.success();
     }
 
     @ApiOperation(value = "优惠券领取使用条件分页查询")

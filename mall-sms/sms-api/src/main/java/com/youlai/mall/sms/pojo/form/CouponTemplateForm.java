@@ -55,7 +55,7 @@ public class CouponTemplateForm {
      */
     @ApiModelProperty("优惠券分类(满减券、折扣券、立减券 ...)")
     @NotBlank(message = "请选择优惠券分类")
-    private String category;
+    private String categoryCode;
 
     /**
      * 优惠券总数量
@@ -63,14 +63,16 @@ public class CouponTemplateForm {
     @ApiModelProperty("优惠券总数量(范围1到65535)")
     @NotNull(message = "请输入优惠券总数量")
     @Min(value = 1, message = "优惠券数量必须大于1")
-    @Max(value = Integer.MAX_VALUE, message = "优惠券数量不能大于 " + Integer.MAX_VALUE)
+    @Max(value = 100000, message = "优惠券数量不能大于 " + 100000)
     private Integer total;
 
-    /**
-     * 目标用户
-     */
-    @ApiModelProperty("目标用户(单用户、多用户)")
-    private Integer target;
+    @ApiModelProperty("优惠券发放时间范围")
+    @NotNull(message = "优惠券使用时间范围不能为空")
+    private Long[] offerTime;
+
+    @ApiModelProperty("优惠券使用时间范围")
+    @NotNull(message = "优惠券使用时间范围不能为空")
+    private Long[] usedTime;
 
     /**
      * 优惠券规则
@@ -78,4 +80,6 @@ public class CouponTemplateForm {
     @ApiModelProperty("优惠券规则")
     @NotNull(message = "优惠券规则不能为空")
     private TemplateRuleVO rule;
+
+
 }

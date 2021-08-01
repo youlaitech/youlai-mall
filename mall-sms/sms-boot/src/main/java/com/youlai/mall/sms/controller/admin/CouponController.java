@@ -1,9 +1,6 @@
 package com.youlai.mall.sms.controller.admin;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.base.BasePageQuery;
 import com.youlai.common.result.Result;
-import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.form.CouponForm;
 import com.youlai.mall.sms.service.ISmsCouponService;
 import io.swagger.annotations.Api;
@@ -27,12 +24,12 @@ public class CouponController {
     @Autowired
     private ISmsCouponService couponService;
 
-    @ApiOperation("优惠券分页列表查询")
-    @GetMapping("/page")
-    public Result page(@ApiParam("条件分页请求入参") BasePageQuery query) {
-        Page<SmsCoupon> page = new Page<>(query.getPageNum(), query.getPageSize());
-        return Result.success(couponService.pageQuery(page, query));
-    }
+//    @ApiOperation("优惠券分页列表查询")
+//    @GetMapping("/page")
+//    public Result page(@ApiParam("条件分页请求入参") BasePageQuery query) {
+//        Page<SmsCoupon> page = new Page<>(query.getPageNum(), query.getPageSize());
+//        return Result.success(couponService.pageQuery(page, query));
+//    }
 
     @ApiOperation("查询优惠券详情")
     @RequestMapping("/{couponId}/detail")

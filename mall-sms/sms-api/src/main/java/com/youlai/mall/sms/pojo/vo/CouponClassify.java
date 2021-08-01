@@ -45,11 +45,11 @@ public class CouponClassify {
         Date time = new Date();
 
         coupons.forEach(coupon -> {
-            boolean isTimeExpire;
+            boolean isTimeExpire = false;
             SmsCouponTemplate template = coupon.getTemplate();
             // 判断优惠券是否过期
             if (template.getRule().getExpiration().getPeriod().equals(PeriodTypeEnum.REGULAR.getCode())) {
-                isTimeExpire = template.getRule().getExpiration().getDeadline() <= time.getTime();
+//                isTimeExpire = template.getRule().getExpiration().getDeadline() <= time.getTime();
             } else {
                 isTimeExpire = DateUtils.addDays(coupon.getGmtCreate(), template.getRule().getExpiration().getGap()).getTime() <= time.getTime();
             }

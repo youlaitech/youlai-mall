@@ -1,6 +1,5 @@
 package com.youlai.mall.sms.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
@@ -8,7 +7,6 @@ import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.mapper.SmsCouponRecordMapper;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.domain.SmsCouponRecord;
-import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
 import com.youlai.mall.sms.service.ICouponRecordService;
 import com.youlai.mall.sms.service.ISmsCouponService;
 import lombok.extern.slf4j.Slf4j;
@@ -51,8 +49,8 @@ public class CouponRecordServiceImpl extends ServiceImpl<SmsCouponRecordMapper, 
             SmsCouponRecord couponRecord = new SmsCouponRecord();
             BeanUtils.copyProperties(coupon, couponRecord);
             couponRecord.setStartTime(new Date());
-            couponRecord.setEndTime(DateUtil.offsetDay(new Date(), coupon.getValidDays()));
-            couponRecord.setUseState(CouponStateEnum.NEW.name());
+//            couponRecord.setEndTime(DateUtil.offsetDay(new Date(), coupon.getValidDays()));
+//            couponRecord.setUseState(CouponStateEnum.NEW.name());
             couponRecord.setUserId(JwtUtils.getUserId());
             couponRecord.setUserName(JwtUtils.getUsername());
             couponRecord.setCouponId(coupon.getId());
@@ -86,23 +84,23 @@ public class CouponRecordServiceImpl extends ServiceImpl<SmsCouponRecordMapper, 
             throw new BizException("优惠券不存在");
         }
         //库存不足
-        if ((couponEntity.getPublishCount() - couponEntity.getTakeCount()) <= 0) {
-            throw new BizException("优惠券已经被领光了");
-        }
+//        if ((couponEntity.getPublishCount() - couponEntity.getTakeCount()) <= 0) {
+//            throw new BizException("优惠券已经被领光了");
+//        }
         //是否在领取时间范围
-        long time = System.currentTimeMillis();
-        long start = couponEntity.getStartTime().getTime();
-        long end = couponEntity.getEndTime().getTime();
-        if (time < start || time > end) {
-            throw new BizException("优惠券不在领券时间范围内");
-        }
+//        long time = System.currentTimeMillis();
+//        long start = couponEntity.getStartTime().getTime();
+//        long end = couponEntity.getEndTime().getTime();
+//        if (time < start || time > end) {
+//            throw new BizException("优惠券不在领券时间范围内");
+//        }
         //用户是否超过限制
         int recordNum = this.count(new QueryWrapper<SmsCouponRecord>()
                 .eq("coupon_id", couponEntity.getId())
                 .eq("user_id", userId));
 
-        if (recordNum >= couponEntity.getLimitCount()) {
-            throw new BizException("优惠券已经达到领券次数限制");
-        }
+//        if (recordNum >= couponEntity.getLimitCount()) {
+//            throw new BizException("优惠券已经达到领券次数限制");
+//        }
     }
 }

@@ -4,7 +4,6 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
-import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
 import com.youlai.mall.sms.pojo.vo.CouponTemplateVO;
 import com.youlai.mall.sms.pojo.vo.SmsCouponVO;
 import com.youlai.mall.sms.service.ISmsCouponService;
@@ -30,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api-app/v1/coupon/")
 @Slf4j
-public class CouponController {
+public class AppCouponController {
 
     @Autowired
     private ISmsCouponService couponService;
@@ -41,12 +40,12 @@ public class CouponController {
     @ApiOperation("查看可领取优惠券模板列表")
     @GetMapping("/template")
     public Result<List<CouponTemplateVO>> findAvailableTemplate() {
-        couponService.findAvailableTemplate(JwtUtils.getUserId());
-        return Result.success();
+        List<CouponTemplateVO> availableTemplate = couponService.findAvailableTemplate(JwtUtils.getUserId());
+        return Result.success(availableTemplate);
     }
 
     @ApiOperation("用户领取优惠券")
-    @GetMapping("receive")
+    @GetMapping("/receive")
     public Result receive(@ApiParam(value = "优惠券模板ID")
                           @RequestParam("templateId") String templateId) {
         couponService.receive(JwtUtils.getUserId(), templateId);
@@ -55,8 +54,9 @@ public class CouponController {
 
     @ApiOperation("查询用户已领取优惠券列表")
     @GetMapping("/list")
-    public Result<List<SmsCouponVO>> list() {
-        List<SmsCoupon> coupons = couponService.findCouponsByState(JwtUtils.getUserId(), CouponStateEnum.USABLE.getCode());
+    public Result<List<SmsCouponVO>> list(@ApiParam(value = "优惠券模板ID", defaultValue = "1")
+                                          @RequestParam(value = "state", required = false) Integer state) {
+        List<SmsCoupon> coupons = couponService.findCouponsByState(JwtUtils.getUserId(), state);
         return Result.success(BeanMapperUtils.mapList(coupons, SmsCouponVO.class));
     }
 

@@ -1,21 +1,26 @@
 package com.youlai.mall.sms.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.mybatis.utils.PageMapperUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
 import com.youlai.mall.sms.mapper.SmsCouponTemplateMapper;
+import com.youlai.mall.sms.pojo.domain.CouponTemplateRule;
 import com.youlai.mall.sms.pojo.domain.SmsCouponTemplate;
 import com.youlai.mall.sms.pojo.enums.CouponCategoryEnum;
-import com.youlai.mall.sms.pojo.enums.CouponTemplateStateEnum;
-import com.youlai.mall.sms.pojo.enums.DistributeTargetEnum;
+import com.youlai.mall.sms.pojo.enums.CouponOfferStateEnum;
+import com.youlai.mall.sms.pojo.enums.CouponVerifyStateEnum;
+import com.youlai.mall.sms.pojo.enums.UserTypeEnum;
 import com.youlai.mall.sms.pojo.form.CouponTemplateForm;
-import com.youlai.mall.sms.pojo.query.CouponTemplatePageQuery;
-import com.youlai.mall.sms.pojo.vo.CouponTemplateVO;
+import com.youlai.mall.sms.pojo.vo.SmsCouponTemplateInfoVO;
+import com.youlai.mall.sms.pojo.vo.SmsCouponTemplateVO;
 import com.youlai.mall.sms.service.IAsyncService;
 import com.youlai.mall.sms.service.ISmsCouponTemplateService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author xinyi
@@ -39,16 +46,12 @@ public class SmsCouponTemplateServiceImpl extends ServiceImpl<SmsCouponTemplateM
     private IAsyncService asyncService;
 
     @Override
-    public IPage<SmsCouponTemplate> pageQuery(CouponTemplatePageQuery query) {
-        Page<SmsCouponTemplate> page = new Page<>(query.getPageNum(), query.getPageSize());
+    public IPage<SmsCouponTemplateVO> pageQuery(Integer pageNum, Integer limit, String name) {
+        Page<SmsCouponTemplate> page = new Page<>(pageNum, limit);
         QueryWrapper<SmsCouponTemplate> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(StrUtil.isNotBlank(query.getName()), "name", query.getName());
-        queryWrapper.eq(query.getCategory() != null, "category", query.getCategory());
-        queryWrapper.eq(query.getState() != null, "state", query.getState());
-        queryWrapper.eq(query.getTarget() != null, "target", query.getTarget());
-        queryWrapper.gt(query.getEndTime() != null, "gmt_create", query.getEndTime());
-        queryWrapper.gt(query.getStartTime() != null, "gmt_create", query.getStartTime());
-        return this.page(page, queryWrapper);
+        queryWrapper.like(StrUtil.isNotBlank(name), "name", name);
+        Page<SmsCouponTemplate> pageResult = this.page(page, queryWrapper);
+        return PageMapperUtils.mapPage(pageResult, SmsCouponTemplateVO.class);
     }
 
     @Override
@@ -62,7 +65,6 @@ public class SmsCouponTemplateServiceImpl extends ServiceImpl<SmsCouponTemplateM
         // 构造 CouponTemplate 并保存到数据库
         SmsCouponTemplate template = formToTemplate(form);
         this.save(template);
-
         return template;
     }
 
@@ -71,9 +73,9 @@ public class SmsCouponTemplateServiceImpl extends ServiceImpl<SmsCouponTemplateM
         log.info("Update Coupon Template, ID={}, form={}", form.getId(), form);
         // 1、判断优惠券的名称有没有变化
         SmsCouponTemplate template = findByTemplateId(form.getId());
-        if (CouponTemplateStateEnum.INIT != template.getState()) {
-            throw new BizException("Coupon Template State Not Init");
-        }
+//        if (CouponTemplateStateEnum.INIT != template.getState()) {
+//            throw new BizException("Coupon Template State Not Init");
+//        }
         if (!StringUtils.equals(template.getName(), form.getName())) {
             // 如果form提交的名称不一致，需要判断名称是否重复
             if (null != findByCouponTemplateName(form.getName())) {
@@ -89,16 +91,27 @@ public class SmsCouponTemplateServiceImpl extends ServiceImpl<SmsCouponTemplateM
     }
 
     @Override
+    public void deleteTemplate(String id) {
+        log.info("Delete Coupon Template, ID={}", id);
+        // 1、判断优惠券的名称有没有变化
+        SmsCouponTemplate template = findByTemplateId(id);
+        if (template.getVerifyState() != CouponVerifyStateEnum.INIT) {
+            throw new BizException("当前优惠券模板记录已生效，无法删除！");
+        }
+        this.removeById(id);
+    }
+
+    @Override
     public void confirmTemplate(String id) {
         // 1、校验优惠券状态
         SmsCouponTemplate template = findByTemplateId(id);
-        if (CouponTemplateStateEnum.INIT != template.getState()) {
-            log.info("Finish Confirm Coupon Template State Not Init, TemplateID={}.", id);
-            return;
-        }
+//        if (CouponTemplateStateEnum.INIT != template.getState()) {
+//            log.info("Finish Confirm Coupon Template State Not Init, TemplateID={}.", id);
+//            return;
+//        }
 
         // 2、修改优惠券模板状态，生成优惠券模板编码
-        template.setState(CouponTemplateStateEnum.USED);
+//        template.setState(CouponTemplateStateEnum.USED);
         template.setCode(template.getCategory() +
                 DateUtil.today().replace("-", "") +
                 template.getId());
@@ -119,16 +132,33 @@ public class SmsCouponTemplateServiceImpl extends ServiceImpl<SmsCouponTemplateM
     }
 
     @Override
-    public List<SmsCouponTemplate> findAllNotExpiredTemplate(Integer expired) {
+    public List<SmsCouponTemplate> findAllNotExpiredTemplate(Integer verifyStateCode, Integer usedStateCode) {
         QueryWrapper<SmsCouponTemplate> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("expired", expired);
+        queryWrapper.eq("verify_state", verifyStateCode);
+        queryWrapper.lt("used_state", usedStateCode);
         return this.list(queryWrapper);
     }
 
     @Override
-    public CouponTemplateVO info(String id) {
+    public SmsCouponTemplateInfoVO info(String id) {
+        log.info("Query Coupon Template Info,ID={}", id);
         SmsCouponTemplate template = findByTemplateId(id);
-        return BeanMapperUtils.map(template,CouponTemplateVO.class);
+        return BeanMapperUtils.map(template, SmsCouponTemplateInfoVO.class);
+    }
+
+    @Override
+    public List<SmsCouponTemplate> findAllOfferingTemplate(Set<Integer> userTypes) {
+        log.info("Find All Offering Coupon Template, userTypes", JSON.toJSONString(userTypes));
+        // TODO 优惠券模板是实际业务中请求量比较大的业务，建议将这部分数据放入 Redis 中
+        QueryWrapper<SmsCouponTemplate> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("offer_state", CouponOfferStateEnum.GOING.getCode());
+        List<SmsCouponTemplate> templates = list(queryWrapper);
+        long nowTime = System.currentTimeMillis();
+        return templates.stream()
+                .filter(template -> template.getOfferEndTime().compareTo(nowTime) > 0 &&
+                        userTypes.contains(template.getRule().getUserLimit().getUserType().getCode()
+                 ))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -137,7 +167,8 @@ public class SmsCouponTemplateServiceImpl extends ServiceImpl<SmsCouponTemplateM
      * @param id 优惠券模板ID
      * @return 优惠券模板
      */
-    private SmsCouponTemplate findByTemplateId(String id) {
+    @Override
+    public SmsCouponTemplate findByTemplateId(String id) {
         SmsCouponTemplate template = this.getById(id);
         if (template == null) {
             throw new BizException("Template Not Exist, ID=" + id);
@@ -161,11 +192,38 @@ public class SmsCouponTemplateServiceImpl extends ServiceImpl<SmsCouponTemplateM
         SmsCouponTemplate template = new SmsCouponTemplate();
         template.setName(form.getName());
         template.setLogo(form.getLogo());
-        template.setCategory(CouponCategoryEnum.of(form.getCategory()));
+        template.setCategory(CouponCategoryEnum.of(form.getCategoryCode()));
         template.setTotal(form.getTotal());
-        template.setTarget(DistributeTargetEnum.of(form.getTarget()));
-        template.setRule(form.getRule());
-        template.setState(CouponTemplateStateEnum.INIT);
+        template.setDescription(form.getDescription());
+        template.setOfferStartTime(form.getOfferTime()[0]);
+        template.setOfferEndTime(form.getOfferTime()[1]);
+        template.setUsedStartTime(form.getUsedTime()[0]);
+        template.setUsedEndTime(form.getUsedTime()[1]);
+        CouponTemplateRule rule = new CouponTemplateRule();
+
+        CouponTemplateRule.Discount discount = new CouponTemplateRule.Discount();
+        discount.setBase(form.getRule().getDiscount().getBase());
+        discount.setQuota(form.getRule().getDiscount().getQuota());
+        rule.setDiscount(discount);
+
+        CouponTemplateRule.Expiration expiration = new CouponTemplateRule.Expiration();
+        expiration.setGap(form.getRule().getExpiration().getGap());
+        expiration.setPeriod(form.getRule().getExpiration().getPeriod());
+        if (CollUtil.isNotEmpty(form.getRule().getExpiration().getTime()) && form.getRule().getExpiration().getTime().size() == 2) {
+            expiration.setStartTime(form.getRule().getExpiration().getTime().get(0));
+            expiration.setEndTime(form.getRule().getExpiration().getTime().get(1));
+        }
+        rule.setExpiration(expiration);
+
+        CouponTemplateRule.UserLimit userLimit = new CouponTemplateRule.UserLimit();
+        userLimit.setUserType(UserTypeEnum.of(form.getRule().getUserLimit().getUserType()));
+        userLimit.setLimit(form.getRule().getUserLimit().getLimit());
+        rule.setUserLimit(userLimit);
+
+        rule.setWeight(form.getRule().getWeight());
+        rule.setGoodsCategories(form.getRule().getGoodsCategories());
+
+        template.setRule(rule);
         return template;
     }
 }

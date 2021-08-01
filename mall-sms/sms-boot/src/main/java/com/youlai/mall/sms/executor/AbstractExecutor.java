@@ -1,7 +1,6 @@
 package com.youlai.mall.sms.executor;
 
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.fastjson.JSON;
 import com.youlai.mall.sms.pojo.vo.SettlementInfoVO;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -26,7 +25,7 @@ public class AbstractExecutor {
      */
     protected boolean isGoodsTypeSatisfy(SettlementInfoVO settlement) {
         List<String> goodsType = settlement.getGoodsInfos().stream().map(SettlementInfoVO.GoodsInfo::getType).collect(Collectors.toList());
-        List<String> templateGoodsType = settlement.getCouponAndTemplateInfos().get(0).getTemplate().getRule().getUsage().getGoodsType();
+        List<String> templateGoodsType = settlement.getCouponAndTemplateInfos().get(0).getTemplate().getRule().getGoodsCategories();
         if (CollUtil.isEmpty(templateGoodsType)){
             return true;
         }
@@ -63,11 +62,11 @@ public class AbstractExecutor {
 
         List<String> allSharedKeysForC1 = new ArrayList<>();
         allSharedKeysForC1.add(c1Key);
-        allSharedKeysForC1.addAll(JSON.parseObject(c1.getTemplate().getRule().getWeight(), List.class));
+//        allSharedKeysForC1.addAll(JSON.parseObject(c1.getTemplate().getRule().getWeight(), List.class));
 
         List<String> allSharedKeysForC2 = new ArrayList<>();
         allSharedKeysForC2.add(c2Key);
-        allSharedKeysForC2.addAll(JSON.parseObject(c2.getTemplate().getRule().getWeight(), List.class));
+//        allSharedKeysForC2.addAll(JSON.parseObject(c2.getTemplate().getRule().getWeight(), List.class));
 
         return CollectionUtils.isSubCollection(Arrays.asList(c1Key, c2Key), allSharedKeysForC1)
                 || CollectionUtils.isSubCollection(Arrays.asList(c1Key, c2Key), allSharedKeysForC2);

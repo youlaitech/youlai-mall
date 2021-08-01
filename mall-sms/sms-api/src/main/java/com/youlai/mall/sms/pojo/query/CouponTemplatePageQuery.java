@@ -40,6 +40,4 @@ public class CouponTemplatePageQuery extends BasePageQuery {
 
     @ApiModelProperty("优惠券模板创建范围结束时间")
     private Date endTime;
-
-
 }

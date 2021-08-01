@@ -1,7 +1,5 @@
-package com.youlai.mall.sms.pojo.domain;
+package com.youlai.mall.sms.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.youlai.mall.sms.pojo.enums.CouponCategoryEnum;
 import com.youlai.mall.sms.pojo.enums.CouponOfferStateEnum;
 import com.youlai.mall.sms.pojo.enums.CouponUsedStateEnum;
@@ -11,7 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author xinyi
@@ -22,13 +21,11 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "sms_coupon_template",autoResultMap = true)
-public class SmsCouponTemplate {
+public class SmsCouponTemplateInfoVO {
 
     /**
      * 主键自增ID
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -51,12 +48,18 @@ public class SmsCouponTemplate {
      */
     private CouponCategoryEnum category;
 
+    private String categoryCode;
+
+    private CouponVerifyStateEnum verifyState;
+
     /**
      * 优惠券审核状态
      * 0: 待审核
      * 1: 已审核
      */
-    private CouponVerifyStateEnum verifyState;
+    private Integer verifyStateCode;
+
+    private CouponOfferStateEnum offerState;
 
     /**
      * 优惠券发放状态
@@ -65,7 +68,7 @@ public class SmsCouponTemplate {
      * 1: 进行中
      * 2: 已结束
      */
-    private CouponOfferStateEnum offerState;
+    private Integer offerStateCode;
 
     /**
      * 优惠券发放最早时间
@@ -77,13 +80,17 @@ public class SmsCouponTemplate {
      */
     private Long offerEndTime;
 
+    private List<Long> offerTime;
+
+    private CouponUsedStateEnum usedState;
+
     /**
      * 优惠券使用状态
      * 0：未生效：（未审核，未到最早使用时间）
      * 1：生效中（已审核，正在使用时间中）
      * 2：已结束（超过最晚使用时间）
      */
-    private CouponUsedStateEnum usedState;
+    private Integer usedStateCode;
 
     /**
      * 优惠券最早使用时间
@@ -94,6 +101,8 @@ public class SmsCouponTemplate {
      * 优惠券最晚使用时间
      */
     private Long usedEndTime;
+
+    private List<Long> usedTime;
 
     /**
      * 总数
@@ -108,18 +117,35 @@ public class SmsCouponTemplate {
     /**
      * 优惠券规则
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private CouponTemplateRule rule;
+    private CouponTemplateRuleInfoVO rule;
 
-    @TableField(fill = FieldFill.INSERT)
-    private Date gmtCreate;
+    public List<Long> getOfferTime() {
+        List<Long> offerTime = new ArrayList<>(2);
+        offerTime.add(this.offerStartTime);
+        offerTime.add(this.offerEndTime);
+        return offerTime;
+    }
 
-    @TableField(fill = FieldFill.INSERT)
-    private String gmtCreatedBy;
+    public List<Long> getUsedTime() {
+        List<Long> usedTime = new ArrayList<>(2);
+        usedTime.add(this.usedStartTime);
+        usedTime.add(this.usedEndTime);
+        return usedTime;
+    }
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date gmtModified;
+    public Integer getVerifyStateCode() {
+        return this.verifyState.getCode();
+    }
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String gmtModifiedBy;
+    public Integer getUsedStateCode() {
+        return this.usedState.getCode();
+    }
+
+    public Integer getOfferStateCode() {
+        return this.offerState.getCode();
+    }
+
+    public String getCategoryCode() {
+        return this.category.getCode();
+    }
 }
