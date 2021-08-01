@@ -6,10 +6,10 @@ spring:
     name: mall-sms
   cloud:
     nacos:
+      # 注册中心
       discovery:
-        server-addr: http://47.104.214.204:8848
-        namespace: dev_namespace_id
+        server-addr: http://localhost:8848
+      # 配置中心
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        namespace: dev_namespace_id
