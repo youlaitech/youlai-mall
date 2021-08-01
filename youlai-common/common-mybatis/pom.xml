@@ -12,6 +12,12 @@
     <artifactId>common-mybatis</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-web</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

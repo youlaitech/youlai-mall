@@ -1,16 +1,23 @@
 package com.youlai.mall.sms.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.BeanMapperUtils;
+import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.mapper.SmsCouponMapper;
+import com.youlai.mall.sms.pojo.domain.CouponTemplateRule;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.domain.SmsCouponTemplate;
+import com.youlai.mall.sms.pojo.enums.CouponOfferStateEnum;
 import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
+import com.youlai.mall.sms.pojo.enums.UserTypeEnum;
 import com.youlai.mall.sms.pojo.form.CouponForm;
 import com.youlai.mall.sms.pojo.query.CouponPageQuery;
 import com.youlai.mall.sms.pojo.vo.CouponClassify;
@@ -23,10 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -49,27 +53,23 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
     @Override
     public List<CouponTemplateVO> findAvailableTemplate(Long userId) {
 
-        // 1、查询所有可用优惠券模板
-        List<SmsCouponTemplate> templates = couponTemplateService.findAllUsableTemplate(1, 1);
-        Date nowTime = new Date();
-        templates = templates.stream()
-                .filter(template -> template.getRule().getExpiration().getDeadline() < nowTime.getTime())
-                .collect(Collectors.toList());
+        Set<Integer> userTypes = new HashSet<>();
+        userTypes.add(UserTypeEnum.ALL.getCode());
+        // 1、正在发放中的优惠券模板
+        List<SmsCouponTemplate> templates = couponTemplateService.findAllOfferingTemplate(userTypes);
         if (CollUtil.isEmpty(templates)) {
             log.info("All Usable Template is Empty.");
             return new ArrayList<>();
         }
-        log.info("All Usable Coupon Template Size={}", templates.size());
 
-        // 2、查询用户已领取优惠券数量
+        // 2、过滤用户已领取,并且领取数量等于限制的优惠券模板
+        log.info("All Usable Coupon Template Size={}", templates.size());
         List<SmsCoupon> coupons = findCouponsByState(userId, 0);
         Map<Long, List<SmsCoupon>> couponMap = coupons.stream().collect(Collectors.groupingBy(SmsCoupon::getTemplateId));
         log.info("All User Receive Coupon Template Size={}", couponMap.size());
-
-        // 3、过滤用户已领取优惠券模板
         templates = templates.stream().filter(template -> {
             List<SmsCoupon> receivedCoupons = couponMap.getOrDefault(template.getId(), new ArrayList<>());
-            return template.getRule().getLimitation() > receivedCoupons.size();
+            return template.getRule().getUserLimit().getLimit() > receivedCoupons.size();
         }).collect(Collectors.toList());
         log.info("Find All Available Template Size={}", templates.size());
 
@@ -78,8 +78,30 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
 
     @Override
     public void receive(Long userId, String templateId) {
+        // 1、校验优惠券发放状态
+        SmsCouponTemplate template = couponTemplateService.findByTemplateId(templateId);
+        long nowTime = System.currentTimeMillis();
+        if (template.getOfferState() != CouponOfferStateEnum.GOING || nowTime > template.getOfferEndTime()) {
+            throw new BizException("当前优惠券不在领取时间范围");
+        }
 
+        // 2、校验用户领取状态
+        List<SmsCoupon> coupons = this.findByTemplateId(userId, templateId);
+        if (template.getRule().getUserLimit().getLimit() <= coupons.size()) {
+            log.warn("Cannot Receive Coupon Template, Max Limit, UserId={}", userId);
+            throw new BizException("已达到领取优惠券最大限制");
+        }
+
+        // 3、查看该优惠券剩余优惠券码
+        String couponCode = couponRedisService.tryToAcquireCouponCodeFromCache(templateId);
+        if (StrUtil.isEmpty(couponCode)) {
+            throw new BizException("优惠券已抢光");
+        }
+
+        // 4、生成优惠券领取记录
+        saveCouponRecord(template, couponCode);
     }
+
 
     @Override
     public List<SmsCoupon> findCouponsByState(Long userId, Integer state) {
@@ -160,5 +182,48 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
     @Override
     public int updateTakeStock(String couponId) {
         return this.updateTakeStock(couponId);
+    }
+
+    /**
+     * 生成优惠券模板领取记录
+     *
+     * @param template
+     * @param couponCode
+     */
+    private boolean saveCouponRecord(SmsCouponTemplate template, String couponCode) {
+        log.info("Create Coupon Records, TemplateId={}, CouponCode={}", template.getId(), couponCode);
+        SmsCoupon coupon = new SmsCoupon();
+        coupon.setTemplateId(template.getId());
+        coupon.setCouponCode(couponCode);
+        coupon.setUserId(JwtUtils.getUserId());
+        coupon.setUserName(JwtUtils.getUsername());
+        coupon.setState(CouponStateEnum.USABLE);
+        CouponTemplateRule.Expiration expiration = template.getRule().getExpiration();
+        if (expiration.getPeriod() == 1) {
+            coupon.setAvailableStartTime(expiration.getStartTime());
+            coupon.setAvailableStartTime(expiration.getEndTime());
+        } else {
+            // 如果以领取之日起几天内有效，需注意最大有效天数不能大于优惠券模板过期时间
+            DateTime today = DateUtil.beginOfDay(new Date());
+            coupon.setAvailableStartTime(today.getTime());
+            DateTime dateTime = DateUtil.offsetDay(today, expiration.getGap());
+            coupon.setAvailableEndTime(dateTime.getTime() < template.getUsedEndTime() ? dateTime.getTime() : template.getUsedEndTime());
+        }
+        return save(coupon);
+    }
+
+
+    /**
+     * 查询优惠券领取记录
+     *
+     * @param userId     用户ID
+     * @param templateId 优惠券模板ID
+     * @return
+     */
+    private List<SmsCoupon> findByTemplateId(Long userId, String templateId) {
+        QueryWrapper<SmsCoupon> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("template_id", templateId);
+        return list(queryWrapper);
     }
 }

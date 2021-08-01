@@ -1,9 +1,6 @@
 package com.youlai.mall.sms.pojo.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("sms_coupon")
 public class SmsCoupon {
+
     /**
      * 用户优惠券ID
      */
@@ -37,6 +35,11 @@ public class SmsCoupon {
     private Long userId;
 
     /**
+     * 用户昵称（冗余字段）
+     */
+    private String userName;
+
+    /**
      * 优惠券码
      */
     private String couponCode;
@@ -47,19 +50,36 @@ public class SmsCoupon {
     private CouponStateEnum state;
 
     /**
+     * 优惠券生效起始时间
+     */
+    private Long availableStartTime;
+
+    /**
+     * 优惠券生效起始时间
+     */
+    private Long availableEndTime;
+
+    /**
+     * 关联订单 ID
+     */
+    private Long orderId;
+
+    /**
      * 使用时间
      */
-    private Date useTime;
+    private Long useTime;
 
-    /**
-     * 创建时间
-     */
+    @TableField(fill = FieldFill.INSERT)
     private Date gmtCreate;
 
-    /**
-     * 修改时间
-     */
+    @TableField(fill = FieldFill.INSERT)
+    private String gmtCreatedBy;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String gmtModifiedBy;
 
     @TableField(exist = false)
     private SmsCouponTemplate template;

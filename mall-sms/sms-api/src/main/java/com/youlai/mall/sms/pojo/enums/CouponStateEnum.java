@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  */
 @Getter
 @AllArgsConstructor
-public enum CouponStateEnum {
+public enum  CouponStateEnum {
 
     USABLE("可用", 1),
     USED("已使用", 5),

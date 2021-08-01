@@ -40,6 +40,8 @@ public class BeanMapperUtils {
         return dest;
     }
 
+
+
     public static <S, D> Collection<D> mapCollection(final Collection<S> source, final Class<D> destType) {
         final Collection<D> dest = new ArrayList<>();
         if (source == null || source.size() == 0) {

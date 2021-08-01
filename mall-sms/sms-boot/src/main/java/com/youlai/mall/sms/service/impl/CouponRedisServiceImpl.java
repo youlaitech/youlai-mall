@@ -74,7 +74,7 @@ public class CouponRedisServiceImpl implements ICouponRedisService {
     }
 
     @Override
-    public String tryToAcquireCouponCodeFromCache(Long templateId) {
+    public String tryToAcquireCouponCodeFromCache(String templateId) {
         String redisKey = String.format("%s%s", SMS_COUPON_TEMPLATE_CODE_KEY, templateId);
         String couponCode = (String) redisTemplate.opsForList().leftPop(redisKey);
         log.info("Acquire Coupon Code, {} {} {}", templateId, redisKey, couponCode);

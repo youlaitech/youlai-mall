@@ -34,7 +34,7 @@ public class ManJianZheKouExecutor extends AbstractExecutor implements RuleExecu
         List<String> templateGoodsType = new ArrayList<>();
 
         for (SettlementInfoVO.CouponAndTemplateInfo couponAndTemplateInfo : settlement.getCouponAndTemplateInfos()) {
-            List<String> type = couponAndTemplateInfo.getTemplate().getRule().getUsage().getGoodsType();
+            List<String> type = couponAndTemplateInfo.getTemplate().getRule().getGoodsCategories();
             templateGoodsType.addAll(type);
         }
 

@@ -9,20 +9,18 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * @author xinyi
- * @desc
- * @date 2021/7/10
+ * @author huawei
+ * @desc：用户优惠券状态
+ * @email huawei_code@163.com
+ * @date 2021/2/28
  */
 @Getter
 @AllArgsConstructor
-public enum CouponTemplateStateEnum {
+public enum CouponOfferStateEnum {
 
-    INIT("待审核", 0),
-    VERIFY("已审核",1),
-    OFFER("发放中",2),
-
-    USED("进行中", 1),
-    FINISH("已过期(活动结束)", 2);
+    INIT("未开始", 0),
+    GOING("生效中",1),
+    FINISH("已结束",2);
 
     /**
      * 用户优惠券状态描述
@@ -36,7 +34,7 @@ public enum CouponTemplateStateEnum {
     @EnumValue
     private Integer code;
 
-    public static CouponTemplateStateEnum of(Integer code) {
+    public static CouponOfferStateEnum of(Integer code) {
         Objects.requireNonNull(code);
         return Stream.of(values())
                 .filter(bean -> bean.code.equals(code))
