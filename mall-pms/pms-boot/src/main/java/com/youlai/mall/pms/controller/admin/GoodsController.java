@@ -59,13 +59,10 @@ public class GoodsController {
     }
 
     @ApiOperation(value = "修改商品")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "goodsForm", value = "实体JSON对象", required = true, paramType = "body", dataType = "GoodsFormDTO")
-    })
+    @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable Long id, @RequestBody GoodsFormDTO goodsForm) {
-        boolean result = iPmsSpuService.updateGoods(goodsForm);
+    public Result update(@PathVariable Long id, @RequestBody GoodsFormDTO goods) {
+        boolean result = iPmsSpuService.updateGoods(goods);
         return Result.judge(result);
     }
 

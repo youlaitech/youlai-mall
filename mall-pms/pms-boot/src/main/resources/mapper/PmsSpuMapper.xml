@@ -26,7 +26,7 @@
             <result property="name" column="skuName" jdbcType="VARCHAR"/>
             <result property="sn" column="sn" jdbcType="VARCHAR"/>
             <result property="picUrl" column="skuPicUrl" jdbcType="VARCHAR"/>
-            <result property="specifications" column="specifications" jdbcType="VARCHAR"/>
+            <result property="specs" column="specs" jdbcType="VARCHAR"/>
             <result property="originPrice" column="skuOriginPrice" jdbcType="BIGINT"/>
             <result property="price" column="skuPrice" jdbcType="BIGINT"/>
             <result property="stock" column="stock" jdbcType="INTEGER"/>
@@ -50,7 +50,7 @@
                t2.NAME         skuName,
                t2.sn,
                t2.pic_url      skuPicUrl,
-               t2.specifications,
+               t2.specs,
                t2.origin_price skuOriginPrice,
                t2.price        skuPrice,
                t2.stock

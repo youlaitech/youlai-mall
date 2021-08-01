@@ -3,7 +3,7 @@ package com.youlai.mall.oms.listener;
 import com.rabbitmq.client.Channel;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
-import com.youlai.mall.pms.api.GoodsFeignClient;
+import com.youlai.mall.pms.api.StockFeignClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -24,7 +24,7 @@ public class OrderListener {
 
     IOrderService orderService;
     IOrderItemService orderItemService;
-    GoodsFeignClient skuFeignService;
+    StockFeignClient stockFeignClient;
     RabbitTemplate rabbitTemplate;
 
     /**
@@ -36,7 +36,7 @@ public class OrderListener {
         try {
             if (orderService.closeOrder(orderToken)) {
                 log.info("=======================关闭订单成功，开始释放已锁定的库存=======================");
-                skuFeignService.unlockStock(orderToken);
+                stockFeignClient.unlockStock(orderToken);
             } else {
                 log.info("=======================关单失败，订单状态已处理，手动确认消息处理完毕=======================");
                 // basicAck(tag,multiple)，multiple为true开启批量确认，小于tag值队列中未被消费的消息一次性确认
