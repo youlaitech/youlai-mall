@@ -10,8 +10,7 @@
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="sn" column="sn" jdbcType="VARCHAR"/>
             <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
-            <result property="specs" column="specs" jdbcType="VARCHAR"/>
-            <result property="originPrice" column="origin_price" jdbcType="BIGINT"/>
+            <result property="specIds" column="specs" jdbcType="VARCHAR"/>
             <result property="price" column="price" jdbcType="BIGINT"/>
             <result property="stock" column="stock" jdbcType="INTEGER"/>
             <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
