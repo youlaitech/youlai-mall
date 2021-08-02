@@ -13,7 +13,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.common.enums.AttributeTypeEnum;
 import com.youlai.mall.pms.component.BloomRedisService;
-import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
@@ -28,11 +27,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.Serializable;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 /**
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
@@ -102,20 +100,47 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
         // 规格列表
         List<GoodsFormDTO.AttributeValue> specList = goods.getSpecList();
-        Map<String, Long> tempIdIdMap = this.saveSpecification(goodsId, specList);
+        Map<String, Long> specTempIdIdMap = this.saveSpecification(goodsId, specList);
 
         // SKU列表
-        List<PmsSku> list = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, goodsId));
-
         List<PmsSku> skuList = goods.getSkuList();
+        this.saveSku(goodsId, skuList, specTempIdIdMap);
 
-        skuList.forEach(sku->{
-            
-        });
+        // SPU
+
 
         return true;
     }
 
+    private boolean saveSku(Long goodsId, List<PmsSku> skuList, Map<String, Long> specTempIdIdMap) {
+
+
+        List<PmsSku> pmsSkuList = skuList.stream().map(sku -> {
+            // 临时规格ID转换
+            String specIds = Arrays.asList(sku.getSpecIds().split("_")).stream()
+                    .map(specId ->
+                            specId.startsWith(PmsConstants.TEMP_ID_PREFIX) ? specTempIdIdMap.get(specId) + "" : specId
+                    )
+                    .collect(Collectors.joining("_"));
+            sku.setSpecIds(specIds);
+            sku.setSpuId(goodsId);
+            return sku;
+        }).collect(Collectors.toList());
+
+        // 新增、修改SKU
+
+
+        return true;
+    }
+
+
+    /**
+     * 保存商品属性
+     *
+     * @param goodsId
+     * @param attrValList
+     * @return
+     */
     private boolean saveAttribute(Long goodsId, List<GoodsFormDTO.AttributeValue> attrValList) {
         List<Long> formAttrValIds = attrValList.stream()
                 .filter(item -> item.getId() != null)
@@ -133,21 +158,33 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             iPmsSpuAttributeValueService.removeByIds(removeAttrValIds);
         }
 
+        // 新增或修改商品属性
+        List<PmsSpuAttributeValue> pmsSpuAttributeValueList = attrValList.stream().map(item -> {
+            PmsSpuAttributeValue pmsSpuAttributeValue = new PmsSpuAttributeValue();
+            BeanUtil.copyProperties(item, pmsSpuAttributeValue);
+            pmsSpuAttributeValue.setSpuId(goodsId);
+            pmsSpuAttributeValue.setType(AttributeTypeEnum.ATTRIBUTE.getValue());
+            return pmsSpuAttributeValue;
+        }).collect(Collectors.toList());
+        if (CollectionUtil.isNotEmpty(pmsSpuAttributeValueList)) {
+            return iPmsSpuAttributeValueService.saveOrUpdateBatch(pmsSpuAttributeValueList);
+        }
         return true;
     }
 
     /**
+     * 保存商品规格，新增的规格需要返回临时ID和持久化到数据库的ID的映射关系，替换SKU中的规格ID集合
      *
-     * @param goodsId 商品ID
+     * @param goodsId  商品ID
      * @param specList 规格列表
-     * @return  Map: key-临时ID；value-持久化返回ID
+     * @return Map: key-临时ID；value-持久化返回ID
      */
     private Map<String, Long> saveSpecification(Long goodsId, List<GoodsFormDTO.AttributeValue> specList) {
 
         // 删除规格
         List<Long> formSpecValIds = specList.stream()
                 .filter(item -> item.getId() != null && !item.getId().startsWith(PmsConstants.TEMP_ID_PREFIX))
-                .map(item->Convert.toLong(item.getId()))
+                .map(item -> Convert.toLong(item.getId()))
                 .collect(Collectors.toList());
 
         List<Long> dbSpecValIds = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
@@ -163,7 +200,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 新增规格
         Map<String, Long> tempIdIdMap = new HashMap<>();
         List<GoodsFormDTO.AttributeValue> newSpecList = specList.stream()
-                .filter(item -> item.getId() != null && item.getId().startsWith(PmsConstants.TEMP_ID_PREFIX)).collect(Collectors.toList());
+                .filter(item -> item.getId().startsWith(PmsConstants.TEMP_ID_PREFIX)).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(newSpecList)) {
             newSpecList.forEach(item -> {
                 PmsSpuAttributeValue specification = new PmsSpuAttributeValue();
@@ -171,8 +208,21 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 specification.setSpuId(goodsId);
                 specification.setType(AttributeTypeEnum.SPECIFICATION.getValue());
                 iPmsSpuAttributeValueService.save(specification);
-                tempIdIdMap.put(item.getId(),specification.getId());
+                tempIdIdMap.put(item.getId(), specification.getId());
             });
+        }
+        // 修改规格
+        List<PmsSpuAttributeValue> pmsSpuAttributeValueList = specList.stream()
+                .filter(item -> !item.getId().startsWith(PmsConstants.TEMP_ID_PREFIX))
+                .map(spec -> {
+                    PmsSpuAttributeValue pmsSpuAttributeValue = new PmsSpuAttributeValue();
+                    BeanUtil.copyProperties(spec, pmsSpuAttributeValue);
+                    pmsSpuAttributeValue.setSpuId(goodsId);
+                    pmsSpuAttributeValue.setType(AttributeTypeEnum.SPECIFICATION.getValue());
+                    return pmsSpuAttributeValue;
+                }).collect(Collectors.toList());
+        if (CollectionUtil.isNotEmpty(pmsSpuAttributeValueList)) {
+            iPmsSpuAttributeValueService.updateBatchById(pmsSpuAttributeValueList);
         }
         return tempIdIdMap;
     }
