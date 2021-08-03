@@ -16,7 +16,7 @@ public class GoodsFormDTO {
     private Long brandId;
     private Long price;
     private String picUrl;
-    private List<String> album;
+    private List<String> subPicUrls;
     private String description;
     private String detail;
 

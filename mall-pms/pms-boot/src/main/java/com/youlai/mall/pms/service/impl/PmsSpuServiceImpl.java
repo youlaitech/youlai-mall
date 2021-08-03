@@ -24,6 +24,7 @@ import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,40 +53,17 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
     @Override
     @Transactional
-    public boolean addGoods(GoodsFormDTO goodsForm) {
-/*        SpuDTO SpuDTO = goodsForm.getSpu();
-        List<PmsSpuAttributeValue> attrValues = goodsForm.getAttrs();
-        List<PmsSpuAttributeValue> specs = goodsForm.getAttrs();
-        List<PmsSku> skuList = goodsForm.getSkus();
-
-        // spu保存
-        PmsSpu spu = new PmsSpu();
-        BeanUtil.copyProperties(SpuDTO, spu);
-        if (SpuDTO.getPics() != null) {
-            String picUrls = JSONUtil.toJsonStr(SpuDTO.getPics());
-            spu.setAlbum(picUrls);
-        }
-        this.save(spu);
-
+    public boolean addGoods(GoodsFormDTO goods) {
+        Long goodsId = this.saveSpu(goods);
         // 属性保存
-        Optional.ofNullable(attrValues).ifPresent(list -> {
-            list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSpuAttributeValueService.saveBatch(list);
-        });
-
+        List<GoodsFormDTO.AttributeValue> attrValList = goods.getAttrList();
+        this.saveAttribute(goodsId, attrValList);
         // 规格保存
-        Optional.ofNullable(specs).ifPresent(list -> {
-          *//*  list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSpuSpecValueService.saveBatch(list);*//*
-        });
-
-        // sku保存
-        Optional.ofNullable(skuList).ifPresent(list -> {
-            list.forEach(item -> item.setSpuId(spu.getId()));
-            iPmsSkuService.saveBatch(skuList);
-        });
-        bloomRedisService.addByBloomFilter(PRODUCT_REDIS_BLOOM_FILTER, spu.getId() + "");*/
-        return true;
+        List<GoodsFormDTO.AttributeValue> specList = goods.getSpecList();
+        Map<String, Long> specTempIdIdMap = this.saveSpecification(goodsId, specList);
+        // SKU保存
+        List<PmsSku> skuList = goods.getSkuList();
+        return this.saveSku(goodsId, skuList, specTempIdIdMap);
     }
 
 
@@ -94,27 +72,65 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     public boolean updateGoods(GoodsFormDTO goods) {
 
         Long goodsId = goods.getId();
-        // 属性列表
+        // 属性保存
         List<GoodsFormDTO.AttributeValue> attrValList = goods.getAttrList();
         this.saveAttribute(goodsId, attrValList);
 
-        // 规格列表
+        // 规格保存
         List<GoodsFormDTO.AttributeValue> specList = goods.getSpecList();
         Map<String, Long> specTempIdIdMap = this.saveSpecification(goodsId, specList);
 
-        // SKU列表
+        // SKU保存
         List<PmsSku> skuList = goods.getSkuList();
         this.saveSku(goodsId, skuList, specTempIdIdMap);
 
         // SPU
-
-
-        return true;
+        boolean saveResult = this.saveSpu(goods) > 0;
+        return saveResult;
     }
 
+    /**
+     * 保存商品
+     *
+     * @param goods
+     * @return
+     */
+    private Long saveSpu(GoodsFormDTO goods) {
+        PmsSpu pmsSpu = new PmsSpu();
+        BeanUtil.copyProperties(goods, pmsSpu);
+        // 商品图册
+        pmsSpu.setAlbum(JSONUtil.toJsonStr(goods.getSubPicUrls()));
+        boolean result = this.saveOrUpdate(pmsSpu);
+        return result ? pmsSpu.getId() : 0;
+    }
+
+
+    /**
+     * 保存SKU，需要替换提交表单中的临时规格ID
+     *
+     * @param goodsId
+     * @param skuList
+     * @param specTempIdIdMap
+     * @return
+     */
     private boolean saveSku(Long goodsId, List<PmsSku> skuList, Map<String, Long> specTempIdIdMap) {
 
+        // 删除SKU
+        List<Long> formSkuIds = skuList.stream().map(item -> item.getId()).collect(Collectors.toList());
 
+        List<Long> dbSkuIds = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>()
+                .eq(PmsSku::getSpuId, goodsId)
+                .select(PmsSku::getId))
+                .stream().map(item -> item.getId())
+                .collect(Collectors.toList());
+
+        List<Long> removeSkuIds = dbSkuIds.stream().filter(dbSkuId -> !formSkuIds.contains(dbSkuId)).collect(Collectors.toList());
+
+        if (CollectionUtil.isNotEmpty(removeSkuIds)) {
+            iPmsSkuService.removeByIds(removeSkuIds);
+        }
+
+        // 新增/修改SKU
         List<PmsSku> pmsSkuList = skuList.stream().map(sku -> {
             // 临时规格ID转换
             String specIds = Arrays.asList(sku.getSpecIds().split("_")).stream()
@@ -126,11 +142,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             sku.setSpuId(goodsId);
             return sku;
         }).collect(Collectors.toList());
-
-        // 新增、修改SKU
-
-
-        return true;
+        return iPmsSkuService.saveOrUpdateBatch(pmsSkuList);
     }
 
 
