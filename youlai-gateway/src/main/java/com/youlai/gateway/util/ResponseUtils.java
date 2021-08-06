@@ -27,8 +27,10 @@ public class ResponseUtils {
                 break;
             case TOKEN_ACCESS_FORBIDDEN:
                 response.setStatusCode(HttpStatus.FORBIDDEN);
+                break;
             default:
                 response.setStatusCode(HttpStatus.BAD_REQUEST);
+                break;
         }
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getHeaders().set("Access-Control-Allow-Origin", "*");
