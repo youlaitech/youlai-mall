@@ -34,9 +34,8 @@ public class Result<T> implements Serializable {
         return result(rce, data);
     }
 
-
     public static <T> Result<T> success(T data, Long total) {
-        Result<T> result = new Result();
+        Result<T> result = new Result<>();
         result.setCode(ResultCode.SUCCESS.getCode());
         result.setMsg(ResultCode.SUCCESS.getMsg());
         result.setData(data);
@@ -64,12 +63,16 @@ public class Result<T> implements Serializable {
         return result(resultCode.getCode(), resultCode.getMsg(), null);
     }
 
+    public static <T> Result<T> failed(IResultCode resultCode, String msg) {
+        return result(resultCode.getCode(), msg, null);
+    }
+
     private static <T> Result<T> result(IResultCode resultCode, T data) {
         return result(resultCode.getCode(), resultCode.getMsg(), data);
     }
 
     private static <T> Result<T> result(String code, String msg, T data) {
-        Result<T> result = new Result<T>();
+        Result<T> result = new Result<>();
         result.setCode(code);
         result.setData(data);
         result.setMsg(msg);
@@ -77,10 +80,7 @@ public class Result<T> implements Serializable {
     }
 
 
-    public static boolean isSuccess(Result result) {
-        if(result!=null&&ResultCode.SUCCESS.getCode().equals(result.getCode())){
-            return true;
-        }
-        return false;
+    public static boolean isSuccess(Result<?> result) {
+        return result != null && ResultCode.SUCCESS.getCode().equals(result.getCode());
     }
 }
