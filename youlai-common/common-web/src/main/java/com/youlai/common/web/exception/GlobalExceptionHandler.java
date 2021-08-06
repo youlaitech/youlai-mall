@@ -4,7 +4,6 @@ import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -13,13 +12,14 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.concurrent.CompletionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,8 +36,9 @@ public class GlobalExceptionHandler {
     /**
      * 表单绑定到 java bean 出错时抛出 BindException 异常
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
-    public <T> Result<T> processException(BindException e, HttpServletResponse response) {
+    public <T> Result<T> processException(BindException e) {
         log.error(e.getMessage(), e);
         JSONObject msg = new JSONObject();
         e.getAllErrors().forEach(error -> {
@@ -50,15 +51,15 @@ public class GlobalExceptionHandler {
                         error.getDefaultMessage());
             }
         });
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(ResultCode.PARAM_ERROR, msg.toString());
     }
 
     /**
      * 普通参数(非 java bean)校验出错时抛出 ConstraintViolationException 异常
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
-    public <T> Result<T> processException(ConstraintViolationException e, HttpServletResponse response) {
+    public <T> Result<T> processException(ConstraintViolationException e) {
         log.error(e.getMessage(), e);
         JSONObject msg = new JSONObject();
         e.getConstraintViolations().forEach(constraintViolation -> {
@@ -66,126 +67,122 @@ public class GlobalExceptionHandler {
             String path = constraintViolation.getPropertyPath().toString();
             msg.set(path, template);
         });
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(ResultCode.PARAM_ERROR, msg.toString());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ValidationException.class)
+    public <T> Result<T> processException(ValidationException e) {
+        log.error(e.getMessage(), e);
+        return Result.failed(ResultCode.PARAM_ERROR, "参数校验失败");
     }
 
     /**
      * NoHandlerFoundException
      */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
-    public <T> Result<T> processException(NoHandlerFoundException e, HttpServletResponse response) {
+    public <T> Result<T> processException(NoHandlerFoundException e) {
         log.error(e.getMessage(), e);
-        response.setStatus(HttpStatus.NOT_FOUND.value());
         return Result.failed(ResultCode.RESOURCE_NOT_FOUND);
     }
 
     /**
      * MissingServletRequestParameterException
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public <T> Result<T> processException(MissingServletRequestParameterException e, HttpServletResponse response) {
+    public <T> Result<T> processException(MissingServletRequestParameterException e) {
         log.error(e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(ResultCode.PARAM_IS_NULL);
     }
 
     /**
      * MethodArgumentTypeMismatchException
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public <T> Result<T> processException(MethodArgumentTypeMismatchException e, HttpServletResponse response) {
+    public <T> Result<T> processException(MethodArgumentTypeMismatchException e) {
         log.error(e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(ResultCode.PARAM_ERROR, "类型错误");
     }
 
     /**
      * ServletException
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServletException.class)
-    public <T> Result<T> processException(ServletException e, HttpServletResponse response) {
+    public <T> Result<T> processException(ServletException e) {
         log.error(e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public <T> Result<T> handleIllegalArgumentException(IllegalArgumentException e, HttpServletResponse response) {
+    public <T> Result<T> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("非法参数异常，异常原因：{}", e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(JsonProcessingException.class)
-    public <T> Result<T> handleJsonProcessingException(JsonProcessingException e, HttpServletResponse response) {
+    public <T> Result<T> handleJsonProcessingException(JsonProcessingException e) {
         log.error("Json转换异常，异常原因：{}", e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(e.getMessage());
     }
 
     /**
      * HttpMessageNotReadableException
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public <T> Result<T> processException(HttpMessageNotReadableException e, HttpServletResponse response) {
+    public <T> Result<T> processException(HttpMessageNotReadableException e) {
         log.error(e.getMessage(), e);
         String errorMessage = "请求体不可为空";
         Throwable cause = e.getCause();
         if (cause != null) {
             errorMessage = convertMessage(cause);
         }
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(errorMessage);
     }
 
     /**
      * TypeMismatchException
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(TypeMismatchException.class)
-    public <T> Result<T> processException(TypeMismatchException e, HttpServletResponse response) {
+    public <T> Result<T> processException(TypeMismatchException e) {
         log.error(e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed(e.getMessage());
-    }
-
-    /**
-     * FeignException
-     */
-    @ExceptionHandler(FeignException.class)
-    public <T> Result<T> processException(FeignException e, HttpServletResponse response) {
-        log.error(e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
-        return Result.failed("微服务调用异常");
     }
 
     /**
      * CompletionException
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CompletionException.class)
-    public <T> Result<T> processException(CompletionException e, HttpServletResponse response) {
+    public <T> Result<T> processException(CompletionException e) {
         log.error(e.getMessage(), e);
         if (e.getMessage().startsWith("feign.FeignException")) {
-            response.setStatus(HttpStatus.BAD_REQUEST.value());
             return Result.failed("微服务调用异常");
         }
-        return handleException(e, response);
+        return handleException(e);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BizException.class)
-    public <T> Result<T> handleBizException(BizException e, HttpServletResponse response) {
+    public <T> Result<T> handleBizException(BizException e) {
         log.error("业务异常，异常原因：{}", e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         if (e.getResultCode() != null) {
             return Result.failed(e.getResultCode());
         }
         return Result.failed(e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
-    public <T> Result<T> handleException(Exception e, HttpServletResponse response) {
+    public <T> Result<T> handleException(Exception e) {
         log.error("未知异常，异常原因：{}", e.getMessage(), e);
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return Result.failed();
     }
 
