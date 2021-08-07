@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import reactor.core.publisher.Mono;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @Author hxr
@@ -19,13 +19,24 @@ import java.nio.charset.Charset;
  */
 public class ResponseUtils {
 
-    public static Mono writeErrorInfo(ServerHttpResponse response, ResultCode resultCode){
-        response.setStatusCode(HttpStatus.OK);
+    public static Mono<Void> writeErrorInfo(ServerHttpResponse response, ResultCode resultCode) {
+        switch (resultCode) {
+            case ACCESS_UNAUTHORIZED:
+            case TOKEN_INVALID_OR_EXPIRED:
+                response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                break;
+            case TOKEN_ACCESS_FORBIDDEN:
+                response.setStatusCode(HttpStatus.FORBIDDEN);
+                break;
+            default:
+                response.setStatusCode(HttpStatus.BAD_REQUEST);
+                break;
+        }
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getHeaders().set("Access-Control-Allow-Origin", "*");
         response.getHeaders().set("Cache-Control", "no-cache");
         String body = JSONUtil.toJsonStr(Result.failed(resultCode));
-        DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
+        DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer))
                 .doOnError(error -> DataBufferUtils.release(buffer));
     }
