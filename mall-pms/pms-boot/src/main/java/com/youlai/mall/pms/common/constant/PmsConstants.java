@@ -16,6 +16,6 @@ public interface PmsConstants {
 
     String PRODUCT_REDIS_BLOOM_FILTER = "product:redis:bloom:filter";
 
-    String TEMP_ID_PREFIX = "temp-";
+    String TEMP_ID_PREFIX = "tid_";
 
 }

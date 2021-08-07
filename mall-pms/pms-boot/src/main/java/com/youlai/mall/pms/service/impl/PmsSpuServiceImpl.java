@@ -19,16 +19,13 @@ import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttributeValue;
 import com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO;
-import com.youlai.mall.pms.service.IPmsAttributeService;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,7 +38,6 @@ import java.util.stream.Collectors;
 public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
     private final IPmsSkuService iPmsSkuService;
     private final IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
-    private final IPmsAttributeService attributeService;
     private final BloomRedisService bloomRedisService;
 
     @Override
@@ -133,7 +129,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 新增/修改SKU
         List<PmsSku> pmsSkuList = skuList.stream().map(sku -> {
             // 临时规格ID转换
-            String specIds = Arrays.asList(sku.getSpecIds().split("_")).stream()
+            String specIds = Arrays.asList(sku.getSpecIds().split("\\|")).stream()
                     .map(specId ->
                             specId.startsWith(PmsConstants.TEMP_ID_PREFIX) ? specTempIdIdMap.get(specId) + "" : specId
                     )
@@ -277,22 +273,21 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         return goodsDetailVO;
     }
 
-    @Override
-    public boolean removeBySpuIds(List<Long> spuIds) {
-        Optional.ofNullable(spuIds).ifPresent(
-                ids -> ids.forEach(spuId -> {
-                    // sku
-                    iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
-                    // 规格
-                    iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getId, spuId));
-                    // 属性
-                    iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, spuId));
-                    // spu
-                    this.removeById(spuId);
-                })
-        );
-        return true;
-    }
 
+    @Override
+    public boolean removeByGoodsIds(List<Long> goodsIds) {
+        boolean result = true;
+        for (Long goodsId : goodsIds) {
+            // sku
+            iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, goodsId));
+            // 规格
+            iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getId, goodsId));
+            // 属性
+            iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, goodsId));
+            // spu
+            result = this.removeById(goodsId);
+        }
+        return result;
+    }
 
 }
