@@ -21,7 +21,8 @@
         <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
         <result property="categoryName" column="categoryName" jdbcType="VARCHAR"/>
         <result property="brandName" column="brandName" jdbcType="VARCHAR"/>
-        <collection property="skuList" ofType="com.youlai.mall.pms.pojo.entity.PmsSku" javaType="list">
+        <!-- Mybatis Plus 分页有BUG -->
+        <!--<collection property="skuList" ofType="com.youlai.mall.pms.pojo.entity.PmsSku" javaType="list">
             <id property="id" column="skuId" jdbcType="BIGINT"/>
             <result property="name" column="skuName" jdbcType="VARCHAR"/>
             <result property="sn" column="sn" jdbcType="VARCHAR"/>
@@ -30,7 +31,10 @@
             <result property="price" column="skuPrice" jdbcType="BIGINT"/>
             <result property="stock" column="stock" jdbcType="INTEGER"/>
             <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
-        </collection>
+        </collection>-->
+
+
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -42,7 +46,9 @@
         status,gmt_create,gmt_modified
     </sql>
     <select id="list" resultMap="BaseResultMap">
-        SELECT t1.*,
+        SELECT t1.name,
+               t1.pic_url,
+
                t3.NAME         categoryName,
                t4.NAME         brandName,
                t2.id           skuId,

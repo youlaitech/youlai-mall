@@ -16,7 +16,7 @@ public interface IPmsSpuService extends IService<PmsSpu> {
 
     boolean addGoods(GoodsFormDTO goodsFormDTO);
 
-    boolean removeBySpuIds(List<Long> spuIds);
+    boolean removeByGoodsIds(List<Long> spuIds);
 
     boolean updateGoods(GoodsFormDTO goodsFormDTO);
 
