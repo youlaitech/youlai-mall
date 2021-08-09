@@ -15,7 +15,7 @@ public enum PayTypeEnum  {
     WEIXIN_JSAPI(1,"微信JSAPI支付"),
     ALIPAY(2,"支付宝支付"),
     BALANCE(3,"会员余额支付"),
-    WEIXIN_APP(1,"微信JSAPI支付");
+    WEIXIN_APP(4,"微信JSAPI支付");
 
     @Getter
     private Integer code;
