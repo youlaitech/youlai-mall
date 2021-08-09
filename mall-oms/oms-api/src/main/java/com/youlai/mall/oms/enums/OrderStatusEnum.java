@@ -16,7 +16,7 @@ public enum OrderStatusEnum  {
     USER_CANCEL(102,"用户取消"),
     AUTO_CANCEL(103,"系统自动取消"),
 
-    PAID(201,"已支付"),
+    PAYED(201,"已支付"),
     APPLY_REFUND(202,"申请退款"),
     REFUNDED(203,"已退款"),
 
