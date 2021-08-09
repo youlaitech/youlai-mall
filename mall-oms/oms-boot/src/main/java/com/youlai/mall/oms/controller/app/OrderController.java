@@ -72,18 +72,15 @@ public class OrderController {
     @PostMapping("/{orderId}/_pay")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "payType", value = "支付方式", paramType = "query", dataType = "Integer")
+            @ApiImplicitParam(name = "payType", value = "支付方式", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "appId", value = "小程序appId", paramType = "query", dataType = "String")
     })
-    public Result pay(@PathVariable Long orderId, Integer payType) {
+    public <T> Result<T> pay(@PathVariable Long orderId, Integer payType, String appId) {
         PayTypeEnum payTypeEnum = PayTypeEnum.getByCode(payType);
-        switch (payTypeEnum) {
-            case BALANCE:
-                orderService.pay(orderId);
-                break;
-            default:
-                return Result.failed("系统暂不支持该支付方式~");
+        if (payTypeEnum == null) {
+            return Result.failed("系统暂不支持该支付方式~");
         }
-        return Result.success();
+        return Result.success(orderService.pay(orderId, appId, payTypeEnum));
     }
 
     @ApiOperation("订单删除")
