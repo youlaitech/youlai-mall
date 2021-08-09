@@ -75,9 +75,25 @@ public class OmsOrder extends BaseEntity {
 	 */
 	private Date payTime;
 	/**
-	 * 支付方式【1->支付宝；2->微信；3->银联； 4->货到付款；】
+	 * 支付方式【1->微信jsapi；2->支付宝；3->余额； 4->微信app；】
 	 */
 	private Integer payType;
+	/**
+	 * 商户订单号
+	 */
+	private String outTradeNo;
+	/**
+	 * 微信支付订单号
+	 */
+	private String transactionId;
+	/**
+	 * 商户退款单号
+	 */
+	private String outRefundNo;
+	/**
+	 * 微信支付退款单号
+	 */
+	private String refundId;
 	/**
 	 * 发货时间
 	 */

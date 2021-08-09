@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static com.youlai.common.constant.GlobalConstants.STATUS_YES;
 
@@ -38,7 +39,7 @@ public class MemberController {
             @ApiImplicitParam(name = "nickname", value = "会员昵称", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result list(
+    public Result<List<UmsMember>> list(
             String queryMode,
             Integer page,
             Integer limit,
@@ -58,7 +59,7 @@ public class MemberController {
     @ApiOperation(value = "会员详情")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result getMemberById(
+    public Result<UmsMember> getMemberById(
             @PathVariable Long id
     ) {
         UmsMember user = iUmsMemberService.getById(id);
@@ -71,7 +72,7 @@ public class MemberController {
             @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PutMapping(value = "/{id}")
-    public Result update(
+    public <T> Result<T> update(
             @PathVariable Long id,
             @RequestBody UmsMember member) {
         boolean status = iUmsMemberService.updateById(member);
@@ -84,7 +85,7 @@ public class MemberController {
             @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     })
     @PatchMapping("/{id}")
-    public Result patch(@PathVariable Long id, @RequestBody UmsMember user) {
+    public <T> Result<T> patch(@PathVariable Long id, @RequestBody UmsMember user) {
         LambdaUpdateWrapper<UmsMember> updateWrapper = new LambdaUpdateWrapper<UmsMember>().eq(UmsMember::getId, id);
         updateWrapper.set(user.getStatus() != null, UmsMember::getStatus, user.getStatus());
         boolean status = iUmsMemberService.update(updateWrapper);
@@ -94,7 +95,7 @@ public class MemberController {
     @ApiOperation(value = "删除会员")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable String ids) {
+    public <T> Result<T> delete(@PathVariable String ids) {
         boolean status = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .in(UmsMember::getId, Arrays.asList(ids.split(",")))
                 .set(UmsMember::getDeleted, STATUS_YES));

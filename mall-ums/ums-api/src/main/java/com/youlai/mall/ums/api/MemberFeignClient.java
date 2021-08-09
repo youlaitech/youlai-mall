@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.*;
 public interface MemberFeignClient {
 
     @PostMapping("/app-api/v1/members")
-    Result<Long > add(@RequestBody UmsMember member);
-
+    Result<Long> add(@RequestBody UmsMember member);
 
     @PutMapping("/app-api/v1/members/{id}")
-    Result update(@PathVariable Long id,@RequestBody UmsMember member);
-
+    <T> Result<T> update(@PathVariable Long id,@RequestBody UmsMember member);
 
     /**
      * 获取会员信息
@@ -23,6 +21,11 @@ public interface MemberFeignClient {
     @GetMapping("/app-api/v1/members/{id}")
     Result<MemberDTO> getUserById(@PathVariable Long id);
 
+    /**
+     * 获取会员信息
+     */
+    @GetMapping("/app-api/v1/members/detail/{id}")
+    Result<UmsMember> getUserEntityById(@PathVariable Long id);
 
     /**
      * 获取认证会员信息
@@ -34,22 +37,19 @@ public interface MemberFeignClient {
      * 修改会员积分
      */
     @PutMapping("/app-api/v1/members/{id}/points")
-    Result updatePoint(@PathVariable Long id, @RequestParam Integer num);
+    <T> Result<T> updatePoint(@PathVariable Long id, @RequestParam Integer num);
 
     /**
      * 扣减会员余额
      */
     @PutMapping("/app-api/v1/members/{id}/deduct-balance")
-    Result deductBalance(@PathVariable Long id, @RequestParam Long balance);
-
+    <T> Result<T> deductBalance(@PathVariable Long id, @RequestParam Long balance);
 
     /**
      * 获取会员余额
      */
     @GetMapping("/app-api/v1/members/{id}/balance")
     Result<Long> getBalance(@PathVariable Long id);
-
-
 }
 
 

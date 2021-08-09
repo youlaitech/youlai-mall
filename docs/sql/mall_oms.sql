@@ -35,7 +35,11 @@ CREATE TABLE `oms_order`  (
   `freight_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '运费金额（分）',
   `pay_amount` bigint(0) NOT NULL DEFAULT 0 COMMENT '应付总额（分）',
   `pay_time` datetime(0) NULL DEFAULT NULL COMMENT '支付时间',
-  `pay_type` tinyint(0) NULL DEFAULT NULL COMMENT '支付方式【1->支付宝；2->微信；3->银联； 4->货到付款；】',
+  `pay_type` tinyint(4) NULL DEFAULT NULL COMMENT '支付方式【1->微信jsapi；2->支付宝；3->余额； 4->微信app；】',
+  `out_trade_no` varchar(32) NULL DEFAULT NULL COMMENT '微信支付等第三方支付平台的商户订单号',
+  `transaction_id` varchar(32) NULL DEFAULT NULL COMMENT '微信支付订单号',
+  `out_refund_no` varchar(32) NULL DEFAULT NULL COMMENT '商户退款单号',
+  `refund_id` varchar(32) NULL DEFAULT NULL COMMENT '微信退款单号',
   `delivery_time` datetime(0) NULL DEFAULT NULL COMMENT '发货时间',
   `receive_time` datetime(0) NULL DEFAULT NULL COMMENT '确认收货时间',
   `comment_time` datetime(0) NULL DEFAULT NULL COMMENT '评价时间',
@@ -43,7 +47,11 @@ CREATE TABLE `oms_order`  (
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `index_order_sn`(`order_sn`) USING BTREE COMMENT '订单号唯一索引'
+  UNIQUE INDEX `index_order_sn`(`order_sn`) USING BTREE COMMENT '订单号唯一索引',
+  UNIQUE INDEX `index_otn`(`out_trade_no`) USING BTREE COMMENT '商户订单号唯一索引',
+  UNIQUE INDEX `index_ti`(`transaction_id`) USING BTREE COMMENT '商户支付单号唯一索引',
+  UNIQUE INDEX `index_orn`(`out_refund_no`) USING BTREE COMMENT '商户退款单号唯一索引',
+  UNIQUE INDEX `index_ri`(`refund_id`) USING BTREE COMMENT '退款单号唯一索引'
 ) ENGINE = InnoDB AUTO_INCREMENT = 1351548262424821912 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单详情表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
