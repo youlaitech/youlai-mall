@@ -177,8 +177,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             if (sku != null) {
                 return sku.getPrice() * item.getCount();
             }
-            return 0l;
-        }).reduce(0l, Long::sum);
+            return 0L;
+        }).reduce(0L, Long::sum);
 
         if (currentTotalPrice.compareTo(submitDTO.getTotalPrice()) != 0) {
             throw new BizException("页面已过期，请重新刷新页面再提交");
@@ -192,7 +192,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         .build())
                 .collect(Collectors.toList());
 
-        Result lockResult = skuFeignService.lockStock(skuLockList);
+        Result<?> lockResult = skuFeignService.lockStock(skuLockList);
 
         if (!Result.success().getCode().equals(lockResult.getCode())) {
             throw new BizException(Result.failed().getMsg());
@@ -205,8 +205,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .setMemberId(JwtUtils.getUserId())
                 .setRemark(submitDTO.getRemark())
                 .setPayAmount(submitDTO.getPayAmount())
-                .setTotalQuantity(orderItems.stream().map(item -> item.getCount()).reduce(0, (x, y) -> x + y))
-                .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0l, (x, y) -> x + y))
+                .setTotalQuantity(orderItems.stream().map(OrderItemDTO::getCount).reduce(0, Integer::sum))
+                .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum))
                 .setGmtCreate(new Date());
         this.save(order);
 
@@ -258,8 +258,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             if (sku != null) {
                 return sku.getPrice() * item.getCount();
             }
-            return 0l;
-        }).reduce(0l, Long::sum);
+            return 0L;
+        }).reduce(0L, Long::sum);
 
         if (currentTotalPrice.compareTo(submitDTO.getTotalPrice()) != 0) {
             throw new BizException("页面已过期，请重新刷新页面再提交");
@@ -273,7 +273,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         .build())
                 .collect(Collectors.toList());
 
-        Result lockResult = skuFeignService.lockStock(skuLockList);
+        Result<?> lockResult = skuFeignService.lockStock(skuLockList);
 
         if (!Result.success().getCode().equals(lockResult.getCode())) {
             throw new BizException(Result.failed().getMsg());
@@ -290,7 +290,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         log.info("订单提交响应：{}", submitVO);
         return submitVO;
     }
-
 
     /**
      * 订单支付
@@ -336,8 +335,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
 
         lock.unlock();
-        // 支付成功删除购物车已勾选的商品
-        cartService.removeCheckedItem();
 
         return result;
     }
@@ -355,6 +352,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         order.setPayType(PayTypeEnum.BALANCE.getCode());
         order.setPayTime(new Date());
         this.updateById(order);
+        // 支付成功删除购物车已勾选的商品
+        cartService.removeCheckedItem();
 
         return Boolean.TRUE;
     }
@@ -412,6 +411,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         if (order == null || !OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             return false;
         }
+        // 如果已经有outTradeNo了就先进行关单
+        if (PayTypeEnum.WEIXIN_JSAPI.getCode().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
+            try {
+                wxPayService.closeOrderV3(order.getOutTradeNo());
+                order.setOutTradeNo(null);
+            } catch (WxPayException e) {
+                log.error(e.getMessage(), e);
+                throw new BizException("微信关单异常");
+            }
+        }
         order.setStatus(OrderStatusEnum.AUTO_CANCEL.getCode());
         return this.updateById(order);
     }
@@ -420,19 +429,31 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     public boolean cancelOrder(Long id) {
         log.info("=======================订单取消，订单ID：{}=======================", id);
         OmsOrder order = this.getById(id);
+        if (order == null) {
+            throw new BizException("订单不存在");
+        }
 
-        if (order != null && !OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
+        if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             throw new BizException("取消失败，订单状态不支持取消"); // 通过自定义异常，将异常信息抛出由异常处理器捕获显示给前端页面
+        }
+        // 如果已经有outTradeNo了就先进行关单
+        if (PayTypeEnum.WEIXIN_JSAPI.getCode().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
+            try {
+                wxPayService.closeOrderV3(order.getOutTradeNo());
+                order.setOutTradeNo(null);
+            } catch (WxPayException e) {
+                log.error(e.getMessage(), e);
+                throw new BizException("微信关单异常");
+            }
         }
         order.setStatus(OrderStatusEnum.USER_CANCEL.getCode());
         boolean result = this.updateById(order);
         if (result) {
             // 释放被锁定的库存
-            Result unlockResult = skuFeignService.unlockStock(order.getOrderSn());
+            Result<?> unlockResult = skuFeignService.unlockStock(order.getOrderSn());
             if (!Result.isSuccess(unlockResult)) {
                 throw new BizException(unlockResult.getMsg());
             }
-            result = true;
         }
         return result;
     }
@@ -479,6 +500,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             this.updateById(orderDO);
         }
         log.info("账单更新成功");
+        // 支付成功删除购物车已勾选的商品
+        cartService.removeCheckedItem();
     }
 
     @Override
