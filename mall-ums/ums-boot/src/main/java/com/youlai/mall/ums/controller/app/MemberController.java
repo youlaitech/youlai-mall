@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.JwtUtils;
+import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import com.youlai.mall.ums.service.IUmsMemberService;
@@ -16,6 +17,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.Set;
 
 @Api(tags = "【移动端】会员服务")
 @RestController
@@ -142,5 +146,30 @@ public class MemberController {
             balance = user.getBalance();
         }
         return Result.success(balance);
+    }
+
+    @ApiOperation(value = "添加浏览历史")
+    @PostMapping("/view/history")
+    public <T> Result<T> addProductViewHistory(@RequestBody ProductHistoryVO product) {
+        Long userId = null;
+        try {
+            userId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        iUmsMemberService.addProductViewHistory(product, userId);
+        return Result.success();
+    }
+
+    @ApiOperation(value = "获取浏览历史")
+    @GetMapping("/view/history")
+    public Result<Set<ProductHistoryVO>> getProductViewHistory() {
+        try {
+            Long userId = JwtUtils.getUserId();
+            Set<ProductHistoryVO> historyList = iUmsMemberService.getProductViewHistory(userId);
+            return Result.success(historyList);
+        } catch (Exception e) {
+            return Result.success(Collections.emptySet());
+        }
     }
 }
