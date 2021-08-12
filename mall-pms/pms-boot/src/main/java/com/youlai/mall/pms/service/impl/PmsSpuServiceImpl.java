@@ -55,10 +55,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // spu保存
         PmsSpu spu = new PmsSpu();
         BeanUtil.copyProperties(SpuDTO, spu);
-        if (SpuDTO.getPics() != null) {
-            String picUrls = JSONUtil.toJsonStr(SpuDTO.getPics());
-            spu.setPics(picUrls);
-        }
         this.save(spu);
 
         // 属性保存
@@ -89,12 +85,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         PmsSpu spu = this.getById(id);
         BeanUtil.copyProperties(spu, spuDTO);
 
-        if (StrUtil.isNotBlank(spu.getPics())) {
-            // spu专辑图片转换处理 json字符串 -> List
-            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
-            spuDTO.setPics(pics);
-        }
-
         // 属性
         List<PmsSpuAttributeValue> attrs = iPmsSpuAttributeValueService.
                 list(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, id));
@@ -120,10 +110,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // spu保存
         PmsSpu spu = new PmsSpu();
         BeanUtil.copyProperties(SpuDTO, spu);
-        if (SpuDTO.getPics() != null) {
-            String pics = JSONUtil.toJsonStr(SpuDTO.getPics());
-            spu.setPics(pics);
-        }
         this.updateById(spu);
 
         // 属性保存
@@ -202,11 +188,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         PmsSpu spu = this.getById(spuId);
         SpuDTO SpuDTO = new SpuDTO();
         BeanUtil.copyProperties(spu, SpuDTO);
-        if (StrUtil.isNotBlank(spu.getPics())) {
-            // spu专辑图片转换处理 json字符串 -> List
-            List<String> pics = JSONUtil.toList(JSONUtil.parseArray(spu.getPics()), String.class);
-            SpuDTO.setPics(pics);
-        }
         // 属性
         List<PmsSpuAttributeValue> attrs = iPmsSpuAttributeValueService.list(
                 new LambdaQueryWrapper<PmsSpuAttributeValue>(
