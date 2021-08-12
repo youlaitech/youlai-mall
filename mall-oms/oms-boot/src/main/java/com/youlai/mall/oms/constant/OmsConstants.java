@@ -10,6 +10,8 @@ public interface OmsConstants {
 
     String ORDER_TOKEN_PREFIX = "order:token:";
 
+    String ORDER_SN_PREFIX = "order:sn:";
+
     /**
      * 释放锁lua脚本
      */

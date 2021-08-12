@@ -49,6 +49,10 @@
             <artifactId>dozer-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

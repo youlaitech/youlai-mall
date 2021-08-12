@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.web.exception.BizException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -12,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import sun.misc.BASE64Decoder;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -25,7 +27,10 @@ public class JwtUtils {
     @SneakyThrows
     public static JSONObject getJwtPayload() {
         String payload = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(AuthConstants.JWT_PAYLOAD_KEY);
-        JSONObject jsonObject = JSONUtil.parseObj(URLDecoder.decode(payload,"UTF-8"));
+        if (null == payload) {
+            throw new BizException("请传入认证头");
+        }
+        JSONObject jsonObject = JSONUtil.parseObj(URLDecoder.decode(payload,StandardCharsets.UTF_8.name()));
         return jsonObject;
     }
 
@@ -74,7 +79,7 @@ public class JwtUtils {
         String basic = request.getHeader(AuthConstants.AUTHORIZATION_KEY);
         if (StrUtil.isNotBlank(basic) && basic.startsWith(AuthConstants.BASIC_PREFIX)) {
             basic = basic.replace(AuthConstants.BASIC_PREFIX, Strings.EMPTY);
-            String basicPlainText = new String(new BASE64Decoder().decodeBuffer(basic), "UTF-8");
+            String basicPlainText = new String(new BASE64Decoder().decodeBuffer(basic), StandardCharsets.UTF_8);
             clientId = basicPlainText.split(":")[0]; //client:secret
         }
         return clientId;
@@ -88,8 +93,8 @@ public class JwtUtils {
     public static List<String> getRoles() {
         List<String> roles = null;
         JSONObject payload = getJwtPayload();
-        if (payload != null && payload.containsKey(AuthConstants.JWT_AUTHORITIES_KEY)) {
-            roles = payload.get(AuthConstants.JWT_AUTHORITIES_KEY, List.class);
+        if (payload.containsKey(AuthConstants.JWT_AUTHORITIES_KEY)) {
+            roles = payload.getJSONArray(AuthConstants.JWT_AUTHORITIES_KEY).toList(String.class);
         }
         return roles;
     }

@@ -14,10 +14,12 @@ import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.entity.PmsSpec;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttributeValue;
+import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.service.IPmsSpecService;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.service.IProductService;
+import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -44,6 +46,7 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
     private final RedisUtils redisUtils;
     private final RedissonClient redissonClient;
     private final ProductLocalCache productLocalCache;
+    private final MemberFeignClient memberFeignClient;
 
 
     @Override
@@ -52,12 +55,18 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
         ProductFormDTO product = productLocalCache.get(PRODUCT_DETAIL_CACHE + spuId);
         if (null != product) {
             log.info("get LocalCache product:" + product);
+            ProductHistoryVO vo = new ProductHistoryVO();
+            BeanUtil.copyProperties(product.getSpu(), vo);
+            memberFeignClient.addProductViewHistory(vo);
             return product;
         }
         //2、二级缓存设置，Redis中获取商品详情信息
         product = (ProductFormDTO) redisUtils.get(PRODUCT_DETAIL_CACHE + spuId);
         if (null != product) {
             log.info("get redis product:" + product);
+            ProductHistoryVO vo = new ProductHistoryVO();
+            BeanUtil.copyProperties(product.getSpu(), vo);
+            memberFeignClient.addProductViewHistory(vo);
             return product;
         }
         //3、分布式锁，保证原子操作
@@ -102,6 +111,9 @@ public class ProductServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implem
                 }
             }
         }
+        ProductHistoryVO vo = new ProductHistoryVO();
+        BeanUtil.copyProperties(product.getSpu(), vo);
+        memberFeignClient.addProductViewHistory(vo);
         return product;
     }
 }
