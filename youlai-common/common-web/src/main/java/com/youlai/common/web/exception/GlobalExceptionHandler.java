@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public Result handleIllegalArgumentException(IllegalArgumentException e) {
-        log.error("非法参数异常，异常原因：{}",e.getMessage(),e);
+        log.error("业务异常：{}",e.getMessage(),e);
         return Result.failed(e.getMessage());
     }
 

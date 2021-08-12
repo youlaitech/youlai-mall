@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SkuLockDTO {
+public class LockStockDTO {
 
     private Long skuId;
 

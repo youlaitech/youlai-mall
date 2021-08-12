@@ -5,14 +5,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.enums.PayTypeEnum;
-import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
+import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
+import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.service.IOrderService;
-import io.swagger.annotations.*;
-import lombok.AllArgsConstructor;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,18 +29,13 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/app-api/v1/orders")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderController {
 
-    private IOrderService orderService;
+    final IOrderService orderService;
 
     @ApiOperation("订单列表")
     @GetMapping
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "status", value = "订单状态", paramType = "query", dataType = "Integer")
-    })
     public Result list(
             @RequestParam(defaultValue = "1") Long page,
             @RequestParam(defaultValue = "10") Long limit,
@@ -53,7 +49,6 @@ public class OrderController {
     }
 
     @ApiOperation("订单确认")
-    @ApiImplicitParam(name = "orderConfirm", value = "确认订单信息", required = true, paramType = "body", dataType = "OrderConfirmDTO")
     @PostMapping("/_confirm")
     public Result<OrderConfirmVO> confirm(@RequestBody OrderConfirmDTO orderConfirm) {
         OrderConfirmVO result = orderService.confirm(orderConfirm);
@@ -61,7 +56,6 @@ public class OrderController {
     }
 
     @ApiOperation("订单提交")
-    @ApiImplicitParam(name = "orderSubmitDTO", value = "提交订单信息", required = true, paramType = "body", dataType = "orderSubmitDTO")
     @PostMapping("/_submit")
     public Result submit(@Valid @RequestBody OrderSubmitDTO orderSubmitDTO) {
         OrderSubmitVO result = orderService.submit(orderSubmitDTO);
@@ -70,10 +64,6 @@ public class OrderController {
 
     @ApiOperation("订单支付")
     @PostMapping("/{orderId}/_pay")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "payType", value = "支付方式", paramType = "query", dataType = "Integer")
-    })
     public Result pay(@PathVariable Long orderId, Integer payType) {
         PayTypeEnum payTypeEnum = PayTypeEnum.getByCode(payType);
         switch (payTypeEnum) {
@@ -88,7 +78,6 @@ public class OrderController {
 
     @ApiOperation("订单删除")
     @PostMapping("/{orderId}")
-    @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "path", dataType = "Long")
     public Result deleteOrder(@PathVariable Long orderId) {
         boolean result = orderService.deleteOrder(orderId);
         return Result.judge(result);

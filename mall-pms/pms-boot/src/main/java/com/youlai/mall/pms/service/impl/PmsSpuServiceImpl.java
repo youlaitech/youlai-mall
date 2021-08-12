@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @date 2021/08/08
  */
 @Service
 @RequiredArgsConstructor
@@ -40,6 +41,14 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     private final IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
     private final BloomRedisService bloomRedisService;
 
+    /**
+     * 商品分页列表
+     *
+     * @param page
+     * @param name
+     * @param categoryId
+     * @return
+     */
     @Override
     public IPage<PmsSpu> list(Page<PmsSpu> page, String name, Long categoryId) {
         List<PmsSpu> list = this.baseMapper.list(page, name, categoryId);
@@ -47,6 +56,12 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         return page;
     }
 
+    /**
+     * 添加商品
+     *
+     * @param goods
+     * @return
+     */
     @Override
     @Transactional
     public boolean addGoods(GoodsFormDTO goods) {
@@ -63,6 +78,12 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
 
+    /**
+     * 修改商品
+     *
+     * @param goods
+     * @return
+     */
     @Transactional
     @Override
     public boolean updateGoods(GoodsFormDTO goods) {
@@ -84,6 +105,73 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         boolean saveResult = this.saveSpu(goods) > 0;
         return saveResult;
     }
+
+    /**
+     * 获取商品（SPU）详情
+     *
+     * @param id 商品（SPU）ID
+     * @return
+     */
+    @Override
+    public GoodsDetailVO getGoodsById(Long id) {
+        GoodsDetailVO goodsDetailVO = new GoodsDetailVO();
+
+        PmsSpu spu = this.getById(id);
+        Assert.isTrue(spu != null, "商品不存在");
+
+        BeanUtil.copyProperties(spu, goodsDetailVO);
+
+        // 商品图册JSON字符串转集合
+        String album = spu.getAlbum();
+        if (StrUtil.isNotBlank(album)) {
+            List<String> picUrls = JSONUtil.toList(album, String.class);
+            goodsDetailVO.setSubPicUrls(picUrls);
+        }
+
+        // 商品属性列表
+        List<PmsSpuAttributeValue> attrList = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
+                .eq(PmsSpuAttributeValue::getSpuId, id)
+                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.ATTRIBUTE.getValue())
+        );
+        goodsDetailVO.setAttrList(attrList);
+
+        // 商品规格列表
+        List<PmsSpuAttributeValue> specList = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
+                .eq(PmsSpuAttributeValue::getSpuId, id)
+                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.SPECIFICATION.getValue())
+        );
+        goodsDetailVO.setSpecList(specList);
+
+        // 商品SKU列表
+        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
+        goodsDetailVO.setSkuList(skuList);
+        return goodsDetailVO;
+    }
+
+
+    /**
+     * 批量删除商品（SPU）
+     *
+     * @param goodsIds
+     * @return
+     */
+    @Override
+    @Transactional
+    public boolean removeByGoodsIds(List<Long> goodsIds) {
+        boolean result = true;
+        for (Long goodsId : goodsIds) {
+            // sku
+            iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, goodsId));
+            // 规格
+            iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getId, goodsId));
+            // 属性
+            iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, goodsId));
+            // spu
+            result = this.removeById(goodsId);
+        }
+        return result;
+    }
+
 
     /**
      * 保存商品
@@ -234,60 +322,4 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         }
         return tempIdIdMap;
     }
-
-
-    @Override
-    public GoodsDetailVO getGoodsById(Long id) {
-        GoodsDetailVO goodsDetailVO = new GoodsDetailVO();
-
-        PmsSpu spu = this.getById(id);
-        Assert.isTrue(spu != null, "商品不存在");
-
-        BeanUtil.copyProperties(spu, goodsDetailVO);
-
-        // 商品图册JSON字符串转JSON
-        String album = spu.getAlbum();
-        if (StrUtil.isNotBlank(album)) {
-            List<String> picUrls = JSONUtil.toList(album, String.class);
-            goodsDetailVO.setSubPicUrls(picUrls);
-        }
-
-        // 商品属性列表
-        List<PmsSpuAttributeValue> attrList = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
-                .eq(PmsSpuAttributeValue::getSpuId, id)
-                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.ATTRIBUTE.getValue())
-        );
-        goodsDetailVO.setAttrList(attrList);
-
-        // 商品规格列表
-        List<PmsSpuAttributeValue> specList = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
-                .eq(PmsSpuAttributeValue::getSpuId, id)
-                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.SPECIFICATION.getValue())
-        );
-        goodsDetailVO.setSpecList(specList);
-
-        // 商品SKU列表
-        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
-        goodsDetailVO.setSkuList(skuList);
-
-        return goodsDetailVO;
-    }
-
-
-    @Override
-    public boolean removeByGoodsIds(List<Long> goodsIds) {
-        boolean result = true;
-        for (Long goodsId : goodsIds) {
-            // sku
-            iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, goodsId));
-            // 规格
-            iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getId, goodsId));
-            // 属性
-            iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, goodsId));
-            // spu
-            result = this.removeById(goodsId);
-        }
-        return result;
-    }
-
 }

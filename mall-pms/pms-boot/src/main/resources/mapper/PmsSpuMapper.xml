@@ -32,9 +32,16 @@
             <result property="stock" column="stock" jdbcType="INTEGER"/>
             <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
         </collection>-->
-
-
-
+        <collection property="skuList" column="id" select="getSkuListBySpuId">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="sn" column="sn" jdbcType="VARCHAR"/>
+            <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+            <result property="specIds" column="spec_ids" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="BIGINT"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -46,28 +53,40 @@
         status,gmt_create,gmt_modified
     </sql>
     <select id="list" resultMap="BaseResultMap">
-        SELECT t1.name,
-               t1.pic_url,
-
-               t3.NAME         categoryName,
-               t4.NAME         brandName,
-               t2.id           skuId,
-               t2.NAME         skuName,
-               t2.sn,
-               t2.pic_url      skuPicUrl,
-               t2.spec_ids,
-               t2.price        skuPrice,
-               t2.stock
+        SELECT
+            t1.id,
+            t1.name,
+            t1.pic_url,
+            t1.origin_price,
+            t1.price,
+            t1.sales,
+            t1.unit,
+            t1.detail,
+            t1.description,
+            t3.NAME categoryName,
+            t4.NAME brandName
         FROM pms_spu t1
-                 LEFT JOIN pms_sku t2 ON t1.id = t2.spu_id
-                 LEFT JOIN pms_category t3 ON t1.category_id = t3.id
-                 LEFT JOIN pms_brand t4 ON t1.brand_id = t4.id
+            LEFT JOIN pms_category t3 ON t1.category_id = t3.id
+            LEFT JOIN pms_brand t4 ON t1.brand_id = t4.id
         WHERE 1 = 1
         <if test="categoryId!=null">
             AND t1.category_id =#{categoryId}
         </if>
         <if test='name!=null and name neq ""'>
-            AND t1.category_id =#{categoryId}
+            AND t1.name like concat('%',#{name},'%')
         </if>
+    </select>
+
+
+    <select id="getSkuListBySpuId" resultType="com.youlai.mall.pms.pojo.entity.PmsSku">
+        SELECT id  ,
+               NAME  ,
+               sn,
+               pic_url ,
+               spec_ids,
+               price ,
+               stock
+        FROM pms_sku
+        WHERE spu_id = #{id}
     </select>
 </mapper>

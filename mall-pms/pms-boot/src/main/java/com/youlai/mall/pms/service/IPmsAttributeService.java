@@ -6,6 +6,5 @@ import com.youlai.mall.pms.pojo.entity.PmsAttribute;
 
 public interface IPmsAttributeService extends IService<PmsAttribute> {
 
-
     boolean saveBatch(AttributeFormDTO attributeForm);
 }
