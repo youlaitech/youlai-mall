@@ -10,7 +10,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 @Configuration
-public class RedisGatewyConfig {
+public class RedisGatewayConfig {
 
     @Autowired
     private RedisConnectionFactory connectionFactory;
