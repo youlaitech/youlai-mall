@@ -14,7 +14,7 @@ public class SpuDTO {
     private Long price;
     private Integer sales;
     private String pic;
-    private List<String> pics;
+    private String[] pics;
     private String unit;
     private String description;
     private String detail;
