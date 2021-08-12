@@ -10,8 +10,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.tcc.service.SeataTccSkuService;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -54,7 +54,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
      */
     @GlobalTransactional
     @Override
-    public boolean lockStock(List<SkuLockDTO> skuLockList) {
+    public boolean lockStock(List<LockStockDTO> skuLockList) {
         log.info("=======================创建订单，开始锁定商品库存=======================");
         log.info("锁定商品信息：{}", skuLockList.toString());
         if (CollectionUtil.isEmpty(skuLockList)) {
@@ -79,17 +79,17 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         });
 
         // 锁定失败的商品集合
-        List<SkuLockDTO> unlockSkuList = skuLockList.stream().filter(item -> !item.getLocked()).collect(Collectors.toList());
+        List<LockStockDTO> unlockSkuList = skuLockList.stream().filter(item -> !item.getLocked()).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(unlockSkuList)) {
             // 恢复已被锁定的库存
-            List<SkuLockDTO> lockSkuList = skuLockList.stream().filter(SkuLockDTO::getLocked).collect(Collectors.toList());
+            List<LockStockDTO> lockSkuList = skuLockList.stream().filter(LockStockDTO::getLocked).collect(Collectors.toList());
             lockSkuList.forEach(item ->
                     this.update(new LambdaUpdateWrapper<PmsSku>()
                             .eq(PmsSku::getId, item.getSkuId())
                             .setSql("locked_stock = locked_stock - " + item.getCount()))
             );
             // 提示订单哪些商品库存不足
-            List<Long> ids = unlockSkuList.stream().map(SkuLockDTO::getSkuId).collect(Collectors.toList());
+            List<Long> ids = unlockSkuList.stream().map(LockStockDTO::getSkuId).collect(Collectors.toList());
             throw new BizException("商品" + ids.toString() + "库存不足");
         }
 
@@ -112,7 +112,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
             return true;
         }
 
-        List<SkuLockDTO> skuLockList = JSONUtil.toList(json, SkuLockDTO.class);
+        List<LockStockDTO> skuLockList = JSONUtil.toList(json, LockStockDTO.class);
 
         skuLockList.forEach(item ->
                 this.update(new LambdaUpdateWrapper<PmsSku>()
@@ -137,7 +137,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
             return true;
         }
 
-        List<SkuLockDTO> skuLockList = JSONUtil.toList(json, SkuLockDTO.class);
+        List<LockStockDTO> skuLockList = JSONUtil.toList(json, LockStockDTO.class);
 
         skuLockList.forEach(item -> {
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()

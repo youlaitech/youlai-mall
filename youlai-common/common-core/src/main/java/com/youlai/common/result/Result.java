@@ -1,16 +1,17 @@
 package com.youlai.common.result;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * @author haoxr
- * @date 2020-06-23
  **/
 @Data
-// 忽略null值
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Result<T> implements Serializable {
 
@@ -42,6 +43,8 @@ public class Result<T> implements Serializable {
         result.setTotal(total.intValue());
         return result;
     }
+
+
 
     public static <T> Result<T> failed() {
         return result(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), ResultCode.SYSTEM_EXECUTION_ERROR.getMsg(), null);

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.pms.mapper.PmsSpuMapper">
+    <resultMap id="BaseResultMap" type="com.youlai.mall.pms.pojo.entity.PmsSpu">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
+        <result property="brandId" column="brand_id" jdbcType="BIGINT"/>
+        <result property="originPrice" column="origin_price" jdbcType="BIGINT"/>
+        <result property="price" column="price" jdbcType="BIGINT"/>
+        <result property="sales" column="sales" jdbcType="INTEGER"/>
+        <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+        <result property="album" column="album" jdbcType="OTHER"/>
+        <result property="unit" column="unit" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="categoryName" column="categoryName" jdbcType="VARCHAR"/>
+        <result property="brandName" column="brandName" jdbcType="VARCHAR"/>
+        <!-- Mybatis Plus 分页有BUG -->
+        <!--<collection property="skuList" ofType="com.youlai.mall.pms.pojo.entity.PmsSku" javaType="list">
+            <id property="id" column="skuId" jdbcType="BIGINT"/>
+            <result property="name" column="skuName" jdbcType="VARCHAR"/>
+            <result property="sn" column="sn" jdbcType="VARCHAR"/>
+            <result property="picUrl" column="skuPicUrl" jdbcType="VARCHAR"/>
+            <result property="specIds" column="specIds" jdbcType="VARCHAR"/>
+            <result property="price" column="skuPrice" jdbcType="BIGINT"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
+        </collection>-->
+        <collection property="skuList" column="id" select="getSkuListBySpuId">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="sn" column="sn" jdbcType="VARCHAR"/>
+            <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+            <result property="specIds" column="spec_ids" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="BIGINT"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,name,category_id,
+        brand_id,origin_price,price,
+        sales,pic_url,album,
+        unit,description,detail,
+        status,gmt_create,gmt_modified
+    </sql>
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+            t1.id,
+            t1.name,
+            t1.pic_url,
+            t1.origin_price,
+            t1.price,
+            t1.sales,
+            t1.unit,
+            t1.detail,
+            t1.description,
+            t3.NAME categoryName,
+            t4.NAME brandName
+        FROM pms_spu t1
+            LEFT JOIN pms_category t3 ON t1.category_id = t3.id
+            LEFT JOIN pms_brand t4 ON t1.brand_id = t4.id
+        WHERE 1 = 1
+        <if test="categoryId!=null">
+            AND t1.category_id =#{categoryId}
+        </if>
+        <if test='name!=null and name neq ""'>
+            AND t1.name like concat('%',#{name},'%')
+        </if>
+    </select>
+
+
+    <select id="getSkuListBySpuId" resultType="com.youlai.mall.pms.pojo.entity.PmsSku">
+        SELECT id  ,
+               NAME  ,
+               sn,
+               pic_url ,
+               spec_ids,
+               price ,
+               stock
+        FROM pms_sku
+        WHERE spu_id = #{id}
+    </select>
+</mapper>

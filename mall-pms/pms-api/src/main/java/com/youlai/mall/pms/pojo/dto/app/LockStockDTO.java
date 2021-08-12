@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo.dto;
+package com.youlai.mall.pms.pojo.dto.app;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SkuLockDTO {
+public class LockStockDTO {
 
     private Long skuId;
 

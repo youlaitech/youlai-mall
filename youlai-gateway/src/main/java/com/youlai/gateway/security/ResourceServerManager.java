@@ -83,7 +83,6 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
             urlPermRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
         }
 
-
         // 根据请求路径判断有访问权限的角色列表
         List<String> authorizedRoles = new ArrayList<>(); // 拥有访问权限的角色
         boolean requireCheck = false; // 是否需要鉴权，默认“没有设置权限规则”不用鉴权
