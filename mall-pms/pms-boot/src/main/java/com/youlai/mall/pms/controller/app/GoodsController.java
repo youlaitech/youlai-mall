@@ -1,64 +1,66 @@
 package com.youlai.mall.pms.controller.app;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.app.SkuLockDTO;
-import com.youlai.mall.pms.service.IPmsSkuService;
+import com.youlai.mall.pms.pojo.entity.PmsSpu;
+import com.youlai.mall.pms.pojo.vo.app.GoodsDetailVO;
+import com.youlai.mall.pms.pojo.vo.app.GoodsVO;
+import com.youlai.mall.pms.serviceapp.IGoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import jodd.util.StringUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Api(tags = "移动端-商品")
-@RestController("appGoodsController")
+@Api(tags = "移动端-商品信息")
+@RestController(value = "appGoodsController")
 @RequestMapping("/app-api/v1/goods")
 @AllArgsConstructor
 public class GoodsController {
 
-    private IPmsSkuService iPmsSkuService;
+    private IGoodsService goodsService;
+
+    @ApiOperation(value = "商品分页列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页码", example = "1", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", example = "10", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "name", value = "商品名称", example = "华为P50", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "categoryId", value = "商品类目", example = "1", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "orderBy", value = "排序字段", example = "price", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "isAsc", value = "是否升序", example = "false", paramType = "query", dataType = "Boolean")
+    })
+    @GetMapping
+    public Result list(Integer page, Integer limit, String name, Long categoryId, String orderBy, Boolean isAsc) {
+        Page<PmsSpu> pageResult = goodsService.page(new Page<>(page, limit), new QueryWrapper<PmsSpu>()
+                .eq(categoryId != null, "category_id", categoryId)
+                .like(StrUtil.isNotBlank(name), "name", name)
+                .select("id", "name", "pic_url", "price", "sales")
+                .orderBy(StringUtil.isNotBlank(orderBy), isAsc, StrUtil.toUnderlineCase(orderBy))
+        );
+
+        List<GoodsVO> list = pageResult.getRecords().stream()
+                .map(item -> {
+                    GoodsVO goodsVO = new GoodsVO();
+                    BeanUtil.copyProperties(item, goodsVO);
+                    return goodsVO;
+                }).collect(Collectors.toList());
+        return Result.success(list, pageResult.getTotal());
+    }
+
 
     @ApiOperation(value = "商品详情")
     @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
-        SkuDTO sku = iPmsSkuService.getSkuById(id);
-        return Result.success(sku);
-    }
-
-    @ApiOperation("获取商品的库存数量")
-    @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}/stock")
-    public Result<Integer> getStockById(@PathVariable Long id) {
-        Integer stock = iPmsSkuService.getStockById(id);
-        return Result.success(stock);
-    }
-
-
-    @ApiOperation(value = "锁定库存")
-    @ApiImplicitParam(name = "list", value = "商品列表", required = true, paramType = "body", dataType = "SkuLockDTO")
-    @PutMapping("/stocks/_lock")
-    public Result<Boolean> lockStock(@RequestBody List<SkuLockDTO> list) {
-        boolean result = iPmsSkuService.lockStock(list);
-        return Result.judge(result);
-    }
-
-
-    @ApiOperation(value = "解锁库存")
-    @ApiImplicitParam(name = "orderToken", value = "订单令牌", required = true, paramType = "body", dataType = "String")
-    @PutMapping("/stocks/_unlock")
-    public Result<Boolean> unlockStock(String orderToken) {
-        boolean result = iPmsSkuService.unlockStock(orderToken);
-        return Result.judge(result);
-    }
-
-    @ApiOperation(value = "扣减库存")
-    @ApiImplicitParam(name = "orderToken", value = "订单令牌", required = true, paramType = "body", dataType = "String")
-    @PutMapping("/stocks/_deduct")
-    public Result<Boolean> deductStock(String orderToken) {
-        boolean result = iPmsSkuService.deductStock(orderToken);
-        return Result.judge(result);
+    public Result<GoodsDetailVO> detail(@PathVariable Long id) {
+        GoodsDetailVO goodsDetailVO = goodsService.getGoodsById(id);
+        return Result.success(goodsDetailVO);
     }
 }
