@@ -34,5 +34,11 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-micro-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>pms-api</artifactId>
+            <version>2.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
