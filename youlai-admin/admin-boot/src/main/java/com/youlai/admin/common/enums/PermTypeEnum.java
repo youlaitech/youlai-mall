@@ -6,9 +6,8 @@ import lombok.Setter;
 /**
  * 权限类型
  *
- * @Author haoxr
- * @Date 2021-02-05 10:10
- * @Version 1.0.0
+ * @author xianrui
+ * @date 2021-02-05
  */
 
 public enum PermTypeEnum {

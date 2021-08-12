@@ -24,17 +24,12 @@ public class SysMenu extends BaseEntity {
 
     private String name;
 
-    private String icon;
-
-    /**
-     * 路由名称
-     */
-    private String routeName;
+    private String iconUrl;
 
     /**
      * 路由路径
      */
-    private String routePath;
+    private String path;
 
     private String component;
 

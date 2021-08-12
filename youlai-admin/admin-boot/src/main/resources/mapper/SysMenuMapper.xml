@@ -7,11 +7,10 @@
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
-        <result property="routeName" column="route_name" jdbcType="VARCHAR"/>
-        <result property="routePath" column="route_path" jdbcType="VARCHAR"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
         <result property="component" column="component" jdbcType="VARCHAR"/>
         <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
-        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="iconUrl" column="icon_url" jdbcType="VARCHAR"/>
         <result property="sort" column="sort" jdbcType="INTEGER"/>
         <result property="visible" column="visible" jdbcType="BOOLEAN"/>
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
@@ -33,10 +32,9 @@
         select t1.id,
                t1.name,
                t1.parent_id,
-               t1.route_name,
-               t1.route_path,
+               t1.path,
                t1.component,
-               t1.icon,
+               t1.icon_url,
                t1.sort,
                t1.visible,
                t1.redirect,

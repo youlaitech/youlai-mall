@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo.dto;
+package com.youlai.mall.pms.pojo.dto.app;
 
 import lombok.Data;
 
@@ -12,12 +12,12 @@ import lombok.Data;
 public class SkuDTO {
 
     private Long id;
-    private String code;
+    private String sn;
     private String name;
-    private String pic;
+    private String picUrl;
     private Long price;
 
     private Integer stock;
-    private String spuName;
+    private String goodsName;
 
 }

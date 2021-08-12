@@ -15,4 +15,7 @@ public interface PmsConstants {
     String LOCK_PRODUCT_DETAIL = "lock:product:detail";
 
     String PRODUCT_REDIS_BLOOM_FILTER = "product:redis:bloom:filter";
+
+    String TEMP_ID_PREFIX = "tid_";
+
 }

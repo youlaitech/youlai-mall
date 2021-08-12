@@ -1,6 +1,5 @@
 package com.youlai.common.result;
 
-import com.youlai.common.enums.QueryModeEnum;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

@@ -4,7 +4,7 @@ package com.youlai.admin.service.impl;
 import com.youlai.admin.common.util.JWTUtils;
 import com.youlai.admin.service.ITokenService;
 import com.youlai.common.constant.AuthConstants;
-import com.youlai.common.domain.JWTPayload;
+import com.youlai.common.pojo.JwtPayload;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,7 +27,7 @@ public class TokenServiceImpl implements ITokenService {
     @SneakyThrows
     public boolean invalidateToken(String token) {
 
-        JWTPayload payload = JWTUtils.getJWTPayload(token);
+        JwtPayload payload = JWTUtils.getJWTPayload(token);
 
         // 计算是否过期
         long currentTimeSeconds = System.currentTimeMillis() / 1000;
@@ -42,7 +42,7 @@ public class TokenServiceImpl implements ITokenService {
 
     @Override
     public int getTokenStatus(String token) {
-        JWTPayload payload = JWTUtils.getJWTPayload(token);
+        JwtPayload payload = JWTUtils.getJWTPayload(token);
 
         // 计算是否过期
         long currentTimeSeconds = System.currentTimeMillis() / 1000;

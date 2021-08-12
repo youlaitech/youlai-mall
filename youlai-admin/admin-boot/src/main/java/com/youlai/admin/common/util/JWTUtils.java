@@ -3,7 +3,7 @@ package com.youlai.admin.common.util;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.common.constant.AuthConstants;
-import com.youlai.common.domain.JWTPayload;
+import com.youlai.common.pojo.JwtPayload;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.util.Strings;
 
@@ -20,10 +20,10 @@ public class JWTUtils {
      * @return
      */
     @SneakyThrows
-    public static JWTPayload getJWTPayload(String token) {
+    public static JwtPayload getJWTPayload(String token) {
         token = token.replace(AuthConstants.AUTHORIZATION_PREFIX, Strings.EMPTY);
         JWSObject jwsObject = JWSObject.parse(token);
-        JWTPayload payload = JSONUtil.toBean(jwsObject.getPayload().toString(), JWTPayload.class);
+        JwtPayload payload = JSONUtil.toBean(jwsObject.getPayload().toString(), JwtPayload.class);
         return payload;
     }
 
@@ -33,7 +33,7 @@ public class JWTUtils {
      * @return
      */
     public static boolean isExpired(String token) {
-        JWTPayload payload = getJWTPayload(token);
+        JwtPayload payload = getJWTPayload(token);
         // 计算是否过期
         long currentTimeSeconds = System.currentTimeMillis() / 1000;
         Long exp = payload.getExp();

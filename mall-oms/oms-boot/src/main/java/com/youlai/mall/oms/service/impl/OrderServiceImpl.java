@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -31,24 +31,25 @@ import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
+import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
-import com.youlai.mall.oms.pojo.vo.CartVO;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.oms.tcc.service.SeataTccOrderService;
-import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
+import com.youlai.mall.pms.api.GoodsFeignClient;
+import com.youlai.mall.pms.api.StockFeignClient;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.ums.api.MemberAddressFeignClient;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.pojo.entity.UmsAddress;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import io.seata.spring.annotation.GlobalTransactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -69,25 +70,25 @@ import java.util.stream.Collectors;
 
 import static com.youlai.mall.oms.constant.OmsConstants.*;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements IOrderService {
 
-    private final WxPayProperties wxPayProperties;
-    private final ICartService cartService;
-    private final SkuFeignClient skuFeignService;
-    private final MemberAddressFeignClient addressFeignService;
-    private final IOrderItemService orderItemService;
-    private final RabbitTemplate rabbitTemplate;
-    private final StringRedisTemplate redisTemplate;
-    private final RedissonClient redissonClient;
-    private final ThreadPoolExecutor threadPoolExecutor;
-    private final MemberFeignClient memberFeignClient;
-
-    private final BusinessNoGenerator businessNoGenerator;
-    private final SeataTccOrderService seataTccOrderService;
-    private final WxPayService wxPayService;
+   private final WxPayProperties wxPayProperties;
+   private final ICartService cartService;
+   private final MemberAddressFeignClient addressFeignService;
+   private final IOrderItemService orderItemService;
+   private final RabbitTemplate rabbitTemplate;
+   private final StringRedisTemplate redisTemplate;
+   private final ThreadPoolExecutor threadPoolExecutor;
+   private final MemberFeignClient memberFeignClient;
+   private final BusinessNoGenerator businessNoGenerator;
+   private final GoodsFeignClient goodsFeignClient;
+   private final StockFeignClient stockFeignClient;
+   private final SeataTccOrderService seataTccOrderService;
+   private  final RedissonClient redissonClient;
+   private final WxPayService wxPayService;
 
     /**
      * 订单确认
@@ -105,25 +106,25 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         .skuId(orderConfirmDTO.getSkuId())
                         .count(orderConfirmDTO.getCount())
                         .build();
-                SkuDTO sku = skuFeignService.getSkuById(orderConfirmDTO.getSkuId()).getData();
+                SkuDTO sku = goodsFeignClient.getSkuById(orderConfirmDTO.getSkuId()).getData();
                 orderItemDTO.setPrice(sku.getPrice());
-                orderItemDTO.setPic(sku.getPic());
+                orderItemDTO.setPic(sku.getPicUrl());
                 orderItemDTO.setSkuName(sku.getName());
-                orderItemDTO.setSkuCode(sku.getCode());
-                orderItemDTO.setSpuName(sku.getSpuName());
+                orderItemDTO.setSkuCode(sku.getSn());
+                orderItemDTO.setSpuName(sku.getGoodsName());
                 orderItems.add(orderItemDTO);
             } else { // 购物车中商品结算
-                List<CartVO.CartItem> cartItems = cartService.getCartItems(memberId);
+                List<CartItemDTO> cartItems = cartService.listCartItemByMemberId(memberId);
                 List<OrderItemDTO> items = cartItems.stream()
-                        .filter(CartVO.CartItem::getChecked)
+                        .filter(CartItemDTO::getChecked)
                         .map(cartItem -> OrderItemDTO.builder()
                                 .skuId(cartItem.getSkuId())
                                 .count(cartItem.getCount())
                                 .price(cartItem.getPrice())
                                 .skuName(cartItem.getSkuName())
-                                .skuCode(cartItem.getSkuCode())
-                                .spuName(cartItem.getSpuName())
-                                .pic(cartItem.getPic())
+                                .skuCode(cartItem.getSkuSn())
+                                .spuName(cartItem.getGoodsName())
+                                .pic(cartItem.getPicUrl())
                                 .build())
                         .collect(Collectors.toList());
                 orderItems.addAll(items);
@@ -160,43 +161,36 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 订单重复提交校验
         String orderToken = submitDTO.getOrderToken();
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
-        Long result = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
-
-        if (!ObjectUtil.equals(result, RELEASE_LOCK_SUCCESS_RESULT)) {
-            throw new BizException("订单不可重复提交");
-        }
+        Long execute = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
+        Assert.isTrue(execute.equals(1l), "订单不可重复提交");
 
         List<OrderItemDTO> orderItems = submitDTO.getOrderItems();
-        if (CollectionUtil.isEmpty(orderItems)) {
-            throw new BizException("订单没有商品，请选择商品后提交");
-        }
+        Assert.isTrue(CollectionUtil.isNotEmpty(orderItems), "订单商品为空");
 
         // 订单验价
         Long currentTotalPrice = orderItems.stream().map(item -> {
-            SkuDTO sku = skuFeignService.getSkuById(item.getSkuId()).getData();
+            SkuDTO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
             if (sku != null) {
                 return sku.getPrice() * item.getCount();
             }
             return 0L;
         }).reduce(0L, Long::sum);
 
-        if (currentTotalPrice.compareTo(submitDTO.getTotalPrice()) != 0) {
-            throw new BizException("页面已过期，请重新刷新页面再提交");
-        }
+        Assert.isTrue(currentTotalPrice.compareTo(submitDTO.getTotalPrice()) == 0, "当前页面已过期，请重新刷新页面再提交");
 
         // 校验库存是否足够和锁库存
-        List<SkuLockDTO> skuLockList = orderItems.stream()
-                .map(item -> SkuLockDTO.builder().skuId(item.getSkuId())
+        List<LockStockDTO> skuLockList = orderItems.stream()
+                .map(item -> LockStockDTO.builder().skuId(item.getSkuId())
                         .count(item.getCount())
                         .orderToken(orderToken)
                         .build())
                 .collect(Collectors.toList());
 
-        Result<?> lockResult = skuFeignService.lockStock(skuLockList);
+        Result<?> lockResult = stockFeignClient.lockStock(skuLockList);
 
-        if (!Result.success().getCode().equals(lockResult.getCode())) {
-            throw new BizException(Result.failed().getMsg());
-        }
+
+        Assert.isTrue(Result.success().getCode().equals(lockResult.getCode()), "锁定商品库存失败:{}", lockResult.getMsg());
+
         // 创建订单(状态：待支付)
         OmsOrder order = new OmsOrder();
         order.setOrderSn(orderToken) // 把orderToken赋值给订单编号【!】
@@ -254,7 +248,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 订单验价
         Long currentTotalPrice = orderItems.stream().map(item -> {
-            SkuDTO sku = skuFeignService.getSkuById(item.getSkuId()).getData();
+            SkuDTO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
             if (sku != null) {
                 return sku.getPrice() * item.getCount();
             }
@@ -266,14 +260,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
 
         // 校验库存是否足够和锁库存
-        List<SkuLockDTO> skuLockList = orderItems.stream()
-                .map(item -> SkuLockDTO.builder().skuId(item.getSkuId())
+        List<LockStockDTO> skuLockList = orderItems.stream()
+                .map(item -> LockStockDTO.builder().skuId(item.getSkuId())
                         .count(item.getCount())
                         .orderToken(orderToken)
                         .build())
                 .collect(Collectors.toList());
 
-        Result<?> lockResult = skuFeignService.lockStock(skuLockList);
+        Result<?> lockResult = stockFeignClient.lockStock(skuLockList);
 
         if (!Result.success().getCode().equals(lockResult.getCode())) {
             throw new BizException(Result.failed().getMsg());
@@ -329,7 +323,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
 
         // 扣减库存
-        Result<?> deductStockResult = skuFeignService.deductStock(order.getOrderSn());
+        Result<?> deductStockResult = stockFeignClient.deductStock(order.getOrderSn());
+
         if (!Result.isSuccess(deductStockResult)) {
             throw new BizException("扣减商品库存失败");
         }
@@ -450,7 +445,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         boolean result = this.updateById(order);
         if (result) {
             // 释放被锁定的库存
-            Result<?> unlockResult = skuFeignService.unlockStock(order.getOrderSn());
+            Result<?> unlockResult = stockFeignClient.unlockStock(order.getOrderSn());
             if (!Result.isSuccess(unlockResult)) {
                 throw new BizException(unlockResult.getMsg());
             }
