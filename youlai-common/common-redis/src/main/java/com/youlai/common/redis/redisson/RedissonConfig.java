@@ -1,8 +1,10 @@
 package com.youlai.common.redis.redisson;
 
+import cn.hutool.core.util.StrUtil;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.redisson.config.SingleServerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,11 +23,13 @@ public class RedissonConfig {
             return null;
         }
         Config config = new Config();
-        config.useSingleServer()
-                //可以用"rediss://"来启用SSL连接
-                .setAddress(properties.getServerAddress() + ":" + properties.getPort())
-                .setDatabase(properties.getDatabase())
-                .setPassword(properties.getPassword());
+        SingleServerConfig singleServerConfig = config.useSingleServer();
+        singleServerConfig.setAddress(properties.getServerAddress() + ":" + properties.getPort());
+        singleServerConfig.setDatabase(properties.getDatabase());
+        String password = properties.getPassword();
+        if (StrUtil.isNotBlank(password)) {
+            singleServerConfig.setPassword(password);
+        }
         return Redisson.create(config);
     }
 
