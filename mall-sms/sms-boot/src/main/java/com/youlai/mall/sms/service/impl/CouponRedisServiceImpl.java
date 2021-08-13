@@ -1,7 +1,7 @@
 package com.youlai.mall.sms.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.fastjson.JSON;
+import cn.hutool.json.JSONUtil;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
@@ -48,16 +48,16 @@ public class CouponRedisServiceImpl implements ICouponRedisService {
             return Collections.emptyList();
         }
         return couponCaches.stream()
-                .map(obj -> JSON.parseObject(obj, SmsCoupon.class))
+                .map(obj -> JSONUtil.toBean(obj, SmsCoupon.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void saveEmptyCouponListToCache(Long userId, List<Integer> states) {
-        log.info("Save Empty Coupon List To Cache For User:{}, State:{}", userId, JSON.toJSONString(states));
+        log.info("Save Empty Coupon List To Cache For User:{}, State:{}", userId, JSONUtil.toJsonStr(states));
         Map<String, String> invalidCouponMap = new HashMap<>();
         // 构造无效的coupon
-        invalidCouponMap.put("-1", JSON.toJSONString(new SmsCoupon()));
+        invalidCouponMap.put("-1", JSONUtil.toJsonStr(new SmsCoupon()));
 
         SessionCallback<Object> sessionCallback = new SessionCallback<Object>() {
             @Override
@@ -107,7 +107,7 @@ public class CouponRedisServiceImpl implements ICouponRedisService {
         log.debug("Add Coupon To Cache For Usable.");
         Map<String, String> needCacheForUsable = new HashMap<>(coupons.size());
         coupons.forEach(coupon -> {
-            needCacheForUsable.put(coupon.getId().toString(), JSON.toJSONString(coupon));
+            needCacheForUsable.put(coupon.getId().toString(), JSONUtil.toJsonStr(coupon));
         });
         String redisKey = state2RedisKey(userId, CouponStateEnum.USABLE.getCode());
         redisTemplate.opsForHash().putAll(redisKey, needCacheForUsable);
@@ -139,13 +139,13 @@ public class CouponRedisServiceImpl implements ICouponRedisService {
 
         assert curUsableCoupons.size() > coupons.size();
         coupons.forEach(coupon -> {
-            needCacheForExpired.put(coupon.getId().toString(), JSON.toJSONString(coupon));
+            needCacheForExpired.put(coupon.getId().toString(), JSONUtil.toJsonStr(coupon));
         });
 
         List<Long> curUsableIds = curUsableCoupons.stream().map(SmsCoupon::getId).collect(Collectors.toList());
         List<Long> paramIds = coupons.stream().map(SmsCoupon::getId).collect(Collectors.toList());
         if (!CollectionUtils.isSubCollection(curUsableIds, paramIds)) {
-            log.error("CurCoupons Is Not Equal To Cache: {}, {}, {}", userId, JSON.toJSONString(curUsableIds), JSON.toJSONString(paramIds));
+            log.error("CurCoupons Is Not Equal To Cache: {}, {}, {}", userId, JSONUtil.toJsonStr(curUsableIds), JSONUtil.toJsonStr(paramIds));
             throw new BizException("CurCoupon Is Not Equal To Cache.");
         }
         List<String> needCleanKey = paramIds.stream().map(String::valueOf).collect(Collectors.toList());

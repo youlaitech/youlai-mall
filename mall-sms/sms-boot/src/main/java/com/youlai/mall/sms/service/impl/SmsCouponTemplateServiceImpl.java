@@ -3,7 +3,6 @@ package com.youlai.mall.sms.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -148,7 +147,6 @@ public class SmsCouponTemplateServiceImpl extends ServiceImpl<SmsCouponTemplateM
 
     @Override
     public List<SmsCouponTemplate> findAllOfferingTemplate(Set<Integer> userTypes) {
-        log.info("Find All Offering Coupon Template, userTypes", JSON.toJSONString(userTypes));
         // TODO 优惠券模板是实际业务中请求量比较大的业务，建议将这部分数据放入 Redis 中
         QueryWrapper<SmsCouponTemplate> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("offer_state", CouponOfferStateEnum.GOING.getCode());

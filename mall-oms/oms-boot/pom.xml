@@ -74,7 +74,6 @@
             <artifactId>seata-spring-boot-starter</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>oms-api</artifactId>
@@ -117,7 +116,6 @@
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-pay</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>

@@ -75,20 +75,20 @@ import static com.youlai.mall.oms.constant.OmsConstants.*;
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements IOrderService {
 
-   private final WxPayProperties wxPayProperties;
-   private final ICartService cartService;
-   private final MemberAddressFeignClient addressFeignService;
-   private final IOrderItemService orderItemService;
-   private final RabbitTemplate rabbitTemplate;
-   private final StringRedisTemplate redisTemplate;
-   private final ThreadPoolExecutor threadPoolExecutor;
-   private final MemberFeignClient memberFeignClient;
-   private final BusinessNoGenerator businessNoGenerator;
-   private final GoodsFeignClient goodsFeignClient;
-   private final StockFeignClient stockFeignClient;
-   private final SeataTccOrderService seataTccOrderService;
-   private  final RedissonClient redissonClient;
-   private final WxPayService wxPayService;
+    private final WxPayProperties wxPayProperties;
+    private final ICartService cartService;
+    private final MemberAddressFeignClient addressFeignService;
+    private final IOrderItemService orderItemService;
+    private final RabbitTemplate rabbitTemplate;
+    private final StringRedisTemplate redisTemplate;
+    private final ThreadPoolExecutor threadPoolExecutor;
+    private final MemberFeignClient memberFeignClient;
+    private final BusinessNoGenerator businessNoGenerator;
+    private final GoodsFeignClient goodsFeignClient;
+    private final StockFeignClient stockFeignClient;
+    private final SeataTccOrderService seataTccOrderService;
+    private final RedissonClient redissonClient;
+    private final WxPayService wxPayService;
 
     /**
      * 订单确认
@@ -155,7 +155,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * 订单提交
      */
     @Override
-    @GlobalTransactional
     public OrderSubmitVO submit(OrderSubmitDTO submitDTO) {
         log.info("=======================订单提交=======================\n订单提交信息：{}", submitDTO);
         // 订单重复提交校验
@@ -186,9 +185,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         .build())
                 .collect(Collectors.toList());
 
-        Result<?> lockResult = stockFeignClient.lockStock(skuLockList);
+        Result<SkuDTO> goodsResult = goodsFeignClient.getSkuById(1l);
+        System.out.println(goodsResult);
 
-
+        Result<Boolean> lockResult = stockFeignClient.lockStock(skuLockList);
         Assert.isTrue(Result.success().getCode().equals(lockResult.getCode()), "锁定商品库存失败:{}", lockResult.getMsg());
 
         // 创建订单(状态：待支付)
