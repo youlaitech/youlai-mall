@@ -3,7 +3,6 @@ package com.youlai.common.redis.redisson;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
-import org.redisson.config.SingleServerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -23,13 +22,12 @@ public class RedissonConfig {
             return null;
         }
         Config config = new Config();
-        SingleServerConfig singleServerConfig = config.useSingleServer();
-        singleServerConfig
+        config.useSingleServer()
                 //可以用"rediss://"来启用SSL连接
                 .setAddress(properties.getServerAddress() + ":" + properties.getPort())
+                .setDatabase(properties.getDatabase())
                 .setPassword(properties.getPassword());
-        RedissonClient redisson = Redisson.create(config);
-        return redisson;
+        return Redisson.create(config);
     }
 
 
