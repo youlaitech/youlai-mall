@@ -42,7 +42,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
     @Override
     @GlobalTransactional
-    public boolean lockStockTcc(List<SkuLockDTO> skuLockList) {
+    public boolean lockStockTcc(List<LockStockDTO> skuLockList) {
 
         seataTccSkuService.prepareSkuLockList(null,skuLockList);
         String orderToken = skuLockList.get(0).getOrderToken();
@@ -52,7 +52,6 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     /**
      * 创建订单时锁定库存
      */
-    @GlobalTransactional
     @Override
     public boolean lockStock(List<LockStockDTO> skuLockList) {
         log.info("=======================创建订单，开始锁定商品库存=======================");

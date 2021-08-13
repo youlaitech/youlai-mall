@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/Author-有来技术团队-orange.svg)](https://gitee.com/wangjiabin-x/uh5)
+[![](https://img.shields.io/badge/Author-有来技术-orange.svg)](https://gitee.com/wangjiabin-x/uh5)
 ![](https://img.shields.io/badge/youlai--mall-v2.0.0-blue)
 [![](https://img.shields.io/github/stars/hxrui/youlai-mall.svg?style=social&label=Stars)](https://github.com/hxrui/youlai-mall/stargazers)
 [![](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/hxrui/youlai-mall/blob/master/LICENSE)
@@ -18,7 +18,7 @@
 #### 项目特色
 - Spring Cloud + Vue + Docker全栈开发
 - 项目使用的都是当前主流的技术栈，无过度自定义封装，易学习理解和方便二次扩展
-- 基于Spring Boot 2.5.0、Spring Cloud 2020 & Alibaba 2021一站式微服务解决方案实现快速开发
+- 基于Spring Boot 2.5.2、Spring Cloud 2020 & Alibaba 2021一站式微服务解决方案实现快速开发
 - 完整的Spring Security OAuth2 认证中心统一认证授权，网关统一鉴权逻辑
 - 特有一套微服务+前后端分离的RBAC权限设计，实现Spring Cloud Gateway网关下的RESTful接口细粒度的统一鉴权和vue页面按钮级别权限控制
 - 基于vue-element-admin的后台前端解决方案，实现动态路由
@@ -44,7 +44,7 @@
 
 #### 项目架构流程图
 
-![](https://gitee.com/haoxr/image/raw/master/youlai-architecture.jpg)
+![](https://gitee.com/haoxr/image/raw/master/default/OAuth2.jpg)
 
 #### 技术栈
 

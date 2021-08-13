@@ -54,10 +54,11 @@
             <artifactId>dozer-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-core</artifactId>
-        </dependency>
+        <!--TODO feign远程调用返回报错-->
+        <!-- <dependency>
+             <groupId>io.github.openfeign</groupId>
+             <artifactId>feign-core</artifactId>
+         </dependency>-->
     </dependencies>
 
 </project>

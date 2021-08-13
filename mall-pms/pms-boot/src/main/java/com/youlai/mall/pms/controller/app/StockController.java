@@ -33,7 +33,6 @@ public class StockController {
         return Result.success(stock);
     }
 
-
     @ApiOperation(value = "锁定库存")
     @PutMapping("/_lock")
     public Result<Boolean> lockStock(@RequestBody List<LockStockDTO> list) {

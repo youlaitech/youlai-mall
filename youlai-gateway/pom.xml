@@ -80,7 +80,6 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
 
-
         <!-- 配置读取 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

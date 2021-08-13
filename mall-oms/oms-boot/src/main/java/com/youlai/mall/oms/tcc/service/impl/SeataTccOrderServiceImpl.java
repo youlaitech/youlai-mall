@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.tcc.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.enums.OrderStatusEnum;

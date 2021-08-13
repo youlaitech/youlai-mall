@@ -1,3 +1,4 @@
+/*
 package com.youlai.common.web.config;
 
 import feign.RequestInterceptor;
@@ -11,31 +12,37 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
+*/
 /**
  * Feign相关配置类
  * 
  * @author Gadfly
  * @since 2021-08-06 9:47
- */
+ *//*
+
 @Configuration
 public class FeignConfig {
-    /**
+    */
+/**
      * 让DispatcherServlet向子线程传递RequestContext
      *
      * @param servlet servlet
      * @return 注册bean
-     */
+     *//*
+
     @Bean
     public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration(DispatcherServlet servlet) {
         servlet.setThreadContextInheritable(true);
         return new ServletRegistrationBean<>(servlet, "/**");
     }
 
-    /**
+    */
+/**
      * 覆写拦截器，在feign发送请求前取出原来的header并转发
      *
      * @return 拦截器
-     */
+     *//*
+
     @Bean
     public RequestInterceptor requestInterceptor() {
         return (template) -> {
@@ -55,3 +62,4 @@ public class FeignConfig {
         };
     }
 }
+*/

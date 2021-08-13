@@ -6,7 +6,6 @@ import org.redisson.config.Config;
 import org.redisson.config.SingleServerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 /**
  * @author huawei
@@ -27,8 +26,7 @@ public class RedissonConfig {
         singleServerConfig
                 //可以用"rediss://"来启用SSL连接
                 .setAddress(properties.getServerAddress() + ":" + properties.getPort())
-                // .setPassword(properties.getPassword())
-        ;
+                .setPassword(properties.getPassword());
         RedissonClient redisson = Redisson.create(config);
         return redisson;
     }

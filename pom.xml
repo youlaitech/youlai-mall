@@ -29,11 +29,14 @@
 
     <properties>
         <youlai.version>2.0.0</youlai.version>
+
+        <spring-boot.version>2.5.3</spring-boot.version>
+        <spring-cloud.version>2020.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-cloud.version>2020.0.3</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <lombok.version>1.18.18</lombok.version>
         <hutool.version>5.5.8</hutool.version>
         <mysql.version>8.0.19</mysql.version>
@@ -51,7 +54,6 @@
         <ip2region.version>1.7.2</ip2region.version>
         <dozer.version>6.2.0</dozer.version>
         <swagger.version>1.6.2</swagger.version>
-        <fastjson.version>1.2.73</fastjson.version>
     </properties>
 
     <dependencies>
@@ -215,13 +217,6 @@
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
 
             <dependency>
                 <groupId>com.youlai</groupId>

@@ -1,11 +1,12 @@
 package com.youlai.mall.pms.tcc.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
+import com.youlai.mall.pms.common.constant.PmsConstants;
+import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.tcc.idempotent.IdempotentUtil;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.youlai.mall.pms.common.constant.PmsConstants.LOCK_SKU_PREFIX;
 
 @Slf4j
 @Component
@@ -36,7 +36,7 @@ public class SeataTccSkuServiceImpl implements SeataTccSkuService {
 
     @Override
     @Transactional
-    public boolean prepareSkuLockList(BusinessActionContext businessActionContext, List<SkuLockDTO> skuLockList) {
+    public boolean prepareSkuLockList(BusinessActionContext businessActionContext, List<LockStockDTO> skuLockList) {
 
         if (Objects.nonNull(IdempotentUtil.getMarker(getClass(), businessActionContext.getXid()))) {
             return true;
@@ -46,7 +46,7 @@ public class SeataTccSkuServiceImpl implements SeataTccSkuService {
         }
         // 锁定商品
         skuLockList.forEach(item -> {
-            RLock lock = redissonClient.getLock(LOCK_SKU_PREFIX + item.getSkuId()); // 获取商品的分布式锁
+            RLock lock = redissonClient.getLock(PmsConstants.LOCK_SKU_PREFIX + item.getSkuId()); // 获取商品的分布式锁
             lock.lock();
             boolean result = iPmsSkuService.update(new LambdaUpdateWrapper<PmsSku>()
                     .setSql("locked_stock = locked_stock + " + item.getCount())
@@ -57,17 +57,17 @@ public class SeataTccSkuServiceImpl implements SeataTccSkuService {
             lock.unlock();
         });
         // 锁定失败的商品集合
-        List<SkuLockDTO> unlockSkuList = skuLockList.stream().filter(item -> !item.getLocked()).collect(Collectors.toList());
+        List<LockStockDTO> unlockSkuList = skuLockList.stream().filter(item -> !item.getLocked()).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(unlockSkuList)) {
             // 恢复已被锁定的库存
-            List<SkuLockDTO> lockSkuList = skuLockList.stream().filter(SkuLockDTO::getLocked).collect(Collectors.toList());
+            List<LockStockDTO> lockSkuList = skuLockList.stream().filter(LockStockDTO::getLocked).collect(Collectors.toList());
             lockSkuList.forEach(item ->
                     iPmsSkuService.update(new LambdaUpdateWrapper<PmsSku>()
                             .eq(PmsSku::getId, item.getSkuId())
                             .setSql("locked_stock = locked_stock - " + item.getCount()))
             );
             // 提示订单哪些商品库存不足
-            List<Long> ids = unlockSkuList.stream().map(SkuLockDTO::getSkuId).collect(Collectors.toList());
+            List<Long> ids = unlockSkuList.stream().map(LockStockDTO::getSkuId).collect(Collectors.toList());
             throw new BizException("商品" + ids.toString() + "库存不足");
         }
         IdempotentUtil.addMarker(getClass(), businessActionContext.getXid(), System.currentTimeMillis());
@@ -92,7 +92,8 @@ public class SeataTccSkuServiceImpl implements SeataTccSkuService {
             return true;
         }
         JSONArray jsonObjectList = (JSONArray) businessActionContext.getActionContext("skuLockList");
-        List<SkuLockDTO> skuLockList = JSONObject.parseArray(jsonObjectList.toJSONString(), SkuLockDTO.class);
+
+        List<LockStockDTO> skuLockList = JSONUtil.toList(jsonObjectList,LockStockDTO.class);
         skuLockList.forEach(item ->
                 iPmsSkuService.update(new LambdaUpdateWrapper<PmsSku>()
                         .eq(PmsSku::getId, item.getSkuId())
