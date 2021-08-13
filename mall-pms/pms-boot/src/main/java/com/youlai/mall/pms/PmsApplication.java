@@ -14,6 +14,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class PmsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(PmsApplication.class);
+        SpringApplication.run(PmsApplication.class, args);
     }
 }
