@@ -17,7 +17,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class OmsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OmsApplication.class);
+        SpringApplication.run(OmsApplication.class, args);
     }
 
 }
