@@ -21,6 +21,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class SmsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SmsApplication.class);
+        SpringApplication.run(SmsApplication.class, args);
     }
 }
