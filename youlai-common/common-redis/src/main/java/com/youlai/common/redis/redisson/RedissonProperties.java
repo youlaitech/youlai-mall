@@ -21,4 +21,12 @@ public class RedissonProperties {
 
     private String password;
 
+    private Integer database;
+
+    public Integer getDatabase() {
+        if (null == database) {
+            return 0;
+        }
+        return database;
+    }
 }
