@@ -78,6 +78,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     }
 
 
+
     /**
      * 修改商品
      *
@@ -146,6 +147,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
         goodsDetailVO.setSkuList(skuList);
         return goodsDetailVO;
+
     }
 
 

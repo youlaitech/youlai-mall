@@ -2,6 +2,7 @@ package com.youlai.common.mybatis.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.web.util.BeanMapperUtils;
 
 /**
  * @author xinyi
@@ -20,7 +21,7 @@ public class PageMapperUtils {
         dest.setPages(source.getPages());
         dest.setSize(source.getSize());
         dest.setTotal(source.getTotal());
-        // dest.setRecords(BeanMapperUtils.mapList(source.getRecords(),destType));
+         dest.setRecords(BeanMapperUtils.mapList(source.getRecords(),destType));
         return dest;
     }
 
