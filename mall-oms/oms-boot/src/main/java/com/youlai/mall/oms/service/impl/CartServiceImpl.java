@@ -1,5 +1,6 @@
 package com.youlai.mall.oms.service.impl;
 
+import cn.hutool.core.lang.Assert;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
@@ -56,7 +57,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean addCartItem(Long skuId) {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId = JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
 
@@ -95,15 +96,15 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean updateCartItem(CartItemDTO cartItem) {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId = JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
         if (cartHashOperations.get(hKey) != null) {
             CartItemDTO cacheCartItem = (CartItemDTO) cartHashOperations.get(hKey);
-            if(cartItem.getChecked()!=null){
+            if (cartItem.getChecked() != null) {
                 cacheCartItem.setChecked(cartItem.getChecked());
             }
-            if(cartItem.getCount()!=null){
+            if (cartItem.getCount() != null) {
                 cacheCartItem.setCount(cartItem.getCount());
             }
             cartHashOperations.put(hKey, cacheCartItem);
@@ -116,7 +117,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCartItem(Long skuId) {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId = JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
         cartHashOperations.delete(hKey);
@@ -129,7 +130,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean checkAll(boolean checked) {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId = JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
             CartItemDTO cartItem = (CartItemDTO) value;
@@ -147,12 +148,12 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCheckedItem() {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId = JwtUtils.getUserId();
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
             CartItemDTO cartItem = (CartItemDTO) value;
             if (cartItem.getChecked()) {
-                cartHashOperations.delete(cartItem.getSkuId()+"");
+                cartHashOperations.delete(cartItem.getSkuId() + "");
             }
         }
         return true;
