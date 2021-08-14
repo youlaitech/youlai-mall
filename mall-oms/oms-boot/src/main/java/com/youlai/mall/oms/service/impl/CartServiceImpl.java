@@ -87,7 +87,9 @@ public class CartServiceImpl implements ICartService {
             }
         });
         CompletableFuture.allOf(cartItemCompletableFuture).join();
-        cartHashOperations.put(hKey,cartItem);
+
+        Assert.isTrue(cartItem.getSkuId() != null && cartItem.getSkuId() > 0,"商品不存在");
+        cartHashOperations.put(hKey, cartItem);
         return true;
     }
 
