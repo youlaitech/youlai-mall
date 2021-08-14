@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 14/08/2021 00:09:46
+ Date: 15/08/2021 01:08:23
 */
 
 SET NAMES utf8mb4;
@@ -123,7 +123,7 @@ CREATE TABLE `sys_menu`  (
   `path` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '路由路径',
   `component` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件路径',
   `redirect` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '跳转路径',
-  `icon_url` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '菜单图标',
+  `icon` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '菜单图标',
   `sort` int NULL DEFAULT 0 COMMENT '排序',
   `visible` tinyint(1) NULL DEFAULT 1 COMMENT '状态：0-禁用 1-开启',
   `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -176,7 +176,7 @@ CREATE TABLE `sys_oauth_client`  (
 -- Records of sys_oauth_client
 -- ----------------------------
 INSERT INTO `sys_oauth_client` VALUES ('client', NULL, '123456', 'all', 'authorization_code,password,refresh_token,implicit', NULL, NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `sys_oauth_client` VALUES ('youlai-admin', '', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', '', '', 3600, 7200, NULL, 'true');
+INSERT INTO `sys_oauth_client` VALUES ('youlai-admin', '', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', '', '', -1, 7200, NULL, 'true');
 INSERT INTO `sys_oauth_client` VALUES ('youlai-weapp', '', '123456', 'all', 'authorization_code,password,refresh_token,implicit', NULL, NULL, 3600, 7200, NULL, 'true');
 
 -- ----------------------------
@@ -336,7 +336,7 @@ CREATE TABLE `sys_user`  (
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `login_name`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
@@ -344,6 +344,7 @@ CREATE TABLE `sys_user`  (
 INSERT INTO `sys_user` VALUES (1, 'root', '超级管理员', 2, '$2a$10$GdoxtCdEM0LHvKpxCa5sgOacLQr0c2PslRHknI3FSHWMdV0hc4Z6.', 1, 'https://gitee.com/haoxr/image/raw/master/20210605215800.png', '17621590365', 1, '1490493387@qq.com', 0, '2021-02-10 12:27:30', '2021-06-06 23:36:51');
 INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'https://gitee.com/haoxr/image/raw/master/20210605215800.png', '17621210366', 1, '1490493387@qq.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
 INSERT INTO `sys_user` VALUES (3, 'test', '测试小用户', 1, '$2a$10$MPJkNw.hKT/fZOgwYP8q9eu/rFJJDsNov697AmdkHNJkpjIpVSw2q', 1, 'https://gitee.com/haoxr/image/raw/master/20210605215800.png', NULL, 1, NULL, 0, '2021-06-05 01:31:29', '2021-06-05 01:31:29');
+INSERT INTO `sys_user` VALUES (8, '123', NULL, 0, '$2a$10$wWCWmCEVQWd6mP5erjXtRez5LpwBqwAReN1A22BtxcwT8E1MbBpqa', 11, '', NULL, 1, NULL, 0, '2021-08-14 22:22:22', '2021-08-14 22:22:22');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -371,6 +372,7 @@ INSERT INTO `sys_user_role` VALUES (6, 18);
 INSERT INTO `sys_user_role` VALUES (6, 67);
 INSERT INTO `sys_user_role` VALUES (7, 67);
 INSERT INTO `sys_user_role` VALUES (8, 3);
+INSERT INTO `sys_user_role` VALUES (8, 67);
 INSERT INTO `sys_user_role` VALUES (9, 2);
 INSERT INTO `sys_user_role` VALUES (10, 26);
 INSERT INTO `sys_user_role` VALUES (12, 2);
