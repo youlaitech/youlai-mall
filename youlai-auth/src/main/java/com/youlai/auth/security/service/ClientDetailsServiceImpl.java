@@ -1,4 +1,5 @@
 package com.youlai.auth.security.service;
+
 import com.youlai.admin.api.OAuthClientFeignClient;
 import com.youlai.admin.pojo.entity.SysOauthClient;
 import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
@@ -32,8 +33,11 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
                         client.getScope(),
                         client.getAuthorizedGrantTypes(),
                         client.getAuthorities(),
-                        client.getWebServerRedirectUri());
+                        client.getWebServerRedirectUri()
+                );
                 clientDetails.setClientSecret(PasswordEncoderTypeEnum.NOOP.getPrefix() + client.getClientSecret());
+                clientDetails.setAccessTokenValiditySeconds(client.getAccessTokenValidity());
+                clientDetails.setRefreshTokenValiditySeconds(client.getRefreshTokenValidity());
                 return clientDetails;
             } else {
                 throw new NoSuchClientException("No client with requested id: " + clientId);
