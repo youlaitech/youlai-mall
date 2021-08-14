@@ -35,23 +35,10 @@ public interface MemberFeignClient {
     Result<UmsMember> getByOpenid(@PathVariable String openid);
 
     /**
-     * 修改会员积分
-     */
-    @PutMapping("/app-api/v1/members/{id}/points")
-    <T> Result<T> updatePoint(@PathVariable Long id, @RequestParam Integer num);
-
-    /**
      * 扣减会员余额
      */
-    @PutMapping("/app-api/v1/members/{id}/deduct-balance")
-    <T> Result<T> deductBalance(@PathVariable Long id, @RequestParam Long balance);
-
-    /**
-     * 获取会员余额
-     */
-    @GetMapping("/app-api/v1/members/{id}/balance")
-    Result<Long> getBalance(@PathVariable Long id);
-
+    @PutMapping("/app-api/v1/members/current/balances/_deduct")
+    <T> Result<T> deductBalance( @RequestParam Long balances);
     /**
      * 添加浏览记录
      */
