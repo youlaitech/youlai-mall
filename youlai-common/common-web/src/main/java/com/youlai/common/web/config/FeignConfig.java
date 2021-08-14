@@ -39,7 +39,6 @@ public class FeignConfig {
      *
      * @return 拦截器
      */
-
     @Bean
     public RequestInterceptor requestInterceptor() {
         return (template) -> {
