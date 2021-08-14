@@ -1,3 +1,6 @@
+# 2021-08-14 18:11 因系统服务维护中，有需要体验小程序和微服务请先加我微信（haoxianrui），更新完成我会通知您
+
+
 [![](https://img.shields.io/badge/Author-有来技术-orange.svg)](https://gitee.com/wangjiabin-x/uh5)
 ![](https://img.shields.io/badge/youlai--mall-v2.0.0-blue)
 [![](https://img.shields.io/github/stars/hxrui/youlai-mall.svg?style=social&label=Stars)](https://github.com/hxrui/youlai-mall/stargazers)
