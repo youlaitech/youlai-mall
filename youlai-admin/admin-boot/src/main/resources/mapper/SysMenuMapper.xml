@@ -10,7 +10,7 @@
         <result property="path" column="path" jdbcType="VARCHAR"/>
         <result property="component" column="component" jdbcType="VARCHAR"/>
         <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
-        <result property="iconUrl" column="icon_url" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
         <result property="sort" column="sort" jdbcType="INTEGER"/>
         <result property="visible" column="visible" jdbcType="BOOLEAN"/>
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
@@ -34,7 +34,7 @@
                t1.parent_id,
                t1.path,
                t1.component,
-               t1.icon_url,
+               t1.icon,
                t1.sort,
                t1.visible,
                t1.redirect,

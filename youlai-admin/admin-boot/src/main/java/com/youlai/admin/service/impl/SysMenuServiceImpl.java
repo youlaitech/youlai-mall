@@ -113,7 +113,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     routeVO.setRedirect(menu.getRedirect());
                     routeVO.setMeta(routeVO.new Meta(
                             menu.getName(),
-                            menu.getIconUrl(),
+                            menu.getIcon(),
                             menu.getRoles()
                     ));
                     // 菜单显示隐藏
