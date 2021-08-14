@@ -40,6 +40,7 @@ public class WechatAuthServiceImpl implements IAuthService {
     @SneakyThrows
     @Override
     public OAuthToken login(String code, UserInfo userInfo) {
+        // 微信小程序的授权code获取openid
         WxMaJscode2SessionResult sessionInfo = wxMaService.getUserService().getSessionInfo(code);
         String openid = sessionInfo.getOpenid();
         Result<UmsMember> result = memberFeignClient.getByOpenid(openid);
