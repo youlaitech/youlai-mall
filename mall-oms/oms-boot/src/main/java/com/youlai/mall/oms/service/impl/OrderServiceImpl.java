@@ -138,7 +138,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderConfirmVO.setAddresses(addresses);
         }, threadPoolExecutor);
 
-
         // 生成唯一标识，防止订单重复提交
         CompletableFuture<Void> orderTokenCompletableFuture = CompletableFuture.runAsync(() -> {
             String orderToken = businessNoGenerator.generate(BusinessTypeEnum.ORDER);
@@ -155,6 +154,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * 订单提交
      */
     @Override
+    @GlobalTransactional
     public OrderSubmitVO submit(OrderSubmitDTO submitDTO) {
         log.info("=======================订单提交=======================\n订单提交信息：{}", submitDTO);
         // 订单重复提交校验
@@ -311,15 +311,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
             throw new BizException("支付失败，请检查订单状态");
         }
-        Long userId = JwtUtils.getUserId();
         T result;
         switch (payTypeEnum) {
             case WEIXIN_JSAPI:
-                result = (T) wxJsapiPay(appId, order, userId);
+                result = (T) wxJsapiPay(appId, order);
                 break;
             default:
             case BALANCE:
-                result = (T) balancePay(order, userId);
+                result = (T) balancePay(order);
         }
 
         // 扣减库存
@@ -334,10 +333,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         return result;
     }
 
-    private Boolean balancePay(OmsOrder order, Long userId) {
+    private Boolean balancePay(OmsOrder order) {
         // 扣减余额
         Long payAmount = order.getPayAmount();
-        Result<?> deductBalanceResult = memberFeignClient.deductBalance(userId, payAmount);
+        Result<?> deductBalanceResult = memberFeignClient.deductBalance(payAmount);
         if (!Result.isSuccess(deductBalanceResult)) {
             throw new BizException("扣减账户余额失败");
         }
@@ -353,7 +352,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         return Boolean.TRUE;
     }
 
-    private WxPayUnifiedOrderV3Result.JsapiResult wxJsapiPay(String appId, OmsOrder order, Long userId) {
+    private WxPayUnifiedOrderV3Result.JsapiResult wxJsapiPay(String appId, OmsOrder order) {
+        Long userId = JwtUtils.getUserId();
         Result<UmsMember> userInfoResult = memberFeignClient.getUserEntityById(userId);
         if (!Result.isSuccess(userInfoResult)) {
             throw new BizException("用户查询失败");

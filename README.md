@@ -61,7 +61,7 @@
 | 微服务后台 | [youlai-mall](https://gitee.com/youlaitech/youlai-mall)      | 微信小程序 | [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) |
 | 管理前端   | [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin) |APP应用    | [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app) |
 
-#### 项目结构
+#### 项目结构 
 
 ``` lua
 youlai-mall
@@ -173,6 +173,8 @@ youlai-mall
 
 ## 联系信息
 因为微信交流群满200人只能通过邀请进入，如果想进入交流群学习可添加以下开发人员，备注“**有来**“由其拉进群。
+
+
 
 | ![](https://gitee.com/haoxr/image/raw/master/default/113__6c5ed5b1b73ea9cd4cf32848ed350c07_b9b214638a2a406e52dbf51e9bf9a2ef.png) | ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)        | ![](https://gitee.com/haoxr/image/raw/master/huawei.jpg)     | ![](https://gitee.com/haoxr/image/raw/master/default/1625149769(1).png) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |

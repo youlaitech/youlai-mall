@@ -88,7 +88,6 @@ public class MemberController {
     }
 
     @ApiOperation(value = "修改会员")
-    @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
     @PutMapping("/{id}")
     public <T> Result<T> add(@PathVariable Long id, @RequestBody UmsMember user) {
         boolean status = iUmsMemberService.updateById(user);
@@ -110,10 +109,6 @@ public class MemberController {
 
 
     @ApiOperation(value = "修改会员积分")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "num", value = "积分数量", required = true, paramType = "query", dataType = "Integer")
-    })
     @PutMapping("/{id}/points")
     public <T> Result<T> updatePoint(@PathVariable Long id, @RequestParam Integer num) {
         UmsMember user = iUmsMemberService.getById(id);
@@ -123,29 +118,14 @@ public class MemberController {
     }
 
     @ApiOperation(value = "扣减会员余额")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "balance", value = "会员余额", required = true, paramType = "query", dataType = "Long")
-    })
-    @PutMapping("/{id}/deduct-balance")
-    public <T> Result<T> updateBalance(@PathVariable Long id, @RequestParam Long balance) {
+    @PutMapping("/current/balances/_deduct")
+    public <T> Result<T> deductBalance(@RequestParam Long balances) {
+        Long userId = JwtUtils.getUserId();
         boolean result = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
-                .setSql("balance = balance - " + balance)
-                .eq(UmsMember::getId, id)
+                .setSql("balance = balance - " + balances)
+                .eq(UmsMember::getId, userId)
         );
         return Result.judge(result);
-    }
-
-    @ApiOperation(value = "获取会员余额")
-    @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}/balance")
-    public Result<Long> updateBalance(@PathVariable Long id) {
-        Long balance = 0L;
-        UmsMember user = iUmsMemberService.getById(id);
-        if (user != null) {
-            balance = user.getBalance();
-        }
-        return Result.success(balance);
     }
 
     @ApiOperation(value = "添加浏览历史")
