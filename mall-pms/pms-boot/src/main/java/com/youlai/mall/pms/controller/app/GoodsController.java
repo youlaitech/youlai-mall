@@ -55,12 +55,19 @@ public class GoodsController {
         return Result.success(list, pageResult.getTotal());
     }
 
-
     @ApiOperation(value = "商品详情")
     @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result<GoodsDetailVO> detail(@PathVariable Long id) {
         GoodsDetailVO goodsDetailVO = goodsService.getGoodsById(id);
+        return Result.success(goodsDetailVO);
+    }
+
+    @ApiOperation(value = "商品详情")
+    @ApiImplicitParam(name = "id", value = "商品SkuID", required = true, paramType = "path", dataType = "Long")
+    @GetMapping("/sku/{skuId}")
+    public Result<GoodsDetailVO> detailBySkuId(@PathVariable Long skuId) {
+        GoodsDetailVO goodsDetailVO = goodsService.getGoodsBySkuId(skuId);
         return Result.success(goodsDetailVO);
     }
 }
