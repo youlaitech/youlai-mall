@@ -10,4 +10,6 @@ import com.youlai.mall.pms.pojo.vo.app.GoodsDetailVO;
  */
 public interface IGoodsService extends IService<PmsSpu> {
     GoodsDetailVO getGoodsById(Long id);
+
+    GoodsDetailVO getGoodsBySkuId(Long skuId);
 }

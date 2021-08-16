@@ -6,6 +6,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.common.enums.AttributeTypeEnum;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
@@ -111,5 +112,15 @@ public class GoodsServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implemen
             goodsDetailVO.setSkuList(skuList);
         }
         return goodsDetailVO;
+    }
+
+    @Override
+    public GoodsDetailVO getGoodsBySkuId(Long skuId) {
+        PmsSku skuInfo = skuService.getById(skuId);
+        if (null == skuInfo) {
+            throw new BizException("商品不存在");
+        }
+        Long spuId = skuInfo.getSpuId();
+        return getGoodsById(spuId);
     }
 }
