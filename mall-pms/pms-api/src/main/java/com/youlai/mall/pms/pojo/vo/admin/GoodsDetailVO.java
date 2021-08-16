@@ -30,7 +30,7 @@ public class GoodsDetailVO {
 
     private String picUrl;
 
-    private List<String> subPicUrls;
+    private String[] subPicUrls;
 
     private String description;
 

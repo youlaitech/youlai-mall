@@ -17,7 +17,7 @@ public class GoodsFormDTO {
     private Long originPrice;
     private Long price;
     private String picUrl;
-    private List<String> subPicUrls;
+    private String[] subPicUrls;
     private String description;
     private String detail;
 
