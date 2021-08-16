@@ -51,7 +51,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
      */
     @Override
     public IPage<PmsSpu> list(Page<PmsSpu> page, String name, Long categoryId) {
-        List<PmsSpu> list = this.baseMapper.list(page, name, categoryId);
+        List<PmsSpu> list = this.baseMapper.list( name, categoryId);
         page.setRecords(list);
         return page;
     }

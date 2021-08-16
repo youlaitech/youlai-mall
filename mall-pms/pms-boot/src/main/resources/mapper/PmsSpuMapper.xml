@@ -52,6 +52,7 @@
         unit,description,detail,
         status,gmt_create,gmt_modified
     </sql>
+
     <select id="list" resultMap="BaseResultMap">
         SELECT
             t1.id,
@@ -75,7 +76,7 @@
         <if test='name!=null and name neq ""'>
             AND t1.name like concat('%',#{name},'%')
         </if>
-        ORDER BY t1.gmt_create DESC
+        ORDER BY t1.gmt_modified DESC,t1.gmt_create DESC
     </select>
 
 

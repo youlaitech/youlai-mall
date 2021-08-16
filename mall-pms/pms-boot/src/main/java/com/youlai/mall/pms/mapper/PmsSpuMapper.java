@@ -13,5 +13,5 @@ import java.util.List;
 @Mapper
 public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
 
-    List<PmsSpu> list(Page<PmsSpu> page, String name, Long categoryId);
+    List<PmsSpu> list( String name, Long categoryId);
 }
