@@ -18,7 +18,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         //注册拦截器
         registry.addInterceptor(bloomInterceptorHandler())
-                .addPathPatterns("/app-api/v1/products/**");
+                .addPathPatterns("/app-api/v1/goods/**");
     }
 
     @Bean

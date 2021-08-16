@@ -2,9 +2,11 @@ package com.youlai.mall.pms.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youlai.common.result.Result;
+import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.component.BloomRedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -12,8 +14,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
-
-import static com.youlai.mall.pms.common.constant.PmsConstants.PRODUCT_REDIS_BLOOM_FILTER;
 
 
 /**
@@ -30,20 +30,18 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return true;
-       /* String currentUrl = request.getRequestURI();
+        String currentUrl = request.getRequestURI();
         PathMatcher matcher = new AntPathMatcher();
-        Map<String, String> pathVariable = matcher.extractUriTemplateVariables("/app-api/v1/products/{id}", currentUrl);
-        if (bloomRedisService.includeByBloomFilter(PRODUCT_REDIS_BLOOM_FILTER, pathVariable.get("id"))) {
+        Map<String, String> pathVariable = matcher.extractUriTemplateVariables("/app-api/v1/goods/{id}", currentUrl);
+        if (bloomRedisService.includeByBloomFilter(PmsConstants.PRODUCT_REDIS_BLOOM_FILTER, pathVariable.get("id"))) {
             return true;
         }
 
         response.setHeader("Content-Type", "application/json");
+        response.sendError(HttpStatus.BAD_REQUEST.value());
         response.setCharacterEncoding("UTF-8");
-        String result = new ObjectMapper().writeValueAsString(Result.failed("产品不存在!"));
+        String result = new ObjectMapper().writeValueAsString(Result.failed("商品不存在!"));
         response.getWriter().print(result);
-        return false;*/
-
+        return false;
     }
-
 }
