@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,16 +33,20 @@ public class CartController {
     @ApiOperation(value = "查询购物车")
     @GetMapping
     @ApiOperationSupport(order = 1)
-    public Result getCart() {
-        Long memberId = JwtUtils.getUserId();
-        List<CartItemDTO> result = cartService.listCartItemByMemberId(memberId);
-        return Result.success(result);
+    public <T> Result<T> getCart() {
+        try {
+            Long memberId = JwtUtils.getUserId();
+            List<CartItemDTO> result = cartService.listCartItemByMemberId(memberId);
+            return Result.success((T) result);
+        } catch (Exception e) {
+            return Result.success((T) Collections.EMPTY_LIST);
+        }
     }
 
     @ApiOperation(value = "删除购物车")
     @DeleteMapping
     @ApiOperationSupport(order = 2)
-    public Result deleteCart() {
+    public <T> Result<T> deleteCart() {
         boolean result = cartService.deleteCart();
         return Result.judge(result);
     }
@@ -50,7 +55,7 @@ public class CartController {
     @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
     @PostMapping
     @ApiOperationSupport(order = 3)
-    public Result addCartItem(@RequestParam Long skuId) {
+    public <T> Result<T> addCartItem(@RequestParam Long skuId) {
         cartService.addCartItem(skuId);
         return Result.success();
     }
@@ -58,7 +63,7 @@ public class CartController {
     @ApiOperation(value = "更新购物车商品")
     @PutMapping("/skuId/{skuId}")
     @ApiOperationSupport(order = 4)
-    public Result updateCartItem(@PathVariable Long skuId,@RequestBody CartItemDTO cartItem) {
+    public <T> Result<T> updateCartItem(@PathVariable Long skuId, @RequestBody CartItemDTO cartItem) {
         cartItem.setSkuId(skuId);
         boolean result = cartService.updateCartItem(cartItem);
         return Result.judge(result);
@@ -68,7 +73,7 @@ public class CartController {
     @ApiImplicitParam(name = "skuId", value = "SKU ID", required = true, paramType = "param", dataType = "Long")
     @DeleteMapping("/skuId/{skuId}")
     @ApiOperationSupport(order = 5)
-    public Result removeCartItem(@PathVariable Long skuId) {
+    public <T> Result<T> removeCartItem(@PathVariable Long skuId) {
         boolean result = cartService.removeCartItem(skuId);
         return Result.judge(result);
     }
@@ -77,7 +82,7 @@ public class CartController {
     @ApiImplicitParam(name = "checked", value = "全选/全不选", required = true, paramType = "param", dataType = "Boolean")
     @PatchMapping("/_check")
     @ApiOperationSupport(order = 6)
-    public Result check(boolean checked) {
+    public <T> Result<T> check(boolean checked) {
         boolean result = cartService.checkAll(checked);
         return Result.judge(result);
     }
