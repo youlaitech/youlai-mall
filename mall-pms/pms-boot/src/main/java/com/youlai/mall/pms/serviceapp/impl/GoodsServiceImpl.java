@@ -4,7 +4,6 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.common.enums.AttributeTypeEnum;
@@ -20,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,8 +50,8 @@ public class GoodsServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implemen
         if (StrUtil.isNotBlank(pmsSpu.getPicUrl())) {
             album.add(pmsSpu.getPicUrl());
         }
-        if (StrUtil.isNotBlank(pmsSpu.getAlbum())) {
-            album.addAll(JSONUtil.parseArray(pmsSpu.getAlbum()).toList(String.class));
+        if (pmsSpu.getAlbum() != null && pmsSpu.getAlbum().length > 0) {
+            album.addAll(Arrays.asList(pmsSpu.getAlbum()));
             goodsInfo.setAlbum(album);
         }
         goodsDetailVO.setGoodsInfo(goodsInfo);
@@ -79,7 +79,7 @@ public class GoodsServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implemen
         List<GoodsDetailVO.Specification> specList = new ArrayList<>();
         // 规格Map [key:"颜色",value:[{id:1,value:"黑"},{id:2,value:"白"}]]
         Map<String, List<PmsSpuAttributeValue>> specValueMap = specSourceList.stream()
-                .collect(Collectors.groupingBy(item -> item.getName()));
+                .collect(Collectors.groupingBy(PmsSpuAttributeValue::getName));
 
         for (Map.Entry<String, List<PmsSpuAttributeValue>> entry : specValueMap.entrySet()) {
             String specName = entry.getKey();
