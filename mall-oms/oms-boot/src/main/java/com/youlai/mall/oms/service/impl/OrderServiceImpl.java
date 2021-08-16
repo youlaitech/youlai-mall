@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -21,6 +22,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.youlai.common.enums.BusinessTypeEnum;
 import com.youlai.common.redis.component.BusinessNoGenerator;
 import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.config.WxPayProperties;
@@ -188,8 +190,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Result<SkuDTO> goodsResult = goodsFeignClient.getSkuById(1l);
         System.out.println(goodsResult);
 
+        // 锁定库存
         Result<Boolean> lockResult = stockFeignClient.lockStock(skuLockList);
-        Assert.isTrue(Result.success().getCode().equals(lockResult.getCode()), "锁定商品库存失败:{}", lockResult.getMsg());
+        Assert.isTrue(Result.isSuccess(lockResult), "锁定商品库存失败:{}", lockResult.getMsg());
 
         // 创建订单(状态：待支付)
         OmsOrder order = new OmsOrder();
