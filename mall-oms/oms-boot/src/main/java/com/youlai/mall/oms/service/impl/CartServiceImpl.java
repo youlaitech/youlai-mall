@@ -1,6 +1,8 @@
 package com.youlai.mall.oms.service.impl;
 
 import cn.hutool.core.lang.Assert;
+import com.youlai.common.result.ResultCode;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
@@ -57,7 +59,12 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean addCartItem(Long skuId) {
-        Long memberId = JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
 
@@ -98,7 +105,12 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean updateCartItem(CartItemDTO cartItem) {
-        Long memberId = JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
         if (cartHashOperations.get(hKey) != null) {
@@ -119,7 +131,12 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCartItem(Long skuId) {
-        Long memberId = JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
         cartHashOperations.delete(hKey);
@@ -132,7 +149,12 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean checkAll(boolean checked) {
-        Long memberId = JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
             CartItemDTO cartItem = (CartItemDTO) value;
@@ -150,7 +172,12 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCheckedItem() {
-        Long memberId = JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
             CartItemDTO cartItem = (CartItemDTO) value;

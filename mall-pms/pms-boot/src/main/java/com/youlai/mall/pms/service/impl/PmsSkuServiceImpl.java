@@ -15,7 +15,6 @@ import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.tcc.service.SeataTccSkuService;
 import io.seata.spring.annotation.GlobalTransactional;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
