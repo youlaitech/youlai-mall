@@ -26,9 +26,12 @@ import java.util.regex.Pattern;
 
 /**
  * 全局系统异常处理
+ * 调整异常处理的HTTP状态码，丰富异常处理类型
  *
  * @author hxrui
+ * @author Gadfly
  * @date 2020-02-25 13:54
+ * <p>
  **/
 @RestControllerAdvice
 @Slf4j
@@ -36,7 +39,7 @@ public class GlobalExceptionHandler {
     /**
      * 表单绑定到 java bean 出错时抛出 BindException 异常
      */
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public <T> Result<T> processException(BindException e) {
         log.error(e.getMessage(), e);
@@ -57,7 +60,7 @@ public class GlobalExceptionHandler {
     /**
      * 普通参数(非 java bean)校验出错时抛出 ConstraintViolationException 异常
      */
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public <T> Result<T> processException(ConstraintViolationException e) {
         log.error(e.getMessage(), e);
@@ -70,7 +73,7 @@ public class GlobalExceptionHandler {
         return Result.failed(ResultCode.PARAM_ERROR, msg.toString());
     }
 
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
     public <T> Result<T> processException(ValidationException e) {
         log.error(e.getMessage(), e);
@@ -90,7 +93,7 @@ public class GlobalExceptionHandler {
     /**
      * MissingServletRequestParameterException
      */
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public <T> Result<T> processException(MissingServletRequestParameterException e) {
         log.error(e.getMessage(), e);
@@ -100,7 +103,7 @@ public class GlobalExceptionHandler {
     /**
      * MethodArgumentTypeMismatchException
      */
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public <T> Result<T> processException(MethodArgumentTypeMismatchException e) {
         log.error(e.getMessage(), e);
@@ -110,21 +113,21 @@ public class GlobalExceptionHandler {
     /**
      * ServletException
      */
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServletException.class)
     public <T> Result<T> processException(ServletException e) {
         log.error(e.getMessage(), e);
         return Result.failed(e.getMessage());
     }
 
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public <T> Result<T> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("非法参数异常，异常原因：{}", e.getMessage(), e);
         return Result.failed(e.getMessage());
     }
 
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(JsonProcessingException.class)
     public <T> Result<T> handleJsonProcessingException(JsonProcessingException e) {
         log.error("Json转换异常，异常原因：{}", e.getMessage(), e);
@@ -134,7 +137,7 @@ public class GlobalExceptionHandler {
     /**
      * HttpMessageNotReadableException
      */
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public <T> Result<T> processException(HttpMessageNotReadableException e) {
         log.error(e.getMessage(), e);
@@ -149,7 +152,7 @@ public class GlobalExceptionHandler {
     /**
      * TypeMismatchException
      */
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(TypeMismatchException.class)
     public <T> Result<T> processException(TypeMismatchException e) {
         log.error(e.getMessage(), e);
@@ -159,7 +162,7 @@ public class GlobalExceptionHandler {
     /**
      * CompletionException
      */
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CompletionException.class)
     public <T> Result<T> processException(CompletionException e) {
         log.error(e.getMessage(), e);
@@ -169,7 +172,7 @@ public class GlobalExceptionHandler {
         return handleException(e);
     }
 
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BizException.class)
     public <T> Result<T> handleBizException(BizException e) {
         log.error("业务异常，异常原因：{}", e.getMessage(), e);
@@ -179,7 +182,7 @@ public class GlobalExceptionHandler {
         return Result.failed(e.getMessage());
     }
 
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public <T> Result<T> handleException(Exception e) {
         log.error("未知异常，异常原因：{}", e.getMessage(), e);
