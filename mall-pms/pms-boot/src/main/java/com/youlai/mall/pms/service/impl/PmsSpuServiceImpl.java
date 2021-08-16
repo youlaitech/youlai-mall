@@ -122,13 +122,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
         BeanUtil.copyProperties(spu, goodsDetailVO);
 
-        // 商品图册JSON字符串转集合
-        String album = spu.getAlbum();
-        if (StrUtil.isNotBlank(album)) {
-            List<String> picUrls = JSONUtil.toList(album, String.class);
-            goodsDetailVO.setSubPicUrls(picUrls);
-        }
-
         // 商品属性列表
         List<PmsSpuAttributeValue> attrList = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
                 .eq(PmsSpuAttributeValue::getSpuId, id)
@@ -185,7 +178,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         PmsSpu pmsSpu = new PmsSpu();
         BeanUtil.copyProperties(goods, pmsSpu);
         // 商品图册
-        pmsSpu.setAlbum(JSONUtil.toJsonStr(goods.getSubPicUrls()));
+        pmsSpu.setAlbum(goods.getSubPicUrls());
         boolean result = this.saveOrUpdate(pmsSpu);
         return result ? pmsSpu.getId() : 0;
     }
@@ -202,12 +195,12 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     private boolean saveSku(Long goodsId, List<PmsSku> skuList, Map<String, Long> specTempIdIdMap) {
 
         // 删除SKU
-        List<Long> formSkuIds = skuList.stream().map(item -> item.getId()).collect(Collectors.toList());
+        List<Long> formSkuIds = skuList.stream().map(PmsSku::getId).collect(Collectors.toList());
 
         List<Long> dbSkuIds = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>()
                 .eq(PmsSku::getSpuId, goodsId)
                 .select(PmsSku::getId))
-                .stream().map(item -> item.getId())
+                .stream().map(PmsSku::getId)
                 .collect(Collectors.toList());
 
         List<Long> removeSkuIds = dbSkuIds.stream().filter(dbSkuId -> !formSkuIds.contains(dbSkuId)).collect(Collectors.toList());
@@ -219,7 +212,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 新增/修改SKU
         List<PmsSku> pmsSkuList = skuList.stream().map(sku -> {
             // 临时规格ID转换
-            String specIds = Arrays.asList(sku.getSpecIds().split("\\|")).stream()
+            String specIds = Arrays.stream(sku.getSpecIds().split("\\|"))
                     .map(specId ->
                             specId.startsWith(PmsConstants.TEMP_ID_PREFIX) ? specTempIdIdMap.get(specId) + "" : specId
                     )
@@ -249,7 +242,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 .eq(PmsSpuAttributeValue::getSpuId, goodsId)
                 .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.ATTRIBUTE.getValue())
                 .select(PmsSpuAttributeValue::getId)
-        ).stream().map(item -> item.getId()).collect(Collectors.toList());
+        ).stream().map(PmsSpuAttributeValue::getId).collect(Collectors.toList());
 
         List<Long> removeAttrValIds = dbAttrValIds.stream().filter(id -> !formAttrValIds.contains(id)).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(removeAttrValIds)) {
@@ -289,7 +282,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 .eq(PmsSpuAttributeValue::getSpuId, goodsId)
                 .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.SPECIFICATION.getValue())
                 .select(PmsSpuAttributeValue::getId)
-        ).stream().map(item -> item.getId()).collect(Collectors.toList());
+        ).stream().map(PmsSpuAttributeValue::getId).collect(Collectors.toList());
 
         List<Long> removeAttrValIds = dbSpecValIds.stream().filter(id -> !formSpecValIds.contains(id)).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(removeAttrValIds)) {
