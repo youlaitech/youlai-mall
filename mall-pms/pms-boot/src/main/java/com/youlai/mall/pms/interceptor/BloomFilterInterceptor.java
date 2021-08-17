@@ -7,12 +7,14 @@ import com.youlai.mall.pms.component.BloomRedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 
@@ -37,9 +39,9 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        response.setHeader("Content-Type", "application/json");
-        response.sendError(HttpStatus.BAD_REQUEST.value());
-        response.setCharacterEncoding("UTF-8");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         String result = new ObjectMapper().writeValueAsString(Result.failed("商品不存在!"));
         response.getWriter().print(result);
         return false;
