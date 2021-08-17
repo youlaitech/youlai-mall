@@ -38,7 +38,12 @@ public class GoodsController {
             @ApiImplicitParam(name = "isAsc", value = "是否升序", example = "false", paramType = "query", dataType = "Boolean")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, String name, Long categoryId, String orderBy, Boolean isAsc) {
+    public Result<List<GoodsVO>> list(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                      @RequestParam(name = "limit", defaultValue = "10") Integer limit,
+                                      String name,
+                                      Long categoryId,
+                                      @RequestParam(name = "orderBy", defaultValue = "id") String orderBy,
+                                      @RequestParam(name = "isAsc", defaultValue = "false") Boolean isAsc) {
         Page<PmsSpu> pageResult = goodsService.page(new Page<>(page, limit), new QueryWrapper<PmsSpu>()
                 .eq(categoryId != null, "category_id", categoryId)
                 .like(StrUtil.isNotBlank(name), "name", name)
