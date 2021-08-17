@@ -34,7 +34,13 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String currentUrl = request.getRequestURI();
         PathMatcher matcher = new AntPathMatcher();
-        Map<String, String> pathVariable = matcher.extractUriTemplateVariables("/app-api/v1/goods/{id}", currentUrl);
+        Map<String, String> pathVariable;
+        try {
+            pathVariable = matcher.extractUriTemplateVariables("/app-api/v1/goods/{id}", currentUrl);
+        } catch (IllegalStateException e) {
+            // 路径不匹配则放行
+            return true;
+        }
         if (bloomRedisService.includeByBloomFilter(PmsConstants.PRODUCT_REDIS_BLOOM_FILTER, pathVariable.get("id"))) {
             return true;
         }
