@@ -9,6 +9,7 @@ import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,22 +20,19 @@ import java.util.Optional;
 public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCategory> implements IPmsCategoryService {
 
 
+    /**
+     * 分类列表（树形）
+     *
+     * @param parentId
+     * @return
+     */
+
+    @Cacheable(key = "")
     @Override
-    public List<CategoryVO> listTreeCategory(Long parentId) {
+    public List<CategoryVO> listCategory(Long parentId) {
         List<PmsCategory> categoryList = this.list(new LambdaQueryWrapper<PmsCategory>()
                 .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES).orderByDesc(PmsCategory::getSort));
         List<CategoryVO> list = recursionTree(parentId != null ? parentId : 0l, categoryList);
-        return list;
-    }
-
-    @Override
-    public List<CascadeVO> listCascadeCategory() {
-        List<PmsCategory> categoryList = this.list(
-                new LambdaQueryWrapper<PmsCategory>()
-                        .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)
-                        .orderByAsc(PmsCategory::getSort)
-        );
-        List<CascadeVO> list = recursionCascade(0l, categoryList);
         return list;
     }
 
@@ -52,6 +50,23 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
                                     categoryVO.setChildren(children);
                                     list.add(categoryVO);
                                 }));
+        return list;
+    }
+
+
+    /**
+     * 分类列表（级联）
+     *
+     * @return
+     */
+    @Override
+    public List<CascadeVO> listCascadeCategory() {
+        List<PmsCategory> categoryList = this.list(
+                new LambdaQueryWrapper<PmsCategory>()
+                        .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)
+                        .orderByAsc(PmsCategory::getSort)
+        );
+        List<CascadeVO> list = recursionCascade(0l, categoryList);
         return list;
     }
 

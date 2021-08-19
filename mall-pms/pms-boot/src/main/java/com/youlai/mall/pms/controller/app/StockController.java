@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Stock Keeping Unit
+ */
 @Api(tags = "移动端-商品库存")
 @RestController(value = "appStockController")
 @RequestMapping("/app-api/v1/stocks")

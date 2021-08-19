@@ -14,7 +14,17 @@ import java.util.List;
 public interface IPmsCategoryService extends IService<PmsCategory> {
 
 
-    List<CategoryVO> listTreeCategory(Long parentId);
+    /**
+     * 分类列表（树形）
+     *
+     * @param parentId
+     * @return
+     */
+    List<CategoryVO> listCategory(Long parentId);
 
+    /**
+     * 分类列表（级联）
+     * @return
+     */
     List<CascadeVO> listCascadeCategory();
 }

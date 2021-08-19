@@ -35,7 +35,7 @@ public class CategoryController {
     @ApiOperation(value = "分类列表")
     @GetMapping
     public Result<List<CategoryVO>> list() {
-        List<CategoryVO> list = iPmsCategoryService.listTreeCategory(null);
+        List<CategoryVO> list = iPmsCategoryService.listCategory(null);
         return Result.success(list);
     }
 
