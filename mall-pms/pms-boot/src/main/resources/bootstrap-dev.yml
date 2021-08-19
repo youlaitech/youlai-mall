@@ -13,6 +13,15 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
+  cache:
+    # 缓存类型
+    type: redis
+    # 缓存时间(单位：ms)
+    redis:
+      time-to-live: 360000
+      key-prefix:
+      # 缓存null值，防止缓存穿透
+      cache-null-values:
 
 
 

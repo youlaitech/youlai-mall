@@ -27,10 +27,10 @@ public class CategoryController {
     private IPmsCategoryService iPmsCategoryService;
 
     @ApiOperation(value = "分类列表")
-    @ApiImplicitParam(name = "parentId", paramType = "query", dataType = "Long")
+    @ApiImplicitParam(name = "parentId",value = "上级分类ID", paramType = "query", dataType = "Long")
     @GetMapping
     public Result list(Long parentId) {
-        List<CategoryVO> list = iPmsCategoryService.listTreeCategory(parentId);
+        List<CategoryVO> list = iPmsCategoryService.listCategory(parentId);
         return Result.success(list);
     }
 }

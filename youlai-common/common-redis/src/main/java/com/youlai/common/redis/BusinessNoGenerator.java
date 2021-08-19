@@ -1,4 +1,4 @@
-package com.youlai.common.redis.component;
+package com.youlai.common.redis;
 
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.enums.BusinessTypeEnum;
