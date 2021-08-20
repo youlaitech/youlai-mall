@@ -11,20 +11,21 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
+ * Redis缓存配置
+ *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/8/19
  */
-
 @EnableConfigurationProperties(CacheProperties.class)
 @Configuration
 @EnableCaching
 public class RedisCacheConfig {
 
-
     @Bean
     RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties) {
 
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+
         config = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
         config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
 

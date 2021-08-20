@@ -41,7 +41,7 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
             // 路径不匹配则放行
             return true;
         }
-        if (bloomRedisService.includeByBloomFilter(PmsConstants.PRODUCT_REDIS_BLOOM_FILTER, pathVariable.get("id"))) {
+        if (bloomRedisService.includeByBloomFilter(PmsConstants.GOODS_BLOOM_FILTER, pathVariable.get("id"))) {
             return true;
         }
 
