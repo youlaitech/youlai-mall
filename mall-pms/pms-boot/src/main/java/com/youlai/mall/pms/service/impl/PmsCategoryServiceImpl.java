@@ -27,7 +27,7 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
      * @return
      */
 
-    @Cacheable(key = "")
+    @Cacheable(value = "pssss",key = "'categoryList:3333'")
     @Override
     public List<CategoryVO> listCategory(Long parentId) {
         List<PmsCategory> categoryList = this.list(new LambdaQueryWrapper<PmsCategory>()
