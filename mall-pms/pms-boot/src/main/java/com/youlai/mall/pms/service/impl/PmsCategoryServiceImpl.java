@@ -9,13 +9,18 @@ import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 商品分类
+ *
+ * @author haoxr
+ */
 @Service
 public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCategory> implements IPmsCategoryService {
 
@@ -25,9 +30,9 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
      *
      * @param parentId
      * @return
+     * @Cacheable value:缓存名称(分区)；key：缓存键
      */
-
-    @Cacheable(value = "pssss",key = "'categoryList:3333'")
+    @Cacheable(value = "pms", key = "'categoryList'")
     @Override
     public List<CategoryVO> listCategory(Long parentId) {
         List<PmsCategory> categoryList = this.list(new LambdaQueryWrapper<PmsCategory>()
@@ -90,4 +95,17 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
     }
 
 
+    /**
+     * 新增/修改分类
+     *
+     * @param category
+     * @return 分类ID
+     * @CacheEvict 缓存失效
+     */
+    @CacheEvict(value = "pms", key = "'categoryList'")
+    @Override
+    public Long saveCategory(PmsCategory category) {
+        this.saveOrUpdate(category);
+        return category.getId();
+    }
 }

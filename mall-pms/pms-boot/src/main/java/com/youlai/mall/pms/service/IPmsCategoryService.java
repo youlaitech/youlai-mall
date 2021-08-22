@@ -9,6 +9,8 @@ import java.util.List;
 
 
 /**
+ * 商品分类
+ *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
 public interface IPmsCategoryService extends IService<PmsCategory> {
@@ -27,4 +29,19 @@ public interface IPmsCategoryService extends IService<PmsCategory> {
      * @return
      */
     List<CascadeVO> listCascadeCategory();
+
+
+    /**
+     *
+     * 保存（新增/修改）分类
+     *
+     *
+     * @param category
+     * @return
+     */
+    Long saveCategory(PmsCategory category);
+
+
+
+
 }
