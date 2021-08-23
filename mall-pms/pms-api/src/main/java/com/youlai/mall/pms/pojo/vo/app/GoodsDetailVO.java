@@ -73,7 +73,7 @@ public class GoodsDetailVO {
         @ApiModelProperty(value = "规格名称", example = "颜色")
         private String name;
 
-        @ApiModelProperty(value = "规格项列表", example = "[黑,白]")
+        @ApiModelProperty(value = "规格项列表", example = "黑,白")
         private List<Value> values;
 
         @Data

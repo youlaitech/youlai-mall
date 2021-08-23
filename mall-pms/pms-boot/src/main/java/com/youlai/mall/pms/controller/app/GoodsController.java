@@ -34,7 +34,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "limit", value = "每页数量", example = "10", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "商品名称", example = "华为P50", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "categoryId", value = "商品类目", example = "1", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "orderBy", value = "排序字段", example = "price", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "orderBy", value = "排序字段", example = "price", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "isAsc", value = "是否升序", example = "false", paramType = "query", dataType = "Boolean")
     })
     @GetMapping
