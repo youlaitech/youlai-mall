@@ -41,12 +41,10 @@ public class AddressController {
 
 
     @ApiOperation(value = "新增地址")
-    @ApiImplicitParam(name = "address", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsAddress")
     @PostMapping
     public <T> Result<T> add(@RequestBody @Validated UmsAddress address) {
         Long memberId = JwtUtils.getUserId();
         address.setMemberId(memberId);
-        address.setId(null);
         if (ADDRESS_DEFAULTED.equals(address.getDefaulted())) { // 修改其他默认地址为非默认
             iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
                     .eq(UmsAddress::getMemberId, memberId)
