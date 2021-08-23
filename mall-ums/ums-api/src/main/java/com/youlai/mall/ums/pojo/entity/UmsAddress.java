@@ -10,9 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
 
 @Data
 @Accessors(chain = true)
@@ -22,8 +20,8 @@ public class UmsAddress extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @NotNull(message = "{id.positive}")
-    @Positive(message = "{id.positive}")
+    // @NotNull(message = "{id.positive}")
+    // @Positive(message = "{id.positive}")
     private Long memberId;
 
     @Length(min = 2, max = 8, message = "{text.length.min}，{text.length.max}")
