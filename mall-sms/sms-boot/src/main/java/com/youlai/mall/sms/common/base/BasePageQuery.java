@@ -1,4 +1,4 @@
-package com.youlai.common.base;
+package com.youlai.mall.sms.common.base;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

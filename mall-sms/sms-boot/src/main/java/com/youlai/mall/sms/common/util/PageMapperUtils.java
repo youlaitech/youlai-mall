@@ -1,8 +1,7 @@
-package com.youlai.common.mybatis.utils;
+package com.youlai.mall.sms.common.util;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.web.util.BeanMapperUtils;
 
 /**
  * @author xinyi

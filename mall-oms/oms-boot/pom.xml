@@ -13,12 +13,6 @@
 
     <dependencies>
 
-        <!-- web环境 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- Spring Cloud & Alibaba -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -106,11 +100,6 @@
             <artifactId>common-rabbitmq</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-log</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.github.binarywang</groupId>

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.util.BeanMapperUtils;
+import com.youlai.mall.sms.common.util.BeanMapperUtils;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.mapper.SmsCouponMapper;
 import com.youlai.mall.sms.pojo.domain.CouponTemplateRule;

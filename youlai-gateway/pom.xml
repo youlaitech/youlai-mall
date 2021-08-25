@@ -97,11 +97,6 @@
             <artifactId>common-redis</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-log</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

@@ -20,6 +20,5 @@
         <module>common-mybatis</module>
         <module>common-rabbitmq</module>
         <module>common-es</module>
-        <module>common-log</module>
     </modules>
 </project>

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.youlai.common.mybatis.handler.FieldFillHandler;
+import com.youlai.common.mybatis.handler.MyMetaObjectHandler;
 
 import com.youlai.common.mybatis.handler.IntegerArrayJsonTypeHandler;
 import com.youlai.common.mybatis.handler.LongArrayJsonTypeHandler;
@@ -52,7 +52,7 @@ public class MybatisPlusConfig {
     @Bean
     public GlobalConfig globalConfig() {
         GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig.setMetaObjectHandler(new FieldFillHandler());
+        globalConfig.setMetaObjectHandler(new MyMetaObjectHandler());
         return globalConfig;
     }
 

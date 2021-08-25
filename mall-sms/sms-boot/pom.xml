@@ -15,12 +15,6 @@
     </properties>
     <dependencies>
 
-        <!-- web环境 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- 读取配置 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -86,6 +80,13 @@
             <artifactId>common-redis</artifactId>
             <version>${youlai.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
+
 
     </dependencies>
 

@@ -1,7 +1,7 @@
 package com.youlai.mall.sms.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.BeanMapperUtils;
+import com.youlai.mall.sms.common.util.BeanMapperUtils;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.vo.CouponTemplateVO;
