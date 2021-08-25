@@ -4,19 +4,13 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.AuthConstants;
-import com.youlai.common.web.util.IPUtils;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.MDC;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -74,17 +68,14 @@ public class LoginLogAspect {
             token = jsonObject.getStr("value");
         }
 
-        String clientIP = IPUtils.getIpAddr(request);  // 客户端请求IP（注意：如果使用Nginx代理需配置）
-        String region = IPUtils.getCityInfo(clientIP); // IP对应的城市信息
-
         // MDC 扩展logback字段，具体请看logback-spring.xml的自定义日志输出格式
         MDC.put("elapsedTime", StrUtil.toString(elapsedTime));
-        MDC.put("description", description);
+       /* MDC.put("description", description);
         MDC.put("region", region);
         MDC.put("username", username);
         MDC.put("date", date);
         MDC.put("token", token);
-        MDC.put("clientIP", clientIP);
+        MDC.put("clientIP", clientIP);*/
 
         //log.info("{} 登录，耗费时间 {} 毫秒", username, elapsedTime); // 收集日志这里必须打印一条日志，内容随便吧，记录在message字段，具体看logback-spring.xml文件
         return result;

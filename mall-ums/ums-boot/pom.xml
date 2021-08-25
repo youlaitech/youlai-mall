@@ -16,13 +16,6 @@
     </properties>
 
     <dependencies>
-
-        <!-- web环境 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- 读取配置 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -73,6 +66,12 @@
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-all</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>caffeine</artifactId>
+                    <groupId>com.github.ben-manes.caffeine</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.seata</groupId>
@@ -100,11 +99,6 @@
             <artifactId>common-redis</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-log</artifactId>
-            <version>${youlai.version}</version>
-        </dependency>
 
     </dependencies>
 

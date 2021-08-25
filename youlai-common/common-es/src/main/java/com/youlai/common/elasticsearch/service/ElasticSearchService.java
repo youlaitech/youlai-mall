@@ -2,8 +2,9 @@ package com.youlai.common.elasticsearch.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONUtil;
-import com.youlai.common.base.BaseDocument;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -38,10 +39,10 @@ import java.util.Map;
  * @date 2021-03-05
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ElasticSearchService {
 
-    private RestHighLevelClient client;
+    private final RestHighLevelClient client;
 
 
     @SneakyThrows
@@ -169,9 +170,50 @@ public class ElasticSearchService {
 
     @SneakyThrows
     public boolean deleteById(String id, String index) {
-        DeleteRequest deleteRequest = new DeleteRequest(index,id);
+        DeleteRequest deleteRequest = new DeleteRequest(index, id);
         DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
         return true;
     }
+
+
+    @Data
+    public static class BaseDocument {
+
+        /**
+         * 数据唯一标识
+         */
+        private String id;
+
+        /**
+         * 索引名称
+         */
+        private String index;
+    }
+
+
+    @Data
+    public class LoginRecord extends BaseDocument {
+
+        private String clientIP;
+
+        private long elapsedTime;
+
+        private Object message;
+
+        private String token;
+
+        private String username;
+
+        private String loginTime;
+
+        private String region;
+
+        /**
+         * 会话状态 0-离线 1-在线
+         */
+        private Integer status;
+
+    }
+
 
 }
