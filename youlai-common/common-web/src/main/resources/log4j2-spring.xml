@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true">
+    <!--变量配置-->
+    <Properties>
+        <!-- 格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
+        <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
+        <property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+        <!-- 定义日志存储的路径 -->
+        <property name="FILE_PATH" value="D://logs"/>
+    </Properties>
+
+    <!--  定义 Appenders 用来指定输出位置 -->
+    <Appenders>
+        <!-- 日志滚动 $${date:yyyy-MM}：按月滚动文件夹 按小时、文件序号滚动，每次滚动都使用gz压缩 -->
+        <RollingFile name="RollingFile" fileName="${FILE_PATH}/log.log"
+                     filePattern="${baseDir}/$${date:yyyy-MM}/log-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <!-- 日志格式 -->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] %-40.40c{1.} : %m%n"/>
+            <Policies>
+                <!-- 时间滚动（按月滚动目录，按小时滚动文件） -->
+                <TimeBasedTriggeringPolicy/>
+                <!-- 文件大小滚动（1小时内超过250M，强制滚动一次） -->
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <!-- 每天最多100个文件 -->
+            <DefaultRolloverStrategy max="1000">
+                <!-- 删除策略，超过三十天删除，如果总文件小于100G，文件数量小于10个，则不会被删除 -->
+                <Delete basePath="${FILE_PATH}" maxDepth="2">
+                    <IfFileName glob="*/app-*.log.gz">
+                        <IfLastModified age="30d">
+                            <IfAny>
+                                <IfAccumulatedFileSize exceeds="100 GB"/>
+                                <IfAccumulatedFileCount exceeds="10"/>
+                            </IfAny>
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <Async name="Async" bufferSize="4096">
+            <AppenderRef ref="RollingFile"/>
+        </Async>
+        <Console name="STDOUT">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <!-- 多个logger -->
+        <Logger name="com.youlai.**" level="info" additivity="false">
+            <appender-ref ref="RollingFile"/>
+        </Logger>
+
+        <!-- 一个ROOT -->
+        <Root level="error">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>
