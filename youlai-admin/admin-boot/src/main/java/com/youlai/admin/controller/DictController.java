@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,41 +28,37 @@ import java.util.stream.Collectors;
 @Api(tags = "字典接口")
 @RestController
 @RequestMapping("/api/v1/dicts")
-@AllArgsConstructor
-@Slf4j
+@RequiredArgsConstructor
 public class DictController {
 
-    private ISysDictService iSysDictService;
-
-    private ISysDictItemService iSysDictItemService;
+    private final ISysDictService iSysDictService;
+    private final ISysDictItemService iSysDictItemService;
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
     })
-    @GetMapping
-    public Result list(
-            String queryMode,
-            Integer page,
-            Integer limit,
-            String name) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
-        LambdaQueryWrapper<SysDict> queryWrapper = new LambdaQueryWrapper<SysDict>()
+    @GetMapping("/page")
+    public Result list( Integer page,Integer limit, String name) {
+        Page<SysDict> result = iSysDictService.page(new Page<>(page, limit), new LambdaQueryWrapper<SysDict>()
                 .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
                 .orderByDesc(SysDict::getGmtModified)
-                .orderByDesc(SysDict::getGmtCreate);
-        switch (queryModeEnum) {
-            case PAGE:
-                Page<SysDict> result = iSysDictService.page(new Page<>(page, limit), queryWrapper);
-                return Result.success(result.getRecords(), result.getTotal());
-            default:
-                List<SysDict> list = iSysDictService.list(queryWrapper);
-                return Result.success(list);
-        }
+                .orderByDesc(SysDict::getGmtCreate));
+        return Result.success(result.getRecords(), result.getTotal());
     }
+
+
+    @ApiOperation(value = "字典列表")
+    @GetMapping
+    public Result list() {
+        List<SysDict> list = iSysDictService.list( new LambdaQueryWrapper<SysDict>()
+                .orderByDesc(SysDict::getGmtModified)
+                .orderByDesc(SysDict::getGmtCreate));
+        return Result.success(list);
+    }
+
 
     @ApiOperation(value = "字典详情")
     @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long")

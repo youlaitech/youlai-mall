@@ -21,8 +21,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,58 +32,47 @@ import java.util.stream.Collectors;
 @Api(tags = "角色接口")
 @RestController
 @RequestMapping("/api/v1/roles")
-@Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoleController {
 
+    private final ISysRoleService iSysRoleService;
+    private final ISysRoleMenuService iSysRoleMenuService;
+    private final ISysRolePermissionService iSysRolePermissionService;
+    private final ISysPermissionService iSysPermissionService;
 
-    private ISysRoleService iSysRoleService;
-
-    private ISysRoleMenuService iSysRoleMenuService;
-
-    private ISysRolePermissionService iSysRolePermissionService;
-
-    private ISysPermissionService iSysPermissionService;
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "tenantId", value = "租户编码", paramType = "query", dataType = "Long")
     })
-    @GetMapping
-    public Result list(
-            String queryMode,
-            Integer page,
-            Integer limit,
-            String name
-    ) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
+    @GetMapping("/page")
+    public Result pageList(Integer page, Integer limit, String name) {
         List<String> roles = JwtUtils.getRoles();
         boolean isRoot = roles.contains(GlobalConstants.ROOT_ROLE_CODE);  // 判断是否是超级管理员
-        switch (queryModeEnum) {
-            case PAGE:
-                LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<SysRole>()
-                        .like(StrUtil.isNotBlank(name), SysRole::getName, name)
-                        .ne(!isRoot, SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
-                        .orderByAsc(SysRole::getSort)
-                        .orderByDesc(SysRole::getGmtModified)
-                        .orderByDesc(SysRole::getGmtCreate);
-                Page<SysRole> result = iSysRoleService.page(new Page<>(page, limit), queryWrapper);
-                return Result.success(result.getRecords(), result.getTotal());
-            case LIST:
-                List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
-                        .eq(SysRole::getStatus, GlobalConstants.STATUS_YES)
-                        .ne(!isRoot, SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
-                        .orderByAsc(SysRole::getSort)
-                );
-                return Result.success(list);
-            default:
-                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<SysRole>()
+                .like(StrUtil.isNotBlank(name), SysRole::getName, name)
+                .ne(!isRoot, SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
+                .orderByAsc(SysRole::getSort)
+                .orderByDesc(SysRole::getGmtModified)
+                .orderByDesc(SysRole::getGmtCreate);
+        Page<SysRole> result = iSysRoleService.page(new Page<>(page, limit), queryWrapper);
+        return Result.success(result.getRecords(), result.getTotal());
+    }
 
-        }
+
+    @ApiOperation(value = "角色列表")
+    @GetMapping
+    public Result list() {
+        List<String> roles = JwtUtils.getRoles();
+        boolean isRoot = roles.contains(GlobalConstants.ROOT_ROLE_CODE);  // 判断是否是超级管理员
+        List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
+                .eq(SysRole::getStatus, GlobalConstants.STATUS_YES)
+                .ne(!isRoot, SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
+                .orderByAsc(SysRole::getSort)
+        );
+        return Result.success(list);
     }
 
 
@@ -90,9 +81,9 @@ public class RoleController {
     @PostMapping
     public Result add(@RequestBody SysRole role) {
         int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
-                .eq(SysRole::getCode, role.getCode() )
+                .eq(SysRole::getCode, role.getCode())
                 .or()
-                .eq(SysRole::getName,role.getName())
+                .eq(SysRole::getName, role.getName())
         );
         Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
         boolean result = iSysRoleService.save(role);
@@ -111,7 +102,7 @@ public class RoleController {
         int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
                 .eq(SysRole::getCode, role.getCode())
                 .or()
-                .eq(SysRole::getName,role.getName())
+                .eq(SysRole::getName, role.getName())
                 .ne(SysRole::getId, id)
         );
         Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
