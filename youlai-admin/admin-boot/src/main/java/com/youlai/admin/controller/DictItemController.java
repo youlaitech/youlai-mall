@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,45 +25,41 @@ import java.util.List;
 @Api(tags = "字典项接口")
 @RestController
 @RequestMapping("/api/v1/dict-items")
-@Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DictItemController {
 
-    private ISysDictItemService iSysDictItemService;
+    private final ISysDictItemService iSysDictItemService;
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "dictCode", value = "字典编码", paramType = "query", dataType = "String")
     })
-    @GetMapping
-    public Result list(
-            String queryMode,
+    @GetMapping("/page")
+    public Result getPageList(
             Integer page,
             Integer limit,
             String name,
             String dictCode
     ) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
-        switch (queryModeEnum) {
-            case PAGE:
-                IPage<SysDictItem> result = iSysDictItemService.list(new Page<>(page, limit), new SysDictItem().setName(name).setDictCode(dictCode));
-                return Result.success(result.getRecords(), result.getTotal());
-            case LIST:
-                List<SysDictItem> list = iSysDictItemService.list(new LambdaQueryWrapper<SysDictItem>()
+        IPage<SysDictItem> result = iSysDictItemService.list(new Page<>(page, limit),
+                new SysDictItem().setName(name).setDictCode(dictCode));
+        return Result.success(result.getRecords(), result.getTotal());
+    }
+
+    @ApiOperation(value = "字典项列表")
+    @GetMapping
+    public Result list(String name, String dictCode) {
+        List<SysDictItem> list = iSysDictItemService.list(
+                new LambdaQueryWrapper<SysDictItem>()
                         .like(StrUtil.isNotBlank(name), SysDictItem::getName, name)
                         .eq(StrUtil.isNotBlank(dictCode), SysDictItem::getDictCode, dictCode)
                         .select(SysDictItem::getName, SysDictItem::getValue)
                         .orderByAsc(SysDictItem::getSort)
-                );
-                return Result.success(list);
-            default:
-                return Result.failed(ResultCode.QUERY_MODE_IS_NULL);
-
-        }
+        );
+        return Result.success(list);
     }
 
     @ApiOperation(value = "字典项详情")
