@@ -4,9 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.pojo.vo.CascadeVO;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
+import com.youlai.mall.pms.pojo.vo.CascadeVO;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import org.springframework.cache.annotation.CacheEvict;
@@ -84,7 +84,7 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
                                 .forEach(category -> {
                                     CascadeVO categoryVO = new CascadeVO()
                                             .setLabel(category.getName())
-                                            .setValue(category.getId().toString());
+                                            .setValue(category.getId());
                                     BeanUtil.copyProperties(category, categoryVO);
                                     List<CascadeVO> children = recursionCascade(category.getId(), categoryList);
                                     categoryVO.setChildren(children);

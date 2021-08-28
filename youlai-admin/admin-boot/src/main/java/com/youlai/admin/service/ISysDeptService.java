@@ -3,7 +3,9 @@ package com.youlai.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.DeptVO;
-import com.youlai.admin.pojo.vo.TreeVO;
+import com.youlai.admin.pojo.vo.SelectVO;
+import com.youlai.admin.pojo.vo.TreeSelectVO;
+
 import java.util.List;
 
 /**
@@ -23,11 +25,11 @@ public interface ISysDeptService extends IService<SysDept> {
     List<DeptVO> listTable(Integer status, String name);
 
     /**
-     * 部门下拉（Select）层级列表
+     * 部门树形下拉（TreeSelect）层级列表
      *
      * @return
      */
-    List<TreeVO> listSelect();
+    List<TreeSelectVO> listTreeSelect();
 
     /**
      * 新增/修改部门

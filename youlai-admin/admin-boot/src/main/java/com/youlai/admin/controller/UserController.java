@@ -48,14 +48,7 @@ public class UserController {
             @ApiImplicitParam(name = "deptId", value = "部门ID", paramType = "query", dataType = "Long"),
     })
     @GetMapping
-    public Result list(
-            Integer page,
-            Integer limit,
-            String nickname,
-            String mobile,
-            Integer status,
-            Long deptId
-    ) {
+    public Result list(Integer page, Integer limit, String nickname, String mobile, Integer status, Long deptId) {
 
         SysUser user = new SysUser();
         user.setNickname(nickname);
@@ -70,9 +63,7 @@ public class UserController {
     @ApiOperation(value = "用户详情")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result detail(
-            @PathVariable Long id
-    ) {
+    public Result detail(@PathVariable Long id) {
         SysUser user = iSysUserService.getById(id);
         if (user != null) {
             List<Long> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
@@ -85,7 +76,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "新增用户")
-    @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
     @PostMapping
     public Result add(@RequestBody SysUser user) {
         boolean result = iSysUserService.saveUser(user);
@@ -93,13 +83,10 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改用户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
-    })
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Integer id,
+            @PathVariable Long id,
             @RequestBody SysUser user) {
         boolean result = iSysUserService.updateUser(user);
         return Result.judge(result);
@@ -113,11 +100,8 @@ public class UserController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "选择性更新")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "user", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysUser")
-    })
+    @ApiOperation(value = "选择性更新用户")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Long id, @RequestBody SysUser user) {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
@@ -146,8 +130,6 @@ public class UserController {
     @ApiOperation(value = "获取当前登陆的用户信息")
     @GetMapping("/me")
     public Result<UserVO> getCurrentUser() {
-        log.info("获取当前登陆的用户信息 begin");
-
         UserVO userVO = new UserVO();
 
         // 用户基本信息

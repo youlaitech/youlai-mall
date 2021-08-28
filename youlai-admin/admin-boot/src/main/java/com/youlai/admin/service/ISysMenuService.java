@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
 import com.youlai.admin.pojo.vo.RouteVO;
-import com.youlai.admin.pojo.vo.TreeVO;
+import com.youlai.admin.pojo.vo.SelectVO;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      *
      * @return
      */
-    List<TreeVO> listSelect();
+    List<SelectVO> listSelect();
 
 
     /**

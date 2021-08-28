@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
 import com.youlai.admin.pojo.vo.RouteVO;
-import com.youlai.admin.pojo.vo.TreeVO;
+import com.youlai.admin.pojo.vo.SelectVO;
 import com.youlai.admin.service.ISysMenuService;
+import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -30,6 +31,7 @@ import java.util.List;
 public class MenuController {
 
     private final ISysMenuService menuService;
+    private final ISysPermissionService permissionService;
 
     @ApiOperation(value = "菜单表格（Table）层级列表")
     @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String")
@@ -43,7 +45,7 @@ public class MenuController {
     @ApiOperation(value = "菜单下拉（Select）层级列表")
     @GetMapping("/select")
     public Result getMenuSelectList() {
-        List<TreeVO> menuList = menuService.listSelect();
+        List<SelectVO> menuList = menuService.listSelect();
         return Result.success(menuList);
     }
 
@@ -64,38 +66,50 @@ public class MenuController {
 
     @ApiOperation(value = "新增菜单")
     @PostMapping
-    @CacheEvict(cacheNames = "admin",key = "'routeList'")
+    @CacheEvict(cacheNames = "system",key = "'routeList'")
     public Result add(@RequestBody SysMenu menu) {
-        boolean status = menuService.save(menu);
-        return Result.judge(status);
+        boolean result = menuService.save(menu);
+        if(result){
+            permissionService.refreshPermRolesRules();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "修改菜单")
     @PutMapping(value = "/{id}")
-    @CacheEvict(cacheNames = "admin",key = "'routeList'")
+    @CacheEvict(cacheNames = "system",key = "'routeList'")
     public Result update(
-            @PathVariable Integer id,
+            @PathVariable Long id,
             @RequestBody SysMenu menu) {
-        boolean status = menuService.updateById(menu);
-        return Result.judge(status);
+        boolean result = menuService.updateById(menu);
+        if(result){
+            permissionService.refreshPermRolesRules();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "删除菜单")
     @ApiImplicitParam(name = "ids", value = "id集合字符串，以,分割", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
-    @CacheEvict(cacheNames = "admin",key = "'routeList'")
+    @CacheEvict(cacheNames = "system",key = "'routeList'")
     public Result delete(@PathVariable("ids") String ids) {
-        boolean status = menuService.removeByIds(Arrays.asList(ids.split(",")));
-        return Result.judge(status);
+        boolean result = menuService.removeByIds(Arrays.asList(ids.split(",")));
+        if(result){
+            permissionService.refreshPermRolesRules();
+        }
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "选择性修改菜单")
     @PatchMapping(value = "/{id}")
-    @CacheEvict(cacheNames = "admin",key = "'routeList'")
+    @CacheEvict(cacheNames = "system",key = "'routeList'")
     public Result patch(@PathVariable Integer id, @RequestBody SysMenu menu) {
         LambdaUpdateWrapper<SysMenu> updateWrapper = new LambdaUpdateWrapper<SysMenu>().eq(SysMenu::getId, id);
         updateWrapper.set(menu.getVisible() != null, SysMenu::getVisible, menu.getVisible());
         boolean result = menuService.update(updateWrapper);
+        if(result){
+            permissionService.refreshPermRolesRules();
+        }
         return Result.judge(result);
     }
 }
