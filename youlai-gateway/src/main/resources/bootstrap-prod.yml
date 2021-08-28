@@ -15,3 +15,6 @@ spring:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
         namespace: prod_namespace_id
+        shared-configs[0]:
+          data-id: youlai-common.yaml
+          refresh: true

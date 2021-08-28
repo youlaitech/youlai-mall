@@ -1,5 +1,5 @@
 server:
-  port: 8601
+  port: 8801
 
 spring:
   application:
@@ -13,3 +13,10 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
+        shared-configs[0]:
+          data-id: youlai-common.yaml
+          refresh: true
+
+# 日志目录
+logfile:
+  dir: D://logssss/${spring.application.name}
