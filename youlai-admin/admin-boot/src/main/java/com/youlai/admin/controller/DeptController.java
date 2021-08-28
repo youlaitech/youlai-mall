@@ -2,7 +2,8 @@ package com.youlai.admin.controller;
 
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.DeptVO;
-import com.youlai.admin.pojo.vo.TreeVO;
+import com.youlai.admin.pojo.vo.SelectVO;
+import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysDeptService;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
@@ -39,10 +40,10 @@ public class DeptController {
         return Result.success(deptTableList);
     }
 
-    @ApiOperation(value = "部门下拉（Select）层级列表")
+    @ApiOperation(value = "部门下拉（TreeSelect）层级列表")
     @GetMapping("/select")
     public Result getSelectList() {
-        List<TreeVO> deptSelectList = deptService.listSelect();
+        List<TreeSelectVO> deptSelectList = deptService.listTreeSelect();
         return Result.success(deptSelectList);
     }
 

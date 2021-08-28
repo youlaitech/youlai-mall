@@ -12,17 +12,13 @@ import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
-import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -87,6 +83,9 @@ public class RoleController {
         );
         Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
         boolean result = iSysRoleService.save(role);
+        if (result) {
+            iSysPermissionService.refreshPermRolesRules();
+        }
         return Result.judge(result);
     }
 
@@ -125,7 +124,7 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "选择性更新角色")
+    @ApiOperation(value = "选择性修改角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
@@ -142,7 +141,7 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "角色拥有的菜单ID集合")
+    @ApiOperation(value = "获取角色拥有的菜单ID集合")
     @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}/menus")
     public Result listRoleMenu(@PathVariable("id") Long roleId) {
@@ -150,7 +149,7 @@ public class RoleController {
         return Result.success(menuIds);
     }
 
-    @ApiOperation(value = "角色拥有的权限ID集合")
+    @ApiOperation(value = "获取角色拥有的权限ID集合")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Integer"),
@@ -173,6 +172,9 @@ public class RoleController {
 
         List<Long> menuIds = role.getMenuIds();
         boolean result = iSysRoleMenuService.update(roleId, menuIds);
+        if (result) {
+            iSysPermissionService.refreshPermRolesRules();
+        }
         return Result.judge(result);
     }
 

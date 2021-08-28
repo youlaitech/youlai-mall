@@ -1,8 +1,7 @@
-package com.youlai.admin.component.security;
+package com.youlai.admin.component.cache;
 
 import com.youlai.admin.service.ISysPermissionService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
-public class InitPermissionRoles implements CommandLineRunner {
+public class InitPermissionRolesCache implements CommandLineRunner {
 
     private ISysPermissionService iSysPermissionService;
 

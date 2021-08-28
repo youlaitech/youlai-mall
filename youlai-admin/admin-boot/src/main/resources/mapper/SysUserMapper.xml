@@ -16,7 +16,7 @@
         <result property="status" column="status" jdbcType="BOOLEAN"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-        <result  property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
         <result property="deleted" column="deleted" jdbcType="BOOLEAN"/>
         <collection property="roles" ofType="string" javaType="list">
             <result column="roleCode"></result>
@@ -25,20 +25,43 @@
 
     <sql id="Base_Column_List">
         id
-        ,username,nickname,
-        gender,password,dept_id,
-        avatar,mobile,status,
-        email,gmt_create,gmt_modified,
-        deleted
+                ,username,nickname,
+                gender,password,dept_id,
+                avatar,mobile,status,
+                email,gmt_create,gmt_modified,
+                deleted
     </sql>
     <select id="getByUsername" resultMap="BaseResultMap">
         select t1.id, t1.username, t1.nickname, t1.password, t1.status, t3.code roleCode
-        from sys_user t1,
-             sys_user_role t2,
-             sys_role t3
-        where t1.username = #{username}
-          and t1.deleted = 0
-          and t1.id = t2.user_id
-          and t2.role_id = t3.id
+                from sys_user t1,
+                sys_user_role t2,
+                sys_role t3
+                where t1.username = #{username}
+                and t1.deleted = 0
+                and t1.id = t2.user_id
+                and t2.role_id = t3.id
+    </select>
+
+
+    <select id="list" resultType="com.youlai.admin.pojo.entity.SysUser">
+        select u.*,d.name as dept_name , GROUP_CONCAT(r.name) as roleNames
+        from sys_user u
+            left join sys_dept d on u.dept_id= d.id
+            left join sys_user_role ur on u.id=ur.user_id
+            left join sys_role r on ur.role_id=r.id
+        where 1=1
+        <if test='user.username!=null and user.username.trim() neq  ""'>
+            and u.username like concat('%',#{user.username},'%')
+        </if>
+        <if test='user.mobile!=null and user.mobile.trim() neq ""'>
+            and u.mobile like concat('%',#{user.mobile},'%')
+        </if>
+        <if test='user.status!=null'>
+            and u.status = #{user.status}
+        </if>
+        <if test='user.deptId!=null'>
+            and concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{user.deptId},',%')
+        </if>
+        GROUP BY u.id
     </select>
 </mapper>
