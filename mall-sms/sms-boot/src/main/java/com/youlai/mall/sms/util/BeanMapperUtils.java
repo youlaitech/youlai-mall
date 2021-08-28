@@ -1,4 +1,4 @@
-package com.youlai.mall.sms.common.util;
+package com.youlai.mall.sms.util;
 
 import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;

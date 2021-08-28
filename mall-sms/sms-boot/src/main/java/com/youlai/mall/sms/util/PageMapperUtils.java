@@ -1,4 +1,4 @@
-package com.youlai.mall.sms.common.util;
+package com.youlai.mall.sms.util;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

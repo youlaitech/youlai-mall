@@ -3,7 +3,7 @@ package com.youlai.mall.sms.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.sms.common.util.BeanMapperUtils;
+import com.youlai.mall.sms.util.BeanMapperUtils;
 import com.youlai.mall.sms.pojo.domain.SmsCouponTemplate;
 import com.youlai.mall.sms.pojo.vo.CouponTemplateVO;
 import com.youlai.mall.sms.service.ISmsCouponTemplateService;
