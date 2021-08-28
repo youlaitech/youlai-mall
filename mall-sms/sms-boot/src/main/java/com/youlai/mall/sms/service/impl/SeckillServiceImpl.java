@@ -5,7 +5,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.youlai.common.redis.utils.RedisUtils;
-import com.youlai.mall.sms.common.util.BeanMapperUtils;
+import com.youlai.mall.sms.util.BeanMapperUtils;
 import com.youlai.mall.sms.pojo.domain.SmsSeckillSession;
 import com.youlai.mall.sms.pojo.domain.SmsSeckillSkuRelation;
 import com.youlai.mall.sms.pojo.to.SeckillSkuRedisTO;

@@ -62,7 +62,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在拦截响应token失效
+        // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在则拦截访问
         token = token.replace(AuthConstants.AUTHORIZATION_PREFIX, Strings.EMPTY);
         JWSObject jwsObject = JWSObject.parse(token);
         String payload = jwsObject.getPayload().toString();

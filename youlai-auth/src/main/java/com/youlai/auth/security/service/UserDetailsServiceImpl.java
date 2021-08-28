@@ -8,7 +8,6 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -20,9 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * 【重要】从数据库获取用户信息，用于和前端传过来的用户信息进行密码判读
- * @author haoxr
- * @date 2020-05-27
+ * 从数据库获取认证用户信息，用于和前端传过来的用户信息进行密码判读
+ *
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
 @Service
 @AllArgsConstructor
@@ -42,8 +41,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         switch (client) {
             default:
                 result = userFeignClient.getUserByUsername(username);
-                if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
-                    SysUser sysUser = (SysUser)result.getData();
+                if (Result.isSuccess(result)) {
+                    SysUser sysUser = (SysUser) result.getData();
                     oauthUserDetails = new OAuthUserDetails(sysUser);
                 }
                 break;
