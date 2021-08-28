@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Api(tags = "【系统管理】会员充值")
+@Api(tags = "系统管理端-会员充值")
 @RestController("AdminRechargeController")
 @RequestMapping("/api/v1/recharge-orders")
 @Slf4j

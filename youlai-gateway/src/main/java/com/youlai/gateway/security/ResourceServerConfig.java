@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * 资源服务器配置
  *
- * @author haoxr
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2020-05-01
  */
 @ConfigurationProperties(prefix = "security")
