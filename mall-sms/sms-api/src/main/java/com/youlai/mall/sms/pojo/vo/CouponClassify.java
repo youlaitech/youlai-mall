@@ -1,5 +1,6 @@
 package com.youlai.mall.sms.pojo.vo;
 
+import cn.hutool.core.date.DateUtil;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.domain.SmsCouponTemplate;
 import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
@@ -7,7 +8,6 @@ import com.youlai.mall.sms.pojo.enums.PeriodTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,7 +51,7 @@ public class CouponClassify {
             if (template.getRule().getExpiration().getPeriod().equals(PeriodTypeEnum.REGULAR.getCode())) {
 //                isTimeExpire = template.getRule().getExpiration().getDeadline() <= time.getTime();
             } else {
-                isTimeExpire = DateUtils.addDays(coupon.getGmtCreate(), template.getRule().getExpiration().getGap()).getTime() <= time.getTime();
+                isTimeExpire = DateUtil.offsetDay(coupon.getGmtCreate(), template.getRule().getExpiration().getGap()).getTime() <= time.getTime();
             }
 
             if (coupon.getState().equals(CouponStateEnum.USED)) {

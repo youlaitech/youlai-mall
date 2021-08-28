@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.sms.common.base.BasePageQuery;
+import com.youlai.common.base.BasePageQuery;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.pojo.domain.SmsCouponRecord;

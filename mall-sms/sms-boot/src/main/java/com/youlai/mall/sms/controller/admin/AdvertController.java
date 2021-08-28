@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.enums.QueryModeEnum;
 import com.youlai.common.result.Result;
 import com.youlai.mall.sms.pojo.SmsAdvert;
 import com.youlai.mall.sms.service.ISmsAdvertService;
@@ -17,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 @Api(tags = "【系统管理】营销广告")
 @RestController("AdminAdvertController")
@@ -31,29 +28,23 @@ public class AdvertController {
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "queryMode", value = "查询模式", paramType = "query", dataType = "QueryModeEnum"),
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "广告名称", paramType = "query", dataType = "String")
     })
     @GetMapping
     public Result list(
-            String queryMode,
             Integer page,
             Integer limit,
             String name) {
-        QueryModeEnum queryModeEnum = QueryModeEnum.getByCode(queryMode);
-        switch (queryModeEnum) {
-            default:
-                LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
-                        .like(StrUtil.isNotBlank(name), SmsAdvert::getName, name)
-                        .orderByAsc(SmsAdvert::getSort)
-                        .orderByDesc(SmsAdvert::getGmtModified)
-                        .orderByDesc(SmsAdvert::getGmtCreate);
+        LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
+                .like(StrUtil.isNotBlank(name), SmsAdvert::getName, name)
+                .orderByAsc(SmsAdvert::getSort)
+                .orderByDesc(SmsAdvert::getGmtModified)
+                .orderByDesc(SmsAdvert::getGmtCreate);
 
-                Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(page, limit), queryWrapper);
-                return Result.success(result.getRecords(), result.getTotal());
-        }
+        Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(page, limit), queryWrapper);
+        return Result.success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "广告详情")
@@ -65,7 +56,6 @@ public class AdvertController {
     }
 
     @ApiOperation(value = "新增广告")
-    @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")
     @PostMapping
     public Result add(@RequestBody SmsAdvert advert) {
         boolean status = iSmsAdvertService.save(advert);
@@ -73,10 +63,7 @@ public class AdvertController {
     }
 
     @ApiOperation(value = "修改广告")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")
-    })
+    @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long")
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Integer id,
@@ -94,10 +81,7 @@ public class AdvertController {
     }
 
     @ApiOperation(value = "修改广告(选择性更新)")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "advert", value = "实体JSON对象", required = true, paramType = "body", dataType = "SmsAdvert")
-    })
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SmsAdvert advert) {
         LambdaUpdateWrapper<SmsAdvert> updateWrapper = new LambdaUpdateWrapper<SmsAdvert>().eq(SmsAdvert::getId, id);
