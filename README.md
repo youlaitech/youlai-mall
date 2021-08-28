@@ -95,14 +95,14 @@ youlai-mall
 
 1. **安装环境**
 
-   安装`MySQL8`、`Redis`
+   安装`MySQL8`、`Redis`中间件，如果不方便安装，Nacos的公共配置文件`youlai-common.yaml`的中间件默认配置的是`有来项目团队`提供的云环境，顶着风险提供给大家测试，望理解不做破坏。
 
 2. **创建数据库**
-    - 新建平台数据库，执行项目`docs/sql`下的SQL脚本完成数据库创建，基础sql脚本为`youlai.sql`，商城业务的脚本为`mall-*`，商城数据库按需创建
+    - 新建平台数据库，进入项目`docs/sql`，根据MySQL版本选择对应的目录，首先执行`database.sql`创建数据库，然后执行`youlai.sql`、`mall_*.sql`完成表的创建和数据的导入
     - 创建`Nacos`数据库，执行脚本`middleware/nacos/conf/nacos-mysql.sql`完成`Nacos`数据库的初始化
 3. **Nacos配置和启动（非常重要）**
 
-    - 修改`Nacos`数据源，进入配置`middleware/nacos/conf/application.properties`将数据源修改为自己的环境连接
+    - 修改`Nacos`数据源，进入配置`middleware/nacos/conf/application.properties`将数据源修改为您自己的环境
 
     - 启动`Nacos`,  IDEA下方工具栏点击Terminal终端命令行，执行`cd middleware/nacos/bin`命令切换到`Nacos`的启动脚本文件夹下，然后执行`startup -m standalone`命令启动`Nacos`服务；
 
@@ -110,7 +110,7 @@ youlai-mall
 
       ![](https://gitee.com/haoxr/image/raw/master/20210623012937.png)
 
-    - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`docs/nacos/DEFAULT_GROUP.zip`配置，然后分别进入各个项目配置文件中修改MySQL、Redis连接信息即可。
+    - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`docs/nacos/DEFAULT_GROUP.zip`配置，进入共享配置`youlai-common.yaml`修改MySQL、Redis、RabbitMQ等中间件的信息，默认是`有来`云服务器环境。
 
       ![image-20210623013306256](https://gitee.com/haoxr/image/raw/master/image-20210623013306256.png)
 
