@@ -1,8 +1,9 @@
-package com.youlai.admin.pojo.vo;
+package com.youlai.mall.pms.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
 import java.util.List;
 
 /**
