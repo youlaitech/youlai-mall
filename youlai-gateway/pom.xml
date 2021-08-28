@@ -94,6 +94,11 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
+            <artifactId>common-log</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
         </dependency>
 

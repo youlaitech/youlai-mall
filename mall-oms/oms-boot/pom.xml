@@ -100,7 +100,6 @@
             <artifactId>common-rabbitmq</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-pay</artifactId>

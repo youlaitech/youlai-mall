@@ -18,14 +18,13 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-log</artifactId>
         </dependency>
 
-        <!-- 引入log4j2依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>

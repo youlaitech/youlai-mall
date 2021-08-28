@@ -100,7 +100,7 @@
         </dependency>
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-es</artifactId>
+            <artifactId>common-elasticsearch</artifactId>
         </dependency>
 
 
