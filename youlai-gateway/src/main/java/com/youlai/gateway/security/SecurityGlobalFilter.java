@@ -52,6 +52,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         if (env.equals("prod")
                 && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
                 || HttpMethod.PUT.toString().equals(request.getMethodValue())) // 修改方法
+                || HttpMethod.POST.toString().equals(request.getMethodValue()) // 新增方法，新增不存在的路由导致系统无法访问
         ) {
             return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
         }
