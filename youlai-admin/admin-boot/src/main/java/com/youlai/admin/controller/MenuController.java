@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/menus")
 @RequiredArgsConstructor
+@Slf4j
 public class MenuController {
 
     private final ISysMenuService menuService;
@@ -52,6 +54,7 @@ public class MenuController {
     @ApiOperation(value = "菜单路由（Route）层级列表")
     @GetMapping("/route")
     public Result getMenuRouteList() {
+        log.info("加载菜单路由");
         List<RouteVO> menuList = menuService.listRoute();
         return Result.success(menuList);
     }

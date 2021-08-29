@@ -1,6 +1,7 @@
 package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -130,6 +131,8 @@ public class UserController {
     @ApiOperation(value = "获取当前登陆的用户信息")
     @GetMapping("/me")
     public Result<UserVO> getCurrentUser() {
+
+
         UserVO userVO = new UserVO();
 
         // 用户基本信息
@@ -144,6 +147,8 @@ public class UserController {
         // 用户按钮权限信息
         List<String> perms = iSysPermissionService.listBtnPermByRoles(roles);
         userVO.setPerms(perms);
+
+        log.info("获取当前登陆的用户信息:{}", JSONUtil.toJsonStr(userVO));
 
         return Result.success(userVO);
     }
