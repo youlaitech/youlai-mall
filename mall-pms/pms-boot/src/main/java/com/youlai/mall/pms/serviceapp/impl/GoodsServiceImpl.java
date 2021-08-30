@@ -12,10 +12,12 @@ import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttributeValue;
+import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.pms.pojo.vo.app.GoodsDetailVO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.serviceapp.IGoodsService;
+import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,7 @@ public class GoodsServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implemen
 
     final IPmsSpuAttributeValueService spuAttributeValueService;
     final IPmsSkuService skuService;
+    final MemberFeignClient memberFeignClient;
 
     @Override
     public GoodsDetailVO getGoodsById(Long goodsId) {
@@ -111,6 +114,12 @@ public class GoodsServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implemen
             }).collect(Collectors.toList());
             goodsDetailVO.setSkuList(skuList);
         }
+        // 添加用户浏览历史记录
+        ProductHistoryVO vo = new ProductHistoryVO();
+        vo.setId(goodsInfo.getId());
+        vo.setName(goodsInfo.getName());
+        vo.setPicUrl(goodsInfo.getAlbum() != null ? goodsInfo.getAlbum().get(0) : null);
+        memberFeignClient.addProductViewHistory(vo);
         return goodsDetailVO;
     }
 
