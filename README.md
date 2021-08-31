@@ -6,6 +6,7 @@
 ![](https://img.shields.io/badge/SpringCloud-2020-green.svg)
 ![](https://img.shields.io/badge/vue--element--admin-v4.4.0-orange)
 
+**线上预览地址：** http://www.youlai.tech
 
 ## 项目信息
 
@@ -53,8 +54,6 @@
 - **前端技术栈：** vue、element-ui、uni-app、vue-element-admin
 
 #### 项目地址
-
-**线上预览地址：** http://www.youlai.tech
 
 | 项目名称   | 源码地址                                                        |项目名称   | 源码地址                                                   |
 | ---------- | ------------------------------------------------------------ |---------- | ------------------------------------------------------------ |
