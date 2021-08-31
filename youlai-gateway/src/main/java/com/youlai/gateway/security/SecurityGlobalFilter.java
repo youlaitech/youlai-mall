@@ -51,11 +51,12 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
 
         // 线上演示环境禁止修改和删除
-        if (env.equals("prod")
-                && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
-                || HttpMethod.PUT.toString().equals(request.getMethodValue())) // 修改方法
-                && !AuthConstants.LOGOUT_PATH.equals(request.getPath()) // 退出方法不拦截
-        ) {
+        if (env.equals("prod") && !AuthConstants.LOGOUT_PATH.equals(request.getPath().toString())
+                && (
+                HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
+                        || HttpMethod.PUT.toString().equals(request.getMethodValue())// 修改方法
+                        || AuthConstants.SAVE_MENU_PATH.equals(request.getPath().toString()) // 新增路由
+        )) {
             return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
         }
 
@@ -78,7 +79,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
         // 存在token且不是黑名单，request写入JWT的载体信息
         request = exchange.getRequest().mutate()
-                .header(AuthConstants.JWT_PAYLOAD_KEY, URLEncoder.encode(payload,"UTF-8"))
+                .header(AuthConstants.JWT_PAYLOAD_KEY, URLEncoder.encode(payload, "UTF-8"))
                 .build();
         exchange = exchange.mutate().request(request).build();
         return chain.filter(exchange);
