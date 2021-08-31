@@ -62,4 +62,10 @@ public interface AuthConstants {
 
     String LOGOUT_PATH = "/youlai-auth/oauth/logout";
 
+    /**
+     * 新增菜单路径,新增不存在的路由会导致系统无法访问，线上禁止新增菜单的操作
+     */
+    String SAVE_MENU_PATH = "youlai-admin/api/v1/menus";
+
+
 }
