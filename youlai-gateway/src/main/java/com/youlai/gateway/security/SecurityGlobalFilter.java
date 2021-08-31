@@ -25,6 +25,7 @@ import reactor.core.publisher.Mono;
 
 import java.net.URLEncoder;
 
+
 /**
  * 安全拦截全局过滤器
  *
@@ -48,11 +49,12 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
+
         // 线上演示环境禁止修改和删除
         if (env.equals("prod")
                 && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
                 || HttpMethod.PUT.toString().equals(request.getMethodValue())) // 修改方法
-               // || HttpMethod.POST.toString().equals(request.getMethodValue()) // 新增方法，新增不存在的路由导致系统无法访问
+                && !AuthConstants.LOGOUT_PATH.equals(request.getPath()) // 退出方法不拦截
         ) {
             return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
         }

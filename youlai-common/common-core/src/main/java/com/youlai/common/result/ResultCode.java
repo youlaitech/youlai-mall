@@ -23,7 +23,7 @@ public enum ResultCode implements IResultCode, Serializable {
     USER_ACCOUNT_INVALID("A0203", "用户账户已作废"),
 
     USERNAME_OR_PASSWORD_ERROR("A0210", "用户名或密码错误"),
-    INPUT_PASSWORD_EXCEED_LIMIT("A0211", "用户输入密码次数超限"),
+    PASSWORD_ENTER_EXCEED_LIMIT("A0211", "用户输入密码次数超限"),
     CLIENT_AUTHENTICATION_FAILED("A0212", "客户端认证失败"), // *
     TOKEN_INVALID_OR_EXPIRED("A0230", "token无效或已过期"),
     TOKEN_ACCESS_FORBIDDEN("A0231", "token已被禁止访问"),
@@ -36,7 +36,6 @@ public enum ResultCode implements IResultCode, Serializable {
     PARAM_ERROR("A0400", "用户请求参数错误"),
     RESOURCE_NOT_FOUND("A0401", "请求资源不存在"),
     PARAM_IS_NULL("A0410", "请求必填参数为空"),
-    QUERY_MODE_IS_NULL("A0411", "查询模式为空"),
 
     USER_UPLOAD_FILE_ERROR("A0700", "用户上传文件异常"),
     USER_UPLOAD_FILE_TYPE_NOT_MATCH("A0701", "用户上传文件类型不匹配"),

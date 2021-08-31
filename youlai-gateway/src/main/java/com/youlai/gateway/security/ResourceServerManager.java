@@ -5,10 +5,8 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.gateway.component.UrlPermRolesLocalCache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -38,50 +36,33 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
 
     private final RedisTemplate redisTemplate;
 
-    // 本地缓存
-    private final UrlPermRolesLocalCache urlPermRolesLocalCache;
-
-    // 是否开启本地缓存
-    @Value("${local-cache.enabled:true}")
-    private Boolean localCacheEnabled;
-
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
-        // 预检请求放行
-        if (request.getMethod() == HttpMethod.OPTIONS) {
+        if (request.getMethod() == HttpMethod.OPTIONS) { // 预检请求放行
             return Mono.just(new AuthorizationDecision(true));
         }
         PathMatcher pathMatcher = new AntPathMatcher();
         String method = request.getMethodValue();
         String path = request.getURI().getPath();
-        String restfulPath = method + ":" + path; // Restful接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14961707.html
+        String restfulPath = method + ":" + path; // RESTFul接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14961707.html
 
-
+        /**---------------------------------认证校验-------------------------------------*/
+        // 如果token以"bearer "为前缀，到此方法里说明JWT有效即已认证，其他前缀的token则拦截
         String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-        // 如果token以"bearer "为前缀，到这里说明JWT有效即已认证
         if (StrUtil.isNotBlank(token) && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
-            // 移动端请求认证即可，不需后续鉴权
-            if (pathMatcher.match(GlobalConstants.APP_API_PATTERN, path)) {
+            if (pathMatcher.match(AuthConstants.APP_API_PATTERN, path)) {
+                // 移动端请求只需认证，无需后续鉴权
                 return Mono.just(new AuthorizationDecision(true));
             }
         } else {
             return Mono.just(new AuthorizationDecision(false));
         }
 
-
-        // 缓存取 URL权限-角色集合 规则数据
+        /**---------------------------------鉴权开始-------------------------------------*/
+        // 缓存取 [URL权限-角色集合] 规则数据
         // urlPermRolesRules = [{'key':'GET:/api/v1/users/*','value':['ADMIN','TEST']},...]
-        Map<String, Object> urlPermRolesRules;
-        if (localCacheEnabled) {
-            urlPermRolesRules = (Map<String, Object>) urlPermRolesLocalCache.getCache(GlobalConstants.URL_PERM_ROLES_KEY);
-            if (null == urlPermRolesRules) {
-                urlPermRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
-                urlPermRolesLocalCache.setLocalCache(GlobalConstants.URL_PERM_ROLES_KEY, urlPermRolesRules);
-            }
-        } else {
-            urlPermRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
-        }
+        Map<String, Object> urlPermRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
 
         // 根据请求路径判断有访问权限的角色列表
         List<String> authorizedRoles = new ArrayList<>(); // 拥有访问权限的角色
