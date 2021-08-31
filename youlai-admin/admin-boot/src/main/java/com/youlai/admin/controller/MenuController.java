@@ -5,6 +5,7 @@ import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
 import com.youlai.admin.pojo.vo.RouteVO;
 import com.youlai.admin.pojo.vo.SelectVO;
+import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.result.Result;
@@ -38,7 +39,7 @@ public class MenuController {
     @ApiOperation(value = "菜单表格（Table）层级列表")
     @ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "String")
     @GetMapping("/table")
-    public Result getMenuTableList(String name) {
+    public Result getTableList(String name) {
         List<MenuVO> menuList = menuService.listTable(name);
         return Result.success(menuList);
     }
@@ -46,18 +47,25 @@ public class MenuController {
 
     @ApiOperation(value = "菜单下拉（Select）层级列表")
     @GetMapping("/select")
-    public Result getMenuSelectList() {
+    public Result getSelectList() {
         List<SelectVO> menuList = menuService.listSelect();
+        return Result.success(menuList);
+    }
+
+    @ApiOperation(value = "菜单下拉（TreeSelect）层级列表")
+    @GetMapping("/tree-select")
+    public Result getTreeSelectList() {
+        List<TreeSelectVO> menuList = menuService.listTreeSelect();
         return Result.success(menuList);
     }
 
     @ApiOperation(value = "菜单路由（Route）层级列表")
     @GetMapping("/route")
-    public Result getMenuRouteList() {
-        log.info("加载菜单路由");
-        List<RouteVO> menuList = menuService.listRoute();
-        return Result.success(menuList);
+    public Result getRouteList() {
+        List<RouteVO> routeList = menuService.listRoute();
+        return Result.success(routeList);
     }
+
 
     @ApiOperation(value = "菜单详情")
     @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Long")
