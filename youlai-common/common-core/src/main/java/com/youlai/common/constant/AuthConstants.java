@@ -57,4 +57,9 @@ public interface AuthConstants {
     String GRANT_TYPE_KEY = "grant_type";
 
     String REFRESH_TOKEN = "refresh_token";
+
+    String APP_API_PATTERN = "/*/app-api/**";
+
+    String LOGOUT_PATH = "/youlai-auth/oauth/logout";
+
 }
