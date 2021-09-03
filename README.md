@@ -117,7 +117,7 @@ youlai-mall
      ![](https://gitee.com/haoxr/image/raw/master/20210623012937.png)
     
         
-2. **服务启动**
+2. **微服务启动**
 
     进入`youlai-gateway`、`youlai-auth`、 `youlai-admin`3个基础服务，找到对应的启动类，
 分别是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-boot`的AdminApplication类，商城模块按需启动。 浏览器访问 http://localhost:9999/doc.html 项目的接口文档，如果界面显示正常，代表服务启动成功。
