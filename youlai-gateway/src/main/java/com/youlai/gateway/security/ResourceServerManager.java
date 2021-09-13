@@ -47,7 +47,6 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         String path = request.getURI().getPath();
         String restfulPath = method + ":" + path; // RESTFul接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14961707.html
 
-        /**---------------------------------认证校验-------------------------------------*/
         // 如果token以"bearer "为前缀，到此方法里说明JWT有效即已认证，其他前缀的token则拦截
         String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
         if (StrUtil.isNotBlank(token) && token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
@@ -59,14 +58,18 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
             return Mono.just(new AuthorizationDecision(false));
         }
 
-        /**---------------------------------鉴权开始-------------------------------------*/
-        // 缓存取 [URL权限-角色集合] 规则数据
-        // urlPermRolesRules = [{'key':'GET:/api/v1/users/*','value':['ADMIN','TEST']},...]
+
+        /**
+         * 鉴权开始
+         *
+         * 缓存取 [URL权限-角色集合] 规则数据
+         * urlPermRolesRules = [{'key':'GET:/api/v1/users/*','value':['ADMIN','TEST']},...]
+         */
         Map<String, Object> urlPermRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
 
         // 根据请求路径判断有访问权限的角色列表
         List<String> authorizedRoles = new ArrayList<>(); // 拥有访问权限的角色
-        boolean requireCheck = false; // 是否需要鉴权，默认“没有设置权限规则”不用鉴权
+        boolean requireCheck = false; // 是否需要鉴权，默认未设置拦截规则不需鉴权
 
         for (Map.Entry<String, Object> permRoles : urlPermRolesRules.entrySet()) {
             String perm = permRoles.getKey();
