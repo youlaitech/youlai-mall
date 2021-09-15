@@ -76,7 +76,6 @@
         <logger name="com.alibaba.nacos" level="OFF" addtivity="false"> </logger>
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
-            <appender-ref ref="FILE" />
         </root>
     </springProfile>
 
