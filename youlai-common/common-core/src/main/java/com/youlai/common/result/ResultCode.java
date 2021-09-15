@@ -24,7 +24,7 @@ public enum ResultCode implements IResultCode, Serializable {
 
     USERNAME_OR_PASSWORD_ERROR("A0210", "用户名或密码错误"),
     PASSWORD_ENTER_EXCEED_LIMIT("A0211", "用户输入密码次数超限"),
-    CLIENT_AUTHENTICATION_FAILED("A0212", "客户端认证失败"), // *
+    CLIENT_AUTHENTICATION_FAILED("A0212", "客户端认证失败"),
     TOKEN_INVALID_OR_EXPIRED("A0230", "token无效或已过期"),
     TOKEN_ACCESS_FORBIDDEN("A0231", "token已被禁止访问"),
 
