@@ -201,8 +201,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .setRemark(submitDTO.getRemark())
                 .setPayAmount(submitDTO.getPayAmount())
                 .setTotalQuantity(orderItems.stream().map(OrderItemDTO::getCount).reduce(0, Integer::sum))
-                .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum))
-                .setGmtCreate(new Date());
+                .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum));
         this.save(order);
 
         // 创建订单商品
