@@ -49,8 +49,7 @@ public class SeataTccOrderServiceImpl implements SeataTccOrderService {
                 .setRemark(orderSubmitDTO.getRemark())
                 .setPayAmount(orderSubmitDTO.getPayAmount())
                 .setTotalQuantity(orderItems.stream().map(item -> item.getCount()).reduce(0, (x, y) -> x + y))
-                .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0l, (x, y) -> x + y))
-                .setGmtCreate(new Date());
+                .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0l, (x, y) -> x + y));
         orderMapper.insert(order);
         int i = 1 / 0;
         // 创建订单商品
