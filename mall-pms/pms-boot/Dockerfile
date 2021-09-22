@@ -15,7 +15,7 @@ VOLUME /tmp
 ADD target/pms-boot.jar app.jar
 
 # 容器启动执行命令
-ENTRYPOINT ["java", "-Xms128M -Xmx128M", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-Xmx128m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
 
 # 声明运行时容器提供服务端口，仅仅是声明
 EXPOSE 8802
