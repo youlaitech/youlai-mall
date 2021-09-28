@@ -1,11 +1,11 @@
 package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.pojo.dto.UserAuthDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.vo.UserVO;
@@ -18,11 +18,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/users")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
 
     private final ISysUserService iSysUserService;
@@ -114,16 +113,13 @@ public class UserController {
 
 
     /**
-     * 提供用于用户登录认证需要的用户信息
-     *
-     * @param username
-     * @return
+     * 提供用于用户登录认证信息
      */
     @ApiOperation(value = "根据用户名获取用户信息")
     @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
     @GetMapping("/username/{username}")
-    public Result<SysUser> getUserByUsername(@PathVariable String username) {
-        SysUser user = iSysUserService.getByUsername(username);
+    public Result<UserAuthDTO> getUserByUsername(@PathVariable String username) {
+        UserAuthDTO user = iSysUserService.getByUsername(username);
         return Result.success(user);
     }
 
@@ -131,25 +127,17 @@ public class UserController {
     @ApiOperation(value = "获取当前登陆的用户信息")
     @GetMapping("/me")
     public Result<UserVO> getCurrentUser() {
-
-
         UserVO userVO = new UserVO();
-
         // 用户基本信息
         Long userId = JwtUtils.getUserId();
         SysUser user = iSysUserService.getById(userId);
         BeanUtil.copyProperties(user, userVO);
-
         // 用户角色信息
         List<String> roles = JwtUtils.getRoles();
         userVO.setRoles(roles);
-
         // 用户按钮权限信息
         List<String> perms = iSysPermissionService.listBtnPermByRoles(roles);
         userVO.setPerms(perms);
-
-        log.info("获取当前登陆的用户信息:{}", JSONUtil.toJsonStr(userVO));
-
         return Result.success(userVO);
     }
 }

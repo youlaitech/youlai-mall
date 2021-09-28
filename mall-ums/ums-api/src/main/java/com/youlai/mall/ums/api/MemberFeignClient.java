@@ -2,6 +2,7 @@ package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
+import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -32,7 +33,7 @@ public interface MemberFeignClient {
      * 获取认证会员信息
      */
     @GetMapping("/app-api/v1/members/openid/{openid}")
-    Result<UmsMember> getByOpenid(@PathVariable String openid);
+    Result<MemberAuthDTO> loadUserByOpenId(@PathVariable String openid);
 
     /**
      * 扣减会员余额

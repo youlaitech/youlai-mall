@@ -7,12 +7,12 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
+import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,18 +61,18 @@ public class MemberController {
         return Result.success(user);
     }
 
-    @ApiOperation(value = "根据openid获取会员信息")
+    @ApiOperation(value = "根据openid获取会员认证信息")
     @ApiImplicitParam(name = "openid", value = "微信身份唯一标识", required = true, paramType = "path", dataType = "String")
     @GetMapping("/openid/{openid}")
-    public Result<UmsMember> getByOpenid(
-            @PathVariable String openid
-    ) {
-        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>()
-                .eq(UmsMember::getOpenid, openid));
+    public Result<MemberAuthDTO> getByOpenid(@PathVariable String openid) {
+        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>().eq(UmsMember::getOpenid, openid));
         if (member == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
-        return Result.success(member);
+        // 会员认证信息
+        MemberAuthDTO memberAuth = new MemberAuthDTO();
+        BeanUtil.copyProperties(member, memberAuth);
+        return Result.success(memberAuth);
     }
 
     @ApiOperation(value = "新增会员")

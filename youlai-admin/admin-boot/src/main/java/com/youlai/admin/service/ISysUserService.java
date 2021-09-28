@@ -4,6 +4,7 @@ package com.youlai.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.admin.pojo.dto.UserAuthDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 
 public interface ISysUserService extends IService<SysUser> {
@@ -38,6 +39,6 @@ public interface ISysUserService extends IService<SysUser> {
      * @param username
      * @return
      */
-     SysUser getByUsername(String username);
+    UserAuthDTO getByUsername(String username);
 
 }

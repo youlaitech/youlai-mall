@@ -76,7 +76,7 @@ public class OAuthController {
 
     @ApiOperation(value = "微信授权登录")
     @ApiImplicitParam(name = "code", value = "小程序授权code", paramType = "path")
-    @PostMapping("/token/{code}")
+    @PostMapping("/wechat-token")
     public Result wechatLogin(@PathVariable String code, @RequestBody UserInfo userInfo) {
         OAuthToken token = wechatAuthService.login(code, userInfo);
         return Result.success(token);

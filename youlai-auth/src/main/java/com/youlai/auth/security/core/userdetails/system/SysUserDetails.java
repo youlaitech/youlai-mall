@@ -1,11 +1,11 @@
-package com.youlai.auth.domain;
+package com.youlai.auth.security.core.userdetails.system;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.youlai.admin.pojo.entity.SysUser;
+import com.youlai.admin.pojo.dto.UserAuthDTO;
 import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
-import com.youlai.mall.ums.pojo.dto.AuthMemberDTO;
+import com.youlai.common.constant.GlobalConstants;
+import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,44 +13,54 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static com.youlai.common.constant.GlobalConstants.STATUS_YES;
-
 
 /**
- * 登录用户信息
+ * 用户认证信息
+ *
+ * @author <a href="mailto:xianrui0365@163.com">haoxianrui</a>
+ * @date 2021/9/27
  */
 @Data
-@NoArgsConstructor
-public class OAuthUserDetails implements UserDetails {
+public class SysUserDetails implements UserDetails {
 
-    private Long id;
+    /**
+     * 扩展字段
+     */
+    private Long userId;
 
+    /**
+     * 默认字段
+     */
     private String username;
-
     private String password;
-
     private Boolean enabled;
-
-    private String clientId;
-
     private Collection<SimpleGrantedAuthority> authorities;
 
-    public OAuthUserDetails(SysUser user) {
-        this.setId(user.getId());
+    /**
+     * 系统管理用户体系
+     *
+     * @param user 系统管理用户认证信息
+     */
+    public SysUserDetails(UserAuthDTO user) {
+        this.setUserId(user.getUserId());
         this.setUsername(user.getUsername());
         this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword());
-        this.setEnabled(STATUS_YES.equals(user.getStatus()));
+        this.setEnabled(GlobalConstants.STATUS_YES.equals(user.getStatus()));
         if (CollectionUtil.isNotEmpty(user.getRoles())) {
             authorities = new ArrayList<>();
             user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
         }
     }
 
-    public OAuthUserDetails(AuthMemberDTO member) {
-        this.setId(member.getId());
+    /**
+     * 小程序会员用户体系
+     *
+     * @param member 小程序会员用户认证信息
+     */
+    public SysUserDetails(MemberAuthDTO member) {
+        this.setUserId(member.getId());
         this.setUsername(member.getUsername());
-        this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + member.getPassword());
-        this.setEnabled(STATUS_YES.equals(member.getStatus()));
+        this.setEnabled(GlobalConstants.STATUS_YES.equals(member.getStatus()));
     }
 
 

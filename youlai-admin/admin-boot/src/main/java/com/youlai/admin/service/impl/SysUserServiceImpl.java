@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.admin.pojo.dto.UserAuthDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.mapper.SysUserMapper;
 import com.youlai.admin.pojo.entity.SysUserRole;
@@ -105,7 +106,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUser getByUsername(String username) {
+    public UserAuthDTO getByUsername(String username) {
         return this.baseMapper.getByUsername(username);
     }
 
