@@ -3,9 +3,9 @@ package com.youlai.auth.security.config;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
-import com.youlai.auth.domain.OAuthUserDetails;
-import com.youlai.auth.security.service.ClientDetailsServiceImpl;
-import com.youlai.auth.security.service.UserDetailsServiceImpl;
+import com.youlai.auth.security.core.userdetails.system.SysUserDetails;
+import com.youlai.auth.security.core.clientdetails.ClientDetailsServiceImpl;
+import com.youlai.auth.security.core.userdetails.system.SysUserDetailsServiceImpl;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.AllArgsConstructor;
@@ -31,9 +31,7 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.security.KeyPair;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 认证授权配置
@@ -44,11 +42,11 @@ import java.util.Map;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private AuthenticationManager authenticationManager;
-    private UserDetailsServiceImpl userDetailsService;
+    private SysUserDetailsServiceImpl sysUserDetailsService;
     private ClientDetailsServiceImpl clientDetailsService;
 
     /**
-     * OAuth2客户端【数据库加载】
+     * OAuth2客户端
      */
     @Override
     @SneakyThrows
@@ -70,12 +68,28 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
-                .userDetailsService(userDetailsService)
+               //  .userDetailsService(userDetailsService)
                 // refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
                 //      1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
                 //      2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
                 .reuseRefreshTokens(true);
     }
+
+
+    /**
+     * 重写 DaoAuthenticationProvider
+     *
+     * @return
+     */
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setHideUserNotFoundExceptions(false); // 是否隐藏用户不存在异常，默认:true-隐藏；false-抛出异常；
+        provider.setUserDetailsService(sysUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
 
 
     /**
@@ -105,26 +119,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
             Map<String, Object> additionalInfo = CollectionUtil.newHashMap();
-            OAuthUserDetails OAuthUserDetails = (OAuthUserDetails) authentication.getUserAuthentication().getPrincipal();
-            additionalInfo.put("userId", OAuthUserDetails.getId());
-            additionalInfo.put("username", OAuthUserDetails.getUsername());
+            SysUserDetails SysUserDetails = (SysUserDetails) authentication.getUserAuthentication().getPrincipal();
+            additionalInfo.put("userId", SysUserDetails.getUserId());
+            additionalInfo.put("username", SysUserDetails.getUsername());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         };
     }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setHideUserNotFoundExceptions(false); // 用户不存在异常抛出
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
 
     /**
      * 密码编码器
-     *
+     * <p>
      * 委托方式，根据密码的前缀选择对应的encoder，例如：{bcypt}前缀->标识BCYPT算法加密；{noop}->标识不使用任何加密即明文的方式
      * 密码判读 DaoAuthenticationProvider#additionalAuthenticationChecks
      */

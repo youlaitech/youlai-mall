@@ -12,12 +12,12 @@ import org.springframework.context.annotation.Configuration;
  * 微信小程序配置
  */
 @Configuration
-public class WeAppConfig {
+public class WechatConfig {
 
-    @Value("${weapp.appid}")
+    @Value("${wechat.appid}")
     private String appid;
 
-    @Value("${weapp.secret}")
+    @Value("${wechat.secret}")
     private String secret;
 
     @Bean

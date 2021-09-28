@@ -1,4 +1,4 @@
-package com.youlai.auth.security.service;
+package com.youlai.auth.security.core.clientdetails;
 
 import com.youlai.admin.api.OAuthClientFeignClient;
 import com.youlai.admin.pojo.entity.SysOauthClient;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ClientDetailsServiceImpl implements ClientDetailsService {
+public class  ClientDetailsServiceImpl implements ClientDetailsService {
 
     @Autowired
     private OAuthClientFeignClient oAuthClientFeignClient;

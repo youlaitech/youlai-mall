@@ -19,7 +19,7 @@
 
     <!--1. 输出到控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+        <!--此日志appender是为开发使用，只配置最低级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
         </filter>
@@ -30,10 +30,9 @@
         </encoder>
     </appender>
 
-
     <!-- 2. 输出到文件  -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 正在记录的日志文档的路径及文档名 -->
+        <!-- 当前记录的日志文档完整路径 -->
         <file>${LOG_HOME}/log.log</file>
         <!--日志文档输出格式-->
         <encoder>
@@ -59,7 +58,7 @@
     <!--
         <logger>用来设置某一个包或者具体的某一个类的日志打印级别、
         以及指定<appender>。<logger>仅有一个name属性，
-        一个可选的level和一个可选的addtivity属性。
+        一个可选的level和一个可选的 addtivity 属性。
         name:用来指定受此logger约束的某一个包或者具体的某一个类。
         level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，
               还有一个特俗值INHERITED或者同义词NULL，代表强制执行上级的级别。
@@ -72,6 +71,7 @@
         不能设置为INHERITED或者同义词NULL。默认是DEBUG
         可以包含零个或多个元素，标识这个appender将会添加到这个logger。
     -->
+    <!-- 开发环境输出至控制台 -->
     <springProfile name="dev">
         <logger name="com.alibaba.nacos" level="OFF" addtivity="false"> </logger>
         <root level="INFO">
@@ -79,9 +79,9 @@
         </root>
     </springProfile>
 
+    <!-- 生产环境输出至文件 -->
     <springProfile name="prod">
         <root level="INFO">
-            <appender-ref ref="CONSOLE" />
             <appender-ref ref="FILE" />
         </root>
     </springProfile>

@@ -62,12 +62,12 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
         // 非JWT或者JWT为空不作处理
         String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isBlank(token) || !token.startsWith(AuthConstants.AUTHORIZATION_PREFIX)) {
+        if (StrUtil.isBlank(token) || !token.startsWith(AuthConstants.JWT_PREFIX)) {
             return chain.filter(exchange);
         }
 
         // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在则拦截访问
-        token = token.replace(AuthConstants.AUTHORIZATION_PREFIX, Strings.EMPTY);
+        token = token.replace(AuthConstants.JWT_PREFIX, Strings.EMPTY);
         JWSObject jwsObject = JWSObject.parse(token);
         String payload = jwsObject.getPayload().toString();
         JSONObject jsonObject = JSONUtil.parseObj(payload);
