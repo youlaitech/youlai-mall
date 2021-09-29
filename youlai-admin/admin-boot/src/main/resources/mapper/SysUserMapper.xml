@@ -31,8 +31,19 @@
                 email,gmt_create,gmt_modified,
                 deleted
     </sql>
-    <select id="getByUsername" resultMap="BaseResultMap">
-        select t1.id, t1.username, t1.nickname, t1.password, t1.status, t3.code roleCode
+
+    <resultMap id="UserAuthMap" type="com.youlai.admin.pojo.dto.UserAuthDTO">
+        <id property="userId" column="id" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="BOOLEAN"/>
+        <collection property="roles" ofType="string" javaType="list">
+            <result column="roleCode"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getByUsername" resultMap="UserAuthMap">
+        select t1.id userId, t1.username, t1.nickname, t1.password, t1.status, t3.code roleCode
                 from sys_user t1,
                 sys_user_role t2,
                 sys_role t3

@@ -15,12 +15,23 @@ public class WechatAuthenticationToken extends AbstractAuthenticationToken {
 
     private final Object principal;
 
+    /**
+     * 账号校验之前的token构建
+     *
+     * @param principal
+     */
     public WechatAuthenticationToken(Object principal) {
         super(null);
         this.principal = principal;
         setAuthenticated(false);
     }
 
+    /**
+     * 账号校验成功之后的token构建
+     *
+     * @param principal
+     * @param authorities
+     */
     public WechatAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
@@ -36,7 +47,6 @@ public class WechatAuthenticationToken extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return this.principal;
     }
-
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {

@@ -20,6 +20,7 @@ import java.util.Collection;
 public class MemberUserDetails implements UserDetails {
 
     private Long userId;
+    private String openId;
     private Boolean enabled;
     private Collection<SimpleGrantedAuthority> authorities;
 
@@ -31,10 +32,10 @@ public class MemberUserDetails implements UserDetails {
      * @param member 小程序会员用户认证信息
      */
     public MemberUserDetails(MemberAuthDTO member) {
-        this.setUserId(member.getId());
+        this.setUserId(member.getUserId());
+        this.setOpenId(member.getOpenId());
         this.setEnabled(GlobalConstants.STATUS_YES.equals(member.getStatus()));
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -48,7 +49,7 @@ public class MemberUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return this.openId;
     }
 
     @Override

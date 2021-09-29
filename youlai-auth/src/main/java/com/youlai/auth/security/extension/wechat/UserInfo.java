@@ -1,14 +1,9 @@
-package com.youlai.auth.domain;
-
-import lombok.Data;
+package com.youlai.auth.security.extension.wechat;
 
 /**
- * 描述: [微信用户信息]
- * 创建时间: 2021/6/8
- *
- * @author hxr
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @date 2021/9/29
  */
-@Data
 public class UserInfo {
 
     private String avatarUrl;

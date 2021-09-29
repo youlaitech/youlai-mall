@@ -5,9 +5,6 @@ import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.youlai.auth.common.enums.OAuthClientEnum;
-import com.youlai.auth.domain.OAuthToken;
-import com.youlai.auth.domain.UserInfo;
-import com.youlai.auth.service.IAuthService;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
@@ -37,15 +34,14 @@ import java.util.concurrent.TimeUnit;
 public class OAuthController {
 
     private TokenEndpoint tokenEndpoint;
-    private IAuthService wechatAuthService;
     private RedisTemplate redisTemplate;
     private KeyPair keyPair;
 
     @ApiOperation(value = "OAuth2认证", notes = "login")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
-            @ApiImplicitParam(name = "client_id", value = "Oauth2客户端ID（新版本需放置请求头）", required = true),
-            @ApiImplicitParam(name = "client_secret", value = "Oauth2客户端秘钥（新版本需放置请求头）", required = true),
+            @ApiImplicitParam(name = "client_id", value = "Oauth2客户端ID", required = true),
+            @ApiImplicitParam(name = "client_secret", value = "Oauth2客户端秘钥", required = true),
             @ApiImplicitParam(name = "refresh_token", value = "刷新token"),
             @ApiImplicitParam(name = "username", defaultValue = "admin", value = "登录用户名"),
             @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码")
@@ -72,14 +68,6 @@ public class OAuthController {
             default:
                 return Result.success(tokenEndpoint.postAccessToken(principal, parameters).getBody());
         }
-    }
-
-    @ApiOperation(value = "微信授权登录")
-    @ApiImplicitParam(name = "code", value = "小程序授权code", paramType = "path")
-    @PostMapping("/wechat-token")
-    public Result wechatLogin(@PathVariable String code, @RequestBody UserInfo userInfo) {
-        OAuthToken token = wechatAuthService.login(code, userInfo);
-        return Result.success(token);
     }
 
     @ApiOperation(value = "注销", notes = "logout")
