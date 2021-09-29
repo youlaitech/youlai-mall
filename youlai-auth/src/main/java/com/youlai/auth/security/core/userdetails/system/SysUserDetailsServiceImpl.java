@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
  *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
-@Service
+@Service("sysUserDetailsService")
 @Slf4j
 @RequiredArgsConstructor
 public class SysUserDetailsServiceImpl implements UserDetailsService {

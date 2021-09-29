@@ -65,13 +65,14 @@ public class MemberController {
     @ApiImplicitParam(name = "openid", value = "微信身份唯一标识", required = true, paramType = "path", dataType = "String")
     @GetMapping("/openid/{openid}")
     public Result<MemberAuthDTO> getByOpenid(@PathVariable String openid) {
-        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>().eq(UmsMember::getOpenid, openid));
+        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>().eq(UmsMember::getOpenid, openid)
+        .select(UmsMember::getId,UmsMember::getOpenid,UmsMember::getStatus)
+        );
         if (member == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
         // 会员认证信息
-        MemberAuthDTO memberAuth = new MemberAuthDTO();
-        BeanUtil.copyProperties(member, memberAuth);
+        MemberAuthDTO memberAuth = new MemberAuthDTO(member.getId(),member.getOpenid(),member.getStatus());
         return Result.success(memberAuth);
     }
 

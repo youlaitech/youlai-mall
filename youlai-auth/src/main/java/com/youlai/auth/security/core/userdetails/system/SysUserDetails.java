@@ -52,18 +52,6 @@ public class SysUserDetails implements UserDetails {
         }
     }
 
-    /**
-     * 小程序会员用户体系
-     *
-     * @param member 小程序会员用户认证信息
-     */
-    public SysUserDetails(MemberAuthDTO member) {
-        this.setUserId(member.getId());
-        this.setUsername(member.getUsername());
-        this.setEnabled(GlobalConstants.STATUS_YES.equals(member.getStatus()));
-    }
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;

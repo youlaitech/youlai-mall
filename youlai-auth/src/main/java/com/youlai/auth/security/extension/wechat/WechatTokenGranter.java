@@ -19,8 +19,8 @@ public class WechatTokenGranter extends AbstractTokenGranter {
     private static final String GRANT_TYPE = "wechat";
     private final AuthenticationManager authenticationManager;
 
-    protected WechatTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, String grantType, AuthenticationManager authenticationManager) {
-        super(tokenServices, clientDetailsService, requestFactory, grantType);
+    public WechatTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, AuthenticationManager authenticationManager) {
+        super(tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
         this.authenticationManager = authenticationManager;
     }
 
@@ -28,21 +28,27 @@ public class WechatTokenGranter extends AbstractTokenGranter {
     protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
 
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
-        String openId = parameters.get("openId");
-        Authentication userAuth = new WechatAuthenticationToken(openId);
+        String code = parameters.get("code");
+        String rawData = parameters.get("rawData");
+
+
+
+        parameters.remove("code");
+        parameters.remove("rawData");
+        Authentication userAuth = new WechatAuthenticationToken(code); // 未认证状态
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
         try {
-            userAuth = this.authenticationManager.authenticate(userAuth); // 参数校验
+            userAuth = this.authenticationManager.authenticate(userAuth); // 认证中
         } catch (Exception e) {
             throw new InvalidGrantException(e.getMessage());
         }
 
-        if (userAuth != null && userAuth.isAuthenticated()) {
+        if (userAuth != null && userAuth.isAuthenticated()) { // 认证成功
             OAuth2Request storedOAuth2Request = this.getRequestFactory().createOAuth2Request(client, tokenRequest);
             return new OAuth2Authentication(storedOAuth2Request, userAuth);
-        } else {
-            throw new InvalidGrantException("Could not authenticate user: " + openId);
+        } else { // 认证失败
+            throw new InvalidGrantException("Could not authenticate code: " + code);
         }
     }
 }

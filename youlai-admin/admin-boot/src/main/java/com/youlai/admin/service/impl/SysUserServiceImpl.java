@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *用户业务类
+ * 用户业务类
  */
 @Service
 @RequiredArgsConstructor
@@ -107,7 +107,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public UserAuthDTO getByUsername(String username) {
-        return this.baseMapper.getByUsername(username);
+        UserAuthDTO userAuthInfo = this.baseMapper.getByUsername(username);
+        return userAuthInfo;
     }
 
 }
