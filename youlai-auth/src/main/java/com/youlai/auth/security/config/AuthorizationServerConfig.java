@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.security.core.clientdetails.ClientDetailsServiceImpl;
+import com.youlai.auth.security.core.userdetails.member.MemberUserDetails;
 import com.youlai.auth.security.core.userdetails.system.SysUserDetails;
 import com.youlai.auth.security.extension.wechat.WechatTokenGranter;
 import com.youlai.common.result.Result;
@@ -108,9 +109,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
             Map<String, Object> additionalInfo = CollectionUtil.newHashMap();
-            SysUserDetails SysUserDetails = (SysUserDetails) authentication.getUserAuthentication().getPrincipal();
-            additionalInfo.put("userId", SysUserDetails.getUserId());
-            additionalInfo.put("username", SysUserDetails.getUsername());
+            Object principal = authentication.getUserAuthentication().getPrincipal();
+            if (principal instanceof SysUserDetails) {
+                SysUserDetails sysUserDetails = (SysUserDetails) principal;
+                additionalInfo.put("userId", sysUserDetails.getUserId());
+                additionalInfo.put("username", sysUserDetails.getUsername());
+            } else if (principal instanceof MemberUserDetails) {
+                MemberUserDetails memberUserDetails = (MemberUserDetails) principal;
+                additionalInfo.put("userId", memberUserDetails.getUserId());
+                additionalInfo.put("username", memberUserDetails.getUsername());
+            }
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         };

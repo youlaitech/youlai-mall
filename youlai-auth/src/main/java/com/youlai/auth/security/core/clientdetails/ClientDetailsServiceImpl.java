@@ -2,7 +2,7 @@ package com.youlai.auth.security.core.clientdetails;
 
 import com.youlai.admin.api.OAuthClientFeignClient;
 import com.youlai.admin.pojo.entity.SysOauthClient;
-import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
+import com.youlai.auth.common.enums.PwdEncoderTypeEnum;
 import com.youlai.common.result.Result;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class  ClientDetailsServiceImpl implements ClientDetailsService {
                         client.getAuthorities(),
                         client.getWebServerRedirectUri()
                 );
-                clientDetails.setClientSecret(PasswordEncoderTypeEnum.NOOP.getPrefix() + client.getClientSecret());
+                clientDetails.setClientSecret(PwdEncoderTypeEnum.NOOP.getPrefix() + client.getClientSecret());
                 clientDetails.setAccessTokenValiditySeconds(client.getAccessTokenValidity());
                 clientDetails.setRefreshTokenValiditySeconds(client.getRefreshTokenValidity());
                 return clientDetails;

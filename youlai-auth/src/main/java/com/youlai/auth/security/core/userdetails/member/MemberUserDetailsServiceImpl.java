@@ -29,26 +29,15 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
 
     private final MemberFeignClient memberFeignClient;
 
-    private final WxMaService wxMaService;
-
     @SneakyThrows
     @Override
-    public UserDetails loadUserByUsername(String code) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String openid) throws UsernameNotFoundException {
         MemberUserDetails userDetails = null;
-        WxMaJscode2SessionResult sessionInfo = wxMaService.getUserService().getSessionInfo(code);
-        String openid = sessionInfo.getOpenid();
-
-
         Result<MemberAuthDTO> result = memberFeignClient.loadUserByOpenId(openid);
         if (Result.isSuccess(result)) {
             MemberAuthDTO member = result.getData();
             if (null != member) {
                 userDetails = new MemberUserDetails(member);
-            } else { // 微信用户不存在同步微信用户信息注册为小程序会员
-
-                //wxMaService.getUserService().getUserInfo()
-
-
             }
         }
         if (userDetails == null) {
