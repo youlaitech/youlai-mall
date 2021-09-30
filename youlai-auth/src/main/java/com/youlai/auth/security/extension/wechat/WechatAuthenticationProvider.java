@@ -1,11 +1,23 @@
 package com.youlai.auth.security.extension.wechat;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.hutool.core.bean.BeanUtil;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
+import com.youlai.mall.ums.api.MemberFeignClient;
+import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
+import com.youlai.mall.ums.pojo.entity.UmsMember;
 import lombok.Data;
+import lombok.SneakyThrows;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.HashSet;
 
 /**
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
@@ -16,9 +28,13 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;
 
+    private WxMaService wxMaService;
+
+    private MemberFeignClient memberFeignClient;
+
 
     /**
-     * 用户认证
+     * 认证验证
      *
      * @param authentication
      * @return
@@ -28,9 +44,26 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         WechatAuthenticationToken authenticationToken = (WechatAuthenticationToken) authentication;
         String code = (String) authenticationToken.getPrincipal();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(code);
+        WechatUserInfo wechatUserInfo = authenticationToken.getWechatUserInfo();
 
-        WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails.getUsername(), userDetails.getAuthorities());
+        WxMaJscode2SessionResult sessionInfo = null;
+        try {
+            sessionInfo = wxMaService.getUserService().getSessionInfo(code);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+        String openid = sessionInfo.getOpenid();
+        Result<MemberAuthDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
+        // 微信用户不存在，注册成为新会员
+        if (memberAuthResult != null && ResultCode.USER_NOT_EXIST.getCode().equals(memberAuthResult.getCode())) {
+            UmsMember member = new UmsMember();
+            BeanUtil.copyProperties(wechatUserInfo, member);
+            member.setOpenid(openid);
+            memberFeignClient.add(member);
+        }
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(openid);
+        WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails, new HashSet<>());
         result.setDetails(authentication.getDetails());
         return result;
     }

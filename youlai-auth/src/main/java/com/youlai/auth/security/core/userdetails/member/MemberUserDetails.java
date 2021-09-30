@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 
 /**
@@ -22,8 +23,6 @@ public class MemberUserDetails implements UserDetails {
     private Long userId;
     private String openId;
     private Boolean enabled;
-    private Collection<SimpleGrantedAuthority> authorities;
-
 
 
     /**
@@ -39,7 +38,8 @@ public class MemberUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
+        Collection<GrantedAuthority> collection = new HashSet<>();
+        return collection;
     }
 
     @Override

@@ -49,7 +49,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
 
         // 如果token以"bearer "为前缀，到此方法里说明JWT有效即已认证，其他前缀的token则拦截
         String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isNotBlank(token) && token.startsWith(AuthConstants.BASIC_PREFIX.toLowerCase())) {
+        if (StrUtil.isNotBlank(token) && StrUtil.startWithIgnoreCase(token,AuthConstants.JWT_PREFIX) ) {
             if (pathMatcher.match(AuthConstants.APP_API_PATTERN, path)) {
                 // 移动端请求只需认证，无需后续鉴权
                 return Mono.just(new AuthorizationDecision(true));

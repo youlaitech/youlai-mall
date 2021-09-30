@@ -1,5 +1,6 @@
 package com.youlai.auth.security.extension.wechat;
 
+import cn.hutool.json.JSONUtil;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -29,13 +30,13 @@ public class WechatTokenGranter extends AbstractTokenGranter {
 
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
         String code = parameters.get("code");
-        String rawData = parameters.get("rawData");
-
-
+        String userInfo = parameters.get("userInfo");
 
         parameters.remove("code");
-        parameters.remove("rawData");
-        Authentication userAuth = new WechatAuthenticationToken(code); // 未认证状态
+        parameters.remove("userInfo");
+
+        WechatUserInfo wechatUserInfo = JSONUtil.toBean(userInfo, WechatUserInfo.class);
+        Authentication userAuth = new WechatAuthenticationToken(code,wechatUserInfo); // 未认证状态
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
         try {

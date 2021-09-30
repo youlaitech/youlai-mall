@@ -1,5 +1,6 @@
 package com.youlai.auth.security.extension.wechat;
 
+import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
@@ -15,14 +16,18 @@ public class WechatAuthenticationToken extends AbstractAuthenticationToken {
 
     private final Object principal;
 
+    @Getter
+    private WechatUserInfo wechatUserInfo;
+
     /**
      * 账号校验之前的token构建
      *
      * @param principal
      */
-    public WechatAuthenticationToken(Object principal) {
+    public WechatAuthenticationToken(Object principal, WechatUserInfo wechatUserInfo) {
         super(null);
         this.principal = principal;
+        this.wechatUserInfo = wechatUserInfo;
         setAuthenticated(false);
     }
 
@@ -35,7 +40,7 @@ public class WechatAuthenticationToken extends AbstractAuthenticationToken {
     public WechatAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
-        setAuthenticated(false);
+        super.setAuthenticated(true);
     }
 
     @Override
@@ -48,9 +53,8 @@ public class WechatAuthenticationToken extends AbstractAuthenticationToken {
         return this.principal;
     }
 
-    @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        Assert.isTrue(!isAuthenticated, "Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
+        Assert.isTrue(isAuthenticated == false, "Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
         super.setAuthenticated(false);
     }
 

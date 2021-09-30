@@ -4,7 +4,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import com.youlai.auth.common.enums.OAuthClientEnum;
+import com.youlai.auth.common.constant.OAuthConstants;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
@@ -40,11 +41,11 @@ public class OAuthController {
     @ApiOperation(value = "OAuth2认证", notes = "login")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
-            @ApiImplicitParam(name = "client_id", value = "Oauth2客户端ID", required = true),
-            @ApiImplicitParam(name = "client_secret", value = "Oauth2客户端秘钥", required = true),
+            @ApiImplicitParam(name = "client_id", defaultValue = "client", value = "Oauth2客户端ID", required = true),
+            @ApiImplicitParam(name = "client_secret", defaultValue = "123456", value = "Oauth2客户端秘钥", required = true),
             @ApiImplicitParam(name = "refresh_token", value = "刷新token"),
-            @ApiImplicitParam(name = "username", defaultValue = "admin", value = "登录用户名"),
-            @ApiImplicitParam(name = "password", defaultValue = "123456", value = "登录密码")
+            @ApiImplicitParam(name = "username", defaultValue = "admin", value = "用户名"),
+            @ApiImplicitParam(name = "password", defaultValue = "123456", value = "用户密码")
     })
     @PostMapping("/token")
     public Object postAccessToken(
@@ -61,13 +62,19 @@ public class OAuthController {
          */
         String clientId = JwtUtils.getOAuthClientId();
         log.info("OAuth认证授权 客户端ID:{}，请求参数：{}", clientId, JSONUtil.toJsonStr(parameters));
-        OAuthClientEnum client = OAuthClientEnum.getByClientId(clientId);
-        switch (client) {
-            case TEST: // knife4j接口测试文档使用 client_id/client_secret : client/123456
-                return tokenEndpoint.postAccessToken(principal, parameters).getBody();
-            default:
-                return Result.success(tokenEndpoint.postAccessToken(principal, parameters).getBody());
+
+        /**
+         * knife4j接口文档测试使用
+         *
+         * 请求头自动填充，token必须原生返回，否则显示 undefined undefined
+         * 账号/密码:  client_id/client_secret : client/123456
+         */
+        if (OAuthConstants.TEST_CLIENT_ID.equals(clientId)) {
+            return tokenEndpoint.postAccessToken(principal, parameters).getBody();
         }
+
+        OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+        return Result.success(accessToken);
     }
 
     @ApiOperation(value = "注销", notes = "logout")
