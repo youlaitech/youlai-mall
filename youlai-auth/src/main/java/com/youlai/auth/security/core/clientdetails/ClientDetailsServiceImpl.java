@@ -4,8 +4,8 @@ import com.youlai.admin.api.OAuthClientFeignClient;
 import com.youlai.admin.pojo.entity.SysOauthClient;
 import com.youlai.auth.common.enums.PwdEncoderTypeEnum;
 import com.youlai.common.result.Result;
-import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -13,15 +13,14 @@ import org.springframework.security.oauth2.provider.NoSuchClientException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class  ClientDetailsServiceImpl implements ClientDetailsService {
+@RequiredArgsConstructor
+public class ClientDetailsServiceImpl implements ClientDetailsService {
 
-    @Autowired
-    private OAuthClientFeignClient oAuthClientFeignClient;
+    private final OAuthClientFeignClient oAuthClientFeignClient;
 
     @Override
-    @SneakyThrows
+    @Cacheable(cacheNames = "auth", key = "'oauth-client:'+#clientId")
     public ClientDetails loadClientByClientId(String clientId) {
         try {
             Result<SysOauthClient> result = oAuthClientFeignClient.getOAuthClientById(clientId);
