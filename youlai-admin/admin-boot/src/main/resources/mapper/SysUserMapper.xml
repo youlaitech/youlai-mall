@@ -33,7 +33,7 @@
     </sql>
 
     <resultMap id="UserAuthMap" type="com.youlai.admin.pojo.dto.UserAuthDTO">
-        <id property="userId" column="id" jdbcType="BIGINT"/>
+        <id property="userId" column="userId" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>

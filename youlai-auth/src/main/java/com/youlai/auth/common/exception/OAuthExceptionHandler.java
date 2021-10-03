@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -44,6 +45,17 @@ public class OAuthExceptionHandler {
      */
     @ExceptionHandler({InternalAuthenticationServiceException.class})
     public Result handleInternalAuthenticationServiceException(InternalAuthenticationServiceException e) {
+        return Result.failed(e.getMessage());
+    }
+
+    /**
+     * token 无效或已过期
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler({InvalidTokenException.class})
+    public Result handleInvalidTokenExceptionException(InvalidTokenException e) {
         return Result.failed(e.getMessage());
     }
 

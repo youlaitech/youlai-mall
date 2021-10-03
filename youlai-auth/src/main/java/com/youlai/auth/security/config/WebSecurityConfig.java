@@ -55,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(wechatAuthenticationProvider())
-                .authenticationProvider(daoAuthenticationProvider());
+        auth.authenticationProvider(wechatAuthenticationProvider());
+        auth.authenticationProvider(daoAuthenticationProvider());
 
     }
 

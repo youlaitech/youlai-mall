@@ -13,6 +13,9 @@ import org.springframework.security.oauth2.provider.NoSuchClientException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
 
+/**
+ * OAuth2 客户端信息
+ */
 @Service
 @RequiredArgsConstructor
 public class ClientDetailsServiceImpl implements ClientDetailsService {
