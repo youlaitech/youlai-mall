@@ -1,7 +1,5 @@
 package com.youlai.auth.security.core.userdetails.member;
 
-import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;

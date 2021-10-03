@@ -60,7 +60,7 @@ public class OAuthController {
          * 方式一：client_id、client_secret放在请求路径中(注：当前版本已废弃)
          * 方式二：放在请求头（Request Headers）中的Authorization字段，且经过加密，例如 Basic Y2xpZW50OnNlY3JldA== 明文等于 client:secret
          */
-        String clientId = JwtUtils.getOAuthClientId();
+        String clientId = JwtUtils.getOAuth2ClientId();
         log.info("OAuth认证授权 客户端ID:{}，请求参数：{}", clientId, JSONUtil.toJsonStr(parameters));
 
         /**
