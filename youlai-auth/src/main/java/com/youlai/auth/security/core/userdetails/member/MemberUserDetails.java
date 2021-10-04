@@ -21,8 +21,13 @@ import java.util.HashSet;
 public class MemberUserDetails implements UserDetails {
 
     private Long userId;
-    private String openId;
+    private String username;
     private Boolean enabled;
+
+    /**
+     * 认证方式
+     */
+    private String authenticationMethod;
 
 
     /**
@@ -32,7 +37,7 @@ public class MemberUserDetails implements UserDetails {
      */
     public MemberUserDetails(MemberAuthDTO member) {
         this.setUserId(member.getUserId());
-        this.setOpenId(member.getOpenId());
+        this.setUsername(member.getUsername());
         this.setEnabled(GlobalConstants.STATUS_YES.equals(member.getStatus()));
     }
 
@@ -49,7 +54,7 @@ public class MemberUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.openId;
+        return this.username;
     }
 
     @Override

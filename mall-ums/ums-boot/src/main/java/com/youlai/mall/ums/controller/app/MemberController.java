@@ -61,20 +61,6 @@ public class MemberController {
         return Result.success(user);
     }
 
-    @ApiOperation(value = "根据openid获取会员认证信息")
-    @ApiImplicitParam(name = "openid", value = "微信身份唯一标识", required = true, paramType = "path", dataType = "String")
-    @GetMapping("/openid/{openid}")
-    public Result<MemberAuthDTO> getByOpenid(@PathVariable String openid) {
-        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>().eq(UmsMember::getOpenid, openid)
-        .select(UmsMember::getId,UmsMember::getOpenid,UmsMember::getStatus)
-        );
-        if (member == null) {
-            return Result.failed(ResultCode.USER_NOT_EXIST);
-        }
-        // 会员认证信息
-        MemberAuthDTO memberAuth = new MemberAuthDTO(member.getId(),member.getOpenid(),member.getStatus());
-        return Result.success(memberAuth);
-    }
 
     @ApiOperation(value = "新增会员")
     @ApiImplicitParam(name = "member", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsMember")
@@ -153,4 +139,36 @@ public class MemberController {
             return Result.success(Collections.emptySet());
         }
     }
+
+    @ApiOperation(value = "根据openid获取会员认证信息")
+    @ApiImplicitParam(name = "openid", value = "微信身份唯一标识", required = true, paramType = "path", dataType = "String")
+    @GetMapping("/openid/{openid}")
+    public Result<MemberAuthDTO> getByOpenid(@PathVariable String openid) {
+        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>()
+                .eq(UmsMember::getOpenid, openid)
+                .select(UmsMember::getId, UmsMember::getOpenid, UmsMember::getStatus)
+        );
+        if (member == null) {
+            return Result.failed(ResultCode.USER_NOT_EXIST);
+        }
+        MemberAuthDTO memberAuth = new MemberAuthDTO(member.getId(), member.getOpenid(), member.getStatus());
+        return Result.success(memberAuth);
+    }
+
+    @ApiOperation(value = "根据手机号获取会员认证信息")
+    @ApiImplicitParam(name = "mobile", value = "会员手机号码", required = true, paramType = "path", dataType = "String")
+    @GetMapping("/mobile/{mobile}")
+    public Result<MemberAuthDTO> getByMobile(@PathVariable String mobile) {
+        UmsMember member = iUmsMemberService.getOne(new LambdaQueryWrapper<UmsMember>()
+                .eq(UmsMember::getMobile, mobile)
+                .select(UmsMember::getId, UmsMember::getMobile, UmsMember::getStatus)
+        );
+        if (member == null) {
+            return Result.failed(ResultCode.USER_NOT_EXIST);
+        }
+        MemberAuthDTO memberAuth = new MemberAuthDTO(member.getId(), member.getMobile(), member.getStatus());
+        return Result.success(memberAuth);
+    }
+
+
 }

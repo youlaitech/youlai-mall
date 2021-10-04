@@ -1,15 +1,17 @@
 package com.youlai.auth.security.config;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
+import com.youlai.auth.common.constant.AuthConstants;
 import com.youlai.auth.security.core.clientdetails.ClientDetailsServiceImpl;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetails;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
-import com.youlai.auth.security.core.userdetails.system.SysUserDetails;
-import com.youlai.auth.security.core.userdetails.system.SysUserDetailsServiceImpl;
-import com.youlai.auth.security.extension.wechat.WechatTokenGranter;
-import com.youlai.auth.security.core.CustomUserDetailsByNameServiceWrapper;
+import com.youlai.auth.security.core.userdetails.user.SysUserDetails;
+import com.youlai.auth.security.core.userdetails.user.SysUserDetailsServiceImpl;
+import com.youlai.auth.security.extension.memeber.wechat.WechatTokenGranter;
+import com.youlai.auth.security.extension.PreAuthenticatedUserDetailsService;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +55,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final SysUserDetailsServiceImpl sysUserDetailsService;
     private final MemberUserDetailsServiceImpl memberUserDetailsService;
 
-    private final List<UserDetailsService> userDetailsServices;
-
     /**
      * OAuth2客户端
      */
@@ -87,10 +87,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenGranter(compositeTokenGranter)
-                // .userDetailsService(sysUserDetailsService)
-                // refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
-                //      1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
-                //      2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
+                //.userDetailsService(sysUserDetailsService)
+                /** refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
+                 *  1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
+                 *  2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
+                 */
                 .reuseRefreshTokens(true)
                 .tokenServices(tokenServices(endpoints)); // 自定义的TokenService
     }
@@ -111,10 +112,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
         PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-        provider.setPreAuthenticatedUserDetailsService(new CustomUserDetailsByNameServiceWrapper<>(userDetailsServices));
+        provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedUserDetailsService<>(refreshTokenUserDetailsServiceMap()));
         tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
         return tokenServices;
 
+    }
+
+
+    public Map<String, UserDetailsService> refreshTokenUserDetailsServiceMap() {
+        Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
+        clientUserDetailsServiceMap.put(AuthConstants.ADMIN_CLIENT_ID, sysUserDetailsService);
+        clientUserDetailsServiceMap.put(AuthConstants.APP_CLIENT_ID, memberUserDetailsService);
+        return clientUserDetailsServiceMap;
     }
 
 
@@ -150,10 +159,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 SysUserDetails sysUserDetails = (SysUserDetails) principal;
                 additionalInfo.put("userId", sysUserDetails.getUserId());
                 additionalInfo.put("username", sysUserDetails.getUsername());
+                if (StrUtil.isNotBlank(sysUserDetails.getAuthenticationMethod())) {
+                    additionalInfo.put("authenticationMethod", sysUserDetails.getAuthenticationMethod());
+                }
             } else if (principal instanceof MemberUserDetails) {
                 MemberUserDetails memberUserDetails = (MemberUserDetails) principal;
                 additionalInfo.put("userId", memberUserDetails.getUserId());
                 additionalInfo.put("username", memberUserDetails.getUsername());
+                if (StrUtil.isNotBlank(memberUserDetails.getAuthenticationMethod())) {
+                    additionalInfo.put("authenticationMethod", memberUserDetails.getAuthenticationMethod());
+                }
             }
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;

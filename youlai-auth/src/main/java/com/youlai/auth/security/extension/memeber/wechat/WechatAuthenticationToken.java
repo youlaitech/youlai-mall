@@ -1,4 +1,4 @@
-package com.youlai.auth.security.extension.wechat;
+package com.youlai.auth.security.extension.memeber.wechat;
 
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

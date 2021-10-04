@@ -1,4 +1,4 @@
-package com.youlai.auth.security.core.userdetails.system;
+package com.youlai.auth.security.core.userdetails.user;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.admin.pojo.dto.UserAuthDTO;
@@ -14,7 +14,7 @@ import java.util.Collection;
 
 
 /**
- * 用户认证信息
+ * 系统管理用户认证信息
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxianrui</a>
  * @date 2021/9/27
@@ -26,6 +26,7 @@ public class SysUserDetails implements UserDetails {
      * 扩展字段
      */
     private Long userId;
+    private String authenticationMethod;
 
     /**
      * 默认字段
@@ -36,9 +37,7 @@ public class SysUserDetails implements UserDetails {
     private Collection<SimpleGrantedAuthority> authorities;
 
     /**
-     * 系统管理用户体系
-     *
-     * @param user 系统管理用户认证信息
+     * 系统管理用户
      */
     public SysUserDetails(UserAuthDTO user) {
         this.setUserId(user.getUserId());

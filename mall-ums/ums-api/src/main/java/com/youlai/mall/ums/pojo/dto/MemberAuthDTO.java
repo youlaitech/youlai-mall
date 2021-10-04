@@ -8,6 +8,6 @@ import lombok.Data;
 public class MemberAuthDTO {
 
     private Long userId;
-    private String openId;
+    private String username;
     private Integer status;
 }
