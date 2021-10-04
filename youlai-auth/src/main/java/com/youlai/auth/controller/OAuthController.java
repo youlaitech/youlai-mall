@@ -4,10 +4,10 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import com.youlai.auth.common.constant.OAuthConstants;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.auth.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -60,7 +60,7 @@ public class OAuthController {
          * 方式一：client_id、client_secret放在请求路径中(注：当前版本已废弃)
          * 方式二：放在请求头（Request Headers）中的Authorization字段，且经过加密，例如 Basic Y2xpZW50OnNlY3JldA== 明文等于 client:secret
          */
-        String clientId = JwtUtils.getOAuth2ClientId();
+        String clientId = RequestUtils.getOAuth2ClientId();
         log.info("OAuth认证授权 客户端ID:{}，请求参数：{}", clientId, JSONUtil.toJsonStr(parameters));
 
         /**
@@ -69,7 +69,7 @@ public class OAuthController {
          * 请求头自动填充，token必须原生返回，否则显示 undefined undefined
          * 账号/密码:  client_id/client_secret : client/123456
          */
-        if (OAuthConstants.TEST_CLIENT_ID.equals(clientId)) {
+        if (AuthConstants.TEST_CLIENT_ID.equals(clientId)) {
             return tokenEndpoint.postAccessToken(principal, parameters).getBody();
         }
 
@@ -81,15 +81,15 @@ public class OAuthController {
     @DeleteMapping("/logout")
     public Result logout() {
         JSONObject payload = JwtUtils.getJwtPayload();
-        String jti = payload.getStr(AuthConstants.JWT_JTI); // JWT唯一标识
-        Long expireTime = payload.getLong(AuthConstants.JWT_EXP); // JWT过期时间戳(单位：秒)
+        String jti = payload.getStr(com.youlai.common.constant.AuthConstants.JWT_JTI); // JWT唯一标识
+        Long expireTime = payload.getLong(com.youlai.common.constant.AuthConstants.JWT_EXP); // JWT过期时间戳(单位：秒)
         if (expireTime != null) {
             long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
             if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
-                redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(com.youlai.common.constant.AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
             }
         } else { // token 永不过期则永久加入黑名单
-            redisTemplate.opsForValue().set(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null);
+            redisTemplate.opsForValue().set(com.youlai.common.constant.AuthConstants.TOKEN_BLACKLIST_PREFIX + jti, null);
         }
         return Result.success("注销成功");
     }

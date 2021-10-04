@@ -67,5 +67,10 @@ public interface AuthConstants {
      */
     String SAVE_MENU_PATH = "/youlai-admin/api/v1/menus";
 
+    /**
+     * 认证方式
+     */
+    String AUTHENTICATION_METHOD = "authenticationMethod";
+
 
 }

@@ -29,22 +29,40 @@ public interface MemberFeignClient {
     @GetMapping("/app-api/v1/members/detail/{id}")
     Result<UmsMember> getUserEntityById(@PathVariable Long id);
 
-    /**
-     * 获取认证会员信息
-     */
-    @GetMapping("/app-api/v1/members/openid/{openid}")
-    Result<MemberAuthDTO> loadUserByOpenId(@PathVariable String openid);
 
     /**
      * 扣减会员余额
      */
     @PutMapping("/app-api/v1/members/current/balances/_deduct")
-    <T> Result<T> deductBalance( @RequestParam Long balances);
+    <T> Result<T> deductBalance(@RequestParam Long balances);
+
     /**
      * 添加浏览记录
      */
     @PostMapping("/app-api/v1/members/view/history")
     <T> Result<T> addProductViewHistory(@RequestBody ProductHistoryVO product);
+
+
+    /**
+     * 根据openId获取会员认证信息
+     *
+     * @param openid
+     * @return
+     */
+    @GetMapping("/app-api/v1/members/openid/{openid}")
+    Result<MemberAuthDTO> loadUserByOpenId(@PathVariable String openid);
+
+
+    /**
+     * 根据手机号获取会员认证信息
+     *
+     * @param mobile
+     * @return
+     */
+    @GetMapping("/app-api/v1/members/mobile/{mobile}")
+    Result<MemberAuthDTO> loadUserByMobile(String mobile);
+
+
 }
 
 

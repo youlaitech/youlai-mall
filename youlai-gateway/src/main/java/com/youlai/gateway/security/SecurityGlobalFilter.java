@@ -68,8 +68,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
         // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在则拦截访问
         token = StrUtil.replaceIgnoreCase(token,AuthConstants.JWT_PREFIX, Strings.EMPTY);
-        JWSObject jwsObject = JWSObject.parse(token);
-        String payload = jwsObject.getPayload().toString();
+        String payload = StrUtil.toString(JWSObject.parse(token).getPayload());
         JSONObject jsonObject = JSONUtil.parseObj(payload);
         String jti = jsonObject.getStr(AuthConstants.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti);

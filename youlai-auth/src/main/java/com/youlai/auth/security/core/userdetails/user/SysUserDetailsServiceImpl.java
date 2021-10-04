@@ -1,4 +1,4 @@
-package com.youlai.auth.security.core.userdetails.system;
+package com.youlai.auth.security.core.userdetails.user;
 
 import com.youlai.admin.api.UserFeignClient;
 import com.youlai.admin.pojo.dto.UserAuthDTO;

@@ -56,7 +56,7 @@
         <swagger.version>1.6.2</swagger.version>
 
         <docker.image.prefix>youlai</docker.image.prefix>
-        <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
     </properties>
 
     <dependencies>
@@ -262,6 +262,12 @@
                 <groupId>com.youlai</groupId>
                 <artifactId>common-log</artifactId>
                 <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
