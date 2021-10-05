@@ -10,8 +10,9 @@ import com.youlai.auth.security.core.userdetails.member.MemberUserDetails;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetails;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetailsServiceImpl;
-import com.youlai.auth.security.extension.memeber.wechat.WechatTokenGranter;
+import com.youlai.auth.security.extension.wechat.WechatTokenGranter;
 import com.youlai.auth.security.extension.PreAuthenticatedUserDetailsService;
+import com.youlai.auth.security.extension.username.CaptchaTokenGranter;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,6 +56,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final ClientDetailsServiceImpl clientDetailsService;
     private final SysUserDetailsServiceImpl sysUserDetailsService;
     private final MemberUserDetailsServiceImpl memberUserDetailsService;
+    private final StringRedisTemplate stringRedisTemplate;
 
     /**
      * OAuth2客户端
@@ -78,10 +81,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         // 添加自定义授权模式
         List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
-        granterList.add(new WechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(),
-                authenticationManager));
-        CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
+        granterList.add(new WechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory(), authenticationManager));
+        granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory(), authenticationManager, stringRedisTemplate
 
+        ));
+        CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
         endpoints
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
@@ -112,20 +118,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
         PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-        provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedUserDetailsService<>(refreshTokenUserDetailsServiceMap()));
+        Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
+        clientUserDetailsServiceMap.put(AuthConstants.ADMIN_CLIENT_ID, sysUserDetailsService);
+        clientUserDetailsServiceMap.put(AuthConstants.APP_CLIENT_ID, memberUserDetailsService);
+
+        provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
         tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
         return tokenServices;
 
     }
-
-
-    public Map<String, UserDetailsService> refreshTokenUserDetailsServiceMap() {
-        Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
-        clientUserDetailsServiceMap.put(AuthConstants.ADMIN_CLIENT_ID, sysUserDetailsService);
-        clientUserDetailsServiceMap.put(AuthConstants.APP_CLIENT_ID, memberUserDetailsService);
-        return clientUserDetailsServiceMap;
-    }
-
 
     /**
      * 使用非对称加密算法对token签名

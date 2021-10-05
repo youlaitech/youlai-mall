@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 /**
+ * Kaptcha 验证码配置
+ *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/10/4
  */

@@ -1,13 +1,15 @@
 package com.youlai.gateway.kaptcha.handler;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FastByteArrayOutputStream;
 import cn.hutool.core.util.IdUtil;
 import com.google.code.kaptcha.Producer;
+import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.result.Result;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -18,7 +20,9 @@ import reactor.core.publisher.Mono;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
 
 /**
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
@@ -28,12 +32,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class CaptchaImageHandler implements HandlerFunction<ServerResponse> {
 
-    //随机数code_key
-    public static final String DEFAULT_CODE_KEY = "random_code_";
-
     private final Producer producer;
-
-    private final RedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
     @Override
     public Mono<ServerResponse> handle(ServerRequest serverRequest) {
@@ -43,8 +43,8 @@ public class CaptchaImageHandler implements HandlerFunction<ServerResponse> {
         String code = capText.substring(capText.lastIndexOf("@") + 1);
         BufferedImage image = producer.createImage(capStr);
         // 保存验证码信息
-        String randomStr = IdUtil.simpleUUID();
-        redisTemplate.opsForValue().set(DEFAULT_CODE_KEY + randomStr, code, 60, TimeUnit.SECONDS);
+        String uuid = IdUtil.simpleUUID();
+        redisTemplate.opsForValue().set(AuthConstants.VALIDATE_CODE_PREFIX + uuid, code, 60, TimeUnit.SECONDS);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {
@@ -52,12 +52,14 @@ public class CaptchaImageHandler implements HandlerFunction<ServerResponse> {
         } catch (IOException e) {
             return Mono.error(e);
         }
-        return ServerResponse.status(HttpStatus.OK)
-                .contentType(MediaType.IMAGE_JPEG)
-                .header("randomstr", randomStr)
-                .body(BodyInserters.fromResource(new ByteArrayResource(os.toByteArray())));
-    }
 
+
+        java.util.Map resultMap = new HashMap<String, String>();
+        resultMap.put("uuid", uuid);
+        resultMap.put("img", Base64.encode(os.toByteArray()));
+
+        return ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(Result.success(resultMap)));
+    }
 
 
 }

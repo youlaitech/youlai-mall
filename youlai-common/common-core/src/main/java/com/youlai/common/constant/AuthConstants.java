@@ -72,5 +72,15 @@ public interface AuthConstants {
      */
     String AUTHENTICATION_METHOD = "authenticationMethod";
 
+    /**
+     * 验证码key前缀
+     */
+    String VALIDATE_CODE_PREFIX = "VALIDATE_CODE:";
+
+    /**
+     * 短信验证码key前缀
+     */
+    String SMS_CODE_PREFIX = "SMS_CODE:";
+
 
 }
