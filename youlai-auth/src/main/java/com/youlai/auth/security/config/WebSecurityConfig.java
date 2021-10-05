@@ -1,7 +1,7 @@
 package com.youlai.auth.security.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import com.youlai.auth.security.extension.memeber.wechat.WechatAuthenticationProvider;
+import com.youlai.auth.security.extension.wechat.WechatAuthenticationProvider;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

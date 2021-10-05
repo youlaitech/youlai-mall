@@ -21,7 +21,7 @@ public class CaptchaImageRouter {
     @Bean
     public RouterFunction<ServerResponse> routeFunction(CaptchaImageHandler captchaImageHandler) {
         return RouterFunctions
-                .route(RequestPredicates.GET("/code")
+                .route(RequestPredicates.GET("/validate-code")
                         .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), captchaImageHandler::handle);
     }
 

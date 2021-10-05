@@ -1,4 +1,4 @@
-package com.youlai.auth.security.extension.memeber.wechat;
+package com.youlai.auth.security.extension.wechat;
 
 import cn.hutool.json.JSONUtil;
 import org.springframework.security.authentication.*;

@@ -1,9 +1,11 @@
-package com.youlai.auth.security.extension.memeber.wechat;
+package com.youlai.auth.security.extension.mobile;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
+import com.youlai.auth.security.extension.wechat.WechatAuthenticationToken;
+import com.youlai.auth.security.extension.wechat.WechatUserInfo;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;
@@ -20,18 +22,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.HashSet;
 
 /**
+ * 手机短信验证码提供者
+ *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/9/25
  */
 @Data
-public class WechatAuthenticationProvider implements AuthenticationProvider {
+public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;
     private WxMaService wxMaService;
     private MemberFeignClient memberFeignClient;
 
     /**
-     * 认证验证
+     * 微信认证
      *
      * @param authentication
      * @return
@@ -58,8 +62,7 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
             member.setOpenid(openid);
             memberFeignClient.add(member);
         }
-
-        UserDetails userDetails = ((MemberUserDetailsServiceImpl)userDetailsService).loadUserByOpenId(openid);
+        UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByOpenId(openid);
         WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails, new HashSet<>());
         result.setDetails(authentication.getDetails());
         return result;
