@@ -98,6 +98,7 @@
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-elasticsearch</artifactId>
@@ -108,6 +109,17 @@
             <groupId>com.youlai</groupId>
             <artifactId>common-mybatis</artifactId>
             <version>${youlai.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
         </dependency>
 
     </dependencies>

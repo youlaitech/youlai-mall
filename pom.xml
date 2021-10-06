@@ -57,6 +57,8 @@
 
         <docker.image.prefix>youlai</docker.image.prefix>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
+        <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
     </properties>
 
     <dependencies>
@@ -264,11 +266,25 @@
                 <version>${youlai.version}</version>
             </dependency>
 
+            <!-- 验证码 -->
             <dependency>
                 <groupId>com.github.penggle</groupId>
                 <artifactId>kaptcha</artifactId>
                 <version>${kaptcha.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun.java.sdk.core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>${aliyun.java.sdk.dysmsapi.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

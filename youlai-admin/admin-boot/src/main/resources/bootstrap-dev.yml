@@ -17,3 +17,4 @@ spring:
         shared-configs[0]:
           data-id: youlai-common.yaml
           refresh: true
+
