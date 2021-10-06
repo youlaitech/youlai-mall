@@ -1,4 +1,4 @@
-package com.youlai.auth.security.extension.username;
+package com.youlai.auth.security.extension.captcha;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 验证码授权模式
+ * 用户名+密码+验证码 授权模式
  *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/9/25

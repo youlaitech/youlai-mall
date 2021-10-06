@@ -1,12 +1,14 @@
 package com.youlai.auth.security.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import com.youlai.auth.security.extension.mobile.SmsCodeAuthenticationProvider;
 import com.youlai.auth.security.extension.wechat.WechatAuthenticationProvider;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService memberUserDetailsService;
     private final WxMaService wxMaService;
     private final MemberFeignClient memberFeignClient;
+    private final StringRedisTemplate redisTemplate;
 
 
     @Override
@@ -55,11 +58,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(wechatAuthenticationProvider());
         auth.authenticationProvider(daoAuthenticationProvider());
-
+        auth.authenticationProvider(smsCodeAuthenticationProvider());
     }
 
     /**
-     * 微信认证授权方式提供者
+     * 手机验证码认证授权提供者
+     *
+     * @return
+     */
+    @Bean
+    public SmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
+        SmsCodeAuthenticationProvider provider = new SmsCodeAuthenticationProvider();
+        provider.setUserDetailsService(memberUserDetailsService);
+        provider.setRedisTemplate(redisTemplate);
+        return provider;
+    }
+
+    /**
+     * 微信认证授权提供者
      *
      * @return
      */
@@ -73,6 +89,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    /**
+     * 用户名密码认证授权提供者
+     *
+     * @return
+     */
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -81,6 +102,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
+
 
     /**
      * 密码编码器
