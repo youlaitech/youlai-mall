@@ -1,4 +1,4 @@
-package com.youlai.admin.component.cache;
+package com.youlai.admin.component;
 
 import com.youlai.admin.service.ISysPermissionService;
 import lombok.AllArgsConstructor;

@@ -8,20 +8,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags = "文件接口")
 @RestController
 @RequestMapping("/api/v1/files")
-@Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FileController {
 
-    private MinioService minIOService;
+    private final MinioService minIOService;
 
     @PostMapping
     @ApiOperation(value = "文件上传")
