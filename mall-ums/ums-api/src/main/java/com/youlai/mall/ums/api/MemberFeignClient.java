@@ -60,7 +60,7 @@ public interface MemberFeignClient {
      * @return
      */
     @GetMapping("/app-api/v1/members/mobile/{mobile}")
-    Result<MemberAuthDTO> loadUserByMobile(String mobile);
+    Result<MemberAuthDTO> loadUserByMobile(@PathVariable String mobile);
 
 
 }

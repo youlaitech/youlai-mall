@@ -10,9 +10,10 @@ import com.youlai.auth.security.core.userdetails.member.MemberUserDetails;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetails;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetailsServiceImpl;
+import com.youlai.auth.security.extension.mobile.SmsCodeTokenGranter;
 import com.youlai.auth.security.extension.wechat.WechatTokenGranter;
 import com.youlai.auth.security.extension.PreAuthenticatedUserDetailsService;
-import com.youlai.auth.security.extension.username.CaptchaTokenGranter;
+import com.youlai.auth.security.extension.captcha.CaptchaTokenGranter;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +86,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 endpoints.getOAuth2RequestFactory(), authenticationManager));
         granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
                 endpoints.getOAuth2RequestFactory(), authenticationManager, stringRedisTemplate
-
+        ));
+        granterList.add(new SmsCodeTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory(), authenticationManager
         ));
         CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
         endpoints

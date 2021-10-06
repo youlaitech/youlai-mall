@@ -1,11 +1,10 @@
 package com.youlai.auth.security.extension.mobile;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.StrUtil;
-import com.youlai.common.constant.AuthConstants;
-import com.youlai.common.web.exception.BizException;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.*;
@@ -25,15 +24,12 @@ public class SmsCodeTokenGranter extends AbstractTokenGranter {
 
     private static final String GRANT_TYPE = "sms_code";
     private final AuthenticationManager authenticationManager;
-    private StringRedisTemplate redisTemplate;
 
     public SmsCodeTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
-                               OAuth2RequestFactory requestFactory, AuthenticationManager authenticationManager,
-                               StringRedisTemplate redisTemplate
+                               OAuth2RequestFactory requestFactory, AuthenticationManager authenticationManager
     ) {
         super(tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
         this.authenticationManager = authenticationManager;
-        this.redisTemplate = redisTemplate;
     }
 
     @Override

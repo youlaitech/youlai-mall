@@ -1,18 +1,13 @@
 package com.youlai.auth.security.extension.mobile;
 
-import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.auth.security.extension.wechat.WechatAuthenticationToken;
-import com.youlai.auth.security.extension.wechat.WechatUserInfo;
-import com.youlai.common.result.Result;
-import com.youlai.common.result.ResultCode;
+import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
-import com.youlai.mall.ums.pojo.entity.UmsMember;
 import lombok.Data;
-import me.chanjar.weixin.common.error.WxErrorException;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -22,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.HashSet;
 
 /**
- * 手机短信验证码提供者
+ * 短信验证码认证授权提供者
  *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/9/25
@@ -31,38 +26,27 @@ import java.util.HashSet;
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;
-    private WxMaService wxMaService;
     private MemberFeignClient memberFeignClient;
+    private StringRedisTemplate redisTemplate;
 
-    /**
-     * 微信认证
-     *
-     * @param authentication
-     * @return
-     * @throws AuthenticationException
-     */
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        WechatAuthenticationToken authenticationToken = (WechatAuthenticationToken) authentication;
-        String code = (String) authenticationToken.getPrincipal();
-        WechatUserInfo wechatUserInfo = authenticationToken.getWechatUserInfo();
+        SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
+        String mobile = (String) authenticationToken.getPrincipal();
+        String code = (String) authenticationToken.getCredentials();
 
-        WxMaJscode2SessionResult sessionInfo = null;
-        try {
-            sessionInfo = wxMaService.getUserService().getSessionInfo(code);
-        } catch (WxErrorException e) {
-            e.printStackTrace();
+        String codeKey = AuthConstants.SMS_CODE_PREFIX + mobile;
+        String correctCode = redisTemplate.opsForValue().get(codeKey);
+        // 短信验证码 666666 是后门，短信验证码发送功能【有来】考虑费用问题线上环境关闭，真实环境移除后门即可
+        if (!code.equals("666666")) {
+            if (StrUtil.isBlank(correctCode) || !code.equals(correctCode)) {
+                throw new BizException("验证码不正确");
+            } else {
+                redisTemplate.delete(codeKey);
+            }
         }
-        String openid = sessionInfo.getOpenid();
-        Result<MemberAuthDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
-        // 微信用户不存在，注册成为新会员
-        if (memberAuthResult != null && ResultCode.USER_NOT_EXIST.getCode().equals(memberAuthResult.getCode())) {
-            UmsMember member = new UmsMember();
-            BeanUtil.copyProperties(wechatUserInfo, member);
-            member.setOpenid(openid);
-            memberFeignClient.add(member);
-        }
-        UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByOpenId(openid);
+        UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByMobile(mobile);
         WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails, new HashSet<>());
         result.setDetails(authentication.getDetails());
         return result;
@@ -71,6 +55,6 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return WechatAuthenticationToken.class.isAssignableFrom(authentication);
+        return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }
