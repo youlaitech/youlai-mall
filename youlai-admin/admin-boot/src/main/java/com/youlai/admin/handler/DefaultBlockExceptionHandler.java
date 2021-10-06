@@ -1,4 +1,4 @@
-package com.youlai.admin.component.sentinel;
+package com.youlai.admin.handler;
 
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
