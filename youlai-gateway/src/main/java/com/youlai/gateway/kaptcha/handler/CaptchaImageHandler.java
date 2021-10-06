@@ -61,5 +61,4 @@ public class CaptchaImageHandler implements HandlerFunction<ServerResponse> {
         return ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(Result.success(resultMap)));
     }
 
-
 }
