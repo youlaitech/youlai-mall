@@ -38,7 +38,7 @@ public class OAuthController {
     private RedisTemplate redisTemplate;
     private KeyPair keyPair;
 
-    @ApiOperation(value = "OAuth2认证", notes = "login")
+    @ApiOperation(value = "OAuth2认证", notes = "登录入口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
             @ApiImplicitParam(name = "client_id", defaultValue = "client", value = "Oauth2客户端ID", required = true),
