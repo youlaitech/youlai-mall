@@ -2,6 +2,7 @@ package com.youlai.auth.security.extension.wechat;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.common.result.Result;
@@ -43,7 +44,6 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         WechatAuthenticationToken authenticationToken = (WechatAuthenticationToken) authentication;
         String code = (String) authenticationToken.getPrincipal();
-        WechatUserInfo wechatUserInfo = authenticationToken.getWechatUserInfo();
 
         WxMaJscode2SessionResult sessionInfo = null;
         try {
@@ -55,8 +55,15 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
         Result<MemberAuthDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
         // 微信用户不存在，注册成为新会员
         if (memberAuthResult != null && ResultCode.USER_NOT_EXIST.getCode().equals(memberAuthResult.getCode())) {
+
+            String sessionKey = sessionInfo.getSessionKey();
+            String encryptedData = authenticationToken.getEncryptedData();
+            String iv = authenticationToken.getIv();
+            // 解密 encryptedData 获取用户信息
+            WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
+
             UmsMember member = new UmsMember();
-            BeanUtil.copyProperties(wechatUserInfo, member);
+            BeanUtil.copyProperties(userInfo, member);
             member.setOpenid(openid);
             memberFeignClient.add(member);
         }

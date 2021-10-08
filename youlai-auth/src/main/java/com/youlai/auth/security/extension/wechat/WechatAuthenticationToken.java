@@ -13,21 +13,21 @@ import java.util.Collection;
  */
 public class WechatAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 550L;
-
     private final Object principal;
-
     @Getter
-    private WechatUserInfo wechatUserInfo;
-
+    private String encryptedData;
+    @Getter
+    private String iv;
     /**
      * 账号校验之前的token构建
      *
      * @param principal
      */
-    public WechatAuthenticationToken(Object principal, WechatUserInfo wechatUserInfo) {
+    public WechatAuthenticationToken(Object principal, String encryptedData,String iv) {
         super(null);
         this.principal = principal;
-        this.wechatUserInfo = wechatUserInfo;
+        this.encryptedData = encryptedData;
+        this.iv=iv;
         setAuthenticated(false);
     }
 
