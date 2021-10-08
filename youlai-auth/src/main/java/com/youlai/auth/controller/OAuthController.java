@@ -77,7 +77,7 @@ public class OAuthController {
         return Result.success(accessToken);
     }
 
-    @ApiOperation(value = "注销", notes = "logout")
+    @ApiOperation(value = "注销")
     @DeleteMapping("/logout")
     public Result logout() {
         JSONObject payload = JwtUtils.getJwtPayload();
@@ -94,7 +94,7 @@ public class OAuthController {
         return Result.success("注销成功");
     }
 
-    @ApiOperation(value = "获取公钥", notes = "login")
+    @ApiOperation(value = "获取公钥")
     @GetMapping("/public-key")
     public Map<String, Object> getPublicKey() {
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
