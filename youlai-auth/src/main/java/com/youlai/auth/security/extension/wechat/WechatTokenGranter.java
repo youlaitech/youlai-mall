@@ -30,13 +30,15 @@ public class WechatTokenGranter extends AbstractTokenGranter {
 
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
         String code = parameters.get("code");
-        String userInfo = parameters.get("userInfo");
+        String encryptedData = parameters.get("encryptedData");
+        String iv = parameters.get("iv");
+
 
         parameters.remove("code");
-        parameters.remove("userInfo");
+        parameters.remove("encryptedData");
+        parameters.remove("iv");
 
-        WechatUserInfo wechatUserInfo = JSONUtil.toBean(userInfo, WechatUserInfo.class);
-        Authentication userAuth = new WechatAuthenticationToken(code,wechatUserInfo); // 未认证状态
+        Authentication userAuth = new WechatAuthenticationToken(code, encryptedData,iv); // 未认证状态
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
         try {
