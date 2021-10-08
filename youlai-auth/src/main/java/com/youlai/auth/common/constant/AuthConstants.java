@@ -8,7 +8,7 @@ public interface AuthConstants {
 
     String TEST_CLIENT_ID = "test";
 
-    String ADMIN_CLIENT_ID = "mall-admin";
+    String ADMIN_CLIENT_ID = "mall-admin-web";
 
     String APP_CLIENT_ID = "mall-app";
 
