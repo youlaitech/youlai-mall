@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 import java.util.Map;
 
 /**
- * UserDetailsService 工厂类
+ * 刷新token再次认证 UserDetailsService
  *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/10/2
@@ -46,6 +46,14 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
             switch (authenticationMethodEnum) {
                 case OPENID:
                     return memberUserDetailsService.loadUserByOpenId(authentication.getName());
+                default:
+                    return memberUserDetailsService.loadUserByUsername(authentication.getName());
+            }
+        } else if (clientId.equals(AuthConstants.WEAPP_CLIENT_ID)) {
+            MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
+            switch (authenticationMethodEnum) {
+                case MOBILE:
+                    return memberUserDetailsService.loadUserByMobile(authentication.getName());
                 default:
                     return memberUserDetailsService.loadUserByUsername(authentication.getName());
             }

@@ -120,11 +120,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenServices.setClientDetailsService(clientDetailsService);
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
-        PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+
+        // 多用户体系下，刷新token再次认证客户端ID和 UserDetailService 的映射Map
         Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
         clientUserDetailsServiceMap.put(AuthConstants.ADMIN_CLIENT_ID, sysUserDetailsService);
         clientUserDetailsServiceMap.put(AuthConstants.APP_CLIENT_ID, memberUserDetailsService);
+        clientUserDetailsServiceMap.put(AuthConstants.WEAPP_CLIENT_ID, memberUserDetailsService);
 
+        // 重写刷新token再次认证的 AuthenticationManager中 的 UserDetailService，根据客户端ID和认证方式获取用户认证信息 UserDetails
+        PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
         provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
         tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
         return tokenServices;
