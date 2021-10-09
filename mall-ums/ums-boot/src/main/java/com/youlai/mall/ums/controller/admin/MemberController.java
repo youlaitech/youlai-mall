@@ -45,7 +45,7 @@ public class MemberController {
         LambdaQueryWrapper<UmsMember> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.ne(UmsMember::getDeleted, STATUS_YES);
         queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickName, nickname);
-        IPage<UmsMember> result = iUmsMemberService.list(new Page<>(page, limit), new UmsMember().setNickName(nickname));
+        IPage<UmsMember> result = iUmsMemberService.list(new Page<>(page, limit),nickname);
         return Result.success(result.getRecords(), result.getTotal());
 
     }

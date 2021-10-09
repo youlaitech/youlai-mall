@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface IUmsMemberService extends IService<UmsMember> {
 
-    IPage<UmsMember> list(Page<UmsMember> page, UmsMember user);
+    IPage<UmsMember> list(Page<UmsMember> page, String nickname);
 
     void addProductViewHistory(ProductHistoryVO product, Long userId);
 

@@ -22,8 +22,8 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsUserMapper, UmsMember> 
     private final RedisTemplate redisTemplate;
 
     @Override
-    public IPage<UmsMember> list(Page<UmsMember> page, UmsMember spu) {
-        List<UmsMember> list = this.baseMapper.list(page, spu);
+    public IPage<UmsMember> list(Page<UmsMember> page, String nickname) {
+        List<UmsMember> list = this.baseMapper.list(page, nickname);
         page.setRecords(list);
         return page;
     }
