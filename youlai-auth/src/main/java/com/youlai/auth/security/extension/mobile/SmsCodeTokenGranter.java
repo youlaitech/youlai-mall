@@ -1,6 +1,5 @@
 package com.youlai.auth.security.extension.mobile;
 
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
