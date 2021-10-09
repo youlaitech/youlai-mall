@@ -1,6 +1,5 @@
 package com.youlai.auth.security.extension.wechat;
 
-import cn.hutool.json.JSONUtil;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -32,7 +31,6 @@ public class WechatTokenGranter extends AbstractTokenGranter {
         String code = parameters.get("code");
         String encryptedData = parameters.get("encryptedData");
         String iv = parameters.get("iv");
-
 
         parameters.remove("code");
         parameters.remove("encryptedData");
