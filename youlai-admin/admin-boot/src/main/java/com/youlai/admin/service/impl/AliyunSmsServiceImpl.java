@@ -2,7 +2,6 @@ package com.youlai.admin.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson.JSON;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
@@ -34,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class AliyunSmsServiceImpl implements ISmsService {
 
-
     @Setter
     private String accessKeyId;
 
@@ -53,12 +51,11 @@ public class AliyunSmsServiceImpl implements ISmsService {
     @Setter
     private String signName;
 
-
     private final StringRedisTemplate stringRedisTemplate;
 
 
     /**
-     * 发送短信
+     * 发送验证码短信
      *
      * @param phoneNumber 手机号
      * @return
@@ -66,11 +63,19 @@ public class AliyunSmsServiceImpl implements ISmsService {
     @Override
     public boolean sendSmsCode(String phoneNumber) {
         String code = RandomUtil.randomNumbers(6); // 随机生成6位的手机验证码
-        stringRedisTemplate.opsForValue().set(AuthConstants.SMS_CODE_PREFIX + phoneNumber, code, 600, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(AuthConstants.SMS_CODE_PREFIX + phoneNumber, code, 600, TimeUnit.SECONDS); // 验证登录成功之后删除
         boolean result = this.sendSms(phoneNumber, code);
         return result;
     }
 
+
+    /**
+     * 发送短信
+     *
+     * @param phoneNumbers 手机号，多个用英文逗号(,)分割
+     * @param code
+     * @return
+     */
     private boolean sendSms(String phoneNumbers, String code) {
         DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
         IAcsClient client = new DefaultAcsClient(profile);
