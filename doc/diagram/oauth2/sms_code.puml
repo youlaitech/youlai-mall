@@ -9,7 +9,7 @@ header 有来 OAuth2 手机短信验证码模式
 actor 客户端
 
 
-客户端 -> OAuthController: 手机短信验证码模式 \n /oauth/token?gran_type=captcha
+客户端 -> OAuthController: 手机短信验证码模式 \n /oauth/token?gran_type=sms_code
 OAuthController -> TokenEndpoint: postAccessToken()
 TokenEndpoint -> CompositeTokenGranter: this.getTokenGranter().grant()
 participant SmsCodeTokenGranter #99FF99
