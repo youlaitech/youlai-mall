@@ -5,6 +5,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
+import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;
@@ -65,6 +66,7 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
             UmsMember member = new UmsMember();
             BeanUtil.copyProperties(userInfo, member);
             member.setOpenid(openid);
+            member.setStatus(GlobalConstants.STATUS_YES);
             memberFeignClient.add(member);
         }
         UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByOpenId(openid);
