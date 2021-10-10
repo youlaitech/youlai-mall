@@ -17,7 +17,7 @@ import java.util.Properties;
 public class CaptchaConfig {
 
     @Bean(name = "captchaProducerMath")
-    public DefaultKaptcha getCaptchaBeanMath() {
+    public DefaultKaptcha captchaProducerMath() {
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
         // 是否有边框 默认为true 我们可以自己设置yes，no
