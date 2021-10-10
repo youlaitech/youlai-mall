@@ -1,6 +1,6 @@
 package com.youlai.gateway.router;
 
-import com.youlai.gateway.kaptcha.handler.CaptchaImageHandler;
+import com.youlai.gateway.kaptcha.handler.CaptchaHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -16,13 +16,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
  * @date 2021/10/4
  */
 @Configuration
-public class CaptchaImageRouter {
+public class CaptchaRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> routeFunction(CaptchaImageHandler captchaImageHandler) {
+    public RouterFunction<ServerResponse> routeFunction(CaptchaHandler captchaHandler) {
         return RouterFunctions
-                .route(RequestPredicates.GET("/validate-code")
-                        .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), captchaImageHandler::handle);
+                .route(RequestPredicates.GET("/captcha")
+                        .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), captchaHandler::handle);
     }
 
 }

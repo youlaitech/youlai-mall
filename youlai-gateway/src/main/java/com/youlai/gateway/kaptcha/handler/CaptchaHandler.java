@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @RequiredArgsConstructor
-public class CaptchaImageHandler implements HandlerFunction<ServerResponse> {
+public class CaptchaHandler implements HandlerFunction<ServerResponse> {
 
     private final Producer producer;
     private final StringRedisTemplate redisTemplate;
