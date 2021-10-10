@@ -1,4 +1,4 @@
-package com.youlai.gateway.kaptcha.handler;
+package com.youlai.gateway.kaptcha;
 
 import com.google.code.kaptcha.text.impl.DefaultTextCreator;
 
