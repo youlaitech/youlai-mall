@@ -1,4 +1,4 @@
-package com.youlai.auth.security.extension;
+package com.youlai.auth.security.extension.refresh;
 
 import com.youlai.auth.common.constant.AuthConstants;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
