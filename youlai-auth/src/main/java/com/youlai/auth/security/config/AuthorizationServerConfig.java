@@ -12,7 +12,7 @@ import com.youlai.auth.security.core.userdetails.user.SysUserDetails;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetailsServiceImpl;
 import com.youlai.auth.security.extension.mobile.SmsCodeTokenGranter;
 import com.youlai.auth.security.extension.wechat.WechatTokenGranter;
-import com.youlai.auth.security.extension.PreAuthenticatedUserDetailsService;
+import com.youlai.auth.security.extension.refresh.PreAuthenticatedUserDetailsService;
 import com.youlai.auth.security.extension.captcha.CaptchaTokenGranter;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
@@ -127,7 +127,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clientUserDetailsServiceMap.put(AuthConstants.APP_CLIENT_ID, memberUserDetailsService); // Android、IOS、H5 移动客户端
         clientUserDetailsServiceMap.put(AuthConstants.WEAPP_CLIENT_ID, memberUserDetailsService); // 微信小程序客户端
 
-        // 重写刷新token再次认证的 AuthenticationManager中 的 UserDetailService，根据客户端ID和认证方式获取用户认证信息 UserDetails
+        // 刷新token模式下，重写预认证提供者替换其AuthenticationManager，可自定义根据客户端ID和认证方式区分用户体系获取认证用户信息
         PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
         provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
         tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
