@@ -7,7 +7,6 @@ import com.google.code.kaptcha.Producer;
 import com.youlai.common.constant.AuthConstants;
 import com.youlai.common.result.Result;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -42,7 +41,7 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
         String capStr = capText.substring(0, capText.lastIndexOf("@"));
         String code = capText.substring(capText.lastIndexOf("@") + 1);
         BufferedImage image = producer.createImage(capStr);
-        // 保存验证码信息
+        // 缓存验证码至Redis
         String uuid = IdUtil.simpleUUID();
         redisTemplate.opsForValue().set(AuthConstants.VALIDATE_CODE_PREFIX + uuid, code, 60, TimeUnit.SECONDS);
         // 转换流信息写出
@@ -53,12 +52,10 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
             return Mono.error(e);
         }
 
-
         java.util.Map resultMap = new HashMap<String, String>();
         resultMap.put("uuid", uuid);
         resultMap.put("img", Base64.encode(os.toByteArray()));
 
         return ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(Result.success(resultMap)));
     }
-
 }
