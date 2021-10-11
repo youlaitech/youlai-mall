@@ -16,13 +16,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 用户名+密码+验证码 授权模式
+ * 验证码授权模式 授权者
  *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/9/25
  */
 public class CaptchaTokenGranter extends AbstractTokenGranter {
 
+    /**
+     * 声明授权者 CaptchaTokenGranter 支持授权模式 captcha
+     * 根据接口传值 grant_type = captcha 的值匹配到此授权者
+     * 匹配逻辑详见下面的两个方法
+     *
+     * @see org.springframework.security.oauth2.provider.CompositeTokenGranter#grant(String, TokenRequest)
+     * @see org.springframework.security.oauth2.provider.token.AbstractTokenGranter#grant(String, TokenRequest)
+     */
     private static final String GRANT_TYPE = "captcha";
     private final AuthenticationManager authenticationManager;
     private StringRedisTemplate redisTemplate;
@@ -41,11 +49,14 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
 
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
 
+        // 验证码校验逻辑
         String validateCode = parameters.get("validateCode");
         String uuid = parameters.get("uuid");
 
         Assert.isTrue(StrUtil.isNotBlank(validateCode), "验证码不能为空");
         String validateCodeKey = AuthConstants.VALIDATE_CODE_PREFIX + uuid;
+
+        // 从缓存取出正确的验证码和用户输入的验证码比对
         String correctValidateCode = redisTemplate.opsForValue().get(validateCodeKey);
         if (!validateCode.equals(correctValidateCode)) {
             throw new BizException("验证码不正确");
@@ -56,10 +67,12 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
         String username = parameters.get("username");
         String password = parameters.get("password");
 
+        // 移除后续无用参数
         parameters.remove("password");
         parameters.remove("validateCode");
         parameters.remove("uuid");
 
+        // 和密码模式一样的逻辑
         Authentication userAuth = new UsernamePasswordAuthenticationToken(username, password);
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
