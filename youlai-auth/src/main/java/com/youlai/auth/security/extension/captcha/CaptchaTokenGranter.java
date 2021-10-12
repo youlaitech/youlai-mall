@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 验证码授权模式 授权者
+ * 验证码授权模式授权者
  *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/9/25

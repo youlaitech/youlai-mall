@@ -4,7 +4,7 @@
 skinparam backgroundColor #EEEBDC
 skinparam handwritten true
 
-header 有来 OAuth2 手机短信验证码模式
+header 有来 Spring Security OAuth2 手机短信验证码模式
 
 actor 客户端
 
@@ -19,7 +19,7 @@ WebSecurityConfigurerAdapter 内部类
 end note
 SmsCodeTokenGranter-> AuthenticationManagerDelegator:this.authenticationManager.authenticate()
 AuthenticationManagerDelegator -> ProviderManager: this.delegate.authenticate()
-ProviderManager -> ProviderManager: 匹配支持\nUsernamePasswordAuthenticationToken\n的Provider
+ProviderManager -> ProviderManager: 匹配支持\nSmsCodeAuthenticationToken\n的Provider
 
 activate ProviderManager
 participant SmsCodeAuthenticationProvider #99FF99
