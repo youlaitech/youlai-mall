@@ -1,6 +1,5 @@
 package com.youlai.common.elasticsearch.config;
 
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
@@ -19,7 +18,6 @@ import java.util.List;
  */
 @ConfigurationProperties(prefix = "spring.elasticsearch.rest")
 @Configuration
-@AllArgsConstructor
 public class RestHighLevelClientConfig {
 
     @Setter

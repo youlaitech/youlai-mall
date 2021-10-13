@@ -21,5 +21,6 @@
         <module>common-rabbitmq</module>
         <module>common-elasticsearch</module>
         <module>common-log</module>
+        <module>common-sms</module>
     </modules>
 </project>
