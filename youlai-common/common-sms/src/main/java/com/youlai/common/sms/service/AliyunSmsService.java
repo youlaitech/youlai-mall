@@ -1,20 +1,13 @@
-package com.youlai.admin.service.impl;
+package com.youlai.common.sms.service;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.aliyuncs.CommonRequest;
-import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
-import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.exceptions.ServerException;
-import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
-import com.youlai.admin.service.ISmsService;
 import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.sms.config.AliyunSmsProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,51 +16,16 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 阿里云短信服务
- *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
- * @date 2021/10/6
+ * @author <a href="mailto:xianrui0365@163.com">haoxianrui</a>
+ * @date 2021/10/13 23:04
  */
 @Service
-@ConfigurationProperties(prefix = "aliyun.sms")
 @RequiredArgsConstructor
-public class AliyunSmsServiceImpl implements ISmsService {
+public class AliyunSmsService {
 
-    @Setter
-    private String accessKeyId;
-
-    @Setter
-    private String accessKeySecret;
-
-    @Setter
-    private String domain;
-
-    @Setter
-    private String regionId;
-
-    @Setter
-    private String templateCode;
-
-    @Setter
-    private String signName;
+    private final AliyunSmsProperties aliyunSmsProperties;
 
     private final StringRedisTemplate stringRedisTemplate;
-
-
-    /**
-     * 发送验证码短信
-     *
-     * @param phoneNumber 手机号
-     * @return
-     */
-    @Override
-    public boolean sendSmsCode(String phoneNumber) {
-        String code = RandomUtil.randomNumbers(6); // 随机生成6位的手机验证码
-        stringRedisTemplate.opsForValue().set(AuthConstants.SMS_CODE_PREFIX + phoneNumber, code, 600, TimeUnit.SECONDS);
-        boolean result = this.sendSms(phoneNumber, code);
-        return result;
-    }
-
 
     /**
      * 发送短信
@@ -76,8 +34,12 @@ public class AliyunSmsServiceImpl implements ISmsService {
      * @param code
      * @return
      */
-    private boolean sendSms(String phoneNumbers, String code) {
-        DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
+    private boolean sendSmsCode(String phoneNumbers, String code) {
+        String code = RandomUtil.randomNumbers(6); // 随机生成6位的手机验证码
+        stringRedisTemplate.opsForValue().set(AuthConstants.SMS_CODE_PREFIX + phoneNumber, code, 600, TimeUnit.SECONDS);
+
+        DefaultProfile profile = DefaultProfile.getProfile(aliyunSmsProperties.getRegionId(),
+                aliyunSmsProperties.getAccessKeyId(), aliyunSmsProperties.getAccessKeySecret());
         IAcsClient client = new DefaultAcsClient(profile);
 
         // 创建通用的请求对象
@@ -117,4 +79,6 @@ public class AliyunSmsServiceImpl implements ISmsService {
         return false;
 
     }
+
+
 }

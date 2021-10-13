@@ -29,7 +29,6 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     private MemberFeignClient memberFeignClient;
     private StringRedisTemplate redisTemplate;
 
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
@@ -38,20 +37,17 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
         String codeKey = AuthConstants.SMS_CODE_PREFIX + mobile;
         String correctCode = redisTemplate.opsForValue().get(codeKey);
-        // 短信验证码 666666 是后门，短信验证码发送功能【有来】考虑费用问题线上环境关闭，真实环境移除后门即可
-        if (!code.equals("666666")) {
-            if (StrUtil.isBlank(correctCode) || !code.equals(correctCode)) {
-                throw new BizException("验证码不正确");
-            } else {
-                redisTemplate.delete(codeKey);
-            }
+        // 验证码比对
+        if (StrUtil.isBlank(correctCode) || !code.equals(correctCode)) {
+            throw new BizException("验证码不正确");
+        } else {
+            redisTemplate.delete(codeKey);
         }
         UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByMobile(mobile);
         WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails, new HashSet<>());
         result.setDetails(authentication.getDetails());
         return result;
     }
-
 
     @Override
     public boolean supports(Class<?> authentication) {

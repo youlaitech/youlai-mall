@@ -80,34 +80,35 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenEnhancers.add(jwtAccessTokenConverter());
         tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
 
-        // 添加自定义授权模式
+        // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
         List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
-        granterList.add(new WechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
-                endpoints.getOAuth2RequestFactory(), authenticationManager));
+
+        // 添加验证码授权模式授权者
         granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
                 endpoints.getOAuth2RequestFactory(), authenticationManager, stringRedisTemplate
         ));
+
+        // 添加手机短信验证码授权模式的授权者
         granterList.add(new SmsCodeTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
                 endpoints.getOAuth2RequestFactory(), authenticationManager
         ));
+
         CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
         endpoints
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenGranter(compositeTokenGranter)
-                //.userDetailsService(sysUserDetailsService)
+                .userDetailsService(sysUserDetailsService)
                 /** refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
                  *  1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
                  *  2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
                  */
-                .reuseRefreshTokens(true)
-                .tokenServices(tokenServices(endpoints)); // 自定义的TokenService
+                .reuseRefreshTokens(true);
     }
 
 
     public DefaultTokenServices tokenServices(AuthorizationServerEndpointsConfigurer endpoints) {
-        // Token增强
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
         tokenEnhancers.add(tokenEnhancer());
@@ -119,7 +120,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setClientDetailsService(clientDetailsService);
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
-
 
         // 多用户体系下，刷新token再次认证客户端ID和 UserDetailService 的映射Map
         Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
