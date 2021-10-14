@@ -266,6 +266,12 @@
                 <version>${youlai.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-sms</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
             <!-- 验证码 -->
             <dependency>
                 <groupId>com.github.penggle</groupId>

@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.enums.AuthenticationMethodEnum;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class RequestUtils {
     @SneakyThrows
     public static String getGrantType() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String grantType = request.getParameter(AuthConstants.GRANT_TYPE_KEY);
+        String grantType = request.getParameter(SecurityConstants.GRANT_TYPE_KEY);
         return grantType;
     }
 
@@ -46,15 +46,15 @@ public class RequestUtils {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         // 从请求路径中获取
-        String clientId = request.getParameter(AuthConstants.CLIENT_ID_KEY);
+        String clientId = request.getParameter(SecurityConstants.CLIENT_ID_KEY);
         if (StrUtil.isNotBlank(clientId)) {
             return clientId;
         }
 
         // 从请求头获取
-        String basic = request.getHeader(AuthConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isNotBlank(basic) && basic.startsWith(AuthConstants.BASIC_PREFIX)) {
-            basic = basic.replace(AuthConstants.BASIC_PREFIX, Strings.EMPTY);
+        String basic = request.getHeader(SecurityConstants.AUTHORIZATION_KEY);
+        if (StrUtil.isNotBlank(basic) && basic.startsWith(SecurityConstants.BASIC_PREFIX)) {
+            basic = basic.replace(SecurityConstants.BASIC_PREFIX, Strings.EMPTY);
             String basicPlainText = new String(Base64.getDecoder().decode(basic.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
             clientId = basicPlainText.split(":")[0]; //client:secret
         }
@@ -69,12 +69,12 @@ public class RequestUtils {
     @SneakyThrows
     public static String getAuthenticationMethod() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String refreshToken = request.getParameter(AuthConstants.REFRESH_TOKEN);
+        String refreshToken = request.getParameter(SecurityConstants.REFRESH_TOKEN);
 
         String payload = StrUtil.toString(JWSObject.parse(refreshToken).getPayload());
         JSONObject jsonObject = JSONUtil.parseObj(payload);
 
-        String authenticationMethod = jsonObject.getStr(AuthConstants.AUTHENTICATION_METHOD);
+        String authenticationMethod = jsonObject.getStr(SecurityConstants.AUTHENTICATION_METHOD);
         if (StrUtil.isBlank(authenticationMethod)) {
             authenticationMethod = AuthenticationMethodEnum.USERNAME.getValue();
         }

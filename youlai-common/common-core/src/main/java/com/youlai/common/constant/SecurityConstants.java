@@ -1,6 +1,6 @@
 package com.youlai.common.constant;
 
-public interface AuthConstants {
+public interface SecurityConstants {
 
     /**
      * 认证请求头key
@@ -82,5 +82,24 @@ public interface AuthConstants {
      */
     String SMS_CODE_PREFIX = "SMS_CODE:";
 
+    /**
+     * 接口文档 Knife4j 测试客户端ID
+     */
+    String TEST_CLIENT_ID = "test";
+
+    /**
+     * 系统管理 web 客户端ID
+     */
+    String ADMIN_CLIENT_ID = "mall-admin-web";
+
+    /**
+     * 移动端（H5、Android、IOS）客户端ID
+     */
+    String APP_CLIENT_ID = "mall-app";
+
+    /**
+     * 小程序端（微信小程序、....） 客户端ID
+     */
+    String WEAPP_CLIENT_ID = "mall-weapp";
 
 }
