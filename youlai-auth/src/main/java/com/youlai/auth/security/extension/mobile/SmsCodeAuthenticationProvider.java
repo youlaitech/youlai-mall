@@ -3,7 +3,7 @@ package com.youlai.auth.security.extension.mobile;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.auth.security.extension.wechat.WechatAuthenticationToken;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.Data;
@@ -35,7 +35,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         String mobile = (String) authenticationToken.getPrincipal();
         String code = (String) authenticationToken.getCredentials();
 
-        String codeKey = AuthConstants.SMS_CODE_PREFIX + mobile;
+        String codeKey = SecurityConstants.SMS_CODE_PREFIX + mobile;
         String correctCode = redisTemplate.opsForValue().get(codeKey);
         // 验证码比对
         if (StrUtil.isBlank(correctCode) || !code.equals(correctCode)) {

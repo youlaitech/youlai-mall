@@ -1,7 +1,7 @@
 package com.youlai.auth.security.extension.refresh;
 
-import com.youlai.auth.common.constant.AuthConstants;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.enums.AuthenticationMethodEnum;
 import com.youlai.common.web.util.RequestUtils;
 import lombok.NoArgsConstructor;
@@ -41,7 +41,7 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
         String clientId = RequestUtils.getOAuth2ClientId();
         AuthenticationMethodEnum authenticationMethodEnum = AuthenticationMethodEnum.getByValue(RequestUtils.getAuthenticationMethod());
         UserDetailsService userDetailsService = userDetailsServiceMap.get(clientId);
-        if (clientId.equals(AuthConstants.APP_CLIENT_ID)) {
+        if (clientId.equals(SecurityConstants.APP_CLIENT_ID)) {
             MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
             switch (authenticationMethodEnum) {
                 case OPENID:
@@ -49,7 +49,7 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
                 default:
                     return memberUserDetailsService.loadUserByUsername(authentication.getName());
             }
-        } else if (clientId.equals(AuthConstants.WEAPP_CLIENT_ID)) {
+        } else if (clientId.equals(SecurityConstants.WEAPP_CLIENT_ID)) {
             MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
             switch (authenticationMethodEnum) {
                 case MOBILE:
@@ -57,7 +57,7 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
                 default:
                     return memberUserDetailsService.loadUserByUsername(authentication.getName());
             }
-        } else if (clientId.equals(AuthConstants.ADMIN_CLIENT_ID)) {
+        } else if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
             switch (authenticationMethodEnum) {
                 default:
                     return userDetailsService.loadUserByUsername(authentication.getName());

@@ -4,7 +4,7 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FastByteArrayOutputStream;
 import cn.hutool.core.util.IdUtil;
 import com.google.code.kaptcha.Producer;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -43,7 +43,7 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
         BufferedImage image = producer.createImage(capStr);
         // 缓存验证码至Redis
         String uuid = IdUtil.simpleUUID();
-        redisTemplate.opsForValue().set(AuthConstants.VALIDATE_CODE_PREFIX + uuid, code, 60, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(SecurityConstants.VALIDATE_CODE_PREFIX + uuid, code, 60, TimeUnit.SECONDS);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {

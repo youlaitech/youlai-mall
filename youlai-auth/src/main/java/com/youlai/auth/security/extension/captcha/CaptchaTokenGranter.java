@@ -2,7 +2,7 @@ package com.youlai.auth.security.extension.captcha;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.web.exception.BizException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.*;
@@ -54,7 +54,7 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
         String uuid = parameters.get("uuid");
 
         Assert.isTrue(StrUtil.isNotBlank(validateCode), "验证码不能为空");
-        String validateCodeKey = AuthConstants.VALIDATE_CODE_PREFIX + uuid;
+        String validateCodeKey = SecurityConstants.VALIDATE_CODE_PREFIX + uuid;
 
         // 从缓存取出正确的验证码和用户输入的验证码比对
         String correctValidateCode = redisTemplate.opsForValue().get(validateCodeKey);

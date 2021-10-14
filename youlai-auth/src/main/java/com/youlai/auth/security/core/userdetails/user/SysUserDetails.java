@@ -2,7 +2,7 @@ package com.youlai.auth.security.core.userdetails.user;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.admin.pojo.dto.UserAuthDTO;
-import com.youlai.auth.common.enums.PwdEncoderTypeEnum;
+import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,7 +42,7 @@ public class SysUserDetails implements UserDetails {
     public SysUserDetails(UserAuthDTO user) {
         this.setUserId(user.getUserId());
         this.setUsername(user.getUsername());
-        this.setPassword(PwdEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword());
+        this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword());
         this.setEnabled(GlobalConstants.STATUS_YES.equals(user.getStatus()));
         if (CollectionUtil.isNotEmpty(user.getRoles())) {
             authorities = new ArrayList<>();

@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.ResultCode;
 import com.youlai.gateway.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
@@ -51,34 +51,34 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
 
         // 线上演示环境禁止修改和删除
-        if (env.equals("prod") && !AuthConstants.LOGOUT_PATH.equals(request.getPath().toString())
+        if (env.equals("prod") && !SecurityConstants.LOGOUT_PATH.equals(request.getPath().toString())
                 && (
                 HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
                         || HttpMethod.PUT.toString().equals(request.getMethodValue())// 修改方法
-                        || AuthConstants.SAVE_MENU_PATH.equals(request.getPath().toString()) // 新增路由
+                        || SecurityConstants.SAVE_MENU_PATH.equals(request.getPath().toString()) // 新增路由
         )) {
             return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
         }
 
         // 不是正确的的JWT不做解析处理
-        String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isBlank(token) ||  !StrUtil.startWithIgnoreCase(token,AuthConstants.JWT_PREFIX)) {
+        String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
+        if (StrUtil.isBlank(token) ||  !StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX)) {
             return chain.filter(exchange);
         }
 
         // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在则拦截访问
-        token = StrUtil.replaceIgnoreCase(token,AuthConstants.JWT_PREFIX, Strings.EMPTY);
+        token = StrUtil.replaceIgnoreCase(token, SecurityConstants.JWT_PREFIX, Strings.EMPTY);
         String payload = StrUtil.toString(JWSObject.parse(token).getPayload());
         JSONObject jsonObject = JSONUtil.parseObj(payload);
-        String jti = jsonObject.getStr(AuthConstants.JWT_JTI);
-        Boolean isBlack = redisTemplate.hasKey(AuthConstants.TOKEN_BLACKLIST_PREFIX + jti);
+        String jti = jsonObject.getStr(SecurityConstants.JWT_JTI);
+        Boolean isBlack = redisTemplate.hasKey(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti);
         if (isBlack) {
             return ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
         }
 
         // 存在token且不是黑名单，request写入JWT的载体信息
         request = exchange.getRequest().mutate()
-                .header(AuthConstants.JWT_PAYLOAD_KEY, URLEncoder.encode(payload, "UTF-8"))
+                .header(SecurityConstants.JWT_PAYLOAD_KEY, URLEncoder.encode(payload, "UTF-8"))
                 .build();
         exchange = exchange.mutate().request(request).build();
         return chain.filter(exchange);

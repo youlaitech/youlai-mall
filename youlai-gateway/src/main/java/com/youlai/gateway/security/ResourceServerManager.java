@@ -3,7 +3,7 @@ package com.youlai.gateway.security;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.common.constant.AuthConstants;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +48,9 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         String restfulPath = method + ":" + path; // RESTFul接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14961707.html
 
         // 如果token以"bearer "为前缀，到此方法里说明JWT有效即已认证，其他前缀的token则拦截
-        String token = request.getHeaders().getFirst(AuthConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isNotBlank(token) && StrUtil.startWithIgnoreCase(token,AuthConstants.JWT_PREFIX) ) {
-            if (pathMatcher.match(AuthConstants.APP_API_PATTERN, path)) {
+        String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
+        if (StrUtil.isNotBlank(token) && StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX) ) {
+            if (pathMatcher.match(SecurityConstants.APP_API_PATTERN, path)) {
                 // 移动端请求只需认证，无需后续鉴权
                 return Mono.just(new AuthorizationDecision(true));
             }
@@ -91,7 +91,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
-                    String roleCode = authority.substring(AuthConstants.AUTHORITY_PREFIX.length()); // 用户的角色
+                    String roleCode = authority.substring(SecurityConstants.AUTHORITY_PREFIX.length()); // 用户的角色
                     if (GlobalConstants.ROOT_ROLE_CODE.equals(roleCode)) {
                         return true; // 如果是超级管理员则放行
                     }

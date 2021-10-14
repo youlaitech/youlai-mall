@@ -4,16 +4,16 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
-import com.youlai.auth.common.constant.AuthConstants;
 import com.youlai.auth.security.core.clientdetails.ClientDetailsServiceImpl;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetails;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetails;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetailsServiceImpl;
 import com.youlai.auth.security.extension.mobile.SmsCodeTokenGranter;
-import com.youlai.auth.security.extension.wechat.WechatTokenGranter;
 import com.youlai.auth.security.extension.refresh.PreAuthenticatedUserDetailsService;
 import com.youlai.auth.security.extension.captcha.CaptchaTokenGranter;
+import com.youlai.auth.security.extension.wechat.WechatTokenGranter;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;
@@ -93,6 +93,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 endpoints.getOAuth2RequestFactory(), authenticationManager
         ));
 
+        // 添加微信授权模式的授权者
+        granterList.add(new WechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory(), authenticationManager
+        ));
+
         CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
         endpoints
                 .authenticationManager(authenticationManager)
@@ -123,9 +128,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         // 多用户体系下，刷新token再次认证客户端ID和 UserDetailService 的映射Map
         Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
-        clientUserDetailsServiceMap.put(AuthConstants.ADMIN_CLIENT_ID, sysUserDetailsService); // 系统管理客户端
-        clientUserDetailsServiceMap.put(AuthConstants.APP_CLIENT_ID, memberUserDetailsService); // Android、IOS、H5 移动客户端
-        clientUserDetailsServiceMap.put(AuthConstants.WEAPP_CLIENT_ID, memberUserDetailsService); // 微信小程序客户端
+        clientUserDetailsServiceMap.put(SecurityConstants.ADMIN_CLIENT_ID, sysUserDetailsService); // 系统管理客户端
+        clientUserDetailsServiceMap.put(SecurityConstants.APP_CLIENT_ID, memberUserDetailsService); // Android、IOS、H5 移动客户端
+        clientUserDetailsServiceMap.put(SecurityConstants.WEAPP_CLIENT_ID, memberUserDetailsService); // 微信小程序客户端
 
         // 刷新token模式下，重写预认证提供者替换其AuthenticationManager，可自定义根据客户端ID和认证方式区分用户体系获取认证用户信息
         PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
