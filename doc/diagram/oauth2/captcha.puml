@@ -1,16 +1,15 @@
-` 有来 OAuth2 密码 + 验证码模式
+` 有来 Spring Security OAuth2 验证码模式
 @startuml
 'https://plantuml.com/sequence-diagram
 skinparam backgroundColor #EEEBDC
 skinparam handwritten true
 
-header 有来 OAuth2 密码 + 验证码模式
+header 有来 Spring Security OAuth2 验证码模式
 
 actor 客户端
 
-
-客户端 -> OAuthController:密码 + 验证码模式 \n /oauth/token?gran_type=captcha
-OAuthController -> TokenEndpoint: postAccessToken()
+客户端 -> AuthController:密码 + 验证码模式 \n /oauth/token?gran_type=captcha
+AuthController -> TokenEndpoint: postAccessToken()
 TokenEndpoint -> CompositeTokenGranter: this.getTokenGranter().grant()
 participant CaptchaTokenGranter #99FF99
 CompositeTokenGranter->CaptchaTokenGranter: grant( grantType, tokenRequest )\n根据 grant_type 匹配 Granter
@@ -29,6 +28,6 @@ AuthenticationManagerDelegator <-- ProviderManager: Authentication
 CaptchaTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
 CompositeTokenGranter <-- CaptchaTokenGranter: OAuth2AccessToken
 TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
-OAuthController <-- TokenEndpoint:OAuth2AccessToken
-客户端 <-- OAuthController: OAuth2AccessToken
+AuthController <-- TokenEndpoint:OAuth2AccessToken
+客户端 <-- AuthController: OAuth2AccessToken
 @enduml

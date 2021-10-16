@@ -1,16 +1,16 @@
-` 有来 OAuth2 微信授权登录模式
+` 手机短信验证码模式 微信授权模式
 @startuml
 'https://plantuml.com/sequence-diagram
 skinparam backgroundColor #EEEBDC
 skinparam handwritten true
 
-header 有来 OAuth2 微信授权登录模式
+header 有来 Spring Security OAuth2 微信授权模式
 
 actor 客户端
 
 
-客户端 -> OAuthController: 微信授权登录模式 \n /oauth/token?gran_type=wechat
-OAuthController -> TokenEndpoint: postAccessToken()
+客户端 -> AuthController: 微信授权登录模式 \n /oauth/token?gran_type=wechat
+AuthController -> TokenEndpoint: postAccessToken()
 TokenEndpoint -> CompositeTokenGranter: this.getTokenGranter().grant()
 participant WechatTokenGranter #99FF99
 CompositeTokenGranter->WechatTokenGranter: grant( grantType, tokenRequest )\n根据 grant_type 匹配 Granter
@@ -32,6 +32,6 @@ AuthenticationManagerDelegator <-- ProviderManager: Authentication
 WechatTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
 CompositeTokenGranter <-- WechatTokenGranter: OAuth2AccessToken
 TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
-OAuthController <-- TokenEndpoint:OAuth2AccessToken
-客户端 <-- OAuthController: OAuth2AccessToken
+AuthController <-- TokenEndpoint:OAuth2AccessToken
+客户端 <-- AuthController: OAuth2AccessToken
 @enduml

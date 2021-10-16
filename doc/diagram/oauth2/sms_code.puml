@@ -1,4 +1,4 @@
-` 有来 OAuth2 密码 + 验证码模式
+` 有来 Spring Security OAuth2 手机短信验证码模式
 @startuml
 'https://plantuml.com/sequence-diagram
 skinparam backgroundColor #EEEBDC
@@ -9,8 +9,8 @@ header 有来 Spring Security OAuth2 手机短信验证码模式
 actor 客户端
 
 
-客户端 -> OAuthController: 手机短信验证码模式 \n /oauth/token?gran_type=sms_code
-OAuthController -> TokenEndpoint: postAccessToken()
+客户端 -> AuthController: 手机短信验证码模式 \n /oauth/token?gran_type=sms_code
+AuthController -> TokenEndpoint: postAccessToken()
 TokenEndpoint -> CompositeTokenGranter: this.getTokenGranter().grant()
 participant SmsCodeTokenGranter #99FF99
 CompositeTokenGranter->SmsCodeTokenGranter: grant( grantType, tokenRequest )\n根据 grant_type 匹配 Granter
@@ -32,6 +32,6 @@ AuthenticationManagerDelegator <-- ProviderManager: Authentication
 SmsCodeTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
 CompositeTokenGranter <-- SmsCodeTokenGranter: OAuth2AccessToken
 TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
-OAuthController <-- TokenEndpoint:OAuth2AccessToken
-客户端 <-- OAuthController: OAuth2AccessToken
+AuthController <-- TokenEndpoint:OAuth2AccessToken
+客户端 <-- AuthController: OAuth2AccessToken
 @enduml
