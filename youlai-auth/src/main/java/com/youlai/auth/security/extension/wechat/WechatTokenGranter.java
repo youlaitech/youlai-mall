@@ -11,11 +11,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ *  微信授权者
+ *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021/9/25
  */
 public class WechatTokenGranter extends AbstractTokenGranter {
 
+    /**
+     * 声明授权者 CaptchaTokenGranter 支持授权模式 wechat
+     * 根据接口传值 grant_type = wechat 的值匹配到此授权者
+     * 匹配逻辑详见下面的两个方法
+     *
+     * @see org.springframework.security.oauth2.provider.CompositeTokenGranter#grant(String, TokenRequest)
+     * @see org.springframework.security.oauth2.provider.token.AbstractTokenGranter#grant(String, TokenRequest)
+     */
     private static final String GRANT_TYPE = "wechat";
     private final AuthenticationManager authenticationManager;
 

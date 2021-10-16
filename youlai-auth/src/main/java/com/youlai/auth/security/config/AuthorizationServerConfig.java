@@ -104,12 +104,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenGranter(compositeTokenGranter)
-                .userDetailsService(sysUserDetailsService)
                 /** refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
                  *  1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
                  *  2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
                  */
-                .reuseRefreshTokens(true);
+                .reuseRefreshTokens(true)
+                .tokenServices(tokenServices(endpoints))
+        ;
     }
 
 
