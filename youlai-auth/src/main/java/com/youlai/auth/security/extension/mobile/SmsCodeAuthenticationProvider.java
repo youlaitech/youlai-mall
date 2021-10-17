@@ -35,13 +35,15 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         String mobile = (String) authenticationToken.getPrincipal();
         String code = (String) authenticationToken.getCredentials();
 
-        String codeKey = SecurityConstants.SMS_CODE_PREFIX + mobile;
-        String correctCode = redisTemplate.opsForValue().get(codeKey);
-        // 验证码比对
-        if (StrUtil.isBlank(correctCode) || !code.equals(correctCode)) {
-            throw new BizException("验证码不正确");
-        } else {
-            redisTemplate.delete(codeKey);
+        if (!code.equals("666666")) { // 666666 是后门，因为短信收费，实际环境删除这个if分支
+            String codeKey = SecurityConstants.SMS_CODE_PREFIX + mobile;
+            String correctCode = redisTemplate.opsForValue().get(codeKey);
+            // 验证码比对
+            if (StrUtil.isBlank(correctCode) || !code.equals(correctCode)) {
+                throw new BizException("验证码不正确");
+            } else {
+                redisTemplate.delete(codeKey);
+            }
         }
         UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByMobile(mobile);
         WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails, new HashSet<>());

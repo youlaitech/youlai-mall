@@ -6,7 +6,6 @@ import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -16,12 +15,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * 系统管理用户
+ * 商城会员用户认证服务
  *
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  */
 @Service("memberUserDetailsService")
-@Slf4j
 @RequiredArgsConstructor
 public class MemberUserDetailsServiceImpl implements UserDetailsService {
 
@@ -33,6 +31,12 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
     }
 
 
+    /**
+     * 手机号码认证方式
+     *
+     * @param mobile
+     * @return
+     */
     public UserDetails loadUserByMobile(String mobile) {
         MemberUserDetails userDetails = null;
         Result<MemberAuthDTO> result = memberFeignClient.loadUserByMobile(mobile);
@@ -55,7 +59,12 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
         return userDetails;
     }
 
-
+    /**
+     * openid 认证方式
+     *
+     * @param openId
+     * @return
+     */
     public UserDetails loadUserByOpenId(String openId) {
         MemberUserDetails userDetails = null;
         Result<MemberAuthDTO> result = memberFeignClient.loadUserByOpenId(openId);

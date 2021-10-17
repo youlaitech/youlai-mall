@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.AuthenticationUserDetailsSe
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.util.Assert;
 
 import java.util.Map;
@@ -24,6 +25,11 @@ import java.util.Map;
 @NoArgsConstructor
 public class PreAuthenticatedUserDetailsService<T extends Authentication> implements AuthenticationUserDetailsService<T>, InitializingBean {
 
+    /**
+     * 客户端ID和用户服务 UserDetailService 的映射
+     *
+     * @see com.youlai.auth.security.config.AuthorizationServerConfig#tokenServices(AuthorizationServerEndpointsConfigurer)
+     */
     private Map<String, UserDetailsService> userDetailsServiceMap;
 
     public PreAuthenticatedUserDetailsService(Map<String, UserDetailsService> userDetailsServiceMap) {
@@ -36,20 +42,21 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
         Assert.notNull(this.userDetailsServiceMap, "UserDetailsService must be set");
     }
 
+    /**
+     * 重写PreAuthenticatedAuthenticationProvider 的 preAuthenticatedUserDetailsService 属性，可根据客户端和认证方式选择用户服务 UserDetailService 获取用户信息 UserDetail
+     *
+     * @param authentication
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserDetails(T authentication) throws UsernameNotFoundException {
         String clientId = RequestUtils.getOAuth2ClientId();
+        // 获取认证方式，默认是用户名 username
         AuthenticationMethodEnum authenticationMethodEnum = AuthenticationMethodEnum.getByValue(RequestUtils.getAuthenticationMethod());
         UserDetailsService userDetailsService = userDetailsServiceMap.get(clientId);
         if (clientId.equals(SecurityConstants.APP_CLIENT_ID)) {
-            MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
-            switch (authenticationMethodEnum) {
-                case OPENID:
-                    return memberUserDetailsService.loadUserByOpenId(authentication.getName());
-                default:
-                    return memberUserDetailsService.loadUserByUsername(authentication.getName());
-            }
-        } else if (clientId.equals(SecurityConstants.WEAPP_CLIENT_ID)) {
+            // 移动端的用户体系是会员，认证方式是通过手机号 mobile 认证
             MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
             switch (authenticationMethodEnum) {
                 case MOBILE:
@@ -57,7 +64,17 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
                 default:
                     return memberUserDetailsService.loadUserByUsername(authentication.getName());
             }
+        } else if (clientId.equals(SecurityConstants.WEAPP_CLIENT_ID)) {
+            // 小程序的用户体系是会员，认证方式是通过微信三方标识 openid 认证
+            MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
+            switch (authenticationMethodEnum) {
+                case OPENID:
+                    return memberUserDetailsService.loadUserByOpenId(authentication.getName());
+                default:
+                    return memberUserDetailsService.loadUserByUsername(authentication.getName());
+            }
         } else if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
+            // 管理系统的用户体系是系统用户，认证方式通过用户名 username 认证
             switch (authenticationMethodEnum) {
                 default:
                     return userDetailsService.loadUserByUsername(authentication.getName());
