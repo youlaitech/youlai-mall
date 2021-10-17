@@ -26,7 +26,7 @@ participant WechatAuthenticationProvider #99FF99
 ProviderManager -> WechatAuthenticationProvider: provider.authenticate(authentication)
 deactivate ProviderManager
 
-WechatAuthenticationProvider -> WechatAuthenticationProvider: authenticate()\n code 获取 sessionInfo \n 解析 encryptedData 用户信息
+WechatAuthenticationProvider -> WechatAuthenticationProvider: authenticate()\ncode 获取 openid \n解析encryptedData\n获取用户信息
 ProviderManager <-- WechatAuthenticationProvider: Authentication
 AuthenticationManagerDelegator <-- ProviderManager: Authentication
 WechatTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication

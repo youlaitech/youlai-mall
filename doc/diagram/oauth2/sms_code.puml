@@ -26,7 +26,7 @@ participant SmsCodeAuthenticationProvider #99FF99
 ProviderManager -> SmsCodeAuthenticationProvider: provider.authenticate(authentication)
 deactivate ProviderManager
 
-SmsCodeAuthenticationProvider -> SmsCodeAuthenticationProvider:authenticate()\n短信验证码校验
+SmsCodeAuthenticationProvider -> SmsCodeAuthenticationProvider:authenticate()\n密码判读\n短信验证码校验
 ProviderManager <-- SmsCodeAuthenticationProvider: Authentication
 AuthenticationManagerDelegator <-- ProviderManager: Authentication
 SmsCodeTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
