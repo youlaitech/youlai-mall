@@ -5,22 +5,17 @@
     <parent>
         <artifactId>youlai-admin</artifactId>
         <groupId>com.youlai</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>admin-boot</artifactId>
 
     <properties>
-        <youlai.version>1.0.0</youlai.version>
+        <youlai.version>2.0.0</youlai.version>
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
         <!-- 配置读取 -->
         <dependency>
@@ -45,6 +40,12 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jsr305</artifactId>
+                    <groupId>com.google.code.findbugs</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -79,6 +80,12 @@
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -91,16 +98,12 @@
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-es</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-log</artifactId>
-            <version>${youlai.version}</version>
+            <artifactId>common-elasticsearch</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>com.youlai</groupId>
@@ -108,48 +111,25 @@
             <version>${youlai.version}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
-        <finalName>${artifactId}</finalName>
-
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.2.2</version>
-
-                <!--将插件绑定在某个阶段执行-->
-                <executions>
-                    <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <imageName>${project.artifactId}</imageName>
-                    <!--指定标签-->
-                    <imageTags>
-                        <imageTag>latest</imageTag>
-                    </imageTags>
-                    <!-- 指定 Dockerfile 路径-->
-                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <forceTags>true</forceTags>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
             </plugin>
         </plugins>
     </build>

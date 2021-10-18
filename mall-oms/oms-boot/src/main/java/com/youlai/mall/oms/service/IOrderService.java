@@ -4,13 +4,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import com.youlai.mall.oms.pojo.domain.OmsOrder;
+import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
+import com.github.binarywang.wxpay.exception.WxPayException;
+import com.youlai.mall.oms.enums.PayTypeEnum;
+import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
-
-import java.util.List;
 
 /**
  * 订单详情表
@@ -32,10 +33,14 @@ public interface IOrderService extends IService<OmsOrder> {
     OrderSubmitVO submit(OrderSubmitDTO orderSubmitDTO) ;
 
     /**
+     * 订单提交
+     */
+    OrderSubmitVO submitTcc(OrderSubmitDTO orderSubmitDTO) ;
+
+    /**
      * 订单支付
      */
-    boolean pay(Long orderId);
-
+    <T> T pay(Long orderId, String appId, PayTypeEnum payTypeEnum);
 
     /**
      * 系统关闭订单
@@ -54,5 +59,23 @@ public interface IOrderService extends IService<OmsOrder> {
 
 
     IPage<OmsOrder> list(Page<OmsOrder> omsOrderPage, OmsOrder order);
+
+    /**
+     * 处理微信支付成功回调
+     *
+     * @param signatureHeader 签名头
+     * @param notifyData      加密通知
+     * @throws WxPayException 微信异常
+     */
+    void handleWxPayOrderNotify(SignatureHeader signatureHeader, String notifyData) throws WxPayException;
+
+    /**
+     * 处理微信退款成功回调
+     *
+     * @param signatureHeader 签名头
+     * @param notifyData      加密通知
+     * @throws WxPayException 微信异常
+     */
+    void handleWxPayRefundNotify(SignatureHeader signatureHeader, String notifyData) throws WxPayException;
 }
 

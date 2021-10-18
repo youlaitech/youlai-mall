@@ -10,13 +10,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.SkuLockDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
-import lombok.AllArgsConstructor;
+import com.youlai.mall.pms.tcc.service.SeataTccSkuService;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -28,24 +30,35 @@ import static com.youlai.mall.pms.common.constant.PmsConstants.LOCK_SKU_PREFIX;
 
 @Service
 @Slf4j
-@AllArgsConstructor
 public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements IPmsSkuService {
 
+    @Autowired
     private StringRedisTemplate redisTemplate;
-
+    @Autowired
     private RedissonClient redissonClient;
+    @Autowired
+    private SeataTccSkuService seataTccSkuService;
 
+    @Override
+    @GlobalTransactional
+    public boolean lockStockTcc(List<LockStockDTO> skuLockList) {
+
+        seataTccSkuService.prepareSkuLockList(null,skuLockList);
+        String orderToken = skuLockList.get(0).getOrderToken();
+        redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
+        return true;
+    }
     /**
      * 创建订单时锁定库存
      */
     @Override
-    public boolean lockStock(List<SkuLockDTO> skuLockList) {
+    public boolean lockStock(List<LockStockDTO> skuLockList) {
         log.info("=======================创建订单，开始锁定商品库存=======================");
         log.info("锁定商品信息：{}", skuLockList.toString());
         if (CollectionUtil.isEmpty(skuLockList)) {
             throw new BizException("锁定的商品列表为空");
         }
-
+        //prepareSkuLockList(null,  skuLockList);
         // 锁定商品
         skuLockList.forEach(item -> {
             RLock lock = redissonClient.getLock(LOCK_SKU_PREFIX + item.getSkuId()); // 获取商品的分布式锁
@@ -64,17 +77,17 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         });
 
         // 锁定失败的商品集合
-        List<SkuLockDTO> unlockSkuList = skuLockList.stream().filter(item -> !item.getLocked()).collect(Collectors.toList());
+        List<LockStockDTO> unlockSkuList = skuLockList.stream().filter(item -> !item.getLocked()).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(unlockSkuList)) {
             // 恢复已被锁定的库存
-            List<SkuLockDTO> lockSkuList = skuLockList.stream().filter(SkuLockDTO::getLocked).collect(Collectors.toList());
+            List<LockStockDTO> lockSkuList = skuLockList.stream().filter(LockStockDTO::getLocked).collect(Collectors.toList());
             lockSkuList.forEach(item ->
                     this.update(new LambdaUpdateWrapper<PmsSku>()
                             .eq(PmsSku::getId, item.getSkuId())
                             .setSql("locked_stock = locked_stock - " + item.getCount()))
             );
             // 提示订单哪些商品库存不足
-            List<Long> ids = unlockSkuList.stream().map(SkuLockDTO::getSkuId).collect(Collectors.toList());
+            List<Long> ids = unlockSkuList.stream().map(LockStockDTO::getSkuId).collect(Collectors.toList());
             throw new BizException("商品" + ids.toString() + "库存不足");
         }
 
@@ -83,6 +96,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
         return true;
     }
+
 
     /**
      * 订单超时关单解锁库存
@@ -96,7 +110,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
             return true;
         }
 
-        List<SkuLockDTO> skuLockList = JSONUtil.toList(json, SkuLockDTO.class);
+        List<LockStockDTO> skuLockList = JSONUtil.toList(json, LockStockDTO.class);
 
         skuLockList.forEach(item ->
                 this.update(new LambdaUpdateWrapper<PmsSku>()
@@ -121,7 +135,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
             return true;
         }
 
-        List<SkuLockDTO> skuLockList = JSONUtil.toList(json, SkuLockDTO.class);
+        List<LockStockDTO> skuLockList = JSONUtil.toList(json, LockStockDTO.class);
 
         skuLockList.forEach(item -> {
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()

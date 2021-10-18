@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.pms.mapper.PmsSkuMapper">
+
+    <resultMap id="BaseResultMap" type="com.youlai.mall.pms.pojo.entity.PmsSku">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="spuId" column="spu_id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="sn" column="sn" jdbcType="VARCHAR"/>
+        <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+        <result property="specIds" column="specs" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="BIGINT"/>
+        <result property="stock" column="stock" jdbcType="INTEGER"/>
+        <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,spu_id,name,
+        sn,pic_url,specs,
+        origin_price,price,stock,
+        locked_stock,gmt_create,gmt_modified
+    </sql>
+
+
+    <select id="getSkuById" resultType="com.youlai.mall.pms.pojo.dto.app.SkuDTO">
+        select t1.id, t1.sn, t1.name, t1.pic_url, t1.price, (t1.stock - t1.locked_stock) as stock, t2.name as goodsName
+        from pms_sku t1
+                 left join pms_spu t2 on t1.spu_id = t2.id
+        where t1.id = #{id}
+    </select>
+</mapper>

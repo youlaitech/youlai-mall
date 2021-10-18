@@ -1,11 +1,14 @@
 package com.youlai.mall.oms.service.impl;
 
+import cn.hutool.core.lang.Assert;
+import com.youlai.common.result.ResultCode;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
-import com.youlai.mall.oms.pojo.vo.CartVO;
+import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
-import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.api.GoodsFeignClient;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -32,25 +35,12 @@ import java.util.concurrent.CompletableFuture;
 public class CartServiceImpl implements ICartService {
 
     private RedisTemplate redisTemplate;
-    private SkuFeignClient skuFeignService;
-
-    /**
-     * 获取用户购物车
-     */
-    @Override
-    public CartVO getCart() {
-        CartVO cart = new CartVO();
-        Long memberId= JwtUtils.getUserId();
-        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
-        List<CartVO.CartItem> cartItems = cartHashOperations.values();
-        cart.setItems(cartItems);
-        return cart;
-    }
+    private GoodsFeignClient skuFeignService;
 
     @Override
-    public List<CartVO.CartItem> getCartItems(Long memberId) {
+    public List<CartItemDTO> listCartItemByMemberId(Long memberId) {
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
-        List<CartVO.CartItem> cartItems = cartHashOperations.values();
+        List<CartItemDTO> cartItems = cartHashOperations.values();
         return cartItems;
     }
 
@@ -69,37 +59,44 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean addCartItem(Long skuId) {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
 
-        CartVO.CartItem cartItem;
+        CartItemDTO cartItem;
         // 购物车已存在该商品，更新商品数量
         if (cartHashOperations.get(hKey) != null) {
-            cartItem = (CartVO.CartItem) cartHashOperations.get(hKey);
+            cartItem = (CartItemDTO) cartHashOperations.get(hKey);
             cartItem.setCount(cartItem.getCount() + 1); // 点击一次“加入购物车”，数量+1
             cartItem.setChecked(true);
             cartHashOperations.put(hKey, cartItem);
             return true;
         }
         // 购物车不存在该商品，添加商品至购物车
-        cartItem = new CartVO.CartItem();
+        cartItem = new CartItemDTO();
         CompletableFuture<Void> cartItemCompletableFuture = CompletableFuture.runAsync(() -> {
             SkuDTO sku = skuFeignService.getSkuById(skuId).getData();
             if (sku != null) {
                 cartItem.setSkuId(sku.getId());
                 cartItem.setCount(1);
                 cartItem.setPrice(sku.getPrice());
-                cartItem.setPic(sku.getPic());
+                cartItem.setPicUrl(sku.getPicUrl());
                 cartItem.setSkuName(sku.getName());
                 cartItem.setStock(sku.getStock());
-                cartItem.setSkuCode(sku.getCode());
-                cartItem.setSpuName(sku.getSpuName());
+                cartItem.setSkuSn(sku.getSn());
+                cartItem.setGoodsName(sku.getGoodsName());
                 cartItem.setChecked(true);
             }
         });
         CompletableFuture.allOf(cartItemCompletableFuture).join();
-        cartHashOperations.put(hKey,cartItem);
+
+        Assert.isTrue(cartItem.getSkuId() != null && cartItem.getSkuId() > 0,"商品不存在");
+        cartHashOperations.put(hKey, cartItem);
         return true;
     }
 
@@ -107,16 +104,21 @@ public class CartServiceImpl implements ICartService {
      * 更新购物车总商品数量、选中状态
      */
     @Override
-    public boolean updateCartItem(CartVO.CartItem cartItem) {
-        Long memberId= JwtUtils.getUserId();
+    public boolean updateCartItem(CartItemDTO cartItem) {
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
         if (cartHashOperations.get(hKey) != null) {
-            CartVO.CartItem  cacheCartItem = (CartVO.CartItem) cartHashOperations.get(hKey);
-            if(cartItem.getChecked()!=null){
+            CartItemDTO cacheCartItem = (CartItemDTO) cartHashOperations.get(hKey);
+            if (cartItem.getChecked() != null) {
                 cacheCartItem.setChecked(cartItem.getChecked());
             }
-            if(cartItem.getCount()!=null){
+            if (cartItem.getCount() != null) {
                 cacheCartItem.setCount(cartItem.getCount());
             }
             cartHashOperations.put(hKey, cacheCartItem);
@@ -129,7 +131,12 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCartItem(Long skuId) {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
         cartHashOperations.delete(hKey);
@@ -142,10 +149,15 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean checkAll(boolean checked) {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
-            CartVO.CartItem cartItem = (CartVO.CartItem) value;
+            CartItemDTO cartItem = (CartItemDTO) value;
             cartItem.setChecked(checked);
             String hKey = cartItem.getSkuId() + "";
             cartHashOperations.put(hKey, cartItem);
@@ -160,12 +172,17 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean removeCheckedItem() {
-        Long memberId= JwtUtils.getUserId();
+        Long memberId;
+        try {
+            memberId = JwtUtils.getUserId();
+        } catch (Exception e) {
+            throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
-            CartVO.CartItem cartItem = (CartVO.CartItem) value;
+            CartItemDTO cartItem = (CartItemDTO) value;
             if (cartItem.getChecked()) {
-                cartHashOperations.delete(cartItem.getSkuId()+"");
+                cartHashOperations.delete(cartItem.getSkuId() + "");
             }
         }
         return true;

@@ -1,38 +1,40 @@
 package com.youlai.admin.service.impl;
 
 import cn.hutool.core.lang.Assert;
-import com.youlai.admin.config.MinioProperties;
 import io.minio.*;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 
-@Slf4j
 @Component
-@EnableConfigurationProperties({MinioProperties.class})
+@ConfigurationProperties(prefix = "minio")
 public class MinioService implements InitializingBean {
 
-    private MinioProperties minioProperties;
+    @Setter
+    private String endpoint;
 
-    public MinioService(MinioProperties minioProperties){
-        this.minioProperties=minioProperties;
-    }
+    @Setter
+    private String accessKey;
+
+    @Setter
+    private String secretKey;
 
     private MinioClient client;
 
     @Override
     public void afterPropertiesSet() {
-        Assert.notBlank(minioProperties.getEndpoint(), "MinIO URL 为空");
-        Assert.notBlank(minioProperties.getAccessKey(), "MinIO accessKey为空");
-        Assert.notBlank(minioProperties.getSecretKey(), "MinIO secretKey为空");
+        Assert.notBlank(endpoint, "MinIO URL 为空");
+        Assert.notBlank(accessKey, "MinIO accessKey为空");
+        Assert.notBlank(secretKey, "MinIO secretKey为空");
         this.client = new MinioClient.Builder()
-                .endpoint(minioProperties.getEndpoint())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .endpoint(endpoint)
+                .credentials(accessKey, secretKey)
                 .build();
     }
 

@@ -1,5 +1,4 @@
 package com.youlai.admin.service.impl;
-
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -12,18 +11,16 @@ import com.youlai.common.constant.GlobalConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.youlai.common.constant.GlobalConstants.ALL_BTN_PERMISSION;
-import static com.youlai.common.constant.GlobalConstants.ROOT_ROLE_CODE;
 
 @Service
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements ISysPermissionService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
 
     @Override
     public List<SysPermission> listPermRoles() {
@@ -38,7 +35,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    public boolean refreshPermRolesCache() {
+    public boolean refreshPermRolesRules() {
         redisTemplate.delete(Arrays.asList(GlobalConstants.URL_PERM_ROLES_KEY,GlobalConstants.BTN_PERM_ROLES_KEY));
         List<SysPermission> permissions = this.listPermRoles();
         if (CollectionUtil.isNotEmpty(permissions)) {
@@ -54,6 +51,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                     urlPermRoles.put(perm, roles);
                 });
                 redisTemplate.opsForHash().putAll(GlobalConstants.URL_PERM_ROLES_KEY, urlPermRoles);
+                redisTemplate.convertAndSend("cleanRoleLocalCache","true");
             }
             // 初始化URL【按钮->角色(集合)】规则
             List<SysPermission> btnPermList = permissions.stream()
@@ -62,7 +60,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
             if (CollectionUtil.isNotEmpty(btnPermList)) {
                 Map<String, List<String>> btnPermRoles = CollectionUtil.newHashMap();
                 btnPermList.stream().forEach(item -> {
-                    String perm = item.getUrlPerm();
+                    String perm = item.getBtnPerm();
                     List<String> roles = item.getRoles();
                     btnPermRoles.put(perm, roles);
                 });

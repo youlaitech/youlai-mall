@@ -3,10 +3,10 @@ package com.youlai.mall.ums.controller.admin;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.result.Result;
-import com.youlai.mall.ums.pojo.domain.UmsMember;
+import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.dto.RechargeDTO;
 import com.youlai.mall.ums.pojo.dto.ResultPayDTO;
-import com.youlai.mall.ums.service.IUmsUserService;
+import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Api(tags = "【系统管理】会员充值")
+@Api(tags = "系统管理端-会员充值")
 @RestController("AdminRechargeController")
 @RequestMapping("/api/v1/recharge-orders")
 @Slf4j
@@ -105,7 +105,7 @@ public class RechargeController {
         return Result.failed();
     }
 
-    private IUmsUserService iUmsUserService;
+    private IUmsMemberService iUmsMemberService;
 
     @PostMapping(value = "/callback")
     public void receiveCallBack(@RequestBody ResultPayDTO resultPay) {
@@ -113,10 +113,10 @@ public class RechargeController {
         //处理自己的业务逻辑
         //例如开通会员、用户充值等等。。。
         String thirduid = resultPay.getThirduid();
-        UmsMember user = iUmsUserService.getById(thirduid);
+        UmsMember user = iUmsMemberService.getById(thirduid);
         if (user != null) {
             user.setBalance((long) (user.getBalance() + Float.valueOf(resultPay.getPrice()) * 100 * 10000));
         }
-        iUmsUserService.updateById(user);
+        iUmsMemberService.updateById(user);
     }
 }

@@ -26,7 +26,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
 import reactor.core.publisher.Mono;
-
 import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
@@ -35,6 +34,9 @@ import java.util.List;
 
 /**
  * 资源服务器配置
+ *
+ * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @date 2020-05-01
  */
 @ConfigurationProperties(prefix = "security")
 @AllArgsConstructor
@@ -42,7 +44,7 @@ import java.util.List;
 @EnableWebFluxSecurity
 public class ResourceServerConfig {
 
-    private AuthorizationManager authorizationManager;
+    private ResourceServerManager resourceServerManager;
 
     @Setter
     private List<String> ignoreUrls;
@@ -50,13 +52,13 @@ public class ResourceServerConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
-                .publicKey(rsaPublicKey())
-                // .jwkSetUri()  //
+                .publicKey(rsaPublicKey()) // 本地获取公钥
+                //.jwkSetUri() // 远程获取公钥
         ;
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         http.authorizeExchange()
                 .pathMatchers(Convert.toStrArray(ignoreUrls)).permitAll()
-                .anyExchange().access(authorizationManager)
+                .anyExchange().access(resourceServerManager)
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler()) // 处理未授权
@@ -67,9 +69,7 @@ public class ResourceServerConfig {
     }
 
     /**
-     * 未授权
-     *
-     * @return
+     * 自定义未授权响应
      */
     @Bean
     ServerAccessDeniedHandler accessDeniedHandler() {
@@ -93,7 +93,6 @@ public class ResourceServerConfig {
     }
 
     /**
-     * @return
      * @link https://blog.csdn.net/qq_24230139/article/details/105091273
      * ServerHttpSecurity没有将jwt中authorities的负载部分当做Authentication
      * 需要把jwt的Claim中的authorities加入
@@ -112,7 +111,6 @@ public class ResourceServerConfig {
 
     /**
      * 本地获取JWT验签公钥
-     * @return
      */
     @SneakyThrows
     @Bean
@@ -120,7 +118,7 @@ public class ResourceServerConfig {
         Resource resource = new ClassPathResource("public.key");
         InputStream is = resource.getInputStream();
         String publicKeyData = IoUtil.read(is).toString();
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(( Base64.decode(publicKeyData)));
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec((Base64.decode(publicKeyData)));
 
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         RSAPublicKey rsaPublicKey = (RSAPublicKey)keyFactory.generatePublic(keySpec);

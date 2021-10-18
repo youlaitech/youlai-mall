@@ -51,5 +51,4 @@ public class SmsSeckillSession implements Serializable {
     @TableField(exist = false)
     private List<SmsSeckillSkuRelation> relations;
 
-    private static final long serialVersionUID = 1L;
 }

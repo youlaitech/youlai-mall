@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
  * @email huawei_code@163.com
  * @date 2021/2/22
  */
-@Component
 @ConfigurationProperties(prefix = "redisson")
 @Data
 public class RedissonProperties {
@@ -21,4 +20,12 @@ public class RedissonProperties {
 
     private String password;
 
+    private Integer database;
+
+    public Integer getDatabase() {
+        if (null == database) {
+            return 0;
+        }
+        return database;
+    }
 }

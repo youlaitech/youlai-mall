@@ -1,12 +1,14 @@
 package com.youlai.common.redis.redisson;
 
+import cn.hutool.core.util.StrUtil;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.redisson.config.SingleServerConfig;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 /**
  * @author huawei
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
  * @email huawei_code@163.com
  * @date 2021/2/22
  */
+@EnableConfigurationProperties(RedissonProperties.class)
 @Configuration
 public class RedissonConfig {
 
@@ -24,13 +27,13 @@ public class RedissonConfig {
         }
         Config config = new Config();
         SingleServerConfig singleServerConfig = config.useSingleServer();
-        singleServerConfig
-                //可以用"rediss://"来启用SSL连接
-                .setAddress(properties.getServerAddress() + ":" + properties.getPort())
-                .setPassword(properties.getPassword());
-        RedissonClient redisson = Redisson.create(config);
-        return redisson;
+        singleServerConfig.setAddress(properties.getServerAddress() + ":" + properties.getPort());
+        singleServerConfig.setDatabase(properties.getDatabase());
+        String password = properties.getPassword();
+        if (StrUtil.isNotBlank(password)) {
+            singleServerConfig.setPassword(password);
+        }
+        return Redisson.create(config);
     }
-
 
 }
