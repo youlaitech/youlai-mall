@@ -2,6 +2,7 @@ package com.youlai.common.constant;
 
 public interface AuthConstants {
 
+
     /**
      * 认证请求头key
      */
@@ -10,7 +11,7 @@ public interface AuthConstants {
     /**
      * JWT令牌前缀
      */
-    String JWT_PREFIX = "Bearer ";
+    String AUTHORIZATION_PREFIX = "bearer ";
 
 
     /**
@@ -57,30 +58,4 @@ public interface AuthConstants {
     String GRANT_TYPE_KEY = "grant_type";
 
     String REFRESH_TOKEN = "refresh_token";
-
-    String APP_API_PATTERN = "/*/app-api/**";
-
-    String LOGOUT_PATH = "/youlai-auth/oauth/logout";
-
-    /**
-     * 新增菜单路径,新增不存在的路由会导致系统无法访问，线上禁止新增菜单的操作
-     */
-    String SAVE_MENU_PATH = "/youlai-admin/api/v1/menus";
-
-    /**
-     * 认证方式
-     */
-    String AUTHENTICATION_METHOD = "authenticationMethod";
-
-    /**
-     * 验证码key前缀
-     */
-    String VALIDATE_CODE_PREFIX = "VALIDATE_CODE:";
-
-    /**
-     * 短信验证码key前缀
-     */
-    String SMS_CODE_PREFIX = "SMS_CODE:";
-
-
 }

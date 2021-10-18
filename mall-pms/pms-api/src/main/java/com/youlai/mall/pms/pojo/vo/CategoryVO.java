@@ -16,11 +16,13 @@ public class CategoryVO {
 
     private Integer level;
 
-    private String iconUrl;
+    private String icon;
 
     private Integer sort;
 
-    private Integer visible;
+    private String unit;
+
+    private Integer status;
 
     private List<CategoryVO> children=new ArrayList<>();
 

@@ -27,13 +27,11 @@ public enum BusinessTypeEnum {
     }
 
     public static BusinessTypeEnum getValue(String code) {
-        BusinessTypeEnum businessTypeEnum=null;
         for (BusinessTypeEnum value : values()) {
             if (value.getCode().equals(code)) {
-                businessTypeEnum =value;
-                continue;
+                return value;
             }
         }
-        return businessTypeEnum;
+        return null;
     }
 }

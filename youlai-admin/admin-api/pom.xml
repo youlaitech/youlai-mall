@@ -5,14 +5,14 @@
     <parent>
         <artifactId>youlai-admin</artifactId>
         <groupId>com.youlai</groupId>
-        <version>2.0.0</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>admin-api</artifactId>
 
     <properties>
-        <youlai.version>2.0.0</youlai.version>
+        <youlai.version>1.0.0</youlai.version>
     </properties>
 
     <dependencies>
@@ -34,6 +34,8 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <optional>true</optional>
         </dependency>
+
+
 
         <!-- Api文档 -->
         <dependency>

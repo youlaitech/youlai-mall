@@ -16,6 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig {
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory lettuceConnectionFactory) {
 

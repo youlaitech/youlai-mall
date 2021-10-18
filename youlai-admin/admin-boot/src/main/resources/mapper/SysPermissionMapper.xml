@@ -10,8 +10,8 @@
         <result property="menuId" column="menu_id" jdbcType="BIGINT"/>
         <result property="urlPerm" column="url_perm" jdbcType="VARCHAR"/>
         <result property="btnPerm" column="btn_perm" jdbcType="VARCHAR"/>
-        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-        <result  property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <collection property="roles" ofType="String" javaType="list">
             <result column="code"/>
         </collection>
@@ -20,20 +20,18 @@
     <sql id="Base_Column_List">
         id
         ,name,menu_id,
-        url_perm,btn_perm,gmt_create,
-        gmt_modified
+        url_perm,btn_perm,create_time,
+        update_time
     </sql>
 
     <select id="listPermRoles" resultMap="BaseResultMap">
-        SELECT t1.id,
-               t1.NAME,
-               t1.menu_id,
-               t1.url_perm,
-               t1.btn_perm,
-               t3.CODE
-        FROM sys_permission t1
-                 LEFT JOIN sys_role_permission t2 ON t1.id = t2.permission_id
-                 LEFT JOIN sys_role t3 ON t2.role_id = t3.id
+        select t1.id, t1.name, t1.menu_id, t1.url_perm, t1.btn_perm, t3.code
+        from sys_permission t1,
+             sys_role_permission t2,
+             sys_role t3
+        where t1.id = t2.permission_id
+          and t2.role_id = t3.id
+          and t3.code is not null
     </select>
 
     <select id="listBtnPermByRoles" resultType="java.lang.String">
@@ -50,18 +48,18 @@
 
     <select id="list" resultType="com.youlai.admin.pojo.entity.SysPermission">
         SELECT
-        t1.*
+        	t1.*
         FROM
-        sys_permission t1
-        LEFT JOIN sys_menu t2 ON t1.menu_id = t2.id
+        	sys_permission t1
+        	LEFT JOIN sys_menu t2 ON t1.menu_id = t2.id
         WHERE 1=1
         <if test='permission.name != null and permission.name.trim() neq ""'>
             and t1.name like concat('%',#{permission.name},'%')
-        </if>
+          </if>
         <if test='permission.menuId !=null '>
             and t1.menu_id = #{permission.menuId}
-        </if>
-        ORDER BY t1.gmt_modified DESC,t1.gmt_create DESC
+          </if>
+        ORDER BY t1.update_time DESC,t1.create_time DESC
 
     </select>
 </mapper>

@@ -3,22 +3,22 @@ package com.youlai.mall.pms.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
+import com.youlai.mall.pms.pojo.bo.app.ProductBO;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
-import com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO;
-
 import java.util.List;
 
 
 public interface IPmsSpuService extends IService<PmsSpu> {
 
-    IPage<PmsSpu> list(Page<PmsSpu> page,  String name,Long categoryId);
+    IPage<PmsSpu> list(Page<PmsSpu> page, PmsSpu spu);
 
-    boolean addGoods(GoodsFormDTO goodsFormDTO);
+    boolean add(com.youlai.mall.pms.pojo.bo.admin.ProductBO productBO);
 
-    boolean removeByGoodsIds(List<Long> spuIds);
+    com.youlai.mall.pms.pojo.bo.admin.ProductBO getBySpuId(Long id);
 
-    boolean updateGoods(GoodsFormDTO goodsFormDTO);
+    boolean removeBySpuIds(List<Long> spuIds);
 
-    GoodsDetailVO getGoodsById(Long id);
+    boolean updateById(com.youlai.mall.pms.pojo.bo.admin.ProductBO productBO);
+
+    ProductBO getProductByIdForApp(Long id);
 }

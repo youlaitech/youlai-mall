@@ -13,11 +13,11 @@ public class PmsCategory extends BaseEntity {
     private Long id;
     private String name;
     private Long parentId;
-    private String iconUrl;
+    private String icon;
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private Integer level;
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private Integer sort;
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
-    private Integer visible;
+    private Integer status;
 }

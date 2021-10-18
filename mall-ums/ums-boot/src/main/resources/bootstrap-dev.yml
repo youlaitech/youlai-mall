@@ -1,22 +1,13 @@
 server:
-  port: 8801
+  port: 8601
 
 spring:
   application:
     name: mall-ums
   cloud:
     nacos:
-      # 注册中心
       discovery:
         server-addr: http://localhost:8848
-      # 配置中心
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        shared-configs[0]:
-          data-id: youlai-common.yaml
-          refresh: true
-
-# 日志目录
-logfile:
-  dir: D://logssss/${spring.application.name}

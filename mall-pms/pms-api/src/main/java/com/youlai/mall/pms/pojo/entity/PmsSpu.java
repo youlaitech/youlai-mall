@@ -9,7 +9,8 @@ import lombok.experimental.Accessors;
 import java.util.List;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author haoxr
+ * @date 2020-11-06
  */
 @Data
 @Accessors(chain = true)
@@ -23,8 +24,8 @@ public class PmsSpu extends BaseEntity {
     private Long originPrice;
     private Long price;
     private Integer sales;
-    private String picUrl;
-    private String[] album;
+    private String pic;
+    private String pics;
     private String unit;
     private String description;
     private String detail;
@@ -37,5 +38,8 @@ public class PmsSpu extends BaseEntity {
     private String brandName;
 
     @TableField(exist = false)
-    private List<PmsSku> skuList;
+    private List<PmsSku> skus;
+
+    @TableField(exist = false)
+    private List<String> picList;
 }

@@ -8,10 +8,5 @@ public interface PmsConstants {
 
     String LOCKED_STOCK_PREFIX = "stock:locked:";
 
-    String LOCK_SKU_PREFIX = "lock:sku:";
-
-    String GOODS_BLOOM_FILTER = "pms:bloom:filter";
-
-    String TEMP_ID_PREFIX = "tid_";
-
+    String LOCK_SKU_PREFIX="lock:sku:";
 }

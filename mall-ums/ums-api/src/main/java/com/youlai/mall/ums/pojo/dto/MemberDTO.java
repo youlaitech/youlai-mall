@@ -7,12 +7,9 @@ public class MemberDTO {
 
     private Long id;
 
-    private String nickName;
-
-    private String avatarUrl;
+    private String nickname;
 
     private String mobile;
 
     private Long balance;
-
 }

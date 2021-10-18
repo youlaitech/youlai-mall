@@ -3,7 +3,6 @@ package com.youlai.admin.pojo.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -30,12 +29,12 @@ public class RouteVO {
     private Meta meta;
 
     @Data
-    @NoArgsConstructor
     @AllArgsConstructor
-    public static class Meta {
+    public class Meta {
         private String title;
         private String icon;
         private List<String> roles;
     }
     private List<RouteVO> children;
+
 }

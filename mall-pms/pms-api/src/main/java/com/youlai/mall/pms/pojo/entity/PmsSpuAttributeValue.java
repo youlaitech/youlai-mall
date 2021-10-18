@@ -18,7 +18,5 @@ public class PmsSpuAttributeValue extends BaseEntity {
     private Long attributeId;
     private String name;
     private String value;
-    private Integer type;
-    private String picUrl;
 
 }

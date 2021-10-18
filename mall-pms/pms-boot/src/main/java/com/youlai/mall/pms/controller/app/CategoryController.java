@@ -1,10 +1,13 @@
 package com.youlai.mall.pms.controller.app;
 
+import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
+import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
- */
-@Api(tags = "移动端-商品分类")
-@RestController("appCategoryController")
+@Api(tags = "【移动端】商品分类")
+@RestController("APPCategoryController")
 @RequestMapping("/app-api/v1/categories")
 @Slf4j
 @AllArgsConstructor
@@ -27,10 +27,15 @@ public class CategoryController {
     private IPmsCategoryService iPmsCategoryService;
 
     @ApiOperation(value = "分类列表")
-    @ApiImplicitParam(name = "parentId",value = "上级分类ID", paramType = "query", dataType = "Long")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "parentId", paramType = "query", dataType = "Long")
+    })
     @GetMapping
     public Result list(Long parentId) {
-        List<CategoryVO> list = iPmsCategoryService.listCategory(parentId);
+        PmsCategory category = new PmsCategory();
+        category.setParentId(parentId);
+        category.setStatus(GlobalConstants.STATUS_YES);
+        List<CategoryVO> list = iPmsCategoryService.listForTree(category);
         return Result.success(list);
     }
 }

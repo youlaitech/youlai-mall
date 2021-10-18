@@ -7,14 +7,16 @@ import lombok.Data;
 
 @Data
 public class PmsSku extends BaseEntity {
+
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String sn;
-    private String name;
     private Long spuId;
-    private String specIds;
+    private String name;
+    private String code;
+    private String pic;
+    private Long originPrice;
     private Long price;
     private Integer stock;
     private Integer lockedStock;
-    private String picUrl;
+    private String specValueIds;
 }

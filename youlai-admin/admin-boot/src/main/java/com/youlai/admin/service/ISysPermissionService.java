@@ -13,12 +13,7 @@ public interface ISysPermissionService extends IService<SysPermission> {
 
     IPage<SysPermission> list(Page<SysPermission> page, SysPermission permission);
 
-    List<String> listBtnPermByRoles(List<String> roles);
+    boolean refreshPermRolesCache();
 
-    /**
-     * 刷新Redis缓存中角色菜单的权限规则，角色和菜单信息变更调用
-     *
-     * @return
-     */
-    boolean refreshPermRolesRules();
+    List<String> listBtnPermByRoles(List<String> roles);
 }

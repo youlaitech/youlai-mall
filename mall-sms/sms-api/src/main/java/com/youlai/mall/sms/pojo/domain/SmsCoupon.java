@@ -1,11 +1,8 @@
 package com.youlai.mall.sms.pojo.domain;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.youlai.mall.sms.pojo.enums.CouponStateEnum;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,75 +10,91 @@ import java.util.Date;
  * @author 
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@TableName("sms_coupon")
-public class SmsCoupon {
-
+public class SmsCoupon implements Serializable {
     /**
-     * 用户优惠券ID
+     * ID
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 关联优惠券模板ID
+     * 优惠券标题（有图片则显示图片）：无门槛50元优惠券 | 单品最高减2000元
      */
-    private Long templateId;
+    private String title;
 
     /**
-     * 领取用户
+     * 图片
      */
-    private Long userId;
+    private String img;
 
     /**
-     * 用户昵称（冗余字段）
+     * 1满减券 2叠加满减券 3无门槛券（需要限制大小）
      */
-    private String userName;
+    private Integer type;
 
     /**
-     * 优惠券码
+     * 发布状态, PUBLISH发布，DRAFT草稿，OFFLINE下线
      */
-    private String couponCode;
+    private String publish;
 
     /**
-     * 优惠券状态
+     * 满多少才可以使用（为0则不限制金额）
      */
-    private CouponStateEnum state;
+    private Long conditionPrice;
 
     /**
-     * 优惠券生效起始时间
+     * 抵扣价格
      */
-    private Long availableStartTime;
+    private Long price;
 
     /**
-     * 优惠券生效起始时间
+     * 优惠券总量
      */
-    private Long availableEndTime;
+    private Integer publishCount;
 
     /**
-     * 关联订单 ID
+     * 每张优惠券限领张数（默认为1，为0不限制）
      */
-    private Long orderId;
+    private Integer limitCount;
 
     /**
-     * 使用时间
+     * 已领取的优惠券数量
      */
-    private Long useTime;
+    private Integer takeCount;
 
-    @TableField(fill = FieldFill.INSERT)
+    /**
+     * 已使用的优惠券数量
+     */
+    private Integer usedCount;
+
+    /**
+     * 发放开始时间
+     */
+    private Date startTime;
+
+    /**
+     * 发放结束时间
+     */
+    private Date endTime;
+
+    /**
+     * 自领取之日起有效天数
+     */
+    private Integer validDays;
+
+    /**
+     * 逻辑删除使用
+     */
+    private Integer status;
+
+    /**
+     * 创建时间
+     */
     private Date gmtCreate;
 
-    @TableField(fill = FieldFill.INSERT)
-    private String gmtCreatedBy;
-
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    /**
+     * 修改时间
+     */
     private Date gmtModified;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String gmtModifiedBy;
-
-    @TableField(exist = false)
-    private SmsCouponTemplate template;
-
+    private static final long serialVersionUID = 1L;
 }

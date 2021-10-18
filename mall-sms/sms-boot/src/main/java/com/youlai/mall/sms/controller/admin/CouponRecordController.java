@@ -1,6 +1,5 @@
 package com.youlai.mall.sms.controller.admin;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,8 +32,8 @@ public class CouponRecordController {
     @GetMapping("/page")
     public Result page(BasePageQuery pageQuery) {
         Long userId = JwtUtils.getUserId();
-        LambdaQueryWrapper<SmsCouponRecord> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SmsCouponRecord::getUserId, userId).orderByDesc(SmsCouponRecord::getGmtCreate);
+        QueryWrapper<SmsCouponRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId).orderByDesc("create_time");
         Page<SmsCouponRecord> page = new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize());
         IPage<SmsCouponRecord> result = couponRecordService.page(page, queryWrapper);
         return Result.success(result);
@@ -45,7 +44,7 @@ public class CouponRecordController {
     public Result detail(@ApiParam(value = "优惠券记录ID") @PathVariable("id") String id) {
         Long userId = JwtUtils.getUserId();
         QueryWrapper<SmsCouponRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId).eq("id", id);
+        queryWrapper.eq("user_id", userId ).eq("id", id);
         SmsCouponRecord result = couponRecordService.getOne(queryWrapper);
         if (result == null) {
             return Result.failed("优惠券记录不存在");
@@ -66,7 +65,7 @@ public class CouponRecordController {
     @ApiOperation(value = "用户领券功能")
     @PostMapping()
     public Result add(@ApiParam(name = "couponId", value = "优惠券ID", required = true)
-                      @RequestParam("couponId") String couponId) {
+                        @RequestParam("couponId") String couponId) {
         couponRecordService.add(couponId);
         return Result.success();
 

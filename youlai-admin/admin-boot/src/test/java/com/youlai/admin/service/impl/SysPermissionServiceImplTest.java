@@ -33,7 +33,7 @@ class SysPermissionServiceImplTest {
     }
 
     @Test
-    void refreshPermRolesRules(){
+    void refreshPermRolesCache(){
 
     }
 }

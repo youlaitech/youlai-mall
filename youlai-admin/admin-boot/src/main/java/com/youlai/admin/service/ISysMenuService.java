@@ -1,50 +1,23 @@
 package com.youlai.admin.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.MenuVO;
 import com.youlai.admin.pojo.vo.RouteVO;
-import com.youlai.admin.pojo.vo.SelectVO;
-import com.youlai.admin.pojo.vo.TreeSelectVO;
+import com.youlai.admin.pojo.vo.TreeVO;
 
 import java.util.List;
-
 /**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author haoxr
  * @date 2020-11-06
  */
 public interface ISysMenuService extends IService<SysMenu> {
 
+    List<MenuVO> listMenuVO(LambdaQueryWrapper<SysMenu> baseQuery);
 
-    /**
-     * 菜单表格（Table）层级列表
-     *
-     * @param name 菜单名称
-     * @return
-     */
-    List<MenuVO> listTable(String name);
+    List<TreeVO> listTreeVO(LambdaQueryWrapper<SysMenu> baseQuery);
 
-
-    /**
-     * 菜单下拉（Select）层级列表
-     *
-     * @return
-     */
-    List<SelectVO> listSelect();
-
-
-    /**
-     * 菜单路由（Route）层级列表
-     *
-     * @return
-     */
     List<RouteVO> listRoute();
-
-    /**
-     * 菜单下拉(TreeSelect)层级列表
-     *
-     * @return
-     */
-    List<TreeSelectVO> listTreeSelect();
 }
