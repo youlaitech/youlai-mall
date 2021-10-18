@@ -6,17 +6,23 @@
 ![](https://img.shields.io/badge/SpringCloud-2020-green.svg)
 ![](https://img.shields.io/badge/vue--element--admin-v4.4.0-orange)
 
-**线上预览地址：** http://www.youlai.tech
+## 线上预览地址
+
+1. 系统管理:  http://www.youlai.tech
+
+2. APP:   http://www.youlai.tech:81
+
+3. 微信小程序: 见文末二维码
 
 ## 项目信息
 
-#### 项目简介
+### 项目简介
 
 [youlai-mall](https://gitee.com/youlaitech/youlai-mall) 是基于Spring Boot 2.5、Spring Cloud 2020 & Alibaba 2021、vue、element-ui、uni-app快速构建的一套全栈开源商城项目。
 
 项目采用微服务、前后端分离开发模式；汇集全栈主流的技术栈； 涉及 [微服务接口](https://gitee.com/youlaitech/youlai-mall) 、 [前端管理](https://gitee.com/youlaitech/youlai-mall-admin) 、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp) 和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp) 等多端的开发。
 
-#### 项目特色
+### 项目特色
 - Spring Cloud + Vue + Docker全栈开发
 - 项目使用的都是当前主流的技术栈，无过度自定义封装，易学习理解和方便二次扩展
 - 基于Spring Boot 2.5.2、Spring Cloud 2020 & Alibaba 2021一站式微服务解决方案实现快速开发
@@ -26,7 +32,7 @@
 - 移动端采用uni-app、实现跨多端移动应用开发，包括微信小程序、Android和IOS等
 - Docker快速构建项目环境和一键打包部署微服务项目
 
-#### 项目预览
+### 项目预览
 
 - **系统管理**
 
@@ -43,24 +49,24 @@
 | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005349.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005356.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005344.jpg) |
 
 
-#### 项目架构流程图
+### 项目架构流程图
 
 ![](https://gitee.com/haoxr/image/raw/master/default/OAuth2.jpg)
 
-#### 技术栈
+### 技术栈
 
 - **后端技术栈：** Spring Boot、Spring Cloud、Spring Cloud Alibaba、Spring Security OAuth2、JWT、Mybatis-Plus、Seata、Sentinel、ELK、Redis
 
 - **前端技术栈：** vue、element-ui、uni-app、vue-element-admin
 
-#### 项目地址
+### 项目地址
 
 | 项目名称   | 源码地址                                                        |项目名称   | 源码地址                                                   |
 | ---------- | ------------------------------------------------------------ |---------- | ------------------------------------------------------------ |
 | 微服务后台 | [youlai-mall](https://gitee.com/youlaitech/youlai-mall)      | 微信小程序 | [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) |
 | 管理前端   | [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin) |APP应用    | [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app) |
 
-#### 项目结构 
+### 项目结构 
 
 ``` lua
 youlai-mall
@@ -172,7 +178,7 @@ youlai-mall
 
 ## 接口测试
 
-#### Spring Security OAuth2认证授权接口
+#### 登录认证接口
 
 - **Postman**
 
