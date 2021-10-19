@@ -86,6 +86,4 @@ public class CartController {
         boolean result = cartService.checkAll(checked);
         return Result.judge(result);
     }
-
-
 }
