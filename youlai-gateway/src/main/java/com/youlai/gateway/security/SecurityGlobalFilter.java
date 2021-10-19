@@ -51,18 +51,19 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
 
         // 线上演示环境禁止修改和删除
-        if (env.equals("prod") && !SecurityConstants.LOGOUT_PATH.equals(request.getPath().toString())
-                && (
-                HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
-                        || HttpMethod.PUT.toString().equals(request.getMethodValue())// 修改方法
-                        || SecurityConstants.SAVE_MENU_PATH.equals(request.getPath().toString()) // 新增路由
+        String requestPath = request.getPath().toString();
+        if (env.equals("prod") && !SecurityConstants.LOGOUT_PATH.equals(requestPath)
+                && !StrUtil.contains(requestPath, "app-api")
+                && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
+                || HttpMethod.PUT.toString().equals(request.getMethodValue())// 修改方法
+                || SecurityConstants.SAVE_MENU_PATH.equals(request.getPath().toString()) // 新增路由
         )) {
             return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
         }
 
         // 不是正确的的JWT不做解析处理
         String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isBlank(token) ||  !StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX)) {
+        if (StrUtil.isBlank(token) || !StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX)) {
             return chain.filter(exchange);
         }
 
