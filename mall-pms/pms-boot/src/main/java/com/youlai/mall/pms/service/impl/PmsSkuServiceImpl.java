@@ -9,36 +9,32 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
+import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
-import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
+import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.tcc.service.SeataTccSkuService;
 import io.seata.spring.annotation.GlobalTransactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.youlai.mall.pms.common.constant.PmsConstants.LOCKED_STOCK_PREFIX;
-import static com.youlai.mall.pms.common.constant.PmsConstants.LOCK_SKU_PREFIX;
-
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements IPmsSkuService {
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-    @Autowired
-    private RedissonClient redissonClient;
-    @Autowired
-    private SeataTccSkuService seataTccSkuService;
+    private final StringRedisTemplate redisTemplate;
+    private final RedissonClient redissonClient;
+    private final SeataTccSkuService seataTccSkuService;
 
     @Override
     @GlobalTransactional
@@ -46,7 +42,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
         seataTccSkuService.prepareSkuLockList(null, skuLockList);
         String orderToken = skuLockList.get(0).getOrderToken();
-        redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
+        redisTemplate.opsForValue().set(PmsConstants.LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
         return true;
     }
 
@@ -63,7 +59,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         //prepareSkuLockList(null,  skuLockList);
         // 锁定商品
         skuLockList.forEach(item -> {
-            RLock lock = redissonClient.getLock(LOCK_SKU_PREFIX + item.getSkuId()); // 获取商品的分布式锁
+            RLock lock = redissonClient.getLock(PmsConstants.LOCK_SKU_PREFIX + item.getSkuId()); // 获取商品的分布式锁
             lock.lock();
             boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
                     .setSql("locked_stock = locked_stock + " + item.getCount())
@@ -89,13 +85,13 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
                             .setSql("locked_stock = locked_stock - " + item.getCount()))
             );
             // 提示订单哪些商品库存不足
-            String ids = unlockSkuList.stream().map(sku -> sku.getSkuId().toString()).collect(Collectors.joining(","));
+            String ids= unlockSkuList.stream().map(sku -> sku.getSkuId().toString()).collect(Collectors.joining(","));
             return Result.failed("商品" + ids + "库存不足");
         }
 
         // 将锁定的商品保存至Redis中
         String orderToken = skuLockList.get(0).getOrderToken();
-        redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
+        redisTemplate.opsForValue().set(PmsConstants.LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
         return Result.success();
     }
 
@@ -106,7 +102,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     @Override
     public boolean unlockStock(String orderToken) {
         log.info("=======================订单超时未支付系统自动关单释放库存=======================");
-        String json = redisTemplate.opsForValue().get(LOCKED_STOCK_PREFIX + orderToken);
+        String json = redisTemplate.opsForValue().get(PmsConstants.LOCKED_STOCK_PREFIX + orderToken);
         log.info("释放库存信息：{}", json);
         if (StrUtil.isBlank(json)) {
             return true;
@@ -121,7 +117,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         );
 
         // 删除redis中锁定的库存
-        redisTemplate.delete(LOCKED_STOCK_PREFIX + orderToken);
+        redisTemplate.delete(PmsConstants.LOCKED_STOCK_PREFIX + orderToken);
         return true;
     }
 
@@ -131,7 +127,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     @Override
     public boolean deductStock(String orderToken) {
         log.info("=======================支付成功扣减订单中商品库存=======================");
-        String json = redisTemplate.opsForValue().get(LOCKED_STOCK_PREFIX + orderToken);
+        String json = redisTemplate.opsForValue().get(PmsConstants.LOCKED_STOCK_PREFIX + orderToken);
         log.info("订单商品信息：{}", json);
         if (StrUtil.isBlank(json)) {
             return true;
@@ -151,7 +147,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         });
 
         // 删除redis中锁定的库存
-        redisTemplate.delete(LOCKED_STOCK_PREFIX + orderToken);
+        redisTemplate.delete(PmsConstants.LOCKED_STOCK_PREFIX + orderToken);
         return true;
     }
 
@@ -168,7 +164,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     public Integer getStockById(Long id) {
         Integer stock = 0;
         // 读->缓存
-        Object cacheVal = redisTemplate.opsForValue().get(LOCKED_STOCK_PREFIX + id);
+        Object cacheVal = redisTemplate.opsForValue().get(PmsConstants.LOCKED_STOCK_PREFIX + id);
         if (cacheVal != null) {
             stock = Convert.toInt(cacheVal);
             return stock;
@@ -182,7 +178,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         if (pmsSku != null) {
             stock = pmsSku.getStock();
             // 写->缓存
-            redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + id, String.valueOf(stock));
+            redisTemplate.opsForValue().set(PmsConstants.LOCKED_STOCK_PREFIX + id, String.valueOf(stock));
         }
 
         return stock;
