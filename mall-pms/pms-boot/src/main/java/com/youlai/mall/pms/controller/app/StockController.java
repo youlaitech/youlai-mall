@@ -38,9 +38,8 @@ public class StockController {
 
     @ApiOperation(value = "锁定库存")
     @PutMapping("/_lock")
-    public Result<Boolean> lockStock(@RequestBody List<LockStockDTO> list) {
-        boolean result = iPmsSkuService.lockStock(list);
-        return Result.judge(result);
+    public Result lockStock(@RequestBody List<LockStockDTO> list) {
+        return iPmsSkuService.lockStock(list);
     }
 
 

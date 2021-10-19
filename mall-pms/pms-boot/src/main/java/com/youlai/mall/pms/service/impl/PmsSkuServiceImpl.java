@@ -7,6 +7,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
@@ -41,22 +42,23 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
     @Override
     @GlobalTransactional
-    public boolean lockStockTcc(List<LockStockDTO> skuLockList) {
+    public Boolean lockStockTcc(List<LockStockDTO> skuLockList) {
 
-        seataTccSkuService.prepareSkuLockList(null,skuLockList);
+        seataTccSkuService.prepareSkuLockList(null, skuLockList);
         String orderToken = skuLockList.get(0).getOrderToken();
         redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
         return true;
     }
+
     /**
      * 创建订单时锁定库存
      */
     @Override
-    public boolean lockStock(List<LockStockDTO> skuLockList) {
+    public Result lockStock(List<LockStockDTO> skuLockList) {
         log.info("=======================创建订单，开始锁定商品库存=======================");
         log.info("锁定商品信息：{}", skuLockList.toString());
         if (CollectionUtil.isEmpty(skuLockList)) {
-            throw new BizException("锁定的商品列表为空");
+            return Result.failed("锁定的商品列表为空");
         }
         //prepareSkuLockList(null,  skuLockList);
         // 锁定商品
@@ -87,14 +89,14 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
                             .setSql("locked_stock = locked_stock - " + item.getCount()))
             );
             // 提示订单哪些商品库存不足
-            List<Long> ids = unlockSkuList.stream().map(LockStockDTO::getSkuId).collect(Collectors.toList());
-            throw new BizException("商品" + ids.toString() + "库存不足");
+            String ids = unlockSkuList.stream().map(sku -> sku.getSkuId().toString()).collect(Collectors.joining(","));
+            return Result.failed("商品" + ids + "库存不足");
         }
 
         // 将锁定的商品保存至Redis中
         String orderToken = skuLockList.get(0).getOrderToken();
         redisTemplate.opsForValue().set(LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
-        return true;
+        return Result.success();
     }
 
 
