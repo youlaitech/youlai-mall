@@ -39,7 +39,7 @@ public class UmsAddress extends BaseEntity {
     @CheckCityValid(CityType.AREA)
     private String area;
 
-    @Length(min = 5, max = 100, message = "{text.length.min}，{text.length.max}")
+    @Length(min = 1, max = 100, message = "{text.length.min}，{text.length.max}")
     private String address;
 
     @Pattern(regexp = "^[0-9]{6}$", message = "{zipcode.valid}")
