@@ -4,6 +4,7 @@ import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -159,17 +160,21 @@ public class GlobalExceptionHandler {
         return Result.failed(e.getMessage());
     }
 
-    /**
-     * CompletionException
-     */
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CompletionException.class)
     public <T> Result<T> processException(CompletionException e) {
-        log.error(e.getMessage(), e);
         if (e.getMessage().startsWith("feign.FeignException")) {
             return Result.failed("微服务调用异常");
         }
         return handleException(e);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FeignException.BadRequest.class)
+    public <T> Result<T> processException(FeignException.BadRequest e) {
+        log.info("微服务feign调用异常:{}", e.getMessage());
+        return Result.failed(e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -185,8 +190,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public <T> Result<T> handleException(Exception e) {
-        log.error("未知异常，异常原因：{}", e.getMessage(), e);
-        return Result.failed();
+        return Result.failed(e.getLocalizedMessage());
     }
 
     /**
