@@ -16,11 +16,6 @@
 
 4. 微信小程序: 见文末二维码
 
-| 【App移动端】Spring Security OAuth2 手机短信验证码模式       | 【微信小程序】Spring Security OAuth2 微信授权模式            |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| <img src="https://gitee.com/haoxr/image/raw/master/default/smscode%20(1).gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/wechatlogin.gif" width="100%" height="400px"/> |
-| **【管理系统】Spring Security OAuth2  密码模式**             | **【管理系统】Spring Security OAuth2  验证码模式**           |
-| <img src="https://gitee.com/haoxr/image/raw/master/default/password.gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/captcha.gif" width="100%" height="400px"/> |
 
 
 ## 项目信息
@@ -42,6 +37,15 @@
 - Docker快速构建项目环境和一键打包部署微服务项目
 
 ### 项目预览
+
+- **Spring Security OAuth2 认证授权**
+
+| 【App移动端】Spring Security OAuth2 手机短信验证码模式       | 【微信小程序】Spring Security OAuth2 微信授权模式            |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| <img src="https://gitee.com/haoxr/image/raw/master/default/smscode%20(1).gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/wechatlogin.gif" width="100%" height="400px"/> |
+| **【管理系统】Spring Security OAuth2  密码模式**             | **【管理系统】Spring Security OAuth2  验证码模式**           |
+| <img src="https://gitee.com/haoxr/image/raw/master/default/password.gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/captcha.gif" width="100%" height="400px"/> |
+
 
 - **系统管理**
 
