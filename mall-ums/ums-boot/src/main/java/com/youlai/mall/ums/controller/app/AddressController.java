@@ -8,7 +8,6 @@ import com.youlai.mall.ums.pojo.entity.UmsAddress;
 import com.youlai.mall.ums.service.IUmsAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,6 @@ public class AddressController {
         return Result.success(addressList);
     }
 
-
     @ApiOperation(value = "新增地址")
     @PostMapping
     public <T> Result<T> add(@RequestBody @Validated UmsAddress address) {
@@ -58,13 +56,11 @@ public class AddressController {
 
 
     @ApiOperation(value = "修改地址")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "address", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsAddress")
-    })
-    @PutMapping
-    public <T> Result<T> update(@RequestBody @Validated UmsAddress address) {
+    @PutMapping("/{id}")
+    public <T> Result<T> update(@PathVariable Long id, @RequestBody @Validated UmsAddress address) {
         Long memberId = JwtUtils.getUserId();
-        if (ADDRESS_DEFAULTED.equals(address.getDefaulted())) { // 修改其他默认地址为非默认
+        // 修改其他默认地址为非默认
+        if (ADDRESS_DEFAULTED.equals(address.getDefaulted())) {
             iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
                     .eq(UmsAddress::getMemberId, memberId)
                     .eq(UmsAddress::getDefaulted, 1)
@@ -80,31 +76,6 @@ public class AddressController {
     @DeleteMapping("/{ids}")
     public <T> Result<T> delete(@PathVariable String ids) {
         boolean status = iUmsAddressService.removeByIds(Arrays.asList(ids.split(",")));
-        return Result.judge(status);
-    }
-
-
-    @ApiOperation(value = "修改地址【部分更新】")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "address", value = "实体JSON对象", required = true, paramType = "body", dataType = "UmsAddress")
-    })
-    @PatchMapping
-    public <T> Result<T> patch(@RequestBody UmsAddress address) {
-        Long userId = JwtUtils.getUserId();
-        LambdaUpdateWrapper<UmsAddress> updateWrapper = new LambdaUpdateWrapper<UmsAddress>()
-                .eq(UmsAddress::getMemberId, userId);
-        if (address.getDefaulted() != null) {
-            updateWrapper.set(UmsAddress::getDefaulted, address.getDefaulted());
-
-            if (ADDRESS_DEFAULTED.equals(address.getDefaulted())) { // 修改其他默认地址为非默认
-                iUmsAddressService.update(new LambdaUpdateWrapper<UmsAddress>()
-                        .eq(UmsAddress::getMemberId, userId)
-                        .eq(UmsAddress::getDefaulted, ADDRESS_DEFAULTED)
-                        .set(UmsAddress::getDefaulted, 0)
-                );
-            }
-        }
-        boolean status = iUmsAddressService.update(updateWrapper);
         return Result.judge(status);
     }
 
