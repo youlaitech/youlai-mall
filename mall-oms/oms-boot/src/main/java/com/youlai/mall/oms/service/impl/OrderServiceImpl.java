@@ -189,7 +189,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         System.out.println(goodsResult);
 
         // 锁定库存
-        Result<Boolean> lockResult = stockFeignClient.lockStock(skuLockList);
+        Result lockResult = stockFeignClient.lockStock(skuLockList);
         Assert.isTrue(Result.isSuccess(lockResult), "锁定商品库存失败:{}", lockResult.getMsg());
 
         // 创建订单(状态：待支付)
