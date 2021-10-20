@@ -34,7 +34,6 @@ public class GoodsController {
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "categoryId", value = "分类ID", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String")
-
     })
     @GetMapping("/page")
     public Result list(Integer page, Integer limit, String name, Long categoryId) {
