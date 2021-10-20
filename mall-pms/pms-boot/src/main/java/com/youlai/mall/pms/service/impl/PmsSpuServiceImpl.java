@@ -39,7 +39,6 @@ import java.util.stream.Collectors;
 public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
     private final IPmsSkuService iPmsSkuService;
     private final IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
-    private final BloomRedisService bloomRedisService;
 
     /**
      * 商品分页列表
@@ -51,7 +50,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
      */
     @Override
     public IPage<PmsSpu> list(Page<PmsSpu> page, String name, Long categoryId) {
-        List<PmsSpu> list = this.baseMapper.list( name, categoryId);
+        List<PmsSpu> list = this.baseMapper.list(page, name, categoryId);
         page.setRecords(list);
         return page;
     }
@@ -76,7 +75,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> skuList = goods.getSkuList();
         return this.saveSku(goodsId, skuList, specTempIdIdMap);
     }
-
 
 
     /**
