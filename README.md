@@ -220,7 +220,7 @@ youlai-mall
 ## Star趋势
 - Github
 [![Github](https://starchart.cc/hxrui/youlai-mall.svg)](https://starchart.cc/hxrui/youlai-mall)
-- Giteefv
+- Gitee
 [![Gitee](https://whnb.wang/stars/youlaitech/youlai-mall)](https://whnb.wang/stars/youlaitech/youlai-mall)
 
 ## contributors
