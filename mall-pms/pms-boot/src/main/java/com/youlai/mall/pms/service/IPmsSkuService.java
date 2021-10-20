@@ -18,7 +18,7 @@ public interface IPmsSkuService extends IService<PmsSku> {
     /**
      * 锁定库存
      */
-    Boolean lockStockTcc(List<LockStockDTO> list);
+   // Boolean lockStockTcc(List<LockStockDTO> list);
 
     /**
      * 解锁库存

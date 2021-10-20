@@ -15,8 +15,6 @@ import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.service.IPmsSkuService;
-import com.youlai.mall.pms.tcc.service.SeataTccSkuService;
-import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -34,17 +32,8 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
     private final StringRedisTemplate redisTemplate;
     private final RedissonClient redissonClient;
-    private final SeataTccSkuService seataTccSkuService;
 
-    @Override
-    @GlobalTransactional
-    public Boolean lockStockTcc(List<LockStockDTO> skuLockList) {
 
-        seataTccSkuService.prepareSkuLockList(null, skuLockList);
-        String orderToken = skuLockList.get(0).getOrderToken();
-        redisTemplate.opsForValue().set(PmsConstants.LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
-        return true;
-    }
 
     /**
      * 创建订单时锁定库存
@@ -188,5 +177,17 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     public SkuDTO getSkuById(Long id) {
         return this.baseMapper.getSkuById(id);
     }
+
+
+   /* private final SeataTccSkuService seataTccSkuService;
+
+    @Override
+    @GlobalTransactional
+    public Boolean lockStockTcc(List<LockStockDTO> skuLockList) {
+        seataTccSkuService.prepareSkuLockList(null, skuLockList);
+        String orderToken = skuLockList.get(0).getOrderToken();
+        redisTemplate.opsForValue().set(PmsConstants.LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
+        return true;
+    }*/
 
 }
