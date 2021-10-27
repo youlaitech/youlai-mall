@@ -84,6 +84,7 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
             throw new InvalidGrantException(var9.getMessage());
         }
 
+
         if (userAuth != null && userAuth.isAuthenticated()) {
             OAuth2Request storedOAuth2Request = this.getRequestFactory().createOAuth2Request(client, tokenRequest);
             return new OAuth2Authentication(storedOAuth2Request, userAuth);
