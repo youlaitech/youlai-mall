@@ -37,7 +37,7 @@ public class AuthExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidGrantException.class)
     public Result handleInvalidGrantException(InvalidGrantException e) {
-        return Result.failed(e.getMessage());
+        return Result.failed(ResultCode.USERNAME_OR_PASSWORD_ERROR);
     }
 
 
