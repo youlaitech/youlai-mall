@@ -19,7 +19,7 @@ public interface UmsUserMapper extends BaseMapper<UmsMember> {
     @Select("<script>" +
             " SELECT * from ums_member " +
             " <if test ='nickname !=null and nickname.trim() neq \"\" ' >" +
-            "       AND nickname like concat('%',#{user.nickname},'%')" +
+            "       WHERE nick_name like concat('%',#{nickname},'%')" +
             " </if>" +
             " ORDER BY gmt_modified DESC, gmt_create DESC" +
             "</script>")
