@@ -34,18 +34,18 @@ public class MemberController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "nickname", value = "会员昵称", paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "nickName", value = "会员昵称", paramType = "query", dataType = "String")
     })
     @GetMapping
     public Result<List<UmsMember>> list(
             Integer page,
             Integer limit,
-            String nickname
+            String nickName
     ) {
         LambdaQueryWrapper<UmsMember> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.ne(UmsMember::getDeleted, STATUS_YES);
-        queryWrapper.like(StrUtil.isNotBlank(nickname), UmsMember::getNickName, nickname);
-        IPage<UmsMember> result = iUmsMemberService.list(new Page<>(page, limit),nickname);
+        queryWrapper.like(StrUtil.isNotBlank(nickName), UmsMember::getNickName, nickName);
+        IPage<UmsMember> result = iUmsMemberService.list(new Page<>(page, limit),nickName);
         return Result.success(result.getRecords(), result.getTotal());
 
     }
