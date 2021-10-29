@@ -14,6 +14,7 @@ import com.youlai.admin.pojo.vo.SelectVO;
 import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.common.constant.GlobalConstants;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -120,6 +121,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @Cacheable cacheNames:缓存名称，不同缓存的数据是彼此隔离； key: 缓存Key。
      */
     @Override
+    @Cacheable(cacheNames = "system", key = "'routeList'")
     public List<RouteVO> listRoute() {
         List<SysMenu> menuList = this.baseMapper.listRoute();
         List<RouteVO> list = recursionRoute(SystemConstants.ROOT_MENU_ID, menuList);
