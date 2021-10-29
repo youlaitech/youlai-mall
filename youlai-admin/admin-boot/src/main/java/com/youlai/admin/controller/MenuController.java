@@ -89,9 +89,7 @@ public class MenuController {
     @ApiOperation(value = "修改菜单")
     @PutMapping(value = "/{id}")
     @CacheEvict(cacheNames = "system",key = "'routeList'")
-    public Result update(
-            @PathVariable Long id,
-            @RequestBody SysMenu menu) {
+    public Result update( @PathVariable Long id,@RequestBody SysMenu menu) {
         boolean result = menuService.updateById(menu);
         if(result){
             permissionService.refreshPermRolesRules();

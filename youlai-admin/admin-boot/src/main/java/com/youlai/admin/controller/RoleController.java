@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -166,6 +167,7 @@ public class RoleController {
             @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     })
     @PutMapping(value = "/{id}/menus")
+    @CacheEvict(cacheNames = "system",key = "'routeList'")
     public Result updateRoleMenu(
             @PathVariable("id") Long roleId,
             @RequestBody SysRole role) {
