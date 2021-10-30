@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysPermission;
+import com.youlai.admin.pojo.vo.PermissionVO;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
@@ -33,15 +34,9 @@ public class PermissionController {
     })
     @GetMapping("/page")
     public Result pageList( Integer page,Integer limit, String name,  Long menuId) {
-        IPage<SysPermission> result = iSysPermissionService.list(
-                new Page<>(page, limit),
-                new SysPermission()
-                        .setMenuId(menuId)
-                        .setName(name)
-        );
+        IPage<PermissionVO> result = iSysPermissionService.list(new Page<>(page, limit),name,menuId);
         return Result.success(result.getRecords(), result.getTotal());
     }
-
 
     @ApiOperation(value = "权限列表")
     @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Long")
@@ -61,7 +56,6 @@ public class PermissionController {
     }
 
     @ApiOperation(value = "新增权限")
-    @ApiImplicitParam(name = "permission", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysPermission")
     @PostMapping
     public Result add(@RequestBody SysPermission permission) {
         boolean result = iSysPermissionService.save(permission);
@@ -72,10 +66,6 @@ public class PermissionController {
     }
 
     @ApiOperation(value = "修改权限")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "权限id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "permission", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysPermission")
-    })
     @PutMapping(value = "/{id}")
     public Result update(
             @PathVariable Long id,

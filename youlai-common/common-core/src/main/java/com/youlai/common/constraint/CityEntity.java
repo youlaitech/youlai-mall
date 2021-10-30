@@ -1,4 +1,4 @@
-package com.youlai.common.constraints;
+package com.youlai.common.constraint;
 
 import lombok.Data;
 

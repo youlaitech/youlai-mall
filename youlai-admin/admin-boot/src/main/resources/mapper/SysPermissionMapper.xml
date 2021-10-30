@@ -48,20 +48,38 @@
         </foreach>
     </select>
 
-    <select id="list" resultType="com.youlai.admin.pojo.entity.SysPermission">
+    <select id="list" resultType="com.youlai.admin.pojo.vo.PermissionVO">
         SELECT
-        t1.*
+            t1.id,
+            t1.menu_id,
+            t1.NAME,
+            t1.btn_perm,
+            t3.NAME requestMethod,
+            t4.NAME serviceName,
+            t1.requestPath
         FROM
-        sys_permission t1
-        LEFT JOIN sys_menu t2 ON t1.menu_id = t2.id
-        WHERE 1=1
-        <if test='permission.name != null and permission.name.trim() neq ""'>
+            (
+                SELECT
+                    id,
+                    menu_id,
+                    NAME,
+                    btn_perm,
+                    SUBSTRING_INDEX( url_perm, ':', 1 ) requestMethod,
+                    SUBSTRING_INDEX( SUBSTR( SUBSTRING_INDEX( url_perm, ':',- 1 ), 2 ), '/', 1 ) serviceName,
+                    SUBSTR( SUBSTRING_INDEX( url_perm, ':', - 1 ),LENGTH(SUBSTRING_INDEX( SUBSTR( SUBSTRING_INDEX( url_perm, ':',- 1 ), 2 ), '/', 1 ))+ 2) requestPath
+                FROM
+                    sys_permission
+            ) t1
+            LEFT JOIN sys_menu t2 ON t1.menu_id = t2.id
+            LEFT JOIN sys_dict_item t3 ON t3.`value` = t1.requestMethod
+            LEFT JOIN sys_dict_item t4 ON t4.`value` = t1.serviceName
+        WHERE 1 =1
+        <if test='name != null and name.trim() neq ""'>
             and t1.name like concat('%',#{permission.name},'%')
         </if>
-        <if test='permission.menuId !=null '>
-            and t1.menu_id = #{permission.menuId}
+        <if test='menuId !=null '>
+            and t1.menu_id = #{menuId}
         </if>
-        ORDER BY t1.gmt_modified DESC,t1.gmt_create DESC
-
+        ORDER BY t1.id DESC
     </select>
 </mapper>

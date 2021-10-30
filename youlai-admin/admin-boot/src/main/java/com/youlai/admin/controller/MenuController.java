@@ -44,7 +44,6 @@ public class MenuController {
         return Result.success(menuList);
     }
 
-
     @ApiOperation(value = "菜单下拉（Select）层级列表")
     @GetMapping("/select")
     public Result getSelectList() {
@@ -79,10 +78,7 @@ public class MenuController {
     @PostMapping
     @CacheEvict(cacheNames = "system",key = "'routeList'")
     public Result add(@RequestBody SysMenu menu) {
-        boolean result = menuService.save(menu);
-        if(result){
-            permissionService.refreshPermRolesRules();
-        }
+        boolean result = menuService.saveMenu(menu);
         return Result.judge(result);
     }
 
@@ -90,10 +86,7 @@ public class MenuController {
     @PutMapping(value = "/{id}")
     @CacheEvict(cacheNames = "system",key = "'routeList'")
     public Result update( @PathVariable Long id,@RequestBody SysMenu menu) {
-        boolean result = menuService.updateById(menu);
-        if(result){
-            permissionService.refreshPermRolesRules();
-        }
+        boolean result = menuService.updateMenu(menu);
         return Result.judge(result);
     }
 

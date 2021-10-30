@@ -2,6 +2,7 @@ package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,7 +14,9 @@ import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.vo.SelectVO;
 import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysMenuService;
+import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +32,10 @@ import java.util.Optional;
  * @date 2020-11-06
  */
 @Service
+@RequiredArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
+
+    private final ISysPermissionService permissionService;
 
     /**
      * 菜单表格（Table）层级列表
@@ -129,7 +135,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
 
-
     /**
      * 递归生成菜单路由层级列表
      *
@@ -172,6 +177,54 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
         List<TreeSelectVO> menuSelectList = recursionTreeSelectList(SystemConstants.ROOT_MENU_ID, menuList);
         return menuSelectList;
+    }
+
+    /**
+     * 新增菜单
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean saveMenu(SysMenu menu) {
+        String component = menu.getComponent();
+        if ("Layout".equals(component)) {
+            menu.setPath("/" + IdUtil.simpleUUID());
+        } else {
+            menu.setPath(component.replaceAll("/", "_"));
+        }
+
+        boolean result = this.save(menu);
+        if (result == true) {
+            permissionService.refreshPermRolesRules();
+        }
+        return result;
+    }
+
+    /**
+     * 修改菜单
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean updateMenu(SysMenu menu) {
+        String component = menu.getComponent();
+
+        // 检测页面路径是否变化
+        SysMenu oldMenu = this.getById(menu.getId());
+        if (oldMenu.getComponent() != null && !oldMenu.getComponent().equals(component)) {
+            if ("Layout".equals(component)) {
+                menu.setPath("/" + IdUtil.simpleUUID());
+            } else {
+                menu.setPath(component.replaceAll("/", "_"));
+            }
+        }
+        boolean result = this.updateById(menu);
+        if (result == true) {
+            permissionService.refreshPermRolesRules();
+        }
+        return result;
     }
 
 
