@@ -14,7 +14,9 @@ public class SysPermission extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
+
     private String name;
+
     private Long menuId;
 
     private String urlPerm;

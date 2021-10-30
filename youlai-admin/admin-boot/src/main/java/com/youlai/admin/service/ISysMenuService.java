@@ -47,4 +47,21 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @return
      */
     List<TreeSelectVO> listTreeSelect();
+
+    /**
+     * 新增菜单
+     *
+     * @param menu
+     * @return
+     */
+    boolean saveMenu(SysMenu menu);
+
+
+    /**
+     * 修改菜单
+     *
+     * @param menu
+     * @return
+     */
+    boolean updateMenu(SysMenu menu);
 }

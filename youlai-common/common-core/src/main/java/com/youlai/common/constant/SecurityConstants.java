@@ -56,7 +56,7 @@ public interface SecurityConstants {
 
     String GRANT_TYPE_KEY = "grant_type";
 
-    String REFRESH_TOKEN = "refresh_token";
+    String REFRESH_TOKEN_KEY = "refresh_token";
 
     String APP_API_PATTERN = "/*/app-api/**";
 
@@ -93,7 +93,7 @@ public interface SecurityConstants {
     String ADMIN_CLIENT_ID = "mall-admin-web";
 
     /**
-     * 移动端（H5、Android、IOS）客户端ID
+     * 移动端（H5/Android/IOS）客户端ID
      */
     String APP_CLIENT_ID = "mall-app";
 

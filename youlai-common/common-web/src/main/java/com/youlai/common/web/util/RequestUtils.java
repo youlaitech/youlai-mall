@@ -69,7 +69,7 @@ public class RequestUtils {
     @SneakyThrows
     public static String getAuthenticationMethod() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String refreshToken = request.getParameter(SecurityConstants.REFRESH_TOKEN);
+        String refreshToken = request.getParameter(SecurityConstants.REFRESH_TOKEN_KEY);
 
         String payload = StrUtil.toString(JWSObject.parse(refreshToken).getPayload());
         JSONObject jsonObject = JSONUtil.parseObj(payload);
