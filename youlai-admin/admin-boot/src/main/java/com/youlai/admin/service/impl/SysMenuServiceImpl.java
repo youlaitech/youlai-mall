@@ -17,6 +17,7 @@ import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -227,7 +228,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return result;
     }
 
-
     /**
      * 递归生成菜单下拉(TreeSelect)层级列表
      *
@@ -251,4 +251,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return menuSelectList;
     }
 
+
+    /**
+     * 清理路由缓存
+     */
+    @Override
+    @CacheEvict(cacheNames = "system",key = "'routeList'")
+    public void cleanCache() {
+    }
 }
