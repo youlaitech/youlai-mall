@@ -5,11 +5,13 @@ import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.pms.api.StockFeignClient;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 
 /**
@@ -18,14 +20,12 @@ import java.io.IOException;
  */
 
 @Component
-@AllArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class OrderListener {
 
-    IOrderService orderService;
-    IOrderItemService orderItemService;
-    StockFeignClient stockFeignClient;
-    RabbitTemplate rabbitTemplate;
+    private final IOrderService orderService;
+    private final StockFeignClient stockFeignClient;
 
     /**
      * 订单超时未支付，关闭订单，释放库存
