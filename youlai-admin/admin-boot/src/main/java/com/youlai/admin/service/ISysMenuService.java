@@ -64,4 +64,9 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @return
      */
     boolean updateMenu(SysMenu menu);
+
+    /**
+     * 清理路由缓存
+     */
+    void cleanCache();
 }
