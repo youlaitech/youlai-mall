@@ -42,6 +42,7 @@ public class WechatTokenGranter extends AbstractTokenGranter {
         String encryptedData = parameters.get("encryptedData");
         String iv = parameters.get("iv");
 
+        // 过河拆桥，移除后续无用参数
         parameters.remove("code");
         parameters.remove("encryptedData");
         parameters.remove("iv");
