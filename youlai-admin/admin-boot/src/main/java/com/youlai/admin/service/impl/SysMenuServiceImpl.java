@@ -20,9 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -50,10 +49,41 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                         .like(StrUtil.isNotBlank(name), SysMenu::getName, name)
                         .orderByAsc(SysMenu::getSort)
         );
-        List<MenuVO> tableList = recursionTableList(SystemConstants.ROOT_MENU_ID, menuList);
-        return tableList;
+        return recursion(menuList);
     }
 
+    /**
+     * 递归生成菜单表格层级列表
+     *
+     * @param menuList 菜单列表
+     * @return 菜单列表
+     */
+    private static List<MenuVO> recursion(List<SysMenu> menuList) {
+        List<MenuVO> menuTableList = new ArrayList<>();
+        // 保存所有节点的 id
+        Set<Long> nodeIdSet = menuList.stream()
+                .map(SysMenu::getId)
+                .collect(Collectors.toSet());
+        for (SysMenu sysMenu : menuList) {
+            // 不在节点 id 集合中存在的 id 即为顶级节点 id, 递归生成列表
+            Long parentId = sysMenu.getParentId();
+            if (!nodeIdSet.contains(parentId)) {
+                menuTableList.addAll(recursionTableList(parentId, menuList));
+                nodeIdSet.add(parentId);
+            }
+        }
+        // 如果结果列表为空说明所有的节点都是独立分散的, 直接转换后返回
+        if (menuTableList.isEmpty()) {
+            return menuList.stream()
+                    .map(item -> {
+                        MenuVO menuVO = new MenuVO();
+                        BeanUtil.copyProperties(item, menuVO);
+                        return menuVO;
+                    })
+                    .collect(Collectors.toList());
+        }
+        return menuTableList;
+    }
 
     /**
      * 递归生成菜单表格层级列表
