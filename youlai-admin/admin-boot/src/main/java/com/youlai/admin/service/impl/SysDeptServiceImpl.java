@@ -2,6 +2,7 @@ package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.constant.SystemConstants;
@@ -13,12 +14,9 @@ import com.youlai.admin.service.ISysDeptService;
 import com.youlai.common.constant.GlobalConstants;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 /**
  * 部门业务类
@@ -38,9 +36,44 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      */
     @Override
     public List<DeptVO> listTable(Integer status, String name) {
-        List<SysDept> deptList = this.list(new LambdaQueryWrapper<SysDept>()
-                .orderByAsc(SysDept::getSort));
-        List<DeptVO> deptTableList = recursionTableList(SystemConstants.ROOT_DEPT_ID, deptList);
+        List<SysDept> deptList = this.list(
+                new LambdaQueryWrapper<SysDept>()
+                        .like(StrUtil.isNotBlank(name), SysDept::getName, name)
+                        .orderByAsc(SysDept::getSort)
+        );
+        return recursion(deptList);
+    }
+
+    /**
+     * 递归生成部门表格层级列表
+     *
+     * @param deptList 部门列表
+     * @return 部门列表
+     */
+    private static List<DeptVO> recursion(List<SysDept> deptList) {
+        List<DeptVO> deptTableList = new ArrayList<>();
+        // 保存所有节点的 id
+        Set<Long> nodeIdSet = deptList.stream()
+                .map(SysDept::getId)
+                .collect(Collectors.toSet());
+        for (SysDept sysDept : deptList) {
+            // 不在节点 id 集合中存在的 id 即为顶级节点 id, 递归生成列表
+            Long parentId = sysDept.getParentId();
+            if (!nodeIdSet.contains(parentId)) {
+                deptTableList.addAll(recursionTableList(parentId, deptList));
+                nodeIdSet.add(parentId);
+            }
+        }
+        // 如果结果列表为空说明所有的节点都是独立分散的, 直接转换后返回
+        if (deptTableList.isEmpty()) {
+            return deptList.stream()
+                    .map(item -> {
+                        DeptVO deptVO = new DeptVO();
+                        BeanUtil.copyProperties(item, deptVO);
+                        return deptVO;
+                    })
+                    .collect(Collectors.toList());
+        }
         return deptTableList;
     }
 
