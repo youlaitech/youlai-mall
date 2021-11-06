@@ -85,7 +85,7 @@ public interface SecurityConstants {
     /**
      * 接口文档 Knife4j 测试客户端ID
      */
-    String TEST_CLIENT_ID = "test";
+    String TEST_CLIENT_ID = "client";
 
     /**
      * 系统管理 web 客户端ID
