@@ -66,7 +66,7 @@ public class AuthController {
         /**
          * knife4j接口文档测试使用
          *
-         * 请求头自动填充，token必须原生返回，否则显示 undefined undefined
+         * 请求头自动填充，token必须原生返回，不能有任何包装，否则显示 undefined undefined
          * 账号/密码:  client_id/client_secret : client/123456
          */
         if (SecurityConstants.TEST_CLIENT_ID.equals(clientId)) {
