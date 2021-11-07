@@ -10,11 +10,16 @@ gen
 target
 *.log
 
+### Nacos
 !**/nacos/target
 **/nacos/bin/work
 **/nacos/data
 logs
 **/nacos/LICENSE
 **/nacos/NOTICE
+
+
+### Canal
+h2.mv.db
 meat.dat
 
