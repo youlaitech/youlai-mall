@@ -228,10 +228,9 @@ youlai-mall
 
 
 ## 联系信息
-因为微信交流群满200人只能通过邀请进入，如想进入交流群学习可先添加开发人员，备注“**有来**“由其拉进群。
+微信学习交流群如果二维码过期，可先添加开发人员，备注“有来“由其拉进群。
 
 
-
-| ![](https://gitee.com/haoxr/image/raw/master/default/113__6c5ed5b1b73ea9cd4cf32848ed350c07_b9b214638a2a406e52dbf51e9bf9a2ef.png) | ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)        | ![](https://gitee.com/haoxr/image/raw/master/huawei.jpg)     | ![](https://gitee.com/haoxr/image/raw/master/default/1625149769(1).png) |
+| ![](https://gitee.com/haoxr/image/raw/master/default/113__6c5ed5b1b73ea9cd4cf32848ed350c07_b9b214638a2a406e52dbf51e9bf9a2ef.png) | ![](https://gitee.com/haoxr/image/raw/master/default/%E4%BA%A4%E6%B5%81%E7%BE%A4.png)  |![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)      | ![](https://gitee.com/haoxr/image/raw/master/huawei.jpg)     | 
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![](https://gitee.com/haoxr/image/raw/master/default/7488479b1e2c193b04b56d1e0ff640c.jpg) | ![image-20210701232803265](https://gitee.com/haoxr/image/raw/master/default/image-20210701232803265.png) | ![](https://gitee.com/haoxr/image/raw/master/default/20210701234946.png) | ![](https://gitee.com/haoxr/image/raw/master/default/image-20210702002909113.png) |
+|![](https://gitee.com/haoxr/image/raw/master/default/1625149769(1).png) | ![](https://gitee.com/haoxr/image/raw/master/default/7488479b1e2c193b04b56d1e0ff640c.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/20210701234946.png) | ![](https://gitee.com/haoxr/image/raw/master/default/image-20210702002909113.png) |
