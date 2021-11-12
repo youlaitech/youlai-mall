@@ -46,7 +46,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
             redisTemplate.delete(codeKey);
         }
         UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByMobile(mobile);
-        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(userDetails, new HashSet<>());
+        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(userDetails, authentication.getCredentials(), new HashSet<>());
         result.setDetails(authentication.getDetails());
         return result;
     }
