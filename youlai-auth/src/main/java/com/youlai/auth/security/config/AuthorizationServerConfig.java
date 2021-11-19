@@ -26,6 +26,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -167,24 +168,27 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            Map<String, Object> additionalInfo = CollectionUtil.newHashMap();
-            Object principal = authentication.getUserAuthentication().getPrincipal();
-            if (principal instanceof SysUserDetails) {
-                SysUserDetails sysUserDetails = (SysUserDetails) principal;
-                additionalInfo.put("userId", sysUserDetails.getUserId());
-                additionalInfo.put("username", sysUserDetails.getUsername());
-                if (StrUtil.isNotBlank(sysUserDetails.getAuthenticationMethod())) {
-                    additionalInfo.put("authenticationMethod", sysUserDetails.getAuthenticationMethod());
+            Authentication userAuthentication = authentication.getUserAuthentication();
+            if (userAuthentication != null) {
+                Map<String, Object> additionalInfo = CollectionUtil.newHashMap();
+                Object principal = userAuthentication.getPrincipal();
+                if (principal instanceof SysUserDetails) {
+                    SysUserDetails sysUserDetails = (SysUserDetails) principal;
+                    additionalInfo.put("userId", sysUserDetails.getUserId());
+                    additionalInfo.put("username", sysUserDetails.getUsername());
+                    if (StrUtil.isNotBlank(sysUserDetails.getAuthenticationMethod())) {
+                        additionalInfo.put("authenticationMethod", sysUserDetails.getAuthenticationMethod());
+                    }
+                } else if (principal instanceof MemberUserDetails) {
+                    MemberUserDetails memberUserDetails = (MemberUserDetails) principal;
+                    additionalInfo.put("userId", memberUserDetails.getUserId());
+                    additionalInfo.put("username", memberUserDetails.getUsername());
+                    if (StrUtil.isNotBlank(memberUserDetails.getAuthenticationMethod())) {
+                        additionalInfo.put("authenticationMethod", memberUserDetails.getAuthenticationMethod());
+                    }
                 }
-            } else if (principal instanceof MemberUserDetails) {
-                MemberUserDetails memberUserDetails = (MemberUserDetails) principal;
-                additionalInfo.put("userId", memberUserDetails.getUserId());
-                additionalInfo.put("username", memberUserDetails.getUsername());
-                if (StrUtil.isNotBlank(memberUserDetails.getAuthenticationMethod())) {
-                    additionalInfo.put("authenticationMethod", memberUserDetails.getAuthenticationMethod());
-                }
+                ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             }
-            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         };
     }
