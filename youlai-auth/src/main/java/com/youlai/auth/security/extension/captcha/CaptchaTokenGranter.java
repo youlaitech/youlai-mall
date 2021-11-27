@@ -50,7 +50,7 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
 
         // 验证码校验逻辑
-        String validateCode = parameters.get("validateCode");
+        String validateCode = parameters.get("code");
         String uuid = parameters.get("uuid");
 
         Assert.isTrue(StrUtil.isNotBlank(validateCode), "验证码不能为空");
