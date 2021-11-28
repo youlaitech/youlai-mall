@@ -1,4 +1,4 @@
-package com.youlai.admin.listener;
+package com.youlai.admin.component.listener;
 
 import cn.hutool.json.JSONUtil;
 import com.youlai.admin.service.ISysMenuService;

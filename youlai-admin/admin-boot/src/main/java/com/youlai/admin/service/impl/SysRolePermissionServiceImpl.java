@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysRolePermissionMapper;
-import com.youlai.admin.pojo.dto.RolePermissionDTO;
+import com.youlai.admin.dto.RolePermissionDTO;
 import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.service.ISysRolePermissionService;
 import org.springframework.stereotype.Service;

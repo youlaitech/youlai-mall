@@ -2,7 +2,7 @@ package com.youlai.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.pojo.dto.UserAuthDTO;
+import com.youlai.admin.dto.UserAuthDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 

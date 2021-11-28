@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.pojo.dto.RolePermissionDTO;
+import com.youlai.admin.dto.RolePermissionDTO;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysRoleMenuService;

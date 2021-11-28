@@ -62,7 +62,7 @@
 | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005349.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005356.jpg) | ![](https://gitee.com/haoxr/image/raw/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210621005344.jpg) |
 
 
-### 项目架构流程图
+### 项目架构图
 
 ![](https://gitee.com/haoxr/image/raw/master/default/OAuth2.jpg)
 
@@ -76,14 +76,15 @@
 
 | 项目名称   | 源码地址                                                        |项目名称   | 源码地址                                                   |
 | ---------- | ------------------------------------------------------------ |---------- | ------------------------------------------------------------ |
-| 微服务后台 | [youlai-mall](https://gitee.com/youlaitech/youlai-mall)      | 微信小程序 | [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) |
+| 微服务接口 | [youlai-mall](https://gitee.com/youlaitech/youlai-mall)      | 微信小程序 | [youlai-mall-weapp](https://gitee.com/youlaitech/youlai-mall-weapp) |
 | 管理前端   | [youlai-mall-admin](https://gitee.com/youlaitech/youlai-mall-admin) |APP应用    | [youlai-mall-app](https://gitee.com/youlaitech/youlai-mall-app) |
 
 ### 项目结构 
 
 ``` lua
 youlai-mall
-├── docs
+├── doc
+    ├── diagram -- 框架图解
     ├── nacos -- Nacos配置文件
     ├── sql   -- mysql数据库脚本
 ├── mall-oms
@@ -104,7 +105,8 @@ youlai-mall
     ├── admin-boot -- 系统管理服务
 ├── youlai-auth     -- 认证中心【OAuth2认证服务器】
 ├── youlai-common   -- 公共模块
-└── youlai-gateway  -- Gateway网关【OAuth2资源服务器】
+├── youlai-gateway  -- Gateway网关【OAuth2资源服务器】
+└── youlai-loboratory  -- 实验室
 ```
 
 ## 项目启动
@@ -131,7 +133,7 @@ youlai-mall
      
    - 导入配置
      
-     浏览器输入 http://localhost:8848/nacos ,输入用户名/密码:nacos/nacos 进入控制台，在 配置管理→配置列表 页面选择项目里的文件`docs/nacos/DEFAULT_GROUP.zip`导入。
+     浏览器输入 http://localhost:8848/nacos ,输入用户名/密码:nacos/nacos 进入控制台，在 配置管理→配置列表 页面选择项目里的文件`doc/nacos/DEFAULT_GROUP.zip`导入。
 
      ![](https://gitee.com/haoxr/image/raw/master/20210623012937.png)
     
@@ -145,28 +147,35 @@ youlai-mall
 #### 二. 本地环境启动
 1. **安装环境**
 
-   安装`MySQL`、`Redis`中间件，MySQL的版本5.x和8.x都可以
+   安装`MySQL`、`Redis`中间件，MySQL的版本5.x和8.x皆可。
 
-2. **创建数据库**
-    - 新建平台数据库，进入项目`docs/sql`，根据MySQL版本选择，先执行`database.sql`创建数据库，再执行`youlai.sql`、`mall_*.sql`完成表的创建和数据的导入。
+
+2. **数据库创建**
+    - 新建平台数据库，进入`doc/sql`目录，根据MySQL版本选择，先执行`database.sql`创建数据库，再执行`youlai.sql`、`mall_*.sql`完成表的创建和数据的导入。
     - 创建`Nacos`数据库，执行脚本`middleware/nacos/conf/nacos-mysql.sql`完成`Nacos`数据库的初始化。
 
-3. **Nacos 启动和配置**
+3. **Nacos 配置和启动**
 
-    - 修改`Nacos`数据源，进入配置`middleware/nacos/conf/application.properties`将数据源修改为您自己的环境；
-   
-    - 启动`Nacos`,  IDEA下方工具栏点击Terminal终端命令行，执行`cd middleware/nacos/bin`命令切换到`Nacos`的启动脚本文件夹下，然后执行`startup -m standalone`命令启动`Nacos`服务；
+    - 修改`Nacos`数据源： 进入`middleware/nacos/conf/application.properties`将数据源修改为您自己的环境；
+      ![image-20211128094228864](https://gitee.com/haoxr/image/raw/master/default/image-20211128094228864.png)
+    - 启动`Nacos`： IDEA下方工具栏点击Terminal终端命令行，执行`cd middleware/nacos/bin`命令切换到`Nacos`的启动脚本文件夹下，然后执行`startup -m standalone`命令启动`Nacos`服务；
 
-    -  浏览器输入 http://localhost:8848/nacos ,输入用户名/密码:nacos/nacos 进入控制台，在 配置管理→配置列表 页面选择项目里的文件`docs/nacos/DEFAULT_GROUP.zip`导入。
+    - 导入配置： 浏览器输入 http://localhost:8848/nacos ,输入用户名/密码:nacos/nacos 进入控制台，在 配置管理→配置列表 页面选择项目里的文件`docs/nacos/DEFAULT_GROUP.zip`导入。
 
        ![](https://gitee.com/haoxr/image/raw/master/20210623012937.png)
 
-    - 导入`Nacos`配置，在启动`Nacos`服务进入控制台导入`docs/nacos/DEFAULT_GROUP.zip`配置，进入共享配置`youlai-common.yaml`修改MySQL、Redis、RabbitMQ等中间件的信息，默认是`有来技术团队`云服务器环境。
+    - 修改配置： 进入共享配置`youlai-common.yaml`修改MySQL、Redis、RabbitMQ等中间件的信息，默认是`有来技术团队`云服务器环境。
       ![](https://gitee.com/haoxr/image/raw/master/default/20210829124804.png)
   
 
-4. `Nacos`启动完成和MySQL、Redis连接信息修改完成后，分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
-   启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-boot`的AdminApplication类，至此完成整个项目基础服务的启动；
+4. **微服务启动**
+
+    分别启动`youlai-gateway`、`youlai-auth`、 `youlai-admin`模块，
+   启动类分别对应的是GatewayApplication、AuthApplication以及`youlai-admin`的子模块`admin-boot`的AdminApplication类，至此完成整个项目基础服务的启动。
+
+5. **启动验证**
+   
+    访问接口文档： http://localhost:9999/doc.html
 
 ### 管理前端启动
 
