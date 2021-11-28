@@ -21,7 +21,10 @@ public class RouteVO {
 
     private String redirect;
 
-    private boolean alwaysShow;
+    /**
+     * 如果设置为 true
+     */
+    private Boolean alwaysShow;
 
     private String name;
 

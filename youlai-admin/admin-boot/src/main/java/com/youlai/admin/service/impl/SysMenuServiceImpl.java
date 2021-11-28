@@ -8,11 +8,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.vo.MenuVO;
-import com.youlai.admin.pojo.vo.RouteVO;
+import com.youlai.admin.pojo.vo.*;
 import com.youlai.admin.mapper.SysMenuMapper;
-import com.youlai.admin.pojo.vo.SelectVO;
-import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
@@ -179,7 +176,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .forEach(menu -> {
                     RouteVO routeVO = new RouteVO();
                     routeVO.setName(menu.getId() + ""); // 根据name路由跳转 this.$router.push({path:xxx})
-                    routeVO.setPath(menu.getPath()); // 根据path路由跳转 this.$router.push({name:xxx})
+                    routeVO.setPath(menu.getPath());    // 根据path路由跳转 this.$router.push({name:xxx})
                     routeVO.setRedirect(menu.getRedirect());
                     routeVO.setComponent(menu.getComponent());
                     routeVO.setRedirect(menu.getRedirect());
@@ -190,7 +187,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     List<RouteVO> children = recursionRoute(menu.getId(), menuList);
                     routeVO.setChildren(children);
                     if (CollectionUtil.isNotEmpty(children)) {
-                        routeVO.setAlwaysShow(Boolean.TRUE); // 显示子节点
+                        routeVO.setAlwaysShow(Boolean.TRUE);
                     }
                     list.add(routeVO);
                 }));
@@ -286,7 +283,56 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 清理路由缓存
      */
     @Override
-    @CacheEvict(cacheNames = "system",key = "'routeList'")
+    @CacheEvict(cacheNames = "system", key = "'routeList'")
     public void cleanCache() {
+    }
+
+    /**
+     * 获取路由列表(适配Vue3的vue-next-router)
+     *
+     * @return
+     */
+    @Override
+    @Cacheable(cacheNames = "system", key = "'nextRouteList'")
+    public List<NextRouteVO> listNextRoutes() {
+        List<SysMenu> menuList = this.baseMapper.listRoute();
+        List<NextRouteVO> list = recursionNextRoute(SystemConstants.ROOT_MENU_ID, menuList);
+        return list;
+    }
+
+
+    /**
+     * 递归生成菜单路由层级列表
+     *
+     * @param parentId 父级ID
+     * @param menuList 菜单列表
+     * @return
+     */
+    private List<NextRouteVO> recursionNextRoute(Long parentId, List<SysMenu> menuList) {
+        List<NextRouteVO> list = new ArrayList<>();
+        Optional.ofNullable(menuList).ifPresent(menus -> menus.stream().filter(menu -> menu.getParentId().equals(parentId))
+                .forEach(menu -> {
+                    NextRouteVO nextRouteVO = new NextRouteVO();
+                    nextRouteVO.setName(menu.getId() + ""); // 根据name路由跳转 this.$router.push({path:xxx})
+                    nextRouteVO.setPath(menu.getPath()); // 根据path路由跳转 this.$router.push({name:xxx})
+                    nextRouteVO.setRedirect(menu.getRedirect());
+                    nextRouteVO.setComponent(menu.getComponent());
+                    nextRouteVO.setRedirect(menu.getRedirect());
+
+                    NextRouteVO.Meta meta = new NextRouteVO.Meta();
+                    meta.setTitle(menu.getName());
+                    meta.setIcon(menu.getIcon());
+                    meta.setRoles(menu.getRoles());
+                    meta.setHidden(!GlobalConstants.STATUS_YES.equals(menu.getVisible()));
+
+                    nextRouteVO.setMeta(meta);
+                    List<NextRouteVO> children = recursionNextRoute(menu.getId(), menuList);
+                    nextRouteVO.setChildren(children);
+                    if (CollectionUtil.isNotEmpty(children)) {
+                        meta.setAlwaysShow(Boolean.TRUE);
+                    }
+                    list.add(nextRouteVO);
+                }));
+        return list;
     }
 }
