@@ -1,7 +1,6 @@
 package com.youlai.admin.api.fallback;
 
 import com.youlai.admin.api.UserFeignClient;
-import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;

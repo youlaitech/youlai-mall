@@ -1,4 +1,4 @@
-package com.youlai.admin.pojo.dto;
+package com.youlai.admin.dto;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package com.youlai.auth.security.core.userdetails.user;
 
 import com.youlai.admin.api.UserFeignClient;
-import com.youlai.admin.pojo.dto.UserAuthDTO;
+import com.youlai.admin.dto.UserAuthDTO;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;

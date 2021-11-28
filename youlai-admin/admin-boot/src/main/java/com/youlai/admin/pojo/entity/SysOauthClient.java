@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 客户端信息
+ * 客户端实体
  */
 @Data
 public class SysOauthClient {

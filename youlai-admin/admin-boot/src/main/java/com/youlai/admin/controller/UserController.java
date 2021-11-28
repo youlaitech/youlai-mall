@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.pojo.dto.UserAuthDTO;
+import com.youlai.admin.dto.UserAuthDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.vo.UserVO;
