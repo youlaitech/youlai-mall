@@ -157,7 +157,7 @@ youlai-mall
 3. **Nacos 配置和启动**
 
     - 修改`Nacos`数据源： 进入`middleware/nacos/conf/application.properties`将数据源修改为您自己的环境；
-      ![image-20211128094228864](https://gitee.com/haoxr/image/raw/master/default/image-20211128094228864.png)
+      ![image-20211129002113092](https://gitee.com/haoxr/image/raw/master/default/image-20211129002113092.png)
     - 启动`Nacos`： IDEA下方工具栏点击Terminal终端命令行，执行`cd middleware/nacos/bin`命令切换到`Nacos`的启动脚本文件夹下，然后执行`startup -m standalone`命令启动`Nacos`服务；
 
     - 导入配置： 浏览器输入 http://localhost:8848/nacos ,输入用户名/密码:nacos/nacos 进入控制台，在 配置管理→配置列表 页面选择项目里的文件`docs/nacos/DEFAULT_GROUP.zip`导入。
