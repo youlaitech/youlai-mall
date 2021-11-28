@@ -86,7 +86,7 @@ public class OauthClientController {
     @GetMapping("/getOAuth2ClientById")
     public Result<OAuth2ClientDTO> getOAuth2ClientById(@RequestParam String clientId) {
         SysOauthClient client = iSysOauthClientService.getById(clientId);
-        Assert.isNull(client, "OAuth2 客户端不存在");
+        Assert.isTrue(client!=null, "OAuth2 客户端不存在");
         OAuth2ClientDTO oAuth2ClientDTO = new OAuth2ClientDTO();
         BeanUtil.copyProperties(client, oAuth2ClientDTO);
         return Result.success(oAuth2ClientDTO);

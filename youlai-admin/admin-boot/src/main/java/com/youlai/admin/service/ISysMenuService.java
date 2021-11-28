@@ -3,10 +3,7 @@ package com.youlai.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.vo.MenuVO;
-import com.youlai.admin.pojo.vo.RouteVO;
-import com.youlai.admin.pojo.vo.SelectVO;
-import com.youlai.admin.pojo.vo.TreeSelectVO;
+import com.youlai.admin.pojo.vo.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public interface ISysMenuService extends IService<SysMenu> {
 
 
     /**
-     * 菜单表格（Table）层级列表
+     * 菜单表格(Table)层级列表
      *
      * @param name 菜单名称
      * @return
@@ -27,7 +24,7 @@ public interface ISysMenuService extends IService<SysMenu> {
 
 
     /**
-     * 菜单下拉（Select）层级列表
+     * 菜单下拉(Select)层级列表
      *
      * @return
      */
@@ -35,7 +32,7 @@ public interface ISysMenuService extends IService<SysMenu> {
 
 
     /**
-     * 菜单路由（Route）层级列表
+     * 菜单路由(Route)层级列表
      *
      * @return
      */
@@ -69,4 +66,11 @@ public interface ISysMenuService extends IService<SysMenu> {
      * 清理路由缓存
      */
     void cleanCache();
+
+    /**
+     * 获取路由列表(适配Vue3的vue-next-router)
+     *
+     * @return
+     */
+    List<NextRouteVO> listNextRoutes();
 }
