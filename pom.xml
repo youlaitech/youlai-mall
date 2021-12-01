@@ -50,6 +50,7 @@
         <commons-pool2.version>2.9.0</commons-pool2.version>
         <knife4j.version>2.0.9</knife4j.version>
         <redisson.version>3.15.1</redisson.version>
+        <netty-resolver-dns-native-macos.version>4.1.68.Final</netty-resolver-dns-native-macos.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
         <elasticsearch.version>7.10.1</elasticsearch.version>
         <ip2region.version>1.7.2</ip2region.version>
@@ -204,6 +205,14 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+
+            <!--解决启动保 macos m1 netty redisson 报错-->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver-dns-native-macos</artifactId>
+                <version>${netty-resolver-dns-native-macos.version}</version>
+                <classifier>osx-aarch_64</classifier>
             </dependency>
 
             <!-- IP转地区工具 -->
