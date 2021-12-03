@@ -1,5 +1,5 @@
 - 实验室
     - RabbitMQ
-        - [Part1：RabbitMQ基础概念](rabbitmq/part1.md)
+        - [Part1：RabbitMQ基础概念](labbitmq/rabbitmq/part1.md)
     - Seata
-        - [Part1：分布式事务基础概念](seata/part1.md)
+        - [Part1：分布式事务基础概念](labbitmq/seata/part1.md)
