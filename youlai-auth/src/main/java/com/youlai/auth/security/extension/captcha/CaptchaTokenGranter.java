@@ -69,7 +69,7 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
 
         // 移除后续无用参数
         parameters.remove("password");
-        parameters.remove("validateCode");
+        parameters.remove("code");
         parameters.remove("uuid");
 
         // 和密码模式一样的逻辑
