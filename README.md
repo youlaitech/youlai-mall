@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/Author-有来技术-orange.svg)](https://gitee.com/wangjiabin-x/uh5)
+[![](https://img.shields.io/badge/Author-有来开源组织-orange.svg)](https://gitee.com/youlaiorg)
 ![](https://img.shields.io/badge/youlai--mall-v2.0.0-blue)
 [![](https://img.shields.io/github/stars/hxrui/youlai-mall.svg?style=social&label=Stars)](https://github.com/hxrui/youlai-mall/stargazers)
 [![](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/hxrui/youlai-mall/blob/master/LICENSE)
