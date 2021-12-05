@@ -17,7 +17,7 @@
     * **前端**
     * [Vue3 官方文档](https://v3.cn.vuejs.org/guide/introduction.html)
     * [vite2 官方文档](https://cn.vitejs.dev/guide/)
-    * [element-plus 官方文档](https://cn.vitejs.dev/guide/)
+    * [element-plus 官方文档](https://element-plus.gitee.io/zh-CN/)
   
 * 联系信息
   
