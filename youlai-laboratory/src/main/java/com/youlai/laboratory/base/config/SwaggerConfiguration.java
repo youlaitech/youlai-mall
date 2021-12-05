@@ -3,7 +3,6 @@ package com.youlai.laboratory.base.config;
 import lombok.extern.slf4j.Slf4j;
 
 import com.google.common.collect.Lists;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -23,7 +22,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:2256222053@qq.com">zc</a>
- * @date 2021/11/28 0028 11:19
+ * @data 2021/11/28 0028 11:19
  */
 @Configuration
 @EnableSwagger2WebMvc
@@ -56,7 +55,7 @@ public class SwaggerConfiguration {
         List<SecurityContext> securityContexts=Lists.newArrayList(securityContext);
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.youlai.laboratory.**"))
+                .apis(RequestHandlerSelectors.basePackage("com.youlai.laboratory.**.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .securityContexts(securityContexts)
