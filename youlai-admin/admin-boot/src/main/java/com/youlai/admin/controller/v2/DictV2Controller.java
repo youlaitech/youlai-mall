@@ -1,0 +1,81 @@
+package com.youlai.admin.controller.v2;
+
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.admin.pojo.entity.SysDict;
+import com.youlai.admin.pojo.entity.SysDictItem;
+import com.youlai.admin.service.ISysDictItemService;
+import com.youlai.admin.service.ISysDictService;
+import com.youlai.common.result.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Api(tags = "字典接口")
+@RestController
+@RequestMapping("/api/v2/dict")
+@RequiredArgsConstructor
+public class DictV2Controller {
+
+    private final ISysDictService iSysDictService;
+    private final ISysDictItemService iSysDictItemService;
+
+
+    @ApiOperation(value = "字典分页列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
+    })
+    @GetMapping("/page")
+    public Result listDictByPage(long pageNum, long pageSize, String name) {
+        Page<SysDict> result = iSysDictService.page(new Page<>(pageNum, pageSize),
+                new LambdaQueryWrapper<SysDict>()
+                        .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
+                        .orderByDesc(SysDict::getGmtModified)
+                        .orderByDesc(SysDict::getGmtCreate));
+        return Result.success(result.getRecords(), result.getTotal());
+    }
+
+    @ApiOperation(value = "新增字典")
+    @PostMapping
+    public Result addDict(@RequestBody SysDict dict) {
+        boolean status = iSysDictService.save(dict);
+        return Result.judge(status);
+    }
+
+    @ApiOperation(value = "修改字典")
+    @PutMapping("/{id}")
+    public Result updateDict(@PathVariable Long id, @RequestBody SysDict dict) {
+        boolean status = iSysDictService.updateDictById(id, dict);
+        return Result.judge(status);
+    }
+
+    @ApiOperation(value = "删除字典")
+    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
+    @DeleteMapping("/{ids}")
+    public Result delete(@PathVariable String ids) {
+        boolean result = iSysDictService.deleteDictByIds(ids);
+        return Result.judge(result);
+    }
+
+
+    @ApiOperation(value = "根据字典编码获取字典项列表")
+    @GetMapping("/items")
+    public Result list(String dictCode) {
+        List<SysDictItem> list = iSysDictItemService.list(
+                new LambdaQueryWrapper<SysDictItem>()
+                        .eq(StrUtil.isNotBlank(dictCode), SysDictItem::getDictCode, dictCode)
+                        .select(SysDictItem::getName, SysDictItem::getValue)
+                        .orderByAsc(SysDictItem::getSort)
+        );
+        return Result.success(list);
+    }
+
+}
