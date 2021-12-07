@@ -2,6 +2,7 @@ package com.youlai.admin.controller.v2;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysDict;
 import com.youlai.admin.pojo.entity.SysDictItem;
@@ -26,7 +27,6 @@ public class DictV2Controller {
     private final ISysDictService iSysDictService;
     private final ISysDictItemService iSysDictItemService;
 
-
     @ApiOperation(value = "字典分页列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", paramType = "query", dataType = "Long"),
@@ -41,6 +41,13 @@ public class DictV2Controller {
                         .orderByDesc(SysDict::getGmtModified)
                         .orderByDesc(SysDict::getGmtCreate));
         return Result.success(result.getRecords(), result.getTotal());
+    }
+
+    @ApiOperation(value = "字典详情")
+    @GetMapping("/{id}")
+    public Result getDictDetail(@PathVariable Long id) {
+        SysDict dict = iSysDictService.getById(id);
+        return Result.success(dict);
     }
 
     @ApiOperation(value = "新增字典")
@@ -60,11 +67,26 @@ public class DictV2Controller {
     @ApiOperation(value = "删除字典")
     @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable String ids) {
+    public Result deleteDict(@PathVariable String ids) {
         boolean result = iSysDictService.deleteDictByIds(ids);
         return Result.judge(result);
     }
 
+
+
+    @ApiOperation(value = "字典项分页列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "pageSize", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "dictCode", value = "字典编码", paramType = "query", dataType = "String")
+    })
+    @GetMapping("/items/page")
+    public Result getPageList(long pageNum, long pageSize, String name, String dictCode) {
+        IPage<SysDictItem> result = iSysDictItemService.list(new Page<>(pageNum, pageSize),
+                new SysDictItem().setName(name).setDictCode(dictCode));
+        return Result.success(result.getRecords(), result.getTotal());
+    }
 
     @ApiOperation(value = "根据字典编码获取字典项列表")
     @GetMapping("/items")
@@ -78,4 +100,33 @@ public class DictV2Controller {
         return Result.success(list);
     }
 
+    @ApiOperation(value = "字典项详情")
+    @GetMapping("/items/{id}")
+    public Result getDictItemDetail(@PathVariable Long id) {
+        SysDictItem dictItem = iSysDictItemService.getById(id);
+        return Result.success(dictItem);
+    }
+
+    @ApiOperation(value = "新增字典项")
+    @PostMapping("/items")
+    public Result add(@RequestBody SysDictItem dictItem) {
+        boolean status = iSysDictItemService.save(dictItem);
+        return Result.judge(status);
+    }
+
+    @ApiOperation(value = "修改字典项")
+    @PutMapping(value = "/items/{id}")
+    public Result update(@PathVariable Long id, @RequestBody SysDictItem dictItem) {
+        boolean status = iSysDictItemService.updateById(dictItem);
+        return Result.judge(status);
+    }
+
+
+    @ApiOperation(value = "删除字典项")
+    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
+    @DeleteMapping("/items/{ids}")
+    public Result deleteDictItem(@PathVariable String ids) {
+        boolean result = iSysDictItemService.removeByIds(StrUtil.split(ids, ','));
+        return Result.judge(result);
+    }
 }
