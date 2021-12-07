@@ -67,12 +67,12 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
                 .in(SysDict::getId, idList));
         if (CollectionUtil.isNotEmpty(dictList)) {
             List<String> dictCodes = dictList.stream().map(item -> item.getCode()).collect(Collectors.toList());
-            int count = iSysDictItemService.count(
-                    new LambdaQueryWrapper<SysDictItem>()
-                            .in(SysDictItem::getDictCode, dictCodes)
+            // 批量删除字典项
+            iSysDictItemService.remove(new LambdaQueryWrapper<SysDictItem>()
+                    .in(SysDictItem::getDictCode, dictCodes)
             );
-            Assert.isTrue(count == 0, "删除字典失败，请先删除关联字典数据");
         }
+        // 批量删除字典
         boolean result = this.removeByIds(idList);
         return result;
     }
