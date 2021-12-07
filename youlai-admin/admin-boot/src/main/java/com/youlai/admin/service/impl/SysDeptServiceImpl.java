@@ -2,6 +2,7 @@ package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -39,6 +40,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         List<SysDept> deptList = this.list(
                 new LambdaQueryWrapper<SysDept>()
                         .like(StrUtil.isNotBlank(name), SysDept::getName, name)
+                        .eq(Validator.isNotNull(status), SysDept::getStatus,status)
                         .orderByAsc(SysDept::getSort)
         );
         return recursion(deptList);
