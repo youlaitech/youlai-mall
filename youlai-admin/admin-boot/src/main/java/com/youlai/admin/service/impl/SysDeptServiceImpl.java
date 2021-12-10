@@ -9,10 +9,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.pojo.entity.SysDept;
+import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.vo.DeptVO;
 import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysDeptService;
+import com.youlai.admin.service.ISysRolePermissionService;
+import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.web.util.JwtUtils;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -25,9 +30,11 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
  * @date 2021-08-22
  */
+@AllArgsConstructor
 @Service
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
 
+    private ISysUserService iSysUserService;
 
     /**
      * 部门表格（Table）层级列表
@@ -113,7 +120,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)
         );
-        List<TreeSelectVO> deptSelectList = recursionTreeSelectList(SystemConstants.ROOT_DEPT_ID, deptList);
+        Long userId = JwtUtils.getUserId();
+        SysUser user = iSysUserService.getById(userId);
+        List<TreeSelectVO> deptSelectList = recursionTreeSelectList(user.getDeptId(), deptList);
         return deptSelectList;
     }
 
