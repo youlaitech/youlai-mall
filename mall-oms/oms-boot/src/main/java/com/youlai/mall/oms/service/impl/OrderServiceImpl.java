@@ -301,36 +301,48 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             throw new BizException("订单不存在");
         }
         RLock lock = redissonClient.getLock(ORDER_SN_PREFIX + order.getOrderSn());
+
+        boolean flag = false;
         try {
-            lock.tryLock(0L, 10L, TimeUnit.SECONDS);
+            //尝试获取锁，获取不到会立马返回 false
+            flag = lock.tryLock(0L, 10L, TimeUnit.SECONDS);
+            if(!flag){
+                throw new BizException("订单不可重复支付");
+            }
+            if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
+                throw new BizException("支付失败，请检查订单状态");
+            }
+            T result;
+            switch (payTypeEnum) {
+                case WEIXIN_JSAPI:
+                    result = (T) wxJsapiPay(appId, order);
+                    break;
+                default:
+                case BALANCE:
+                    result = (T) balancePay(order);
+            }
+
+            // 扣减库存
+            Result<?> deductStockResult = stockFeignClient.deductStock(order.getOrderSn());
+
+            if (!Result.isSuccess(deductStockResult)) {
+                throw new BizException("扣减商品库存失败");
+            }
+
+            return result;
         } catch (InterruptedException e) {
             log.error(e.getMessage(), e);
-            throw new BizException("订单不可重复支付");
+            throw new BizException("锁订单异常");
+        } catch (Exception e){
+            //异常继续往上抛
+            throw e;
+        }finally {
+            //释放锁
+            if(flag){
+                lock.unlock();
+            }
         }
 
-        if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
-            throw new BizException("支付失败，请检查订单状态");
-        }
-        T result;
-        switch (payTypeEnum) {
-            case WEIXIN_JSAPI:
-                result = (T) wxJsapiPay(appId, order);
-                break;
-            default:
-            case BALANCE:
-                result = (T) balancePay(order);
-        }
-
-        // 扣减库存
-        Result<?> deductStockResult = stockFeignClient.deductStock(order.getOrderSn());
-
-        if (!Result.isSuccess(deductStockResult)) {
-            throw new BizException("扣减商品库存失败");
-        }
-
-        lock.unlock();
-
-        return result;
     }
 
     private Boolean balancePay(OmsOrder order) {
