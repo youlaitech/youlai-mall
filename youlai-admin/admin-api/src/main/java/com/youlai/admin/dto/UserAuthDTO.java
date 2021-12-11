@@ -38,6 +38,11 @@ public class UserAuthDTO {
      */
     private List<String> roles;
 
+    /**
+     * 部门ID
+     */
+    private Long deptId;
+
 
 
 }
