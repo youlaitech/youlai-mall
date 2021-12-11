@@ -173,6 +173,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 SysUserDetails sysUserDetails = (SysUserDetails) principal;
                 additionalInfo.put("userId", sysUserDetails.getUserId());
                 additionalInfo.put("username", sysUserDetails.getUsername());
+                additionalInfo.put("deptId",sysUserDetails.getDeptId());
                 if (StrUtil.isNotBlank(sysUserDetails.getAuthenticationMethod())) {
                     additionalInfo.put("authenticationMethod", sysUserDetails.getAuthenticationMethod());
                 }

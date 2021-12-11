@@ -27,6 +27,7 @@ public class SysUserDetails implements UserDetails {
      */
     private Long userId;
     private String authenticationMethod;
+    private Long deptId;
 
     /**
      * 默认字段
@@ -42,6 +43,7 @@ public class SysUserDetails implements UserDetails {
     public SysUserDetails(UserAuthDTO user) {
         this.setUserId(user.getUserId());
         this.setUsername(user.getUsername());
+        this.setDeptId(user.getDeptId());
         this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword());
         this.setEnabled(GlobalConstants.STATUS_YES.equals(user.getStatus()));
         if (CollectionUtil.isNotEmpty(user.getRoles())) {

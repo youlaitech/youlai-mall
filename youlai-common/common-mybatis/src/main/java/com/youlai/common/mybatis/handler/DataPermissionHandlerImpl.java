@@ -50,14 +50,13 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
             for (Method method : methods) {
                 InterceptorIgnore annotation = method.getAnnotation(InterceptorIgnore.class);
                 if (ObjectUtils.isNotEmpty(annotation) && (method.getName().equals(methodName) || (method.getName() + "_COUNT").equals(methodName))) {
-                    // 获取当前的用户
-                    Long userId = JwtUtils.getUserId();
+                    // 获取当前的用户角色
                     List<String> roles = JwtUtils.getRoles();
                     if( !roles.isEmpty() && roles.contains(GlobalConstants.ROOT_ROLE_CODE)) {
                         // 如果是超级管理员则放行
                         return where;
                     }else{
-                        return dataScopeFilter(userId, annotation.dataPermission(), where);
+                        return dataScopeFilter(annotation.dataPermission(), where);
                     }
                 }
             }
@@ -70,16 +69,15 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
     /**
      * 构建过滤条件
      *
-     * @param userId 当前登录用户id
      * @param where 当前查询条件
      * @return 构建后查询条件
      */
-    public static Expression dataScopeFilter(Long userId, String dataPermission, Expression where) {
+    public static Expression dataScopeFilter(String dataPermission, Expression where) {
         Expression expression = null;
         if(dataPermission.equals("1")){
             return where;
         }else{
-            EqualsTo equalsTo = new EqualsTo(new Column( "id"),getDeptId(userId));
+            EqualsTo equalsTo = new EqualsTo(new Column( "id"),getDeptId());
             expression = ObjectUtils.isNotEmpty(expression) ? new AndExpression(expression, equalsTo) : equalsTo;
             LikeExpression likeExpression = new LikeExpression();
             Function left = new Function();
@@ -88,24 +86,19 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
             likeExpression.setLeftExpression(left);
             Function right = new Function();
             right.setName("concat");
-            right.setParameters(new ExpressionList().addExpressions(new StringValue("%"),getDeptId(userId),new StringValue("%")));
+            right.setParameters(new ExpressionList().addExpressions(new StringValue("%,"),getDeptId(),new StringValue("%,")));
             likeExpression.setRightExpression(right);
              expression = ObjectUtils.isNotEmpty(expression) ? new OrExpression(expression, likeExpression) : expression;
         }
         return ObjectUtils.isNotEmpty(where) ? new AndExpression(where, new Parenthesis(expression)) : expression;
     }
 
-    private static Expression getDeptId(Long userId){
-        SubSelect subSelect = new SubSelect();
-        PlainSelect select = new PlainSelect();
-        select.setSelectItems(Collections.singletonList(new SelectExpressionItem(new Column("dept_id"))));
-        select.setFromItem(new Table("sys_user"));
-        EqualsTo equalsTo = new EqualsTo();
-        equalsTo.setLeftExpression(new Column("id"));
-        equalsTo.setRightExpression(new LongValue(userId));
-        select.setWhere(equalsTo);
-        subSelect.setSelectBody(select);
-        return subSelect;
+    /**
+     * 当前用户的部门id
+     * @return
+     */
+    private static Expression getDeptId(){
+            return new LongValue(JwtUtils.getJwtPayload().getLong("deptId"));
     }
 
 
