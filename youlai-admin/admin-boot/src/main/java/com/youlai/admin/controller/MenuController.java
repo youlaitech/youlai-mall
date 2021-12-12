@@ -65,7 +65,6 @@ public class MenuController {
         return Result.success(routeList);
     }
 
-
     @ApiOperation(value = "菜单详情")
     @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
