@@ -120,9 +120,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)
         );
-        Long userId = JwtUtils.getUserId();
-        SysUser user = iSysUserService.getById(userId);
-        List<TreeSelectVO> deptSelectList = recursionTreeSelectList(user.getDeptId(), deptList);
+
+        List<TreeSelectVO> deptSelectList = recursionTreeSelectList(JwtUtils.getJwtPayload().getLong("deptId"), deptList);
         return deptSelectList;
     }
 

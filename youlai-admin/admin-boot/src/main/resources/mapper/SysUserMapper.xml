@@ -37,13 +37,14 @@
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>
+        <result property="deptId" column="deptId" jdbcType="BIGINT"></result>
         <collection property="roles" ofType="string" javaType="list">
             <result column="roleCode"></result>
         </collection>
     </resultMap>
 
     <select id="getByUsername" resultMap="UserAuthMap">
-        select t1.id userId, t1.username, t1.nickname, t1.password, t1.status, t3.code roleCode
+        select t1.id userId, t1.username, t1.nickname, t1.password, t1.status, t1.dept_id deptId,t3.code roleCode
                 from sys_user t1,
                 sys_user_role t2,
                 sys_role t3
