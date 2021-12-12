@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v2/dict")
 @RequiredArgsConstructor
-public class DictV2Controller {
+public class V2DictController {
 
     private final ISysDictService iSysDictService;
     private final ISysDictItemService iSysDictItemService;
@@ -72,8 +72,6 @@ public class DictV2Controller {
         return Result.judge(result);
     }
 
-
-
     @ApiOperation(value = "字典项分页列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
@@ -83,8 +81,10 @@ public class DictV2Controller {
     })
     @GetMapping("/items/page")
     public Result getPageList(long pageNum, long pageSize, String name, String dictCode) {
-        IPage<SysDictItem> result = iSysDictItemService.list(new Page<>(pageNum, pageSize),
-                new SysDictItem().setName(name).setDictCode(dictCode));
+        IPage<SysDictItem> result = iSysDictItemService.list(
+                new Page<>(pageNum, pageSize),
+                new SysDictItem().setName(name).setDictCode(dictCode)
+        );
         return Result.success(result.getRecords(), result.getTotal());
     }
 
