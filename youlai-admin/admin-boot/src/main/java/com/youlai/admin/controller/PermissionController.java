@@ -27,21 +27,21 @@ public class PermissionController {
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "pageNum", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "pageSize", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "权限名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Long")
     })
     @GetMapping("/page")
-    public Result pageList( Integer page,Integer limit, String name,  Long menuId) {
-        IPage<PermissionVO> result = iSysPermissionService.list(new Page<>(page, limit),name,menuId);
+    public Result pageList(long pageNum, long pageSize, String name, Long menuId) {
+        IPage<PermissionVO> result = iSysPermissionService.list(new Page<>(pageNum, pageSize), name, menuId);
         return Result.success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "权限列表")
     @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Long")
     @GetMapping
-    public Result list( Long menuId) {
+    public Result list(Long menuId) {
         List<SysPermission> list = iSysPermissionService.list(new LambdaQueryWrapper<SysPermission>()
                 .eq(SysPermission::getMenuId, menuId));
         return Result.success(list);
