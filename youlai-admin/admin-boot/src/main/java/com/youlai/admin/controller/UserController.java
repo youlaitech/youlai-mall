@@ -104,9 +104,10 @@ public class UserController {
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Long id, @RequestBody SysUser user) {
+        System.out.println(user.getPassword() != null);
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
         updateWrapper.set(user.getStatus() != null, SysUser::getStatus, user.getStatus());
-        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, passwordEncoder.encode(user.getPassword()));
+        updateWrapper.set(user.getPassword() != null, SysUser::getPassword,user.getPassword() != null?passwordEncoder.encode(user.getPassword()):null);
         boolean status = iSysUserService.update(updateWrapper);
         return Result.judge(status);
     }
