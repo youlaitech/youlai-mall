@@ -25,7 +25,7 @@
 
     <sql id="Base_Column_List">
         id
-                ,username,nickname,
+        ,username,nickname,
                 gender,password,dept_id,
                 avatar,mobile,status,
                 email,gmt_create,gmt_modified,
@@ -44,23 +44,23 @@
     </resultMap>
 
     <select id="getByUsername" resultMap="UserAuthMap">
-        select t1.id userId, t1.username, t1.nickname, t1.password, t1.status, t1.dept_id deptId,t3.code roleCode
-                from sys_user t1,
-                sys_user_role t2,
-                sys_role t3
-                where t1.username = #{username}
-                and t1.deleted = 0
-                and t1.id = t2.user_id
-                and t2.role_id = t3.id
+        select t1.id userId, t1.username, t1.nickname, t1.password, t1.status, t1.dept_id deptId, t3.code roleCode
+        from sys_user t1,
+             sys_user_role t2,
+             sys_role t3
+        where t1.username = #{username}
+          and t1.deleted = 0
+          and t1.id = t2.user_id
+          and t2.role_id = t3.id
     </select>
 
 
     <select id="list" resultType="com.youlai.admin.pojo.entity.SysUser">
         select u.*,d.name as dept_name , GROUP_CONCAT(r.name) as roleNames
         from sys_user u
-            left join sys_dept d on u.dept_id= d.id
-            left join sys_user_role ur on u.id=ur.user_id
-            left join sys_role r on ur.role_id=r.id
+        left join sys_dept d on u.dept_id= d.id
+        left join sys_user_role ur on u.id=ur.user_id
+        left join sys_role r on ur.role_id=r.id
         where 1=1
         <if test='user.username!=null and user.username.trim() neq  ""'>
             and u.username like concat('%',#{user.username},'%')
@@ -73,6 +73,11 @@
         </if>
         <if test='user.deptId!=null'>
             and concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{user.deptId},',%')
+        </if>
+        <if test='user.keywords!=null'>
+            and(u.username like concat('%',#{user.keywords},'%')
+            OR u.nickname like concat('%',#{user.keywords},'%')
+            OR u.mobile like concat('%',#{user.keywords},'%'))
         </if>
         GROUP BY u.id
     </select>
