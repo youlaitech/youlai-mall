@@ -39,6 +39,7 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-web</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
