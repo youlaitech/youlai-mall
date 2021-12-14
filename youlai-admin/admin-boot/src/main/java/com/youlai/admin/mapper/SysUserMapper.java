@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-    @InterceptorIgnore(storeAlias = "u")
+    @InterceptorIgnore(storeAlias = "d")
     List<SysUser> list(Page<SysUser> page, SysUser user);
 
     UserAuthDTO getByUsername(String username);
