@@ -19,5 +19,7 @@ public @interface InterceptorIgnore {
      * 默认打开，需要注解关闭
      */
     String dataPermission() default "0";
+
+    String storeAlias() default "";
 }
 

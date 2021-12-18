@@ -9,17 +9,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.pojo.entity.SysDept;
-import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.vo.DeptVO;
 import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysDeptService;
-import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.util.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -120,8 +119,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)
         );
-
-        List<TreeSelectVO> deptSelectList = recursionTreeSelectList(JwtUtils.getJwtPayload().getLong("deptId"), deptList);
+        SysDept sysDept = this.getById(JwtUtils.getJwtPayload().getLong("deptId"));
+        List<TreeSelectVO> deptSelectList = recursionTreeSelectList(sysDept.getParentId(), deptList);
         return deptSelectList;
     }
 

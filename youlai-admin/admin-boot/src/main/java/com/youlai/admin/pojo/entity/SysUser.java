@@ -52,4 +52,8 @@ public class SysUser extends BaseEntity {
     private List<String> roles;
 
 
+    @TableField(exist = false)
+    private String keywords;
+
+
 }

@@ -1,34 +1,20 @@
 package com.youlai.common.mybatis.handler;
 
-import cn.hutool.json.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
-
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.util.JwtUtils;
-import jdk.nashorn.internal.ir.JoinPredecessor;
-import jdk.nashorn.internal.ir.LexicalContext;
-import jdk.nashorn.internal.ir.LocalVariableConversion;
 import lombok.extern.slf4j.Slf4j;
-import net.logstash.logback.encoder.org.apache.commons.lang3.StringUtils;
-import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.*;
-import net.sf.jsqlparser.expression.operators.arithmetic.Concat;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.LikeExpression;
-import net.sf.jsqlparser.expression.operators.relational.OldOracleJoinBinaryExpression;
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
-import net.sf.jsqlparser.schema.Table;
-import net.sf.jsqlparser.statement.select.*;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -56,7 +42,7 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
                         // 如果是超级管理员则放行
                         return where;
                     }else{
-                        return dataScopeFilter(annotation.dataPermission(), where);
+                        return dataScopeFilter(annotation.dataPermission(),annotation.storeAlias(), where);
                     }
                 }
             }
@@ -72,12 +58,12 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
      * @param where 当前查询条件
      * @return 构建后查询条件
      */
-    public static Expression dataScopeFilter(String dataPermission, Expression where) {
+    public static Expression dataScopeFilter(String dataPermission,String storeAlias, Expression where) {
         Expression expression = null;
         if(dataPermission.equals("1")){
             return where;
         }else{
-            EqualsTo equalsTo = new EqualsTo(new Column( "id"),getDeptId());
+            EqualsTo equalsTo = new EqualsTo(new Column(StrUtil.isEmpty(storeAlias)?"id":storeAlias+".id"),getDeptId());
             expression = ObjectUtils.isNotEmpty(expression) ? new AndExpression(expression, equalsTo) : equalsTo;
             LikeExpression likeExpression = new LikeExpression();
             Function left = new Function();
