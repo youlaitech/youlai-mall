@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysRolePermissionMapper;
-import com.youlai.admin.dto.RolePermissionDTO;
+import com.youlai.admin.pojo.form.RolePermForm;
 import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.service.ISysRolePermissionService;
 import org.springframework.stereotype.Service;
@@ -13,50 +13,62 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 角色权限实现类
+ */
 @Service
 public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermission> implements ISysRolePermissionService {
 
 
+    /**
+     * 根据菜单ID和角色ID获取权限ID集合
+     *
+     * @param menuId
+     * @param roleId
+     * @return
+     */
     @Override
-    public List<Long> listPermissionId(Long roleId) {
-        return this.baseMapper.listPermissionId(null, roleId);
+    public List<Long> listPermIds(Long menuId, Long roleId) {
+        return this.baseMapper.listPermIds(menuId, roleId);
     }
 
+    /**
+     * 保存角色权限
+     *
+     * @return
+     */
     @Override
-    public List<Long> listPermissionId(Long menuId, Long roleId) {
-        return this.baseMapper.listPermissionId(menuId, roleId);
-    }
+    public boolean saveRolePerms(RolePermForm rolePermForm) {
 
-    @Override
-    public boolean update(RolePermissionDTO rolePermission) {
-        boolean result = true;
-        List<Long> permissionIds = rolePermission.getPermissionIds();
-        Long menuId = rolePermission.getMenuId();
-        Long roleId = rolePermission.getRoleId();
-        List<Long> dbPermissionIds = this.baseMapper.listPermissionId(menuId, roleId);
+        Long menuId = rolePermForm.getMenuId();
+        Long roleId = rolePermForm.getRoleId();
+        List<Long> permIds = rolePermForm.getPermIds();
 
-        // 删除数据库存在此次提交不存在的
-        if (CollectionUtil.isNotEmpty(dbPermissionIds)) {
-            List<Long> removePermissionIds = dbPermissionIds.stream().filter(id -> !permissionIds.contains(id)).collect(Collectors.toList());
-            if (CollectionUtil.isNotEmpty(removePermissionIds)) {
-                this.remove(new LambdaQueryWrapper<SysRolePermission>().eq(SysRolePermission::getRoleId, roleId)
-                        .in(SysRolePermission::getPermissionId, removePermissionIds));
+        List<Long> oldPermIds = this.listPermIds(menuId, roleId);
+
+        // 删除此次保存移除的权限
+        if (CollectionUtil.isNotEmpty(oldPermIds)) {
+            List<Long> removePermIds = oldPermIds.stream().filter(id -> !permIds.contains(id)).collect(Collectors.toList());
+            if (CollectionUtil.isNotEmpty(removePermIds)) {
+                this.remove(new LambdaQueryWrapper<SysRolePermission>()
+                        .eq(SysRolePermission::getRoleId, roleId)
+                        .in(SysRolePermission::getPermissionId, removePermIds));
             }
         }
 
-        // 插入数据库不存在的
-        if (CollectionUtil.isNotEmpty(permissionIds)) {
-            List<Long> insertPermissionIds = permissionIds.stream().filter(id -> !dbPermissionIds.contains(id)).collect(Collectors.toList());
-            if (CollectionUtil.isNotEmpty(insertPermissionIds)) {
-                List<SysRolePermission> roleMenus = new ArrayList<>();
-                for (Long insertPermissionId : insertPermissionIds) {
-                    SysRolePermission sysRolePermission = new SysRolePermission().setRoleId(roleId).setPermissionId(insertPermissionId);
-                    roleMenus.add(sysRolePermission);
+        // 新增数据库不存在的权限
+        if (CollectionUtil.isNotEmpty(permIds)) {
+            List<Long> newPermIds = permIds.stream().filter(id -> !oldPermIds.contains(id)).collect(Collectors.toList());
+            if (CollectionUtil.isNotEmpty(newPermIds)) {
+                List<SysRolePermission> rolePerms = new ArrayList<>();
+                for (Long permId : newPermIds) {
+                    SysRolePermission rolePerm = new SysRolePermission(roleId, permId);
+                    rolePerms.add(rolePerm);
                 }
-                result = this.saveBatch(roleMenus);
+                return this.saveBatch(rolePerms);
             }
         }
-        return result;
+        return false;
     }
 
 

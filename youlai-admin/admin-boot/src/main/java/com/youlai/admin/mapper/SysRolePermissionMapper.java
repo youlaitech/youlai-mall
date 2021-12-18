@@ -11,21 +11,12 @@ import java.util.List;
 public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
 
 
-    @Select({"<script>",
-            " SELECT",
-            " 	t1.permission_id ",
-            " FROM",
-            " 	sys_role_permission t1",
-            " 	INNER JOIN sys_permission t2 ON t1.permission_id = t2.id ",
-            " WHERE 1=1 ",
-            " <if test='menuId !=null '>",
-            "    AND t2.menu_id = #{menuId} ",
-            " </if>",
-            " <if test='roleId !=null '>",
-            "   AND t1.role_id = #{roleId} ",
-            " </if>",
-            "</script>"})
-    List<Long> listPermissionId(Long menuId, Long roleId);
-
-
+    /**
+     * 根据菜单ID和角色ID获取权限ID集合
+     *
+     * @param menuId
+     * @param roleId
+     * @return
+     */
+    List<Long> listPermIds(Long menuId, Long roleId);
 }
