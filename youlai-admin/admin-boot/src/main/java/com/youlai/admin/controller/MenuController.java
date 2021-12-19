@@ -51,8 +51,8 @@ public class MenuController {
         return Result.success(menuList);
     }
 
-    @ApiOperation(value = "菜单下拉（TreeSelect）层级列表")
-    @GetMapping("/tree-select")
+    @ApiOperation(value = "菜单树形（TreeSelect）层级列表")
+    @GetMapping("/tree_select")
     public Result getTreeSelectList() {
         List<TreeSelectVO> menuList = menuService.listTreeSelect();
         return Result.success(menuList);

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysRolePermissionMapper;
-import com.youlai.admin.pojo.form.RolePermForm;
+import com.youlai.admin.pojo.form.RolePermsForm;
 import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.service.ISysRolePermissionService;
 import org.springframework.stereotype.Service;
@@ -38,11 +38,11 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
      * @return
      */
     @Override
-    public boolean saveRolePerms(RolePermForm rolePermForm) {
+    public boolean saveRolePerms(RolePermsForm rolePermsForm) {
 
-        Long menuId = rolePermForm.getMenuId();
-        Long roleId = rolePermForm.getRoleId();
-        List<Long> permIds = rolePermForm.getPermIds();
+        Long menuId = rolePermsForm.getMenuId();
+        Long roleId = rolePermsForm.getRoleId();
+        List<Long> permIds = rolePermsForm.getPermIds();
 
         List<Long> oldPermIds = this.listPermIds(menuId, roleId);
 

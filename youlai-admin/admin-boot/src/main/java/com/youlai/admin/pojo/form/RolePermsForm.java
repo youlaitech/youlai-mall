@@ -1,4 +1,10 @@
 package com.youlai.admin.pojo.form;
+
+/**
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @date 2021/12/19 11:46
+ */
+
 import lombok.Data;
 
 import java.util.List;
@@ -7,7 +13,7 @@ import java.util.List;
  * 角色权限传输层对象
  */
 @Data
-public class RolePermForm {
+public class RolePermsForm {
 
     /**
      * 菜单ID

@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.pojo.form.RolePermForm;
 import com.youlai.admin.pojo.entity.SysRole;
+import com.youlai.admin.pojo.form.RolePermsForm;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.admin.service.ISysRolePermissionService;
@@ -14,10 +14,7 @@ import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +33,6 @@ public class RoleController {
     private final ISysRoleMenuService iSysRoleMenuService;
     private final ISysRolePermissionService iSysRolePermissionService;
     private final ISysPermissionService iSysPermissionService;
-
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
@@ -58,7 +54,6 @@ public class RoleController {
         return Result.success(result.getRecords(), result.getTotal());
     }
 
-
     @ApiOperation(value = "角色列表")
     @GetMapping
     public Result list() {
@@ -71,7 +66,6 @@ public class RoleController {
         );
         return Result.success(list);
     }
-
 
     @ApiOperation(value = "新增角色")
     @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
@@ -91,10 +85,9 @@ public class RoleController {
     }
 
     @ApiOperation(value = "修改角色")
-    @ApiImplicitParam(name = "id", value = "角色ID", required = true, paramType = "path", dataType = "Long")
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Long id,
+            @ApiParam("角色ID") @PathVariable Long id,
             @RequestBody SysRole role) {
         int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
                 .eq(SysRole::getCode, role.getCode())
@@ -123,14 +116,13 @@ public class RoleController {
     }
 
     @ApiOperation(value = "选择性修改角色")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
-    })
-    @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Long id, @RequestBody SysRole role) {
+    @PatchMapping(value = "/{roleId}")
+    public Result updateRolePart(
+            @ApiParam("角色ID") @PathVariable Long roleId,
+            @RequestBody SysRole role
+    ) {
         LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<SysRole>()
-                .eq(SysRole::getId, id)
+                .eq(SysRole::getId, roleId)
                 .set(role.getStatus() != null, SysRole::getStatus, role.getStatus());
         boolean result = iSysRoleService.update(updateWrapper);
         if (result) {
@@ -140,29 +132,33 @@ public class RoleController {
     }
 
     @ApiOperation(value = "获取角色的菜单ID集合")
-    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}/menus")
-    public Result listRoleMenu(@PathVariable("id") Long roleId) {
+    @ApiImplicitParam(name = "roleId", value = "角色id", required = true, paramType = "path", dataType = "Long")
+    @GetMapping("/{roleId}/menu_ids")
+    public Result listRoleMenuIds(
+            @ApiParam("角色ID") @PathVariable Long roleId
+    ) {
         List<Long> menuIds = iSysRoleMenuService.listMenuIds(roleId);
         return Result.success(menuIds);
     }
 
     @ApiOperation(value = "获取角色的权限ID集合")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, paramType = "path", dataType = "Integer"),
-            @ApiImplicitParam(name = "menuId", value = "菜单ID", paramType = "query", dataType = "Integer"),
-    })
     @GetMapping("/{roleId}/permissions")
-    public Result listRolePermission(@PathVariable Long roleId, Long menuId) {
+    public Result listRolePermission(
+            @ApiParam("角色ID") @PathVariable Long roleId,
+            @ApiParam("菜单ID") Long menuId
+    ) {
         List<Long> permissionIds = iSysRolePermissionService.listPermIds(menuId, roleId);
         return Result.success(permissionIds);
     }
 
     @ApiOperation(value = "修改角色菜单")
-    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, paramType = "path", dataType = "Long")
-    @PutMapping(value = "/{roleId}/menus")
+
     @CacheEvict(cacheNames = "system", key = "'routeList'")
-    public Result updateRoleMenu(@PathVariable Long roleId, @RequestBody SysRole role) {
+    @PutMapping(value = "/{roleId}/menus")
+    public Result updateRoleMenu(
+            @ApiParam("角色ID") @PathVariable Long roleId,
+            @RequestBody SysRole role
+    ) {
         List<Long> menuIds = role.getMenuIds();
         boolean result = iSysRoleMenuService.update(roleId, menuIds);
         if (result) {
@@ -174,7 +170,7 @@ public class RoleController {
 
     @ApiOperation(value = "修改角色权限")
     @PutMapping(value = "/{roleId}/permissions")
-    public Result saveRolePerms(@RequestBody RolePermForm rolePerms) {
+    public Result saveRolePerms(@RequestBody RolePermsForm rolePerms) {
         boolean result = iSysRolePermissionService.saveRolePerms(rolePerms);
         if (result) {
             iSysPermissionService.refreshPermRolesRules();
