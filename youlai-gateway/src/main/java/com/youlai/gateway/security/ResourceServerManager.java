@@ -47,11 +47,11 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         String path = request.getURI().getPath();
         String restfulPath = method + ":" + path; // RESTFul接口权限设计 @link https://www.cnblogs.com/haoxianrui/p/14961707.html
 
-        // 如果token以"bearer "为前缀，到此方法里说明JWT有效即已认证，其他前缀的token则拦截
+        // 如果token以"bearer "为前缀，到此方法里说明JWT有效即已认证
         String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
         if (StrUtil.isNotBlank(token) && StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX) ) {
             if (pathMatcher.match(SecurityConstants.APP_API_PATTERN, path)) {
-                // 移动端请求只需认证，无需后续鉴权
+                // 商城移动端请求需认证不需鉴权放行（根据实际场景需求）
                 return Mono.just(new AuthorizationDecision(true));
             }
         } else {
@@ -67,7 +67,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
          */
         Map<String, Object> urlPermRolesRules = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
 
-        // 根据请求路径判断有访问权限的角色列表
+        // 根据请求路径获取有访问权限的角色列表
         List<String> authorizedRoles = new ArrayList<>(); // 拥有访问权限的角色
         boolean requireCheck = false; // 是否需要鉴权，默认未设置拦截规则不需鉴权
 
@@ -81,6 +81,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 }
             }
         }
+        // 没有设置拦截规则放行
         if (requireCheck == false) {
             return Mono.just(new AuthorizationDecision(true));
         }
