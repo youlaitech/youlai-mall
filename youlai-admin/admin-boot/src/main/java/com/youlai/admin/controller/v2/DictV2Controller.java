@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v2/dict")
 @RequiredArgsConstructor
-public class V2DictController {
+public class DictV2Controller {
 
     private final ISysDictService iSysDictService;
     private final ISysDictItemService iSysDictItemService;

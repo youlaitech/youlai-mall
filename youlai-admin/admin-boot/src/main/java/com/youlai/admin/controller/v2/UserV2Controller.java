@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v2/users")
 @Slf4j
 @RequiredArgsConstructor
-public class V2UserController {
+public class UserV2Controller {
 
     private final ISysUserService iSysUserService;
 
