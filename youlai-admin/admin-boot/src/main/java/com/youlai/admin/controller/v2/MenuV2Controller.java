@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v2/menus")
 @RequiredArgsConstructor
-public class V2MenuController {
+public class MenuV2Controller {
 
     private final ISysMenuService menuService;
 

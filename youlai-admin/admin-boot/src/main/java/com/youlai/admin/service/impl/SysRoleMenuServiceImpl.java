@@ -7,6 +7,7 @@ import com.youlai.admin.pojo.entity.SysRoleMenu;
 import com.youlai.admin.mapper.SysRoleMenuMapper;
 import com.youlai.admin.service.ISysRoleMenuService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
+    @Transactional
     public boolean update(Long roleId, List<Long> menuIds) {
         boolean result = true;
         List<Long> dbMenuIds = this.list(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getRoleId, roleId))

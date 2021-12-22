@@ -152,7 +152,6 @@ public class RoleController {
     }
 
     @ApiOperation(value = "修改角色菜单")
-
     @CacheEvict(cacheNames = "system", key = "'routeList'")
     @PutMapping(value = "/{roleId}/menus")
     public Result updateRoleMenu(
@@ -170,7 +169,10 @@ public class RoleController {
 
     @ApiOperation(value = "修改角色权限")
     @PutMapping(value = "/{roleId}/permissions")
-    public Result saveRolePerms(@RequestBody RolePermsForm rolePerms) {
+    public Result saveRolePerms(
+            @ApiParam("角色ID") @PathVariable Long roleId,
+            @RequestBody RolePermsForm rolePerms) {
+        rolePerms.setRoleId(roleId);
         boolean result = iSysRolePermissionService.saveRolePerms(rolePerms);
         if (result) {
             iSysPermissionService.refreshPermRolesRules();
