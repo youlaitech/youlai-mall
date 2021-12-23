@@ -35,13 +35,12 @@ public class RoleController {
     private final ISysPermissionService iSysPermissionService;
 
     @ApiOperation(value = "列表分页")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "pageSize", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query", dataType = "String"),
-    })
     @GetMapping("/page")
-    public Result pageList(long pageNum, long pageSize, String name) {
+    public Result getRolePageList(
+            @ApiParam("页码") long pageNum,
+            @ApiParam("每页数量") long pageSize,
+            @ApiParam("角色名称") String name
+    ) {
         List<String> roles = JwtUtils.getRoles();
         boolean isRoot = roles.contains(GlobalConstants.ROOT_ROLE_CODE);  // 判断是否是超级管理员
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<SysRole>()
@@ -56,7 +55,7 @@ public class RoleController {
 
     @ApiOperation(value = "角色列表")
     @GetMapping
-    public Result list() {
+    public Result getRoleList() {
         List<String> roles = JwtUtils.getRoles();
         boolean isRoot = roles.contains(GlobalConstants.ROOT_ROLE_CODE);  // 判断是否是超级管理员
         List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
@@ -67,10 +66,19 @@ public class RoleController {
         return Result.success(list);
     }
 
+    @ApiOperation(value = "角色详情")
+    @GetMapping("/{roleId}")
+    public Result getRoleDetail(
+            @ApiParam("角色ID") @PathVariable Long roleId
+    ) {
+        SysRole role = iSysRoleService.getById(roleId);
+        return Result.success(role);
+    }
+
+
     @ApiOperation(value = "新增角色")
-    @ApiImplicitParam(name = "role", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysRole")
     @PostMapping
-    public Result add(@RequestBody SysRole role) {
+    public Result saveRole(@RequestBody SysRole role) {
         int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
                 .eq(SysRole::getCode, role.getCode())
                 .or()
@@ -86,15 +94,16 @@ public class RoleController {
 
     @ApiOperation(value = "修改角色")
     @PutMapping(value = "/{id}")
-    public Result update(
+    public Result updateRole(
             @ApiParam("角色ID") @PathVariable Long id,
             @RequestBody SysRole role) {
         int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
-                .eq(SysRole::getCode, role.getCode())
-                .or()
-                .eq(SysRole::getName, role.getName())
                 .ne(SysRole::getId, id)
-        );
+                .and(wrapper ->
+                        wrapper.eq(SysRole::getCode, role.getCode())
+                                .or()
+                                .eq(SysRole::getName, role.getName())
+                ));
         Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
         boolean result = iSysRoleService.updateById(role);
         if (result) {
@@ -106,7 +115,7 @@ public class RoleController {
     @ApiOperation(value = "删除角色")
     @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, dataType = "String")
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable String ids) {
+    public Result deleteRole(@PathVariable String ids) {
         boolean result = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()
                 .map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         if (result) {
