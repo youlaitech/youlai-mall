@@ -7,11 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.mall.sms.pojo.SmsAdvert;
 import com.youlai.mall.sms.service.ISmsAdvertService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,36 +19,28 @@ import java.util.Arrays;
 @RestController("AdminAdvertController")
 @RequestMapping("/api/v1/adverts")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AdvertController {
 
-    private ISmsAdvertService iSmsAdvertService;
+    private final ISmsAdvertService iSmsAdvertService;
 
     @ApiOperation(value = "列表分页")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "name", value = "广告名称", paramType = "query", dataType = "String")
-    })
     @GetMapping
     public Result list(
-            Integer page,
-            Integer limit,
-            String name) {
-        LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
-                .like(StrUtil.isNotBlank(name), SmsAdvert::getName, name)
-                .orderByAsc(SmsAdvert::getSort)
-                .orderByDesc(SmsAdvert::getGmtModified)
-                .orderByDesc(SmsAdvert::getGmtCreate);
-
-        Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(page, limit), queryWrapper);
+            @ApiParam("页码") Long pageNum,
+            @ApiParam("每页数量") Long pageSize,
+            @ApiParam("广告名称") String title) {
+        Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(pageNum, pageSize),
+                new LambdaQueryWrapper<SmsAdvert>()
+                        .like(StrUtil.isNotBlank(title), SmsAdvert::getTitle, title)
+                        .orderByAsc(SmsAdvert::getSort));
         return Result.success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "广告详情")
-    @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Integer id) {
+    public Result detail(
+            @ApiParam("广告ID") @PathVariable Long id) {
         SmsAdvert advert = iSmsAdvertService.getById(id);
         return Result.success(advert);
     }
@@ -63,10 +53,9 @@ public class AdvertController {
     }
 
     @ApiOperation(value = "修改广告")
-    @ApiImplicitParam(name = "id", value = "广告id", required = true, paramType = "path", dataType = "Long")
     @PutMapping(value = "/{id}")
     public Result update(
-            @PathVariable Integer id,
+            @ApiParam("广告ID") @PathVariable Long id,
             @RequestBody SmsAdvert advert) {
         boolean status = iSmsAdvertService.updateById(advert);
         return Result.judge(status);
@@ -80,7 +69,7 @@ public class AdvertController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改广告(选择性更新)")
+    @ApiOperation(value = "选择性更新广告")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
     @PatchMapping(value = "/{id}")
     public Result patch(@PathVariable Integer id, @RequestBody SmsAdvert advert) {
