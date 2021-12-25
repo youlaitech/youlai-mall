@@ -13,11 +13,11 @@ public class SmsAdvert extends BaseEntity {
     @TableId(type= IdType.AUTO)
     private Integer id;
 
-    private String name;
+    private String title;
 
-    private String pic;
+    private String picUrl;
 
-    private Date startTime;
+    private Date beginTime;
 
     private Date endTime;
 
@@ -28,6 +28,5 @@ public class SmsAdvert extends BaseEntity {
     private  String url;
 
     private String remark;
-
 
 }
