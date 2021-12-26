@@ -33,7 +33,9 @@ public class AdvertController {
         Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SmsAdvert>()
                         .like(StrUtil.isNotBlank(title), SmsAdvert::getTitle, title)
-                        .orderByAsc(SmsAdvert::getSort));
+                        .orderByAsc(SmsAdvert::getSort)
+                        .orderByDesc(SmsAdvert::getGmtModified)
+        );
         return Result.success(result.getRecords(), result.getTotal());
     }
 
@@ -47,7 +49,7 @@ public class AdvertController {
 
     @ApiOperation(value = "新增广告")
     @PostMapping
-    public Result add(@RequestBody SmsAdvert advert) {
+    public Result addAvert(@RequestBody SmsAdvert advert) {
         boolean status = iSmsAdvertService.save(advert);
         return Result.judge(status);
     }
