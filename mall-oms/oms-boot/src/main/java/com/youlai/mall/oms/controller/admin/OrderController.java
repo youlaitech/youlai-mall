@@ -42,14 +42,10 @@ public class OrderController {
 
     @ApiOperation("订单列表")
     @GetMapping
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Long")
-    })
-    public Result list(@RequestParam(defaultValue = "1") Long page,
-                       @RequestParam(defaultValue = "10") Long limit,
+    public Result list(@RequestParam(defaultValue = "1") Long pageNum,
+                       @RequestParam(defaultValue = "10") Long pageSize,
                        OmsOrder order) {
-        IPage<OmsOrder> result = orderService.list(new Page<>(page, limit), order);
+        IPage<OmsOrder> result = orderService.list(new Page<>(pageNum, pageSize), order);
         return Result.success(result.getRecords(), result.getTotal());
     }
 

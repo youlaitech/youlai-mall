@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.entity.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
-@Api(tags = "系统管理端-品牌信息")
+@Api(tags = "系统管理_品牌信息")
 @RestController
 @RequestMapping("/api/v1/brands")
 @RequiredArgsConstructor
@@ -28,32 +25,32 @@ public class BrandController {
     private final IPmsBrandService iPmsBrandService;
 
     @ApiOperation(value = "品牌列表分页")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "name", value = "品牌名称", paramType = "query", dataType = "String")
-    })
     @GetMapping("/page")
-    public Result page(Integer page, Integer limit, String name) {
-        LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<PmsBrand>().like(StrUtil.isNotBlank(name), PmsBrand::getName, name);
-        Page<PmsBrand> result = iPmsBrandService.page(new Page<>(page, limit), queryWrapper);
+    public Result getBrandPageList(
+            @ApiParam("页码") Long pageNum,
+            @ApiParam("每页数量") Long pageSize,
+            @ApiParam("品牌名称") String name
+    ) {
+        LambdaQueryWrapper<PmsBrand> queryWrapper = new LambdaQueryWrapper<PmsBrand>()
+                .like(StrUtil.isNotBlank(name), PmsBrand::getName, name)
+                .orderByDesc(PmsBrand::getGmtModified)
+                .orderByDesc(PmsBrand::getGmtCreate);
+        Page<PmsBrand> result = iPmsBrandService.page(new Page<>(pageNum, pageSize), queryWrapper);
         return Result.success(result.getRecords(), result.getTotal());
     }
 
-
     @ApiOperation(value = "品牌列表")
     @GetMapping
-    public Result list() {
+    public Result getBrandList() {
         List<PmsBrand> list = iPmsBrandService.list(new LambdaQueryWrapper<PmsBrand>()
                 .select(PmsBrand::getId, PmsBrand::getName));
         return Result.success(list);
     }
 
-
     @ApiOperation(value = "品牌详情")
     @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Integer id) {
+    public Result getBrandList(@PathVariable Integer id) {
         PmsBrand brand = iPmsBrandService.getById(id);
         return Result.success(brand);
     }
@@ -61,7 +58,7 @@ public class BrandController {
     @ApiOperation(value = "新增品牌")
     @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
     @PostMapping
-    public Result add(@RequestBody PmsBrand brand) {
+    public Result addBrand(@RequestBody PmsBrand brand) {
         boolean status = iPmsBrandService.save(brand);
         return Result.judge(status);
     }
@@ -72,7 +69,7 @@ public class BrandController {
             @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
     })
     @PutMapping(value = "/{id}")
-    public Result update(
+    public Result updateBrand(
             @PathVariable Long id,
             @RequestBody PmsBrand brand) {
         boolean status = iPmsBrandService.updateById(brand);
@@ -82,7 +79,7 @@ public class BrandController {
     @ApiOperation(value = "删除品牌")
     @ApiImplicitParam(name = "ids", value = "id集合", required = true, dataType = "String")
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable("ids") String ids) {
+    public Result deleteBrands(@PathVariable("ids") String ids) {
         boolean status = iPmsBrandService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }

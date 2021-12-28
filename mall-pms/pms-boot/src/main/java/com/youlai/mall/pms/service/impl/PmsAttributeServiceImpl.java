@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 @Service
 public class PmsAttributeServiceImpl extends ServiceImpl<PmsAttributeMapper, PmsAttribute> implements IPmsAttributeService {

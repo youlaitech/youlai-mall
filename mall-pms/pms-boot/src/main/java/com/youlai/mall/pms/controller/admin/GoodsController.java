@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 @Api(tags = "系统管理端-商品信息")
 @RestController

@@ -8,14 +8,13 @@ import com.youlai.common.result.Result;
 import com.youlai.mall.sms.pojo.SmsAdvert;
 import com.youlai.mall.sms.service.ISmsAdvertService;
 import io.swagger.annotations.*;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
-@Api(tags = "【系统管理】营销广告")
+@Api(tags = "系统管理_营销广告")
 @RestController("AdminAdvertController")
 @RequestMapping("/api/v1/adverts")
 @Slf4j
@@ -26,7 +25,7 @@ public class AdvertController {
 
     @ApiOperation(value = "列表分页")
     @GetMapping
-    public Result list(
+    public Result getAdvertPageList(
             @ApiParam("页码") Long pageNum,
             @ApiParam("每页数量") Long pageSize,
             @ApiParam("广告名称") String title) {
@@ -41,7 +40,7 @@ public class AdvertController {
 
     @ApiOperation(value = "广告详情")
     @GetMapping("/{id}")
-    public Result detail(
+    public Result getAdvertDetail(
             @ApiParam("广告ID") @PathVariable Long id) {
         SmsAdvert advert = iSmsAdvertService.getById(id);
         return Result.success(advert);
@@ -56,7 +55,7 @@ public class AdvertController {
 
     @ApiOperation(value = "修改广告")
     @PutMapping(value = "/{id}")
-    public Result update(
+    public Result updateAdvert(
             @ApiParam("广告ID") @PathVariable Long id,
             @RequestBody SmsAdvert advert) {
         boolean status = iSmsAdvertService.updateById(advert);

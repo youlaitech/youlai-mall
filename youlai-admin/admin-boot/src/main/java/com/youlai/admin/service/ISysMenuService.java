@@ -8,7 +8,7 @@ import com.youlai.admin.pojo.vo.*;
 import java.util.List;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2020-11-06
  */
 public interface ISysMenuService extends IService<SysMenu> {

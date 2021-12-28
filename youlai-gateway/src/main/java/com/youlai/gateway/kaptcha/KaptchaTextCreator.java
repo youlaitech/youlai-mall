@@ -8,7 +8,7 @@ import java.security.SecureRandom;
 /**
  * 验证码文本生成器
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/4
  */
 public class KaptchaTextCreator extends DefaultTextCreator {
