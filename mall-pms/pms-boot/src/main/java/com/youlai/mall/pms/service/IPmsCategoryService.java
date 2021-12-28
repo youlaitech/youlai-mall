@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 商品分类
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 public interface IPmsCategoryService extends IService<PmsCategory> {
 

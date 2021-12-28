@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 @Api(tags = "系统管理端-分类信息")
 @RestController

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 商品详情页-商品详细信息
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/8/8
  */
 @Data

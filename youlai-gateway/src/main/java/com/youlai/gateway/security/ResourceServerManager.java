@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * 网关自定义鉴权管理器
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 @Component
 @RequiredArgsConstructor

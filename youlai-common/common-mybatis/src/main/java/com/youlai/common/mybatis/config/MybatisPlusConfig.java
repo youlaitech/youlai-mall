@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 @Configuration
 @EnableTransactionManagement

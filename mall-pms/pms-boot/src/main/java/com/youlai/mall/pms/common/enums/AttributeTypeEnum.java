@@ -5,7 +5,7 @@ import lombok.Getter;
 /**
  * 商品属性类型枚举
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 public enum AttributeTypeEnum {
 

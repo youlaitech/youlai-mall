@@ -5,7 +5,7 @@ import lombok.Getter;
 /**
  * 认证方式枚举
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/4
  */
 public enum AuthenticationMethodEnum {

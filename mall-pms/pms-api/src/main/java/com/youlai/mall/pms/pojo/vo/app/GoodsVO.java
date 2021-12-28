@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 商品列表页-商品基础信息
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/8/8
  */
 @Data

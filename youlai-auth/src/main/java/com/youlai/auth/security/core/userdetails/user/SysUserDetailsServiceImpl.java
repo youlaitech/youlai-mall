@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 /**
  * 系统用户体系业务类
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 @Service("sysUserDetailsService")
 @Slf4j
