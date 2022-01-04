@@ -8,19 +8,20 @@ import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO;
 import com.youlai.mall.pms.service.IPmsSpuService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
+ * 系统管理_商品信息
+ *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- */
-@Api(tags = "系统管理端-商品信息")
+ * @date 2021/1/4
+ **/
+@Api(tags = "系统管理_商品信息")
 @RestController
 @RequestMapping("/api/v1/goods")
 @AllArgsConstructor
@@ -29,15 +30,14 @@ public class GoodsController {
     private IPmsSpuService iPmsSpuService;
 
     @ApiOperation(value = "商品分页列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "categoryId", value = "分类ID", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "name", value = "商品名称", paramType = "query", dataType = "String")
-    })
     @GetMapping("/page")
-    public Result list(Integer page, Integer limit, String name, Long categoryId) {
-        IPage<PmsSpu> result = iPmsSpuService.list(new Page<>(page, limit), name, categoryId);
+    public Result list(
+            @ApiParam("页码") long pageNum,
+            @ApiParam("每页数量") long pageSize,
+            @ApiParam("商品分类ID") Long categoryId,
+            @ApiParam("商品名称") String name
+    ) {
+        IPage<PmsSpu> result = iPmsSpuService.list(new Page<>(pageNum, pageSize), name, categoryId);
         return Result.success(result.getRecords(), result.getTotal());
     }
 

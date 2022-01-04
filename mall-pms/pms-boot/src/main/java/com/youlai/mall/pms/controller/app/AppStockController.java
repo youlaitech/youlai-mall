@@ -18,7 +18,7 @@ import java.util.List;
 @RestController(value = "appStockController")
 @RequestMapping("/app-api/v1/stocks")
 @AllArgsConstructor
-public class StockController {
+public class AppStockController {
 
     private IPmsSkuService iPmsSkuService;
 

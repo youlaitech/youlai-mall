@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/app-api/v1/categories")
 @Slf4j
 @AllArgsConstructor
-public class CategoryController {
+public class AppCategoryController {
 
     private IPmsCategoryService iPmsCategoryService;
 

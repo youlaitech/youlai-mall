@@ -22,7 +22,7 @@ public class PmsAttributeServiceImpl extends ServiceImpl<PmsAttributeMapper, Pms
     @Override
     public boolean saveBatch(AttributeFormDTO attributeForm) {
         Long categoryId = attributeForm.getCategoryId();
-        Integer type = attributeForm.getType();
+        Integer attributeType = attributeForm.getType();
 
         List<Long> formIds = attributeForm.getAttributes().stream()
                 .filter(item -> item.getId() != null)
@@ -31,7 +31,7 @@ public class PmsAttributeServiceImpl extends ServiceImpl<PmsAttributeMapper, Pms
 
         List<Long> dbIds = this.list(new LambdaQueryWrapper<PmsAttribute>()
                 .eq(PmsAttribute::getCategoryId, categoryId)
-                .eq(PmsAttribute::getType, attributeForm.getType())
+                .eq(PmsAttribute::getType, attributeType)
                 .select(PmsAttribute::getId)).stream()
                 .map(item -> item.getId())
                 .collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class PmsAttributeServiceImpl extends ServiceImpl<PmsAttributeMapper, Pms
         List<PmsAttribute> attributeList = new ArrayList<>();
 
         formAttributes.forEach(item -> {
-            PmsAttribute attribute = PmsAttribute.builder().id(item.getId()).categoryId(categoryId).type(type).name(item.getName()).build();
+            PmsAttribute attribute = PmsAttribute.builder().id(item.getId()).categoryId(categoryId).type(attributeType).name(item.getName()).build();
             attributeList.add(attribute);
         });
         boolean result = this.saveOrUpdateBatch(attributeList);
