@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * 系统管理_商品属性控制器
+ *
+ * @author <a href="mailto:1490493387@qq.com">haoxr</a>
+ * @date 2022/1/1
  */
-@Api(tags = "系统管理端-属性信息")
+@Api(tags = "系统管理_商品属性")
 @RestController
 @RequestMapping("/api/v1/attributes")
 @Slf4j

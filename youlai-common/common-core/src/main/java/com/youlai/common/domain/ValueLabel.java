@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo.vo;
+package com.youlai.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -11,12 +11,12 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class CascadeVO {
+public class ValueLabel {
 
     private Long value;
 
     private String label;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<CascadeVO> children;
+    private List<ValueLabel> children;
 }

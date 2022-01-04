@@ -34,9 +34,6 @@ public class RedisCacheConfig {
         if (redisProperties.getTimeToLive() != null) {
             config = config.entryTtl(redisProperties.getTimeToLive());
         }
-        if (redisProperties.getKeyPrefix() != null) {
-            config = config.prefixKeysWith(redisProperties.getKeyPrefix());
-        }
         if (!redisProperties.isCacheNullValues()) {
             config = config.disableCachingNullValues();
         }
