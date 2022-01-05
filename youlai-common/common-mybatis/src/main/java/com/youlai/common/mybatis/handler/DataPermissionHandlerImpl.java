@@ -38,11 +38,11 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
                 if (ObjectUtils.isNotEmpty(annotation) && (method.getName().equals(methodName) || (method.getName() + "_COUNT").equals(methodName))) {
                     // 获取当前的用户角色
                     List<String> roles = JwtUtils.getRoles();
-                    if( !roles.isEmpty() && roles.contains(GlobalConstants.ROOT_ROLE_CODE)) {
+                    if (!roles.isEmpty() && roles.contains(GlobalConstants.ROOT_ROLE_CODE)) {
                         // 如果是超级管理员则放行
                         return where;
-                    }else{
-                        return dataScopeFilter(annotation.dataPermission(),annotation.storeAlias(), where);
+                    } else {
+                        return dataScopeFilter(annotation.deptAlias(), where);
                     }
                 }
             }
@@ -58,33 +58,30 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
      * @param where 当前查询条件
      * @return 构建后查询条件
      */
-    public static Expression dataScopeFilter(String dataPermission,String storeAlias, Expression where) {
-        Expression expression = null;
-        if(dataPermission.equals("1")){
-            return where;
-        }else{
-            EqualsTo equalsTo = new EqualsTo(new Column(StrUtil.isEmpty(storeAlias)?"id":storeAlias+".id"),getDeptId());
-            expression = ObjectUtils.isNotEmpty(expression) ? new AndExpression(expression, equalsTo) : equalsTo;
-            LikeExpression likeExpression = new LikeExpression();
-            Function left = new Function();
-            left.setName("concat");
-            left.setParameters(new ExpressionList().addExpressions(new StringValue(","),new Column("tree_path"),new StringValue(",")));
-            likeExpression.setLeftExpression(left);
-            Function right = new Function();
-            right.setName("concat");
-            right.setParameters(new ExpressionList().addExpressions(new StringValue("%,"),getDeptId(),new StringValue("%,")));
-            likeExpression.setRightExpression(right);
-             expression = ObjectUtils.isNotEmpty(expression) ? new OrExpression(expression, likeExpression) : expression;
-        }
+    public static Expression dataScopeFilter(String deptAlias, Expression where) {
+        Expression expression = new EqualsTo(new Column(StrUtil.isEmpty(deptAlias) ? "id" : deptAlias + ".id"), getDeptId());
+        LikeExpression likeExpression = new LikeExpression();
+        Function left = new Function();
+        left.setName("concat");
+        left.setParameters(new ExpressionList().addExpressions(new StringValue(","), new Column("tree_path"), new StringValue(",")));
+        likeExpression.setLeftExpression(left);
+        Function right = new Function();
+        right.setName("concat");
+        right.setParameters(new ExpressionList().addExpressions(new StringValue("%,"), getDeptId(), new StringValue("%,")));
+        likeExpression.setRightExpression(right);
+        expression = ObjectUtils.isNotEmpty(expression) ? new OrExpression(expression, likeExpression) : expression;
+        
         return ObjectUtils.isNotEmpty(where) ? new AndExpression(where, new Parenthesis(expression)) : expression;
     }
 
     /**
      * 当前用户的部门id
+     *
      * @return
      */
-    private static Expression getDeptId(){
-            return new LongValue(JwtUtils.getJwtPayload().getLong("deptId"));
+    private static Expression getDeptId() {
+        LongValue deptId = new LongValue(JwtUtils.getJwtPayload().getLong("deptId"));
+        return deptId;
     }
 
 
