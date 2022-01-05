@@ -31,7 +31,7 @@ public class AdvertController {
             @ApiParam("广告名称") String title) {
         Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SmsAdvert>()
-                        .like(StrUtil.isNotBlank(title), SmsAdvert::getTitle, title)
+                        .like(StrUtil.isNotBlank(title), SmsAdvert::getTitle, StrUtil.isNotBlank(title)?title:null)
                         .orderByAsc(SmsAdvert::getSort)
                         .orderByDesc(SmsAdvert::getGmtModified)
         );
