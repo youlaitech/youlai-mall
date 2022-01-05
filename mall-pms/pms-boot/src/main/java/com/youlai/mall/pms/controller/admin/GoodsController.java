@@ -32,8 +32,8 @@ public class GoodsController {
     @ApiOperation(value = "商品分页列表")
     @GetMapping("/page")
     public Result list(
-            @ApiParam("页码") long pageNum,
-            @ApiParam("每页数量") long pageSize,
+            @ApiParam(value = "页码", example = "1") long pageNum,
+            @ApiParam(value = "每页数量", example = "10") long pageSize,
             @ApiParam("商品分类ID") Long categoryId,
             @ApiParam("商品名称") String name
     ) {
@@ -44,42 +44,47 @@ public class GoodsController {
     @ApiOperation(value = "商品详情")
     @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
+    public Result detail(
+            @ApiParam("商品ID") @PathVariable Long id
+    ) {
         GoodsDetailVO goodsDetail = iPmsSpuService.getGoodsById(id);
         return Result.success(goodsDetail);
     }
 
     @ApiOperation(value = "新增商品")
-    @ApiImplicitParam(name = "goodsForm", value = "实体JSON对象", required = true, paramType = "body", dataType = "GoodsFormDTO")
     @PostMapping
-    public Result add(@RequestBody GoodsFormDTO goodsForm) {
+    public Result addGoods(
+            @RequestBody GoodsFormDTO goodsForm
+    ) {
         boolean result = iPmsSpuService.addGoods(goodsForm);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "修改商品")
-    @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable Long id, @RequestBody GoodsFormDTO goods) {
+    public Result update(
+            @ApiParam("商品ID") @PathVariable Long id,
+            @RequestBody GoodsFormDTO goods
+    ) {
         boolean result = iPmsSpuService.updateGoods(goods);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "删除商品")
-    @ApiImplicitParam(name = "ids", value = "id集合,以英文逗号','分隔", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable String ids) {
+    public Result delete(
+            @ApiParam("id集合,以英文逗号(,)分隔") @PathVariable String ids
+    ) {
         boolean result = iPmsSpuService.removeByGoodsIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         return Result.judge(result);
     }
 
     @ApiOperation(value = "选择性修改商品")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "spu", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsSpu")
-    })
     @PatchMapping(value = "/{id}")
-    public Result patch(@PathVariable Integer id, @RequestBody PmsSpu spu) {
+    public Result patch(
+            @ApiParam("商品ID") @PathVariable Long id,
+            @RequestBody PmsSpu spu
+    ) {
         LambdaUpdateWrapper<PmsSpu> updateWrapper = new LambdaUpdateWrapper<PmsSpu>().eq(PmsSpu::getId, id);
         updateWrapper.set(spu.getStatus() != null, PmsSpu::getStatus, spu.getStatus());
         boolean update = iPmsSpuService.update(updateWrapper);
