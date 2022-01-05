@@ -81,7 +81,7 @@ public class OrderController {
     }
 
     @ApiOperation("订单删除")
-    @PostMapping("/{orderId}")
+    @DeleteMapping("/{orderId}")
     public Result deleteOrder(@PathVariable Long orderId) {
         boolean result = orderService.deleteOrder(orderId);
         return Result.judge(result);
