@@ -86,4 +86,11 @@ public class OrderController {
         boolean result = orderService.deleteOrder(orderId);
         return Result.judge(result);
     }
+
+    @ApiOperation("订单取消")
+    @PutMapping("/cancel")
+    public Result cancel( @RequestParam Long id){
+        boolean result = orderService.cancelOrder(id);
+        return Result.judge(result);
+    }
 }
