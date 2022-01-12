@@ -155,7 +155,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @Cacheable cacheNames:缓存名称，不同缓存的数据是彼此隔离； key: 缓存Key。
      */
     @Override
-    @Cacheable(cacheNames = "system", key = "'routeList'")
+    @Cacheable(cacheNames = "system", key = "'routes'")
     public List<RouteVO> listRoute() {
         List<SysMenu> menuList = this.baseMapper.listRoute();
         List<RouteVO> list = recursionRoute(SystemConstants.ROOT_MENU_ID, menuList);
@@ -283,7 +283,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 清理路由缓存
      */
     @Override
-    @CacheEvict(cacheNames = "system", key = "'routeList'")
+    @CacheEvict(cacheNames = "system", key = "'routes'")
     public void cleanCache() {
     }
 
@@ -293,7 +293,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     @Override
-    @Cacheable(cacheNames = "system", key = "'nextRouteList'")
+    @Cacheable(cacheNames = "system", key = "'nextRoutes'")
     public List<NextRouteVO> listNextRoutes() {
         List<SysMenu> menuList = this.baseMapper.listRoute();
         List<NextRouteVO> list = recursionNextRoute(SystemConstants.ROOT_MENU_ID, menuList);

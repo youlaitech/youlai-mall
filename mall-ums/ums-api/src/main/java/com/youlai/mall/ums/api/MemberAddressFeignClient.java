@@ -19,6 +19,12 @@ public interface MemberAddressFeignClient {
     Result<UmsAddress> getById(@PathVariable("id") Long id);
 
 
+    /**
+     * 获取会员地址列表
+     *
+     * @param memberId
+     * @return
+     */
     @GetMapping("/app-api/v1/addresses")
     Result<List<UmsAddress>> list(@RequestParam Long memberId);
 
