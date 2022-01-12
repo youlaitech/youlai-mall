@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
-@Api(tags = "【移动端】会员地址")
+@Api(tags = "移动端_会员地址")
 @RestController
 @RequestMapping("/app-api/v1/addresses")
 @Slf4j

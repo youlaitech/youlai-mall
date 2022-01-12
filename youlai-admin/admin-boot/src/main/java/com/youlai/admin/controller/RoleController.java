@@ -161,7 +161,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "修改角色菜单")
-    @CacheEvict(cacheNames = "system", key = "'routeList'")
+    @CacheEvict(cacheNames = "system", key = "'routes'")
     @PutMapping(value = "/{roleId}/menus")
     public Result updateRoleMenu(
             @ApiParam("角色ID") @PathVariable Long roleId,

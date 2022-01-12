@@ -29,7 +29,7 @@ public class GoodsController {
 
     private IPmsSpuService iPmsSpuService;
 
-    @ApiOperation(value = "商品分页列表")
+    @ApiOperation(value = "分页列表")
     @GetMapping("/page")
     public Result list(
             @ApiParam(value = "页码", example = "1") long pageNum,

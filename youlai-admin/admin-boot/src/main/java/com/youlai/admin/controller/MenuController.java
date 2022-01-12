@@ -12,6 +12,7 @@ import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -75,27 +76,30 @@ public class MenuController {
 
     @ApiOperation(value = "新增菜单")
     @PostMapping
-    @CacheEvict(cacheNames = "system",key = "'routeList'")
-    public Result add(@RequestBody SysMenu menu) {
+    @CacheEvict(cacheNames = "system", key = "'routes'")
+    public Result addMenu(@RequestBody SysMenu menu) {
         boolean result = menuService.saveMenu(menu);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "修改菜单")
     @PutMapping(value = "/{id}")
-    @CacheEvict(cacheNames = "system",key = "'routeList'")
-    public Result update( @PathVariable Long id,@RequestBody SysMenu menu) {
+    @CacheEvict(cacheNames = "system", key = "'routes'")
+    public Result updateMenu(
+            @ApiParam("菜单ID") @PathVariable Long id,
+            @RequestBody SysMenu menu
+    ) {
         boolean result = menuService.updateMenu(menu);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "删除菜单")
-    @ApiImplicitParam(name = "ids", value = "id集合字符串，以,分割", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
-    @CacheEvict(cacheNames = "system",key = "'routeList'")
-    public Result delete(@PathVariable("ids") String ids) {
+    @CacheEvict(cacheNames = "system", key = "'routes'")
+    public Result delete(
+            @ApiParam("菜单ID，多个以英文(,)分割")  @PathVariable("ids") String ids) {
         boolean result = menuService.removeByIds(Arrays.asList(ids.split(",")));
-        if(result){
+        if (result) {
             permissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
@@ -103,12 +107,12 @@ public class MenuController {
 
     @ApiOperation(value = "选择性修改菜单")
     @PatchMapping(value = "/{id}")
-    @CacheEvict(cacheNames = "system",key = "'routeList'")
+    @CacheEvict(cacheNames = "system", key = "'routes'")
     public Result patch(@PathVariable Integer id, @RequestBody SysMenu menu) {
         LambdaUpdateWrapper<SysMenu> updateWrapper = new LambdaUpdateWrapper<SysMenu>().eq(SysMenu::getId, id);
         updateWrapper.set(menu.getVisible() != null, SysMenu::getVisible, menu.getVisible());
         boolean result = menuService.update(updateWrapper);
-        if(result){
+        if (result) {
             permissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
