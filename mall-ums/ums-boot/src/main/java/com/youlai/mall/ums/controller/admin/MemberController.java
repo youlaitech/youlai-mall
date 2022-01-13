@@ -3,6 +3,7 @@ package com.youlai.mall.ums.controller.admin;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
@@ -12,11 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.List;
 
-import static com.youlai.common.constant.GlobalConstants.STATUS_YES;
 
 @Api(tags = "系统管理_会员中心")
 @RestController
@@ -73,10 +72,11 @@ public class MemberController {
     @ApiOperation(value = "删除会员")
     @DeleteMapping("/{ids}")
     public <T> Result<T> delete(
-            @ApiParam("会员ID，多个以英文逗号(,)拼接") @PathVariable String ids) {
+            @ApiParam("会员ID，多个以英文逗号(,)拼接") @PathVariable String ids
+    ) {
         boolean status = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .in(UmsMember::getId, Arrays.asList(ids.split(",")))
-                .set(UmsMember::getDeleted, STATUS_YES));
+                .set(UmsMember::getDeleted, GlobalConstants.STATUS_YES));
         return Result.judge(status);
     }
 }
