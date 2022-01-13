@@ -19,15 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author haoxr
- * @Date 2021-02-25 15:36
- * @Version 1.0.0
+ * @author  haoxr
+ * @date 2021/02/25 15:36
  */
 @Configuration
 @EnableSwagger2WebMvc
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
-
 
     @Bean
     public Docket restApi() {
