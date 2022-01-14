@@ -14,7 +14,7 @@
  Date: 07/10/2021 13:32:14
 */
 
-SET NAMES utf8mb4;
+SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -49,10 +49,10 @@ INSERT INTO `sms_advert` VALUES (18, '1', 'http://a.youlai.tech:9000/default/3fd
 DROP TABLE IF EXISTS `sms_coupon`;
 CREATE TABLE `sms_coupon`  (
                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                               `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '优惠券标题（有图片则显示图片）：无门槛50元优惠券 | 单品最高减2000元',
-                               `img` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片',
+                               `title` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '优惠券标题（有图片则显示图片）：无门槛50元优惠券 | 单品最高减2000元',
+                               `img` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片',
                                `type` int NOT NULL DEFAULT 1 COMMENT '1满减券 2叠加满减券 3无门槛券（需要限制大小）',
-                               `publish` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '发布状态, PUBLISH发布，DRAFT草稿，OFFLINE下线',
+                               `publish` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发布状态, PUBLISH发布，DRAFT草稿，OFFLINE下线',
                                `condition_price` bigint NOT NULL DEFAULT 0 COMMENT '满多少才可以使用（为0则不限制金额）',
                                `price` bigint NOT NULL COMMENT '抵扣价格',
                                `publish_count` int NOT NULL DEFAULT 1 COMMENT '优惠券总量',
@@ -66,7 +66,8 @@ CREATE TABLE `sms_coupon`  (
                                `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                                `gmt_modified` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1372839943053258753CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1372839943053258753 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券表' ROW_FORMAT = DYNAMIC;
+
 
 -- ----------------------------
 -- Records of sms_coupon
@@ -81,11 +82,11 @@ DROP TABLE IF EXISTS `sms_coupon_record`;
 CREATE TABLE `sms_coupon_record`  (
                                       `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
                                       `coupon_id` bigint NULL DEFAULT NULL COMMENT '优惠券id',
-                                      `use_state` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '使用状态  可用 NEW,已使用USED,过期 EXPIRED;',
+                                      `use_state` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '使用状态  可用 NEW,已使用USED,过期 EXPIRED;',
                                       `user_id` bigint NULL DEFAULT NULL COMMENT '用户id',
-                                      `user_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户昵称（冗余字段）',
+                                      `user_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户昵称（冗余字段）',
                                       `coupon_type` int NOT NULL DEFAULT 1 COMMENT '1满减券 2叠加满减券 3无门槛券',
-                                      `coupon_title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '优惠券标题',
+                                      `coupon_title` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '优惠券标题',
                                       `condition_price` bigint NOT NULL DEFAULT 0 COMMENT '满多少才可以使用（为0则不限制金额）',
                                       `price` bigint NOT NULL COMMENT '抵扣价格',
                                       `start_time` datetime NULL DEFAULT NULL COMMENT '开始时间',
@@ -95,7 +96,7 @@ CREATE TABLE `sms_coupon_record`  (
                                       `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                                       `gmt_modified` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                       PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1372841652324487169CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券领劵使用记录' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1372841652324487169 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券领劵使用记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sms_coupon_record
@@ -108,10 +109,10 @@ INSERT INTO `sms_coupon_record` VALUES (1, 1, 'NEWS', 1, 'zhgsan', 1, '大促销
 DROP TABLE IF EXISTS `sms_coupon_template`;
 CREATE TABLE `sms_coupon_template`  (
                                         `id` bigint NOT NULL COMMENT '主键自增 ID',
-                                        `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '优惠券模板名称',
-                                        `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '优惠券模板logo',
-                                        `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '优惠券模板描述',
-                                        `category` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '优惠券模板分类',
+                                        `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '优惠券模板名称',
+                                        `logo` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '优惠券模板logo',
+                                        `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '优惠券模板描述',
+                                        `category` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '优惠券模板分类',
                                         `verify_state` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否审核(0:待审核;1:已审核)',
                                         `offer_state` tinyint(1) NOT NULL DEFAULT 0 COMMENT '优惠券发放状态( 0: 未开始; 1: 进行中; 2: 已结束)\r\n',
                                         `offer_start_time` bigint NULL DEFAULT NULL COMMENT '优惠券发放最早时间',
@@ -120,16 +121,16 @@ CREATE TABLE `sms_coupon_template`  (
                                         `used_start_time` bigint NULL DEFAULT NULL COMMENT '优惠券最早使用时间',
                                         `used_end_time` bigint NULL DEFAULT NULL COMMENT '优惠券最晚使用时间',
                                         `total` int NOT NULL DEFAULT 0 COMMENT '总优惠券数量',
-                                        `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '优惠券模板编码',
-                                        `rule` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '优惠券规则',
+                                        `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '优惠券模板编码',
+                                        `rule` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '优惠券规则',
                                         `gmt_create` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-                                        `gmt_created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+                                        `gmt_created_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
                                         `gmt_modified` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-                                        `gmt_modified_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+                                        `gmt_modified_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
                                         PRIMARY KEY (`id`) USING BTREE,
                                         UNIQUE INDEX `sms_coupon_template_name_uindex`(`name`) USING BTREE COMMENT '优惠券模板名称全局唯一',
                                         UNIQUE INDEX `sms_coupon_template_code_uindex`(`code`) USING BTREE COMMENT '优惠券模板编码全局唯一'
-) ENGINE = InnoDBCHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券模板表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券模板表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sms_coupon_template
@@ -141,14 +142,14 @@ CREATE TABLE `sms_coupon_template`  (
 DROP TABLE IF EXISTS `sms_seckill_session`;
 CREATE TABLE `sms_seckill_session`  (
                                         `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
-                                        `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '场次名称',
+                                        `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '场次名称',
                                         `start_time` datetime NULL DEFAULT NULL COMMENT '每日开始时间',
                                         `end_time` datetime NULL DEFAULT NULL COMMENT '每日结束时间',
                                         `status` tinyint(1) NULL DEFAULT NULL COMMENT '启用状态 1-开启  0-关闭',
                                         `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                                         `gmt_modified` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                         PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '秒杀活动场次' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '秒杀活动场次' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sms_seckill_session
@@ -171,7 +172,7 @@ CREATE TABLE `sms_seckill_sku_relation`  (
                                              `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '秒杀活动商品关联' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '秒杀活动商品关联' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sms_seckill_sku_relation
