@@ -5,13 +5,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.admin.constant.SystemConstants;
 import com.youlai.admin.dto.UserAuthDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.mapper.SysUserMapper;
 import com.youlai.admin.pojo.entity.SysUserRole;
+import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.UserDetailVO;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
-import com.youlai.common.constant.GlobalConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 用户业务类
+ * 用户业务实现类
+ *
+ * @author haoxr
+ * @date 2022/1/14
  */
 @Service
 @RequiredArgsConstructor
@@ -31,15 +36,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final ISysUserRoleService iSysUserRoleService;
 
     /**
-     * 用户分页列表
+     * 获取用户分页列表
      *
-     * @param page
-     * @param user
      * @return
      */
     @Override
-    public IPage<SysUser> list(Page<SysUser> page, SysUser user) {
-        List<SysUser> list = this.baseMapper.list(page, user);
+    public IPage<SysUser> list(UserPageQuery queryParam) {
+        Page<SysUser> page = new Page<>(queryParam.getPageNum(), queryParam.getPageSize());
+        List<SysUser> list = this.baseMapper.list(page, queryParam);
         page.setRecords(list);
         return page;
     }
@@ -52,7 +56,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public boolean saveUser(SysUser user) {
-        user.setPassword(passwordEncoder.encode(GlobalConstants.DEFAULT_USER_PASSWORD));
+        user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
         boolean result = this.save(user);
         if (result) {
             List<Long> roleIds = user.getRoleIds();
@@ -109,6 +113,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserAuthDTO getByUsername(String username) {
         UserAuthDTO userAuthInfo = this.baseMapper.getByUsername(username);
         return userAuthInfo;
+    }
+
+    /**
+     * 根据用户ID获取用户详情
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public UserDetailVO getUserDetailById(Long userId) {
+        UserDetailVO userDetail = this.baseMapper.getUserDetailById(userId);
+        return userDetail;
     }
 
 }

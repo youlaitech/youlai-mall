@@ -4,34 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.admin.mapper.SysUserMapper">
 
-    <resultMap id="BaseResultMap" type="com.youlai.admin.pojo.entity.SysUser">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="username" column="username" jdbcType="VARCHAR"/>
-        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
-        <result property="gender" column="gender" jdbcType="BOOLEAN"/>
-        <result property="password" column="password" jdbcType="VARCHAR"/>
-        <result property="deptId" column="dept_id" jdbcType="INTEGER"/>
-        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
-        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="BOOLEAN"/>
-        <result property="email" column="email" jdbcType="VARCHAR"/>
-        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-        <result property="deleted" column="deleted" jdbcType="BOOLEAN"/>
-        <collection property="roles" ofType="string" javaType="list">
-            <result column="roleCode"></result>
-        </collection>
-    </resultMap>
-
-    <sql id="Base_Column_List">
-        id
-        ,username,nickname,
-                gender,password,dept_id,
-                avatar,mobile,status,
-                email,gmt_create,gmt_modified,
-                deleted
-    </sql>
-
     <resultMap id="UserAuthMap" type="com.youlai.admin.dto.UserAuthDTO">
         <id property="userId" column="userId" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
@@ -44,41 +16,81 @@
     </resultMap>
 
     <select id="getByUsername" resultMap="UserAuthMap">
-        select t1.id userId, t1.username, t1.nickname, t1.password, t1.status, t1.dept_id deptId, t3.code roleCode
-        from sys_user t1,
-             sys_user_role t2,
-             sys_role t3
-        where t1.username = #{username}
-          and t1.deleted = 0
-          and t1.id = t2.user_id
-          and t2.role_id = t3.id
+        SELECT
+            t1.id userId,
+            t1.username,
+            t1.nickname,
+            t1.PASSWORD,
+            t1.STATUS,
+            t1.dept_id deptId,
+            t3.CODE roleCode
+        FROM
+            sys_user t1,
+            sys_user_role t2,
+            sys_role t3
+        WHERE
+            t1.username = #{username}
+          AND t1.deleted = 0
+          AND t1.id = t2.user_id
+          AND t2.role_id = t3.id
     </select>
 
 
     <select id="list" resultType="com.youlai.admin.pojo.entity.SysUser">
-        select u.*,d.name as dept_name , GROUP_CONCAT(r.name) as roleNames
-        from sys_user u
-        left join sys_dept d on u.dept_id= d.id
-        left join sys_user_role ur on u.id=ur.user_id
-        left join sys_role r on ur.role_id=r.id
-        where 1=1
-        <if test='user.username!=null and user.username.trim() neq  ""'>
-            and u.username like concat('%',#{user.username},'%')
-        </if>
-        <if test='user.mobile!=null and user.mobile.trim() neq ""'>
-            and u.mobile like concat('%',#{user.mobile},'%')
-        </if>
-        <if test='user.status!=null'>
-            and u.status = #{user.status}
-        </if>
-        <if test='user.deptId!=null'>
-            and concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{user.deptId},',%')
-        </if>
-        <if test='user.keywords!=null'>
-            and(u.username like concat('%',#{user.keywords},'%')
-            OR u.nickname like concat('%',#{user.keywords},'%')
-            OR u.mobile like concat('%',#{user.keywords},'%'))
-        </if>
+        SELECT
+            u.*,
+            d.NAME AS dept_name,
+            GROUP_CONCAT( r.NAME ) AS roleNames
+        FROM
+            sys_user u
+            LEFT JOIN sys_dept d ON u.dept_id = d.id
+            LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+            LEFT JOIN sys_role r ON ur.role_id = r.id
+        <where>
+            <if test='queryParam.keywords!=null and queryParam.keywords.trim() neq ""'>
+                and(u.username like concat('%',#{queryParam.keywords},'%')
+                OR u.nickname like concat('%',#{queryParam.keywords},'%')
+                OR u.mobile like concat('%',#{queryParam.keywords},'%'))
+            </if>
+            <if test='queryParam.status!=null'>
+                and u.status = #{queryParam.status}
+            </if>
+            <if test='queryParam.deptId!=null'>
+                and concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{queryParam.deptId},',%')
+            </if>
+        </where>
         GROUP BY u.id
+    </select>
+
+
+    <resultMap id="UserDetailMap" type="com.youlai.admin.pojo.vo.UserDetailVO">
+        <id property="id" column="userId" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="BOOLEAN"/>
+        <result property="deptId" column="deptId" jdbcType="BIGINT"></result>
+        <collection property="roles" ofType="string" javaType="list">
+            <result column="roleCode"></result>
+        </collection>
+    </resultMap>
+
+
+    <!-- 根据用户ID获取用户详情 -->
+    <select id="getUserDetailById" resultMap="UserDetailMap">
+        SELECT
+            id,
+            username,
+            nickname,
+            mobile,
+            gender,
+            avatar,
+            email,
+            STATUS,
+            dept_id
+        FROM
+            sys_user
+        WHERE
+            id = #{userId}
+          AND deleted =0
     </select>
 </mapper>

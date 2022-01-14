@@ -1,7 +1,7 @@
 package com.youlai.admin.component.handler;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.youlai.admin.pojo.vo.UserVO;
+import com.youlai.admin.pojo.vo.LoginUserVO;
 import com.youlai.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,8 +18,8 @@ public class UserBlockHandler {
      * @param blockException
      * @return
      */
-    public static Result<UserVO> handleGetCurrentUserBlock(BlockException blockException) {
-        return Result.success(new UserVO());
+    public static Result<LoginUserVO> handleGetCurrentUserBlock(BlockException blockException) {
+        return Result.success(new LoginUserVO());
     }
 
 

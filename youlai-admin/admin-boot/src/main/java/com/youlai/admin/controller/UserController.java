@@ -1,14 +1,13 @@
 package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.dto.UserAuthDTO;
 import com.youlai.admin.pojo.entity.SysUser;
-import com.youlai.admin.pojo.entity.SysUserRole;
-import com.youlai.admin.pojo.vo.UserVO;
+import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.LoginUserVO;
+import com.youlai.admin.pojo.vo.UserDetailVO;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
@@ -16,12 +15,12 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +28,6 @@ import java.util.stream.Collectors;
 @Api(tags = "用户接口")
 @RestController
 @RequestMapping("/api/v1/users")
-@Slf4j
 @RequiredArgsConstructor
 public class UserController {
 
@@ -38,56 +36,35 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final ISysPermissionService iSysPermissionService;
 
-    @ApiOperation(value = "列表分页")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "nickname", value = "用户昵称", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "mobile", value = "手机号码", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "status", value = "状态", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "deptId", value = "部门ID", paramType = "query", dataType = "Long"),
-    })
+    @ApiOperation(value = "用户分页列表")
     @GetMapping
-    public Result list(Integer page, Integer limit, String nickname, String mobile, Integer status, Long deptId) {
-
-        SysUser user = new SysUser();
-        user.setNickname(nickname);
-        user.setMobile(mobile);
-        user.setStatus(status);
-        user.setDeptId(deptId);
-
-        IPage<SysUser> result = iSysUserService.list(new Page<>(page, limit), user);
+    public Result list(UserPageQuery queryParam) {
+        IPage<SysUser> result = iSysUserService.list(queryParam);
         return Result.success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "用户详情")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
-        SysUser user = iSysUserService.getById(id);
-        if (user != null) {
-            List<Long> roleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                    .eq(SysUserRole::getUserId, user.getId())
-                    .select(SysUserRole::getRoleId)
-            ).stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
-            user.setRoleIds(roleIds);
-        }
-        return Result.success(user);
+    @GetMapping("/{userId}")
+    public Result<UserDetailVO> getUserDetail(
+            @ApiParam(value = "用户ID", example = "1") @PathVariable Long userId
+    ) {
+        UserDetailVO userDetail = iSysUserService.getUserDetailById(userId);
+        return Result.success(userDetail);
     }
 
     @ApiOperation(value = "新增用户")
     @PostMapping
-    public Result add(@RequestBody SysUser user) {
+    public Result addUser(@RequestBody SysUser user) {
         boolean result = iSysUserService.saveUser(user);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "修改用户")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path", dataType = "Long")
-    @PutMapping(value = "/{id}")
-    public Result update(
-            @PathVariable Long id,
-            @RequestBody SysUser user) {
+    @PutMapping(value = "/{userId}")
+    public Result updateUser(
+            @ApiParam("用户ID") @PathVariable Long userId,
+            @RequestBody SysUser user
+    ) {
         boolean result = iSysUserService.updateUser(user);
         return Result.judge(result);
     }
@@ -107,7 +84,7 @@ public class UserController {
         System.out.println(user.getPassword() != null);
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, id);
         updateWrapper.set(user.getStatus() != null, SysUser::getStatus, user.getStatus());
-        updateWrapper.set(user.getPassword() != null, SysUser::getPassword,user.getPassword() != null?passwordEncoder.encode(user.getPassword()):null);
+        updateWrapper.set(user.getPassword() != null, SysUser::getPassword, user.getPassword() != null ? passwordEncoder.encode(user.getPassword()) : null);
         boolean status = iSysUserService.update(updateWrapper);
         return Result.judge(status);
     }
@@ -124,21 +101,20 @@ public class UserController {
         return Result.success(user);
     }
 
-
     @ApiOperation(value = "获取当前登陆的用户信息")
     @GetMapping("/me")
-    public Result<UserVO> getCurrentUser() {
-        UserVO userVO = new UserVO();
+    public Result<LoginUserVO> getCurrentUser() {
+        LoginUserVO loginUserVO = new LoginUserVO();
         // 用户基本信息
         Long userId = JwtUtils.getUserId();
         SysUser user = iSysUserService.getById(userId);
-        BeanUtil.copyProperties(user, userVO);
+        BeanUtil.copyProperties(user, loginUserVO);
         // 用户角色信息
         List<String> roles = JwtUtils.getRoles();
-        userVO.setRoles(roles);
+        loginUserVO.setRoles(roles);
         // 用户按钮权限信息
         List<String> perms = iSysPermissionService.listBtnPermByRoles(roles);
-        userVO.setPerms(perms);
-        return Result.success(userVO);
+        loginUserVO.setPerms(perms);
+        return Result.success(loginUserVO);
     }
 }
