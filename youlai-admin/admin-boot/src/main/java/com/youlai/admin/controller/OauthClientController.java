@@ -31,14 +31,14 @@ public class OauthClientController {
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "pageSize", value = "页码", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "pageNum", value = "每页数量", paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "clientId", value = "客户端ID", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result list(Integer page, Integer limit, String clientId) {
+    public Result list(long pageNum, long pageSize, String clientId) {
         IPage<SysOauthClient> result = iSysOauthClientService.page(
-                new Page<>(page, limit),
+                new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SysOauthClient>()
                         .like(StrUtil.isNotBlank(clientId), SysOauthClient::getClientId, clientId));
         return Result.success(result.getRecords(), result.getTotal());
