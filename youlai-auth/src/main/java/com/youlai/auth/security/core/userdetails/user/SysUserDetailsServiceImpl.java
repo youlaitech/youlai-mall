@@ -1,7 +1,7 @@
 package com.youlai.auth.security.core.userdetails.user;
 
 import com.youlai.admin.api.UserFeignClient;
-import com.youlai.admin.dto.UserAuthDTO;
+import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +29,9 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUserDetails userDetails = null;
-        Result<UserAuthDTO> result = userFeignClient.getUserByUsername(username);
+        Result<AuthUserDTO> result = userFeignClient.getUserByUsername(username);
         if (Result.isSuccess(result)) {
-            UserAuthDTO user = result.getData();
+            AuthUserDTO user = result.getData();
             if (null != user) {
                 userDetails = new SysUserDetails(user);
             }

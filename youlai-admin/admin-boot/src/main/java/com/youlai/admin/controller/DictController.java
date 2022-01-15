@@ -33,24 +33,23 @@ public class DictController {
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "pageNum", value = "页码", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
     })
     @GetMapping("/page")
-    public Result list( Integer page,Integer limit, String name) {
-        Page<SysDict> result = iSysDictService.page(new Page<>(page, limit), new LambdaQueryWrapper<SysDict>()
+    public Result list(Long pageNum, Long pageSize, String name) {
+        Page<SysDict> result = iSysDictService.page(new Page<>(pageNum, pageSize), new LambdaQueryWrapper<SysDict>()
                 .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
                 .orderByDesc(SysDict::getGmtModified)
                 .orderByDesc(SysDict::getGmtCreate));
         return Result.success(result.getRecords(), result.getTotal());
     }
 
-
     @ApiOperation(value = "字典列表")
     @GetMapping
     public Result list() {
-        List<SysDict> list = iSysDictService.list( new LambdaQueryWrapper<SysDict>()
+        List<SysDict> list = iSysDictService.list(new LambdaQueryWrapper<SysDict>()
                 .orderByDesc(SysDict::getGmtModified)
                 .orderByDesc(SysDict::getGmtCreate));
         return Result.success(list);

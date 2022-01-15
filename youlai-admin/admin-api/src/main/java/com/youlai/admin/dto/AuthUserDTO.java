@@ -5,13 +5,13 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 系统用户认证信息
+ * OAuth2认证用户信息传输层对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021/9/27
  */
 @Data
-public class UserAuthDTO {
+public class AuthUserDTO {
 
     /**
      * 用户ID
@@ -29,7 +29,7 @@ public class UserAuthDTO {
     private String password;
 
     /**
-     * 用户状态：1-有效；0-禁用
+     * 用户状态(1:正常;0:禁用)
      */
     private Integer status;
 
@@ -42,7 +42,5 @@ public class UserAuthDTO {
      * 部门ID
      */
     private Long deptId;
-
-
 
 }
