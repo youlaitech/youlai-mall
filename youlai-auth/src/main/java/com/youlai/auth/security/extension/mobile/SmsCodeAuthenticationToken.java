@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * 手机验证码登录
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/5
  */
 public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {

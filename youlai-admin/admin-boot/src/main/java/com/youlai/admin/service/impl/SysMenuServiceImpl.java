@@ -6,7 +6,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.common.constant.SystemConstants;
+import com.youlai.admin.constant.SystemConstants;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.*;
 import com.youlai.admin.mapper.SysMenuMapper;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * 菜单业务类
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2020-11-06
  */
 @Service
@@ -155,7 +155,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @Cacheable cacheNames:缓存名称，不同缓存的数据是彼此隔离； key: 缓存Key。
      */
     @Override
-    @Cacheable(cacheNames = "system", key = "'routeList'")
+    @Cacheable(cacheNames = "system", key = "'routes'")
     public List<RouteVO> listRoute() {
         List<SysMenu> menuList = this.baseMapper.listRoute();
         List<RouteVO> list = recursionRoute(SystemConstants.ROOT_MENU_ID, menuList);
@@ -283,7 +283,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 清理路由缓存
      */
     @Override
-    @CacheEvict(cacheNames = "system", key = "'routeList'")
+    @CacheEvict(cacheNames = "system", key = "'routes'")
     public void cleanCache() {
     }
 
@@ -293,7 +293,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     @Override
-    @Cacheable(cacheNames = "system", key = "'nextRouteList'")
+    @Cacheable(cacheNames = "system", key = "'nextRoutes'")
     public List<NextRouteVO> listNextRoutes() {
         List<SysMenu> menuList = this.baseMapper.listRoute();
         List<NextRouteVO> list = recursionNextRoute(SystemConstants.ROOT_MENU_ID, menuList);

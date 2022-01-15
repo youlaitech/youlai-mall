@@ -51,5 +51,4 @@ public class SysUser extends BaseEntity {
     @TableField(exist = false)
     private List<String> roles;
 
-
 }

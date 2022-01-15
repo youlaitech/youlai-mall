@@ -24,7 +24,7 @@ import java.util.HashSet;
 /**
  * 微信认证提供者
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/9/25
  */
 @Data

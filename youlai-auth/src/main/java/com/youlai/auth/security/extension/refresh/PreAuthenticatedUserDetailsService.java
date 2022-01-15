@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * 刷新token再次认证 UserDetailsService
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/2
  */
 @NoArgsConstructor

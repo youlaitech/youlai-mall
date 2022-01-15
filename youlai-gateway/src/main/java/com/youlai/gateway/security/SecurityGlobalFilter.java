@@ -29,7 +29,7 @@ import java.net.URLEncoder;
 /**
  * 安全拦截全局过滤器
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 @Component
 @Slf4j

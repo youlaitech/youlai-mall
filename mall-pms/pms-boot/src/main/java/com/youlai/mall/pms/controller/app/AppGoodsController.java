@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RestController(value = "appGoodsController")
 @RequestMapping("/app-api/v1/goods")
 @AllArgsConstructor
-public class GoodsController {
+public class AppGoodsController {
 
     private IGoodsService goodsService;
 

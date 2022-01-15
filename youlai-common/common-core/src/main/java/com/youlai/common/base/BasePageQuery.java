@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class BasePageQuery {
 
-    @ApiModelProperty(value = "当前页", example = "1")
+    @ApiModelProperty(value = "页码", example = "1")
     private int pageNum = 1;
 
     @ApiModelProperty(value = "每页记录数", example = "10")

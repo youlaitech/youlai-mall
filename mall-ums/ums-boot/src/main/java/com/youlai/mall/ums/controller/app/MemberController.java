@@ -14,28 +14,24 @@ import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Set;
 
-@Api(tags = "【移动端】会员服务")
-@RestController
+@Api(tags = "移动端_会员中心")
 @RequestMapping("/app-api/v1/members")
-@Slf4j
-@AllArgsConstructor
+@RestController("appMemberController")
+@RequiredArgsConstructor
 public class MemberController {
 
-    private IUmsMemberService iUmsMemberService;
+    private final IUmsMemberService iUmsMemberService;
 
     @ApiOperation(value = "获取会员信息")
     @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
-    public Result<MemberDTO> getById(
-            @PathVariable Long id
-    ) {
+    public Result<MemberDTO> getById(@PathVariable Long id) {
         MemberDTO memberDTO = new MemberDTO();
         UmsMember user = iUmsMemberService.getOne(
                 new LambdaQueryWrapper<UmsMember>()
@@ -118,12 +114,7 @@ public class MemberController {
     @ApiOperation(value = "添加浏览历史")
     @PostMapping("/view/history")
     public <T> Result<T> addProductViewHistory(@RequestBody ProductHistoryVO product) {
-        Long userId = null;
-        try {
-            userId = JwtUtils.getUserId();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
+        Long userId = JwtUtils.getUserId();
         iUmsMemberService.addProductViewHistory(product, userId);
         return Result.success();
     }
@@ -169,6 +160,5 @@ public class MemberController {
         MemberAuthDTO memberAuth = new MemberAuthDTO(member.getId(), member.getMobile(), member.getStatus());
         return Result.success(memberAuth);
     }
-
 
 }

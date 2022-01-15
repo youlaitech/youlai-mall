@@ -2,7 +2,7 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
-import com.youlai.mall.pms.pojo.vo.CascadeVO;
+import com.youlai.common.domain.ValueLabel;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 商品分类
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 public interface IPmsCategoryService extends IService<PmsCategory> {
 
@@ -28,7 +28,7 @@ public interface IPmsCategoryService extends IService<PmsCategory> {
      * 分类列表（级联）
      * @return
      */
-    List<CascadeVO> listCascadeCategory();
+    List<ValueLabel> listCascadeCategory();
 
 
     /**

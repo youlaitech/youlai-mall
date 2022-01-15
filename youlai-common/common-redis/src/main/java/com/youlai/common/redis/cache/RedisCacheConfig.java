@@ -13,7 +13,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 /**
  * Redis缓存配置
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/8/19
  */
 @EnableConfigurationProperties(CacheProperties.class)
@@ -33,9 +33,6 @@ public class RedisCacheConfig {
 
         if (redisProperties.getTimeToLive() != null) {
             config = config.entryTtl(redisProperties.getTimeToLive());
-        }
-        if (redisProperties.getKeyPrefix() != null) {
-            config = config.prefixKeysWith(redisProperties.getKeyPrefix());
         }
         if (!redisProperties.isCacheNullValues()) {
             config = config.disableCachingNullValues();

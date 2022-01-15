@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * 验证码授权模式授权者
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/9/25
  */
 public class CaptchaTokenGranter extends AbstractTokenGranter {

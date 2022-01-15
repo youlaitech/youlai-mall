@@ -2,18 +2,23 @@ package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.common.constant.SystemConstants;
+import com.youlai.admin.constant.SystemConstants;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.DeptVO;
 import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysDeptService;
+import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.web.util.JwtUtils;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -21,12 +26,14 @@ import java.util.stream.Collectors;
 /**
  * 部门业务类
  *
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021-08-22
  */
+@AllArgsConstructor
 @Service
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
 
+    private ISysUserService iSysUserService;
 
     /**
      * 部门表格（Table）层级列表
@@ -39,6 +46,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         List<SysDept> deptList = this.list(
                 new LambdaQueryWrapper<SysDept>()
                         .like(StrUtil.isNotBlank(name), SysDept::getName, name)
+                        .eq(Validator.isNotNull(status), SysDept::getStatus,status)
                         .orderByAsc(SysDept::getSort)
         );
         return recursion(deptList);
@@ -111,7 +119,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)
         );
-        List<TreeSelectVO> deptSelectList = recursionTreeSelectList(SystemConstants.ROOT_DEPT_ID, deptList);
+        SysDept sysDept = this.getById(JwtUtils.getJwtPayload().getLong("deptId"));
+        List<TreeSelectVO> deptSelectList = recursionTreeSelectList(sysDept.getParentId(), deptList);
         return deptSelectList;
     }
 
