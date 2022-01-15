@@ -9,16 +9,13 @@ import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.service.ISysDictItemService;
 import com.youlai.admin.service.ISysDictService;
 import com.youlai.common.result.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "字典接口")
+@Api(tags = "字典管理")
 @RestController
 @RequestMapping("/api/v2/dict")
 @RequiredArgsConstructor
@@ -28,13 +25,12 @@ public class DictV2Controller {
     private final ISysDictItemService iSysDictItemService;
 
     @ApiOperation(value = "字典分页列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "页码", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "pageSize", value = "每页数量", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
-    })
     @GetMapping("/page")
-    public Result listDictByPage(long pageNum, long pageSize, String name) {
+    public Result listDictByPage(
+            @ApiParam("页码") long pageNum,
+            @ApiParam("每页数量") long pageSize,
+            @ApiParam("字典名称") String name
+    ) {
         Page<SysDict> result = iSysDictService.page(new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SysDict>()
                         .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
@@ -45,7 +41,9 @@ public class DictV2Controller {
 
     @ApiOperation(value = "字典详情")
     @GetMapping("/{id}")
-    public Result getDictDetail(@PathVariable Long id) {
+    public Result getDictDetail(
+            @ApiParam("字典ID") @PathVariable Long id
+    ) {
         SysDict dict = iSysDictService.getById(id);
         return Result.success(dict);
     }
@@ -65,9 +63,10 @@ public class DictV2Controller {
     }
 
     @ApiOperation(value = "删除字典")
-    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
-    public Result deleteDict(@PathVariable String ids) {
+    public Result deleteDict(
+            @ApiParam("字典ID，多个以英文逗号(,)分割") @PathVariable String ids
+    ) {
         boolean result = iSysDictService.deleteDictByIds(ids);
         return Result.judge(result);
     }
@@ -80,7 +79,12 @@ public class DictV2Controller {
             @ApiImplicitParam(name = "dictCode", value = "字典编码", paramType = "query", dataType = "String")
     })
     @GetMapping("/items/page")
-    public Result getPageList(long pageNum, long pageSize, String name, String dictCode) {
+    public Result getPageList(
+            long pageNum,
+            long pageSize,
+            String name,
+            String dictCode
+    ) {
         IPage<SysDictItem> result = iSysDictItemService.list(
                 new Page<>(pageNum, pageSize),
                 new SysDictItem().setName(name).setDictCode(dictCode)

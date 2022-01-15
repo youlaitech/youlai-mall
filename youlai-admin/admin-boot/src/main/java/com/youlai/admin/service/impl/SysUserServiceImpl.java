@@ -6,12 +6,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.constant.SystemConstants;
-import com.youlai.admin.dto.UserAuthDTO;
+import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.mapper.SysUserMapper;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.query.UserPageQuery;
-import com.youlai.admin.pojo.vo.UserDetailVO;
+import com.youlai.admin.pojo.vo.user.UserFormVO;
+import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +39,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 获取用户分页列表
      *
+     * @param queryParam
      * @return
      */
     @Override
-    public IPage<SysUser> list(UserPageQuery queryParam) {
-        Page<SysUser> page = new Page<>(queryParam.getPageNum(), queryParam.getPageSize());
-        List<SysUser> list = this.baseMapper.list(page, queryParam);
+    public IPage<UserPageVO> listUsersWithPage(UserPageQuery queryParam) {
+        Page<UserPageVO> page = new Page<>(queryParam.getPageNum(), queryParam.getPageSize());
+        List<UserPageVO> list = this.baseMapper.listUsersWithPage(page, queryParam);
         page.setRecords(list);
         return page;
     }
@@ -109,9 +111,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return this.updateById(user);
     }
 
+    /**
+     * 根据用户名获取认证信息
+     *
+     * @param username
+     * @return
+     */
     @Override
-    public UserAuthDTO getByUsername(String username) {
-        UserAuthDTO userAuthInfo = this.baseMapper.getByUsername(username);
+    public AuthUserDTO getAuthInfoByUsername(String username) {
+        AuthUserDTO userAuthInfo = this.baseMapper.getAuthInfoByUsername(username);
         return userAuthInfo;
     }
 
@@ -122,8 +130,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public UserDetailVO getUserDetailById(Long userId) {
-        UserDetailVO userDetail = this.baseMapper.getUserDetailById(userId);
+    public UserFormVO getUserFormById(Long userId) {
+        UserFormVO userDetail = this.baseMapper.getUserFormById(userId);
         return userDetail;
     }
 

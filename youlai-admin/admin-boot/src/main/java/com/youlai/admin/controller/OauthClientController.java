@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.dto.OAuth2ClientDTO;
+import com.youlai.admin.dto.AuthClientDTO;
 import com.youlai.admin.pojo.entity.SysOauthClient;
 import com.youlai.admin.service.ISysOauthClientService;
 import com.youlai.common.result.Result;
@@ -84,11 +84,11 @@ public class OauthClientController {
 
     @ApiOperation(hidden = true, value = "获取 OAuth2 客户端认证信息", notes = "Feign 调用")
     @GetMapping("/getOAuth2ClientById")
-    public Result<OAuth2ClientDTO> getOAuth2ClientById(@RequestParam String clientId) {
+    public Result<AuthClientDTO> getOAuth2ClientById(@RequestParam String clientId) {
         SysOauthClient client = iSysOauthClientService.getById(clientId);
         Assert.isTrue(client!=null, "OAuth2 客户端不存在");
-        OAuth2ClientDTO oAuth2ClientDTO = new OAuth2ClientDTO();
-        BeanUtil.copyProperties(client, oAuth2ClientDTO);
-        return Result.success(oAuth2ClientDTO);
+        AuthClientDTO authClientDTO = new AuthClientDTO();
+        BeanUtil.copyProperties(client, authClientDTO);
+        return Result.success(authClientDTO);
     }
 }

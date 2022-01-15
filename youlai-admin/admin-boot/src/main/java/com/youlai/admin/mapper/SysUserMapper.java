@@ -2,10 +2,11 @@ package com.youlai.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.admin.dto.UserAuthDTO;
+import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.query.UserPageQuery;
-import com.youlai.admin.pojo.vo.UserDetailVO;
+import com.youlai.admin.pojo.vo.user.UserFormVO;
+import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.common.mybatis.handler.InterceptorIgnore;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,14 +24,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 获取用户分页列表
      *
-     * @param page
+     * @param pageParam
      * @param queryParam
      * @return
      */
     @InterceptorIgnore(deptAlias = "d")
-    List<SysUser> list(Page<SysUser> page, UserPageQuery queryParam);
-
-    UserAuthDTO getByUsername(String username);
+    List<UserPageVO> listUsersWithPage(Page<UserPageVO> pageParam, UserPageQuery queryParam);
 
     /**
      * 根据用户ID获取用户详情
@@ -38,5 +37,15 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param userId
      * @return
      */
-    UserDetailVO getUserDetailById(Long userId);
+    UserFormVO getUserFormById(Long userId);
+
+    /**
+     * 根据用户名获取认证信息
+     *
+     * @param username
+     * @return
+     */
+    AuthUserDTO getAuthInfoByUsername(String username);
+
+
 }

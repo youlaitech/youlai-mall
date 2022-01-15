@@ -4,43 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.admin.mapper.SysUserMapper">
 
-    <resultMap id="UserAuthMap" type="com.youlai.admin.dto.UserAuthDTO">
-        <id property="userId" column="userId" jdbcType="BIGINT"/>
-        <result property="username" column="username" jdbcType="VARCHAR"/>
-        <result property="password" column="password" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="BOOLEAN"/>
-        <result property="deptId" column="deptId" jdbcType="BIGINT"></result>
-        <collection property="roles" ofType="string" javaType="list">
-            <result column="roleCode"></result>
-        </collection>
-    </resultMap>
-
-    <select id="getByUsername" resultMap="UserAuthMap">
+    <!-- 获取用户分页列表 -->
+    <select id="listUsersWithPage" resultType="com.youlai.admin.pojo.vo.user.UserPageVO">
         SELECT
-            t1.id userId,
-            t1.username,
-            t1.nickname,
-            t1.PASSWORD,
-            t1.STATUS,
-            t1.dept_id deptId,
-            t3.CODE roleCode
-        FROM
-            sys_user t1,
-            sys_user_role t2,
-            sys_role t3
-        WHERE
-            t1.username = #{username}
-          AND t1.deleted = 0
-          AND t1.id = t2.user_id
-          AND t2.role_id = t3.id
-    </select>
-
-
-    <select id="list" resultType="com.youlai.admin.pojo.entity.SysUser">
-        SELECT
-            u.*,
+            u.id,
+            u.username,
+            u.nickname,
+            u.mobile,
+            u.gender,
+            u.avatar,
+            u.STATUS,
             d.NAME AS dept_name,
-            GROUP_CONCAT( r.NAME ) AS roleNames
+            GROUP_CONCAT( r.NAME ) AS roleNames,
+            u.gmt_create
         FROM
             sys_user u
             LEFT JOIN sys_dept d ON u.dept_id = d.id
@@ -62,9 +38,44 @@
         GROUP BY u.id
     </select>
 
+    <!-- 用户表单信息映射 -->
+    <resultMap id="UserFormMap" type="com.youlai.admin.pojo.vo.user.UserFormVO">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="nickname" column="password" jdbcType="VARCHAR"/>
+        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="TINYINT"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="BOOLEAN"/>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"></result>
+        <collection
+                property="roleIds"
+                column="id"
+                select="com.youlai.admin.mapper.SysUserRoleMapper.listRoleIdsByUserId" >
+            <result column="role_id" />
+        </collection>
+    </resultMap>
 
-    <resultMap id="UserDetailMap" type="com.youlai.admin.pojo.vo.UserDetailVO">
-        <id property="id" column="userId" jdbcType="BIGINT"/>
+    <!-- 根据用户ID获取用户详情 -->
+    <select id="getUserFormById" resultMap="UserFormMap">
+        SELECT id,
+               username,
+               nickname,
+               mobile,
+               gender,
+               avatar,
+               email,
+               STATUS,
+               dept_id
+        FROM sys_user
+        WHERE id = #{userId}
+          AND deleted = 0
+    </select>
+
+    <!-- 用户认证信息映射 -->
+    <resultMap id="AuthUserMap" type="com.youlai.admin.dto.AuthUserDTO">
+        <id property="userId" column="userId" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>
@@ -74,23 +85,21 @@
         </collection>
     </resultMap>
 
-
-    <!-- 根据用户ID获取用户详情 -->
-    <select id="getUserDetailById" resultMap="UserDetailMap">
+    <!-- 根据用户名获取认证信息 -->
+    <select id="getAuthInfoByUsername" resultMap="AuthUserMap">
         SELECT
-            id,
-            username,
-            nickname,
-            mobile,
-            gender,
-            avatar,
-            email,
-            STATUS,
-            dept_id
+            t1.id userId,
+            t1.username,
+            t1.nickname,
+            t1.PASSWORD,
+            t1.STATUS,
+            t1.dept_id deptId,
+            t3.CODE roleCode
         FROM
-            sys_user
+            sys_user t1
+                LEFT JOIN sys_user_role t2 ON t2.user_id = t1.id
+                LEFT JOIN sys_role t3 ON t3.id = t2.role_id
         WHERE
-            id = #{userId}
-          AND deleted =0
+            t1.username = #{username} and t1.deleted=0
     </select>
 </mapper>

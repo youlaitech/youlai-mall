@@ -1,4 +1,4 @@
-package com.youlai.admin.pojo.vo;
+package com.youlai.admin.pojo.vo.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,14 +7,14 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 用户详情视图对象
+ * 用户表单视图对象
  *
  * @author haoxr
  * @date 2022/1/14
  */
-@ApiModel("用户详情视图对象")
+@ApiModel("用户表单视图对象")
 @Data
-public class UserDetailVO {
+public class UserFormVO {
 
     @ApiModelProperty("用户ID")
     private Long id;

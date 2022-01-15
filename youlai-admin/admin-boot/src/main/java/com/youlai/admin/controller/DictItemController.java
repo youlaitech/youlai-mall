@@ -35,12 +35,12 @@ public class DictItemController {
     })
     @GetMapping("/page")
     public Result getPageList(
-            Integer page,
-            Integer limit,
+            long pageNum,
+            long pageSize,
             String name,
             String dictCode
     ) {
-        IPage<SysDictItem> result = iSysDictItemService.list(new Page<>(page, limit),
+        IPage<SysDictItem> result = iSysDictItemService.list(new Page<>(pageNum, pageSize),
                 new SysDictItem().setName(name).setDictCode(dictCode));
         return Result.success(result.getRecords(), result.getTotal());
     }
