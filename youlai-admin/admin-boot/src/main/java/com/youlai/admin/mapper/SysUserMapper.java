@@ -7,7 +7,7 @@ import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
-import com.youlai.common.mybatis.handler.InterceptorIgnore;
+import com.youlai.common.mybatis.annotation.DataPermission;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param queryParam
      * @return
      */
-    @InterceptorIgnore(deptAlias = "d")
+    @DataPermission(deptAlias = "d")
     List<UserPageVO> listUsersWithPage(Page<UserPageVO> pageParam, UserPageQuery queryParam);
 
     /**
