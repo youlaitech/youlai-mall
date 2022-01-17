@@ -2,6 +2,7 @@ package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -46,7 +47,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         List<SysDept> deptList = this.list(
                 new LambdaQueryWrapper<SysDept>()
                         .like(StrUtil.isNotBlank(name), SysDept::getName, name)
-                        .eq(Validator.isNotNull(status), SysDept::getStatus,status)
+                        .eq(Validator.isNotNull(status), SysDept::getStatus, status)
                         .orderByAsc(SysDept::getSort)
         );
         return recursion(deptList);
@@ -157,9 +158,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      */
     @Override
     public Long saveDept(SysDept dept) {
-        String treePath = getDeptTreePath(dept);
+        // 生成部门树路径
+        String treePath = generateDeptTreePath(dept);
         dept.setTreePath(treePath);
-        this.saveOrUpdate(dept);
+        
+        boolean result = this.saveOrUpdate(dept);
+        Assert.isTrue(result, "保存部门出错");
         return dept.getId();
     }
 
@@ -185,12 +189,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 
     /**
-     * 获取部门级联路径
+     * 生成部门路径
      *
      * @param dept
      * @return
      */
-    private String getDeptTreePath(SysDept dept) {
+    private String generateDeptTreePath(SysDept dept) {
         Long parentId = dept.getParentId();
         String treePath;
         if (parentId.equals(SystemConstants.ROOT_DEPT_ID)) {
