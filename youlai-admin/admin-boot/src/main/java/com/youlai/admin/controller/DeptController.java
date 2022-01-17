@@ -6,10 +6,7 @@ import com.youlai.admin.pojo.vo.SelectVO;
 import com.youlai.admin.pojo.vo.TreeSelectVO;
 import com.youlai.admin.service.ISysDeptService;
 import com.youlai.common.result.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,33 +45,37 @@ public class DeptController {
     }
 
     @ApiOperation(value = "部门详情")
-    @ApiImplicitParam(name = "id", value = "部门id", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}")
-    public Result detail(@PathVariable Long id) {
-        SysDept sysDept = deptService.getById(id);
+    @GetMapping("/{deptId}")
+    public Result getDeptDetail(
+            @ApiParam("部门ID") @PathVariable Long deptId
+    ) {
+        SysDept sysDept = deptService.getById(deptId);
         return Result.success(sysDept);
     }
 
     @ApiOperation(value = "新增部门")
     @PostMapping
-    public Result add(@RequestBody SysDept dept) {
+    public Result addDept(@RequestBody SysDept dept) {
         Long id = deptService.saveDept(dept);
         return Result.success(id);
     }
 
     @ApiOperation(value = "修改部门")
-    @PutMapping(value = "/{id}")
-    public Result update(@PathVariable Long id, @RequestBody SysDept dept) {
-        dept.setId(id);
-        Long deptId = deptService.saveDept(dept);
+    @PutMapping(value = "/{deptId}")
+    public Result updateDept(
+            @ApiParam("部门ID") @PathVariable Long deptId,
+            @RequestBody SysDept dept
+    ) {
+        deptId = deptService.saveDept(dept);
         return Result.success(deptId);
     }
 
     @ApiOperation(value = "删除部门")
-    @ApiImplicitParam(name = "ids", value = "部门ID，多个以英文逗号,分割拼接", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable("ids") String ids) {
-        boolean status= deptService.deleteByIds(ids);
+    public Result deleteDepartments(
+            @ApiParam("部门ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids
+    ) {
+        boolean status = deptService.deleteByIds(ids);
         return Result.judge(status);
     }
 
