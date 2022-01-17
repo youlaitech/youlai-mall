@@ -1,9 +1,9 @@
-package com.youlai.common.mybatis.handler;
+package com.youlai.common.mybatis.annotation;
 
 import java.lang.annotation.*;
 
 /**
- * 是否需要数据权限
+ * 数据权限注解
  *
  * @author <a href="mailto:2256222053@qq.com">zc</a>
  * @Date 2021-12-10 15:48
@@ -11,14 +11,11 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface InterceptorIgnore {
+public @interface DataPermission {
 
     /**
      * 数据权限 {@link com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor}
-     * <p>
-     * 默认打开，需要注解关闭
      */
-
     String deptAlias() default "";
 }
 

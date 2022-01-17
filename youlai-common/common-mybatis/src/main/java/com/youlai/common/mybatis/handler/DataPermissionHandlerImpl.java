@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.mybatis.annotation.DataPermission;
 import com.youlai.common.web.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.*;
@@ -34,7 +35,7 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
             clazz.getAnnotatedSuperclass();
             Method[] methods = clazz.getDeclaredMethods();
             for (Method method : methods) {
-                InterceptorIgnore annotation = method.getAnnotation(InterceptorIgnore.class);
+                DataPermission annotation = method.getAnnotation(DataPermission.class);
                 if (ObjectUtils.isNotEmpty(annotation) && (method.getName().equals(methodName) || (method.getName() + "_COUNT").equals(methodName))) {
                     // 获取当前的用户角色
                     List<String> roles = JwtUtils.getRoles();
