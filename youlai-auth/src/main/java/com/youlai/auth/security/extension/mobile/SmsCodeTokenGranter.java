@@ -22,7 +22,7 @@ import java.util.Map;
 public class SmsCodeTokenGranter extends AbstractTokenGranter {
 
     /**
-     * 声明授权者 CaptchaTokenGranter 支持授权模式 sms_code
+     * 声明授权者 SmsCodeTokenGranter 支持授权模式 sms_code
      * 根据接口传值 grant_type = sms_code 的值匹配到此授权者
      * 匹配逻辑详见下面的两个方法
      *
