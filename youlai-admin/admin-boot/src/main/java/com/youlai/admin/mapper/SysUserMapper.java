@@ -37,7 +37,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param userId
      * @return
      */
-    UserFormVO getUserFormById(Long userId);
+    UserFormVO getUserFormDetail(Long userId);
 
     /**
      * 根据用户名获取认证信息

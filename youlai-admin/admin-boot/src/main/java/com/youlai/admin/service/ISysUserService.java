@@ -54,5 +54,5 @@ public interface ISysUserService extends IService<SysUser> {
      * @param userId
      * @return
      */
-    UserFormVO getUserFormById(Long userId);
+    UserFormVO getUserFormDetail(Long userId);
 }

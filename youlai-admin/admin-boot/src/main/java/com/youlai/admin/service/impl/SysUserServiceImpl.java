@@ -130,8 +130,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public UserFormVO getUserFormById(Long userId) {
-        UserFormVO userDetail = this.baseMapper.getUserFormById(userId);
+    public UserFormVO getUserFormDetail(Long userId) {
+        UserFormVO userDetail = this.baseMapper.getUserFormDetail(userId);
         return userDetail;
     }
 
