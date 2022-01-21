@@ -28,7 +28,7 @@ public class AdvertController {
     public Result getAdvertPageList(
             @ApiParam("页码") Long pageNum,
             @ApiParam("每页数量") Long pageSize,
-            @ApiParam("广告名称") String title) {
+            @ApiParam("广告标题") String title) {
         Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SmsAdvert>()
                         .like(StrUtil.isNotBlank(title), SmsAdvert::getTitle, StrUtil.isNotBlank(title)?title:null)
