@@ -24,15 +24,15 @@
             LEFT JOIN sys_role r ON ur.role_id = r.id
         <where>
             <if test='queryParam.keywords!=null and queryParam.keywords.trim() neq ""'>
-                and(u.username like concat('%',#{queryParam.keywords},'%')
+                AND (u.username like concat('%',#{queryParam.keywords},'%')
                 OR u.nickname like concat('%',#{queryParam.keywords},'%')
                 OR u.mobile like concat('%',#{queryParam.keywords},'%'))
             </if>
             <if test='queryParam.status!=null'>
-                and u.status = #{queryParam.status}
+                AND u.status = #{queryParam.status}
             </if>
             <if test='queryParam.deptId!=null'>
-                and concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{queryParam.deptId},',%')
+                AND concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{queryParam.deptId},',%')
             </if>
         </where>
         GROUP BY u.id
