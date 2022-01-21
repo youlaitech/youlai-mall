@@ -50,11 +50,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "获取用户表单详情")
-    @GetMapping("/{userId}/form")
+    @GetMapping("/{userId}/form_detail")
     public Result<UserFormVO> getUserDetail(
             @ApiParam(value = "用户ID", example = "1") @PathVariable Long userId
     ) {
-        UserFormVO userDetail = iSysUserService.getUserFormById(userId);
+        UserFormVO userDetail = iSysUserService.getUserFormDetail(userId);
         return Result.success(userDetail);
     }
 

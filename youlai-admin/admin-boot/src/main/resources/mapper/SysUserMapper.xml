@@ -42,7 +42,7 @@
     <resultMap id="UserFormMap" type="com.youlai.admin.pojo.vo.user.UserFormVO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
-        <result property="nickname" column="password" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
         <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
         <result property="gender" column="gender" jdbcType="TINYINT"/>
         <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
@@ -58,7 +58,7 @@
     </resultMap>
 
     <!-- 根据用户ID获取用户详情 -->
-    <select id="getUserFormById" resultMap="UserFormMap">
+    <select id="getUserFormDetail" resultMap="UserFormMap">
         SELECT id,
                username,
                nickname,
