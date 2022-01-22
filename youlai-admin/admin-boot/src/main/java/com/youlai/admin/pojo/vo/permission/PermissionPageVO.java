@@ -1,16 +1,18 @@
-package com.youlai.admin.pojo.vo;
+package com.youlai.admin.pojo.vo.permission;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
+ * 权限视图对象
+ *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/30 10:54
  */
 @Data
 @ApiModel("权限视图对象")
-public class PermissionVO {
+public class PermissionPageVO {
 
     @ApiModelProperty("权限ID")
     private Long id;

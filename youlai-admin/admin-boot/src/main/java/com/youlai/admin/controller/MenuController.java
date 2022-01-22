@@ -2,10 +2,10 @@ package com.youlai.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.vo.MenuVO;
-import com.youlai.admin.pojo.vo.RouteVO;
-import com.youlai.admin.pojo.vo.SelectVO;
-import com.youlai.admin.pojo.vo.TreeSelectVO;
+import com.youlai.admin.pojo.vo.menu.MenuVO;
+import com.youlai.admin.pojo.vo.menu.RouteVO;
+import com.youlai.admin.pojo.vo.ValueLabelVO;
+import com.youlai.admin.pojo.vo.IdLabelVO;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.result.Result;
@@ -48,14 +48,14 @@ public class MenuController {
     @ApiOperation(value = "菜单下拉（Select）层级列表")
     @GetMapping("/select")
     public Result getSelectList() {
-        List<SelectVO> menuList = menuService.listSelect();
+        List<ValueLabelVO> menuList = menuService.listSelect();
         return Result.success(menuList);
     }
 
     @ApiOperation(value = "菜单树形（TreeSelect）层级列表")
     @GetMapping("/tree_select")
     public Result getTreeSelectList() {
-        List<TreeSelectVO> menuList = menuService.listTreeSelect();
+        List<IdLabelVO> menuList = menuService.listTreeSelect();
         return Result.success(menuList);
     }
 

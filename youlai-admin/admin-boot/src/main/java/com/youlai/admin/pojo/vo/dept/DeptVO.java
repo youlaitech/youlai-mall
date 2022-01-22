@@ -1,4 +1,4 @@
-package com.youlai.admin.pojo.vo;
+package com.youlai.admin.pojo.vo.dept;
 
 import lombok.Data;
 

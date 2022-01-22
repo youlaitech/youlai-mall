@@ -7,7 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysPermissionMapper;
 import com.youlai.admin.pojo.entity.SysPermission;
-import com.youlai.admin.pojo.vo.PermissionVO;
+import com.youlai.admin.pojo.query.PermissionPageQuery;
+import com.youlai.admin.pojo.vo.permission.PermissionPageVO;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 /**
- * 权限业务类
+ * 权限业务实现类
+ *
+ * @author haoxr
+ * @date 2022/1/22
  */
 @Service
 @RequiredArgsConstructor
@@ -30,18 +33,47 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     private final RedisTemplate redisTemplate;
 
+    /**
+     * 获取权限分页列表
+     *
+     * @param queryParams
+     * @return
+     */
     @Override
-    public IPage<PermissionVO> list(Page<PermissionVO> page, String name, Long menuId) {
-        List<PermissionVO> list= this.baseMapper.list(page, name,menuId);
+    public IPage<PermissionPageVO> listPermissionsWithPage(PermissionPageQuery queryParams) {
+        Page<PermissionPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
+        List<PermissionPageVO> list = this.baseMapper.listPermissionsWithPage(page, queryParams);
         page.setRecords(list);
         return page;
     }
 
+    /**
+     * 根据角色编码集合获取按钮权限
+     *
+     * @param roles 角色权限编码集合
+     * @return
+     */
+    @Override
+    public List<String> listBtnPermByRoles(List<String> roles) {
+        List<String> perms = this.baseMapper.listBtnPermByRoles(roles);
+        return perms;
+    }
+
+    /**
+     * 获取权限和拥有权限的角色映射
+     *
+     * @return
+     */
     @Override
     public List<SysPermission> listPermRoles() {
         return this.baseMapper.listPermRoles();
     }
 
+    /**
+     * 刷新权限角色缓存
+     *
+     * @return
+     */
     @Override
     public boolean refreshPermRolesRules() {
         redisTemplate.delete(Arrays.asList(GlobalConstants.URL_PERM_ROLES_KEY, GlobalConstants.BTN_PERM_ROLES_KEY));
@@ -78,9 +110,5 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         return true;
     }
 
-    @Override
-    public List<String> listBtnPermByRoles(List<String> roles) {
-        List<String> perms = this.baseMapper.listBtnPermByRoles(roles);
-        return perms;
-    }
+
 }
