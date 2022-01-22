@@ -1,4 +1,4 @@
-package com.youlai.admin.pojo.vo;
+package com.youlai.admin.pojo.vo.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 当前登录用户视图对象
+ * 登录用户视图层对象
  *
  * @author haoxr
  * @date 2022/1/14

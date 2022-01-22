@@ -1,6 +1,6 @@
 package com.youlai.admin.controller.v2;
 
-import com.youlai.admin.pojo.vo.NextRouteVO;
+import com.youlai.admin.pojo.vo.menu.NextRouteVO;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;

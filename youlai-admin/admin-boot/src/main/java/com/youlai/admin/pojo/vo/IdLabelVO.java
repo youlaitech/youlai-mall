@@ -7,20 +7,23 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * 树形下拉视图对象
+ */
 @Data
 @NoArgsConstructor
-public class SelectVO {
+public class IdLabelVO {
 
-    public SelectVO(Long value, String label) {
-        this.value = value;
+    public IdLabelVO(Long id, String label) {
+        this.id = id;
         this.label = label;
     }
 
-    private Long value;
+    private Long id;
 
     private String label;
 
-    @JsonInclude(value = JsonInclude.Include.NON_NULL)
-    private List<SelectVO> children;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<IdLabelVO> children;
 
 }
