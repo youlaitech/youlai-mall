@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/13 22:44
  */
 @ConfigurationProperties(prefix = "aliyun.sms")

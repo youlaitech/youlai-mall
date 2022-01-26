@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 /**
  * 图片验证码路由
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/4
  */
 @Configuration

@@ -14,7 +14,7 @@ import java.util.HashSet;
 /**
  * 用户认证信息
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxianrui</a>
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/9/27
  */
 @Data
