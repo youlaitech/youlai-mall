@@ -21,7 +21,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxianrui</a>
+ * 阿里云短信业务类
+ * 
+ * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/13 23:04
  */
 @Service
