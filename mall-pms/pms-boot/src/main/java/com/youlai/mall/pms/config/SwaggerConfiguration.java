@@ -1,6 +1,7 @@
 package com.youlai.mall.pms.config;
 
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -28,12 +29,14 @@ import java.util.List;
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 
+    @Value("${knife4j.password_token_url}")
+    private String passwordTokenUrl;
+
     @Bean
     public Docket restApi() {
         //schema
         List<GrantType> grantTypes=new ArrayList<>();
         //密码模式
-        String passwordTokenUrl="http://localhost:9999/youlai-auth/oauth/token";
         ResourceOwnerPasswordCredentialsGrant resourceOwnerPasswordCredentialsGrant=new ResourceOwnerPasswordCredentialsGrant(passwordTokenUrl);
         grantTypes.add(resourceOwnerPasswordCredentialsGrant);
         OAuth oAuth=new OAuthBuilder().name("oauth2")
@@ -67,7 +70,7 @@ public class SwaggerConfiguration {
                 .title("商品中心")
                 .description("<div style='font-size:14px;color:red;'>商品管理、库存、分类、品牌、规格、参数等接口</div>")
                 .termsOfServiceUrl("https://www.youlai.tech")
-                .contact(new Contact("有来技术团队", "https://github.com/hxrui", "1490493387@qq.com"))
+                .contact(new Contact("有来技术团队", "https://gitee.com/youlaiorg", "youlaitech@163.com"))
                 .license("Open Source")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .version("1.0.0")
