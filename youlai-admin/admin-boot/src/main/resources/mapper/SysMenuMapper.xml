@@ -28,7 +28,7 @@
         gmt_create,gmt_modified
     </sql>
 
-    <select id="listRoute" resultMap="BaseResultMap">
+    <select id="listRoutes" resultMap="BaseResultMap">
         select t1.id,
                t1.name,
                t1.parent_id,

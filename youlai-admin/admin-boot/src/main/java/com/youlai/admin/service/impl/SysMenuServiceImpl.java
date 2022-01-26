@@ -7,9 +7,9 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.constant.SystemConstants;
+import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.*;
-import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.vo.menu.MenuVO;
 import com.youlai.admin.pojo.vo.menu.NextRouteVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
@@ -160,7 +160,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     @Cacheable(cacheNames = "system", key = "'routes'")
     public List<RouteVO> listRoute() {
-        List<SysMenu> menuList = this.baseMapper.listRoute();
+        List<SysMenu> menuList = this.baseMapper.listRoutes();
         List<RouteVO> list = recursionRoute(SystemConstants.ROOT_MENU_ID, menuList);
         return list;
     }
@@ -296,9 +296,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     @Override
-    @Cacheable(cacheNames = "system", key = "'nextRoutes'")
+    @Cacheable(cacheNames = "system", key = "'routes'")
     public List<NextRouteVO> listNextRoutes() {
-        List<SysMenu> menuList = this.baseMapper.listRoute();
+        List<SysMenu> menuList = this.baseMapper.listRoutes();
         List<NextRouteVO> list = recursionNextRoute(SystemConstants.ROOT_MENU_ID, menuList);
         return list;
     }
