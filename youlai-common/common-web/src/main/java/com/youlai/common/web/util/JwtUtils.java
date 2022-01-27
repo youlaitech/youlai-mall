@@ -1,5 +1,6 @@
 package com.youlai.common.web.util;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.SecurityConstants;
@@ -11,6 +12,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,7 +30,7 @@ public class JwtUtils {
         if (null == payload) {
             throw new BizException("请传入认证头");
         }
-        JSONObject jsonObject = JSONUtil.parseObj(URLDecoder.decode(payload,StandardCharsets.UTF_8.name()));
+        JSONObject jsonObject = JSONUtil.parseObj(URLDecoder.decode(payload, StandardCharsets.UTF_8.name()));
         return jsonObject;
     }
 
@@ -42,6 +45,16 @@ public class JwtUtils {
     }
 
     /**
+     * 解析JWT获取用户ID
+     *
+     * @return
+     */
+    public static Long getDeptId() {
+        Long id = getJwtPayload().getLong("deptId");
+        return id;
+    }
+
+    /**
      * 解析JWT获取获取用户名
      *
      * @return
@@ -52,18 +65,29 @@ public class JwtUtils {
     }
 
 
-
     /**
      * JWT获取用户角色列表
      *
      * @return 角色列表
      */
     public static List<String> getRoles() {
-        List<String> roles = null;
+        List<String> roles;
         JSONObject payload = getJwtPayload();
         if (payload.containsKey(SecurityConstants.JWT_AUTHORITIES_KEY)) {
             roles = payload.getJSONArray(SecurityConstants.JWT_AUTHORITIES_KEY).toList(String.class);
+        } else {
+            roles = Collections.emptyList();
         }
         return roles;
+    }
+
+    /**
+     * 是否「超级管理员」
+     *
+     * @return
+     */
+    public static boolean isRoot() {
+        List<String> roles = getRoles();
+        return CollectionUtil.isNotEmpty(roles) && roles.contains("ROOT");
     }
 }
