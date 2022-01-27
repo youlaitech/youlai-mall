@@ -9,7 +9,7 @@ package com.youlai.admin.constant;
 public interface SystemConstants {
 
     /**
-     *  根部门ID
+     * 根部门ID
      */
     Long ROOT_DEPT_ID = 0l;
 
@@ -23,6 +23,8 @@ public interface SystemConstants {
      */
     String DEFAULT_USER_PASSWORD = "123456";
 
-
-
+    /**
+     * 超级管理员角色编码
+     */
+    String ROOT_ROLE_CODE = "ROOT";
 }

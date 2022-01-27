@@ -120,8 +120,24 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)
         );
-        SysDept sysDept = this.getById(JwtUtils.getJwtPayload().getLong("deptId"));
-        List<IdLabelVO> deptSelectList = recursionTreeSelectList(sysDept.getParentId(), deptList);
+
+        boolean isRoot = JwtUtils.isRoot();
+        Long parentId;
+        if (isRoot) { // 超级管理员
+            parentId = SystemConstants.ROOT_DEPT_ID;
+        } else {
+            Long deptId = JwtUtils.getDeptId();
+            if (deptId == null) {
+                return Collections.emptyList();
+            }
+            SysDept dept = this.getById(deptId);
+            if (dept == null) {
+                return Collections.emptyList();
+            }
+            parentId = dept.getParentId();
+
+        }
+        List<IdLabelVO> deptSelectList = recursionTreeSelectList(parentId, deptList);
         return deptSelectList;
     }
 
@@ -161,7 +177,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         // 生成部门树路径
         String treePath = generateDeptTreePath(dept);
         dept.setTreePath(treePath);
-        
+
         boolean result = this.saveOrUpdate(dept);
         Assert.isTrue(result, "保存部门出错");
         return dept.getId();
