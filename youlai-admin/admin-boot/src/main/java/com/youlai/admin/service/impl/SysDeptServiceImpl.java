@@ -10,13 +10,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.constant.SystemConstants;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.pojo.entity.SysDept;
-import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.pojo.vo.IdLabelVO;
+import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.service.ISysDeptService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.util.JwtUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +29,11 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021-08-22
  */
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
 
-    private ISysUserService iSysUserService;
+    private final ISysUserService iSysUserService;
 
     /**
      * 部门表格（Table）层级列表
@@ -120,24 +119,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)
         );
-
-        boolean isRoot = JwtUtils.isRoot();
-        Long parentId;
-        if (isRoot) { // 超级管理员
-            parentId = SystemConstants.ROOT_DEPT_ID;
-        } else {
-            Long deptId = JwtUtils.getDeptId();
-            if (deptId == null) {
-                return Collections.emptyList();
-            }
-            SysDept dept = this.getById(deptId);
-            if (dept == null) {
-                return Collections.emptyList();
-            }
-            parentId = dept.getParentId();
-
-        }
-        List<IdLabelVO> deptSelectList = recursionTreeSelectList(parentId, deptList);
+        List<IdLabelVO> deptSelectList = recursionTreeSelectList( SystemConstants.ROOT_DEPT_ID, deptList);
         return deptSelectList;
     }
 
