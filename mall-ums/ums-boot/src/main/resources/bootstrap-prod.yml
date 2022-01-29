@@ -2,8 +2,11 @@ server:
   port: 8601
 
 spring:
-  application:
-    name: mall-ums
+  main:
+    allow-circular-references: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   cloud:
     nacos:
       discovery:

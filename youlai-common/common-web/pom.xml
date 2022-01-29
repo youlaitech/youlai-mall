@@ -54,13 +54,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.lionsoul</groupId>
-            <artifactId>ip2region</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.16.1</version>
         </dependency>
 
     </dependencies>

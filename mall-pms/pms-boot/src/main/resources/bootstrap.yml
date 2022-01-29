@@ -1,3 +1,5 @@
 spring:
+  application:
+    name: mall-pms
   profiles:
     active: dev

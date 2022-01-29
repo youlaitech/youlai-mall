@@ -1,3 +1,5 @@
 spring:
+  application:
+    name: mall-ums
   profiles:
     active: dev
