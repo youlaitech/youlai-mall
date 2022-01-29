@@ -1,3 +1,5 @@
 spring:
+  application:
+    name: youlai-admin
   profiles:
     active: dev

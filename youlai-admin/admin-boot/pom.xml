@@ -74,6 +74,7 @@
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.16.1</version>
         </dependency>
 
         <!-- 分布式对象存储 -->

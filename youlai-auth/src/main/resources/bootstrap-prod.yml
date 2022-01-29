@@ -2,8 +2,9 @@ server:
   port: 8000
 
 spring:
-  application:
-    name: youlai-auth
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   cloud:
     nacos:
       discovery:
