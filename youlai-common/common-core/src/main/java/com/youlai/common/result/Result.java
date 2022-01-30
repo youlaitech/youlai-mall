@@ -6,7 +6,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * 通用响应体封装
+ *
  * @author haoxr
+ * @date 2022/1/30
  **/
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -18,7 +21,7 @@ public class Result<T> implements Serializable {
 
     private String msg;
 
-    private Integer total;
+    private Long total;
 
     public static <T> Result<T> success() {
         return success(null);
@@ -37,11 +40,9 @@ public class Result<T> implements Serializable {
         result.setCode(ResultCode.SUCCESS.getCode());
         result.setMsg(ResultCode.SUCCESS.getMsg());
         result.setData(data);
-        result.setTotal(total.intValue());
+        result.setTotal(total);
         return result;
     }
-
-
 
     public static <T> Result<T> failed() {
         return result(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), ResultCode.SYSTEM_EXECUTION_ERROR.getMsg(), null);
