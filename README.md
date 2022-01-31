@@ -29,26 +29,31 @@
 
 ##### ️极速启动
 1. [x] **启动 Nacos**
+   
    IntelliJ IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到Nacos的bin目录，执行 `startup -m standalone` 启动 Nacos 服务；
 
 2. [x] **导入Nacos配置**
+   
    打开浏览器，地址栏输入 Nacos 管控台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ;
    输入用户名/密码：nacos/nacos;
    进入管控台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `doc/nacos/DEFAULT_GROUP.zip` 文件。
 
 3. [x] **服务启动**
+   
    进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
    进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
    进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统管理服务；
    至此已完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致。
 
 4. [x] 启动测试
+   
    访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
 
 ##### 本地启动
 
 1. [x] **中间件安装(🔴必装  ⚪可选)**
+   
     - 🔴MySQL 安装
     - 🔴Redis 安装
     - ⚪RabbitMQ
