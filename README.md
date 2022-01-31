@@ -27,7 +27,7 @@
 
 >  `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
-#### ️⚡极速启动
+#### ️🗀 极速启动
 1. [x] **启动 Nacos**
    
    IntelliJ IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到Nacos的bin目录，执行 `startup -m standalone` 启动 Nacos 服务；
@@ -50,7 +50,7 @@
    访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
 
-#### 🚁本地启动
+#### 🗀 本地启动
 
 1. [x] **中间件安装(🔴必装  ⚪可选)**
    
