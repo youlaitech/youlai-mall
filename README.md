@@ -12,14 +12,6 @@
 
 [youlai-mall](https://gitee.com/haoxr) 是基于Spring Boot 2.6、Spring Cloud 2021 & Alibaba 2021、Vue3、Element-Plus、uni-app等主流技术栈构建的一整套全栈开源商城项目， 涉及 [后端微服务](https://gitee.com/youlaitech/youlai-mall) 、 [前端管理](https://gitee.com/youlaitech/youlai-mall-admin) 、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp) 和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp) 等多端的开发。
 
-
-### 🗀  在线预览
-
-- Vue3： [www.youlai.tech](http://www.youlai.tech)
-- Vue2： [www.youlai.tech:9527](http://www.youlai.tech:9527)
-- H5：[www.youlai.tech:81](http://www.youlai.tech:9527)
-- 小程序: 加我微信申请体验
-
 ### 🗀  项目特色
 - 项目使用皆是当前主流的技术栈，无过度自定义封装，易理解学习和二次扩展；
 - SpringBoot 2.6、SpringCloud 2021 & Alibaba 2021 一站式微服务开箱即用的解决方案；
@@ -27,6 +19,13 @@
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、Docker、K8s实现微服务持续集成与交付(CI/CD)。
 
+
+### 🗀  在线预览
+
+- Vue3： [www.youlai.tech](http://www.youlai.tech)
+- Vue2： [www.youlai.tech:9527](http://www.youlai.tech:9527)
+- H5：[www.youlai.tech:81](http://www.youlai.tech:9527)
+- 小程序: 加我微信申请体验
 
 
 ### 🗀  预览截图
