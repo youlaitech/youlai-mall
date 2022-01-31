@@ -27,32 +27,38 @@
 
 >  `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
-#### ️🗀 极速启动
-1. [x] **启动 Nacos**
-   
-   IntelliJ IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到Nacos的bin目录，执行 `startup -m standalone` 启动 Nacos 服务；
+#### 一. 极速启动
 
-2. [x] **导入Nacos配置**
+1. **启动 Nacos**
    
-   打开浏览器，地址栏输入 Nacos 管控台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ;
-   输入用户名/密码：nacos/nacos;
-   进入管控台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `doc/nacos/DEFAULT_GROUP.zip` 文件。
+   IntelliJ IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到Nacos的bin目录，执行 `startup -m standalone` 启动 Nacos 服务。
 
-3. [x] **服务启动**
+2. **导入Nacos配置**
+   
+   打开浏览器，地址栏输入 Nacos 管控台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
+   
+   输入用户名/密码：nacos/nacos ；
+   
+   进入管控台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `doc/nacos/DEFAULT_GROUP.zip` 文件 。
+
+3. **服务启动**
    
    进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
+   
    进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
+   
    进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统管理服务；
-   至此已完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致。
+   
+   至此已完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致.
 
-4. [x] 启动测试
+4. **启动测试**
    
    访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
 
-#### 🗀 本地启动
+#### 二. 本地启动
 
-1. [x] **中间件安装(🔴必装  ⚪可选)**
+1.  **中间件安装(🔴必装  ⚪可选)**
    
     - 🔴MySQL 安装
     - 🔴Redis 安装
@@ -60,12 +66,14 @@
     - ⚪Seata 安装
     - ⚪Sentinel 安装
 
-2. [x] **数据库创建和数据初始化**
+2.  **数据库创建和数据初始化**
 
     - **系统数据库**
 
       进入 `doc/sql` 目录 ， 根据 MySQL 版本选择对应的脚本；
+      
       先执行 `database.sql` 完成数据库的创建；
+      
       再执行 `youlai.sql` 、`mall_*.sql` 完成数据表的创建和数据初始化。
 
     - **Nacos数据库**
@@ -74,7 +82,7 @@
       执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
 
 
-3. [x] Nacos 配置和启动
+3.  **Nacos 配置和启动**
 
     - 进入 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接
 
