@@ -23,7 +23,7 @@
 # 🚤 项目启动
 
 
-### 🍏  后端启动
+### 🗀  后端启动
 
 >  `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
@@ -31,7 +31,7 @@
 
 1. **启动 Nacos**
    
-   IntelliJ IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到Nacos的bin目录，执行 `startup -m standalone` 启动 Nacos 服务。
+   IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到Nacos的bin目录，执行 `startup -m standalone` 启动 Nacos 服务。
 
 2. **导入Nacos配置**
    
@@ -47,7 +47,7 @@
    
    进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
    
-   进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统管理服务；
+   进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
    
    至此已完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致。
 
@@ -92,13 +92,13 @@
 
 
 
-### 🍎 管理前端启动
+### 🗀 管理前端启动
 1. 本机安装 Node 环境
 2. npm install
 3. npm run dev
 4. 访问 http://localhost:9527
 
-### 🍑 微信小程序启动
+### 🗀 微信小程序启动
 1. 下载 `HBuilder X` 和 `微信开发者工具` ;
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X` ;
 3. 微信公众平台申请小程序，获得小程序的AppID  ;
@@ -107,7 +107,7 @@
 6. Nacos控制台替换 `youlai-auth` 配置中的微信小程序 AppID 和 AppSecret 为自己申请的小程序 ;
 7. `Hbuilder X` 工具栏点击 `运行` -> `运行到小程序模拟器` -> `微信开发者工具`。
 
-### 🍅 移动端启动
+### 🗀 移动端启动
 1. 下载 `HBuilder X` ;
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
 3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
