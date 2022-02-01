@@ -118,7 +118,9 @@
 
     - **Nacos数据库**
 
-      创建名为 nacos 的数据库； 执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
+      创建名为 nacos 的数据库； 
+      
+      执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
 
 
 3. **Nacos 配置和启动**
