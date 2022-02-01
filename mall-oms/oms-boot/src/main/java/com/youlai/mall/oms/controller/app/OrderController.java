@@ -1,5 +1,6 @@
 package com.youlai.mall.oms.controller.app;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
@@ -8,6 +9,7 @@ import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
+import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.IOrderService;
@@ -27,7 +29,7 @@ import javax.validation.Valid;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-@Api(tags = "移动端_订单管理")
+@Api(tags = "「移动端」订单管理")
 @RestController
 @RequestMapping("/app-api/v1/orders")
 @Slf4j
@@ -38,15 +40,13 @@ public class OrderController {
 
     @ApiOperation("订单列表")
     @GetMapping
-    public Result list(
-            @RequestParam(defaultValue = "1") Long page,
-            @RequestParam(defaultValue = "10") Long limit,
-            Integer status
-    ) {
-        IPage<OmsOrder> result = orderService.list(new Page<>(page, limit),
-                new OmsOrder()
-                        .setStatus(status)
-                        .setMemberId(JwtUtils.getUserId()));
+    public Result listOrdersWithPage(OrderPageQuery queryParams) {
+        IPage<OmsOrder> result = orderService.page(
+                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+                new LambdaQueryWrapper<OmsOrder>()
+                        .eq(OmsOrder::getStatus, queryParams.getStatus())
+                        .eq(OmsOrder::getMemberId, JwtUtils.getUserId())
+        );
         return Result.success(result.getRecords(), result.getTotal());
     }
 

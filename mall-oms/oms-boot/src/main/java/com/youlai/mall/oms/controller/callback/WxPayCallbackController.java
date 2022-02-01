@@ -13,12 +13,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 回调接口
+ * 微信回调接口
  *
  * @author Gadfly
  * @since 2021-05-27 14:24
  */
-@Api(tags = "【回调】微信支付回调接口")
+@Api(tags = "「移动端」微信支付回调接口")
 @Slf4j
 @Validated
 @RestController

@@ -21,12 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * * 系统管理_商品分类控制器
+ * * 「系统端」商品分类控制器
  *
  * @author <a href="mailto:1490493387@qq.com">haoxr</a>
  * @date 2022/01/01
  */
-@Api(tags = "系统管理_商品分类")
+@Api(tags = "「系统端」商品分类")
 @RestController
 @RequestMapping("/api/v1/categories")
 @AllArgsConstructor

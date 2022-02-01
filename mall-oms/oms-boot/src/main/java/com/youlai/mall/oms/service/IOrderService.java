@@ -9,12 +9,13 @@ import com.github.binarywang.wxpay.exception.WxPayException;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
+import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 
 /**
- * 订单详情表
+ * 订单业务接口
  *
  * @author huawei
  * @email huawei_code@163.com
@@ -57,9 +58,6 @@ public interface IOrderService extends IService<OmsOrder> {
      */
     boolean deleteOrder(Long id);
 
-
-    IPage<OmsOrder> list(Page<OmsOrder> omsOrderPage, OmsOrder order);
-
     /**
      * 处理微信支付成功回调
      *
@@ -77,5 +75,13 @@ public interface IOrderService extends IService<OmsOrder> {
      * @throws WxPayException 微信异常
      */
     void handleWxPayRefundNotify(SignatureHeader signatureHeader, String notifyData) throws WxPayException;
+
+    /**
+     * 订单分页列表
+     *
+     * @param queryParams
+     * @return
+     */
+    IPage<OmsOrder> listOrdersWithPage(OrderPageQuery queryParams);
 }
 

@@ -1,5 +1,6 @@
 package com.youlai.common.base;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import lombok.Data;
  * @date 2021/2/28
  */
 @Data
+@ApiModel
 public class BasePageQuery {
 
     @ApiModelProperty(value = "页码", example = "1")

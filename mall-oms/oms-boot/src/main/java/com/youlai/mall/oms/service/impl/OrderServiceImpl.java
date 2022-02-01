@@ -34,6 +34,7 @@ import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
+import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.ICartService;
@@ -482,13 +483,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
 
     @Override
-    public IPage<OmsOrder> list(Page<OmsOrder> page, OmsOrder order) {
-        List<OmsOrder> list = this.baseMapper.list(page, order);
-        page.setRecords(list);
-        return page;
-    }
-
-    @Override
     public void handleWxPayOrderNotify(SignatureHeader signatureHeader, String notifyData) throws WxPayException {
         log.info("开始处理支付结果通知");
         // 解密支付通知内容
@@ -530,4 +524,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
         log.info("账单更新成功");
     }
+
+    /**
+     * 订单分页列表
+     *
+     * @param queryParams
+     * @return
+     */
+    @Override
+    public IPage<OmsOrder> listOrdersWithPage(OrderPageQuery queryParams) {
+        Page<OmsOrder> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
+        List<OmsOrder> list = this.baseMapper.listUsersWithPage(page, queryParams);
+        page.setRecords(list);
+        return page;
+    }
+
+
 }

@@ -18,7 +18,7 @@ import java.util.List;
  * @email huawei_code@163.com
  * @date 2021/3/7
  */
-@Api(tags = "【移动端】秒杀活动管理")
+@Api(tags = "「移动端」秒杀活动管理")
 @RestController("APPSeckillController")
 @RequestMapping("/api-app/v1/seckill")
 @Slf4j

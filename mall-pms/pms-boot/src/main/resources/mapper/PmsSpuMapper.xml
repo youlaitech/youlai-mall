@@ -21,17 +21,6 @@
         <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
         <result property="categoryName" column="categoryName" jdbcType="VARCHAR"/>
         <result property="brandName" column="brandName" jdbcType="VARCHAR"/>
-        <!-- Mybatis Plus 分页有BUG -->
-        <!--<collection property="skuList" ofType="com.youlai.mall.pms.pojo.entity.PmsSku" javaType="list">
-            <id property="id" column="skuId" jdbcType="BIGINT"/>
-            <result property="name" column="skuName" jdbcType="VARCHAR"/>
-            <result property="sn" column="sn" jdbcType="VARCHAR"/>
-            <result property="picUrl" column="skuPicUrl" jdbcType="VARCHAR"/>
-            <result property="specIds" column="specIds" jdbcType="VARCHAR"/>
-            <result property="price" column="skuPrice" jdbcType="BIGINT"/>
-            <result property="stock" column="stock" jdbcType="INTEGER"/>
-            <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
-        </collection>-->
         <collection property="skuList" column="id" select="getSkuListBySpuId">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
@@ -69,13 +58,14 @@
         FROM pms_spu t1
             LEFT JOIN pms_category t3 ON t1.category_id = t3.id
             LEFT JOIN pms_brand t4 ON t1.brand_id = t4.id
-        WHERE 1 = 1
-        <if test="categoryId!=null">
-            AND t1.category_id =#{categoryId}
-        </if>
-        <if test='name!=null and name neq ""'>
-            AND t1.name like concat('%',#{name},'%')
-        </if>
+        <where>
+            <if test="categoryId!=null">
+                AND t1.category_id =#{categoryId}
+            </if>
+            <if test='name!=null and name neq ""'>
+                AND t1.name like concat('%',#{name},'%')
+            </if>
+        </where>
         ORDER BY t1.gmt_modified DESC,t1.gmt_create DESC
     </select>
 

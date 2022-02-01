@@ -16,12 +16,12 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
- * 系统管理_商品信息
+ * 「系统端」商品信息
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/1/4
  **/
-@Api(tags = "系统管理_商品信息")
+@Api(tags = "「系统端」商品信息")
 @RestController
 @RequestMapping("/api/v1/goods")
 @AllArgsConstructor

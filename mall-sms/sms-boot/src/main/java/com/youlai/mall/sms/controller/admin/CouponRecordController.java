@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @email huawei_code@163.com
  * @date 2021/3/15
  */
-@Api(tags = "优惠券领券记录服务")
+@Api(tags = "「系统端」优惠券领券记录")
 @RestController
 @RequestMapping("/api/v1/coupon_record")
 public class CouponRecordController {

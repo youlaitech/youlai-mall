@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-@Api(tags = "系统管理_会员中心")
+@Api(tags = "「系统端」会员中心")
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor

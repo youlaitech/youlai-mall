@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @desc：优惠券模板(管理台API接口)
  * @date 2021/6/26
  */
-@Api(tags = "优惠券模板(管理台API接口)")
+@Api(tags = "「系统端」优惠券模板")
 @RestController
 @RequestMapping("/api/v1/coupon_template")
 @Slf4j
