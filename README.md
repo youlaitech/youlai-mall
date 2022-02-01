@@ -14,8 +14,6 @@
     </a>
 </div>
 
-<hr/>
-
 <div align="center">
     <a target="_blank" href="https://gitee.com/youlaiorg"> Gitee 仓库</a> | 
     <a target="_blank" href="https://gitee.com/youlaitech"> Github 仓库</a> | 
