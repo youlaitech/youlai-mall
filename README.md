@@ -14,7 +14,7 @@
     </a>
 </div>
 
----
+<hr/>
 
 <div align="center">
     <a target="_blank" href="https://gitee.com/youlaiorg"> Gitee 仓库</a> | 
@@ -192,7 +192,7 @@
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
 3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
 
-# 🛸 联系信息 
+# 🛸联系信息 
 
 > 欢迎添加开发者微信，备注「有来」进群
 
