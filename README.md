@@ -23,7 +23,7 @@
     <a target="_blank" href="http://youlaitech.gitee.io/youlai-mall"> 官方文档</a>
 </div>
 
-# ⛵ 项目介绍
+# 📚️ 项目介绍
 
 ### 🗀 项目简介
 
@@ -55,7 +55,7 @@
 | **「管理前端」Spring Security OAuth2 密码模式**             | **「管理前端」Spring Security OAuth2 验证码模式**           |
 | <img src="https://gitee.com/haoxr/image/raw/master/default/password.gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/captcha.gif" width="100%" height="400px"/> |
 
-# 🛶 源码地址
+# ⛺ 源码地址
 
 | 名称 |  Gitee | Github   | 
 |---|---|---|  
@@ -192,7 +192,7 @@
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
 3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
 
-# 🚁 联系信息 
+# 🛸 联系信息 
 
 > 欢迎添加开发者微信，备注「有来」进群
 
