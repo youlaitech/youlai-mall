@@ -14,6 +14,8 @@
     </a>
 </div>
 
+***
+
 <div align="center">
     <a target="_blank" href="https://gitee.com/youlaiorg"> Gitee 仓库</a> | 
     <a target="_blank" href="https://gitee.com/youlaitech"> Github 仓库</a> | 
@@ -64,7 +66,7 @@
 
 # 🚤 项目启动
 
-### 🗀 后端
+### 🗀 后端启动
 
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
@@ -167,14 +169,14 @@
 
    访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-### 🗀 管理前端
+### 🗀 管理前端启动
 
 1. 本机安装 Node 环境
 2. npm install
 3. npm run dev
 4. 访问 http://localhost:9527
 
-### 🗀 微信小程序
+### 🗀 微信小程序启动
 
 1. 下载 `HBuilder X` 和 `微信开发者工具` ;
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X` ;
@@ -184,7 +186,7 @@
 6. Nacos控制台替换 `youlai-auth` 配置中的微信小程序 AppID 和 AppSecret 为自己申请的小程序 ;
 7. `Hbuilder X` 工具栏点击 `运行` -> `运行到小程序模拟器` -> `微信开发者工具`。
 
-### 🗀 H5/移动端
+### 🗀 H5/移动端启动
 
 1. 下载 `HBuilder X` ;
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
@@ -192,5 +194,7 @@
 
 # 💻开发人员
 
-| ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)| ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg) | ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)  | ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg) |  
-|---|---|---|---|
+> 欢迎添加开发者微信，备注「有来」进群
+
+| ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)| ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/ba695a5e70410a066b7052c5dc9db5c.jpg)  |  
+|---|---|---|
