@@ -25,7 +25,7 @@ import java.util.List;
  * @desc: 用户优惠券
  * @date 2021/7/7
  */
-@Api(tags = "优惠券(移动端接口)")
+@Api(tags = "「移动端」优惠券")
 @RestController
 @RequestMapping("/api-app/v1/coupon/")
 @Slf4j

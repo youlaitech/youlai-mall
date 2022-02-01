@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @desc
  * @date 2021/7/11
  */
-@Api(tags = "优惠券核销(移动端接口)")
+@Api(tags = "「移动端」优惠券核销")
 @RestController
-@RequestMapping("/api-app/v1/coupon_settlement/")
+@RequestMapping("/api-app/v1/coupon_settlement")
 @Slf4j
 public class CouponSettlementController {
 

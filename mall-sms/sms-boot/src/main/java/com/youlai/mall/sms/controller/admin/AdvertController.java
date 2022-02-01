@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
-@Api(tags = "系统管理_营销广告")
+@Api(tags = "「系统端」营销广告")
 @RestController("AdminAdvertController")
 @RequestMapping("/api/v1/adverts")
 @Slf4j

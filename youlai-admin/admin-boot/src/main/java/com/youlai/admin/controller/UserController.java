@@ -43,9 +43,9 @@ public class UserController {
     @ApiOperation(value = "用户分页列表")
     @GetMapping("/page")
     public Result<List<UserPageVO>> listUsersWithPage(
-            UserPageQuery queryParam
+            UserPageQuery queryParams
     ) {
-        IPage<UserPageVO> result = iSysUserService.listUsersWithPage(queryParam);
+        IPage<UserPageVO> result = iSysUserService.listUsersWithPage(queryParams);
         return Result.success(result.getRecords(), result.getTotal());
     }
 

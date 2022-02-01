@@ -39,13 +39,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 获取用户分页列表
      *
-     * @param queryParam
+     * @param queryParams
      * @return
      */
     @Override
-    public IPage<UserPageVO> listUsersWithPage(UserPageQuery queryParam) {
-        Page<UserPageVO> page = new Page<>(queryParam.getPageNum(), queryParam.getPageSize());
-        List<UserPageVO> list = this.baseMapper.listUsersWithPage(page, queryParam);
+    public IPage<UserPageVO> listUsersWithPage(UserPageQuery queryParams) {
+        Page<UserPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
+        List<UserPageVO> list = this.baseMapper.listUsersWithPage(page, queryParams);
         page.setRecords(list);
         return page;
     }

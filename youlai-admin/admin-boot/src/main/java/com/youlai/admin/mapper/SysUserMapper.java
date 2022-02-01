@@ -25,11 +25,11 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * 获取用户分页列表
      *
      * @param pageParam
-     * @param queryParam
+     * @param queryParams
      * @return
      */
     @DataPermission(deptAlias = "d")
-    List<UserPageVO> listUsersWithPage(Page<UserPageVO> pageParam, UserPageQuery queryParam);
+    List<UserPageVO> listUsersWithPage(Page<UserPageVO> pageParam, UserPageQuery queryParams);
 
     /**
      * 根据用户ID获取用户详情

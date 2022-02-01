@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
-@Api(tags = "系统管理_品牌信息")
+@Api(tags = "「系统端」品牌信息")
 @RestController
 @RequestMapping("/api/v1/brands")
 @RequiredArgsConstructor
