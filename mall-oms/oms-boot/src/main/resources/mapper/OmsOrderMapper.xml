@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.oms.mapper.OrderMapper">
+
+
+    <resultMap id="OrderPageMap" type="com.youlai.mall.oms.pojo.vo.OrderPageVO">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="orderSn" column="order_sn" jdbcType="VARCHAR"/>
+        <result property="totalAmount" column="total_amount" jdbcType="BIGINT"/>
+        <result property="payAmount" column="pay_amount" jdbcType="BIGINT"/>
+        <result property="payType" column="pay_type" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="totalQuantity" column="total_quantity" jdbcType="TINYINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="VARCHAR"/>
+        <result property="memberId" column="member_id" jdbcType="BIGINT"/>
+        <result property="sourceType" column="source_type" jdbcType="TINYINT"/>
+        <collection property="orderItems" column="id" select="com.youlai.mall.oms.mapper.OrderItemMapper.listOrderItemsByOrderId">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="orderId" column="order_id" jdbcType="BIGINT"/>
+            <result property="skuId" column="sku_id" jdbcType="BIGINT"/>
+            <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
+            <result property="skuPic" column="sku_pic" jdbcType="VARCHAR"/>
+            <result property="skuPrice" column="sku_price" jdbcType="BIGINT"/>
+            <result property="skuQuantity" column="sku_quantity" jdbcType="INTEGER"/>
+            <result property="skuTotalPrice" column="sku_total_price" jdbcType="BIGINT"/>
+            <result property="spuName" column="spu_name" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+    <!-- 订单分页列表 -->
+    <select id="listUsersWithPage" resultMap="OrderPageMap">
+
+        select
+               id,order_sn,
+               total_amount,
+               pay_amount,
+               pay_type,
+               status,
+               total_amount,
+               total_quantity,
+               gmt_create,
+               member_id,
+               source_type
+        from oms_order
+        <where>
+            <if test ='queryParams.status !=null ' >
+                AND status= #{queryParams.status}
+            </if>
+            <if test ='queryParams.memberId !=null ' >
+                AND member_id= #{queryParams.memberId}
+            </if>
+            <if test ='queryParams.orderSn !=null  and queryParams.orderSn.trim() neq ""' >
+                AND order_sn like  concat('%',#{queryParams.orderSn},'%')
+            </if>
+
+            <if test ='queryParams.beginDate !=null and  queryParams.beginDate.trim() neq ""' >
+                AND date_format (gmt_crate,'%Y-%m-%d') &gt;= date_format(#{queryParams.beginDate},'%Y-%m-%d')
+            </if>
+
+            <if test ='queryParams.endDate !=null and  queryParams.endDate.trim() neq ""' >
+                AND date_format (gmt_crate,'%Y-%m-%d') &lt;= date_format(#{queryParams.endDate},'%Y-%m-%d')
+            </if>
+        </where>
+        ORDER BY gmt_create DESC
+    </select>
+</mapper>
