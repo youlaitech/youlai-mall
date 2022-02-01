@@ -13,7 +13,6 @@ import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,7 @@ import java.util.Optional;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-@Api(tags = "【系统管理】订单服务")
+@Api(tags = "系统管理_订单管理")
 @RestController("adminOrderController")
 @RequestMapping("/api/v1/orders")
 @Slf4j

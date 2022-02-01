@@ -27,7 +27,7 @@ import javax.validation.Valid;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-@Api(tags = "【移动端】订单服务")
+@Api(tags = "移动端_订单管理")
 @RestController
 @RequestMapping("/app-api/v1/orders")
 @Slf4j
@@ -89,7 +89,7 @@ public class OrderController {
 
     @ApiOperation("订单取消")
     @PutMapping("/cancel")
-    public Result cancel( @RequestParam Long id){
+    public Result cancel(@RequestParam Long id) {
         boolean result = orderService.cancelOrder(id);
         return Result.judge(result);
     }
