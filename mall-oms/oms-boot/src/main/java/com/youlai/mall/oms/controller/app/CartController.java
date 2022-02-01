@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2020-12-30 22:31:10
  */
 
-@Api(tags = "【移动端】购物车")
+@Api(tags = "移动端_购物车管理")
 @RestController
 @RequestMapping("/app-api/v1/carts")
 @Slf4j
