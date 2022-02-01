@@ -1,12 +1,13 @@
 <div align="center">
     <img src="https://img.shields.io/badge/SpringBoot-2.6.3-brightgreen.svg"/>
-    <img src="https://img.shields.io/badge/SpringCloud-2021-green.svg"/>
+    <img src="https://img.shields.io/badge/SpringCloud & Alibaba -2021-green.svg"/>
     <a src="https://github.com/hxrui" target="_blank">
         <img src="https://img.shields.io/github/stars/youlaitech/youlai-mall.svg?style=social&label=Stars"/>
     </a>
     <a href="https://gitee.com/youlaitech/youlai-mall" target="_blank">
         <img src="https://gitee.com/youlaitech/youlai-mall/badge/star.svg"/>
     </a> 
+    <br/>
     <img src="https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg"/>
     <a href="https://gitee.com/youlaiorg" target="_blank">
         <img src="https://img.shields.io/badge/Author-有来开源组织-orange.svg"/>
