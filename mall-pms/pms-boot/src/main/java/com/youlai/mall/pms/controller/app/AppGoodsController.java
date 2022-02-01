@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "移动端-商品信息")
+@Api(tags = "「移动端」商品信息")
 @RestController(value = "appGoodsController")
 @RequestMapping("/app-api/v1/goods")
 @AllArgsConstructor

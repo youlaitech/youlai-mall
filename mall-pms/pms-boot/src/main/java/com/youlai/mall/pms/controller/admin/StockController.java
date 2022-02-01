@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
-@Api(tags = "系统管理端-库存信息")
+@Api(tags = "「系统端」-库存信息")
 @RestController
 @RequestMapping("/api/v1/inventories")
 @RequiredArgsConstructor
