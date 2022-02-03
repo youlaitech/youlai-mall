@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.Set;
 
-@Api(tags = "「移动端」会员中心")
+@Api(tags = "「移动端」会员管理")
 @RequestMapping("/app-api/v1/members")
 @RestController("appMemberController")
 @RequiredArgsConstructor
