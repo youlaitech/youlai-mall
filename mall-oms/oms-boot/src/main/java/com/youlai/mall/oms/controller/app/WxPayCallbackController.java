@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.controller.callback;
+package com.youlai.mall.oms.controller.app;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
