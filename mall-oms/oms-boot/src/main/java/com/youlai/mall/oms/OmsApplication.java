@@ -1,6 +1,5 @@
 package com.youlai.mall.oms;
 
-import com.youlai.mall.pms.api.GoodsFeignClient;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;

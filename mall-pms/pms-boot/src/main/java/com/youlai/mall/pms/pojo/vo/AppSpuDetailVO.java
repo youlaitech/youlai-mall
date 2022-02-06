@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo.vo.app;
+package com.youlai.mall.pms.pojo.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,14 +7,14 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 商品详情页-商品详细信息
+ * 商品详情视图对象
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/8/8
  */
 @Data
 @ApiModel("商品详情")
-public class GoodsDetailVO {
+public class AppSpuDetailVO {
 
     @ApiModelProperty("商品基本信息")
     private GoodsInfo goodsInfo;
@@ -109,6 +109,4 @@ public class GoodsDetailVO {
         private String picUrl;
 
     }
-
-
 }
