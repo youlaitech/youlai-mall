@@ -1,7 +1,6 @@
 package com.youlai.mall.pms.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -11,14 +10,15 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +34,25 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     private final RedissonClient redissonClient;
 
 
+    /**
+     * 获取商品库存数量
+     *
+     * @param skuId
+     * @return
+     */
+    @Override
+    @Cacheable(cacheNames = "pms", key = "'stock_num:'+#skuId")
+    public Integer getStockNum(Long skuId) {
+        Integer stockNum = 0;
+        PmsSku pmsSku = this.getOne(new LambdaQueryWrapper<PmsSku>()
+                .eq(PmsSku::getId, skuId)
+                .select(PmsSku::getStockNum));
+
+        if (pmsSku != null) {
+            stockNum = pmsSku.getStockNum();
+        }
+        return stockNum;
+    }
 
     /**
      * 创建订单时锁定库存
@@ -74,7 +93,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
                             .setSql("locked_stock = locked_stock - " + item.getCount()))
             );
             // 提示订单哪些商品库存不足
-            String ids= unlockSkuList.stream().map(sku -> sku.getSkuId().toString()).collect(Collectors.joining(","));
+            String ids = unlockSkuList.stream().map(sku -> sku.getSkuId().toString()).collect(Collectors.joining(","));
             return Result.failed("商品" + ids + "库存不足");
         }
 
@@ -142,40 +161,15 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
 
 
     /**
-     * Cache-Aside pattern 缓存、数据库读写模式
-     * 1. 读取数据，先读缓存，没有就去读数据库，然后将结果写入缓存
-     * 2. 写入数据，先更新数据库，再删除缓存
+     * 获取商品库存信息
      *
-     * @param id 库存ID
+     * @param skuId
      * @return
      */
     @Override
-    public Integer getStockById(Long id) {
-        Integer stock = 0;
-        // 读->缓存
-        Object cacheVal = redisTemplate.opsForValue().get(PmsConstants.LOCKED_STOCK_PREFIX + id);
-        if (cacheVal != null) {
-            stock = Convert.toInt(cacheVal);
-            return stock;
-        }
-
-        // 读->数据库
-        PmsSku pmsSku = this.getOne(new LambdaQueryWrapper<PmsSku>()
-                .eq(PmsSku::getId, id)
-                .select(PmsSku::getStock));
-
-        if (pmsSku != null) {
-            stock = pmsSku.getStock();
-            // 写->缓存
-            redisTemplate.opsForValue().set(PmsConstants.LOCKED_STOCK_PREFIX + id, String.valueOf(stock));
-        }
-
-        return stock;
-    }
-
-    @Override
-    public SkuDTO getSkuById(Long id) {
-        return this.baseMapper.getSkuById(id);
+    public SkuInfoDTO getSkuInfo(Long skuId) {
+        SkuInfoDTO skuInfo=   this.baseMapper.getSkuInfo(skuId);
+        return skuInfo;
     }
 
 

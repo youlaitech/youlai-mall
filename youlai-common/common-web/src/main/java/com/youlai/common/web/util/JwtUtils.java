@@ -1,10 +1,10 @@
 package com.youlai.common.web.util;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.SecurityConstants;
-import com.youlai.common.web.exception.BizException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -12,25 +12,25 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * JWT工具类
  *
- * @author xianrui
+ * @author haoxr
+ * @date 2022/2/5
  */
 @Slf4j
 public class JwtUtils {
 
     @SneakyThrows
     public static JSONObject getJwtPayload() {
+        JSONObject jsonObject = null;
         String payload = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(SecurityConstants.JWT_PAYLOAD_KEY);
-        if (null == payload) {
-            throw new BizException("请传入认证头");
+        if (StrUtil.isNotBlank(payload)) {
+            jsonObject = JSONUtil.parseObj(URLDecoder.decode(payload, StandardCharsets.UTF_8.name()));
         }
-        JSONObject jsonObject = JSONUtil.parseObj(URLDecoder.decode(payload, StandardCharsets.UTF_8.name()));
         return jsonObject;
     }
 
@@ -40,8 +40,12 @@ public class JwtUtils {
      * @return
      */
     public static Long getUserId() {
-        Long id = getJwtPayload().getLong(SecurityConstants.USER_ID_KEY);
-        return id;
+        Long userId = null;
+        JSONObject jwtPayload = getJwtPayload();
+        if (jwtPayload != null) {
+            userId = jwtPayload.getLong(SecurityConstants.USER_ID_KEY);
+        }
+        return userId;
     }
 
     /**

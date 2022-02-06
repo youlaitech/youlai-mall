@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 订单超时关单死信队列
+ * 订单超时关单延时队列
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2022/2/4 23:21

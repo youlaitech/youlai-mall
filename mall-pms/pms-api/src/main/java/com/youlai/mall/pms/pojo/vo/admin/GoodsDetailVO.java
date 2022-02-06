@@ -8,7 +8,7 @@ import lombok.ToString;
 import java.util.List;
 
 /**
- * 商品详情视图层对象
+ * 商品详情视图对象
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
@@ -35,7 +35,6 @@ public class GoodsDetailVO {
     private String description;
 
     private String detail;
-
 
     private List<PmsSpuAttributeValue> attrList;
 

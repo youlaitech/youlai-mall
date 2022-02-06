@@ -2,6 +2,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.youlai.common.redis.RedisConfig,\
   com.youlai.common.redis.BusinessNoGenerator,\
   com.youlai.common.redis.utils.RedisUtils,\
-  com.youlai.common.redis.redisson.RedissonConfig,\
-  com.youlai.common.redis.cache.RedisCacheConfig
+  com.youlai.common.redis.RedissonConfig,\
+  com.youlai.common.redis.RedisCacheConfig
 

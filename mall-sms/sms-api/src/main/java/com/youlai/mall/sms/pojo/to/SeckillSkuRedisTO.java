@@ -1,6 +1,5 @@
 package com.youlai.mall.sms.pojo.to;
 
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import lombok.Data;
 import lombok.ToString;
 
@@ -66,6 +65,6 @@ public class SeckillSkuRedisTO {
     /**
      * 秒杀商品详情
      */
-    private SkuDTO skuInfo;
+    private AppSkuDetailVO skuInfo;
 
 }

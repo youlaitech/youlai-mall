@@ -7,8 +7,6 @@ import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
-import com.youlai.mall.pms.api.GoodsFeignClient;
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -80,7 +78,7 @@ public class CartServiceImpl implements ICartService {
         // 购物车不存在该商品，添加商品至购物车
         cartItem = new CartItemDTO();
         CompletableFuture<Void> cartItemCompletableFuture = CompletableFuture.runAsync(() -> {
-            SkuDTO sku = skuFeignService.getSkuById(skuId).getData();
+            AppSkuDetailVO sku = skuFeignService.getSkuById(skuId).getData();
             if (sku != null) {
                 cartItem.setSkuId(sku.getId());
                 cartItem.setCount(1);
@@ -89,7 +87,7 @@ public class CartServiceImpl implements ICartService {
                 cartItem.setSkuName(sku.getName());
                 cartItem.setStock(sku.getStock());
                 cartItem.setSkuSn(sku.getSn());
-                cartItem.setGoodsName(sku.getGoodsName());
+                cartItem.setGoodsName(sku.getSpuName());
                 cartItem.setChecked(true);
             }
         });

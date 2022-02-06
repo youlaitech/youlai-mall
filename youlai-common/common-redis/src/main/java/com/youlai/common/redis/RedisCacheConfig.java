@@ -1,4 +1,4 @@
-package com.youlai.common.redis.cache;
+package com.youlai.common.redis;
 
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

@@ -5,7 +5,7 @@ import com.google.common.hash.Funnel;
 import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.component.BloomRedisService;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
-import com.youlai.mall.pms.serviceapp.IGoodsService;
+import com.youlai.mall.pms.service.IPmsSpuService;
 import com.youlai.mall.pms.utils.BloomFilterUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BloomFilterConfig implements InitializingBean {
 
-    private final IGoodsService goodsService;
+    private final IPmsSpuService spuService;
     private final RedisTemplate redisTemplate;
 
     @Bean
@@ -46,7 +46,7 @@ public class BloomFilterConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        List<PmsSpu> list = goodsService.list();
+        List<PmsSpu> list = spuService.list();
         log.info("加载产品到布隆过滤器当中,size:{}", list.size());
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().filter(item -> item.getId() > 0).forEach(item -> {

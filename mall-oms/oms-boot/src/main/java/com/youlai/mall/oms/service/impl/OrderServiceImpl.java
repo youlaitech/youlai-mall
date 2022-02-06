@@ -1,5 +1,6 @@
 package com.youlai.mall.oms.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.RandomUtil;
@@ -41,9 +42,8 @@ import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
 import com.youlai.mall.oms.tcc.service.SeataTccOrderService;
-import com.youlai.mall.pms.api.GoodsFeignClient;
-import com.youlai.mall.pms.api.StockFeignClient;
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.api.SkuFeignClient;
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.ums.api.MemberAddressFeignClient;
 import com.youlai.mall.ums.api.MemberFeignClient;
@@ -52,6 +52,7 @@ import com.youlai.mall.ums.pojo.entity.UmsMember;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -85,8 +86,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private final ThreadPoolExecutor threadPoolExecutor;
     private final MemberFeignClient memberFeignClient;
     private final BusinessNoGenerator businessNoGenerator;
-    private final GoodsFeignClient goodsFeignClient;
-    private final StockFeignClient stockFeignClient;
+    private final SkuFeignClient skuFeignClient;
     private final SeataTccOrderService seataTccOrderService;
     private final RedissonClient redissonClient;
     private final WxPayService wxPayService;
@@ -99,34 +99,28 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         log.info("=======================订单确认=======================\n订单确认信息：{}", orderConfirmDTO);
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
         Long memberId = JwtUtils.getUserId();
+
         // 获取购买商品信息
         CompletableFuture<Void> orderItemsCompletableFuture = CompletableFuture.runAsync(() -> {
             List<OrderItemDTO> orderItems = new ArrayList<>();
-            if (orderConfirmDTO.getSkuId() != null) { // 直接购买商品结算
-                OrderItemDTO orderItemDTO = OrderItemDTO.builder()
-                        .skuId(orderConfirmDTO.getSkuId())
-                        .count(orderConfirmDTO.getCount())
-                        .build();
-                SkuDTO sku = goodsFeignClient.getSkuById(orderConfirmDTO.getSkuId()).getData();
-                orderItemDTO.setPrice(sku.getPrice());
-                orderItemDTO.setPic(sku.getPicUrl());
-                orderItemDTO.setSkuName(sku.getName());
-                orderItemDTO.setSkuCode(sku.getSn());
-                orderItemDTO.setSpuName(sku.getGoodsName());
+            Long skuId = orderConfirmDTO.getSkuId();
+            if (skuId != null) {  // 直接购买商品结算
+                Result<SkuInfoDTO> getSkuInfoResult = skuFeignClient.getSkuInfo(orderConfirmDTO.getSkuId());
+                Assert.isTrue(Result.isSuccess(getSkuInfoResult), "获取商品信息失败");
+                SkuInfoDTO skuInfoDTO = getSkuInfoResult.getData();
+                OrderItemDTO orderItemDTO = new OrderItemDTO();
+                BeanUtil.copyProperties(skuInfoDTO, orderItemDTO);
                 orderItems.add(orderItemDTO);
             } else { // 购物车中商品结算
                 List<CartItemDTO> cartItems = cartService.listCartItemByMemberId(memberId);
                 List<OrderItemDTO> items = cartItems.stream()
                         .filter(CartItemDTO::getChecked)
-                        .map(cartItem -> OrderItemDTO.builder()
-                                .skuId(cartItem.getSkuId())
-                                .count(cartItem.getCount())
-                                .price(cartItem.getPrice())
-                                .skuName(cartItem.getSkuName())
-                                .skuCode(cartItem.getSkuSn())
-                                .spuName(cartItem.getGoodsName())
-                                .pic(cartItem.getPicUrl())
-                                .build())
+                        .map(cartItem -> {
+                                    OrderItemDTO orderItemDTO = new OrderItemDTO();
+                                    BeanUtil.copyProperties(cartItem, orderItemDTO);
+                                    return orderItemDTO;
+                                }
+                        )
                         .collect(Collectors.toList());
                 orderItems.addAll(items);
             }
@@ -169,7 +163,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 订单验价
         Long currentTotalPrice = orderItems.stream().map(item -> {
-            SkuDTO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
+            AppSkuDetailVO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
             if (sku != null) {
                 return sku.getPrice() * item.getCount();
             }
@@ -186,11 +180,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         .build())
                 .collect(Collectors.toList());
 
-        Result<SkuDTO> goodsResult = goodsFeignClient.getSkuById(1l);
+        Result<AppSkuDetailVO> goodsResult = goodsFeignClient.getSkuById(1l);
         System.out.println(goodsResult);
 
         // 锁定库存
-        Result lockResult = stockFeignClient.lockStock(skuLockList);
+        Result lockResult = skuFeignClient.lockStock(skuLockList);
         Assert.isTrue(Result.isSuccess(lockResult), "锁定商品库存失败:{}", lockResult.getMsg());
 
         // 创建订单(状态：待支付)
@@ -249,7 +243,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 订单验价
         Long currentTotalPrice = orderItems.stream().map(item -> {
-            SkuDTO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
+            AppSkuDetailVO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
             if (sku != null) {
                 return sku.getPrice() * item.getCount();
             }
@@ -268,7 +262,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         .build())
                 .collect(Collectors.toList());
 
-        Result<?> lockResult = stockFeignClient.lockStock(skuLockList);
+        Result<?> lockResult = skuFeignClient.lockStock(skuLockList);
 
         if (!Result.success().getCode().equals(lockResult.getCode())) {
             throw new BizException(Result.failed().getMsg());
@@ -307,7 +301,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         try {
             //尝试获取锁，获取不到会立马返回 false
             flag = lock.tryLock(0L, 10L, TimeUnit.SECONDS);
-            if(!flag){
+            if (!flag) {
                 throw new BizException("订单不可重复支付");
             }
             if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
@@ -324,7 +318,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             }
 
             // 扣减库存
-            Result<?> deductStockResult = stockFeignClient.deductStock(order.getOrderSn());
+            Result<?> deductStockResult = skuFeignClient.deductStock(order.getOrderSn());
 
             if (!Result.isSuccess(deductStockResult)) {
                 throw new BizException("扣减商品库存失败");
@@ -334,12 +328,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         } catch (InterruptedException e) {
             log.error(e.getMessage(), e);
             throw new BizException("锁订单异常");
-        } catch (Exception e){
+        } catch (Exception e) {
             //异常继续往上抛
             throw e;
-        }finally {
+        } finally {
             //释放锁
-            if(flag){
+            if (flag) {
                 lock.unlock();
             }
         }
@@ -458,7 +452,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         boolean result = this.updateById(order);
         if (result) {
             // 释放被锁定的库存
-            Result<?> unlockResult = stockFeignClient.unlockStock(order.getOrderSn());
+            Result<?> unlockResult = skuFeignClient.unlockStock(order.getOrderSn());
             if (!Result.isSuccess(unlockResult)) {
                 throw new BizException(unlockResult.getMsg());
             }
