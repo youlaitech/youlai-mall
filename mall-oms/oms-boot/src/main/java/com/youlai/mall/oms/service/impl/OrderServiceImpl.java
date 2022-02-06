@@ -104,7 +104,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         CompletableFuture<Void> orderItemsCompletableFuture = CompletableFuture.runAsync(() -> {
             List<OrderItemDTO> orderItems = new ArrayList<>();
             Long skuId = orderConfirmDTO.getSkuId();
-            if (skuId != null) {  // 直接购买商品结算
+            if (skuId != null) {  // 直接购买商品
                 Result<SkuInfoDTO> getSkuInfoResult = skuFeignClient.getSkuInfo(orderConfirmDTO.getSkuId());
                 Assert.isTrue(Result.isSuccess(getSkuInfoResult), "获取商品信息失败");
                 SkuInfoDTO skuInfoDTO = getSkuInfoResult.getData();
@@ -116,11 +116,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 List<OrderItemDTO> items = cartItems.stream()
                         .filter(CartItemDTO::getChecked)
                         .map(cartItem -> {
-                                    OrderItemDTO orderItemDTO = new OrderItemDTO();
-                                    BeanUtil.copyProperties(cartItem, orderItemDTO);
-                                    return orderItemDTO;
-                                }
-                        )
+                            OrderItemDTO orderItemDTO = new OrderItemDTO();
+                            BeanUtil.copyProperties(cartItem, orderItemDTO);
+                            return orderItemDTO;
+                        })
                         .collect(Collectors.toList());
                 orderItems.addAll(items);
             }
@@ -163,7 +162,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 订单验价
         Long currentTotalPrice = orderItems.stream().map(item -> {
-            AppSkuDetailVO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
+            SkuInfoDTO sku = skuFeignClient.getSkuInfo(item.getSkuId()).getData();
             if (sku != null) {
                 return sku.getPrice() * item.getCount();
             }
@@ -179,9 +178,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         .orderToken(orderToken)
                         .build())
                 .collect(Collectors.toList());
-
-        Result<AppSkuDetailVO> goodsResult = goodsFeignClient.getSkuById(1l);
-        System.out.println(goodsResult);
 
         // 锁定库存
         Result lockResult = skuFeignClient.lockStock(skuLockList);
