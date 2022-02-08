@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @ApiModel("商品分页对象")
 @Data
-public class AppSpuPageVO {
+public class GoodsPageVO {
 
     @ApiModelProperty("商品ID")
     private Long id;

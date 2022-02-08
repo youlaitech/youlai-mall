@@ -7,40 +7,47 @@ import java.io.Serializable;
 /**
  * 购物车商品传输层实体
  */
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@Builder
 @Data
 public class CartItemDTO implements Serializable {
 
-
+    /**
+     * 商品库存ID
+     */
     private Long skuId;
 
     /**
-     * 商品库存单元名称
+     * 商品库存名称
      */
     private String skuName;
 
     /**
-     * 商品库存单元编码
+     * 商品编码
      */
     private String skuSn;
 
     /**
-     * 商品库存单元图片
+     * 商品图片
      */
     private String picUrl;
 
-    private Integer count; // 商品数量
+    /**
+     * 商品数量
+     */
+    private Integer count;
 
     /**
-     *  加入购物车价格，因会变动，不能作为订单计算因子，订单验价时需重新获取商品价格即可
+     *  加入购物车时价格，因会变动，不能作为订单计算因子，订单提交时需验价
      */
     private Long price;
 
+    /**
+     * 优惠券金额
+     */
     private Long coupon;
 
+    /**
+     * 是否选中
+     */
     private Boolean checked;
 
     /**
@@ -51,6 +58,6 @@ public class CartItemDTO implements Serializable {
     /**
      * 商品名称
      */
-    private String goodsName;
+    private String spuName;
 
 }

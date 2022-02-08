@@ -1,16 +1,17 @@
 package com.youlai.mall.oms.pojo.vo;
 
-import com.youlai.common.base.BaseVO;
 import lombok.Data;
 
 /**
+ * 订单创建响应视图对象
+ *
  * @author huawei
- * @desc 订单创建响应结果VO
  * @email huawei_code@163.com
  * @date 2021/1/21
  */
 @Data
-public class OrderSubmitVO extends BaseVO {
+public class OrderSubmitVO {
+
     /**
      * 订单ID
      */

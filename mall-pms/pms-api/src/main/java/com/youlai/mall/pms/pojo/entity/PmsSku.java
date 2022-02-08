@@ -13,6 +13,7 @@ import lombok.Data;
  */
 @Data
 public class PmsSku extends BaseEntity {
+
     @TableId(type = IdType.AUTO)
     private Long id;
 

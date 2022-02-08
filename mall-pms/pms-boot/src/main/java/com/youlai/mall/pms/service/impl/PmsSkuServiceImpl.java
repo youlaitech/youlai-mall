@@ -10,6 +10,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
+import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
@@ -159,6 +160,37 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
         return true;
     }
 
+    /**
+     * 商品验价
+     *
+     * @param checkPriceDTO
+     * @return
+     */
+    @Override
+    public boolean checkPrice(CheckPriceDTO checkPriceDTO) {
+        Long orderTotalAmount = checkPriceDTO.getOrderTotalAmount(); // 订单总金额
+
+        // 计算商品总金额
+        List<CheckPriceDTO.CheckSku> checkOrderItems = checkPriceDTO.getCheckSkus();
+        if (CollectionUtil.isNotEmpty(checkOrderItems)) {
+            List<Long> skuIds = checkOrderItems.stream()
+                    .map(orderItem -> orderItem.getSkuId()).collect(Collectors.toList());
+            List<PmsSku> skuList = this.list(new LambdaQueryWrapper<PmsSku>().in(PmsSku::getId, skuIds)
+                    .select(PmsSku::getId, PmsSku::getPrice));
+            // 商品总金额
+            Long skuTotalAmount = checkOrderItems.stream().map(checkOrderItem -> {
+                Long skuId = checkOrderItem.getSkuId();
+                PmsSku pmsSku = skuList.stream().filter(sku -> sku.getId().equals(skuId)).findFirst().orElse(null);
+                if (pmsSku != null) {
+                    return pmsSku.getPrice() * checkOrderItem.getCount();
+                }
+                return 0L;
+            }).reduce(0L, Long::sum);
+            return orderTotalAmount.compareTo(skuTotalAmount) == 0;
+        }
+        return false;
+    }
+
 
     /**
      * 获取商品库存信息
@@ -168,20 +200,9 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
      */
     @Override
     public SkuInfoDTO getSkuInfo(Long skuId) {
-        SkuInfoDTO skuInfo=   this.baseMapper.getSkuInfo(skuId);
+        SkuInfoDTO skuInfo = this.baseMapper.getSkuInfo(skuId);
         return skuInfo;
     }
 
-
-   /* private final SeataTccSkuService seataTccSkuService;
-
-    @Override
-    @GlobalTransactional
-    public Boolean lockStockTcc(List<LockStockDTO> skuLockList) {
-        seataTccSkuService.prepareSkuLockList(null, skuLockList);
-        String orderToken = skuLockList.get(0).getOrderToken();
-        redisTemplate.opsForValue().set(PmsConstants.LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(skuLockList));
-        return true;
-    }*/
 
 }

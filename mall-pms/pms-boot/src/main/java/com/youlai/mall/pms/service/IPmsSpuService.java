@@ -6,9 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
-import com.youlai.mall.pms.pojo.vo.AppSpuDetailVO;
-import com.youlai.mall.pms.pojo.vo.AppSpuPageVO;
-import com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO;
+import com.youlai.mall.pms.pojo.vo.GoodsDetailVO;
+import com.youlai.mall.pms.pojo.vo.GoodsPageVO;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public interface IPmsSpuService extends IService<PmsSpu> {
      * @param queryParams
      * @return
      */
-    IPage<AppSpuPageVO> listAppSpuWithPage(SpuPageQuery queryParams);
+    IPage<GoodsPageVO> listAppSpuWithPage(SpuPageQuery queryParams);
 
 
     /**
@@ -35,7 +34,7 @@ public interface IPmsSpuService extends IService<PmsSpu> {
      * @param spuId
      * @return
      */
-    AppSpuDetailVO getAppSpuDetail(Long spuId);
+    GoodsDetailVO getAppSpuDetail(Long spuId);
 
 
     /**
@@ -43,7 +42,7 @@ public interface IPmsSpuService extends IService<PmsSpu> {
      * @param id
      * @return
      */
-    GoodsDetailVO getGoodsById(Long id);
+    com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO getGoodsById(Long id);
 
 
     IPage<PmsSpu> list(Page<PmsSpu> page,  String name,Long categoryId);

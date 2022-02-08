@@ -1,11 +1,13 @@
 package com.youlai.mall.sms.pojo.to;
 
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import lombok.Data;
 import lombok.ToString;
 
 /**
+ * 秒杀商品Redis存储
+ *
  * @author huawei
- * @desc 秒杀商品Redis存储 TO
  * @email huawei_code@163.com
  * @date 2021/3/7
  */
@@ -65,6 +67,6 @@ public class SeckillSkuRedisTO {
     /**
      * 秒杀商品详情
      */
-    private AppSkuDetailVO skuInfo;
+    private SkuInfoDTO skuInfo;
 
 }
