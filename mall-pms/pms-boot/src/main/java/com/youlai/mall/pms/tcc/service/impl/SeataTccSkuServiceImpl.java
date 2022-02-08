@@ -68,7 +68,7 @@ public class SeataTccSkuServiceImpl implements SeataTccSkuService {
             );
             // 提示订单哪些商品库存不足
             List<Long> ids = unlockSkuList.stream().map(LockStockDTO::getSkuId).collect(Collectors.toList());
-            throw new BizException("商品" + ids.toString() + "库存不足");
+            throw new BizException("商品" + ids + "库存不足");
         }
         IdempotentUtil.addMarker(getClass(), businessActionContext.getXid(), System.currentTimeMillis());
         return true;

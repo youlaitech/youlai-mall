@@ -1,6 +1,7 @@
 package com.youlai.mall.pms.controller.app;
 
 import com.youlai.common.result.Result;
+import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
@@ -23,27 +24,19 @@ public class SkuController {
 
     private final IPmsSkuService skuService;
 
-    @ApiOperation(value = "获取商品库存详情")
-    @GetMapping("/{skuId}")
-    public Result<AppSkuDetailVO> getSkuDetail(@PathVariable Long skuId) {
-        AppSkuDetailVO sku = skuService.getSkuById(skuId);
-        return Result.success(sku);
-    }
-
     @ApiOperation(value = "获取商品库存信息")
     @GetMapping("/{skuId}")
     public Result<SkuInfoDTO> getSkuInfo(
-          @ApiParam("商品库存单元ID") @PathVariable Long skuId
+            @ApiParam("商品库存单元ID") @PathVariable Long skuId
     ) {
         SkuInfoDTO skuInfo = skuService.getSkuInfo(skuId);
         return Result.success(skuInfo);
     }
 
-
     @ApiOperation("获取商品库存数量")
     @GetMapping("/{skuId}/stock_num")
     public Result<Integer> getStockNum(
-           @ApiParam("商品库存单元ID") @PathVariable Long skuId
+            @ApiParam("商品库存单元ID") @PathVariable Long skuId
     ) {
         Integer stockNum = skuService.getStockNum(skuId);
         return Result.success(stockNum);
@@ -66,6 +59,13 @@ public class SkuController {
     @PutMapping("/_deduct")
     public Result<Boolean> deductStock(String orderToken) {
         boolean result = skuService.deductStock(orderToken);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "商品验价")
+    @PostMapping("/price/_check")
+    public Result<Boolean> checkPrice(@RequestBody CheckPriceDTO checkPriceDTO) {
+        boolean result = skuService.checkPrice(checkPriceDTO);
         return Result.judge(result);
     }
 }

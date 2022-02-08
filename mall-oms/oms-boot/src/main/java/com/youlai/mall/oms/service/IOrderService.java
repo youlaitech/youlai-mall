@@ -1,7 +1,6 @@
 package com.youlai.mall.oms.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
@@ -12,7 +11,7 @@ import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
+import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 
 /**
  * 订单业务接口
@@ -31,12 +30,7 @@ public interface IOrderService extends IService<OmsOrder> {
     /**
      * 订单提交
      */
-    OrderSubmitVO submit(OrderSubmitDTO orderSubmitDTO) ;
-
-    /**
-     * 订单提交
-     */
-    OrderSubmitVO submitTcc(OrderSubmitDTO orderSubmitDTO) ;
+    OrderSubmitVO submit(OrderSubmitForm orderSubmitForm) ;
 
     /**
      * 订单支付

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
-import com.youlai.mall.pms.pojo.vo.AppSpuPageVO;
+import com.youlai.mall.pms.pojo.vo.GoodsPageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
      * @param queryParams
      * @return
      */
-    List<AppSpuPageVO> listAppSpuWithPage(Page<AppSpuPageVO> page, SpuPageQuery queryParams);
+    List<GoodsPageVO> listAppSpuWithPage(Page<GoodsPageVO> page, SpuPageQuery queryParams);
 
     List<PmsSpu> list(Page<PmsSpu> page, String name, Long categoryId);
 

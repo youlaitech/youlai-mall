@@ -3,8 +3,8 @@ package com.youlai.mall.pms.controller.app;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
-import com.youlai.mall.pms.pojo.vo.AppSpuPageVO;
-import com.youlai.mall.pms.pojo.vo.AppSpuDetailVO;
+import com.youlai.mall.pms.pojo.vo.GoodsPageVO;
+import com.youlai.mall.pms.pojo.vo.GoodsDetailVO;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,18 +27,18 @@ public class SpuController {
 
     @ApiOperation(value = "商品分页列表")
     @GetMapping("/page")
-    public Result<List<AppSpuPageVO>> listSpuWithPage(SpuPageQuery queryParams) {
-        IPage<AppSpuPageVO> result = iPmsSpuService.listAppSpuWithPage(queryParams);
+    public Result<List<GoodsPageVO>> listGoodsWithPage(SpuPageQuery queryParams) {
+        IPage<GoodsPageVO> result = iPmsSpuService.listAppSpuWithPage(queryParams);
         return Result.success(result.getRecords(), result.getTotal());
     }
 
     @ApiOperation(value = "获取商品详情")
     @GetMapping("/{spuId}")
-    public Result<AppSpuDetailVO> getSpuDetail(
+    public Result<GoodsDetailVO> getGoodsDetail(
             @ApiParam("商品ID") @PathVariable Long spuId
     ) {
-        AppSpuDetailVO appSpuDetailVO = iPmsSpuService.getAppSpuDetail(spuId);
-        return Result.success(appSpuDetailVO);
+        GoodsDetailVO goodsDetailVO = iPmsSpuService.getAppSpuDetail(spuId);
+        return Result.success(goodsDetailVO);
     }
 
 }

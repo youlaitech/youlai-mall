@@ -12,13 +12,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * @author hxr
- * @date 2021-03-16
+ * 订单超时取消
+ *
+ * @author haoxr
+ * @date 2021/3/16
  */
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class OrderListener {
 
     private final IOrderService orderService;

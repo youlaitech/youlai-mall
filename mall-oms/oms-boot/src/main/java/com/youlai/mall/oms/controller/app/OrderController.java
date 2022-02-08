@@ -7,7 +7,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
+import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
@@ -59,8 +59,8 @@ public class OrderController {
 
     @ApiOperation("订单提交")
     @PostMapping("/_submit")
-    public Result submit(@Valid @RequestBody OrderSubmitDTO orderSubmitDTO) {
-        OrderSubmitVO result = orderService.submit(orderSubmitDTO);
+    public Result submit(@Valid @RequestBody OrderSubmitForm orderSubmitForm) {
+        OrderSubmitVO result = orderService.submit(orderSubmitForm);
         return Result.success(result);
     }
 

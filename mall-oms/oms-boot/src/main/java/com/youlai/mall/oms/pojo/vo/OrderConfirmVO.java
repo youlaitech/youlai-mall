@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Data
-public class OrderConfirmVO extends BaseVO {
+public class OrderConfirmVO {
 
     private String orderToken;
 

@@ -1,13 +1,15 @@
 package com.youlai.mall.pms.api;
 
 import com.youlai.common.result.Result;
+import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@FeignClient(value = "mall-pms",contextId = "sku")
+@FeignClient(value = "mall-pms", contextId = "sku")
 public interface SkuFeignClient {
 
     /**
@@ -33,7 +35,15 @@ public interface SkuFeignClient {
      * 扣减库存
      */
     @PutMapping("/app-api/v1/sku/_deduct")
-    Result deductStock(@RequestParam  String orderToken);
+    Result deductStock(@RequestParam String orderToken);
 
 
+    /**
+     * 商品验价
+     *
+     * @param checkPriceDTO
+     * @return
+     */
+    @PutMapping("/app-api/v1/sku/price/_check")
+    Result<Boolean> checkPrice(@RequestBody CheckPriceDTO checkPriceDTO);
 }

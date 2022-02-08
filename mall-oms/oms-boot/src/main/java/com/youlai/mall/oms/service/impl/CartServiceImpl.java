@@ -1,5 +1,6 @@
 package com.youlai.mall.oms.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
@@ -7,8 +8,12 @@ import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
+import com.youlai.mall.pms.api.SkuFeignClient;
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -33,7 +38,7 @@ import java.util.concurrent.CompletableFuture;
 public class CartServiceImpl implements ICartService {
 
     private RedisTemplate redisTemplate;
-    private GoodsFeignClient skuFeignService;
+    private SkuFeignClient skuFeignService;
 
     @Override
     public List<CartItemDTO> listCartItemByMemberId(Long memberId) {
@@ -78,22 +83,16 @@ public class CartServiceImpl implements ICartService {
         // 购物车不存在该商品，添加商品至购物车
         cartItem = new CartItemDTO();
         CompletableFuture<Void> cartItemCompletableFuture = CompletableFuture.runAsync(() -> {
-            AppSkuDetailVO sku = skuFeignService.getSkuById(skuId).getData();
-            if (sku != null) {
-                cartItem.setSkuId(sku.getId());
+            SkuInfoDTO skuInfo = skuFeignService.getSkuInfo(skuId).getData();
+            if (skuInfo != null) {
+                BeanUtil.copyProperties(skuInfo,cartItem);
                 cartItem.setCount(1);
-                cartItem.setPrice(sku.getPrice());
-                cartItem.setPicUrl(sku.getPicUrl());
-                cartItem.setSkuName(sku.getName());
-                cartItem.setStock(sku.getStock());
-                cartItem.setSkuSn(sku.getSn());
-                cartItem.setGoodsName(sku.getSpuName());
                 cartItem.setChecked(true);
             }
         });
         CompletableFuture.allOf(cartItemCompletableFuture).join();
 
-        Assert.isTrue(cartItem.getSkuId() != null && cartItem.getSkuId() > 0,"商品不存在");
+        Assert.isTrue(cartItem.getSkuId() != null,"商品不存在");
         cartHashOperations.put(hKey, cartItem);
         return true;
     }

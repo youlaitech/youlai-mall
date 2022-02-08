@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Data
 @ApiModel("商品详情")
-public class AppSpuDetailVO {
+public class GoodsDetailVO {
 
     @ApiModelProperty("商品基本信息")
     private GoodsInfo goodsInfo;
@@ -103,7 +103,7 @@ public class AppSpuDetailVO {
         private Long price;
 
         @ApiModelProperty("库存")
-        private Integer stock;
+        private Integer stockNum;
 
         @ApiModelProperty("商品图片URL")
         private String picUrl;

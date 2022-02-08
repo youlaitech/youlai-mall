@@ -2,6 +2,7 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.result.Result;
+import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
@@ -54,5 +55,11 @@ public interface IPmsSkuService extends IService<PmsSku> {
     boolean deductStock(String orderToken);
 
 
-
+    /**
+     * 商品验价
+     *
+     * @param checkPriceDTO
+     * @return
+     */
+    boolean checkPrice(CheckPriceDTO checkPriceDTO);
 }
