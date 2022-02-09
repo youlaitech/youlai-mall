@@ -47,7 +47,6 @@ public class OrderController {
         return Result.success(result.getRecords(), result.getTotal());
     }
 
-
     @ApiOperation(value = "订单详情")
     @GetMapping("/{orderId}")
     public Result getOrderDetail(
