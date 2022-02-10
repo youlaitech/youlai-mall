@@ -13,7 +13,7 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        namespace: prod_namespace_id
+
         # 公共配置
         shared-configs[0]:
           data-id: youlai-common.yaml
