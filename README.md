@@ -74,7 +74,7 @@
 
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
-#### 极速启动
+- **极速启动**
 
 1. **启动 Nacos**
 
@@ -102,7 +102,7 @@
 
    访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-#### 本地启动
+- **本地启动**
 
 1. **中间件安装(🔴必装 ⚪可选)**
 
@@ -134,29 +134,29 @@
     a. **Nacos 配置持久化至 MySQL**
        > Nacos 默认配置持久化到内嵌的Derby数据库，开发无特殊情况可使用默认配置，如需持久化配置到MySQL，完成下面配置修改即可。
 
-       进入 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
-       ```properties
+      进入 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
+      ```properties
        spring.datasource.platform=mysql
        db.num=1
        db.url.0=jdbc:mysql://localhost:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
        db.user.0=root
        db.password.0=123456
-
+      ```
     b. **启动Nacos**
 
-       IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
+      IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
 
     c. **导入Nacos配置**
+   
+      打开浏览器，地址栏输入 Nacos 管控台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
 
-       打开浏览器，地址栏输入 Nacos 管控台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
+      输入用户名/密码：nacos/nacos ；
 
-       输入用户名/密码：nacos/nacos ；
-
-       进入管控台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `doc/nacos/DEFAULT_GROUP.zip` 文件 ；
+      进入管控台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `doc/nacos/DEFAULT_GROUP.zip` 文件 ；
     
     d. **修改Nacos配置**
-
-       进入共享配置 `youlai-common.yaml` ，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认为有来云环境。
+   
+      进入共享配置 `youlai-common.yaml` ，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认为有来云环境。
 
 
 4. **服务启动**
@@ -199,13 +199,13 @@
 
 ## 💹 趋势统计
 
-### Gitee
+- Gitee
 
 <p align="center">
     <a target="_blank" href='https://whnb.wang/stars/youlaitech/youlai-mall'><img src="https://whnb.wang/stars/youlaitech/youlai-mall"></a>
 </p>
 
-### Github
+- Github
 
 <p align="center">
     <a target="_blank" href='https://starchart.cc/hxrui/youlai-mall'><img src="https://starchart.cc/hxrui/youlai-mall.svg"></a>
