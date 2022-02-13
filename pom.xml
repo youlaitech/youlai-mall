@@ -48,7 +48,7 @@
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
         <seata.version>1.4.2</seata.version>
         <knife4j.version>2.0.9</knife4j.version>
-        <redisson.version>3.15.1</redisson.version>
+        <redisson.version>3.16.8</redisson.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
         <elasticsearch.version>7.10.1</elasticsearch.version>
         <ip2region.version>1.7.2</ip2region.version>
