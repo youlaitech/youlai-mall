@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : www.youlai.tech
+ Source Server         : root.youlai.tech
  Source Server Type    : MySQL
- Source Server Version : 80023
+ Source Server Version : 80028
  Source Host           : www.youlai.tech:3306
  Source Schema         : mall_pms
 
  Target Server Type    : MySQL
- Target Server Version : 80023
+ Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 13/08/2021 23:39:20
+ Date: 13/02/2022 23:22:07
 */
 use mall_pms;
 
@@ -31,7 +31,7 @@ CREATE TABLE `pms_attribute`  (
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_attr_pms_category`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_attribute
@@ -52,7 +52,7 @@ CREATE TABLE `pms_brand`  (
   `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_brand
@@ -103,14 +103,14 @@ CREATE TABLE `pms_catetgory_brand`  (
 DROP TABLE IF EXISTS `pms_sku`;
 CREATE TABLE `pms_sku`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `sn` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品编码',
-  `spu_id` bigint NOT NULL COMMENT '产品ID',
-  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品标题',
-  `spec_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品规格值，以,分割',
-  `price` bigint NULL DEFAULT NULL COMMENT '价格（单位：分）',
-  `stock` int NULL DEFAULT 0 COMMENT '库存',
-  `locked_stock` int NULL DEFAULT 0 COMMENT '锁定库存',
-  `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品图片',
+  `sku_sn` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品编码',
+  `spu_id` bigint NOT NULL COMMENT 'SPU ID',
+  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品名称',
+  `spec_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品规格值，以英文逗号(,)分割',
+  `price` bigint NULL DEFAULT NULL COMMENT '商品价格(单位：分)',
+  `stock_num` int NULL DEFAULT 0 COMMENT '库存数量',
+  `locked_stock_num` int NULL DEFAULT 0 COMMENT '锁定库存数量',
+  `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品图片地址',
   `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -129,7 +129,7 @@ INSERT INTO `pms_sku` VALUES (296, '1213', 73, '117|11', '117_119', 100, 12, 0, 
 INSERT INTO `pms_sku` VALUES (297, '2123', 73, '117|12', '117_120', 200, 123, 0, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
 INSERT INTO `pms_sku` VALUES (298, '3123', 73, '118|11', '118_119', 300, 123, 0, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
 INSERT INTO `pms_sku` VALUES (299, '41244', 73, '118|12', '118_120', 400, 123, 0, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_sku` VALUES (300, '1', 74, 'tid_1_1|tid_2_1|tid_3_', '122_124_126', 100, 98, 17, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
+INSERT INTO `pms_sku` VALUES (300, '1', 74, 'tid_1_1|tid_2_1|tid_3_', '122_124_126', 100, 97, 17, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
 INSERT INTO `pms_sku` VALUES (301, '2', 74, 'tid_1_1|tid_2_1|tid_3_', '122_124_127', 200, 2, 0, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
 INSERT INTO `pms_sku` VALUES (302, '3', 74, 'tid_1_1|tid_2_2|tid_3_', '122_125_126', 300, 3, 0, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
 INSERT INTO `pms_sku` VALUES (303, '4', 74, 'tid_1_1|tid_2_2|tid_3_', '122_125_127', 400, 4, 0, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');

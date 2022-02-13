@@ -14,6 +14,8 @@
  Date: 26/01/2022 20:54:17
 */
 
+use mall_sms;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
