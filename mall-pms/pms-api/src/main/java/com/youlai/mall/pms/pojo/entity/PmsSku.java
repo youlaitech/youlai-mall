@@ -28,7 +28,7 @@ public class PmsSku extends BaseEntity {
     private String name;
 
     /**
-     * 商品ID
+     * SPU ID
      */
     private Long spuId;
 
@@ -38,7 +38,7 @@ public class PmsSku extends BaseEntity {
     private String specIds;
 
     /**
-     * 商品价格
+     * 商品价格(单位：分)
      */
     private Long price;
 

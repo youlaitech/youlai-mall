@@ -19,31 +19,29 @@ public interface SkuFeignClient {
     Result<SkuInfoDTO> getSkuInfo(@PathVariable Long skuId);
 
     /**
-     * 锁定库存
+     * 锁定商品库存
      */
     @PutMapping("/app-api/v1/sku/_lock")
-    Result lockStock(@RequestBody List<LockStockDTO> list);
+    Result lockStock(@RequestBody LockStockDTO lockStockDTO);
 
     /**
-     * 解锁库存
+     * 解锁商品库存
      */
     @PutMapping("/app-api/v1/sku/_unlock")
-    Result<Boolean> unlockStock(@RequestParam String orderToken);
-
+    Result unlockStock(@RequestParam String orderToken);
 
     /**
-     * 扣减库存
+     * 扣减商品库存
      */
     @PutMapping("/app-api/v1/sku/_deduct")
     Result deductStock(@RequestParam String orderToken);
 
 
     /**
-     * 商品验价
+     * 订单商品验价
      *
      * @param checkPriceDTO
-     * @return
      */
-    @PutMapping("/app-api/v1/sku/price/_check")
+    @PostMapping("/app-api/v1/sku/price/_check")
     Result<Boolean> checkPrice(@RequestBody CheckPriceDTO checkPriceDTO);
 }

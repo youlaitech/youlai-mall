@@ -9,8 +9,6 @@ import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
-import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.pojo.dto.MemberDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,14 +29,13 @@ import java.util.Optional;
  * @date 2020-12-30 22:31:10
  */
 @Api(tags = "「系统端」订单管理")
-@RestController("adminOrderController")
+@RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
-public class OrderController {
+public class OmsOrderController {
 
     private final IOrderService orderService;
     private final IOrderItemService orderItemService;
-    private final MemberFeignClient memberFeignClient;
 
     @ApiOperation("订单列表")
     @GetMapping
@@ -62,10 +59,7 @@ public class OrderController {
         );
         orderItems = Optional.ofNullable(orderItems).orElse(new ArrayList<>());
 
-        // 会员明细
-        Result<MemberDTO> result = memberFeignClient.getUserById(order.getMemberId());
-        MemberDTO member = result.getData();
-        orderDTO.setOrder(order).setOrderItems(orderItems).setMember(member);
+        orderDTO.setOrder(order).setOrderItems(orderItems);
         return Result.success(orderDTO);
     }
 

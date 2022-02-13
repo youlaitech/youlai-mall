@@ -17,7 +17,7 @@ import java.util.List;
  * 商品库存单元控制器 (Stock Keeping Unit)
  */
 @Api(tags = "「移动端」商品库存")
-@RestController("appSkuController")
+@RestController
 @RequestMapping("/app-api/v1/sku")
 @RequiredArgsConstructor
 public class SkuController {
@@ -25,9 +25,9 @@ public class SkuController {
     private final IPmsSkuService skuService;
 
     @ApiOperation(value = "获取商品库存信息")
-    @GetMapping("/{skuId}")
+    @GetMapping("/{skuId}/info")
     public Result<SkuInfoDTO> getSkuInfo(
-            @ApiParam("商品库存单元ID") @PathVariable Long skuId
+            @ApiParam("SKU ID") @PathVariable Long skuId
     ) {
         SkuInfoDTO skuInfo = skuService.getSkuInfo(skuId);
         return Result.success(skuInfo);
@@ -44,8 +44,9 @@ public class SkuController {
 
     @ApiOperation(value = "锁定库存")
     @PutMapping("/_lock")
-    public Result lockStock(@RequestBody List<LockStockDTO> list) {
-        return skuService.lockStock(list);
+    public Result lockStock(@RequestBody LockStockDTO lockStockDTO) {
+        boolean lockResult = skuService.lockStock(lockStockDTO);
+        return Result.success(lockResult);
     }
 
     @ApiOperation(value = "解锁库存")
@@ -66,6 +67,6 @@ public class SkuController {
     @PostMapping("/price/_check")
     public Result<Boolean> checkPrice(@RequestBody CheckPriceDTO checkPriceDTO) {
         boolean result = skuService.checkPrice(checkPriceDTO);
-        return Result.judge(result);
+        return Result.success(result);
     }
 }

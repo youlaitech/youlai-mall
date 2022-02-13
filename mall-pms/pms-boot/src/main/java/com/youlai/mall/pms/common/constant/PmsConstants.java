@@ -8,7 +8,7 @@ package com.youlai.mall.pms.common.constant;
  */
 public interface PmsConstants {
 
-    String LOCKED_STOCK_PREFIX = "stock:locked:";
+    String LOCKED_STOCK_PREFIX = "pms:locked_stock:";
 
     String LOCK_SKU_PREFIX = "lock:sku:";
 

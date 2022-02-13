@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,9 +22,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
-public class MemberController {
+public class UmsMemberController {
 
-    private final IUmsMemberService iUmsMemberService;
+    private final IUmsMemberService memberService;
 
     @ApiOperation(value = "会员分页列表")
     @GetMapping
@@ -32,7 +33,7 @@ public class MemberController {
             @ApiParam("每页数量") Long pageSize,
             @ApiParam("会员昵称") String nickName
     ) {
-        IPage<UmsMember> result = iUmsMemberService.list(new Page<>(pageNum, pageSize), nickName);
+        IPage<UmsMember> result = memberService.list(new Page<>(pageNum, pageSize), nickName);
         return Result.success(result.getRecords(), result.getTotal());
     }
 
@@ -42,7 +43,7 @@ public class MemberController {
     public Result<UmsMember> getMemberDetail(
             @ApiParam("会员ID") @PathVariable Long id
     ) {
-        UmsMember user = iUmsMemberService.getById(id);
+        UmsMember user = memberService.getById(id);
         return Result.success(user);
     }
 
@@ -52,7 +53,7 @@ public class MemberController {
             @ApiParam("会员ID") @PathVariable Long id,
             @RequestBody UmsMember member
     ) {
-        boolean status = iUmsMemberService.updateById(member);
+        boolean status = memberService.updateById(member);
         return Result.judge(status);
     }
 
@@ -62,7 +63,7 @@ public class MemberController {
             @ApiParam("会员ID") @PathVariable Long id,
             @RequestBody UmsMember member
     ) {
-        boolean status = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
+        boolean status = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .eq(UmsMember::getId, id)
                 .set(member.getStatus() != null, UmsMember::getStatus, member.getStatus())
         );
@@ -74,7 +75,7 @@ public class MemberController {
     public <T> Result<T> delete(
             @ApiParam("会员ID，多个以英文逗号(,)拼接") @PathVariable String ids
     ) {
-        boolean status = iUmsMemberService.update(new LambdaUpdateWrapper<UmsMember>()
+        boolean status = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .in(UmsMember::getId, Arrays.asList(ids.split(",")))
                 .set(UmsMember::getDeleted, GlobalConstants.STATUS_YES));
         return Result.judge(status);

@@ -14,6 +14,7 @@ import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.UserUtils;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -41,7 +42,7 @@ public class RoleController {
             @ApiParam("每页数量") long pageSize,
             @ApiParam("角色名称") String name
     ) {
-        List<String> roles = JwtUtils.getRoles();
+        List<String> roles = UserUtils.getRoles();
         boolean isRoot = roles.contains(GlobalConstants.ROOT_ROLE_CODE);  // 判断是否是超级管理员
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<SysRole>()
                 .like(StrUtil.isNotBlank(name), SysRole::getName, name)
@@ -56,7 +57,7 @@ public class RoleController {
     @ApiOperation(value = "角色列表")
     @GetMapping
     public Result getRoleList() {
-        List<String> roles = JwtUtils.getRoles();
+        List<String> roles = UserUtils.getRoles();
         boolean isRoot = roles.contains(GlobalConstants.ROOT_ROLE_CODE);  // 判断是否是超级管理员
         List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
                 .eq(SysRole::getStatus, GlobalConstants.STATUS_YES)
@@ -74,7 +75,6 @@ public class RoleController {
         SysRole role = iSysRoleService.getById(roleId);
         return Result.success(role);
     }
-
 
     @ApiOperation(value = "新增角色")
     @PostMapping
@@ -113,9 +113,10 @@ public class RoleController {
     }
 
     @ApiOperation(value = "删除角色")
-    @ApiImplicitParam(name = "ids", value = "以,分割拼接字符串", required = true, dataType = "String")
     @DeleteMapping("/{ids}")
-    public Result deleteRole(@PathVariable String ids) {
+    public Result deleteRoles(
+            @ApiParam("删除角色，多个以英文逗号(,)分割") @PathVariable String ids
+    ) {
         boolean result = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()
                 .map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         if (result) {

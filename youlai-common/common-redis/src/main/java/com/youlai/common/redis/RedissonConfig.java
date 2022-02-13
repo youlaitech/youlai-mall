@@ -1,5 +1,6 @@
 package com.youlai.common.redis;
 
+import cn.hutool.core.util.StrUtil;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -37,7 +38,10 @@ public class RedissonConfig {
         singleServerConfig.setAddress("redis://" + host + ":" + port);
         singleServerConfig.setDatabase(database);
         singleServerConfig.setConnectionMinimumIdleSize(connectionMinimumIdleSize);
-        singleServerConfig.setPassword(password);
+        if(StrUtil.isNotBlank(password)){
+            singleServerConfig.setPassword(password);
+        }
+        singleServerConfig.setConnectTimeout(10000);
         return Redisson.create(config);
     }
 

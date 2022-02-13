@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.pojo.form;
 
 import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
-import com.youlai.mall.ums.pojo.entity.UmsAddress;
+import com.youlai.mall.ums.dto.MemberAddressDTO;
 import lombok.Data;
 
 import javax.validation.constraints.Size;
@@ -53,6 +53,6 @@ public class OrderSubmitForm {
     /**
      * 收获地址
      */
-    private UmsAddress deliveryAddress;
+    private MemberAddressDTO deliveryAddress;
 
 }

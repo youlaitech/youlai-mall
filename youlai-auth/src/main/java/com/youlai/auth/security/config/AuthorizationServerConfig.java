@@ -179,7 +179,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 }
             } else if (principal instanceof MemberUserDetails) {
                 MemberUserDetails memberUserDetails = (MemberUserDetails) principal;
-                additionalInfo.put("userId", memberUserDetails.getUserId());
+                additionalInfo.put("memberId", memberUserDetails.getMemberId());
                 additionalInfo.put("username", memberUserDetails.getUsername());
                 if (StrUtil.isNotBlank(memberUserDetails.getAuthenticationMethod())) {
                     additionalInfo.put("authenticationMethod", memberUserDetails.getAuthenticationMethod());

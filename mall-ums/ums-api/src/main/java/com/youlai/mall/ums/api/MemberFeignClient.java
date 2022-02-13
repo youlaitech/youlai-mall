@@ -2,33 +2,30 @@ package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
-import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
-import com.youlai.mall.ums.pojo.dto.MemberDTO;
-import com.youlai.mall.ums.pojo.entity.UmsMember;
+import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
+import com.youlai.mall.ums.dto.MemberDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "mall-ums", contextId = "member")
 public interface MemberFeignClient {
 
+    /**
+     * 新增会员
+     *
+     * @param member
+     * @return
+     */
     @PostMapping("/app-api/v1/members")
-    Result<Long> add(@RequestBody UmsMember member);
-
-    @PutMapping("/app-api/v1/members/{id}")
-    <T> Result<T> update(@PathVariable Long id, @RequestBody UmsMember member);
+    Result<Long> addMember(@RequestBody MemberDTO member);
 
     /**
-     * 获取会员信息
+     * 获取会员的 openid
+     *
+     * @return
      */
-    @GetMapping("/app-api/v1/members/{id}")
-    Result<MemberDTO> getUserById(@PathVariable Long id);
-
-    /**
-     * 获取会员信息
-     */
-    @GetMapping("/app-api/v1/members/detail/{id}")
-    Result<UmsMember> getUserEntityById(@PathVariable Long id);
-
+    @PostMapping("/app-api/v1/members/{memberId}/openid")
+    Result<String> getMemberOpenId(@PathVariable Long memberId);
 
     /**
      * 扣减会员余额
@@ -50,8 +47,7 @@ public interface MemberFeignClient {
      * @return
      */
     @GetMapping("/app-api/v1/members/openid/{openid}")
-    Result<MemberAuthDTO> loadUserByOpenId(@PathVariable String openid);
-
+    Result<MemberAuthInfoDTO> loadUserByOpenId(@PathVariable String openid);
 
     /**
      * 根据手机号获取会员认证信息
@@ -60,8 +56,7 @@ public interface MemberFeignClient {
      * @return
      */
     @GetMapping("/app-api/v1/members/mobile/{mobile}")
-    Result<MemberAuthDTO> loadUserByMobile(@PathVariable String mobile);
-
+    Result<MemberAuthInfoDTO> loadUserByMobile(@PathVariable String mobile);
 
 }
 

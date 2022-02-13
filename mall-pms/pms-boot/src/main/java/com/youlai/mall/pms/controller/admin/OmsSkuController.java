@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/sku")
 @RequiredArgsConstructor
-public class StockController {
+public class OmsSkuController {
 
     private final IPmsSkuService skuService;
 

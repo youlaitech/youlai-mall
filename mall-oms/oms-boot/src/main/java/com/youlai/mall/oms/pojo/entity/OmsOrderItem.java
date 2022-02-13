@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * 订单商品信息表
+ * 订单明细表
  *
  * @author huawei
  * @email huawei_code@163.com
@@ -24,10 +24,12 @@ public class OmsOrderItem extends BaseEntity {
      * 订单ID
      */
     private Long orderId;
+
     /**
-     * 商品sku id
+     * 商品ID
      */
     private Long skuId;
+
     /**
      * 商品sku编号
      */
@@ -57,7 +59,6 @@ public class OmsOrderItem extends BaseEntity {
      * 商品总金额(单位：分)
      */
     private Long totalAmount;
-
 
     /**
      * 逻辑删除(0:正常；1:已删除)
