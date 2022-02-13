@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.mapper.OrderLogMapper;
 import com.youlai.mall.oms.pojo.entity.OmsOrderLog;
 import com.youlai.mall.oms.service.IOrderLogService;
@@ -24,8 +24,8 @@ public class OrderLogServiceImpl extends ServiceImpl<OrderLogMapper, OmsOrderLog
 
     @Override
     public void addOrderLogs(Long orderId, Integer orderStatus, String detail) {
-        Long userId = JwtUtils.getUserId();
-        addOrderLogs(orderId, orderStatus, userId.toString(), detail);
+        Long memberId = MemberUtils.getMemberId();
+        addOrderLogs(orderId, orderStatus, memberId.toString(), detail);
     }
 
 }

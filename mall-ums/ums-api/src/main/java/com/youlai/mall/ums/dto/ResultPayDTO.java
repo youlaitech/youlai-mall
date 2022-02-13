@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.pojo.dto;
+package com.youlai.mall.ums.dto;
 
 import lombok.Data;
 

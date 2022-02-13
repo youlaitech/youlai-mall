@@ -1,27 +1,44 @@
 package com.youlai.mall.pms.pojo.dto.app;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
- * @description 锁定库存
+ * 锁定库存传输层实体
+ *
  * @author haoxr
- * @createTime 2021-03-07 15:14
+ * @date 2021-03-07 15:14
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class LockStockDTO  {
 
-    private Long skuId;
+public class LockStockDTO {
 
-    private Integer count;
-
+    /**
+     * 订单token
+     */
     private String orderToken;
 
-    private Boolean locked;
+    /**
+     * 锁定商品列表
+     */
+    private List<LockedSku> lockedSkuList;
+
+    @Accessors(chain = true)
+    @Data
+    public static class LockedSku {
+
+        /**
+         * 商品ID
+         */
+        private Long skuId;
+
+        /**
+         * 商品数量
+         */
+        private Integer count;
+
+    }
 
 }

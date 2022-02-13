@@ -5,12 +5,11 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.bean.BeanUtil;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
-import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
-import com.youlai.mall.ums.pojo.entity.UmsMember;
+import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
+import com.youlai.mall.ums.dto.MemberDTO;
 import lombok.Data;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -53,7 +52,7 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
             e.printStackTrace();
         }
         String openid = sessionInfo.getOpenid();
-        Result<MemberAuthDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
+        Result<MemberAuthInfoDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
         // 微信用户不存在，注册成为新会员
         if (memberAuthResult != null && ResultCode.USER_NOT_EXIST.getCode().equals(memberAuthResult.getCode())) {
 
@@ -63,11 +62,10 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
             // 解密 encryptedData 获取用户信息
             WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
 
-            UmsMember member = new UmsMember();
-            BeanUtil.copyProperties(userInfo, member);
-            member.setOpenid(openid);
-            member.setStatus(GlobalConstants.STATUS_YES);
-            memberFeignClient.add(member);
+            MemberDTO memberDTO = new MemberDTO();
+            BeanUtil.copyProperties(userInfo, memberDTO);
+            memberDTO.setOpenid(openid);
+            memberFeignClient.addMember(memberDTO);
         }
         UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByOpenId(openid);
         WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails, new HashSet<>());

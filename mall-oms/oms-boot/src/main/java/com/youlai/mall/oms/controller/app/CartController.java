@@ -2,14 +2,13 @@ package com.youlai.mall.oms.controller.app;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -24,18 +23,17 @@ import java.util.List;
 @Api(tags = "「移动端」购物车管理")
 @RestController
 @RequestMapping("/app-api/v1/carts")
-@Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartController {
 
-    private ICartService cartService;
+    private final ICartService cartService;
 
     @ApiOperation(value = "查询购物车")
     @GetMapping
     @ApiOperationSupport(order = 1)
     public <T> Result<T> getCart() {
         try {
-            Long memberId = JwtUtils.getUserId();
+            Long memberId = MemberUtils.getMemberId();
             List<CartItemDTO> result = cartService.listCartItemByMemberId(memberId);
             return Result.success((T) result);
         } catch (Exception e) {

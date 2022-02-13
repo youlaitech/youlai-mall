@@ -19,7 +19,8 @@ import java.util.Base64;
 /**
  * 请求工具类
  *
- * @author xianrui
+ * @author haoxr
+ * @date 2022/2/12
  */
 @Slf4j
 public class RequestUtils {
@@ -29,7 +30,6 @@ public class RequestUtils {
         String grantType = request.getParameter(SecurityConstants.GRANT_TYPE_KEY);
         return grantType;
     }
-
 
     /**
      * 获取登录认证的客户端ID

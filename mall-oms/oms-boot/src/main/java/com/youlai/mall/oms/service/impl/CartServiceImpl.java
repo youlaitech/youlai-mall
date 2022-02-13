@@ -5,6 +5,7 @@ import cn.hutool.core.lang.Assert;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
@@ -52,7 +53,7 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean deleteCart() {
-        String key = OmsConstants.CART_PREFIX + JwtUtils.getUserId();
+        String key = OmsConstants.CART_PREFIX + MemberUtils.getMemberId();
         redisTemplate.delete(key);
         return true;
     }
@@ -64,7 +65,7 @@ public class CartServiceImpl implements ICartService {
     public boolean addCartItem(Long skuId) {
         Long memberId;
         try {
-            memberId = JwtUtils.getUserId();
+            memberId = MemberUtils.getMemberId();
         } catch (Exception e) {
             throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
         }
@@ -104,7 +105,7 @@ public class CartServiceImpl implements ICartService {
     public boolean updateCartItem(CartItemDTO cartItem) {
         Long memberId;
         try {
-            memberId = JwtUtils.getUserId();
+            memberId = MemberUtils.getMemberId();
         } catch (Exception e) {
             throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
         }
@@ -130,7 +131,7 @@ public class CartServiceImpl implements ICartService {
     public boolean removeCartItem(Long skuId) {
         Long memberId;
         try {
-            memberId = JwtUtils.getUserId();
+            memberId = MemberUtils.getMemberId();
         } catch (Exception e) {
             throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
         }
@@ -148,7 +149,7 @@ public class CartServiceImpl implements ICartService {
     public boolean checkAll(boolean checked) {
         Long memberId;
         try {
-            memberId = JwtUtils.getUserId();
+            memberId = MemberUtils.getMemberId();
         } catch (Exception e) {
             throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
         }
@@ -171,7 +172,7 @@ public class CartServiceImpl implements ICartService {
     public boolean removeCheckedItem() {
         Long memberId;
         try {
-            memberId = JwtUtils.getUserId();
+            memberId = MemberUtils.getMemberId();
         } catch (Exception e) {
             throw new BizException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
         }

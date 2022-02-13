@@ -1,5 +1,6 @@
 package com.youlai.common.web.exception;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.youlai.common.result.Result;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.ServletException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.concurrent.CompletionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -160,6 +162,17 @@ public class GlobalExceptionHandler {
         return Result.failed(e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(SQLSyntaxErrorException.class)
+    public <T> Result<T> processSQLSyntaxErrorException(SQLSyntaxErrorException e) {
+        log.error(e.getMessage(), e);
+        String errorMsg = e.getMessage();
+        if (StrUtil.isNotBlank(errorMsg) && errorMsg.contains("denied to user")) {
+            return Result.failed("数据库用户无操作权限，建议本地搭建数据库环境");
+        } else {
+            return Result.failed(e.getMessage());
+        }
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CompletionException.class)

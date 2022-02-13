@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.common.enums.AttributeTypeEnum;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
@@ -146,7 +146,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         }
 
         // 添加用户浏览历史记录
-        Long loginUserId = JwtUtils.getUserId();
+        Long loginUserId = MemberUtils.getMemberId();
         if (loginUserId != null) {
             ProductHistoryVO vo = new ProductHistoryVO();
             vo.setId(goodsInfo.getId());

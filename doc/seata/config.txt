@@ -44,8 +44,8 @@ store.db.datasource=druid
 store.db.dbType=mysql
 store.db.driverClassName=com.mysql.cj.jdbc.Driver
 store.db.url=jdbc:mysql://www.youlai.tech:3306/seata?useUnicode=true&rewriteBatchedStatements=true
-store.db.user=root
-store.db.password=123456
+store.db.user=seata
+store.db.password=seata
 store.db.minConn=5
 store.db.maxConn=30
 store.db.globalTable=global_table

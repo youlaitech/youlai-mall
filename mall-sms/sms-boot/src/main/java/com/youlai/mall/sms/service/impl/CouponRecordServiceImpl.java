@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.sms.mapper.SmsCouponRecordMapper;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.domain.SmsCouponRecord;
 import com.youlai.mall.sms.service.ICouponRecordService;
 import com.youlai.mall.sms.service.ISmsCouponService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -28,31 +30,27 @@ import static com.youlai.mall.sms.pojo.constant.AppConstants.COUPON_LOCK;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CouponRecordServiceImpl extends ServiceImpl<SmsCouponRecordMapper, SmsCouponRecord> implements ICouponRecordService {
 
-    @Autowired
-    private ISmsCouponService couponService;
-
-    @Autowired
-    private RedissonClient redissonClient;
+    private final ISmsCouponService couponService;
+    private final RedissonClient redissonClient;
 
     @Override
     public void add(String couponId) {
-        Long userId = JwtUtils.getUserId();
+        Long memberId = MemberUtils.getMemberId();
         RLock lock = redissonClient.getLock(COUPON_LOCK + couponId);
         lock.lock();
 
         try {
             SmsCoupon coupon = couponService.getById(couponId);
-            this.couponCheck(coupon, userId);
+            this.couponCheck(coupon, memberId);
             // 封装优惠券领取记录对象
             SmsCouponRecord couponRecord = new SmsCouponRecord();
             BeanUtils.copyProperties(coupon, couponRecord);
             couponRecord.setStartTime(new Date());
-//            couponRecord.setEndTime(DateUtil.offsetDay(new Date(), coupon.getValidDays()));
-//            couponRecord.setUseState(CouponStateEnum.NEW.name());
-            couponRecord.setUserId(JwtUtils.getUserId());
-            couponRecord.setUserName(JwtUtils.getUsername());
+            couponRecord.setUserId(memberId);
+            couponRecord.setUserName(MemberUtils.getUsername());
             couponRecord.setCouponId(coupon.getId());
             couponRecord.setId(null);
 
@@ -63,7 +61,7 @@ public class CouponRecordServiceImpl extends ServiceImpl<SmsCouponRecordMapper, 
                 //库存扣减成功才保存
                 this.save(couponRecord);
             } else {
-                log.warn("发放优惠券失败，coupon={}，loginUser={}", coupon, userId);
+                log.warn("发放优惠券失败，coupon={}，loginUser={}", coupon, memberId);
                 throw new BizException("发放优惠券失败");
             }
         } finally {

@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
-import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
+import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
@@ -18,11 +18,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 
 /**
  * @author huawei
@@ -32,20 +30,19 @@ import javax.validation.Valid;
 @Api(tags = "「移动端」订单管理")
 @RestController
 @RequestMapping("/app-api/v1/orders")
-@Slf4j
 @RequiredArgsConstructor
 public class OrderController {
 
     final IOrderService orderService;
 
-    @ApiOperation("订单列表")
+    @ApiOperation("分页列表")
     @GetMapping
     public Result listOrdersWithPage(OrderPageQuery queryParams) {
         IPage<OmsOrder> result = orderService.page(
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 new LambdaQueryWrapper<OmsOrder>()
-                        .eq(OmsOrder::getStatus, queryParams.getStatus())
-                        .eq(OmsOrder::getMemberId, JwtUtils.getUserId())
+                        .eq(queryParams.getStatus() != null, OmsOrder::getStatus, queryParams.getStatus())
+                        .eq(OmsOrder::getMemberId, MemberUtils.getMemberId())
         );
         return Result.success(result.getRecords(), result.getTotal());
     }

@@ -4,7 +4,7 @@ import com.youlai.common.enums.AuthenticationMethodEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.pojo.dto.MemberAuthDTO;
+import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
@@ -39,9 +39,9 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
      */
     public UserDetails loadUserByMobile(String mobile) {
         MemberUserDetails userDetails = null;
-        Result<MemberAuthDTO> result = memberFeignClient.loadUserByMobile(mobile);
+        Result<MemberAuthInfoDTO> result = memberFeignClient.loadUserByMobile(mobile);
         if (Result.isSuccess(result)) {
-            MemberAuthDTO member = result.getData();
+            MemberAuthInfoDTO member = result.getData();
             if (null != member) {
                 userDetails = new MemberUserDetails(member);
                 userDetails.setAuthenticationMethod(AuthenticationMethodEnum.MOBILE.getValue());   // 认证方式：OpenId
@@ -67,9 +67,9 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
      */
     public UserDetails loadUserByOpenId(String openId) {
         MemberUserDetails userDetails = null;
-        Result<MemberAuthDTO> result = memberFeignClient.loadUserByOpenId(openId);
+        Result<MemberAuthInfoDTO> result = memberFeignClient.loadUserByOpenId(openId);
         if (Result.isSuccess(result)) {
-            MemberAuthDTO member = result.getData();
+            MemberAuthInfoDTO member = result.getData();
             if (null != member) {
                 userDetails = new MemberUserDetails(member);
                 userDetails.setAuthenticationMethod(AuthenticationMethodEnum.OPENID.getValue());   // 认证方式：OpenId

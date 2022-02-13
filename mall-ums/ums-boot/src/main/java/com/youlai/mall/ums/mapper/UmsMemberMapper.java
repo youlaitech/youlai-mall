@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Mapper
-public interface UmsUserMapper extends BaseMapper<UmsMember> {
+public interface UmsMemberMapper extends BaseMapper<UmsMember> {
 
     @Select("<script>" +
             " SELECT * from ums_member " +

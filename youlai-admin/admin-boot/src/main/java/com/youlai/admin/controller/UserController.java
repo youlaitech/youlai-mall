@@ -12,7 +12,7 @@ import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -116,11 +116,11 @@ public class UserController {
     public Result<LoginUserVO> getCurrentUser() {
         LoginUserVO loginUserVO = new LoginUserVO();
         // 用户基本信息
-        Long userId = JwtUtils.getUserId();
+        Long userId = UserUtils.getUserId();
         SysUser user = iSysUserService.getById(userId);
         BeanUtil.copyProperties(user, loginUserVO);
         // 用户角色信息
-        List<String> roles = JwtUtils.getRoles();
+        List<String> roles = UserUtils.getRoles();
         loginUserVO.setRoles(roles);
         // 用户按钮权限信息
         List<String> perms = iSysPermissionService.listBtnPermByRoles(roles);
