@@ -1,4 +1,4 @@
-<div align="center">
+<p align="center">
     <img src="https://img.shields.io/badge/SpringBoot-2.6.3-brightgreen.svg"/>
     <img src="https://img.shields.io/badge/SpringCloud & Alibaba -2021-green.svg"/>
     <a src="https://github.com/hxrui" target="_blank">
@@ -12,25 +12,29 @@
     <a href="https://gitee.com/youlaiorg" target="_blank">
         <img src="https://img.shields.io/badge/Author-有来开源组织-orange.svg"/>
     </a>
-</div>
+</p>
+<p align="center">
+	<strong>开源地址：</strong> <a target="_blank" href='https://gitee.com/haoxr'>Github</a> | <a target="_blank" href='https://github.com/hxrui'>Gitee</a> 
+</p>
 
-<div align="center">
-    <a target="_blank" href="https://gitee.com/youlaiorg"> Gitee 仓库</a> | 
-    <a target="_blank" href="https://gitee.com/youlaitech"> Github 仓库</a> | 
-    <a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> 博客主页</a> | 
-    <a target="_blank" href="http://youlaitech.gitee.io/youlai-mall"> 官方文档</a>
-</div>
+<p align="center">
+	<strong>博客主页：</strong><a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> https://www.cnblogs.com/haoxianrui</a> 
+</p>
 
-# 📚️ 项目介绍
+<p align="center">
+	<strong>开发者文档：</strong><a target="_blank" href="http://youlaitech.gitee.io/youlai-mall">http://youlaitech.gitee.io/youlai-mall</a> 
+</p>
 
-### 🗀 项目简介
+## 📚️项目介绍
+
+### 项目简介
 
 [youlai-mall](https://gitee.com/haoxr) 是基于Spring Boot 2.6、Spring Cloud 2021 & Alibaba
 2021、Vue3、Element-Plus、uni-app等主流技术栈构建的一整套全栈开源商城项目， 涉及 [后端微服务](https://gitee.com/youlaitech/youlai-mall)
 、 [前端管理](https://gitee.com/youlaitech/youlai-mall-admin) 、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp)
 和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp) 等多端的开发。
 
-### 🗀 项目特色
+### 项目特色
 
 - 项目使用皆是当前主流的技术栈，无过度自定义封装，易理解学习和二次扩展；
 - SpringBoot 2.6、SpringCloud 2021 & Alibaba 2021 一站式微服务开箱即用的解决方案；
@@ -38,14 +42,16 @@
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、K8s、Docker实现微服务持续集成与交付(CI/CD)。
 
-### 🗀 在线预览
+### 在线预览
 
-| Vue3| Vue2 | H5| 微信小程序|
-| --- | --- | --- |--- |
-| [www.youlai.tech](http://www.youlai.tech) |  [www.youlai.tech:9527](http://www.youlai.tech:9527)  | [www.youlai.tech:81](http://www.youlai.tech:9527)| 加我微信申请体验|
+| | 地址 |
+| --- | --- |
+| 管理前端 Vue3| [www.youlai.tech](http://www.youlai.tech)|
+| 管理前端 Vue2|[www.youlai.tech:9527](http://www.youlai.tech:9527) |
+| H5 移动端 |[www.youlai.tech:81](http://www.youlai.tech:9527) |
 
 
-### 🗀 预览截图
+### 预览截图
 
 |「App」Spring Security OAuth2 手机短信验证码模式       | 「小程序」Spring Security OAuth2 微信授权模式            |
 | ------------------------------------------------------------ |----------------------------------------------------------- |
@@ -53,7 +59,7 @@
 | **「管理前端」Spring Security OAuth2 密码模式**             | **「管理前端」Spring Security OAuth2 验证码模式**           |
 | <img src="https://gitee.com/haoxr/image/raw/master/default/password.gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/captcha.gif" width="100%" height="400px"/> |
 
-# ⛺ 源码地址
+## 🪐 源码地址
 
 | 名称 |  Gitee | Github   | 
 |---|---|---|  
@@ -62,13 +68,13 @@
 | 管理前端 |[mall-admin-web](https://gitee.com/youlaiorg/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) | 
 | 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app) | [mall-app](https://github.com/youlaitech/mall-app) |
 
-# 🚤 项目启动
+## 🚤 项目启动
 
-### 🗀 后端启动
+###  后端启动
 
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
-#### 一. 极速启动
+#### 极速启动
 
 1. **启动 Nacos**
 
@@ -96,7 +102,7 @@
 
    访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-#### 二. 本地启动
+#### 本地启动
 
 1. **中间件安装(🔴必装 ⚪可选)**
 
@@ -125,7 +131,7 @@
 
 3. **Nacos 配置和启动**
 
-    1. **Nacos 配置持久化至 MySQL**
+    a. **Nacos 配置持久化至 MySQL**
        > Nacos 默认配置持久化到内嵌的Derby数据库，开发无特殊情况可使用默认配置，如需持久化配置到MySQL，完成下面配置修改即可。
 
        进入 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
@@ -136,11 +142,11 @@
        db.user.0=root
        db.password.0=123456
 
-    2. **启动Nacos**
+    b. **启动Nacos**
 
        IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
 
-    3. **导入Nacos配置**
+    c. **导入Nacos配置**
 
        打开浏览器，地址栏输入 Nacos 管控台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
 
@@ -148,7 +154,7 @@
 
        进入管控台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `doc/nacos/DEFAULT_GROUP.zip` 文件 ；
     
-    4. **修改Nacos配置**
+    d. **修改Nacos配置**
 
        进入共享配置 `youlai-common.yaml` ，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认为有来云环境。
 
@@ -167,14 +173,14 @@
 
    访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-### 🗀 管理前端启动
+### 管理前端启动
 
 1. 本机安装 Node 环境
 2. npm install
 3. npm run dev
 4. 访问 http://localhost:9527
 
-### 🗀 微信小程序启动
+### 微信小程序启动
 
 1. 下载 `HBuilder X` 和 `微信开发者工具` ;
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X` ;
@@ -184,11 +190,27 @@
 6. Nacos控制台替换 `youlai-auth` 配置中的微信小程序 AppID 和 AppSecret 为自己申请的小程序 ;
 7. `Hbuilder X` 工具栏点击 `运行` -> `运行到小程序模拟器` -> `微信开发者工具`。
 
-### 🗀 H5/移动端启动
+### H5/移动端启动
 
 1. 下载 `HBuilder X` ;
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
 3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
+
+
+## 💹 趋势统计
+
+### Gitee
+
+<p align="center">
+    <a target="_blank" href='https://whnb.wang/stars/youlaitech/youlai-mall'><img src="https://whnb.wang/stars/youlaitech/youlai-mall"></a>
+</p>
+
+### Github
+
+<p align="center">
+    <a target="_blank" href='https://starchart.cc/hxrui/youlai-mall'><img src="https://starchart.cc/hxrui/youlai-mall.svg"></a>
+</p>
+
 
 # 🚀 联系信息 
 
