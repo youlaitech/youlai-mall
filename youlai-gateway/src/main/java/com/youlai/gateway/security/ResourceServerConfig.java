@@ -6,7 +6,7 @@ import cn.hutool.core.io.IoUtil;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.ResultCode;
 import com.youlai.gateway.util.ResponseUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -26,6 +26,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
 import reactor.core.publisher.Mono;
+
 import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
@@ -39,12 +40,12 @@ import java.util.List;
  * @date 2020-05-01
  */
 @ConfigurationProperties(prefix = "security")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Configuration
 @EnableWebFluxSecurity
 public class ResourceServerConfig {
 
-    private ResourceServerManager resourceServerManager;
+    private final ResourceServerManager resourceServerManager;
 
     @Setter
     private List<String> ignoreUrls;
