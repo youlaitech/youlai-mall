@@ -2,8 +2,6 @@ server:
   port: 9999
 
 spring:
-  application:
-    name: youlai-gateway
   cloud:
     nacos:
       # 注册中心
@@ -11,7 +9,7 @@ spring:
         server-addr: http://localhost:8848
       # 配置中心
       config:
-        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        server-addr: http://c.youlai.tech:8848
         file-extension: yaml
         shared-configs[0]:
           data-id: youlai-common.yaml

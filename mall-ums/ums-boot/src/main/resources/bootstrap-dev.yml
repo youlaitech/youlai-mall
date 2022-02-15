@@ -14,12 +14,8 @@ spring:
         server-addr: http://localhost:8848
       # 配置中心
       config:
-        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        server-addr: http://c.youlai.tech:8848
         file-extension: yaml
         shared-configs[0]:
           data-id: youlai-common.yaml
           refresh: true
-
-# 日志目录
-logfile:
-  dir: D://logssss/${spring.application.name}
