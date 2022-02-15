@@ -14,7 +14,7 @@ spring:
         server-addr: http://localhost:8848
       # 配置中心
       config:
-        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        server-addr: http://c.youlai.tech:8848
         file-extension: yaml
         # 公共配置
         shared-configs[0]:

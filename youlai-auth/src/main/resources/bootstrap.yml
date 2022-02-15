@@ -1,5 +1,5 @@
 spring:
-  profiles:
-    active: dev
   application:
     name: youlai-auth
+  profiles:
+    active: dev
