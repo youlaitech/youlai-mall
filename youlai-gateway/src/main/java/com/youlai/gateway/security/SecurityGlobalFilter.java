@@ -25,11 +25,13 @@ import reactor.core.publisher.Mono;
 
 import java.net.URLEncoder;
 
-
 /**
  * 安全拦截全局过滤器
+ * <p>
+ * 善后一些无关紧要的工作，在 ResourceServerManager#check 鉴权之后执行
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @date 2022/2/15
  */
 @Component
 @Slf4j
@@ -48,7 +50,6 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
-
 
         // 线上演示环境禁止修改和删除
         String requestPath = request.getPath().toString();
