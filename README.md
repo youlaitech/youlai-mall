@@ -19,7 +19,7 @@
 
 
 <p align="center">
-	<strong>开源地址：</strong> <a target="_blank" href='https://gitee.com/haoxr'>Github</a> | <a target="_blank" href='https://github.com/hxrui'>Gitee</a> 
+	<strong>开源地址：</strong> <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://github.com/hxrui'>Github</a> 
 </p>
 
 
@@ -31,7 +31,7 @@
 	<strong>开发者文档：</strong><a target="_blank" href="http://youlaitech.gitee.io/youlai-mall">http://youlaitech.gitee.io/youlai-mall</a> 
 </p>
 
-## 📚️项目介绍
+## 📚️ 项目介绍
 
 ### 项目简介
 
@@ -80,35 +80,27 @@
 
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
-- **方式一. 极速启动**
+#### 极速启动
 
 1. **启动 Nacos**
 
-   IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
+   - IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
 
-2. **导入Nacos配置**
 
-   打开浏览器，地址栏输入 Nacos 管控台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
+2. **服务启动**
 
-   输入用户名/密码：nacos/nacos ；
+   - 进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
 
-   进入管控台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `doc/nacos/DEFAULT_GROUP.zip` 文件 。
+   - 进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
 
-3. **服务启动**
+   - 进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
 
-   进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
+   - 至此已完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致。访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-   进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
+  
 
-   进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
 
-   至此已完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致。
-
-4. **启动测试**
-
-   访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
-
-- **方式二. 本地启动**
+##### 本地启动
 
 1. **中间件安装(🔴必装 ⚪可选)**
 
