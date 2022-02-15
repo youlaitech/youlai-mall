@@ -19,7 +19,7 @@
 
 
 <p align="center">
-	<strong>开源地址：</strong> <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://github.com/hxrui'>Github</a> 
+	<strong>开源地址：</strong>  <a target="_blank" href='https://github.com/hxrui'>Github</a> | <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://gitcode.net/youlai'>GitCode</a> 
 </p>
 
 
