@@ -23,6 +23,7 @@
             LEFT JOIN sys_user_role ur ON u.id = ur.user_id
             LEFT JOIN sys_role r ON ur.role_id = r.id
         <where>
+            u.deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (u.username like concat('%',#{queryParams.keywords},'%')
                 OR u.nickname like concat('%',#{queryParams.keywords},'%')
