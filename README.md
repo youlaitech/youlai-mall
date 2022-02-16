@@ -14,25 +14,25 @@
     </a>
 </p>
 <p align="center">
-    <strong>在线预览：</strong><a target="_blank" href="http://www.youlai.tech">www.youlai.tech</a> 
+<strong>在线预览：</strong><a target="_blank" href="http://www.youlai.tech">www.youlai.tech</a> 
 </p>
 
 
 
 <p align="center">
-    <strong>开源地址：</strong>  <a target="_blank" href='https://github.com/hxrui'>Github</a> | <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://gitcode.net/youlai'>GitCode</a> 
+<strong>开源地址：</strong>  <a target="_blank" href='https://github.com/hxrui'>Github</a> | <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://gitcode.net/youlai'>GitCode</a> 
 </p>
 
 
 
 <p align="center">
-    <strong>博客主页：</strong><a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> https://www.cnblogs.com/haoxianrui</a> 
+<strong>博客主页：</strong><a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> https://www.cnblogs.com/haoxianrui</a> 
 </p>
 
 
 
 <p align="center">
-    <strong>开发者文档：</strong><a target="_blank" href="http://youlaitech.gitee.io/youlai-mall">http://youlaitech.gitee.io/youlai-mall</a> 
+<strong>开发者文档：</strong><a target="_blank" href="http://youlaitech.gitee.io/youlai-mall">http://youlaitech.gitee.io/youlai-mall</a> 
 </p>
 
 
@@ -86,7 +86,7 @@
 | 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)             | [mall-app](https://github.com/youlaitech/mall-app)           | [mall-app](https://gitcode.net/youlai/mall-app)              |
 
 
-## 🚣‍♂️ 项目启动
+## 🚤 项目启动
 
 ###  🗁 后端启动
 
@@ -106,20 +106,15 @@
 
 2. **服务启动**
 
+   - `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
 
-   - 进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
+   - `youlai-auth` 模块的启动类 AuthApplication 启动认证中心；
 
+   - `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
 
-   - 进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
+   - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致；
 
-
-   - 进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
-
-
-   - 至此已完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致；
-
-   - 访问接口文档地址测试  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
-
+   - 访问接口文档地址测试: [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
      
 
 #### 2️⃣ 本地启动
@@ -129,7 +124,7 @@
 
    > 为了避免数据和线上环境冲突，MySQL 和 Redis 必装，不安装可默认使用有来线上环境
 
-      - 🔴MySQL 安装
+   - 🔴MySQL 安装
    - 🔴Redis 安装
    - ⚪RabbitMQ
    - ⚪Seata 安装
@@ -141,17 +136,14 @@
    - **系统数据库**
 
        进入 `doc/sql` 目录 ， 根据 MySQL 版本选择对应的脚本；
-
-
+    
        先执行 `database.sql` 完成数据库的创建；
 
        再执行 `youlai.sql` 、`mall_*.sql` 完成数据表的创建和数据初始化。
 
    - **Nacos 数据库**
 
-     创建 Nacos 数据库,名为 `nacos`；
-     执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
-
+     创建名为 `nacos` 的数据库，执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
 
 3. **Nacos 配置和启动**
 
@@ -159,8 +151,6 @@
    1.  **Nacos 配置持久化至 MySQL**
 
        进入项目的 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
-
-      
 
        ```properties
        spring.datasource.platform=mysql
@@ -170,8 +160,6 @@
        db.password.0=123456
        ```
 
-      
-
    2.  **启动Nacos**
 
        IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
@@ -179,7 +167,6 @@
    3.  **导入Nacos配置**
 
        打开浏览器，地址栏输入 Nacos 控制台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
-
 
        输入用户名/密码：nacos/nacos ；
 
@@ -198,9 +185,9 @@
 
    - 进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
 
-   - 至此已完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致;
+   - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致;
 
-   - 访问接口文档地址测试  [http://localhost:9999/doc.html
+   - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html))
 
 
 
