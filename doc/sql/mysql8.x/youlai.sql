@@ -136,6 +136,11 @@ INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 'user', 'ums/member/index
 INSERT INTO `sys_menu` VALUES (17, '品牌管理', 11, 'brand', 'pms/brand/index', 'component', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (18, '商品分类', 11, 'category', 'pms/category/index', 'component', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (19, '商品上架', 11, 'goods-detail', 'pms/goods/detail', 'component', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
+INSERT INTO `sys_menu` VALUES (20, '多级菜单', 0, '/d6b15bab09d64ce39bc5aae9e6c38ba4', 'Layout', 'nested', 6, 1, '/nested/level1/level2', '2022-02-16 23:11:00', '2022-02-16 23:11:00');
+INSERT INTO `sys_menu` VALUES (21, '菜单一级', 20, 'nested_level1_index', 'nested/level1/index', '', 1, 1, '/nested/level1/level2', '2022-02-16 23:13:38', '2022-02-16 23:13:38');
+INSERT INTO `sys_menu` VALUES (22, '菜单二级', 21, 'nested_level1_level2_index', 'nested/level1/level2/index', '', 1, 1, '/nested/level1/level2/level3', '2022-02-16 23:14:23', '2022-02-16 23:14:23');
+INSERT INTO `sys_menu` VALUES (23, '菜单三级-1', 22, 'nested_level1_level2_level3_index1', 'nested/level1/level2/level3/index1', '', 1, 1, '', '2022-02-16 23:14:51', '2022-02-16 23:14:51');
+INSERT INTO `sys_menu` VALUES (24, '菜单三级-2', 22, 'nested_level1_level2_level3_index2', 'nested/level1/level2/level3/index2', '', 2, 1, '', '2022-02-16 23:15:08', '2022-02-16 23:15:08');
 
 -- ----------------------------
 -- Table structure for sys_oauth_client
