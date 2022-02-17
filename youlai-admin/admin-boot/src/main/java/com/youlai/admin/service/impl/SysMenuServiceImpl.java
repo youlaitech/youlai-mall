@@ -219,10 +219,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public boolean saveMenu(SysMenu menu) {
         String component = menu.getComponent();
-        if ("Layout".equals(component)) {
-            menu.setPath("/" + IdUtil.simpleUUID());
-        } else {
-            menu.setPath(component.replaceAll("/", "_"));
+        String path = menu.getPath();
+
+        if (StrUtil.isBlank(path)) { // 非外链
+            if ("Layout".equals(component)) {
+                menu.setPath("/" + IdUtil.simpleUUID());
+            } else {
+                menu.setPath(component.replaceAll("/", "_"));
+            }
         }
 
         boolean result = this.save(menu);
@@ -331,9 +335,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     nextRouteVO.setMeta(meta);
                     List<NextRouteVO> children = recursionNextRoute(menu.getId(), menuList);
                     nextRouteVO.setChildren(children);
-                    if (CollectionUtil.isNotEmpty(children)) {
-                        meta.setAlwaysShow(Boolean.TRUE);
-                    }
                     list.add(nextRouteVO);
                 }));
         return list;
