@@ -1,0 +1,39 @@
+package com.youlai.laboratory.spring;
+
+import com.youlai.laboratory.spring.Bean;
+import com.youlai.laboratory.spring.DI.ConstructorService;
+import com.youlai.laboratory.spring.DI.SetterService;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+/**
+ * 说明描述
+ *
+ * @author <a href="mailto:2256222053@qq.com">zc</a>
+ * @Date 2022/2/18 0018 21:04
+ */
+@SpringBootTest
+public class DITests {
+
+
+    @Test
+    void setter(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.registerBean(Bean.class);
+        applicationContext.registerBean(SetterService.class);
+        applicationContext.refresh();
+        SetterService setterService = applicationContext.getBean(SetterService.class);
+        setterService.test();
+    }
+
+    @Test
+    void constructor(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.registerBean(Bean.class);
+        applicationContext.registerBean(ConstructorService.class);
+        applicationContext.refresh();
+        ConstructorService constructorService = applicationContext.getBean(ConstructorService.class);
+        constructorService.test();
+    }
+}
