@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * 说明描述
+ * 测试两种注入方式(构造器和setter)
  *
  * @author <a href="mailto:2256222053@qq.com">zc</a>
  * @Date 2022/2/18 0018 21:04
  */
 @SpringBootTest
-public class DITests {
+public class DITypeTests {
 
 
     @Test

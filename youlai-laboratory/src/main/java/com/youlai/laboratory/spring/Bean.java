@@ -11,4 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bean {
 
+    public String user;
+
+    @Override
+    public String toString() {
+        return "Bean{" +
+                "user='" + user + '\'' +
+                '}';
+    }
 }
