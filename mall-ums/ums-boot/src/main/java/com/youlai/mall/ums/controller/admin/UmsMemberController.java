@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
@@ -28,13 +29,13 @@ public class UmsMemberController {
 
     @ApiOperation(value = "会员分页列表")
     @GetMapping
-    public Result<List<UmsMember>> list(
+    public PageResult<UmsMember> listMembersWithPage(
             @ApiParam("页码") Long pageNum,
             @ApiParam("每页数量") Long pageSize,
             @ApiParam("会员昵称") String nickName
     ) {
         IPage<UmsMember> result = memberService.list(new Page<>(pageNum, pageSize), nickName);
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "获取会员详情")

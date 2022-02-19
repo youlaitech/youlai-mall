@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2022/2/8
  */
@@ -20,10 +21,9 @@ public class OmsSkuController {
     private final IPmsSkuService skuService;
 
     @ApiOperation(value = "商品库存详情")
-    @ApiImplicitParam(name = "id", value = "商品ID", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{skuId}")
-    public Result detail(
-            @PathVariable Long skuId
+    public Result getSkuDetail(
+            @ApiParam("SKU ID") @PathVariable Long skuId
     ) {
         PmsSku sku = skuService.getById(skuId);
         return Result.success(sku);

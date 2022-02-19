@@ -12,10 +12,13 @@ import com.youlai.admin.service.ISysRoleMenuService;
 import com.youlai.admin.service.ISysRolePermissionService;
 import com.youlai.admin.service.ISysRoleService;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.JwtUtils;
 import com.youlai.common.web.util.UserUtils;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +40,7 @@ public class RoleController {
 
     @ApiOperation(value = "列表分页")
     @GetMapping("/page")
-    public Result getRolePageList(
+    public PageResult<SysRole> getRolePageList(
             @ApiParam("页码") long pageNum,
             @ApiParam("每页数量") long pageSize,
             @ApiParam("角色名称") String name
@@ -51,7 +54,7 @@ public class RoleController {
                 .orderByDesc(SysRole::getGmtModified)
                 .orderByDesc(SysRole::getGmtCreate);
         Page<SysRole> result = iSysRoleService.page(new Page<>(pageNum, pageSize), queryWrapper);
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "角色列表")

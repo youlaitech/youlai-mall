@@ -3,6 +3,7 @@ package com.youlai.mall.oms.controller.app;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.enums.PayTypeEnum;
@@ -37,14 +38,14 @@ public class OrderController {
 
     @ApiOperation("分页列表")
     @GetMapping
-    public Result listOrdersWithPage(OrderPageQuery queryParams) {
+    public PageResult listOrdersWithPage(OrderPageQuery queryParams) {
         IPage<OmsOrder> result = orderService.page(
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 new LambdaQueryWrapper<OmsOrder>()
                         .eq(queryParams.getStatus() != null, OmsOrder::getStatus, queryParams.getStatus())
                         .eq(OmsOrder::getMemberId, MemberUtils.getMemberId())
         );
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation("订单确认")

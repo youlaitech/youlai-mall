@@ -8,6 +8,7 @@ import com.youlai.admin.pojo.entity.SysDict;
 import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.service.ISysDictItemService;
 import com.youlai.admin.service.ISysDictService;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class DictV2Controller {
 
     @ApiOperation(value = "字典分页列表")
     @GetMapping("/page")
-    public Result listDictByPage(
+    public PageResult<SysDict> listDictByPage(
             @ApiParam("页码") long pageNum,
             @ApiParam("每页数量") long pageSize,
             @ApiParam("字典名称") String name
@@ -36,7 +37,7 @@ public class DictV2Controller {
                         .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
                         .orderByDesc(SysDict::getGmtModified)
                         .orderByDesc(SysDict::getGmtCreate));
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "字典详情")
@@ -79,7 +80,7 @@ public class DictV2Controller {
             @ApiImplicitParam(name = "dictCode", value = "字典编码", paramType = "query", dataType = "String")
     })
     @GetMapping("/items/page")
-    public Result getPageList(
+    public PageResult getPageList(
             long pageNum,
             long pageSize,
             String name,
@@ -89,7 +90,7 @@ public class DictV2Controller {
                 new Page<>(pageNum, pageSize),
                 new SysDictItem().setName(name).setDictCode(dictCode)
         );
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "根据字典编码获取字典项列表")

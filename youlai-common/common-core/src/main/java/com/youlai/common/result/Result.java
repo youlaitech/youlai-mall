@@ -1,18 +1,16 @@
 package com.youlai.common.result;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * 通用响应体封装
+ * 统一响应结构体
  *
  * @author haoxr
  * @date 2022/1/30
  **/
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Result<T> implements Serializable {
 
     private String code;
@@ -21,26 +19,15 @@ public class Result<T> implements Serializable {
 
     private String msg;
 
-    private long total;
-
     public static <T> Result<T> success() {
         return success(null);
     }
 
     public static <T> Result<T> success(T data) {
-        ResultCode rce = ResultCode.SUCCESS;
-        if (data instanceof Boolean && Boolean.FALSE.equals(data)) {
-            rce = ResultCode.SYSTEM_EXECUTION_ERROR;
-        }
-        return result(rce, data);
-    }
-
-    public static <T> Result<T> success(T data, Long total) {
         Result<T> result = new Result<>();
         result.setCode(ResultCode.SUCCESS.getCode());
         result.setMsg(ResultCode.SUCCESS.getMsg());
         result.setData(data);
-        result.setTotal(total);
         return result;
     }
 
@@ -79,7 +66,6 @@ public class Result<T> implements Serializable {
         result.setMsg(msg);
         return result;
     }
-
 
     public static boolean isSuccess(Result<?> result) {
         return result != null && ResultCode.SUCCESS.getCode().equals(result.getCode());

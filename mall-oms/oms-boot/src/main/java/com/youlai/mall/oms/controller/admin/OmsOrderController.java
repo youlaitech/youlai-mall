@@ -2,6 +2,7 @@ package com.youlai.mall.oms.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.pojo.dto.OrderDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
@@ -39,9 +40,9 @@ public class OmsOrderController {
 
     @ApiOperation("订单列表")
     @GetMapping
-    public Result listOrdersWithPage(OrderPageQuery queryParams) {
+    public PageResult listOrdersWithPage(OrderPageQuery queryParams) {
         IPage<OmsOrder> result = orderService.listOrdersWithPage(queryParams);
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "订单详情")
