@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.sms.pojo.SmsAdvert;
 import com.youlai.mall.sms.service.ISmsAdvertService;
@@ -25,17 +26,18 @@ public class AdvertController {
 
     @ApiOperation(value = "列表分页")
     @GetMapping
-    public Result getAdvertPageList(
+    public PageResult getAdvertPageList(
             @ApiParam("页码") Long pageNum,
             @ApiParam("每页数量") Long pageSize,
-            @ApiParam("广告标题") String title) {
+            @ApiParam("广告标题") String title
+    ) {
         Page<SmsAdvert> result = iSmsAdvertService.page(new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SmsAdvert>()
-                        .like(StrUtil.isNotBlank(title), SmsAdvert::getTitle, StrUtil.isNotBlank(title)?title:null)
+                        .like(StrUtil.isNotBlank(title), SmsAdvert::getTitle, StrUtil.isNotBlank(title) ? title : null)
                         .orderByAsc(SmsAdvert::getSort)
                         .orderByDesc(SmsAdvert::getGmtModified)
         );
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "广告详情")

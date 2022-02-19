@@ -31,14 +31,14 @@ public class DeptController {
             @ApiImplicitParam(name = "status", value = "部门状态", paramType = "query", dataType = "Long"),
     })
     @GetMapping("/table")
-    public Result getTableList(Integer status, String name) {
+    public Result listDeptWithTable(Integer status, String name) {
         List<DeptVO> deptTableList = deptService.listTable(status, name);
         return Result.success(deptTableList);
     }
 
     @ApiOperation(value = "部门下拉（TreeSelect）层级列表")
     @GetMapping("/select")
-    public Result getSelectList() {
+    public Result listDeptWithSelect() {
         List<IdLabelVO> deptSelectList = deptService.listTreeSelect();
         return Result.success(deptSelectList);
     }

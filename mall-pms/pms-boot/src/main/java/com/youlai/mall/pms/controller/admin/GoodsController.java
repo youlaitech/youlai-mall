@@ -3,6 +3,7 @@ package com.youlai.mall.pms.controller.admin;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
@@ -31,18 +32,17 @@ public class GoodsController {
 
     @ApiOperation(value = "分页列表")
     @GetMapping("/page")
-    public Result list(
+    public PageResult list(
             @ApiParam(value = "页码", example = "1") long pageNum,
             @ApiParam(value = "每页数量", example = "10") long pageSize,
             @ApiParam("商品分类ID") Long categoryId,
             @ApiParam("商品名称") String name
     ) {
         IPage<PmsSpu> result = iPmsSpuService.list(new Page<>(pageNum, pageSize), name, categoryId);
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "商品详情")
-    @ApiImplicitParam(name = "id", value = "商品id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(
             @ApiParam("商品ID") @PathVariable Long id

@@ -3,6 +3,7 @@ package com.youlai.mall.pms.controller.admin;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.entity.PmsBrand;
 import com.youlai.mall.pms.service.IPmsBrandService;
@@ -26,7 +27,7 @@ public class BrandController {
 
     @ApiOperation(value = "品牌列表分页")
     @GetMapping("/page")
-    public Result getBrandPageList(
+    public PageResult getBrandPageList(
             @ApiParam("页码") Long pageNum,
             @ApiParam("每页数量") Long pageSize,
             @ApiParam("品牌名称") String name
@@ -36,7 +37,7 @@ public class BrandController {
                 .orderByDesc(PmsBrand::getGmtModified)
                 .orderByDesc(PmsBrand::getGmtCreate);
         Page<PmsBrand> result = iPmsBrandService.page(new Page<>(pageNum, pageSize), queryWrapper);
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "品牌列表")

@@ -6,6 +6,7 @@ import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.query.PermissionPageQuery;
 import com.youlai.admin.pojo.vo.permission.PermissionPageVO;
 import com.youlai.admin.service.ISysPermissionService;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +25,11 @@ public class PermissionController {
 
     @ApiOperation(value = "列表分页")
     @GetMapping("/page")
-    public Result listPermissionsWithPage(
+    public PageResult<PermissionPageVO> listPermissionsWithPage(
             PermissionPageQuery permissionPageQuery
     ) {
         IPage<PermissionPageVO> result = iSysPermissionService.listPermissionsWithPage(permissionPageQuery);
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "权限列表")
