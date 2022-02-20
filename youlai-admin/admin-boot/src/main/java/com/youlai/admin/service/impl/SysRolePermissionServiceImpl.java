@@ -67,6 +67,8 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
                 }
                 return this.saveBatch(rolePerms);
             }
+            // add chenyanwu 2022年2月20日 11点49分 解决 对已有的权限进行删除，出现无需插入数据的情况，直接返回true处理正常执行逻辑
+            return true;
         }
         return false;
     }
