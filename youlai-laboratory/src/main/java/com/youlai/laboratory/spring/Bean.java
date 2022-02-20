@@ -1,5 +1,6 @@
 package com.youlai.laboratory.spring;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,12 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bean {
 
-    public String user;
+
 
     @Override
     public String toString() {
-        return "Bean{" +
-                "user='" + user + '\'' +
-                '}';
+        return "Bean{}";
     }
 }
