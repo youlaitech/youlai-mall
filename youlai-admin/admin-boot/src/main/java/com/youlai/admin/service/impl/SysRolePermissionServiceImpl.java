@@ -7,6 +7,7 @@ import com.youlai.admin.mapper.SysRolePermissionMapper;
 import com.youlai.admin.pojo.form.RolePermsForm;
 import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.service.ISysRolePermissionService;
+import com.youlai.common.web.exception.BizException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,16 +48,19 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
         List<Long> oldPermIds = this.listPermIds(menuId, roleId);
 
         // 删除此次保存移除的权限
+        boolean isDel = false;
         if (CollectionUtil.isNotEmpty(oldPermIds)) {
             List<Long> removePermIds = oldPermIds.stream().filter(id -> !permIds.contains(id)).collect(Collectors.toList());
             if (CollectionUtil.isNotEmpty(removePermIds)) {
                 this.remove(new LambdaQueryWrapper<SysRolePermission>()
                         .eq(SysRolePermission::getRoleId, roleId)
                         .in(SysRolePermission::getPermissionId, removePermIds));
+                isDel = true;
             }
         }
 
         // 新增数据库不存在的权限
+        boolean isAdd = false;
         if (CollectionUtil.isNotEmpty(permIds)) {
             List<Long> newPermIds = permIds.stream().filter(id -> !oldPermIds.contains(id)).collect(Collectors.toList());
             if (CollectionUtil.isNotEmpty(newPermIds)) {
@@ -65,12 +69,15 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
                     SysRolePermission rolePerm = new SysRolePermission(roleId, permId);
                     rolePerms.add(rolePerm);
                 }
-                return this.saveBatch(rolePerms);
+                this.saveBatch(rolePerms);
+                isAdd = true;
             }
-            // add chenyanwu 2022年2月20日 11点49分 解决 对已有的权限进行删除，出现无需插入数据的情况，直接返回true处理正常执行逻辑
-            return true;
         }
-        return false;
+        // add chenyanwu 2022年2月20日 11点49分 解决角色管理中权限数据维护的异常问题
+        if(!isDel&&!isAdd) {
+            throw new BizException("权限数据未变化！");
+        }
+        return true;
     }
 
 
