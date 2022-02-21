@@ -13,6 +13,7 @@
 
  Date: 18/02/2022 00:07:10
 */
+use youlai;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
