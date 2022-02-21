@@ -23,10 +23,20 @@ import java.util.Collection;
 public class SysUserDetails implements UserDetails {
 
     /**
-     * 扩展字段
+     * 扩展字段：用户ID
      */
     private Long userId;
-    private String authenticationMethod;
+
+    /**
+     * 扩展字段：认证身份标识，枚举值如下：
+     *
+     * @see com.youlai.common.enums.AuthenticationIdentityEnum
+     */
+    private String authenticationIdentity;
+
+    /**
+     * 扩展字段：部门ID
+     */
     private Long deptId;
 
     /**

@@ -2,7 +2,7 @@ package com.youlai.auth.security.extension.refresh;
 
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.common.constant.SecurityConstants;
-import com.youlai.common.enums.AuthenticationMethodEnum;
+import com.youlai.common.enums.AuthenticationIdentityEnum;
 import com.youlai.common.web.util.RequestUtils;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
@@ -52,13 +52,13 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
     @Override
     public UserDetails loadUserDetails(T authentication) throws UsernameNotFoundException {
         String clientId = RequestUtils.getOAuth2ClientId();
-        // 获取认证方式，默认是用户名 username
-        AuthenticationMethodEnum authenticationMethodEnum = AuthenticationMethodEnum.getByValue(RequestUtils.getAuthenticationMethod());
+        // 获取认证身份标识，默认是用户名:username
+        AuthenticationIdentityEnum authenticationIdentityEnum = AuthenticationIdentityEnum.getByValue(RequestUtils.getAuthenticationIdentity());
         UserDetailsService userDetailsService = userDetailsServiceMap.get(clientId);
         if (clientId.equals(SecurityConstants.APP_CLIENT_ID)) {
             // 移动端的用户体系是会员，认证方式是通过手机号 mobile 认证
             MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
-            switch (authenticationMethodEnum) {
+            switch (authenticationIdentityEnum) {
                 case MOBILE:
                     return memberUserDetailsService.loadUserByMobile(authentication.getName());
                 default:
@@ -67,7 +67,7 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
         } else if (clientId.equals(SecurityConstants.WEAPP_CLIENT_ID)) {
             // 小程序的用户体系是会员，认证方式是通过微信三方标识 openid 认证
             MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
-            switch (authenticationMethodEnum) {
+            switch (authenticationIdentityEnum) {
                 case OPENID:
                     return memberUserDetailsService.loadUserByOpenId(authentication.getName());
                 default:
@@ -75,7 +75,7 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
             }
         } else if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
             // 管理系统的用户体系是系统用户，认证方式通过用户名 username 认证
-            switch (authenticationMethodEnum) {
+            switch (authenticationIdentityEnum) {
                 default:
                     return userDetailsService.loadUserByUsername(authentication.getName());
             }

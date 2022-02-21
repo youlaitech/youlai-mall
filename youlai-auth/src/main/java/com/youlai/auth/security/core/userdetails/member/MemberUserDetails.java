@@ -24,10 +24,11 @@ public class MemberUserDetails implements UserDetails {
     private Boolean enabled;
 
     /**
-     * 认证方式
+     * 扩展字段：认证身份标识，枚举值如下：
+     *
+     * @see com.youlai.common.enums.AuthenticationIdentityEnum
      */
-    private String authenticationMethod;
-
+    private String authenticationIdentity;
 
     /**
      * 小程序会员用户体系
