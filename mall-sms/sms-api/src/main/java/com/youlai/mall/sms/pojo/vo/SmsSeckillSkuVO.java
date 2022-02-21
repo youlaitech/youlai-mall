@@ -1,6 +1,6 @@
 package com.youlai.mall.sms.pojo.vo;
 
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -69,5 +69,5 @@ public class SmsSeckillSkuVO {
     /**
      * 秒杀商品详情
      */
-    private SkuDTO skuInfo;
+    private SkuInfoDTO skuInfo;
 }

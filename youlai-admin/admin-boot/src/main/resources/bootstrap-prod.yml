@@ -11,11 +11,11 @@ spring:
     nacos:
       discovery:
         server-addr: http://c.youlai.tech:8848
-        namespace: prod_namespace_id
+        namespace: youlai-namespace-id
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        namespace: prod_namespace_id
+        namespace: youlai-namespace-id
         shared-configs[0]:
           data-id: youlai-common.yaml
           refresh: true

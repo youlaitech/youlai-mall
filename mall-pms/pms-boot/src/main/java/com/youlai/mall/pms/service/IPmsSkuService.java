@@ -2,23 +2,42 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.result.Result;
+import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 
 import java.util.List;
 
+/**
+ * 商品库存单元接口
+ *
+ * @author haoxr
+ * @date 2022/2/5 17:11
+ */
 public interface IPmsSkuService extends IService<PmsSku> {
 
     /**
-     * 锁定库存
+     * 获取商品的库存数量
+     *
+     * @param skuId
+     * @return
      */
-    Result lockStock(List<LockStockDTO> list);
+    Integer getStockNum(Long skuId);
 
     /**
-     * 锁定库存
+     * 获取商品库存信息
+     *
+     * @param skuId
+     * @return
      */
-   // Boolean lockStockTcc(List<LockStockDTO> list);
+    SkuInfoDTO getSkuInfo(Long skuId);
+
+
+    /**
+     * 锁定商品库存
+     */
+    boolean lockStock(LockStockDTO lockStockDTO);
 
     /**
      * 解锁库存
@@ -30,10 +49,12 @@ public interface IPmsSkuService extends IService<PmsSku> {
      */
     boolean deductStock(String orderToken);
 
-    /**
-     * 获取商品库存数量
-     */
-    Integer getStockById(Long id);
 
-    SkuDTO getSkuById(Long id);
+    /**
+     * 商品验价
+     *
+     * @param checkPriceDTO
+     * @return
+     */
+    boolean checkPrice(CheckPriceDTO checkPriceDTO);
 }

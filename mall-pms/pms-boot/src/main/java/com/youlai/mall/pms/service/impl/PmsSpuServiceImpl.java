@@ -5,23 +5,26 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.common.enums.AttributeTypeEnum;
-import com.youlai.mall.pms.component.BloomRedisService;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
 import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttributeValue;
-import com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO;
+import com.youlai.mall.pms.pojo.query.SpuPageQuery;
+import com.youlai.mall.pms.pojo.vo.GoodsDetailVO;
+import com.youlai.mall.pms.pojo.vo.GoodsPageVO;
+import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.service.IPmsSpuService;
+import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +34,166 @@ import java.util.stream.Collectors;
 
 
 /**
+ * 商品业务实现类
+ *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/08/08
+ * @date 2021/8/8
  */
 @Service
 @RequiredArgsConstructor
 public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
-    private final IPmsSkuService iPmsSkuService;
-    private final IPmsSpuAttributeValueService iPmsSpuAttributeValueService;
+
+    private final IPmsSkuService skuService;
+    private final IPmsSpuAttributeValueService spuAttributeValueService;
+    private final MemberFeignClient memberFeignClient;
+
+    /**
+     * 「移动端」商品分页列表
+     *
+     * @param queryParams
+     * @return
+     */
+    @Override
+    public IPage<GoodsPageVO> listAppSpuWithPage(SpuPageQuery queryParams) {
+        Page<GoodsPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
+        List<GoodsPageVO> list = this.baseMapper.listAppSpuWithPage(page, queryParams);
+        page.setRecords(list);
+        return page;
+    }
+
+    /**
+     * 「移动端」获取商品详情
+     *
+     * @param spuId 商品ID
+     * @return
+     */
+    @Override
+    public GoodsDetailVO getAppSpuDetail(Long spuId) {
+        PmsSpu pmsSpu = this.getById(spuId);
+        Assert.isTrue(pmsSpu != null, "商品不存在");
+
+        GoodsDetailVO goodsDetailVO = new GoodsDetailVO();
+
+        // 商品基本信息
+        GoodsDetailVO.GoodsInfo goodsInfo = new GoodsDetailVO.GoodsInfo();
+        BeanUtil.copyProperties(pmsSpu, goodsInfo, "album");
+
+        List<String> album = new ArrayList<>();
+
+        if (StrUtil.isNotBlank(pmsSpu.getPicUrl())) {
+            album.add(pmsSpu.getPicUrl());
+        }
+        if (pmsSpu.getAlbum() != null && pmsSpu.getAlbum().length > 0) {
+            album.addAll(Arrays.asList(pmsSpu.getAlbum()));
+            goodsInfo.setAlbum(album);
+        }
+        goodsDetailVO.setGoodsInfo(goodsInfo);
+
+        // 商品属性列表
+        List<GoodsDetailVO.Attribute> attributeList = spuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
+                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.ATTRIBUTE.getValue())
+                .eq(PmsSpuAttributeValue::getSpuId, spuId)
+                .select(PmsSpuAttributeValue::getId, PmsSpuAttributeValue::getName, PmsSpuAttributeValue::getValue)
+        ).stream().map(item -> {
+            GoodsDetailVO.Attribute attribute = new GoodsDetailVO.Attribute();
+            BeanUtil.copyProperties(item, attribute);
+            return attribute;
+        }).collect(Collectors.toList());
+        goodsDetailVO.setAttributeList(attributeList);
+
+
+        // 商品规格列表
+        List<PmsSpuAttributeValue> specSourceList = spuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
+                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.SPECIFICATION.getValue())
+                .eq(PmsSpuAttributeValue::getSpuId, spuId)
+                .select(PmsSpuAttributeValue::getId, PmsSpuAttributeValue::getName, PmsSpuAttributeValue::getValue)
+        );
+
+        List<GoodsDetailVO.Specification> specList = new ArrayList<>();
+        // 规格Map [key:"颜色",value:[{id:1,value:"黑"},{id:2,value:"白"}]]
+        Map<String, List<PmsSpuAttributeValue>> specValueMap = specSourceList.stream()
+                .collect(Collectors.groupingBy(PmsSpuAttributeValue::getName));
+
+        for (Map.Entry<String, List<PmsSpuAttributeValue>> entry : specValueMap.entrySet()) {
+            String specName = entry.getKey();
+            List<PmsSpuAttributeValue> specValueSourceList = entry.getValue();
+
+            // 规格映射处理
+            GoodsDetailVO.Specification spec = new GoodsDetailVO.Specification();
+            spec.setName(specName);
+            if (CollectionUtil.isNotEmpty(specValueSourceList)) {
+                List<GoodsDetailVO.Specification.Value> specValueList = specValueSourceList.stream().map(item -> {
+                    GoodsDetailVO.Specification.Value specValue = new GoodsDetailVO.Specification.Value();
+                    specValue.setId(item.getId());
+                    specValue.setValue(item.getValue());
+                    return specValue;
+                }).collect(Collectors.toList());
+                spec.setValues(specValueList);
+                specList.add(spec);
+            }
+        }
+        goodsDetailVO.setSpecList(specList);
+
+        // 商品SKU列表
+        List<PmsSku> skuSourceList = skuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
+        if (CollectionUtil.isNotEmpty(skuSourceList)) {
+            List<GoodsDetailVO.Sku> skuList = skuSourceList.stream().map(item -> {
+                GoodsDetailVO.Sku sku = new GoodsDetailVO.Sku();
+                BeanUtil.copyProperties(item, sku);
+                return sku;
+            }).collect(Collectors.toList());
+            goodsDetailVO.setSkuList(skuList);
+        }
+
+        // 添加用户浏览历史记录
+        Long loginUserId = MemberUtils.getMemberId();
+        if (loginUserId != null) {
+            ProductHistoryVO vo = new ProductHistoryVO();
+            vo.setId(goodsInfo.getId());
+            vo.setName(goodsInfo.getName());
+            vo.setPicUrl(goodsInfo.getAlbum() != null ? goodsInfo.getAlbum().get(0) : null);
+            memberFeignClient.addProductViewHistory(vo);
+        }
+        return goodsDetailVO;
+    }
+
+
+    /**
+     * 获取商品（SPU）详情
+     *
+     * @param id 商品（SPU）ID
+     * @return
+     */
+    @Override
+    public com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO getGoodsById(Long id) {
+        com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO goodsDetailVO = new com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO();
+
+        PmsSpu spu = this.getById(id);
+        Assert.isTrue(spu != null, "商品不存在");
+
+        BeanUtil.copyProperties(spu, goodsDetailVO);
+
+        // 商品属性列表
+        List<PmsSpuAttributeValue> attrList = spuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
+                .eq(PmsSpuAttributeValue::getSpuId, id)
+                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.ATTRIBUTE.getValue())
+        );
+        goodsDetailVO.setAttrList(attrList);
+
+        // 商品规格列表
+        List<PmsSpuAttributeValue> specList = spuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
+                .eq(PmsSpuAttributeValue::getSpuId, id)
+                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.SPECIFICATION.getValue())
+        );
+        goodsDetailVO.setSpecList(specList);
+
+        // 商品SKU列表
+        List<PmsSku> skuList = skuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
+        goodsDetailVO.setSkuList(skuList);
+        return goodsDetailVO;
+
+    }
+
 
     /**
      * 商品分页列表
@@ -105,42 +260,6 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         return saveResult;
     }
 
-    /**
-     * 获取商品（SPU）详情
-     *
-     * @param id 商品（SPU）ID
-     * @return
-     */
-    @Override
-    public GoodsDetailVO getGoodsById(Long id) {
-        GoodsDetailVO goodsDetailVO = new GoodsDetailVO();
-
-        PmsSpu spu = this.getById(id);
-        Assert.isTrue(spu != null, "商品不存在");
-
-        BeanUtil.copyProperties(spu, goodsDetailVO);
-
-        // 商品属性列表
-        List<PmsSpuAttributeValue> attrList = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
-                .eq(PmsSpuAttributeValue::getSpuId, id)
-                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.ATTRIBUTE.getValue())
-        );
-        goodsDetailVO.setAttrList(attrList);
-
-        // 商品规格列表
-        List<PmsSpuAttributeValue> specList = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
-                .eq(PmsSpuAttributeValue::getSpuId, id)
-                .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.SPECIFICATION.getValue())
-        );
-        goodsDetailVO.setSpecList(specList);
-
-        // 商品SKU列表
-        List<PmsSku> skuList = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
-        goodsDetailVO.setSkuList(skuList);
-        return goodsDetailVO;
-
-    }
-
 
     /**
      * 批量删除商品（SPU）
@@ -154,11 +273,11 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         boolean result = true;
         for (Long goodsId : goodsIds) {
             // sku
-            iPmsSkuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, goodsId));
+            skuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, goodsId));
             // 规格
-            iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getId, goodsId));
+            spuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getId, goodsId));
             // 属性
-            iPmsSpuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, goodsId));
+            spuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, goodsId));
             // spu
             result = this.removeById(goodsId);
         }
@@ -195,7 +314,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 删除SKU
         List<Long> formSkuIds = skuList.stream().map(PmsSku::getId).collect(Collectors.toList());
 
-        List<Long> dbSkuIds = iPmsSkuService.list(new LambdaQueryWrapper<PmsSku>()
+        List<Long> dbSkuIds = skuService.list(new LambdaQueryWrapper<PmsSku>()
                 .eq(PmsSku::getSpuId, goodsId)
                 .select(PmsSku::getId))
                 .stream().map(PmsSku::getId)
@@ -204,7 +323,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<Long> removeSkuIds = dbSkuIds.stream().filter(dbSkuId -> !formSkuIds.contains(dbSkuId)).collect(Collectors.toList());
 
         if (CollectionUtil.isNotEmpty(removeSkuIds)) {
-            iPmsSkuService.removeByIds(removeSkuIds);
+            skuService.removeByIds(removeSkuIds);
         }
 
         // 新增/修改SKU
@@ -219,7 +338,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             sku.setSpuId(goodsId);
             return sku;
         }).collect(Collectors.toList());
-        return iPmsSkuService.saveOrUpdateBatch(pmsSkuList);
+        return skuService.saveOrUpdateBatch(pmsSkuList);
     }
 
 
@@ -236,7 +355,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 .map(item -> Convert.toLong(item.getId()))
                 .collect(Collectors.toList());
 
-        List<Long> dbAttrValIds = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
+        List<Long> dbAttrValIds = spuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
                 .eq(PmsSpuAttributeValue::getSpuId, goodsId)
                 .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.ATTRIBUTE.getValue())
                 .select(PmsSpuAttributeValue::getId)
@@ -244,7 +363,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
         List<Long> removeAttrValIds = dbAttrValIds.stream().filter(id -> !formAttrValIds.contains(id)).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(removeAttrValIds)) {
-            iPmsSpuAttributeValueService.removeByIds(removeAttrValIds);
+            spuAttributeValueService.removeByIds(removeAttrValIds);
         }
 
         // 新增或修改商品属性
@@ -256,7 +375,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
             return pmsSpuAttributeValue;
         }).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(pmsSpuAttributeValueList)) {
-            return iPmsSpuAttributeValueService.saveOrUpdateBatch(pmsSpuAttributeValueList);
+            return spuAttributeValueService.saveOrUpdateBatch(pmsSpuAttributeValueList);
         }
         return true;
     }
@@ -276,7 +395,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 .map(item -> Convert.toLong(item.getId()))
                 .collect(Collectors.toList());
 
-        List<Long> dbSpecValIds = iPmsSpuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
+        List<Long> dbSpecValIds = spuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
                 .eq(PmsSpuAttributeValue::getSpuId, goodsId)
                 .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.SPECIFICATION.getValue())
                 .select(PmsSpuAttributeValue::getId)
@@ -284,7 +403,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
         List<Long> removeAttrValIds = dbSpecValIds.stream().filter(id -> !formSpecValIds.contains(id)).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(removeAttrValIds)) {
-            iPmsSpuAttributeValueService.removeByIds(removeAttrValIds);
+            spuAttributeValueService.removeByIds(removeAttrValIds);
         }
         // 新增规格
         Map<String, Long> tempIdIdMap = new HashMap<>();
@@ -296,7 +415,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                 BeanUtil.copyProperties(item, specification, "id");
                 specification.setSpuId(goodsId);
                 specification.setType(AttributeTypeEnum.SPECIFICATION.getValue());
-                iPmsSpuAttributeValueService.save(specification);
+                spuAttributeValueService.save(specification);
                 tempIdIdMap.put(item.getId(), specification.getId());
             });
         }
@@ -311,7 +430,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
                     return pmsSpuAttributeValue;
                 }).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(pmsSpuAttributeValueList)) {
-            iPmsSpuAttributeValueService.updateBatchById(pmsSpuAttributeValueList);
+            spuAttributeValueService.updateBatchById(pmsSpuAttributeValueList);
         }
         return tempIdIdMap;
     }

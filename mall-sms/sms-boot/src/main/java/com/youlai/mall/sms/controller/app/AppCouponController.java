@@ -1,6 +1,7 @@
 package com.youlai.mall.sms.controller.app;
 
 import com.youlai.common.result.Result;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.sms.util.BeanMapperUtils;
 import com.youlai.common.web.util.JwtUtils;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
@@ -40,7 +41,7 @@ public class AppCouponController {
     @ApiOperation("查看可领取优惠券模板列表")
     @GetMapping("/template")
     public Result<List<CouponTemplateVO>> findAvailableTemplate() {
-        List<CouponTemplateVO> availableTemplate = couponService.findAvailableTemplate(JwtUtils.getUserId());
+        List<CouponTemplateVO> availableTemplate = couponService.findAvailableTemplate(MemberUtils.getMemberId());
         return Result.success(availableTemplate);
     }
 
@@ -48,7 +49,7 @@ public class AppCouponController {
     @GetMapping("/receive")
     public Result receive(@ApiParam(value = "优惠券模板ID")
                           @RequestParam("templateId") String templateId) {
-        couponService.receive(JwtUtils.getUserId(), templateId);
+        couponService.receive(MemberUtils.getMemberId(), templateId);
         return Result.success();
     }
 
@@ -56,7 +57,7 @@ public class AppCouponController {
     @GetMapping("/list")
     public Result<List<SmsCouponVO>> list(@ApiParam(value = "优惠券模板ID", defaultValue = "1")
                                           @RequestParam(value = "state", required = false) Integer state) {
-        List<SmsCoupon> coupons = couponService.findCouponsByState(JwtUtils.getUserId(), state);
+        List<SmsCoupon> coupons = couponService.findCouponsByState(MemberUtils.getMemberId(), state);
         return Result.success(BeanMapperUtils.mapList(coupons, SmsCouponVO.class));
     }
 

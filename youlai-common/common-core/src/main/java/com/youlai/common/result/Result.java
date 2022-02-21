@@ -21,7 +21,7 @@ public class Result<T> implements Serializable {
 
     private String msg;
 
-    private Long total;
+    private long total;
 
     public static <T> Result<T> success() {
         return success(null);

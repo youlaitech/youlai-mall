@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.pms.mapper.PmsSpuMapper">
+
     <resultMap id="BaseResultMap" type="com.youlai.mall.pms.pojo.entity.PmsSpu">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
@@ -21,15 +22,15 @@
         <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
         <result property="categoryName" column="categoryName" jdbcType="VARCHAR"/>
         <result property="brandName" column="brandName" jdbcType="VARCHAR"/>
-        <collection property="skuList" column="id" select="getSkuListBySpuId">
+        <collection property="skuList" column="id" select="com.youlai.mall.pms.mapper.PmsSkuMapper.listSkuBySpuId">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="sn" column="sn" jdbcType="VARCHAR"/>
+            <result property="skuSn" column="sku_sn" jdbcType="VARCHAR"/>
             <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
             <result property="specIds" column="spec_ids" jdbcType="VARCHAR"/>
             <result property="price" column="price" jdbcType="BIGINT"/>
-            <result property="stock" column="stock" jdbcType="INTEGER"/>
-            <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
+            <result property="stockNum" column="stock_num" jdbcType="INTEGER"/>
+            <result property="lockedStockNum" column="locked_stock_num" jdbcType="INTEGER"/>
         </collection>
     </resultMap>
 
@@ -70,15 +71,28 @@
     </select>
 
 
-    <select id="getSkuListBySpuId" resultType="com.youlai.mall.pms.pojo.entity.PmsSku">
-        SELECT id  ,
-               NAME  ,
-               sn,
-               pic_url ,
-               spec_ids,
-               price ,
-               stock
-        FROM pms_sku
-        WHERE spu_id = #{id}
+    <!--「移动端」商品分页列表-->
+    <select id="listAppSpuWithPage" resultType="com.youlai.mall.pms.pojo.vo.GoodsPageVO">
+        SELECT
+            id,
+            NAME,
+            pic_url,
+            price,
+            sales
+        FROM
+            `pms_spu`
+        <where>
+            <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
+                AND name like concat('%',#{queryParams.keywords},'%')
+            </if>
+            <if test='queryParams.categoryId!=null'>
+                AND category_id like concat('%',#{queryParams.categoryId},'%')
+            </if>
+        </where>
+        ORDER BY
+        <if test='queryParams.sortField!=null and queryParams.sortField.trim() neq "" and queryParams.sortField !=null and queryParams.sort.trim() neq ""'>
+            #{queryParams.sortField} #{queryParams.sort} ,
+        </if>
+        gmt_create desc
     </select>
 </mapper>

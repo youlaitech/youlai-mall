@@ -1,9 +1,11 @@
 package com.youlai.mall.oms.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -22,33 +24,31 @@ import com.youlai.common.enums.BusinessTypeEnum;
 import com.youlai.common.redis.BusinessNoGenerator;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.util.JwtUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.config.WxPayProperties;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.mapper.OrderMapper;
+import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitDTO;
-import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
+import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
 import com.youlai.mall.oms.service.ICartService;
 import com.youlai.mall.oms.service.IOrderItemService;
 import com.youlai.mall.oms.service.IOrderService;
-import com.youlai.mall.oms.tcc.service.SeataTccOrderService;
-import com.youlai.mall.pms.api.GoodsFeignClient;
-import com.youlai.mall.pms.api.StockFeignClient;
-import com.youlai.mall.pms.pojo.dto.app.SkuDTO;
+import com.youlai.mall.pms.api.SkuFeignClient;
+import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import com.youlai.mall.ums.api.MemberAddressFeignClient;
 import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.pojo.entity.UmsAddress;
-import com.youlai.mall.ums.pojo.entity.UmsMember;
+import com.youlai.mall.ums.dto.MemberAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +71,12 @@ import java.util.stream.Collectors;
 
 import static com.youlai.mall.oms.constant.OmsConstants.*;
 
+/**
+ * 订单业务实现类
+ *
+ * @author haoxr
+ * @date 2022/2/12
+ */
 @RequiredArgsConstructor
 @Slf4j
 @Service
@@ -85,61 +91,44 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private final ThreadPoolExecutor threadPoolExecutor;
     private final MemberFeignClient memberFeignClient;
     private final BusinessNoGenerator businessNoGenerator;
-    private final GoodsFeignClient goodsFeignClient;
-    private final StockFeignClient stockFeignClient;
-    private final SeataTccOrderService seataTccOrderService;
+    private final SkuFeignClient skuFeignClient;
     private final RedissonClient redissonClient;
     private final WxPayService wxPayService;
+
+    /**
+     * 订单分页列表
+     *
+     * @param queryParams
+     * @return
+     */
+    @Override
+    public IPage<OmsOrder> listOrdersWithPage(OrderPageQuery queryParams) {
+        Page<OmsOrder> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
+        List<OmsOrder> list = this.baseMapper.listUsersWithPage(page, queryParams);
+        page.setRecords(list);
+        return page;
+    }
 
     /**
      * 订单确认
      */
     @Override
     public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
-        log.info("=======================订单确认=======================\n订单确认信息：{}", orderConfirmDTO);
+        log.info("订单确认:{}", orderConfirmDTO);
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
-        Long memberId = JwtUtils.getUserId();
-        // 获取购买商品信息
+        // 获取订单的商品信息
         CompletableFuture<Void> orderItemsCompletableFuture = CompletableFuture.runAsync(() -> {
-            List<OrderItemDTO> orderItems = new ArrayList<>();
-            if (orderConfirmDTO.getSkuId() != null) { // 直接购买商品结算
-                OrderItemDTO orderItemDTO = OrderItemDTO.builder()
-                        .skuId(orderConfirmDTO.getSkuId())
-                        .count(orderConfirmDTO.getCount())
-                        .build();
-                SkuDTO sku = goodsFeignClient.getSkuById(orderConfirmDTO.getSkuId()).getData();
-                orderItemDTO.setPrice(sku.getPrice());
-                orderItemDTO.setPic(sku.getPicUrl());
-                orderItemDTO.setSkuName(sku.getName());
-                orderItemDTO.setSkuCode(sku.getSn());
-                orderItemDTO.setSpuName(sku.getGoodsName());
-                orderItems.add(orderItemDTO);
-            } else { // 购物车中商品结算
-                List<CartItemDTO> cartItems = cartService.listCartItemByMemberId(memberId);
-                List<OrderItemDTO> items = cartItems.stream()
-                        .filter(CartItemDTO::getChecked)
-                        .map(cartItem -> OrderItemDTO.builder()
-                                .skuId(cartItem.getSkuId())
-                                .count(cartItem.getCount())
-                                .price(cartItem.getPrice())
-                                .skuName(cartItem.getSkuName())
-                                .skuCode(cartItem.getSkuSn())
-                                .spuName(cartItem.getGoodsName())
-                                .pic(cartItem.getPicUrl())
-                                .build())
-                        .collect(Collectors.toList());
-                orderItems.addAll(items);
-            }
+            List<OrderItemDTO> orderItems = this.getOrderItems(orderConfirmDTO.getSkuId());
             orderConfirmVO.setOrderItems(orderItems);
         }, threadPoolExecutor);
 
-        // 获取会员地址列表
+        // 获取会员收获地址
         CompletableFuture<Void> addressesCompletableFuture = CompletableFuture.runAsync(() -> {
-            List<UmsAddress> addresses = addressFeignService.list(memberId).getData();
+            List<MemberAddressDTO> addresses = addressFeignService.listCurrMemberAddresses().getData();
             orderConfirmVO.setAddresses(addresses);
         }, threadPoolExecutor);
 
-        // 生成唯一标识，防止订单重复提交
+        // 生成唯一 token，防止订单重复提交
         CompletableFuture<Void> orderTokenCompletableFuture = CompletableFuture.runAsync(() -> {
             String orderToken = businessNoGenerator.generate(BusinessTypeEnum.ORDER);
             orderConfirmVO.setOrderToken(orderToken);
@@ -156,145 +145,70 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     @Override
     @GlobalTransactional
-    public OrderSubmitVO submit(OrderSubmitDTO submitDTO) {
-        log.info("=======================订单提交=======================\n订单提交信息：{}", submitDTO);
+    public OrderSubmitVO submit(OrderSubmitForm orderSubmitForm) {
+        log.info("订单提交数据:{}", JSONUtil.toJsonStr(orderSubmitForm));
+
+        // 订单基础信息校验
+        List<OrderItemDTO> orderItems = orderSubmitForm.getOrderItems();
+        Assert.isTrue(CollectionUtil.isNotEmpty(orderItems), "订单没有商品");
+
         // 订单重复提交校验
-        String orderToken = submitDTO.getOrderToken();
+        String orderToken = orderSubmitForm.getOrderToken();
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
         Long execute = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
         Assert.isTrue(execute.equals(1l), "订单不可重复提交");
 
-        List<OrderItemDTO> orderItems = submitDTO.getOrderItems();
-        Assert.isTrue(CollectionUtil.isNotEmpty(orderItems), "订单商品为空");
-
         // 订单验价
-        Long currentTotalPrice = orderItems.stream().map(item -> {
-            SkuDTO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
-            if (sku != null) {
-                return sku.getPrice() * item.getCount();
-            }
-            return 0L;
-        }).reduce(0L, Long::sum);
+        Long orderTotalAmount = orderSubmitForm.getTotalAmount();
+        boolean checkResult = this.checkOrderPrice(orderTotalAmount, orderItems);
+        Assert.isTrue(checkResult, "当前页面已过期，请重新刷新页面再提交");
 
-        Assert.isTrue(currentTotalPrice.compareTo(submitDTO.getTotalPrice()) == 0, "当前页面已过期，请重新刷新页面再提交");
+        // 锁定商品库存
+        this.lockStock(orderToken, orderItems);
 
-        // 校验库存是否足够和锁库存
-        List<LockStockDTO> skuLockList = orderItems.stream()
-                .map(item -> LockStockDTO.builder().skuId(item.getSkuId())
-                        .count(item.getCount())
-                        .orderToken(orderToken)
-                        .build())
-                .collect(Collectors.toList());
 
-        Result<SkuDTO> goodsResult = goodsFeignClient.getSkuById(1l);
-        System.out.println(goodsResult);
-
-        // 锁定库存
-        Result lockResult = stockFeignClient.lockStock(skuLockList);
-        Assert.isTrue(Result.isSuccess(lockResult), "锁定商品库存失败:{}", lockResult.getMsg());
-
-        // 创建订单(状态：待支付)
-        OmsOrder order = new OmsOrder();
-        order.setOrderSn(orderToken) // 把orderToken赋值给订单编号【!】
+        // 创建订单
+        OmsOrder order = new OmsOrder().setOrderSn(orderToken) // 把orderToken赋值给订单编号
                 .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
                 .setSourceType(OrderTypeEnum.APP.getCode())
-                .setMemberId(JwtUtils.getUserId())
-                .setRemark(submitDTO.getRemark())
-                .setPayAmount(submitDTO.getPayAmount())
+                .setMemberId(MemberUtils.getMemberId())
+                .setRemark(orderSubmitForm.getRemark())
+                .setPayAmount(orderSubmitForm.getPayAmount())
                 .setTotalQuantity(orderItems.stream().map(OrderItemDTO::getCount).reduce(0, Integer::sum))
                 .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum));
-        this.save(order);
+        boolean result = this.save(order);
 
-        // 创建订单商品
-        List<OmsOrderItem> orderItemList = orderItems.stream().map(item -> OmsOrderItem.builder()
-                .orderId(order.getId())
-                .skuId(item.getSkuId())
-                .skuName(item.getSkuName())
-                .skuPrice(item.getPrice())
-                .skuPic(item.getPic())
-                .skuQuantity(item.getCount())
-                .skuTotalPrice(item.getCount() * item.getPrice())
-                .skuCode(item.getSkuCode())
-                .build()).collect(Collectors.toList());
-        orderItemService.saveBatch(orderItemList);
-
-        // 将订单放入延时队列，超时未支付由交换机order.exchange切换到死信队列完成系统自动关单
-        log.info("订单超时取消RabbitMQ消息发送，订单SN：{}", orderToken);
-        rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
-
-        OrderSubmitVO submitVO = new OrderSubmitVO();
-        submitVO.setOrderId(order.getId());
-        submitVO.setOrderSn(order.getOrderSn());
-        log.info("订单提交响应：{}", submitVO);
-        return submitVO;
-    }
-
-    @Override
-    @GlobalTransactional(rollbackFor = Exception.class)
-    public OrderSubmitVO submitTcc(OrderSubmitDTO submitDTO) {
-        log.info("=======================订单提交=======================\n订单提交信息：{}", submitDTO);
-        // 订单重复提交校验
-        String orderToken = submitDTO.getOrderToken();
-//        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
-//        Long result = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
-//
-//        if (!ObjectUtil.equals(result, RELEASE_LOCK_SUCCESS_RESULT)) {
-//            throw new BizException("订单不可重复提交");
-//        }
-
-        List<OrderItemDTO> orderItems = submitDTO.getOrderItems();
-        if (CollectionUtil.isEmpty(orderItems)) {
-            throw new BizException("订单没有商品，请选择商品后提交");
-        }
-
-        // 订单验价
-        Long currentTotalPrice = orderItems.stream().map(item -> {
-            SkuDTO sku = goodsFeignClient.getSkuById(item.getSkuId()).getData();
-            if (sku != null) {
-                return sku.getPrice() * item.getCount();
+        // 添加订单明细
+        if (result) {
+            List<OmsOrderItem> orderItemList = orderItems.stream().map(orderFormItem -> {
+                OmsOrderItem omsOrderItem = new OmsOrderItem();
+                BeanUtil.copyProperties(orderFormItem, omsOrderItem);
+                omsOrderItem.setOrderId(order.getId());
+                omsOrderItem.setTotalAmount(orderFormItem.getPrice() * orderFormItem.getCount());
+                return omsOrderItem;
+            }).collect(Collectors.toList());
+            result = orderItemService.saveBatch(orderItemList);
+            if (result) {
+                // 订单超时取消
+                rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
             }
-            return 0L;
-        }).reduce(0L, Long::sum);
-
-        if (currentTotalPrice.compareTo(submitDTO.getTotalPrice()) != 0) {
-            throw new BizException("页面已过期，请重新刷新页面再提交");
         }
+        Assert.isTrue(result, "订单提交失败");
 
-        // 校验库存是否足够和锁库存
-        List<LockStockDTO> skuLockList = orderItems.stream()
-                .map(item -> LockStockDTO.builder().skuId(item.getSkuId())
-                        .count(item.getCount())
-                        .orderToken(orderToken)
-                        .build())
-                .collect(Collectors.toList());
-
-        Result<?> lockResult = stockFeignClient.lockStock(skuLockList);
-
-        if (!Result.success().getCode().equals(lockResult.getCode())) {
-            throw new BizException(Result.failed().getMsg());
-        }
-        // TCC模式创建订单(状态：待支付)
-        OmsOrder order = seataTccOrderService.prepareSubmitOrder(null, submitDTO);
-        // 将订单放入延时队列，超时未支付由交换机order.exchange切换到死信队列完成系统自动关单
-        log.info("订单超时取消RabbitMQ消息发送，订单SN：{}", orderToken);
-        rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
-
+        // 成功响应返回值构建
         OrderSubmitVO submitVO = new OrderSubmitVO();
         submitVO.setOrderId(order.getId());
         submitVO.setOrderSn(order.getOrderSn());
-        log.info("订单提交响应：{}", submitVO);
         return submitVO;
     }
+
 
     /**
      * 订单支付
      *
-     * @param orderId
-     * @param appId
      * @return
      */
     @Override
-    @SuppressWarnings("unchecked")
     @GlobalTransactional(rollbackFor = Exception.class)
     public <T> T pay(Long orderId, String appId, PayTypeEnum payTypeEnum) {
         OmsOrder order = this.getById(orderId);
@@ -307,7 +221,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         try {
             //尝试获取锁，获取不到会立马返回 false
             flag = lock.tryLock(0L, 10L, TimeUnit.SECONDS);
-            if(!flag){
+            if (!flag) {
                 throw new BizException("订单不可重复支付");
             }
             if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
@@ -324,28 +238,33 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             }
 
             // 扣减库存
-            Result<?> deductStockResult = stockFeignClient.deductStock(order.getOrderSn());
-
+            Result<?> deductStockResult = skuFeignClient.deductStock(order.getOrderSn());
             if (!Result.isSuccess(deductStockResult)) {
                 throw new BizException("扣减商品库存失败");
             }
-
             return result;
         } catch (InterruptedException e) {
             log.error(e.getMessage(), e);
             throw new BizException("锁订单异常");
-        } catch (Exception e){
+        } catch (Exception e) {
             //异常继续往上抛
             throw e;
-        }finally {
+        } finally {
             //释放锁
-            if(flag){
+            if (flag) {
                 lock.unlock();
             }
         }
 
     }
 
+
+    /**
+     * 余额支付
+     *
+     * @param order
+     * @return
+     */
     private Boolean balancePay(OmsOrder order) {
         // 扣减余额
         Long payAmount = order.getPayAmount();
@@ -365,13 +284,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         return Boolean.TRUE;
     }
 
+
     private WxPayUnifiedOrderV3Result.JsapiResult wxJsapiPay(String appId, OmsOrder order) {
-        Long userId = JwtUtils.getUserId();
-        Result<UmsMember> userInfoResult = memberFeignClient.getUserEntityById(userId);
-        if (!Result.isSuccess(userInfoResult)) {
-            throw new BizException("用户查询失败");
-        }
-        UmsMember userInfo = userInfoResult.getData();
+        Long memberId = MemberUtils.getMemberId();
         Long payAmount = order.getPayAmount();
         // 如果已经有outTradeNo了就先进行关单
         if (PayTypeEnum.WEIXIN_JSAPI.getCode().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
@@ -383,7 +298,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             }
         }
         // 用户id前补零保证五位，对超出五位的保留后五位
-        String userIdFilledZero = String.format("%05d", userId);
+        String userIdFilledZero = String.format("%05d", memberId);
         String fiveDigitsUserId = userIdFilledZero.substring(userIdFilledZero.length() - 5);
         // 在前面加上wxo（weixin order）等前缀是为了人工可以快速分辨订单号是下单还是退款、来自哪家支付机构等
         // 将时间戳+3位随机数+五位id组成商户订单号，规则参考自<a href="https://tech.meituan.com/2016/11/18/dianping-order-db-sharding.html">大众点评</a>
@@ -394,12 +309,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         order.setOutTradeNo(outTradeNo);
         this.updateById(order);
 
+        String memberOpenId = memberFeignClient.getMemberOpenId(memberId).getData();
+
         WxPayUnifiedOrderV3Request wxRequest = new WxPayUnifiedOrderV3Request()
                 .setOutTradeNo(outTradeNo)
                 .setAppid(appId)
                 .setNotifyUrl(wxPayProperties.getPayNotifyUrl())
                 .setAmount(new WxPayUnifiedOrderV3Request.Amount().setTotal(Math.toIntExact(payAmount)))
-                .setPayer(new WxPayUnifiedOrderV3Request.Payer().setOpenid(userInfo.getOpenid()))
+                .setPayer(new WxPayUnifiedOrderV3Request.Payer().setOpenid(memberOpenId))
                 .setDescription("赅买-订单编号" + order.getOrderSn());
         WxPayUnifiedOrderV3Result.JsapiResult jsapiResult;
         try {
@@ -413,7 +330,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
     @Override
     public boolean closeOrder(String orderToken) {
-        log.info("=======================订单关闭，订单SN：{}=======================", orderToken);
+        log.info("订单超时取消，orderToken:{}", orderToken);
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderSn, orderToken));
         if (order == null || !OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
@@ -435,7 +352,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
     @Override
     public boolean cancelOrder(Long id) {
-        log.info("=======================订单取消，订单ID：{}=======================", id);
+        log.info("订单超时取消，订单ID：{}", id);
         OmsOrder order = this.getById(id);
         if (order == null) {
             throw new BizException("订单不存在");
@@ -458,7 +375,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         boolean result = this.updateById(order);
         if (result) {
             // 释放被锁定的库存
-            Result<?> unlockResult = stockFeignClient.unlockStock(order.getOrderSn());
+            Result<?> unlockResult = skuFeignClient.unlockStock(order.getOrderSn());
             if (!Result.isSuccess(unlockResult)) {
                 throw new BizException(unlockResult.getMsg());
             }
@@ -526,18 +443,79 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     }
 
     /**
-     * 订单分页列表
+     * 订单验价，进入结算页面的订单总价和当前所有商品的总价是否一致
      *
-     * @param queryParams
-     * @return
+     * @param orderTotalAmount 订单总金额
+     * @param orderItems       订单商品明细
+     * @return true：订单总价和商品总价一致；false：订单总价和商品总价不一致。
      */
-    @Override
-    public IPage<OmsOrder> listOrdersWithPage(OrderPageQuery queryParams) {
-        Page<OmsOrder> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<OmsOrder> list = this.baseMapper.listUsersWithPage(page, queryParams);
-        page.setRecords(list);
-        return page;
+    private boolean checkOrderPrice(Long orderTotalAmount, List<OrderItemDTO> orderItems) {
+        CheckPriceDTO checkPriceDTO = new CheckPriceDTO();
+        List<CheckPriceDTO.CheckSku> checkSkus = orderItems.stream().map(orderFormItem -> {
+            CheckPriceDTO.CheckSku checkSku = new CheckPriceDTO.CheckSku();
+            checkSku.setSkuId(orderFormItem.getSkuId());
+            checkSku.setCount(orderFormItem.getCount());
+            return checkSku;
+        }).collect(Collectors.toList());
+
+        checkPriceDTO.setOrderTotalAmount(orderTotalAmount); // 订单总金额
+        checkPriceDTO.setCheckSkus(checkSkus); // 订单的商品明细
+
+        // 调用验价接口，比较订单总金额和商品明细总金额，不一致则说明商品价格变动
+        Result<Boolean> checkPriceResult = skuFeignClient.checkPrice(checkPriceDTO);
+
+        boolean result = Result.isSuccess(checkPriceResult) && Boolean.TRUE.equals(checkPriceResult.getData());
+        return result;
     }
 
+    /**
+     * 获取订单的商品明细
+     *
+     * @param skuId 直接购买会有值
+     * @return
+     */
+    private List<OrderItemDTO> getOrderItems(Long skuId) {
+        List<OrderItemDTO> orderItems;
+        if (skuId != null) {  // 直接购买
+            orderItems = new ArrayList<>();
+            SkuInfoDTO skuInfoDTO = skuFeignClient.getSkuInfo(skuId).getData();
+            OrderItemDTO orderItemDTO = new OrderItemDTO();
+            BeanUtil.copyProperties(skuInfoDTO, orderItemDTO);
 
+            orderItemDTO.setCount(1); // 直接购买商品的数量为1
+            orderItems.add(orderItemDTO);
+        } else { // 购物车结算
+            Long memberId = MemberUtils.getMemberId();
+            List<CartItemDTO> cartItems = cartService.listCartItemByMemberId(memberId);
+            orderItems = cartItems.stream()
+                    .filter(CartItemDTO::getChecked)
+                    .map(cartItem -> {
+                        OrderItemDTO orderItemDTO = new OrderItemDTO();
+                        BeanUtil.copyProperties(cartItem, orderItemDTO);
+                        return orderItemDTO;
+                    })
+                    .collect(Collectors.toList());
+        }
+        return orderItems;
+    }
+
+    /**
+     * 锁定商品库存
+     *
+     * @param orderToken
+     * @param orderItems
+     */
+    private void lockStock(String orderToken, List<OrderItemDTO> orderItems) {
+        LockStockDTO lockStockDTO = new LockStockDTO();
+        lockStockDTO.setOrderToken(orderToken);
+
+        List<LockStockDTO.LockedSku> lockedSkuList = orderItems.stream()
+                .map(orderItem -> new LockStockDTO.LockedSku()
+                        .setSkuId(orderItem.getSkuId())
+                        .setCount(orderItem.getCount())
+                ).collect(Collectors.toList());
+
+        lockStockDTO.setLockedSkuList(lockedSkuList);
+        skuFeignClient.lockStock(lockStockDTO);
+    }
 }
