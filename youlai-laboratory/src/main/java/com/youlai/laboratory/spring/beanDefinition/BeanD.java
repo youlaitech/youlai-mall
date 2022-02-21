@@ -1,4 +1,4 @@
-package com.youlai.laboratory.spring;
+package com.youlai.laboratory.spring.beanDefinition;
 
 /**
  * 说明描述
@@ -6,8 +6,7 @@ package com.youlai.laboratory.spring;
  * @author <a href="mailto:2256222053@qq.com">zc</a>
  * @Date 2022/2/18 0018 20:50
  */
-//@Component
-public class Bean {
+public class BeanD {
 
     private String name;
     private int age;
@@ -20,10 +19,17 @@ public class Bean {
         this.age = age;
     }
 
-    public Bean() {
+    @Override
+    public String toString() {
+        return "BeanD{" +
+                "name='" + name + '\'' +
+                '}';
     }
 
-    public Bean(String name) {
+    public BeanD() {
+    }
+
+    public BeanD(String name) {
         this.name = name;
     }
 
@@ -33,13 +39,5 @@ public class Bean {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Bean{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                '}';
     }
 }

@@ -1,6 +1,5 @@
 package com.youlai.laboratory.spring;
 
-import com.youlai.laboratory.spring.Bean;
 import com.youlai.laboratory.spring.DI.ConstructorService;
 import com.youlai.laboratory.spring.DI.SetterService;
 import org.junit.jupiter.api.Test;

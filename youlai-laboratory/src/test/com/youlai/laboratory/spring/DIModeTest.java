@@ -1,12 +1,13 @@
 package com.youlai.laboratory.spring;
 
-import com.youlai.laboratory.spring.DI.*;
+import com.youlai.laboratory.spring.DI.ByConstructorService;
+import com.youlai.laboratory.spring.DI.ByDefaultService;
+import com.youlai.laboratory.spring.DI.ByNameService;
+import com.youlai.laboratory.spring.DI.ByTypeService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.Optional;
 
 /**
  * 测试4种自动装配模型，默认no,(no,byName,byName,constructor)
