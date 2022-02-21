@@ -5,7 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.common.constant.SecurityConstants;
-import com.youlai.common.enums.AuthenticationMethodEnum;
+import com.youlai.common.enums.AuthenticationIdentityEnum;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -62,22 +62,22 @@ public class RequestUtils {
     }
 
     /**
-     * 解析JWT获取获取认证方式
+     * 解析JWT获取获取认证身份标识
      *
      * @return
      */
     @SneakyThrows
-    public static String getAuthenticationMethod() {
+    public static String getAuthenticationIdentity() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String refreshToken = request.getParameter(SecurityConstants.REFRESH_TOKEN_KEY);
 
         String payload = StrUtil.toString(JWSObject.parse(refreshToken).getPayload());
         JSONObject jsonObject = JSONUtil.parseObj(payload);
 
-        String authenticationMethod = jsonObject.getStr(SecurityConstants.AUTHENTICATION_METHOD);
-        if (StrUtil.isBlank(authenticationMethod)) {
-            authenticationMethod = AuthenticationMethodEnum.USERNAME.getValue();
+        String authenticationIdentity = jsonObject.getStr(SecurityConstants.AUTHENTICATION_IDENTITY_KEY);
+        if (StrUtil.isBlank(authenticationIdentity)) {
+            authenticationIdentity = AuthenticationIdentityEnum.USERNAME.getValue();
         }
-        return authenticationMethod;
+        return authenticationIdentity;
     }
 }

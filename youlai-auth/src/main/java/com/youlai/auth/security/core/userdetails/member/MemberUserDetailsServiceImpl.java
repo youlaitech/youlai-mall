@@ -1,6 +1,6 @@
 package com.youlai.auth.security.core.userdetails.member;
 
-import com.youlai.common.enums.AuthenticationMethodEnum;
+import com.youlai.common.enums.AuthenticationIdentityEnum;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;
@@ -44,7 +44,7 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
             MemberAuthInfoDTO member = result.getData();
             if (null != member) {
                 userDetails = new MemberUserDetails(member);
-                userDetails.setAuthenticationMethod(AuthenticationMethodEnum.MOBILE.getValue());   // 认证方式：OpenId
+                userDetails.setAuthenticationIdentity(AuthenticationIdentityEnum.MOBILE.getValue());   // 认证身份标识:mobile
             }
         }
         if (userDetails == null) {
@@ -68,11 +68,12 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByOpenId(String openId) {
         MemberUserDetails userDetails = null;
         Result<MemberAuthInfoDTO> result = memberFeignClient.loadUserByOpenId(openId);
+
         if (Result.isSuccess(result)) {
             MemberAuthInfoDTO member = result.getData();
             if (null != member) {
                 userDetails = new MemberUserDetails(member);
-                userDetails.setAuthenticationMethod(AuthenticationMethodEnum.OPENID.getValue());   // 认证方式：OpenId
+                userDetails.setAuthenticationIdentity(AuthenticationIdentityEnum.OPENID.getValue());   // 认证方式:openId
             }
         }
         if (userDetails == null) {
