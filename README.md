@@ -17,6 +17,9 @@
 <strong>在线预览：</strong><a target="_blank" href="http://www.youlai.tech">www.youlai.tech</a> 
 </p>
 
+<p align="center">
+<strong>H5商城在线预览：</strong><a target="_blank" href="http://www.youlai.tech:81">mall.youlai.tech</a> 
+</p>
 
 
 <p align="center">
