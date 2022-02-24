@@ -26,17 +26,22 @@ public class OmsOrderItem extends BaseEntity {
     private Long orderId;
 
     /**
-     * 商品ID
+     * 商品名称
+     */
+    private String spuName;
+
+    /**
+     * 规格ID
      */
     private Long skuId;
 
     /**
-     * 商品sku编号
+     * SKU编号
      */
     private String skuSn;
 
     /**
-     * 商品名称
+     * 规格名称
      */
     private String skuName;
 

@@ -31,10 +31,11 @@
 
 
     <!-- 订单分页列表 -->
-    <select id="listUsersWithPage" resultMap="OrderPageMap">
+    <select id="listOrdersWithPage" resultMap="OrderPageMap">
 
-        select
-               id,order_sn,
+        SELECT
+               id,
+               order_sn,
                total_amount,
                pay_amount,
                pay_type,
@@ -44,7 +45,7 @@
                gmt_create,
                member_id,
                source_type
-        from oms_order
+        FROM oms_order
         <where>
             <if test ='queryParams.status !=null ' >
                 AND status= #{queryParams.status}

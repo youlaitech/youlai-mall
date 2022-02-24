@@ -106,18 +106,13 @@ public class OmsOrder extends BaseEntity {
 	 * 评价时间
 	 */
 	private Date commentTime;
+
 	/**
-	 * 逻辑删除【0->正常；1->已删除】
+	 * 逻辑删除标识(1:已删除；0:正常)
 	 */
 	private Integer deleted;
 
 	@TableField(exist = false)
 	private List<OmsOrderItem> orderItems;
-
-	@TableField(exist = false)
-	private String startDate;
-
-	@TableField(exist = false)
-	private String endDate;
 
 }
