@@ -2,11 +2,16 @@ package com.youlai.laboratory.spring;
 
 import com.youlai.laboratory.spring.beanDefinition.BeanA;
 import com.youlai.laboratory.spring.beanDefinition.BeanB;
+import com.youlai.laboratory.spring.beanDefinition.ImportBean;
 import com.youlai.laboratory.spring.beanDefinition.Property;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * beandefinition属性测试
@@ -83,6 +88,25 @@ public class BeanDefinition {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/beanDefinition/Property.xml");
         Bean bean = context.getBean("parent", Bean.class);
         System.out.println(bean);   //会合并父属性的值，但不会覆盖值
+    }
+
+    /**
+     * 条件注入，需要满足当前jdk版本为<1.8.0_312>
+     */
+    @Test
+    void condition() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
+        List<String> list = Arrays.stream(context.getBeanDefinitionNames()).filter(name -> name.equals("condition")).collect(Collectors.toList());
+        System.out.println(list.isEmpty());
+    }
+
+    /**
+     * 使用import注册bean
+     */
+    @Test
+    void importBean() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
+        System.out.println(context.getBean(ImportBean.class));
     }
 
 

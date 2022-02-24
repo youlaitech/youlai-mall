@@ -10,6 +10,7 @@ import org.springframework.context.annotation.*;
  * @Date 2022/2/21 0021 6:56
  */
 @Configuration
+@Import(value=ImportBean.class)
 public class Property {
 
     /**
@@ -77,6 +78,13 @@ public class Property {
     public BeanB beanb(){
         System.out.println("正在创建beanB");
         return new BeanB();
+    }
+
+
+    @org.springframework.context.annotation.Bean(name="conditional")
+    @Conditional(DevConditional.class)
+    public Bean bean(){
+        return new Bean();
     }
 
 
