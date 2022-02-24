@@ -104,7 +104,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     @Override
     public IPage<OmsOrder> listOrdersWithPage(OrderPageQuery queryParams) {
         Page<OmsOrder> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<OmsOrder> list = this.baseMapper.listUsersWithPage(page, queryParams);
+        List<OmsOrder> list = this.baseMapper.listOrdersWithPage(page, queryParams);
         page.setRecords(list);
         return page;
     }
@@ -166,7 +166,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 锁定商品库存
         this.lockStock(orderToken, orderItems);
 
-
         // 创建订单
         OmsOrder order = new OmsOrder().setOrderSn(orderToken) // 把orderToken赋值给订单编号
                 .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
@@ -180,14 +179,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 添加订单明细
         if (result) {
-            List<OmsOrderItem> orderItemList = orderItems.stream().map(orderFormItem -> {
+            List<OmsOrderItem> saveOrderItems = orderItems.stream().map(orderFormItem -> {
                 OmsOrderItem omsOrderItem = new OmsOrderItem();
                 BeanUtil.copyProperties(orderFormItem, omsOrderItem);
                 omsOrderItem.setOrderId(order.getId());
                 omsOrderItem.setTotalAmount(orderFormItem.getPrice() * orderFormItem.getCount());
                 return omsOrderItem;
             }).collect(Collectors.toList());
-            result = orderItemService.saveBatch(orderItemList);
+            result = orderItemService.saveBatch(saveOrderItems);
             if (result) {
                 // 订单超时取消
                 rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);

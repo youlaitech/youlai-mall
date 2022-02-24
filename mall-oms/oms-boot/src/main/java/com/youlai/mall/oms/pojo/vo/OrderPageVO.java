@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 订单分页对象
+ * 订单分页视图对象
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2022/2/1 20:58
@@ -47,15 +47,13 @@ public class OrderPageVO {
 
         private String skuName;
 
-        private String skuPic;
+        private String picUrl;
 
-        private Long skuPrice;
+        private Long price;
 
-        private Integer skuQuantity;
+        private Integer count;
 
-        private Long skuTotalPrice;
-
-        private String spuName;
+        private Long total_amount;
 
     }
 

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 /**
  * @author huawei
  * @email huawei_code@163.com
@@ -36,9 +35,10 @@ import java.util.Optional;
 public class OmsOrderController {
 
     private final IOrderService orderService;
+
     private final IOrderItemService orderItemService;
 
-    @ApiOperation("订单列表")
+    @ApiOperation("订单分页列表")
     @GetMapping
     public PageResult listOrdersWithPage(OrderPageQuery queryParams) {
         IPage<OmsOrder> result = orderService.listOrdersWithPage(queryParams);
