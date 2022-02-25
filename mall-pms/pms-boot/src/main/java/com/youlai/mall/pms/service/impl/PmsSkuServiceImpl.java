@@ -77,7 +77,6 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
                         .eq(PmsSku::getId, lockedSku.getSkuId())
                         .apply("stock_num - locked_stock_num >= {0}", lockedSku.getCount())
                 );
-                log.error("锁定商品 {} 失败", lockedSku.getSkuId());
                 Assert.isTrue(lockResult, "锁定商品 {} 失败", lockedSku.getSkuId());
             } finally {
                 // 释放锁
