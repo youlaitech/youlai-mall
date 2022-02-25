@@ -2,7 +2,7 @@
 * 商城会员表
 * MySQL5.x版本
 */
-use mall_oms;
+use mall_ums;
 
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
