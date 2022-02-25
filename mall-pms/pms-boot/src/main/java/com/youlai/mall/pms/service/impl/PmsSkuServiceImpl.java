@@ -61,30 +61,35 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     @Override
     @Transactional
     public boolean lockStock(LockStockDTO lockStockDTO) {
-        log.info("锁定商品库存：{}", JSONUtil.toJsonStr(lockStockDTO));
+        log.info("锁定商品库存:{}", JSONUtil.toJsonStr(lockStockDTO));
 
         List<LockStockDTO.LockedSku> lockedSkuList = lockStockDTO.getLockedSkuList();
         Assert.isTrue(CollectionUtil.isNotEmpty(lockedSkuList), "锁定的商品为空");
 
-        // 锁定商品
+        // 循环遍历锁定商品
         lockedSkuList.forEach(lockedSku -> {
-            RLock lock = redissonClient.getLock(PmsConstants.LOCK_SKU_PREFIX + lockedSku.getSkuId()); // 获取商品的分布式锁
+            RLock lock = redissonClient.getLock(PmsConstants.LOCK_SKU_PREFIX + lockedSku.getSkuId()); // 获取分布式锁
+            // 加锁
             lock.lock();
-            boolean lockResult = this.update(new LambdaUpdateWrapper<PmsSku>()
-                    .setSql("locked_stock_num = locked_stock_num + " + lockedSku.getCount())
-                    .eq(PmsSku::getId, lockedSku.getSkuId())
-                    .apply("stock_num - locked_stock_num >= {0}", lockedSku.getCount())
-            );
-            if (lockResult) {
+            try {
+                boolean lockResult = this.update(new LambdaUpdateWrapper<PmsSku>()
+                        .setSql("locked_stock_num = locked_stock_num + " + lockedSku.getCount())
+                        .eq(PmsSku::getId, lockedSku.getSkuId())
+                        .apply("stock_num - locked_stock_num >= {0}", lockedSku.getCount())
+                );
+                log.error("锁定商品 {} 失败", lockedSku.getSkuId());
+                Assert.isTrue(lockResult, "锁定商品 {} 失败", lockedSku.getSkuId());
+            } finally {
+                // 释放锁
                 lock.unlock();
-            } else {
-                throw new BizException("锁定商品" + lockedSku.getSkuId() + "失败");
             }
         });
 
-        // 将锁定商品库存信息保存至Redis
+        // 将锁定的商品ID和对应购买数量持久化至Redis，后续使用场景: 1.订单取消归还库存;2.订单支付成功扣减库存。
         String orderToken = lockStockDTO.getOrderToken();
         redisTemplate.opsForValue().set(PmsConstants.LOCKED_STOCK_PREFIX + orderToken, JSONUtil.toJsonStr(lockedSkuList));
+
+        // 无异常直接返回true
         return true;
     }
 
@@ -108,11 +113,11 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
     }
 
     /**
-     *  扣减库存 - 支付成功
+     * 扣减库存 - 支付成功
      */
     @Override
     public boolean deductStock(String orderToken) {
-        log.info("扣减库存，orderToken:{}",orderToken);
+        log.info("扣减库存，orderToken:{}", orderToken);
         String lockedSkuJsonStr = redisTemplate.opsForValue().get(PmsConstants.LOCKED_STOCK_PREFIX + orderToken);
         List<LockStockDTO.LockedSku> lockedSkuList = JSONUtil.toList(lockedSkuJsonStr, LockStockDTO.LockedSku.class);
 
