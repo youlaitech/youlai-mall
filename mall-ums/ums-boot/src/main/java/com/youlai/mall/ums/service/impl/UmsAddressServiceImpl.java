@@ -9,9 +9,10 @@ import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.mapper.UmsAddressMapper;
 import com.youlai.mall.ums.pojo.entity.UmsAddress;
+import com.youlai.mall.ums.pojo.form.AddressForm;
 import com.youlai.mall.ums.service.IUmsAddressService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,43 +29,59 @@ import java.util.stream.Collectors;
 public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddress> implements IUmsAddressService {
 
     /**
-     * 添加地址
+     * 新增地址
      *
-     * @param address
+     * @param addressForm
      * @return
      */
     @Override
-    public boolean addAddress(UmsAddress address) {
+    @Transactional
+    public boolean addAddress(AddressForm addressForm) {
         Long memberId = MemberUtils.getMemberId();
-        address.setMemberId(memberId);
-        if (GlobalConstants.STATUS_YES.equals(address.getDefaulted())) { // 修改其他默认地址为非默认
-            this.update(new LambdaUpdateWrapper<UmsAddress>()
-                    .eq(UmsAddress::getMemberId, memberId)
-                    .eq(UmsAddress::getDefaulted, 1)
-                    .set(UmsAddress::getDefaulted, 0)
-            );
+
+        UmsAddress umsAddress = new UmsAddress();
+        BeanUtil.copyProperties(addressForm, umsAddress);
+        umsAddress.setMemberId(memberId);
+        boolean result = this.save(umsAddress);
+        if (result) {
+            // 修改其他默认地址为非默认
+            if (GlobalConstants.STATUS_YES.equals(addressForm.getDefaulted())) {
+                this.update(new LambdaUpdateWrapper<UmsAddress>()
+                        .eq(UmsAddress::getMemberId, memberId)
+                        .eq(UmsAddress::getDefaulted, 1)
+                        .set(UmsAddress::getDefaulted, 0)
+                );
+            }
         }
-        return this.save(address);
+        return result;
     }
 
     /**
      * 修改地址
      *
-     * @param address
+     * @param addressForm
      * @return
      */
     @Override
-    public boolean updateAddress(UmsAddress address) {
+    public boolean updateAddress(AddressForm addressForm) {
         Long memberId = MemberUtils.getMemberId();
-        // 修改其他默认地址为非默认
-        if (GlobalConstants.STATUS_YES.equals(address.getDefaulted())) {
-            this.update(new LambdaUpdateWrapper<UmsAddress>()
-                    .eq(UmsAddress::getMemberId, memberId)
-                    .eq(UmsAddress::getDefaulted, 1)
-                    .set(UmsAddress::getDefaulted, 0)
-            );
+
+        UmsAddress umsAddress = new UmsAddress();
+        BeanUtil.copyProperties(addressForm, umsAddress);
+
+        boolean result = this.updateById(umsAddress);
+
+        if(result){
+            // 修改其他默认地址为非默认
+            if (GlobalConstants.STATUS_YES.equals(addressForm.getDefaulted())) {
+                this.update(new LambdaUpdateWrapper<UmsAddress>()
+                        .eq(UmsAddress::getMemberId, memberId)
+                        .eq(UmsAddress::getDefaulted, 1)
+                        .set(UmsAddress::getDefaulted, 0)
+                );
+            }
         }
-        return this.updateById(address);
+        return result;
     }
 
     /**

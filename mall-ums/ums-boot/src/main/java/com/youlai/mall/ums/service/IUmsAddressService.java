@@ -4,6 +4,7 @@ package com.youlai.mall.ums.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.pojo.entity.UmsAddress;
+import com.youlai.mall.ums.pojo.form.AddressForm;
 
 import java.util.List;
 
@@ -16,20 +17,20 @@ import java.util.List;
 public interface IUmsAddressService extends IService<UmsAddress> {
 
     /**
-     * 添加地址
+     * 新增地址
      *
-     * @param address
+     * @param addressForm
      * @return
      */
-    boolean addAddress(UmsAddress address);
+    boolean addAddress(AddressForm addressForm);
 
     /**
      * 修改地址
      *
-     * @param address
+     * @param addressForm
      * @return
      */
-    boolean updateAddress(UmsAddress address);
+    boolean updateAddress(AddressForm addressForm);
 
     /**
      * 获取当前登录会员的地址列表
