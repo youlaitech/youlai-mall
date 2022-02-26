@@ -113,7 +113,7 @@ CREATE TABLE `sys_menu`  (
                              `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -136,6 +136,13 @@ INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 'user', 'ums/member/index
 INSERT INTO `sys_menu` VALUES (17, '品牌管理', 11, 'brand', 'pms/brand/index', 'component', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (18, '商品分类', 11, 'category', 'pms/category/index', 'component', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (19, '商品上架', 11, 'goods-detail', 'pms/goods/detail', 'component', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
+INSERT INTO `sys_menu` VALUES (20, '多级菜单', 0, '/d6b15bab09d64ce39bc5aae9e6c38ba4', 'Layout', 'nested', 6, 1, '/nested/level1/level2', '2022-02-16 23:11:00', '2022-02-16 23:11:00');
+INSERT INTO `sys_menu` VALUES (21, '菜单一级', 20, 'nested_level1_index', 'nested/level1/index', '', 1, 1, '/nested/level1/level2', '2022-02-16 23:13:38', '2022-02-16 23:13:38');
+INSERT INTO `sys_menu` VALUES (22, '菜单二级', 21, 'nested_level1_level2_index', 'nested/level1/level2/index', '', 1, 1, '/nested/level1/level2/level3', '2022-02-16 23:14:23', '2022-02-16 23:14:23');
+INSERT INTO `sys_menu` VALUES (23, '菜单三级-1', 22, 'nested_level1_level2_level3_index1', 'nested/level1/level2/level3/index1', '', 1, 1, '', '2022-02-16 23:14:51', '2022-02-16 23:14:51');
+INSERT INTO `sys_menu` VALUES (24, '菜单三级-2', 22, 'nested_level1_level2_level3_index2', 'nested/level1/level2/level3/index2', '', 2, 1, '', '2022-02-16 23:15:08', '2022-02-16 23:15:08');
+INSERT INTO `sys_menu` VALUES (26, '外部链接', 0, '/d513e3047d4d447c880cff110234c1f6', 'Layout', 'link', 0, 1, '', '2022-02-17 22:51:20', '2022-02-17 22:51:20');
+INSERT INTO `sys_menu` VALUES (30, 'document', 26, 'https://www.cnblogs.com/haoxianrui/', '', 'link', 1, 1, '', '2022-02-18 00:01:40', '2022-02-18 00:01:40');
 
 -- ----------------------------
 -- Table structure for sys_oauth_client
@@ -159,12 +166,13 @@ CREATE TABLE `sys_oauth_client`  (
 -- ----------------------------
 -- Records of sys_oauth_client
 -- ----------------------------
-INSERT INTO `sys_oauth_client` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('client', '', '123456', 'all', 'password,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `sys_oauth_client` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('mall-admin-web', '', '123456', 'all', 'password,refresh_token,captcha', NULL, '', 3600, 7200, NULL, 'true');
-INSERT INTO `sys_oauth_client` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('mall-app', '', '123456', 'all', 'sms_code,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `sys_oauth_client` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('mall-weapp', '', '123456', 'all', 'wechat,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `sys_oauth_client` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('youlai-admin', '', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', NULL, '', 3600, 7200, NULL, 'true');
-INSERT INTO `sys_oauth_client` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('youlai-mall-app', '', '123456', 'all', 'authorization_code,password,refresh_token,implicit,wechat,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `sys_oauth_client` VALUES ('client', '', '123456', 'all', 'password,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `sys_oauth_client` VALUES ('mall-admin-web', '', '123456', 'all', 'password,refresh_token,captcha', NULL, '', 3600, 7200, NULL, 'true');
+INSERT INTO `sys_oauth_client` VALUES ('mall-app', '', '123456', 'all', 'sms_code,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `sys_oauth_client` VALUES ('mall-weapp', '', '123456', 'all', 'wechat,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `sys_oauth_client` VALUES ('youlai-admin', '', '123456', 'all', 'password,client_credentials,refresh_token,authorization_code', NULL, '', 3600, 7200, NULL, 'true');
+INSERT INTO `sys_oauth_client` VALUES ('youlai-mall-app', '', '123456', 'all', 'authorization_code,password,refresh_token,implicit,wechat,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
+
 -- ----------------------------
 -- Table structure for sys_permission
 -- ----------------------------
@@ -180,7 +188,7 @@ CREATE TABLE `sys_permission`  (
                                    PRIMARY KEY (`id`) USING BTREE,
                                    INDEX `id`(`id`, `name`) USING BTREE,
                                    INDEX `id_2`(`id`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -245,6 +253,13 @@ INSERT INTO `sys_role_menu` VALUES (2, 15);
 INSERT INTO `sys_role_menu` VALUES (2, 16);
 INSERT INTO `sys_role_menu` VALUES (2, 9);
 INSERT INTO `sys_role_menu` VALUES (2, 10);
+INSERT INTO `sys_role_menu` VALUES (2, 20);
+INSERT INTO `sys_role_menu` VALUES (2, 21);
+INSERT INTO `sys_role_menu` VALUES (2, 22);
+INSERT INTO `sys_role_menu` VALUES (2, 23);
+INSERT INTO `sys_role_menu` VALUES (2, 24);
+INSERT INTO `sys_role_menu` VALUES (2, 26);
+INSERT INTO `sys_role_menu` VALUES (2, 30);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -291,7 +306,7 @@ CREATE TABLE `sys_user`  (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'root', '有来技术', 0, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', NULL, '', '17621590365', 1, 'youlaitech@163.com', 0, NULL, NULL);
-INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'https://gitee.com/haoxr/image/raw/master/20210605215800.png', '17621210366', 1, 'youlaitech@163.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
+INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'https://gitee.com/haoxr/image/raw/master/default/f778738c-e4f8-4870-b634-56703b4acafe.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
 INSERT INTO `sys_user` VALUES (3, 'test', '测试小用户', 1, '$2a$10$MPJkNw.hKT/fZOgwYP8q9eu/rFJJDsNov697AmdkHNJkpjIpVSw2q', 3, 'https://gitee.com/haoxr/image/raw/master/20210605215800.png', '17621210366', 1, 'youlaitech@163.com', 0, '2021-06-05 01:31:29', '2021-06-05 01:31:29');
 
 -- ----------------------------
@@ -312,4 +327,3 @@ INSERT INTO `sys_user_role` VALUES (2, 2);
 INSERT INTO `sys_user_role` VALUES (3, 3);
 
 SET FOREIGN_KEY_CHECKS = 1;
-

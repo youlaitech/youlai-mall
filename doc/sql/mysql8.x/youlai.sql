@@ -11,7 +11,7 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 18/02/2022 00:07:10
+ Date: 27/02/2022 00:20:01
 */
 use youlai;
 
@@ -124,7 +124,7 @@ CREATE TABLE `sys_menu`  (
   `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -153,7 +153,7 @@ INSERT INTO `sys_menu` VALUES (22, '菜单二级', 21, 'nested_level1_level2_ind
 INSERT INTO `sys_menu` VALUES (23, '菜单三级-1', 22, 'nested_level1_level2_level3_index1', 'nested/level1/level2/level3/index1', '', 1, 1, '', '2022-02-16 23:14:51', '2022-02-16 23:14:51');
 INSERT INTO `sys_menu` VALUES (24, '菜单三级-2', 22, 'nested_level1_level2_level3_index2', 'nested/level1/level2/level3/index2', '', 2, 1, '', '2022-02-16 23:15:08', '2022-02-16 23:15:08');
 INSERT INTO `sys_menu` VALUES (26, '外部链接', 0, '/d513e3047d4d447c880cff110234c1f6', 'Layout', 'link', 0, 1, '', '2022-02-17 22:51:20', '2022-02-17 22:51:20');
-INSERT INTO `sys_menu` VALUES (30, '项目文档', 26, 'https://www.cnblogs.com/haoxianrui/', '', 'link', 1, 1, '', '2022-02-18 00:01:40', '2022-02-18 00:01:40');
+INSERT INTO `sys_menu` VALUES (30, 'document', 26, 'https://www.cnblogs.com/haoxianrui/', '', 'link', 1, 1, '', '2022-02-18 00:01:40', '2022-02-18 00:01:40');
 
 -- ----------------------------
 -- Table structure for sys_oauth_client
@@ -317,7 +317,7 @@ CREATE TABLE `sys_user`  (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'root', '有来技术', 0, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', NULL, '', '17621590365', 1, 'youlaitech@163.com', 0, NULL, NULL);
-INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'https://gitee.com/haoxr/image/raw/master/20210605215800.png', '17621210366', 1, 'youlaitech@163.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
+INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'https://gitee.com/haoxr/image/raw/master/default/f778738c-e4f8-4870-b634-56703b4acafe.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
 INSERT INTO `sys_user` VALUES (3, 'test', '测试小用户', 1, '$2a$10$MPJkNw.hKT/fZOgwYP8q9eu/rFJJDsNov697AmdkHNJkpjIpVSw2q', 3, 'https://gitee.com/haoxr/image/raw/master/20210605215800.png', '17621210366', 1, 'youlaitech@163.com', 0, '2021-06-05 01:31:29', '2021-06-05 01:31:29');
 
 -- ----------------------------
