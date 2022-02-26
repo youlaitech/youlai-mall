@@ -29,6 +29,7 @@ public class SysMenu extends BaseEntity {
     /**
      * 路由路径
      */
+
     private String path;
 
     private String component;

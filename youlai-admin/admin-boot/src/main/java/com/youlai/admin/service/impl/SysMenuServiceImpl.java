@@ -246,15 +246,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public boolean updateMenu(SysMenu menu) {
         String component = menu.getComponent();
 
-        // 检测页面路径是否变化
-        SysMenu oldMenu = this.getById(menu.getId());
-        if (oldMenu.getComponent() != null && !oldMenu.getComponent().equals(component)) {
-            if ("Layout".equals(component)) {
-                menu.setPath("/" + IdUtil.simpleUUID());
-            } else {
-                menu.setPath(component.replaceAll("/", "_"));
+        // 根据组件路径生成相对路径path
+        SysMenu dbMenu = this.getById(menu.getId());
+        if (StrUtil.isNotBlank(component)) {
+            if (!component.equals(dbMenu.getComponent())) {
+                if ("Layout".equals(component)) {
+                    menu.setPath("/" + IdUtil.simpleUUID());
+                } else {
+                    menu.setPath(component.replaceAll("/", "_"));
+                }
             }
         }
+
         boolean result = this.updateById(menu);
         if (result == true) {
             permissionService.refreshPermRolesRules();
