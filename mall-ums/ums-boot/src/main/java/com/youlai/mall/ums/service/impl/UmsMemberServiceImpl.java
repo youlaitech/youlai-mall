@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.result.ResultCode;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
@@ -74,12 +76,13 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                         UmsMember::getStatus
                 )
         );
-        Assert.isTrue(member != null, "会员不存在");
-
-        MemberAuthInfoDTO memberAuth = new MemberAuthInfoDTO()
-                .setMemberId(member.getId())
-                .setUsername(member.getOpenid())
-                .setStatus(member.getStatus());
+        MemberAuthInfoDTO memberAuth = null;
+        if (member != null) {
+            memberAuth = new MemberAuthInfoDTO()
+                    .setMemberId(member.getId())
+                    .setUsername(member.getOpenid())
+                    .setStatus(member.getStatus());
+        }
         return memberAuth;
     }
 
@@ -98,12 +101,14 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                         UmsMember::getStatus
                 )
         );
-        Assert.isTrue(member != null, "会员不存在");
 
-        MemberAuthInfoDTO memberAuth = new MemberAuthInfoDTO()
-                .setMemberId(member.getId())
-                .setUsername(member.getMobile())
-                .setStatus(member.getStatus());
+        MemberAuthInfoDTO memberAuth = null;
+        if (member != null) {
+            memberAuth = new MemberAuthInfoDTO()
+                    .setMemberId(member.getId())
+                    .setUsername(member.getMobile())
+                    .setStatus(member.getStatus());
+        }
         return memberAuth;
     }
 
