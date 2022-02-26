@@ -59,10 +59,10 @@ public class MemberController {
     @ApiOperation(value = "扣减会员余额")
     @PutMapping("/current/balances/_deduct")
     public <T> Result<T> deductBalance(@RequestParam Long balances) {
-        Long userId = MemberUtils.getMemberId();
+        Long memberId = MemberUtils.getMemberId();
         boolean result = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .setSql("balance = balance - " + balances)
-                .eq(UmsMember::getId, userId)
+                .eq(UmsMember::getId, memberId)
         );
         return Result.judge(result);
     }
