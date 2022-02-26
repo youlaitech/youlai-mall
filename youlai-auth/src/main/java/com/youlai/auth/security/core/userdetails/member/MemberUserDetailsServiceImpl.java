@@ -73,7 +73,7 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
             MemberAuthInfoDTO member = result.getData();
             if (null != member) {
                 userDetails = new MemberUserDetails(member);
-                userDetails.setAuthenticationIdentity(AuthenticationIdentityEnum.OPENID.getValue());   // 认证方式:openId
+                userDetails.setAuthenticationIdentity(AuthenticationIdentityEnum.OPENID.getValue());   // 认证身份标识:openId
             }
         }
         if (userDetails == null) {
