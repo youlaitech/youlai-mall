@@ -1,10 +1,9 @@
 package com.youlai.mall.ums.controller.app;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.pojo.entity.UmsAddress;
+import com.youlai.mall.ums.pojo.form.AddressForm;
 import com.youlai.mall.ums.service.IUmsAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +29,7 @@ public class AddressController {
         List<MemberAddressDTO> addressList = addressService.listCurrentMemberAddresses();
         return Result.success(addressList);
     }
-    
+
     @ApiOperation(value = "获取地址详情")
     @GetMapping("/{addressId}")
     public Result<UmsAddress> getAddressDetail(
@@ -43,9 +42,9 @@ public class AddressController {
     @ApiOperation(value = "新增地址")
     @PostMapping
     public Result addAddress(
-            @RequestBody @Validated UmsAddress address
+            @RequestBody @Validated AddressForm addressForm
     ) {
-        boolean result = addressService.addAddress(address);
+        boolean result = addressService.addAddress(addressForm);
         return Result.judge(result);
     }
 
@@ -53,9 +52,9 @@ public class AddressController {
     @PutMapping("/{addressId}")
     public Result updateAddress(
             @ApiParam(value = "地址ID") @PathVariable Long addressId,
-            @RequestBody @Validated UmsAddress address
+            @RequestBody @Validated AddressForm addressForm
     ) {
-        boolean result = addressService.updateAddress(address);
+        boolean result = addressService.updateAddress(addressForm);
         return Result.judge(result);
     }
 
