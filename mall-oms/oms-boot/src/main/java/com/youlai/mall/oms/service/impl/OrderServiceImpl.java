@@ -218,8 +218,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         boolean flag = false;
         try {
-            //尝试获取锁，获取不到会立马返回 false
-            flag = lock.tryLock(0L, 10L, TimeUnit.SECONDS);
+            // 尝试加锁，最多等待1秒，上锁10秒后自动解锁
+            flag = lock.tryLock(1L, 10L, TimeUnit.SECONDS);
             if (!flag) {
                 throw new BizException("订单不可重复支付");
             }
@@ -232,25 +232,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                     result = (T) wxJsapiPay(appId, order);
                     break;
                 default:
-                case BALANCE:
                     result = (T) balancePay(order);
+                    break;
             }
-
             // 扣减库存
             Result<?> deductStockResult = skuFeignClient.deductStock(order.getOrderSn());
-            if (!Result.isSuccess(deductStockResult)) {
-                throw new BizException("扣减商品库存失败");
-            }
+            Assert.isTrue(Result.isSuccess(deductStockResult), "扣减商品库存失败");
             return result;
         } catch (InterruptedException e) {
             log.error(e.getMessage(), e);
             throw new BizException("锁订单异常");
-        } catch (Exception e) {
-            //异常继续往上抛
-            throw e;
         } finally {
             //释放锁
-            if (flag) {
+            if (flag && lock.isLocked()) {
                 lock.unlock();
             }
         }
@@ -268,9 +262,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 扣减余额
         Long payAmount = order.getPayAmount();
         Result<?> deductBalanceResult = memberFeignClient.deductBalance(payAmount);
-        if (!Result.isSuccess(deductBalanceResult)) {
-            throw new BizException("扣减账户余额失败");
-        }
+        Assert.isTrue(Result.isSuccess(deductBalanceResult), "扣减账户余额失败");
 
         // 更新订单状态
         order.setStatus(OrderStatusEnum.PAYED.getCode());
