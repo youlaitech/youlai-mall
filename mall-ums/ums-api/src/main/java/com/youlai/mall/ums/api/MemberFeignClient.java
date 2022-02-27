@@ -39,7 +39,6 @@ public interface MemberFeignClient {
     @PostMapping("/app-api/v1/members/view/history")
     <T> Result<T> addProductViewHistory(@RequestBody ProductHistoryVO product);
 
-
     /**
      * 根据openId获取会员认证信息
      *
