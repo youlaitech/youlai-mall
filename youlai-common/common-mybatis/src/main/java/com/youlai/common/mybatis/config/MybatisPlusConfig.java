@@ -13,14 +13,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
 /**
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
 @Configuration
 @EnableTransactionManagement
 public class MybatisPlusConfig {
-
 
     /**
      * 分页插件和数据权限插件
@@ -29,7 +27,7 @@ public class MybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         //数据权限
-        interceptor.addInnerInterceptor(new DataPermissionInterceptor(new DataPermissionHandlerImpl()));
+        interceptor.addInnerInterceptor(new DataPermissionInterceptor(new MyDataPermissionHandler()));
         //分页插件
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
 
