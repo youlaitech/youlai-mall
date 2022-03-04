@@ -81,6 +81,10 @@ public class Property {
     }
 
 
+    /**
+     * 条件注入bean
+     * @return
+     */
     @org.springframework.context.annotation.Bean(name="conditional")
     @Conditional(DevConditional.class)
     public Bean bean(){
@@ -88,6 +92,17 @@ public class Property {
     }
 
 
+
+    
+    /**
+     * 条件注入bean
+     * @return
+     */
+    @org.springframework.context.annotation.Bean(name="profile")
+    @Profile("dev")
+    public Bean profile(){
+        return new Bean();
+    }
 
 
 

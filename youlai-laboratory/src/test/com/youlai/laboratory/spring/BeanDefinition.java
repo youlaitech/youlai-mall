@@ -1,10 +1,13 @@
 package com.youlai.laboratory.spring;
 
+import com.google.common.base.Objects;
 import com.youlai.laboratory.spring.beanDefinition.BeanA;
 import com.youlai.laboratory.spring.beanDefinition.BeanB;
 import com.youlai.laboratory.spring.beanDefinition.ImportBean;
 import com.youlai.laboratory.spring.beanDefinition.Property;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,6 +25,10 @@ import java.util.stream.Collectors;
 @SpringBootTest
 public class BeanDefinition {
 
+    @Autowired
+    @Qualifier("scope")
+    private Bean bean;
+
     @Test
     void scope() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
@@ -30,6 +37,9 @@ public class BeanDefinition {
         System.out.println(scope1.equals(scope2));     //获取两个相同的bean
     }
 
+    /**
+     * 原型模式的bean
+     */
     @Test
     void prototype() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
@@ -38,6 +48,9 @@ public class BeanDefinition {
         System.out.println(prototype1.equals(prototype2));   //获取两个不同的bean
     }
 
+    /**
+     * 懒加载的bean
+     */
     @Test
     void lazy() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
@@ -45,6 +58,9 @@ public class BeanDefinition {
         context.getBean("lazy");   //获取bean的时候才创建bean
     }
 
+    /**
+     * 多个相同类型的bean,声明默认的bean
+     */
     @Test
     void primary() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
@@ -52,6 +68,9 @@ public class BeanDefinition {
         System.out.println(bean);
     }
 
+    /**
+     *  依赖bean
+     */
     @Test
     void dependsOn() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
@@ -108,6 +127,32 @@ public class BeanDefinition {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
         System.out.println(context.getBean(ImportBean.class));
     }
+
+    /**
+     * 注入指定名称的bean
+     */
+    @Test
+    void qualifier(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Property.class);
+        Bean scope = context.getBean("scope", Bean.class);
+        System.out.println(Objects.equal(scope,bean));
+    }
+
+    /**
+     * 根据环境注入的bean
+     */
+    @Test
+    void profile(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.getEnvironment().setActiveProfiles("prod");
+        //context.getEnvironment().setActiveProfiles("dev");
+        context.register(Property.class);
+        context.refresh();
+        Bean profile = context.getBean("profile", Bean.class);
+    }
+
+
+
 
 
 }

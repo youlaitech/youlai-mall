@@ -1,5 +1,7 @@
 package com.youlai.laboratory.spring;
 
+import java.util.Objects;
+
 /**
  * 说明描述
  *
@@ -41,5 +43,18 @@ public class Bean {
                 "name='" + name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bean bean = (Bean) o;
+        return age == bean.age && Objects.equals(name, bean.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
     }
 }
