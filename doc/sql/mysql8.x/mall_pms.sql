@@ -11,7 +11,7 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 13/02/2022 23:22:07
+ Date: 05/03/2022 16:40:02
 */
 use mall_pms;
 
@@ -31,14 +31,15 @@ CREATE TABLE `pms_attribute`  (
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_attr_pms_category`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_attribute
 -- ----------------------------
-INSERT INTO `pms_attribute` VALUES (34, 5, '颜色', 1, '2021-07-11 17:57:06', '2021-07-11 18:00:06');
-INSERT INTO `pms_attribute` VALUES (35, 5, '规格', 1, '2021-07-11 18:00:06', '2021-07-11 18:00:06');
-INSERT INTO `pms_attribute` VALUES (36, 5, '上市时间', 2, '2021-07-11 18:00:08', '2021-07-11 18:00:08');
+INSERT INTO `pms_attribute` VALUES (34, 5, '颜色', 1, '2021-07-11 17:57:06', '2022-03-05 13:16:30');
+INSERT INTO `pms_attribute` VALUES (35, 5, '规格', 1, '2021-07-11 18:00:06', '2022-03-05 13:16:30');
+INSERT INTO `pms_attribute` VALUES (36, 5, '上市时间', 2, '2021-07-11 18:00:08', '2022-03-05 13:16:31');
+INSERT INTO `pms_attribute` VALUES (47, 8, '阿斯顿', 1, '2022-03-04 13:00:43', '2022-03-04 13:00:43');
 
 -- ----------------------------
 -- Table structure for pms_brand
@@ -52,12 +53,13 @@ CREATE TABLE `pms_brand`  (
   `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_brand
 -- ----------------------------
-INSERT INTO `pms_brand` VALUES (1, '有来', 'http://a.youlai.tech:9000/default/73bc0adc892646d5b844f76619ec934e.jpg', 1, '2021-07-11 19:56:58', '2021-07-11 20:02:54');
+INSERT INTO `pms_brand` VALUES (1, '有来', 'http://a.youlai.tech:9000/default/5409e3deb5a14b8fa8cb4275dee0e25d.png', 1, '2021-07-11 19:56:58', '2021-07-11 20:02:54');
+INSERT INTO `pms_brand` VALUES (10, '小米', 'http://a.youlai.tech:9000/default/6c5433c84cc54120996a151c8e6d4cf3.jpg', 1, '2022-03-05 16:12:16', '2022-03-05 16:12:16');
 
 -- ----------------------------
 -- Table structure for pms_category
@@ -74,14 +76,17 @@ CREATE TABLE `pms_category`  (
   `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_category
 -- ----------------------------
 INSERT INTO `pms_category` VALUES (3, '手机配件', 0, 1, NULL, 1, 1, NULL, NULL);
 INSERT INTO `pms_category` VALUES (4, '智能手机', 3, 2, NULL, 1, 1, NULL, NULL);
-INSERT INTO `pms_category` VALUES (5, '5g手机', 4, 3, 'http://a.youlai.tech:9000/default/040a0bd0586944959e11ef37e8d11a9f.jfif', 1, 1, NULL, '2021-08-08 13:28:42');
+INSERT INTO `pms_category` VALUES (5, '5g手机', 4, 3, 'http://a.youlai.tech:9000/default/f4a27e240c184758942670aad9ce5639.jpg', 1, 1, NULL, '2022-03-05 16:16:16');
+INSERT INTO `pms_category` VALUES (6, '电脑', 0, 1, 'http://a.youlai.tech:9000/default/776c21c1a71848069093033f461c5f4a.jpg', 1, 1, '2022-02-25 11:22:44', '2022-02-25 11:22:44');
+INSERT INTO `pms_category` VALUES (7, '游戏本', 6, 2, 'http://a.youlai.tech:9000/default/f41d764d7ce64054b75fe9be5fb3f700.jpg', 1, 1, '2022-02-25 11:23:06', '2022-02-25 11:23:06');
+INSERT INTO `pms_category` VALUES (8, '轻薄本', 6, 2, 'http://a.youlai.tech:9000/default/840ddc78c93d422b9929821c97f3dfbe.jpg', 2, 1, '2022-02-25 11:23:24', '2022-02-25 11:23:24');
 
 -- ----------------------------
 -- Table structure for pms_catetgory_brand
@@ -115,32 +120,15 @@ CREATE TABLE `pms_sku`  (
   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_pms_spu`(`spu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 312 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 353 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_sku
 -- ----------------------------
-INSERT INTO `pms_sku` VALUES (291, '1', 1, NULL, '1_3', 100, 1, 0, 'http://a.youlai.tech:9000/default/fb3f1be8aae644f497255f29aa51c641.jpg', '2021-08-08 00:43:26', '2021-08-08 00:56:24');
-INSERT INTO `pms_sku` VALUES (292, '2', 1, NULL, '1_4', 200, 2, 0, 'http://a.youlai.tech:9000/default/fb3f1be8aae644f497255f29aa51c641.jpg', '2021-08-08 00:43:26', '2021-08-08 00:56:24');
-INSERT INTO `pms_sku` VALUES (293, '3', 1, NULL, '2_3', 300, 3, 0, 'http://a.youlai.tech:9000/default/074dfb3841444a10a7691eac322bb848.jpg', '2021-08-08 00:43:26', '2021-08-08 00:56:25');
-INSERT INTO `pms_sku` VALUES (294, '4', 1, NULL, '2_4', 400, 4, 0, 'http://a.youlai.tech:9000/default/074dfb3841444a10a7691eac322bb848.jpg', '2021-08-08 00:43:26', '2021-08-08 00:56:25');
-INSERT INTO `pms_sku` VALUES (295, '213', 72, NULL, '114_115', 12300, 123, 0, NULL, '2021-08-08 08:30:39', '2021-08-08 08:30:39');
-INSERT INTO `pms_sku` VALUES (296, '1213', 73, '117|11', '117_119', 100, 12, 0, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_sku` VALUES (297, '2123', 73, '117|12', '117_120', 200, 123, 0, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_sku` VALUES (298, '3123', 73, '118|11', '118_119', 300, 123, 0, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_sku` VALUES (299, '41244', 73, '118|12', '118_120', 400, 123, 0, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_sku` VALUES (300, '1', 74, 'tid_1_1|tid_2_1|tid_3_', '122_124_126', 100, 97, 17, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_sku` VALUES (301, '2', 74, 'tid_1_1|tid_2_1|tid_3_', '122_124_127', 200, 2, 0, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_sku` VALUES (302, '3', 74, 'tid_1_1|tid_2_2|tid_3_', '122_125_126', 300, 3, 0, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_sku` VALUES (303, '4', 74, 'tid_1_1|tid_2_2|tid_3_', '122_125_127', 400, 4, 0, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_sku` VALUES (304, '5', 74, 'tid_1_2|tid_2_1|tid_3_', '123_124_126', 500, 5, 0, 'http://a.youlai.tech:9000/default/5a57b78ec1bf4bfeb20f7a99907cfaf8.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_sku` VALUES (305, '6', 74, 'tid_1_2|tid_2_1|tid_3_', '123_124_127', 600, 6, 0, 'http://a.youlai.tech:9000/default/5a57b78ec1bf4bfeb20f7a99907cfaf8.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_sku` VALUES (306, '7', 74, 'tid_1_2|tid_2_2|tid_3_', '123_125_126', 700, 7, 0, 'http://a.youlai.tech:9000/default/5a57b78ec1bf4bfeb20f7a99907cfaf8.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_sku` VALUES (307, '8', 74, 'tid_1_2|tid_2_2|tid_3_', '123_125_127', 800, 8, 0, 'http://a.youlai.tech:9000/default/5a57b78ec1bf4bfeb20f7a99907cfaf8.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_sku` VALUES (308, '1', 75, '123 1233 ', '129_131', 100, 1, 0, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
-INSERT INTO `pms_sku` VALUES (309, '2', 75, '123 4+64G ', '129_132', 200, 2, 0, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
-INSERT INTO `pms_sku` VALUES (310, '3', 75, '黑 1233 ', '130_131', 300, 3, 0, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
-INSERT INTO `pms_sku` VALUES (311, '4', 75, '黑 4+64G ', '130_132', 400, 4, 0, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
+INSERT INTO `pms_sku` VALUES (291, 'sn001', 1, '黑 6+128g', '1_3', 399900, 999, 0, 'http://a.youlai.tech:9000/default/6759b824e6d04af69f6f3e55190e7e79.png', '2021-08-08 00:43:26', '2022-03-05 15:01:53');
+INSERT INTO `pms_sku` VALUES (292, 'sn002', 1, '黑 8+256g', '1_4', 499900, 999, 0, 'http://a.youlai.tech:9000/default/6759b824e6d04af69f6f3e55190e7e79.png', '2021-08-08 00:43:26', '2022-03-05 15:01:53');
+INSERT INTO `pms_sku` VALUES (353, 'sn003', 1, '蓝 6+128g', '216_3', 399900, 999, 0, 'http://a.youlai.tech:9000/default/aed7966ff68640f08d110f4fbcd1cdc2.png', '2022-03-05 09:25:53', '2022-03-05 15:01:53');
+INSERT INTO `pms_sku` VALUES (354, 'sn004', 1, '蓝 8+256g', '216_4', 499900, 998, 0, 'http://a.youlai.tech:9000/default/aed7966ff68640f08d110f4fbcd1cdc2.png', '2022-03-05 09:25:53', '2022-03-05 15:01:53');
 
 -- ----------------------------
 -- Table structure for pms_spu
@@ -165,16 +153,12 @@ CREATE TABLE `pms_spu`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_pms_brand`(`brand_id`) USING BTREE,
   INDEX `fk_pms_spu_pms_category`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 76 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 97 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_spu
 -- ----------------------------
-INSERT INTO `pms_spu` VALUES (1, '小米10', 5, 1, 599900, 399900, 1, 'http://a.youlai.tech:9000/default/063350d473a64ee7857e91841add1177.jpg', '[\"https://gitee.com/haoxr/image/raw/master/default/image-20210702002909113.png\", \"https://gitee.com/haoxr/image/raw/master/default/image-20210702002909113.png\"]', '台', '商品简介', '商品详情', 1, NULL, '2021-08-08 00:56:25');
-INSERT INTO `pms_spu` VALUES (72, '手机2号', 5, 1, 100, 200, 0, 'http://a.youlai.tech:9000/default/26afc0d59f094c6d9dff8c2cf8ac1863.jfif', NULL, NULL, '123', NULL, NULL, '2021-08-08 08:30:38', '2021-08-08 08:30:38');
-INSERT INTO `pms_spu` VALUES (73, '123', 5, 1, 12300, 12300, 0, 'http://a.youlai.tech:9000/default/f76fa430756749bab698d3797ca8da04.jfif', '[\"http://a.youlai.tech:9000/default/6813cdaa196d47e8b09436db12323a7f.jpg\"]', NULL, '123', '<p>123</p>', NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_spu` VALUES (74, '123', 5, 1, 12300, 12300, 0, 'http://a.youlai.tech:9000/default/aae526c28c114561b249add9e34922f8.jfif', '[\"http://a.youlai.tech:9000/default/2e317170b2c241c4b4a8d86fe0926f8c.jfif\"]', NULL, '123', '', NULL, '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_spu` VALUES (75, '1', 5, 1, 21300, 12300, 0, 'http://a.youlai.tech:9000/default/1322f05c8ca240e6ada2255c1903e66d.jfif', '[\"http://a.youlai.tech:9000/default/de015e8674e6408a87b01516a746437a.jfif\"]', NULL, '123', NULL, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
+INSERT INTO `pms_spu` VALUES (1, '小米12 PRO', 5, 1, 599900, 599900, 1, 'http://a.youlai.tech:9000/default/1fb5d61cae2c4831a6122ca9ec747624.png', '[\"https://gitee.com/haoxr/image/raw/master/default/image-20210702002909113.png\", \"https://gitee.com/haoxr/image/raw/master/default/image-20210702002909113.png\"]', '台', '好快,好稳,\n好一次强上加强。\n高通全新一代芯片赋能，速度大幅提升。\n三大专业主摄影像加持，能力全面进化。\n大师级设计理念新诠释，质感简而不凡。\n斩获十五项纪录旗舰屏，感官万般出众。', '<p>123123<img src=\"http://a.youlai.tech:9000/default/1a69357664c24962ac23953905c3c38f.png\" alt=\"\" data-href=\"\" style=\"width: 449.00px;height: 449.00px;\"/></p>', 1, NULL, '2022-03-05 15:01:53');
 
 -- ----------------------------
 -- Table structure for pms_spu_attribute_value
@@ -193,18 +177,15 @@ CREATE TABLE `pms_spu_attribute_value`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_attr`(`name`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_spu`(`spu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 133 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性项表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 216 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性项表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_spu_attribute_value
 -- ----------------------------
-INSERT INTO `pms_spu_attribute_value` VALUES (1, 1, 34, '颜色', '黑', 1, 'http://a.youlai.tech:9000/default/fb3f1be8aae644f497255f29aa51c641.jpg', NULL, '2021-08-08 00:56:24');
-INSERT INTO `pms_spu_attribute_value` VALUES (2, 1, 34, '颜色', '白', 1, 'http://a.youlai.tech:9000/default/074dfb3841444a10a7691eac322bb848.jpg', NULL, '2021-08-08 00:56:24');
-INSERT INTO `pms_spu_attribute_value` VALUES (3, 1, 35, '规格', '6+128g', 1, NULL, NULL, '2021-08-08 00:56:24');
-INSERT INTO `pms_spu_attribute_value` VALUES (4, 1, 35, '规格', '8+256g', 1, NULL, NULL, '2021-08-08 00:56:24');
-INSERT INTO `pms_spu_attribute_value` VALUES (5, 1, 36, '上市时间', '2021-07-17', 2, NULL, NULL, '2021-08-08 00:56:24');
-INSERT INTO `pms_spu_attribute_value` VALUES (95, 68, NULL, '上市时间', '123', 2, NULL, '2021-08-07 23:38:24', '2021-08-07 23:38:24');
-INSERT INTO `pms_spu_attribute_value` VALUES (96, 68, NULL, '颜色', '123', 1, NULL, '2021-08-07 23:38:50', '2021-08-07 23:38:50');
+INSERT INTO `pms_spu_attribute_value` VALUES (1, 1, 34, '颜色', '黑', 1, 'http://a.youlai.tech:9000/default/6759b824e6d04af69f6f3e55190e7e79.png', NULL, '2022-03-05 15:01:53');
+INSERT INTO `pms_spu_attribute_value` VALUES (3, 1, 35, '规格', '6+128g', 1, NULL, NULL, '2022-03-05 15:01:53');
+INSERT INTO `pms_spu_attribute_value` VALUES (4, 1, 35, '规格', '8+256g', 1, NULL, NULL, '2022-03-05 15:01:53');
+INSERT INTO `pms_spu_attribute_value` VALUES (5, 1, 36, '上市时间', '2021-07-17', 2, NULL, NULL, '2022-03-05 15:01:53');
 INSERT INTO `pms_spu_attribute_value` VALUES (97, 68, NULL, '颜色', '4123', 1, NULL, '2021-08-07 23:38:50', '2021-08-07 23:38:50');
 INSERT INTO `pms_spu_attribute_value` VALUES (98, 68, NULL, '规格', '456', 1, NULL, '2021-08-07 23:38:50', '2021-08-07 23:38:50');
 INSERT INTO `pms_spu_attribute_value` VALUES (99, 68, NULL, '规格', '123', 1, NULL, '2021-08-07 23:38:50', '2021-08-07 23:38:50');
@@ -213,26 +194,7 @@ INSERT INTO `pms_spu_attribute_value` VALUES (101, 69, NULL, '颜色', '123', 1,
 INSERT INTO `pms_spu_attribute_value` VALUES (102, 69, NULL, '颜色', '4123', 1, NULL, '2021-08-07 23:41:44', '2021-08-07 23:41:44');
 INSERT INTO `pms_spu_attribute_value` VALUES (103, 69, NULL, '规格', '456', 1, NULL, '2021-08-07 23:41:44', '2021-08-07 23:41:44');
 INSERT INTO `pms_spu_attribute_value` VALUES (104, 69, NULL, '规格', '123', 1, NULL, '2021-08-07 23:41:45', '2021-08-07 23:41:45');
-INSERT INTO `pms_spu_attribute_value` VALUES (113, 72, NULL, '上市时间', '12313', 2, NULL, '2021-08-08 08:30:38', '2021-08-08 08:30:38');
-INSERT INTO `pms_spu_attribute_value` VALUES (114, 72, NULL, '颜色', '123', 1, 'http://a.youlai.tech:9000/default/afdbd92d2f4f467ab87379cc1efcb504.jpg', '2021-08-08 08:30:38', '2021-08-08 08:30:38');
-INSERT INTO `pms_spu_attribute_value` VALUES (115, 72, NULL, '规格', '123', 1, NULL, '2021-08-08 08:30:38', '2021-08-08 08:30:38');
-INSERT INTO `pms_spu_attribute_value` VALUES (116, 73, NULL, '上市时间', '123', 2, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_spu_attribute_value` VALUES (117, 73, NULL, '颜色', '白', 1, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_spu_attribute_value` VALUES (118, 73, NULL, '颜色', '黑', 1, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_spu_attribute_value` VALUES (119, 73, NULL, '规格', '搜索', 1, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_spu_attribute_value` VALUES (120, 73, NULL, '规格', '水电费', 1, NULL, '2021-08-08 11:28:50', '2021-08-08 11:29:49');
-INSERT INTO `pms_spu_attribute_value` VALUES (121, 74, NULL, '上市时间', '112', 2, NULL, '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_spu_attribute_value` VALUES (122, 74, NULL, '颜色', '123', 1, 'http://a.youlai.tech:9000/default/852f076dd41d4e199c969289838149fa.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_spu_attribute_value` VALUES (123, 74, NULL, '颜色', '132', 1, 'http://a.youlai.tech:9000/default/5a57b78ec1bf4bfeb20f7a99907cfaf8.jpg', '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_spu_attribute_value` VALUES (124, 74, NULL, '规格', 'sdf', 1, NULL, '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_spu_attribute_value` VALUES (125, 74, NULL, '规格', '123', 1, NULL, '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_spu_attribute_value` VALUES (126, 74, NULL, '1223123', '123', 1, NULL, '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_spu_attribute_value` VALUES (127, 74, NULL, '1223123', '123444', 1, NULL, '2021-08-09 22:24:46', '2021-08-09 22:24:46');
-INSERT INTO `pms_spu_attribute_value` VALUES (128, 75, NULL, '上市时间', '123', 2, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
-INSERT INTO `pms_spu_attribute_value` VALUES (129, 75, NULL, '颜色', '123', 1, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
-INSERT INTO `pms_spu_attribute_value` VALUES (130, 75, NULL, '颜色', '黑', 1, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
-INSERT INTO `pms_spu_attribute_value` VALUES (131, 75, NULL, '规格', '1233', 1, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
-INSERT INTO `pms_spu_attribute_value` VALUES (132, 75, NULL, '规格', '4+64G', 1, NULL, '2021-08-09 22:40:20', '2021-08-09 22:40:20');
+INSERT INTO `pms_spu_attribute_value` VALUES (216, 1, NULL, '颜色', '蓝', 1, 'http://a.youlai.tech:9000/default/aed7966ff68640f08d110f4fbcd1cdc2.png', '2022-03-05 09:25:53', '2022-03-05 15:01:53');
 
 -- ----------------------------
 -- Table structure for undo_log
@@ -249,8 +211,5 @@ CREATE TABLE `undo_log`  (
   UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'AT transaction mode undo table' ROW_FORMAT = DYNAMIC;
 
--- ----------------------------
--- Records of undo_log
--- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
