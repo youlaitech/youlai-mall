@@ -1,10 +1,7 @@
 package com.youlai.laboratory.spring;
 
 import com.google.common.base.Objects;
-import com.youlai.laboratory.spring.beanDefinition.BeanA;
-import com.youlai.laboratory.spring.beanDefinition.BeanB;
-import com.youlai.laboratory.spring.beanDefinition.ImportBean;
-import com.youlai.laboratory.spring.beanDefinition.Property;
+import com.youlai.laboratory.spring.beanDefinition.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -151,6 +148,15 @@ public class BeanDefinition {
         Bean profile = context.getBean("profile", Bean.class);
     }
 
+    /**
+     * 自定义xml标签
+     */
+    @Test
+    void parseXml(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:META-INF/youlai-user.xml");
+        User user = applicationContext.getBean("userBean", User.class);
+        System.out.println(user);
+    }
 
 
 
