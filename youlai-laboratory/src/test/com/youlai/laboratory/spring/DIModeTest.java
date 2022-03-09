@@ -6,7 +6,6 @@ import com.youlai.laboratory.spring.DI.ByNameService;
 import com.youlai.laboratory.spring.DI.ByTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @Date 2022/2/19 0019 18:00
  */
 @Slf4j
-@SpringBootTest
 public class DIModeTest {
 
     @Test

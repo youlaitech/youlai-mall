@@ -5,7 +5,6 @@ import com.youlai.laboratory.spring.beanDefinition.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:2256222053@qq.com">zc</a>
  * @Date 2022/2/21 0021 7:02
  */
-@SpringBootTest
 public class BeanDefinition {
 
     @Autowired
@@ -157,6 +155,8 @@ public class BeanDefinition {
         User user = applicationContext.getBean("userBean", User.class);
         System.out.println(user);
     }
+
+
 
 
 

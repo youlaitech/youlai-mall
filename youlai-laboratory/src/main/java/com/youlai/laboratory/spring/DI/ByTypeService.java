@@ -19,4 +19,9 @@ public class ByTypeService {
                 '}';
     }
 
+    //需要提供set方法，且命名为setXxx
+    public void setBean(Bean bean) {
+        this.bean = bean;
+    }
+
 }

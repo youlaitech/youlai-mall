@@ -3,7 +3,6 @@ package com.youlai.laboratory.spring;
 import com.youlai.laboratory.spring.DI.ConstructorService;
 import com.youlai.laboratory.spring.DI.SetterService;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @author <a href="mailto:2256222053@qq.com">zc</a>
  * @Date 2022/2/18 0018 21:04
  */
-@SpringBootTest
 public class DITypeTests {
 
 
