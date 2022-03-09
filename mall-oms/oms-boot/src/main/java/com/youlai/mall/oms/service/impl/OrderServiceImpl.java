@@ -158,42 +158,47 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Long execute = this.redisTemplate.execute(redisScript, Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);
         Assert.isTrue(execute.equals(1l), "订单不可重复提交");
 
-        // 订单验价
-        Long orderTotalAmount = orderSubmitForm.getTotalAmount();
-        boolean checkResult = this.checkOrderPrice(orderTotalAmount, orderItems);
-        Assert.isTrue(checkResult, "当前页面已过期，请重新刷新页面再提交");
+        OmsOrder order;
+        try {
+            // 订单验价
+            Long orderTotalAmount = orderSubmitForm.getTotalAmount();
+            boolean checkResult = this.checkOrderPrice(orderTotalAmount, orderItems);
+            Assert.isTrue(checkResult, "当前页面已过期，请重新刷新页面再提交");
 
-        // 锁定商品库存
-        this.lockStock(orderToken, orderItems);
+            // 锁定商品库存
+            this.lockStock(orderToken, orderItems);
 
-        // 创建订单
-        OmsOrder order = new OmsOrder().setOrderSn(orderToken) // 把orderToken赋值给订单编号
-                .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
-                .setSourceType(OrderTypeEnum.APP.getCode())
-                .setMemberId(MemberUtils.getMemberId())
-                .setRemark(orderSubmitForm.getRemark())
-                .setPayAmount(orderSubmitForm.getPayAmount())
-                .setTotalQuantity(orderItems.stream().map(OrderItemDTO::getCount).reduce(0, Integer::sum))
-                .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum));
-        boolean result = this.save(order);
+            // 创建订单
+            order = new OmsOrder().setOrderSn(orderToken) // 把orderToken赋值给订单编号
+                    .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode())
+                    .setSourceType(OrderTypeEnum.APP.getCode())
+                    .setMemberId(MemberUtils.getMemberId())
+                    .setRemark(orderSubmitForm.getRemark())
+                    .setPayAmount(orderSubmitForm.getPayAmount())
+                    .setTotalQuantity(orderItems.stream().map(OrderItemDTO::getCount).reduce(0, Integer::sum))
+                    .setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum));
+            boolean result = this.save(order);
 
-        // 添加订单明细
-        if (result) {
-            List<OmsOrderItem> saveOrderItems = orderItems.stream().map(orderFormItem -> {
-                OmsOrderItem omsOrderItem = new OmsOrderItem();
-                BeanUtil.copyProperties(orderFormItem, omsOrderItem);
-                omsOrderItem.setOrderId(order.getId());
-                omsOrderItem.setTotalAmount(orderFormItem.getPrice() * orderFormItem.getCount());
-                return omsOrderItem;
-            }).collect(Collectors.toList());
-            result = orderItemService.saveBatch(saveOrderItems);
+            // 添加订单明细
             if (result) {
-                // 订单超时取消
-                rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
+                List<OmsOrderItem> saveOrderItems = orderItems.stream().map(orderFormItem -> {
+                    OmsOrderItem omsOrderItem = new OmsOrderItem();
+                    BeanUtil.copyProperties(orderFormItem, omsOrderItem);
+                    omsOrderItem.setOrderId(order.getId());
+                    omsOrderItem.setTotalAmount(orderFormItem.getPrice() * orderFormItem.getCount());
+                    return omsOrderItem;
+                }).collect(Collectors.toList());
+                result = orderItemService.saveBatch(saveOrderItems);
+                if (result) {
+                    // 订单超时取消
+                    rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
+                }
             }
+            Assert.isTrue(result, "订单提交失败");
+        } catch (Exception e) {
+            redisTemplate.opsForValue().set(ORDER_TOKEN_PREFIX + orderToken, orderToken);
+            throw new BizException(e);
         }
-        Assert.isTrue(result, "订单提交失败");
-
         // 成功响应返回值构建
         OrderSubmitVO submitVO = new OrderSubmitVO();
         submitVO.setOrderId(order.getId());
