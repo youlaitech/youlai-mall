@@ -1,0 +1,41 @@
+` 有来 spring bean的加载
+@startuml
+autonumber
+'https://plantuml.com/sequence-diagram
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+skinparam responseMessageBelowArrow true
+header 有来 Spring bean的加载
+
+actor 客户端
+
+客户端 -> AnnotationConfigApplicationContext:new AnnotationConfigApplicationContext(Config2.class)
+AnnotationConfigApplicationContext->AbstractApplicationContext:refresh()
+AbstractApplicationContext->AbstractApplicationContext:finishBeanFactoryInitialization(beanFactory)
+AbstractApplicationContext->DefaultListableBeanFactory:preInstantiateSingletons()
+DefaultListableBeanFactory->AbstractBeanFactory:getBean(beanName)
+
+AbstractBeanFactory->AbstractBeanFactory:doGetBean(name, null, null, false)
+
+note right of AbstractBeanFactory
+转换对应beanName
+从缓存中加载单例
+bean的实例化
+原型模式的依赖检查
+检测parentBeanFactory
+将存储XML配置文件的GernericBeanDefinition转换为RootBeanDefinition
+寻找依赖
+针对不同scope进行bean的创建
+类型转换
+end note
+AbstractBeanFactory-> DefaultListableBeanFactory:getSingleton(String beanName, ObjectFactory<?> singletonFactory)
+
+DefaultListableBeanFactory->ObjectFactory:getObject()
+ObjectFactory->AbstractBeanFactory:createBean(beanName, mbd, args)
+AbstractBeanFactory->AbstractAutowireCapableBeanFactory:createBean(beanName, mbd, args)
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:doCreateBean(beanName, mbdToUse, args);
+
+
+
+客户端 <--AnnotationConfigApplicationContext
+@enduml
