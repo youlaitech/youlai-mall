@@ -29,7 +29,11 @@ bean的实例化
 类型转换
 end note
 AbstractBeanFactory-> DefaultListableBeanFactory:getSingleton(String beanName, ObjectFactory<?> singletonFactory)
-
+note right of DefaultListableBeanFactory
+先从singletonObjects里面获取实例
+singletonFactory里面没有再从earlySingleton里面获取
+earlySingleton里面也没有则从singletonFactories里面获取
+end note
 DefaultListableBeanFactory->ObjectFactory:getObject()
 ObjectFactory->AbstractBeanFactory:createBean(beanName, mbd, args)
 AbstractBeanFactory->AbstractAutowireCapableBeanFactory:createBean(beanName, mbd, args)
