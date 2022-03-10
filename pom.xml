@@ -40,6 +40,7 @@
         <java.version>1.8</java.version>
         <lombok.version>1.18.18</lombok.version>
         <hutool.version>5.5.8</hutool.version>
+        <jasypt.version>3.0.4</jasypt.version>
         <mysql.version>8.0.19</mysql.version>
         <druid.version>1.2.4</druid.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
@@ -72,7 +73,13 @@
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-
+        <!-- jasypt加密 -->
+        <!-- https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt.version}</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
