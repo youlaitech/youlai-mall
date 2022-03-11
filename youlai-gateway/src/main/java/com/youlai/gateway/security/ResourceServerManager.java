@@ -75,7 +75,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
             String perm = permRoles.getKey();
             if (pathMatcher.match(perm, restfulPath)) {
                 List<String> roles = Convert.toList(String.class, permRoles.getValue());
-                authorizedRoles.addAll(Convert.toList(String.class, roles));
+                authorizedRoles.addAll(roles);
                 if (requireCheck == false) {
                     requireCheck = true;
                 }
