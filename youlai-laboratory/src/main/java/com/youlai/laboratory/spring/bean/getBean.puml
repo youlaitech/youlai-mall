@@ -36,10 +36,63 @@ earlySingleton里面也没有则从singletonFactories里面获取
 end note
 DefaultListableBeanFactory->ObjectFactory:getObject()
 ObjectFactory->AbstractBeanFactory:createBean(beanName, mbd, args)
-AbstractBeanFactory->AbstractAutowireCapableBeanFactory:createBean(beanName, mbd, args)
-AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:doCreateBean(beanName, mbdToUse, args);
+AbstractBeanFactory->AbstractAutowireCapableBeanFactory:准备创建bean\ncreateBean(beanName, mbd, args)
+note right of AbstractBeanFactory
+设置class属性或者根据className来解析Class
+对override属性进行标记以及验证
+应用初始化前的后置处理，解析指定bean是否存在初始化前的短路操作
+创建bean
+end note
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:创建bean\ndoCreateBean(beanName, mbdToUse, args);
+note right of AbstractAutowireCapableBeanFactory
+如果是单例则清除缓存
+创建bean实例,根据bean使用对应策略创建新的实例,如工厂方法，指定参数的构造函数,默认的无参构造函数
+bean的合并,预解析Autowired等注解
+如果当前bean是单例且当前容器支持循环依赖且正在创建则添加进singletonFactories和registeredSingletons
+属性填充
+循环依赖检查
+注册DisposableBean
+完成创建并返回
+end note
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:创建bean的实例\ncreateBeanInstance
+note right of AbstractAutowireCapableBeanFactory
+如果Supplier存在,则使用Supplier的get方法
+如果工厂方法不为空则使用工厂方法
+如果存在多个构造函数则推断出合适的一个函数
+如果上述情况都不是则使用无参构造函数
+end note
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:使用无参构造函数实例化Bean\ninstantiateBean(beanName, mbd)
+AbstractAutowireCapableBeanFactory->SimpleInstantiationStrategy:实例化bean\ninstantiate(mbd, beanName, this);
+note right of AbstractAutowireCapableBeanFactory
+如果没有使用replace或者lookup则使用反射,有则使用cjlib
+end note
+
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:属性填充\npopulateBean(beanName, mbd, instanceWrapper);
+note right of AbstractAutowireCapableBeanFactory
+先通过postProcessAfterInstantiation函数判断是否需要属性填充
+根据名称自定注入
+根据类型自动注入
+end note
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:初始化\ninitializeBean(beanName, exposedObject, mbd)
+note right of AbstractAutowireCapableBeanFactory
+
+end note
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:注册DisposableBean
 
 
+
+AbstractAutowireCapableBeanFactory->AbstractBeanFactory:Object beanInstance
+
+AbstractBeanFactory->ObjectFactory:Object singletonObject
+
+ObjectFactory->AbstractAutowireCapableBeanFactory:sharedInstance
+
+AbstractAutowireCapableBeanFactory->AbstractBeanFactory:sharedInstance
+AbstractBeanFactory->DefaultSingletonBeanRegistry:sharedInstance
+DefaultSingletonBeanRegistry->AbstractBeanFactory:sharedInstance
+AbstractBeanFactory->AbstractBeanFactory:adaptBeanInstance(name, beanInstance, requiredType);
+AbstractBeanFactory->AbstractApplicationContext
+AbstractApplicationContext->AnnotationConfigApplicationContext
 
 客户端 <--AnnotationConfigApplicationContext
 @enduml
