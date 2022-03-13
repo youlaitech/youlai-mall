@@ -11,7 +11,21 @@ actor 客户端
 
 客户端 -> AnnotationConfigApplicationContext:new AnnotationConfigApplicationContext(Config2.class)
 AnnotationConfigApplicationContext->AbstractApplicationContext:refresh()
-AbstractApplicationContext->AbstractApplicationContext:finishBeanFactoryInitialization(beanFactory)
+note right of AnnotationConfigApplicationContext
+初始化前的准备工作(读系统属性和环境变量进行准备和验证)
+初始化BeanFactory并进行xml读取,注册beanDefinition
+对BeanFaction进行各种功能填充,如@Qualifier和@Autowired
+子类覆盖方法做额外的处理
+激活各种BeanFactory处理器
+注册拦截bean创建的bean处理器
+初始化上下文Message资源
+初始化应用消息广播器,放入applicationEventMulticaster中
+留给子类初始化其他bean
+在所有注册的bean中查找listener bean,注册到消息广播器中
+初始化剩下的单例bean
+完成刷新过程,通知生命周期处理器lifecycleProcessor刷新过程,同时发出Context RefreshEvent通知
+end note
+AbstractApplicationContext->AbstractApplicationContext:finishBeanFactoryInitialization(beanFactory)\n初始化剩下的单例bean
 AbstractApplicationContext->DefaultListableBeanFactory:preInstantiateSingletons()
 DefaultListableBeanFactory->AbstractBeanFactory:getBean(beanName)
 
