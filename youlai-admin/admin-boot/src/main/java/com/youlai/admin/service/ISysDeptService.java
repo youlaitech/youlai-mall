@@ -3,12 +3,12 @@ package com.youlai.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
-import com.youlai.admin.pojo.vo.IdLabelVO;
+import com.youlai.common.web.vo.OptionVO;
 
 import java.util.List;
 
 /**
- * 菜单控制器
+ * 菜单路由业务接口
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021-08-22
@@ -21,14 +21,14 @@ public interface ISysDeptService extends IService<SysDept> {
      * @param name
      * @return
      */
-    List<DeptVO> listTable(Integer status, String name);
+    List<DeptVO> listTableDepartments(Integer status, String name);
 
     /**
      * 部门树形下拉（TreeSelect）层级列表
      *
      * @return
      */
-    List<IdLabelVO> listTreeSelect();
+    List<OptionVO> listTreeSelectDepartments();
 
     /**
      * 新增/修改部门

@@ -2,9 +2,9 @@ package com.youlai.admin.controller;
 
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
-import com.youlai.admin.pojo.vo.IdLabelVO;
 import com.youlai.admin.service.ISysDeptService;
 import com.youlai.common.result.Result;
+import com.youlai.common.web.vo.OptionVO;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,22 +25,25 @@ public class DeptController {
 
     private final ISysDeptService deptService;
 
-    @ApiOperation(value = "部门表格（Table）层级列表")
+    @ApiOperation(value = "部门表格(Table)列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "部门名称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "status", value = "部门状态", paramType = "query", dataType = "Long"),
     })
     @GetMapping("/table")
-    public Result listDeptWithTable(Integer status, String name) {
-        List<DeptVO> deptTableList = deptService.listTable(status, name);
-        return Result.success(deptTableList);
+    public Result listTableDepartments(
+            Integer status,
+            String name
+    ) {
+        List<DeptVO> list = deptService.listTableDepartments(status, name);
+        return Result.success(list);
     }
 
-    @ApiOperation(value = "部门下拉（TreeSelect）层级列表")
+    @ApiOperation(value = "部门树形下拉(TreeSelect)列表")
     @GetMapping("/select")
-    public Result listDeptWithSelect() {
-        List<IdLabelVO> deptSelectList = deptService.listTreeSelect();
-        return Result.success(deptSelectList);
+    public Result listTreeSelectDepartments() {
+        List<OptionVO> list = deptService.listTreeSelectDepartments();
+        return Result.success(list);
     }
 
     @ApiOperation(value = "部门详情")

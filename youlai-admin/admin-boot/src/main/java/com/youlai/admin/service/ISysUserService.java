@@ -22,7 +22,7 @@ public interface ISysUserService extends IService<SysUser> {
      *
      * @return
      */
-    IPage<UserPageVO> listUsersWithPage(UserPageQuery queryParams);
+    IPage<UserPageVO> listUserPages(UserPageQuery queryParams);
 
     /**
      * 新增用户

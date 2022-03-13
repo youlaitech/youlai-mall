@@ -19,7 +19,7 @@ public class SysDictItem extends BaseEntity {
 
     private String dictCode;
 
-    private String sort;
+    private Integer sort;
 
     private Integer status;
 

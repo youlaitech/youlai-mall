@@ -9,13 +9,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.constant.SystemConstants;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.vo.*;
 import com.youlai.admin.pojo.vo.menu.MenuVO;
 import com.youlai.admin.pojo.vo.menu.NextRouteVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.web.vo.OptionVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -44,7 +44,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     @Override
-    public List<MenuVO> listTable(String name) {
+    public List<MenuVO> listTableMenus(String name) {
         List<SysMenu> menuList = this.list(
                 new LambdaQueryWrapper<SysMenu>()
                         .like(StrUtil.isNotBlank(name), SysMenu::getName, name)
@@ -118,9 +118,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     @Override
-    public List<ValueLabelVO> listSelect() {
+    public List<OptionVO> listSelectMenus() {
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
-        List<ValueLabelVO> menuSelectList = recursionSelectList(SystemConstants.ROOT_MENU_ID, menuList);
+        List<OptionVO> menuSelectList = recursionSelectList(SystemConstants.ROOT_MENU_ID, menuList);
         return menuSelectList;
     }
 
@@ -132,25 +132,25 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList 菜单列表
      * @return
      */
-    private static List<ValueLabelVO> recursionSelectList(Long parentId, List<SysMenu> menuList) {
-        List<ValueLabelVO> menuSelectList = new ArrayList<>();
+    private static List<OptionVO> recursionSelectList(Long parentId, List<SysMenu> menuList) {
+        List<OptionVO> menuSelectList = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .forEach(menu -> {
-                    ValueLabelVO valueLabelVO = new ValueLabelVO(menu.getId(), menu.getName());
-                    List<ValueLabelVO> children = recursionSelectList(menu.getId(), menuList);
+                    OptionVO optionVO = new OptionVO(menu.getId(), menu.getName());
+                    List<OptionVO> children = recursionSelectList(menu.getId(), menuList);
                     if (CollectionUtil.isNotEmpty(children)) {
-                        valueLabelVO.setChildren(children);
+                        optionVO.setChildren(children);
                     }
-                    menuSelectList.add(valueLabelVO);
+                    menuSelectList.add(optionVO);
                 });
         return menuSelectList;
     }
 
 
     /**
-     * 菜单路由（Route）层级列表
+     * 菜单路由(Route)列表
      * <p>
      * 读多写少，缓存至Redis
      *
@@ -159,7 +159,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     @Cacheable(cacheNames = "system", key = "'routes'")
-    public List<RouteVO> listRoute() {
+    public List<RouteVO> listRouteMenus() {
         List<SysMenu> menuList = this.baseMapper.listRoutes();
         List<RouteVO> list = recursionRoute(SystemConstants.ROOT_MENU_ID, menuList);
         return list;
@@ -198,17 +198,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     }
 
-    /**
-     * 菜单下拉（TreeSelect）层级列表
-     *
-     * @return
-     */
-    @Override
-    public List<IdLabelVO> listTreeSelect() {
-        List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
-        List<IdLabelVO> menuSelectList = recursionTreeSelectList(SystemConstants.ROOT_MENU_ID, menuList);
-        return menuSelectList;
-    }
 
     /**
      * 新增菜单
@@ -263,29 +252,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             permissionService.refreshPermRolesRules();
         }
         return result;
-    }
-
-    /**
-     * 递归生成菜单下拉(TreeSelect)层级列表
-     *
-     * @param parentId 父级ID
-     * @param menuList 菜单列表
-     * @return
-     */
-    private static List<IdLabelVO> recursionTreeSelectList(Long parentId, List<SysMenu> menuList) {
-        List<IdLabelVO> menuSelectList = new ArrayList<>();
-        Optional.ofNullable(menuList).orElse(new ArrayList<>())
-                .stream()
-                .filter(menu -> menu.getParentId().equals(parentId))
-                .forEach(menu -> {
-                    IdLabelVO idLabelVO = new IdLabelVO(menu.getId(), menu.getName());
-                    List<IdLabelVO> children = recursionTreeSelectList(menu.getId(), menuList);
-                    if (CollectionUtil.isNotEmpty(children)) {
-                        idLabelVO.setChildren(children);
-                    }
-                    menuSelectList.add(idLabelVO);
-                });
-        return menuSelectList;
     }
 
 

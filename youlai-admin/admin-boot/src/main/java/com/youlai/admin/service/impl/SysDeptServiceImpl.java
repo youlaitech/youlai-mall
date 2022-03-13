@@ -10,11 +10,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.constant.SystemConstants;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.pojo.entity.SysDept;
-import com.youlai.admin.pojo.vo.IdLabelVO;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.service.ISysDeptService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.web.vo.OptionVO;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @return
      */
     @Override
-    public List<DeptVO> listTable(Integer status, String name) {
+    public List<DeptVO> listTableDepartments(Integer status, String name) {
         List<SysDept> deptList = this.list(
                 new LambdaQueryWrapper<SysDept>()
                         .like(StrUtil.isNotBlank(name), SysDept::getName, name)
@@ -114,12 +114,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @return
      */
     @Override
-    public List<IdLabelVO> listTreeSelect() {
+    public List<OptionVO> listTreeSelectDepartments() {
         List<SysDept> deptList = this.list(new LambdaQueryWrapper<SysDept>()
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)
         );
-        List<IdLabelVO> deptSelectList = recursionTreeSelectList( SystemConstants.ROOT_DEPT_ID, deptList);
+        List<OptionVO> deptSelectList = recursionTreeSelectList(SystemConstants.ROOT_DEPT_ID, deptList);
         return deptSelectList;
     }
 
@@ -131,18 +131,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @param deptList
      * @return
      */
-    public static List<IdLabelVO> recursionTreeSelectList(long parentId, List<SysDept> deptList) {
-        List<IdLabelVO> deptTreeSelectList = new ArrayList<>();
+    public static List<OptionVO> recursionTreeSelectList(long parentId, List<SysDept> deptList) {
+        List<OptionVO> deptTreeSelectList = new ArrayList<>();
         Optional.ofNullable(deptList).orElse(new ArrayList<>())
                 .stream()
                 .filter(dept -> dept.getParentId().equals(parentId))
                 .forEach(dept -> {
-                    IdLabelVO idLabelVO = new IdLabelVO(dept.getId(), dept.getName());
-                    List<IdLabelVO> children = recursionTreeSelectList(dept.getId(), deptList);
+                    OptionVO optionVO = new OptionVO(dept.getId(), dept.getName());
+                    List<OptionVO> children = recursionTreeSelectList(dept.getId(), deptList);
                     if (CollectionUtil.isNotEmpty(children)) {
-                        idLabelVO.setChildren(children);
+                        optionVO.setChildren(children);
                     }
-                    deptTreeSelectList.add(idLabelVO);
+                    deptTreeSelectList.add(optionVO);
                 });
         return deptTreeSelectList;
     }

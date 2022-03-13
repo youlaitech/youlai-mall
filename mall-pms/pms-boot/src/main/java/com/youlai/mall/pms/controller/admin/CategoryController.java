@@ -44,8 +44,8 @@ public class CategoryController {
 
     @ApiOperation(value = "商品分类级联列表")
     @GetMapping("/cascade")
-    public Result listCascadeCategory() {
-        List list = iPmsCategoryService.listCascadeCategory();
+    public Result listCascadeCategories() {
+        List list = iPmsCategoryService.listCascadeCategories();
         return Result.success(list);
     }
 

@@ -29,7 +29,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return
      */
     @DataPermission(deptAlias = "d")
-    List<UserPageVO> listUsersWithPage(Page<UserPageVO> pageParam, UserPageQuery queryParams);
+    List<UserPageVO> listUserPages(Page<UserPageVO> pageParam, UserPageQuery queryParams);
 
     /**
      * 根据用户ID获取用户详情

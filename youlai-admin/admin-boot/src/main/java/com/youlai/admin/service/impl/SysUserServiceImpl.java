@@ -43,9 +43,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public IPage<UserPageVO> listUsersWithPage(UserPageQuery queryParams) {
+    public IPage<UserPageVO> listUserPages(UserPageQuery queryParams) {
         Page<UserPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<UserPageVO> list = this.baseMapper.listUsersWithPage(page, queryParams);
+        List<UserPageVO> list = this.baseMapper.listUserPages(page, queryParams);
         page.setRecords(list);
         return page;
     }

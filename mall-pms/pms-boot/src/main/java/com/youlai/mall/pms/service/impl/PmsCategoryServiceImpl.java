@@ -4,13 +4,12 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.web.vo.OptionVO;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
-import com.youlai.common.domain.ValueLabel;
 import com.youlai.mall.pms.service.IPmsCategoryService;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -69,28 +68,26 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
      * @return
      */
     @Override
-    public List<ValueLabel> listCascadeCategory() {
+    public List<OptionVO> listCascadeCategories() {
         List<PmsCategory> categoryList = this.list(
                 new LambdaQueryWrapper<PmsCategory>()
                         .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)
                         .orderByAsc(PmsCategory::getSort)
         );
-        List<ValueLabel> list = recursionCascade(0l, categoryList);
+        List<OptionVO> list = recursionCascade(0l, categoryList);
         return list;
     }
 
-    private List<ValueLabel> recursionCascade(Long parentId, List<PmsCategory> categoryList) {
-        List<ValueLabel> list = new ArrayList<>();
+    private List<OptionVO> recursionCascade(Long parentId, List<PmsCategory> categoryList) {
+        List<OptionVO> list = new ArrayList<>();
         Optional.ofNullable(categoryList)
                 .ifPresent(categories ->
                         categories.stream().filter(category ->
                                 category.getParentId().equals(parentId))
                                 .forEach(category -> {
-                                    ValueLabel categoryVO = new ValueLabel()
-                                            .setLabel(category.getName())
-                                            .setValue(category.getId());
+                                    OptionVO categoryVO = new OptionVO<>(category.getId(), category.getName());
                                     BeanUtil.copyProperties(category, categoryVO);
-                                    List<ValueLabel> children = recursionCascade(category.getId(), categoryList);
+                                    List<OptionVO> children = recursionCascade(category.getId(), categoryList);
                                     categoryVO.setChildren(children);
                                     list.add(categoryVO);
                                 })
