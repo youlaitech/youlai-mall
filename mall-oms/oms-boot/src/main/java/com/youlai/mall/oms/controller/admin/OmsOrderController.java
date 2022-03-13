@@ -40,8 +40,8 @@ public class OmsOrderController {
 
     @ApiOperation("订单分页列表")
     @GetMapping
-    public PageResult listOrdersWithPage(OrderPageQuery queryParams) {
-        IPage<OmsOrder> result = orderService.listOrdersWithPage(queryParams);
+    public PageResult listOrderPages(OrderPageQuery queryParams) {
+        IPage<OmsOrder> result = orderService.listOrderPages(queryParams);
         return PageResult.success(result);
     }
 

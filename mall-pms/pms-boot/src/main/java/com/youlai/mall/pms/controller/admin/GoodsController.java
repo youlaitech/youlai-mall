@@ -7,7 +7,7 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
-import com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO;
+import com.youlai.mall.pms.pojo.vo.PmsGoodsDetailVO;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
@@ -47,7 +47,7 @@ public class GoodsController {
     public Result detail(
             @ApiParam("商品ID") @PathVariable Long id
     ) {
-        GoodsDetailVO goodsDetail = iPmsSpuService.getGoodsById(id);
+        PmsGoodsDetailVO goodsDetail = iPmsSpuService.getGoodsById(id);
         return Result.success(goodsDetail);
     }
 
@@ -75,7 +75,9 @@ public class GoodsController {
     public Result delete(
             @ApiParam("id集合,以英文逗号(,)分隔") @PathVariable String ids
     ) {
-        boolean result = iPmsSpuService.removeByGoodsIds(Arrays.asList(ids.split(",")).stream().map(id -> Long.parseLong(id)).collect(Collectors.toList()));
+        boolean result = iPmsSpuService.removeByGoodsIds(Arrays.asList(ids.split(","))
+                .stream().map(id -> Long.parseLong(id))
+                .collect(Collectors.toList()));
         return Result.judge(result);
     }
 

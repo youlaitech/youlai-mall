@@ -102,9 +102,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * @return
      */
     @Override
-    public IPage<OmsOrder> listOrdersWithPage(OrderPageQuery queryParams) {
+    public IPage<OmsOrder> listOrderPages(OrderPageQuery queryParams) {
         Page<OmsOrder> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<OmsOrder> list = this.baseMapper.listOrdersWithPage(page, queryParams);
+        List<OmsOrder> list = this.baseMapper.listOrderPages(page, queryParams);
         page.setRecords(list);
         return page;
     }

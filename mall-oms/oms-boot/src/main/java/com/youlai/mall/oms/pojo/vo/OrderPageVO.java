@@ -53,7 +53,9 @@ public class OrderPageVO {
 
         private Integer count;
 
-        private Long total_amount;
+        private Long totalAmount;
+
+        private String spuName;
 
     }
 

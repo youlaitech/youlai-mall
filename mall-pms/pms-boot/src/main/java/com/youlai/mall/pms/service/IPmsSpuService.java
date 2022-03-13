@@ -8,6 +8,7 @@ import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
 import com.youlai.mall.pms.pojo.vo.GoodsDetailVO;
 import com.youlai.mall.pms.pojo.vo.GoodsPageVO;
+import com.youlai.mall.pms.pojo.vo.PmsGoodsDetailVO;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public interface IPmsSpuService extends IService<PmsSpu> {
      * @param id
      * @return
      */
-    com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO getGoodsById(Long id);
+    PmsGoodsDetailVO getGoodsById(Long id);
 
 
     IPage<PmsSpu> list(Page<PmsSpu> page,  String name,Long categoryId);
