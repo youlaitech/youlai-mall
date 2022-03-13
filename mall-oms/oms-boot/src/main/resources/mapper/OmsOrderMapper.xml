@@ -16,22 +16,23 @@
         <result property="gmtCreate" column="gmt_create" jdbcType="VARCHAR"/>
         <result property="memberId" column="member_id" jdbcType="BIGINT"/>
         <result property="sourceType" column="source_type" jdbcType="TINYINT"/>
-        <collection property="orderItems" column="id" select="com.youlai.mall.oms.mapper.OrderItemMapper.listOrderItemsByOrderId">
+        <collection property="orderItems"
+                    column="id" select="com.youlai.mall.oms.mapper.OrderItemMapper.listOrderItemsByOrderId">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="orderId" column="order_id" jdbcType="BIGINT"/>
             <result property="skuId" column="sku_id" jdbcType="BIGINT"/>
             <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
-            <result property="skuPic" column="sku_pic" jdbcType="VARCHAR"/>
-            <result property="skuPrice" column="sku_price" jdbcType="BIGINT"/>
-            <result property="skuQuantity" column="sku_quantity" jdbcType="INTEGER"/>
-            <result property="skuTotalPrice" column="sku_total_price" jdbcType="BIGINT"/>
+            <result property="picUrl" column="sku_pic" jdbcType="VARCHAR"/>
+            <result property="price" column="sku_price" jdbcType="BIGINT"/>
+            <result property="count" column="sku_quantity" jdbcType="INTEGER"/>
+            <result property="totalAmount" column="sku_total_price" jdbcType="BIGINT"/>
             <result property="spuName" column="spu_name" jdbcType="VARCHAR"/>
         </collection>
     </resultMap>
 
 
     <!-- 订单分页列表 -->
-    <select id="listOrdersWithPage" resultMap="OrderPageMap">
+    <select id="listOrderPages" resultMap="OrderPageMap">
 
         SELECT
                id,
