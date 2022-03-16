@@ -1,0 +1,46 @@
+pipeline { // 直接上k8s，用k8s起docker来扫描代码
+    agent {
+        node {
+            label "maven"
+        }
+    }
+    parameters {
+        choice(
+          description: "你需要选择哪条分支进行扫描?",
+          name: "branch_name",
+          choices: ["youlai_k8s_deploy", "master"]
+        )
+    }
+    stages {
+        stage("项目编译") {
+            agent none
+            steps {
+                container("maven") {
+                    sh "ls -al"
+                    sh "mvn clean install -Dmaven.test.skip=true"
+                }
+            }
+        }
+        stage("代码扫描") {
+            steps {
+                script {
+                    container ("maven") {
+                        withCredentials([string(credentialsId : "youlai-youlai-mall-sonar-token" ,variable : "SONAR_TOKEN" ,)]) {
+                            withSonarQubeEnv("sonar") {
+                                sh "mvn sonar:sonar -Dsonar.projectKey=youlai-mall -Dsonar.projectName=youlai-mall -f ./pom.xml -Dsonar.host.url=http://ks.howlaisi.com:31452/ -Dsonar.login=${SONAR_TOKEN}"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        failure {
+            addGiteeMRComment comment: ":x: Jenkins CI 构建失败。 [BUILD](" + env.BUILD_URL + ")"
+        }
+        success {
+            addGiteeMRComment comment: """:white_check_mark: Jenkins CI构建通过--> [BUILD](""" + env.BUILD_URL + """)"""  + """\n""" +  """:white_check_mark: sonar扫描结果--> [SONAR](""" + """http://ks.howlaisi.com:31452/dashboard?id=youlai-mall""" + """)"""
+        }
+    }
+}

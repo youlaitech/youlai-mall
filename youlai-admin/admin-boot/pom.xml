@@ -13,6 +13,8 @@
 
     <properties>
         <youlai.version>2.0.0</youlai.version>
+        <service.port>8800</service.port>
+        <service.nodeport>32004</service.nodeport>
     </properties>
 
     <dependencies>
