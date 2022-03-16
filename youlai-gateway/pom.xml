@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <youlaiversion>2.0.0</youlaiversion>
+        <youlai.version>2.0.0</youlai.version>
         <service.port>9999</service.port>
         <service.nodeport>32006</service.nodeport>
     </properties>
