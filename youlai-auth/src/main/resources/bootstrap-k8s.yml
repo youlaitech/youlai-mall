@@ -2,8 +2,6 @@ server:
   port: 8000
 
 spring:
-  main:
-    allow-circular-references: true  # 解决循环依赖的问题，似乎是因为版本太高了
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
