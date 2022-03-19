@@ -87,4 +87,12 @@
         </root>
     </springProfile>
 
+    <!-- k8s环境输出至文件 -->
+    <springProfile name="k8s">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+
 </configuration>

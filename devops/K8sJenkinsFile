@@ -1,0 +1,117 @@
+pipeline { // 直接上k8s，用k8s来管理docker
+    agent {
+        node {
+            label "maven"
+        }
+    }
+
+    parameters {
+        choice(
+          description: "你需要选择哪条分支进行构建?",
+          name: "branch_name",
+          choices: ["master", "feature/youlai_k8s_deploy3"]
+        )
+        choice(
+          description: "你需要选择哪个微服务模块进行构建?",
+          name: "module_name",
+          choices: ["youlai-gateway", "youlai-auth","youlai-admin/admin-boot","mall-oms/oms-boot","mall-pms/pms-boot","mall-sms/sms-boot","mall-ums/ums-boot"]
+        )
+    }
+    environment {
+        // 自建harbor仓库的namespace
+        docker_hub_namespace = "youlai"
+        // docker_hub_namespace = "youlaiwuhui"
+
+        // 自建镜像仓库地址
+        docker_hub = "k8s-harbor:30002"
+        // docker_hub = "https://registry.cn-hangzhou.aliyuncs.com"
+
+        // 在jenknis或kubesphere上面的凭证
+        docker_hub_id = "youlai-zhangjialin-myself-harbor-account"
+        // docker_hub_id = "zhangjialin-aliyun-pingzheng"
+
+        // k8s 上面的 namespace
+        k8s_namespace = "youlai-mall"
+        GIT_COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+        // BUILD_NUMBER 这个变量从jenkins传递过来
+        current_build_number = "${BUILD_NUMBER}"
+        // 在k8s上面配置的id
+        KUBECONFIG_CREDENTIAL_ID = "youlai-kubeconfig"
+    }
+
+    stages {
+        stage ("打印相关变量") {
+            steps{
+                echo "docker_hub_namespace信息为: ${docker_hub_namespace}"
+                // 获取commit信息，用于后面打tag
+                echo "commit信息为：${env.GIT_COMMIT_ID}"
+                echo "current_build_number信息为：${env.current_build_number}"
+                script {
+                    // 因为传递过来的module有可能是youlai-admin/admin-boot形式的，打镜像时会失败
+                    env.module_name_prefix = "${module_name}".split("/")[0]
+                    env.module_name_suffix = "${module_name}".split("/")[-1]
+                    // 本端tag名
+                    env.local_tag = "${module_name_suffix}:${current_build_number}_${GIT_COMMIT_ID}"
+                    // 远端tag名，必须以这种方式命令，才能push到远端
+                    env.remote_tag = "${docker_hub}/${docker_hub_namespace}/${local_tag}"
+                    echo "module_name信息为: ${module_name}"
+                    echo "module_name_prefix信息为: ${module_name_prefix}"
+                    echo "module_name_suffix信息为: ${module_name_suffix}"
+                    echo "local_tag信息为：${env.local_tag}"
+                    echo "remote_tag信息为：${env.remote_tag}"
+                }
+            }
+        }
+        stage("checkout代码") {
+            steps {
+                //git branch: "${branch_name}", credentialsId: 'zhangjialin-youlai-mall-pingzheng', url: 'https://gitee.com/youlaitech/youlai-mall.git'
+
+                //checkout([
+                    //$class: 'GitSCM',
+                    //branches: [[name: "${branch_name}"]],
+                    //extensions: [[$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true]],
+                    //userRemoteConfigs: [[credentialsId: 'zhangjialin-youlai-mall-pingzheng', url: 'https://gitee.com/youlaitech/youlai-mall.git']]])
+                sh "du -h --max-depth=1"
+            }
+        }
+        stage("读取maven配置"){
+            steps {
+                script {
+                    // 需要用到插件Pipeline Utility Steps，参考：https://www.jianshu.com/p/29403ecf7fc2
+                    def pom = readMavenPom file: "${module_name}/pom.xml"
+                    def properties = pom.properties
+                    env.service_port = properties["service.port"]
+                    env.service_nodeport = properties["service.nodeport"]
+                    sh "echo service_port: ${service_port}"
+                    sh "echo service_nodeport: ${service_nodeport}"
+                }
+            }
+        }
+        stage("打包镜像") {
+            steps {
+                script {
+                    container ('maven') {
+                        // 最外边
+                        sh "mvn clean install -Dmaven.test.skip=true"
+                        sh "cd $module_name && docker build -t ${env.local_tag} -f ./Dockerfile ."
+                        //sh "mvn -f ${module_name} clean package dockerfile:build -Ddockerfile.tag=${current_build_number}_${GIT_COMMIT_ID} -Dmaven.test.skip=true -Dspring.profiles.active=k8s"
+                        withCredentials([usernamePassword(credentialsId: "${docker_hub_id}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                            sh 'echo "$DOCKER_PASSWORD" | docker login http://k8s-harbor:30002 -u "$DOCKER_USERNAME" --password-stdin'
+                            sh "docker tag ${env.local_tag} ${env.remote_tag}"
+                            sh "docker push  ${env.remote_tag}"
+                        }
+                    }
+                }
+            }
+        }
+        stage("自动部署至k8s") {
+            agent none
+            steps {
+                container ("maven") {
+                    // 这种方式启k8s是官方推荐的
+                    sh 'envsubst < devops/deploy.yaml | kubectl apply -f -'
+                }
+            }
+        }
+    }
+}

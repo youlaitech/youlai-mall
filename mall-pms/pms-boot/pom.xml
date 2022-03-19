@@ -11,6 +11,12 @@
 
     <artifactId>pms-boot</artifactId>
 
+    <properties>
+        <youlai.version>2.0.0</youlai.version>
+        <service.port>8802</service.port>
+        <service.nodeport>32001</service.nodeport>
+    </properties>
+
     <dependencies>
         <!-- 读取配置 -->
         <dependency>
