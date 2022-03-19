@@ -9,7 +9,7 @@ pipeline { // 直接上k8s，用k8s来管理docker
         choice(
           description: "你需要选择哪条分支进行构建?",
           name: "branch_name",
-          choices: ["feature/youlai_k8s_deploy3", "master", "feature/youlai_k8s_deploy"]
+          choices: ["master", "feature/youlai_k8s_deploy3"]
         )
         choice(
           description: "你需要选择哪个微服务模块进行构建?",
