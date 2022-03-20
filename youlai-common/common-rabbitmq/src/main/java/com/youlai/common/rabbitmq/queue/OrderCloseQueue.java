@@ -41,7 +41,7 @@ public class OrderCloseQueue {
         Map<String, Object> args = new HashMap<>();
         args.put("x-dead-letter-exchange", "order.exchange");
         args.put("x-dead-letter-routing-key", "order.close"); // 死信路由Key
-        args.put("x-message-ttl", 60000); // 单位：毫秒，1分钟测试使用
+        args.put("x-message-ttl", 60 * 1000L); // 单位：毫秒，1分钟测试使用
         return new Queue("order.delay.queue", true, false, false, args);
     }
 
@@ -63,7 +63,6 @@ public class OrderCloseQueue {
         log.info("死信队列(order.close.queue)创建");
         return new Queue("order.close.queue", true, false, false);
     }
-
 
     /**
      * 死信队列绑定交换机
