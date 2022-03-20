@@ -9,7 +9,7 @@ import java.lang.reflect.Constructor;
  * SmartInstantiationAwareBeanPostProcessor是spring内部接口主要作用为
  * 预测Bean的最终类型
  * 推断构造函数
- * 提前曝光工厂对象,解决循环对象
+ * 提前曝光工厂对象,解决循环依赖
  * @author <a href="mailto:2256222053@qq.com">zc</a>
  * @Date 2022/3/19 0019 19:28
  */
