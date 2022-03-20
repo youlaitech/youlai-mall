@@ -1,0 +1,37 @@
+` 手机短信验证码模式 微信授权模式
+@startuml
+'https://plantuml.com/sequence-diagram
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+header 有来 Spring Security OAuth2 微信授权模式
+
+actor 客户端
+
+
+客户端 -> AuthController: 微信授权登录模式 \n /oauth/token?gran_type=wechat
+AuthController -> TokenEndpoint: postAccessToken()
+TokenEndpoint -> CompositeTokenGranter: this.getTokenGranter().grant()
+participant WechatTokenGranter #99FF99
+CompositeTokenGranter->WechatTokenGranter: grant( grantType, tokenRequest )\n根据 grant_type 匹配 Granter
+note over of AuthenticationManagerDelegator #aqua
+WebSecurityConfigurerAdapter 内部类
+end note
+WechatTokenGranter-> AuthenticationManagerDelegator:this.authenticationManager.authenticate()
+AuthenticationManagerDelegator -> ProviderManager: this.delegate.authenticate()
+ProviderManager -> ProviderManager: 匹配支持\WechatAuthenticationToken\n的Provider
+
+activate ProviderManager
+participant WechatAuthenticationProvider #99FF99
+ProviderManager -> WechatAuthenticationProvider: provider.authenticate(authentication)
+deactivate ProviderManager
+
+WechatAuthenticationProvider -> WechatAuthenticationProvider: authenticate()\ncode 获取 openid \n解析encryptedData\n获取用户信息
+ProviderManager <-- WechatAuthenticationProvider: Authentication
+AuthenticationManagerDelegator <-- ProviderManager: Authentication
+WechatTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
+CompositeTokenGranter <-- WechatTokenGranter: OAuth2AccessToken
+TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
+AuthController <-- TokenEndpoint:OAuth2AccessToken
+客户端 <-- AuthController: OAuth2AccessToken
+@enduml

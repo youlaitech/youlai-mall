@@ -1,0 +1,37 @@
+` 有来 Spring Security OAuth2 手机短信验证码模式
+@startuml
+'https://plantuml.com/sequence-diagram
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+header 有来 Spring Security OAuth2 手机短信验证码模式
+
+actor 客户端
+
+
+客户端 -> AuthController: 手机短信验证码模式 \n /oauth/token?gran_type=sms_code
+AuthController -> TokenEndpoint: postAccessToken()
+TokenEndpoint -> CompositeTokenGranter: this.getTokenGranter().grant()
+participant SmsCodeTokenGranter #99FF99
+CompositeTokenGranter->SmsCodeTokenGranter: grant( grantType, tokenRequest )\n根据 grant_type 匹配 Granter
+note over of AuthenticationManagerDelegator #aqua
+WebSecurityConfigurerAdapter 内部类
+end note
+SmsCodeTokenGranter-> AuthenticationManagerDelegator:this.authenticationManager.authenticate()
+AuthenticationManagerDelegator -> ProviderManager: this.delegate.authenticate()
+ProviderManager -> ProviderManager: 匹配支持\nSmsCodeAuthenticationToken\n的Provider
+
+activate ProviderManager
+participant SmsCodeAuthenticationProvider #99FF99
+ProviderManager -> SmsCodeAuthenticationProvider: provider.authenticate(authentication)
+deactivate ProviderManager
+
+SmsCodeAuthenticationProvider -> SmsCodeAuthenticationProvider:authenticate()\n密码判读\n短信验证码校验
+ProviderManager <-- SmsCodeAuthenticationProvider: Authentication
+AuthenticationManagerDelegator <-- ProviderManager: Authentication
+SmsCodeTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
+CompositeTokenGranter <-- SmsCodeTokenGranter: OAuth2AccessToken
+TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
+AuthController <-- TokenEndpoint:OAuth2AccessToken
+客户端 <-- AuthController: OAuth2AccessToken
+@enduml
