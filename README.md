@@ -252,6 +252,9 @@
 
 > 欢迎添加开发者微信，备注「有来」进群
 
-|全栈|全栈|DevOps|
-|----|----|----|
-| ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg)  | ![](https://gitee.com/haoxr/image/raw/master/default/ba695a5e70410a066b7052c5dc9db5c.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg)
+
+
+|                         全栈                          |                             全栈                             |                            DevOps                            |
+| :---------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/ba695a5e70410a066b7052c5dc9db5c.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
+
