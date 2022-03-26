@@ -1,4 +1,4 @@
-package com.youlai.laboratory.spring.aop.proxyFactory;
+package com.youlai.laboratory.spring.aop;
 
 /**
  * 需要增强的业务类

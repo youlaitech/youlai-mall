@@ -1,4 +1,4 @@
-package com.youlai.laboratory.spring.aop.proxyFactory;
+package com.youlai.laboratory.spring.aop;
 
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.MethodBeforeAdvice;

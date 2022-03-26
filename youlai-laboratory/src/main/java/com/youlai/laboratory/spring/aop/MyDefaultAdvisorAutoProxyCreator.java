@@ -1,4 +1,4 @@
-package com.youlai.laboratory.spring.aop.proxyFactory;
+package com.youlai.laboratory.spring.aop;
 
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
