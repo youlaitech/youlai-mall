@@ -96,6 +96,7 @@ public class UmsMemberService {
 
     /**
      * 获取一个事务实例
+     * 获取出来的时候就标志这个事务已经开始了 {@link org.springframework.transaction.support.AbstractPlatformTransactionManager#startTransaction}
      * @return
      */
     public TransactionStatus buildTransactionStatus(int propagation,int isolation){

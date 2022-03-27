@@ -9,7 +9,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -22,6 +21,30 @@ import org.springframework.transaction.support.TransactionTemplate;
  */
 public class AopTests {
 
+
+    /**
+     * execution表达式
+     */
+    @Test
+    void execution(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyPointcut.class,PointcutService.class);
+        MyPointcut myPointcut = context.getBean(MyPointcut.class);
+        System.out.println(myPointcut.execution());
+        System.out.println(myPointcut.within());
+        System.out.println(myPointcut.thisI());
+        System.out.println(myPointcut.target());
+        System.out.println(myPointcut.args());
+        System.out.println(myPointcut.Itarget());
+        System.out.println(myPointcut.Iargs());
+        System.out.println(myPointcut.Iwithin());
+        System.out.println(myPointcut.Iannotation());
+        System.out.println(context.getBean("pointcutService"));
+        System.out.println(myPointcut.Ibean());
+    }
+
+
+
+
     /**
      * 手动代理
      * 使用proxyFactory通过编程创建AOP代理
@@ -30,7 +53,7 @@ public class AopTests {
     void proxyFactory(){
         ProxyFactory factory = new ProxyFactory();
         factory.setTarget(new UserService());
-        factory.addAdvisor(new MyAdvisor());
+        factory.addAdvisor(new MyPointcutAdvisor());
         UserService userService = (UserService) factory.getProxy();
         userService.test();
     }
@@ -40,7 +63,7 @@ public class AopTests {
      */
     @Test
     void beanNameAutoProxyCreator(){
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyBeanNameAutoProxyCreator.class, MyAdvisor.class, UserService.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyBeanNameAutoProxyCreator.class, MyPointcutAdvisor.class, UserService.class);
         UserService userService = context.getBean(UserService.class);
         userService.test();
     }
@@ -51,7 +74,7 @@ public class AopTests {
      */
     @Test
     void defaultAdvisorAutoProxyCreator(){
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyDefaultAdvisorAutoProxyCreator.class, MyAdvisor.class, UserService.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyDefaultAdvisorAutoProxyCreator.class, MyPointcutAdvisor.class, UserService.class);
         UserService userService = context.getBean(UserService.class);
         userService.test();
     }
@@ -63,7 +86,7 @@ public class AopTests {
      */
     @Test
     void myEnableAspectJAutoProxy(){
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyEnableAspectJAutoProxy.class,MyAdvisor.class,UserService.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyEnableAspectJAutoProxy.class, MyPointcutAdvisor.class,UserService.class);
         UserService userService = context.getBean(UserService.class);
         userService.test();
     }
@@ -192,8 +215,6 @@ public class AopTests {
 //        umsMemberService.isolationDeductBalance(39L,100L,Boolean.TRUE,TransactionDefinition.ISOLATION_REPEATABLE_READ);
         umsMemberService.isolationDeductBalance(39L,100L,Boolean.TRUE,TransactionDefinition.ISOLATION_SERIALIZABLE);
     }
-
-
 
 
 
