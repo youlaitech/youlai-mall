@@ -27,11 +27,10 @@ public class BusinessNoGenerator {
     public String generate(BusinessTypeEnum businessType, Integer digit) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
-        String key = RedisConstants.BUSINESS_NO_PREFIX +businessType.getCode() + ":" + date;
+        String key = RedisConstants.BUSINESS_NO_PREFIX + businessType.getValue() + ":" + date;
         Long increment = redisTemplate.opsForValue().increment(key);
         return date + businessType.getValue() + String.format("%0" + digit + "d", increment);
     }
-
 
     public String generate(BusinessTypeEnum businessType) {
         Integer defaultDigit = 6;

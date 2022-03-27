@@ -1,4 +1,4 @@
-package com.youlai.common.domain;
+package com.youlai.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

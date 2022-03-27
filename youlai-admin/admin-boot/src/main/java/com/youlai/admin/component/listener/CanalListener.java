@@ -4,7 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysOauthClientService;
 import com.youlai.admin.service.ISysPermissionService;
-import com.youlai.common.domain.CanalMessage;
+import com.youlai.common.dto.CanalMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Exchange;

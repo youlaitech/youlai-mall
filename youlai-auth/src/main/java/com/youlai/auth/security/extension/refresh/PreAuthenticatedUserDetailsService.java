@@ -1,6 +1,7 @@
 package com.youlai.auth.security.extension.refresh;
 
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
+import com.youlai.common.base.IBaseEnum;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.enums.AuthenticationIdentityEnum;
 import com.youlai.common.web.util.RequestUtils;
@@ -53,7 +54,7 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
     public UserDetails loadUserDetails(T authentication) throws UsernameNotFoundException {
         String clientId = RequestUtils.getOAuth2ClientId();
         // 获取认证身份标识，默认是用户名:username
-        AuthenticationIdentityEnum authenticationIdentityEnum = AuthenticationIdentityEnum.getByValue(RequestUtils.getAuthenticationIdentity());
+        AuthenticationIdentityEnum authenticationIdentityEnum = IBaseEnum.getEnumByValue(RequestUtils.getAuthenticationIdentity(), AuthenticationIdentityEnum.class);
         UserDetailsService userDetailsService = userDetailsServiceMap.get(clientId);
         if (clientId.equals(SecurityConstants.APP_CLIENT_ID)) {
             // 移动端的用户体系是会员，认证方式是通过手机号 mobile 认证

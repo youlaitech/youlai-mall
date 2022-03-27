@@ -1,5 +1,6 @@
 package com.youlai.common.enums;
 
+import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Getter;
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/4
  */
-public enum AuthenticationIdentityEnum {
+public enum AuthenticationIdentityEnum implements IBaseEnum<String> {
 
     USERNAME("username", "用户名"),
     MOBILE("mobile", "手机号"),
@@ -24,16 +25,4 @@ public enum AuthenticationIdentityEnum {
         this.value = value;
         this.label = label;
     }
-
-    public static AuthenticationIdentityEnum getByValue(String value) {
-        AuthenticationIdentityEnum authenticationIdentityEnum = null;
-        for (AuthenticationIdentityEnum item : values()) {
-            if (item.getValue().equals(value)) {
-                authenticationIdentityEnum = item;
-                continue;
-            }
-        }
-        return authenticationIdentityEnum;
-    }
-
 }
