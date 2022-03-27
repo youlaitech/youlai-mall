@@ -316,9 +316,9 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'root', '有来技术', 0, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', NULL, '', '17621590365', 1, 'youlaitech@163.com', 0, NULL, NULL);
-INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'https://gitee.com/haoxr/image/raw/master/default/f778738c-e4f8-4870-b634-56703b4acafe.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
-INSERT INTO `sys_user` VALUES (3, 'test', '测试小用户', 1, '$2a$10$MPJkNw.hKT/fZOgwYP8q9eu/rFJJDsNov697AmdkHNJkpjIpVSw2q', 3, 'https://gitee.com/haoxr/image/raw/master/20210605215800.png', '17621210366', 1, 'youlaitech@163.com', 0, '2021-06-05 01:31:29', '2021-06-05 01:31:29');
+INSERT INTO `sys_user` (`id`, `username`, `nickname`, `gender`, `password`, `dept_id`, `avatar`, `mobile`, `status`, `email`, `deleted`, `gmt_create`, `gmt_modified`) VALUES (1, 'root', '有来技术', 0, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', NULL, '', '17621590365', 1, 'youlaitech@163.com', 0, NULL, NULL);
+INSERT INTO `sys_user` (`id`, `username`, `nickname`, `gender`, `password`, `dept_id`, `avatar`, `mobile`, `status`, `email`, `deleted`, `gmt_create`, `gmt_modified`) VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'http://cdn.youlai.tech/avatar.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
+INSERT INTO `sys_user` (`id`, `username`, `nickname`, `gender`, `password`, `dept_id`, `avatar`, `mobile`, `status`, `email`, `deleted`, `gmt_create`, `gmt_modified`) VALUES (3, 'test', '测试小用户', 1, '$2a$10$MPJkNw.hKT/fZOgwYP8q9eu/rFJJDsNov697AmdkHNJkpjIpVSw2q', 3, 'http://cdn.youlai.tech/avatar.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2021-06-05 01:31:29', '2021-06-05 01:31:29');
 
 -- ----------------------------
 -- Table structure for sys_user_role
