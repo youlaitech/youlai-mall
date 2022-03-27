@@ -68,14 +68,14 @@
 | H5 移动端     | [www.youlai.tech:81](http://www.youlai.tech:9527)   |
 
 
-### 🗁 预览截图
+### 🗁 项目预览
 
 
 | 「App」Spring Security OAuth2 手机短信验证码模式             | 「小程序」Spring Security OAuth2 微信授权模式                |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img src="https://gitee.com/haoxr/image/raw/master/default/smscode%20(1).gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/wechatlogin.gif" width="100%" height="400px"/> |
+| <img src="http://cdn.youlai.tech/smsauth.gif" width="100%" height="400px"/> | <img src="http://cdn.youlai.tech/wechatauth.gif" width="100%" height="400px"/> |
 | **「管理前端」Spring Security OAuth2 密码模式**              | **「管理前端」Spring Security OAuth2 验证码模式**            |
-| <img src="https://gitee.com/haoxr/image/raw/master/default/password.gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/captcha.gif" width="100%" height="400px"/> |
+| <img src="http://cdn.youlai.tech/passwordauth.gif" width="100%" height="400px"/> | <img src="http://cdn.youlai.tech/captchaauth.gif" width="100%" height="400px"/> |
 
 
 ## 🪁 源码地址
@@ -256,5 +256,5 @@
 
 |                         全栈                          |                             全栈                             |                            DevOps                            |
 | :---------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/ba695a5e70410a066b7052c5dc9db5c.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
+| ![](http://cdn.youlai.tech/rui.jpg) | ![](http://cdn.youlai.tech/chuan.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
 
