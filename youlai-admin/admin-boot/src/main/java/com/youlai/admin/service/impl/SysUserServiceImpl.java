@@ -124,7 +124,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     /**
-     * 根据用户ID获取用户详情
+     * 获取用户表单详情
      *
      * @param userId
      * @return
