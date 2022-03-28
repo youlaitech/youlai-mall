@@ -29,17 +29,17 @@ public class AopTests {
     void execution(){
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyPointcut.class,PointcutService.class);
         MyPointcut myPointcut = context.getBean(MyPointcut.class);
-        System.out.println(myPointcut.execution());
-        System.out.println(myPointcut.within());
-        System.out.println(myPointcut.thisI());
-        System.out.println(myPointcut.target());
-        System.out.println(myPointcut.args());
-        System.out.println(myPointcut.Itarget());
-        System.out.println(myPointcut.Iargs());
-        System.out.println(myPointcut.Iwithin());
-        System.out.println(myPointcut.Iannotation());
-        System.out.println(context.getBean("pointcutService"));
-        System.out.println(myPointcut.Ibean());
+       myPointcut.execution();
+       myPointcut.within();
+       myPointcut.thisI();
+       myPointcut.target();
+       myPointcut.args();
+       myPointcut.Itarget();
+       myPointcut.Iargs();
+       myPointcut.Iwithin();
+       myPointcut.Iannotation();
+       myPointcut.Ibean();
+       myPointcut.staticMethodMatcherPointcut();
     }
 
 

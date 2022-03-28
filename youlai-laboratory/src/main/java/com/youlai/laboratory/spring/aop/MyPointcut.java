@@ -3,7 +3,12 @@ package com.youlai.laboratory.spring.aop;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
+import org.springframework.aop.support.StaticMethodMatcherPointcut;
+import org.springframework.core.annotation.MergedAnnotations;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.lang.reflect.Method;
 
 /**
  * 切点的使用
@@ -134,6 +139,8 @@ public class MyPointcut {
      * @return
      */
     public boolean Ibean(){
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression("bean(pointcutService)");
         return doMatches("bean(pointcutService)");
     }
 
@@ -141,7 +148,52 @@ public class MyPointcut {
     private boolean doMatches(String expression){
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression(expression);
-        return pointcut.matches(PointcutService.class);
+        try {
+            System.out.println("PointcutService.m1:"+expression+":"+pointcut.matches(PointcutService.class.getMethod("m1"), PointcutService.class));
+            System.out.println("PointcutService.m2:"+expression+":"+pointcut.matches(PointcutService.class.getMethod("m2"), PointcutService.class));
+            System.out.println("PointcutService.m3:"+expression+":"+pointcut.matches(PointcutService.class.getMethod("m3", String.class), PointcutService.class));
+            System.out.println("PointcutService.m4:"+expression+":"+pointcut.matches(PointcutService.class.getMethod("m4"), PointcutService.class));
+            System.out.println("-----------------------------------------------------");
+            return true;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void staticMethodMatcherPointcut(){
+        StaticMethodMatcherPointcut matcherPointcut = new StaticMethodMatcherPointcut() {
+            @Override
+            public boolean matches(Method method, Class<?> targetClass) {
+
+                MergedAnnotations annotations = MergedAnnotations.from(method);
+                //方法上是否有@transactional注解
+                if(annotations.isPresent(Transactional.class)){
+                    return true;
+                }
+               annotations = MergedAnnotations.from(targetClass);
+                //类上是否有@transactional注解
+                if(annotations.isPresent(Transactional.class)){
+                    return true;
+                }
+                annotations = MergedAnnotations.from(targetClass, MergedAnnotations.SearchStrategy.TYPE_HIERARCHY);
+                //父类或实现的接口上是否有@transactional注解
+                if(annotations.isPresent(Transactional.class)){
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        try {
+            System.out.println("PointcutService.m1:"+matcherPointcut.matches(PointcutService.class.getMethod("m1"), PointcutService.class));
+            System.out.println("PointcutService.m2:"+matcherPointcut.matches(PointcutService.class.getMethod("m2"), PointcutService.class));
+            System.out.println("PointcutService.m3:"+matcherPointcut.matches(PointcutService.class.getMethod("m3", String.class), PointcutService.class));
+            System.out.println("PointcutService.m4:"+matcherPointcut.matches(PointcutService.class.getMethod("m4"), PointcutService.class));
+            System.out.println("-----------------------------------------------------");
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 
 
