@@ -3,15 +3,21 @@ package com.youlai.laboratory.spring;
 
 import com.youlai.laboratory.spring.aop.*;
 import com.youlai.laboratory.spring.aop.transactional.*;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
+import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.framework.ReflectiveMethodInvocation;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.List;
 
 /**
  * Aop测试类
@@ -23,10 +29,43 @@ public class AopTests {
 
 
     /**
-     * execution表达式
+     * aspectj切面
+     */
+    @SneakyThrows
+    @Test
+    void aspectj(){
+        GenericApplicationContext context = new GenericApplicationContext();
+        context.registerBean(AspectJAop.class);
+        context.registerBean(UserService.class);
+        context.registerBean(MyAnnotationAwareAspectJAutoProxyCreator.class);
+        context.refresh();
+        MyAnnotationAwareAspectJAutoProxyCreator creator = context.getBean(MyAnnotationAwareAspectJAutoProxyCreator.class);
+        UserService userService = context.getBean(UserService.class);
+        //查找advisors类型的bean和标注了@AspectJ注解的bean
+        List<Advisor> advisors = creator.findEligibleAdvisors(UserService.class,"userService");
+        System.out.println("----------------------------------------------");
+        for (Advisor advisor:advisors){
+            System.out.println(advisor);
+        }
+//        //判断目标类是否需要创建代理,如果是则返回代理对象
+        Object o = creator.wrapIfNecessary(new UserService(), "userService", "userService");
+
+        ProxyFactory factory = new ProxyFactory();
+        factory.setTarget(userService);
+        factory.addAdvisors(advisors);
+        Object proxy = factory.getProxy();  //获取代理
+        List<Object> interceptorList = factory.getInterceptorsAndDynamicInterceptionAdvice(UserService.class.getMethod("test"), UserService.class);
+
+        ReflectiveMethodInvocation invocation = new ReflectiveMethodInvocation(proxy, userService, UserService.class.getMethod("test"), new Object[0], UserService.class, interceptorList) {
+        };
+        invocation.proceed();
+    }
+
+    /**
+     * 切点表达式
      */
     @Test
-    void execution(){
+    void pointcut(){
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyPointcut.class,PointcutService.class);
         MyPointcut myPointcut = context.getBean(MyPointcut.class);
        myPointcut.execution();
