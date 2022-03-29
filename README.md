@@ -67,9 +67,7 @@
 | **「管理前端」Spring Security OAuth2 密码模式**              | **「管理前端」Spring Security OAuth2 验证码模式**            |
 | <img src="http://cdn.youlai.tech/passwordauth.gif" width="100%" height="400px"/> | <img src="http://cdn.youlai.tech/captchaauth.gif" width="100%" height="400px"/> |
 
-## 🪁 源码地址
-
-## 项目地址
+## 🍸 源码地址
 
 |      |Gitee| Github| GitCode |
 | ---- | ----| ---- | ---- |
@@ -182,7 +180,7 @@
 
    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致;
 
-   - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html))
+   - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
     
 ### 🗁 管理前端启动
 
