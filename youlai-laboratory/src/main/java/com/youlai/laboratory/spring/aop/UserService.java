@@ -8,7 +8,8 @@ package com.youlai.laboratory.spring.aop;
  */
 public class UserService {
 
+
     public void test() {
-        System.out.println("111");
+        System.out.println("---------正常业务--------");
     }
 }

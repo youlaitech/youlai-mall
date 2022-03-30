@@ -7,9 +7,8 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.aop.framework.ReflectiveMethodInvocation;
+import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -27,6 +26,36 @@ import java.util.List;
  */
 public class AopTests {
 
+    /**
+     * EnableAspectJAutoProxy 自动代理实现过程
+     */
+    @SneakyThrows
+    @Test
+    void enableAspectj(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(UserService.class,MyAnnotationAwareAspectJAutoProxyCreator.class,AspectJAop.class);
+        MyAnnotationAwareAspectJAutoProxyCreator creator = context.getBean(MyAnnotationAwareAspectJAutoProxyCreator.class);
+        UserService userService = new UserService();
+        //查找advisors类型的bean或者标注了@AspectJ注解的bean
+        List<Advisor> advisors = creator.findEligibleAdvisors(AspectJAop.class,"aspectJAop");
+        for (Advisor advisor:advisors){
+            System.out.println(advisor);
+        }
+        //
+//        Object o = creator.wrapIfNecessary(userService, "userService", "userService");
+//        ((UserService)o).test();
+
+        //创建代理对象
+        ProxyFactory proxyFactory = new ProxyFactory();
+        proxyFactory.setTarget(userService);
+        proxyFactory.addAdvice(ExposeInvocationInterceptor.INSTANCE);
+        proxyFactory.addAdvisors(advisors);
+        // 统一转换成环绕通知 适配器模式
+        List<Object> interceptionAdvice = proxyFactory.getInterceptorsAndDynamicInterceptionAdvice(UserService.class.getMethod("test"), UserService.class);
+//
+        //创建调用链
+        MyAnnotationAwareAspectJAutoProxyCreator.MyReflectiveMethodInvocation invocation =  MyAnnotationAwareAspectJAutoProxyCreator.createReflectiveMethodInvocation(null, userService, UserService.class.getMethod("test"), new Object[0], UserService.class, interceptionAdvice);
+        invocation.proceed();
+    }
 
     /**
      * aspectj切面
@@ -34,31 +63,8 @@ public class AopTests {
     @SneakyThrows
     @Test
     void aspectj(){
-        GenericApplicationContext context = new GenericApplicationContext();
-        context.registerBean(AspectJAop.class);
-        context.registerBean(UserService.class);
-        context.registerBean(MyAnnotationAwareAspectJAutoProxyCreator.class);
-        context.refresh();
-        MyAnnotationAwareAspectJAutoProxyCreator creator = context.getBean(MyAnnotationAwareAspectJAutoProxyCreator.class);
-        UserService userService = context.getBean(UserService.class);
-        //查找advisors类型的bean和标注了@AspectJ注解的bean
-        List<Advisor> advisors = creator.findEligibleAdvisors(UserService.class,"userService");
-        System.out.println("----------------------------------------------");
-        for (Advisor advisor:advisors){
-            System.out.println(advisor);
-        }
-//        //判断目标类是否需要创建代理,如果是则返回代理对象
-        Object o = creator.wrapIfNecessary(new UserService(), "userService", "userService");
-
-        ProxyFactory factory = new ProxyFactory();
-        factory.setTarget(userService);
-        factory.addAdvisors(advisors);
-        Object proxy = factory.getProxy();  //获取代理
-        List<Object> interceptorList = factory.getInterceptorsAndDynamicInterceptionAdvice(UserService.class.getMethod("test"), UserService.class);
-
-        ReflectiveMethodInvocation invocation = new ReflectiveMethodInvocation(proxy, userService, UserService.class.getMethod("test"), new Object[0], UserService.class, interceptorList) {
-        };
-        invocation.proceed();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AspectJAop.class,UserService.class);
+       context.getBean(UserService.class).test();
     }
 
     /**

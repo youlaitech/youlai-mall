@@ -1,6 +1,7 @@
 package com.youlai.laboratory.spring.aop;
 
 import org.aspectj.lang.annotation.*;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * Aspect切面
@@ -8,6 +9,7 @@ import org.aspectj.lang.annotation.*;
  * @author <a href="mailto:2256222053@qq.com">zc</a>
  * @Date 2022/3/29 0029 21:59
  */
+@EnableAspectJAutoProxy
 @Aspect
 public class AspectJAop {
 
@@ -15,6 +17,7 @@ public class AspectJAop {
     public void before(){
         System.out.println("前置通知");
     }
+
 
     public void test(){
         System.out.println("执行正常业务");
@@ -25,10 +28,10 @@ public class AspectJAop {
         System.out.println("后置增强,不管正常或异常都会执行");
     }
 
-    @Around("execution(* com.youlai.laboratory.spring.aop.UserService.test(..))")
-    public void around(){
-        System.out.println("环绕增强");
-    }
+//    @Around("execution(* com.youlai.laboratory.spring.aop.AspectJAop.test(..))")
+//    public void around(){
+//        System.out.println("环绕增强");
+//    }
 
     @AfterThrowing("execution(* com.youlai.laboratory.spring.aop.UserService.test(..))")
     public void afterthrows(){
