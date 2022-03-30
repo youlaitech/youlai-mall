@@ -55,9 +55,9 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
      * @return
      */
     @Override
-    public IPage<GoodsPageVO> listAppSpuWithPage(SpuPageQuery queryParams) {
+    public IPage<GoodsPageVO> listAppSpuPage(SpuPageQuery queryParams) {
         Page<GoodsPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<GoodsPageVO> list = this.baseMapper.listAppSpuWithPage(page, queryParams);
+        List<GoodsPageVO> list = this.baseMapper.listAppSpuPage(page, queryParams);
         page.setRecords(list);
         return page;
     }
