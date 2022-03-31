@@ -1,0 +1,25 @@
+` 有来 spring bean的加载
+@startuml
+autonumber
+'https://plantuml.com/sequence-diagram
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+skinparam responseMessageBelowArrow true
+header 有来 Spring bean的创建过程
+
+actor 客户端
+
+客户端->AbstractBeanFactory:createBean
+AbstractBeanFactory->AbstractBeanFactory:开始创建bean\ndoCreateBean
+AbstractBeanFactory->AbstractBeanFactory:bena实例化\ncreateBeanInstance
+AbstractBeanFactory->AbstractBeanFactory:执行beanDefinition的后置处理器\napplyMergedBeanDefinitionPostProcessors
+AbstractBeanFactory->AbstractBeanFactory:属性填充\npopulateBean
+AbstractBeanFactory->AbstractAutowireCapableBeanFactory:开始初始化\ninitializeBean
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:执行Aware\ninvokeAwareMethods
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:初始化前\napplyBeanPostProcessorsBeforeInitialization
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:初始化\ninvokeInitMethods
+AbstractAutowireCapableBeanFactory->AbstractAutowireCapableBeanFactory:初始后\napplyBeanPostProcessorsAfterInitialization
+AbstractAutowireCapableBeanFactory->AbstractBeanFactory:wrappedBean
+
+AbstractBeanFactory->客户端:\nbean
+@enduml

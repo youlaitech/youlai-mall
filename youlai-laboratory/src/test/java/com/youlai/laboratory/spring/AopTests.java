@@ -51,7 +51,7 @@ public class AopTests {
         proxyFactory.addAdvisors(advisors);
         // 统一转换成环绕通知 适配器模式
         List<Object> interceptionAdvice = proxyFactory.getInterceptorsAndDynamicInterceptionAdvice(UserService.class.getMethod("test"), UserService.class);
-//
+
         //创建调用链
         MyAnnotationAwareAspectJAutoProxyCreator.MyReflectiveMethodInvocation invocation =  MyAnnotationAwareAspectJAutoProxyCreator.createReflectiveMethodInvocation(null, userService, UserService.class.getMethod("test"), new Object[0], UserService.class, interceptionAdvice);
         invocation.proceed();
