@@ -1,3 +1,5 @@
 spring:
+  application:
+    name: youlai-laboratory
   profiles:
     active: dev
