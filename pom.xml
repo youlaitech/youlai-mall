@@ -76,11 +76,11 @@
             <version>${hutool.version}</version>
         </dependency>
         <!-- jasypt加密 -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>${jasypt.version}</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <dependencyManagement>
