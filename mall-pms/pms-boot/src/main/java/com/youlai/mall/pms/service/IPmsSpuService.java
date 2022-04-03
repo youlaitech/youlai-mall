@@ -26,7 +26,7 @@ public interface IPmsSpuService extends IService<PmsSpu> {
      * @param queryParams
      * @return
      */
-    IPage<GoodsPageVO> listAppSpuWithPage(SpuPageQuery queryParams);
+    IPage<GoodsPageVO> listAppSpuPage(SpuPageQuery queryParams);
 
 
     /**

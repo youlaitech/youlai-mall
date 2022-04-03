@@ -25,7 +25,7 @@ public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
      * @param queryParams
      * @return
      */
-    List<GoodsPageVO> listAppSpuWithPage(Page<GoodsPageVO> page, SpuPageQuery queryParams);
+    List<GoodsPageVO> listAppSpuPage(Page<GoodsPageVO> page, SpuPageQuery queryParams);
 
     List<PmsSpu> list(Page<PmsSpu> page, String name, Long categoryId);
 

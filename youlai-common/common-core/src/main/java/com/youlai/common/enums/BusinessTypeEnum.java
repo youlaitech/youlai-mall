@@ -1,39 +1,28 @@
 package com.youlai.common.enums;
 
+import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
+ * 业务类型枚举
+ *
  * @author haoxr
  * @date 2021-02-17
  */
-public enum BusinessTypeEnum {
+public enum BusinessTypeEnum implements IBaseEnum<Integer> {
 
-    USER("user", 100),
-    MEMBER("member", 200),
-    ORDER("order", 300);
-
-    @Getter
-    @Setter
-    private String code;
+    USER(100, "用户"),
+    MEMBER(200, "会员"),
+    ORDER(300, "订单");
 
     @Getter
-    @Setter
     private Integer value;
 
-    BusinessTypeEnum(String code, Integer value) {
-        this.code = code;
-        this.value = value;
-    }
+    @Getter
+    private String label;
 
-    public static BusinessTypeEnum getValue(String code) {
-        BusinessTypeEnum businessTypeEnum=null;
-        for (BusinessTypeEnum value : values()) {
-            if (value.getCode().equals(code)) {
-                businessTypeEnum =value;
-                continue;
-            }
-        }
-        return businessTypeEnum;
+    BusinessTypeEnum(Integer value, String label) {
+        this.value = value;
+        this.label = label;
     }
 }

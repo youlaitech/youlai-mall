@@ -28,14 +28,14 @@ public class SpuController {
 
     @ApiOperation(value = "商品分页列表")
     @GetMapping("/page")
-    public PageResult listGoodsWithPage(SpuPageQuery queryParams) {
-        IPage<GoodsPageVO> result = iPmsSpuService.listAppSpuWithPage(queryParams);
+    public PageResult listSpuPage(SpuPageQuery queryParams) {
+        IPage<GoodsPageVO> result = iPmsSpuService.listAppSpuPage(queryParams);
         return PageResult.success(result);
     }
 
     @ApiOperation(value = "获取商品详情")
     @GetMapping("/{spuId}")
-    public Result<GoodsDetailVO> getGoodsDetail(
+    public Result<GoodsDetailVO> getSpuDetail(
             @ApiParam("商品ID") @PathVariable Long spuId
     ) {
         GoodsDetailVO goodsDetailVO = iPmsSpuService.getAppSpuDetail(spuId);

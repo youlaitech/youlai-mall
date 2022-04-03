@@ -21,27 +21,20 @@
 <strong>H5商城在线预览：</strong><a target="_blank" href="http://www.youlai.tech:81">mall.youlai.tech</a> 
 </p>
 
-
 <p align="center">
 <strong>开源地址：</strong>  <a target="_blank" href='https://github.com/hxrui'>Github</a> | <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://gitcode.net/youlai'>GitCode</a> 
 </p>
 
-
-
 <p align="center">
 <strong>博客主页：</strong><a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> https://www.cnblogs.com/haoxianrui</a> 
 </p>
-
-
 
 <p align="center">
 <strong>开发者文档：</strong><a target="_blank" href="http://youlaitech.gitee.io/youlai-mall">http://youlaitech.gitee.io/youlai-mall</a> 
 </p>
 
 
-
 ## 🈶 项目介绍
-
 
 ### 🗁 项目简介
 
@@ -49,7 +42,6 @@
 
 
 ### 🗁 项目特色
-
 
 - 项目使用皆是当前主流的技术栈，无过度自定义封装，易理解学习和二次扩展；
 - SpringBoot 2.6、SpringCloud 2021 & Alibaba 2021 一站式微服务开箱即用的解决方案；
@@ -60,7 +52,6 @@
 
 ### 🗁 在线预览
 
-
 |               | 地址                                                |
 | ------------- | --------------------------------------------------- |
 | 管理前端 Vue3 | [www.youlai.tech](http://www.youlai.tech)           |
@@ -68,38 +59,33 @@
 | H5 移动端     | [www.youlai.tech:81](http://www.youlai.tech:9527)   |
 
 
-### 🗁 预览截图
-
+### 🗁 项目预览
 
 | 「App」Spring Security OAuth2 手机短信验证码模式             | 「小程序」Spring Security OAuth2 微信授权模式                |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img src="https://gitee.com/haoxr/image/raw/master/default/smscode%20(1).gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/wechatlogin.gif" width="100%" height="400px"/> |
+| <img src="http://cdn.youlai.tech/smsauth.gif" width="100%" height="400px"/> | <img src="http://cdn.youlai.tech/wechatauth.gif" width="100%" height="400px"/> |
 | **「管理前端」Spring Security OAuth2 密码模式**              | **「管理前端」Spring Security OAuth2 验证码模式**            |
-| <img src="https://gitee.com/haoxr/image/raw/master/default/password.gif" width="100%" height="400px"/> | <img src="https://gitee.com/haoxr/image/raw/master/default/captcha.gif" width="100%" height="400px"/> |
+| <img src="http://cdn.youlai.tech/passwordauth.gif" width="100%" height="400px"/> | <img src="http://cdn.youlai.tech/captchaauth.gif" width="100%" height="400px"/> |
 
+## 🍸 源码地址
 
-## 🔱 源码地址
-
-
-|                  | Gitee                                                        | Github                                                       | GitCode                                                      |
-| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 开源组织         | [有来开源组织](https://gitee.com/youlaiorg)                  | [有来开源组织](https://github.com/youlaitech)                | [有来开源组织](https://gitcode.net/youlai)                   |
-| 后端             | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall)       | [youlai-mall](https://github.com/youlaitech/youlai-mall)     | [youlai-mall](https://gitcode.net/youlai/youlai-mall)        |
-| 管理前端         | [mall-admin-web](https://gitee.com/youlaiorg/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) |
-| 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)             | [mall-app](https://github.com/youlaitech/mall-app)           | [mall-app](https://gitcode.net/youlai/mall-app)              |
-
+|      |Gitee| Github| GitCode |
+| ---- | ----| ---- | ---- |
+| 开源组织  | [有来开源组织](https://gitee.com/youlaiorg)  | [有来开源组织](https://github.com/youlaitech) | [有来开源组织](https://gitcode.net/youlai)  |
+| 技术团队  | [有来技术团队](https://gitee.com/youlaitech)  | [有来技术团队](https://github.com/youlaitech) | -  |
+| 商城后端 | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall)| [youlai-mall](https://github.com/youlaitech/youlai-mall) | [youlai-mall](https://gitcode.net/youlai/youlai-mall)  |
+| 商城管理前端(Vue3)| [mall-admin-web](https://gitee.com/youlaiorg/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) | [mall-admin-web](https://gitcode.net/youlai/mall-admin-web) |
+| 商城管理前端(Vue2)| [mall-admin-web](https://gitee.com/youlaitech/youlai-mall-admin/tree/vue2/) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web/tree/vue2/) | - |
+| 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)| [mall-app](https://github.com/youlaitech/mall-app) | [mall-app](https://gitcode.net/youlai/mall-app) |
+| vue3-element-admin| [vue3-element-admin](https://gitee.com/youlaiorg/vue3-element-admin) | [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) |-|
 
 ## 🚤 项目启动
 
 ###  🗁 后端启动
 
-
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
-
-
 #### 1️⃣ 极速启动
-
 
 1. **启动 Nacos**
 
@@ -194,20 +180,16 @@
 
    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致;
 
-   - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html))
+   - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
     
-
 ### 🗁 管理前端启动
-
 
 1. 本机安装 Node 环境
 2. npm install
 3. npm run dev
 4. 访问 http://localhost:9527
 
-
 ### 🗁 微信小程序启动
-
 
 1. 下载 `HBuilder X` 和 `微信开发者工具` ;
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X` ;
@@ -217,41 +199,45 @@
 6. Nacos控制台替换 `youlai-auth` 配置中的微信小程序 AppID 和 AppSecret 为自己申请的小程序 ;
 7. `Hbuilder X` 工具栏点击 `运行` -> `运行到小程序模拟器` -> `微信开发者工具`。
 
-
 ### 🗁 H5/移动端启动
-
 
 1. 下载 `HBuilder X` ;
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
 3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
 
 
+## ✅ Git 贡献提交规范
+> IDEA 安装 Git Commit Template 插件
+
+- feat 增加新功能
+- fix 修复BUG
+- docs 文档/注释
+- style 代码风格改变但不影响运行结果(代码格式化、空格和空行调整等)
+- refactor 代码重构
+- test 测试
+- chore 依赖更新
+- ci 持续集成
+
 ## 💹 趋势统计
 
-
 - Gitee
-
 
 <p align="center">
     <a target="_blank" href='https://whnb.wang/stars/youlaitech/youlai-mall'><img src="https://whnb.wang/stars/youlaitech/youlai-mall"></a>
 </p>
 
 
-
 - Github
-
 
 <p align="center">
     <a target="_blank" href='https://starchart.cc/hxrui/youlai-mall'><img src="https://starchart.cc/hxrui/youlai-mall.svg"></a>
 </p>
 
-
-
-## 💬 联系信息 
-
+## 💬 联系信息
 
 > 欢迎添加开发者微信，备注「有来」进群
 
+|                         全栈                          |                             全栈                             |                            DevOps                            |
+| :---------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![](http://cdn.youlai.tech/rui.jpg) | ![](http://cdn.youlai.tech/chuan.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
 
-| ![](https://gitee.com/haoxr/image/raw/master/hxr.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/ba695a5e70410a066b7052c5dc9db5c.jpg) |
-| ----------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |

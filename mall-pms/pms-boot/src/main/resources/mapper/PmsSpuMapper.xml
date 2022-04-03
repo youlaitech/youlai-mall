@@ -72,7 +72,7 @@
 
 
     <!--「移动端」商品分页列表-->
-    <select id="listAppSpuWithPage" resultType="com.youlai.mall.pms.pojo.vo.GoodsPageVO">
+    <select id="listAppSpuPage" resultType="com.youlai.mall.pms.pojo.vo.GoodsPageVO">
         SELECT
             id,
             NAME,
