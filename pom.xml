@@ -18,6 +18,7 @@
         <module>mall-ums</module>
         <module>mall-pms</module>
         <module>mall-oms</module>
+        <!-- 实验室 -->
         <module>youlai-laboratory</module>
     </modules>
 
@@ -31,15 +32,16 @@
     <properties>
         <youlai.version>2.0.0</youlai.version>
 
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
         <spring-boot.version>2.6.5</spring-boot.version>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
         <lombok.version>1.18.18</lombok.version>
-        <hutool.version>5.5.8</hutool.version>
+        <hutool.version>5.7.21</hutool.version>
         <jasypt.version>3.0.4</jasypt.version>
         <mysql.version>8.0.19</mysql.version>
         <druid.version>1.2.4</druid.version>
@@ -55,15 +57,14 @@
         <ip2region.version>1.7.2</ip2region.version>
         <dozer.version>6.2.0</dozer.version>
         <swagger.version>1.6.2</swagger.version>
-
-        <docker.image.prefix>youlai</docker.image.prefix>
         <kaptcha.version>2.3.2</kaptcha.version>
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
+
+        <docker.image.prefix>youlai</docker.image.prefix>
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -75,7 +76,6 @@
             <version>${hutool.version}</version>
         </dependency>
         <!-- jasypt加密 -->
-        <!-- https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter -->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
