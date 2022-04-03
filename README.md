@@ -206,7 +206,7 @@
 3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
 
 
-## Git 贡献提交规范
+## ✅ Git 贡献提交规范
 > IDEA 安装 Git Commit Template 插件
 
 - feat 增加新功能
