@@ -205,6 +205,19 @@
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
 3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
 
+
+## Git 贡献提交规范
+> IDEA 安装 Git Commit Template 插件
+
+- feat 增加新功能
+- fix 修复BUG
+- docs 文档/注释
+- style 代码风格改变但不影响运行结果(代码格式化、空格和空行调整等)
+- refactor 代码重构
+- test 测试
+- chore 依赖更新
+- ci 持续集成
+
 ## 💹 趋势统计
 
 - Gitee
