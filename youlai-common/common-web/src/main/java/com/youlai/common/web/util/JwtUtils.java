@@ -1,6 +1,5 @@
 package com.youlai.common.web.util;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -12,8 +11,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * JWT工具类

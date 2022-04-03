@@ -1,11 +1,12 @@
 package com.youlai.admin.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysRolePermissionMapper;
-import com.youlai.admin.pojo.form.RolePermsForm;
 import com.youlai.admin.pojo.entity.SysRolePermission;
+import com.youlai.admin.pojo.form.RolePermsForm;
 import com.youlai.admin.service.ISysRolePermissionService;
 import org.springframework.stereotype.Service;
 
@@ -46,11 +47,18 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
 
         List<Long> oldPermIds = this.listPermIds(menuId, roleId);
 
+        // 验证权限数据是否改变
+        List<Long> sortedPermIds = permIds.stream().sorted().collect(Collectors.toList());
+        List<Long> sortedOldPermIds = oldPermIds.stream().sorted().collect(Collectors.toList());
+        boolean permDataChangeFlag = !CollectionUtil.isEqualList(sortedPermIds, sortedOldPermIds);
+        Assert.isTrue(permDataChangeFlag, "提交失败，权限数据无改动！");
+
         // 删除此次保存移除的权限
+        boolean updateFlag = false;
         if (CollectionUtil.isNotEmpty(oldPermIds)) {
             List<Long> removePermIds = oldPermIds.stream().filter(id -> !permIds.contains(id)).collect(Collectors.toList());
             if (CollectionUtil.isNotEmpty(removePermIds)) {
-                this.remove(new LambdaQueryWrapper<SysRolePermission>()
+                updateFlag = this.remove(new LambdaQueryWrapper<SysRolePermission>()
                         .eq(SysRolePermission::getRoleId, roleId)
                         .in(SysRolePermission::getPermissionId, removePermIds));
             }
@@ -65,10 +73,10 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
                     SysRolePermission rolePerm = new SysRolePermission(roleId, permId);
                     rolePerms.add(rolePerm);
                 }
-                return this.saveBatch(rolePerms);
+                updateFlag = this.saveBatch(rolePerms);
             }
         }
-        return false;
+        return updateFlag;
     }
 
 

@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.dto.AuthClientDTO;
 import com.youlai.admin.pojo.entity.SysOauthClient;
 import com.youlai.admin.service.ISysOauthClientService;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,12 +37,12 @@ public class OauthClientController {
             @ApiImplicitParam(name = "clientId", value = "客户端ID", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result list(long pageNum, long pageSize, String clientId) {
+    public PageResult<SysOauthClient> list(long pageNum, long pageSize, String clientId) {
         IPage<SysOauthClient> result = iSysOauthClientService.page(
                 new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SysOauthClient>()
                         .like(StrUtil.isNotBlank(clientId), SysOauthClient::getClientId, clientId));
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "客户端详情")
@@ -86,7 +87,7 @@ public class OauthClientController {
     @GetMapping("/getOAuth2ClientById")
     public Result<AuthClientDTO> getOAuth2ClientById(@RequestParam String clientId) {
         SysOauthClient client = iSysOauthClientService.getById(clientId);
-        Assert.isTrue(client!=null, "OAuth2 客户端不存在");
+        Assert.isTrue(client != null, "OAuth2 客户端不存在");
         AuthClientDTO authClientDTO = new AuthClientDTO();
         BeanUtil.copyProperties(client, authClientDTO);
         return Result.success(authClientDTO);

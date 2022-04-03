@@ -1,0 +1,33 @@
+` 有来 Spring Security OAuth2 验证码模式
+@startuml
+'https://plantuml.com/sequence-diagram
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+header 有来 Spring Security OAuth2 验证码模式
+
+actor 客户端
+
+客户端 -> AuthController:密码 + 验证码模式 \n /oauth/token?gran_type=captcha
+AuthController -> TokenEndpoint: postAccessToken()
+TokenEndpoint -> CompositeTokenGranter: this.getTokenGranter().grant()
+participant CaptchaTokenGranter #99FF99
+CompositeTokenGranter->CaptchaTokenGranter: grant( grantType, tokenRequest )\n根据 grant_type 匹配 Granter
+note over of AuthenticationManagerDelegator #aqua
+WebSecurityConfigurerAdapter 内部类
+end note
+CaptchaTokenGranter-> AuthenticationManagerDelegator: \n验证码校验\nthis.authenticationManager.authenticate()
+AuthenticationManagerDelegator -> ProviderManager: this.delegate.authenticate()
+ProviderManager -> ProviderManager: 匹配支持\nUsernamePasswordAuthenticationToken\n的Provider
+activate ProviderManager
+ProviderManager -> DaoAuthenticationProvider: provider.authenticate(authentication)
+deactivate ProviderManager
+DaoAuthenticationProvider -> DaoAuthenticationProvider:authenticate()\n密码判读
+ProviderManager <-- DaoAuthenticationProvider: Authentication
+AuthenticationManagerDelegator <-- ProviderManager: Authentication
+CaptchaTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
+CompositeTokenGranter <-- CaptchaTokenGranter: OAuth2AccessToken
+TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
+AuthController <-- TokenEndpoint:OAuth2AccessToken
+客户端 <-- AuthController: OAuth2AccessToken
+@enduml

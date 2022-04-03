@@ -32,13 +32,10 @@ public class CartController {
     @GetMapping
     @ApiOperationSupport(order = 1)
     public <T> Result<T> getCart() {
-        try {
-            Long memberId = MemberUtils.getMemberId();
-            List<CartItemDTO> result = cartService.listCartItemByMemberId(memberId);
-            return Result.success((T) result);
-        } catch (Exception e) {
-            return Result.success((T) Collections.EMPTY_LIST);
-        }
+        Long memberId = MemberUtils.getMemberId();
+        List<CartItemDTO> result = cartService.listCartItemByMemberId(memberId);
+        return Result.success((T) result);
+
     }
 
     @ApiOperation(value = "删除购物车")

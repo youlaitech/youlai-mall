@@ -1,6 +1,7 @@
 package com.youlai.mall.pms.controller.app;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
 import com.youlai.mall.pms.pojo.vo.GoodsPageVO;
@@ -27,9 +28,9 @@ public class SpuController {
 
     @ApiOperation(value = "商品分页列表")
     @GetMapping("/page")
-    public Result<List<GoodsPageVO>> listGoodsWithPage(SpuPageQuery queryParams) {
+    public PageResult listGoodsWithPage(SpuPageQuery queryParams) {
         IPage<GoodsPageVO> result = iPmsSpuService.listAppSpuWithPage(queryParams);
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "获取商品详情")

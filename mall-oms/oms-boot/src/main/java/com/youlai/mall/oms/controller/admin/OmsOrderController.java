@@ -2,6 +2,7 @@ package com.youlai.mall.oms.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.pojo.dto.OrderDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 /**
  * @author huawei
  * @email huawei_code@163.com
@@ -35,13 +35,14 @@ import java.util.Optional;
 public class OmsOrderController {
 
     private final IOrderService orderService;
+
     private final IOrderItemService orderItemService;
 
-    @ApiOperation("订单列表")
+    @ApiOperation("订单分页列表")
     @GetMapping
-    public Result listOrdersWithPage(OrderPageQuery queryParams) {
-        IPage<OmsOrder> result = orderService.listOrdersWithPage(queryParams);
-        return Result.success(result.getRecords(), result.getTotal());
+    public PageResult listOrderPages(OrderPageQuery queryParams) {
+        IPage<OmsOrder> result = orderService.listOrderPages(queryParams);
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "订单详情")

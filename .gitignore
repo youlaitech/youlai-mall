@@ -22,4 +22,5 @@ logs
 ### Canal
 h2.mv.db
 **/meta.dat
+.DS_Store
 

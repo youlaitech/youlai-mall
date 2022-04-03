@@ -6,17 +6,18 @@
 
     <!-- 根据订单ID获取订单明细 -->
     <select id="listOrderItemsByOrderId" resultType="com.youlai.mall.oms.pojo.vo.OrderPageVO$OrderItem">
-       SELECT
-              id,
-              order_id,
-              sku_id,
-              sku_name,
-              sku_pic,
-              sku_price,
-              sku_quantity,
-              sku_total_price,
-              spu_name
-       FROM oms_order_item
-       WHERE order_id=#{orderId}
+        SELECT
+            id,
+            order_id,
+            sku_id,
+            sku_name,
+            pic_url,
+            price,
+            count,
+            total_amount
+        FROM
+            oms_order_item
+        WHERE
+            order_id=#{orderId}
     </select>
 </mapper>

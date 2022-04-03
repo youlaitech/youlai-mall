@@ -17,6 +17,9 @@
 <strong>在线预览：</strong><a target="_blank" href="http://www.youlai.tech">www.youlai.tech</a> 
 </p>
 
+<p align="center">
+<strong>H5商城在线预览：</strong><a target="_blank" href="http://www.youlai.tech:81">mall.youlai.tech</a> 
+</p>
 
 
 <p align="center">
@@ -135,7 +138,7 @@
 
    - **系统数据库**
 
-       进入 `doc/sql` 目录 ， 根据 MySQL 版本选择对应的脚本；
+       进入 `docs/sql` 目录 ， 根据 MySQL 版本选择对应的脚本；
     
        先执行 `database.sql` 完成数据库的创建；
 
@@ -170,11 +173,15 @@
 
        输入用户名/密码：nacos/nacos ；
 
-       进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `doc/nacos/DEFAULT_GROUP.zip` 文件 。
+       进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `docs/nacos/DEFAULT_GROUP.zip` 文件。
 
    4.  **修改Nacos配置**
 
-       在 Nacos 控制台配置列表选择共享配置 `youlai-common.yaml` 进行编辑，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认有来 线上环境。
+       在 Nacos 控制台配置列表选择共享配置 `youlai-common.yaml` 进行编辑，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认「有来」线上环境。
+   
+   5. **修改Nacos配置中心地址**
+      
+        批量替换应用的 bootstrap-dev.yml 文件的配置中心地址 `http://c.youlai.tech/8848` → `http://localhost/8848` ，默认「有来」线上的配置中心地址。 
 
 
 4. **服务启动**
@@ -188,9 +195,7 @@
    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致;
 
    - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html))
-
-
-
+    
 
 ### 🗁 管理前端启动
 

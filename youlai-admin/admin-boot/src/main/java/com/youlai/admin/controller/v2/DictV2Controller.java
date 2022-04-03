@@ -8,12 +8,15 @@ import com.youlai.admin.pojo.entity.SysDict;
 import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.service.ISysDictItemService;
 import com.youlai.admin.service.ISysDictService;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.common.web.vo.OptionVO;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Api(tags = "字典管理")
 @RestController
@@ -26,7 +29,7 @@ public class DictV2Controller {
 
     @ApiOperation(value = "字典分页列表")
     @GetMapping("/page")
-    public Result listDictByPage(
+    public PageResult<SysDict> listDictByPage(
             @ApiParam("页码") long pageNum,
             @ApiParam("每页数量") long pageSize,
             @ApiParam("字典名称") String name
@@ -36,7 +39,7 @@ public class DictV2Controller {
                         .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
                         .orderByDesc(SysDict::getGmtModified)
                         .orderByDesc(SysDict::getGmtCreate));
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "字典详情")
@@ -79,7 +82,7 @@ public class DictV2Controller {
             @ApiImplicitParam(name = "dictCode", value = "字典编码", paramType = "query", dataType = "String")
     })
     @GetMapping("/items/page")
-    public Result getPageList(
+    public PageResult getPageList(
             long pageNum,
             long pageSize,
             String name,
@@ -89,24 +92,31 @@ public class DictV2Controller {
                 new Page<>(pageNum, pageSize),
                 new SysDictItem().setName(name).setDictCode(dictCode)
         );
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "根据字典编码获取字典项列表")
     @GetMapping("/items")
-    public Result list(String dictCode) {
-        List<SysDictItem> list = iSysDictItemService.list(
+    public Result<List<OptionVO>> list(String dictCode) {
+        List<SysDictItem> dictItems = iSysDictItemService.list(
                 new LambdaQueryWrapper<SysDictItem>()
                         .eq(StrUtil.isNotBlank(dictCode), SysDictItem::getDictCode, dictCode)
                         .select(SysDictItem::getName, SysDictItem::getValue)
                         .orderByAsc(SysDictItem::getSort)
         );
+
+
+        List<OptionVO> list = Optional.ofNullable(dictItems)
+                .orElse(Collections.emptyList()).stream() // 返回空集合非null
+                .map(item -> new OptionVO(item.getValue(), item.getName()))
+                .collect(Collectors.toList());
+
         return Result.success(list);
     }
 
     @ApiOperation(value = "字典项详情")
     @GetMapping("/items/{id}")
-    public Result getDictItemDetail(@PathVariable Long id) {
+    public Result<SysDictItem> getDictItemDetail(@PathVariable Long id) {
         SysDictItem dictItem = iSysDictItemService.getById(id);
         return Result.success(dictItem);
     }

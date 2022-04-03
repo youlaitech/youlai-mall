@@ -27,10 +27,13 @@ public class SysMenu extends BaseEntity {
     private String icon;
 
     /**
-     * 路由路径
+     * 路由相对路径
      */
     private String path;
 
+    /**
+     * 组件绝对路径
+     */
     private String component;
 
     private Integer sort;

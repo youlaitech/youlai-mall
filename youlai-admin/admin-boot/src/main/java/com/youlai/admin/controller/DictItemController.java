@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.service.ISysDictItemService;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,7 +27,7 @@ public class DictItemController {
 
     private final ISysDictItemService iSysDictItemService;
 
-    @ApiOperation(value = "列表分页")
+    @ApiOperation(value = "用户分页列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", defaultValue = "1", value = "页码", paramType = "query", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", defaultValue = "10", value = "每页数量", paramType = "query", dataType = "Integer"),
@@ -34,15 +35,17 @@ public class DictItemController {
             @ApiImplicitParam(name = "dictCode", value = "字典编码", paramType = "query", dataType = "String")
     })
     @GetMapping("/page")
-    public Result getPageList(
+    public PageResult listDictItemsWithPage(
             long pageNum,
             long pageSize,
             String name,
             String dictCode
     ) {
-        IPage<SysDictItem> result = iSysDictItemService.list(new Page<>(pageNum, pageSize),
-                new SysDictItem().setName(name).setDictCode(dictCode));
-        return Result.success(result.getRecords(), result.getTotal());
+        IPage<SysDictItem> result = iSysDictItemService.list(
+                new Page<>(pageNum, pageSize),
+                new SysDictItem().setName(name).setDictCode(dictCode)
+        );
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "字典项列表")

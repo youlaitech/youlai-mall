@@ -10,6 +10,7 @@ import com.youlai.admin.pojo.entity.SysDict;
 import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.service.ISysDictItemService;
 import com.youlai.admin.service.ISysDictService;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,12 +39,12 @@ public class DictController {
             @ApiImplicitParam(name = "name", value = "字典名称", paramType = "query", dataType = "String"),
     })
     @GetMapping("/page")
-    public Result list(Long pageNum, Long pageSize, String name) {
+    public PageResult<SysDict> list(Long pageNum, Long pageSize, String name) {
         Page<SysDict> result = iSysDictService.page(new Page<>(pageNum, pageSize), new LambdaQueryWrapper<SysDict>()
                 .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
                 .orderByDesc(SysDict::getGmtModified)
                 .orderByDesc(SysDict::getGmtCreate));
-        return Result.success(result.getRecords(), result.getTotal());
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "字典列表")

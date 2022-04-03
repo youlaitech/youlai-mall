@@ -25,5 +25,5 @@ public interface OrderMapper extends BaseMapper<OmsOrder> {
      * @param queryParams
      * @return
      */
-    List<OmsOrder> listUsersWithPage(Page<OmsOrder> page, OrderPageQuery queryParams);
+    List<OmsOrder> listOrderPages(Page<OmsOrder> page, OrderPageQuery queryParams);
 }

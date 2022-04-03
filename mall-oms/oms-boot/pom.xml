@@ -11,6 +11,12 @@
 
     <artifactId>oms-boot</artifactId>
 
+    <properties>
+        <youlai.version>2.0.0</youlai.version>
+        <service.port>8603</service.port>
+        <service.nodeport>32000</service.nodeport>
+    </properties>
+
     <dependencies>
 
         <!-- Spring Cloud & Alibaba -->

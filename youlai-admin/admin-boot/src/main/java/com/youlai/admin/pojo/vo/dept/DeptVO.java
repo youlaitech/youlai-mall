@@ -7,11 +7,11 @@ import java.util.List;
 @Data
 public class DeptVO {
 
-    private Integer id;
+    private Long id;
+
+    private Long parentId;
 
     private String name;
-
-    private Integer parentId;
 
     private String treePath;
 
@@ -24,7 +24,6 @@ public class DeptVO {
     private String mobile;
 
     private String email;
-
 
     private List<DeptVO> children;
 

@@ -11,6 +11,7 @@ import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysUserService;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.UserUtils;
 import io.swagger.annotations.Api;
@@ -42,11 +43,11 @@ public class UserController {
 
     @ApiOperation(value = "用户分页列表")
     @GetMapping("/page")
-    public Result<List<UserPageVO>> listUsersWithPage(
+    public PageResult<UserPageVO> listUsersPage(
             UserPageQuery queryParams
     ) {
-        IPage<UserPageVO> result = iSysUserService.listUsersWithPage(queryParams);
-        return Result.success(result.getRecords(), result.getTotal());
+        IPage<UserPageVO> result = iSysUserService.listUsersPage(queryParams);
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "获取用户表单详情")

@@ -1,6 +1,7 @@
 package com.youlai.mall.sms.controller.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.sms.pojo.domain.SmsCoupon;
 import com.youlai.mall.sms.pojo.form.CouponTemplateForm;
@@ -43,9 +44,9 @@ public class CouponTemplateController {
             @ApiImplicitParam(name = "name", value = "广告名称", paramType = "query", dataType = "String")
     })
     @GetMapping
-    public Result page(Integer page, Integer limit, String name) {
-        IPage<SmsCouponTemplateVO> pageResult = couponTemplateService.pageQuery(page, limit, name);
-        return Result.success(pageResult.getRecords(), pageResult.getTotal());
+    public PageResult page(Integer page, Integer limit, String name) {
+        IPage<SmsCouponTemplateVO> result = couponTemplateService.pageQuery(page, limit, name);
+        return PageResult.success(result);
     }
 
     /**
@@ -120,9 +121,9 @@ public class CouponTemplateController {
 
     @ApiOperation(value = "优惠券领取使用条件分页查询")
     @GetMapping("/template/coupon/page")
-    public Result couponPage(@ApiParam(value = "优惠券领取使用条件分页查询") CouponPageQuery query) {
-        IPage<SmsCoupon> iPage = couponService.pageQuery(query);
-        return Result.success(iPage.getRecords(), iPage.getTotal());
+    public PageResult couponPage(@ApiParam(value = "优惠券领取使用条件分页查询") CouponPageQuery query) {
+        IPage<SmsCoupon> result = couponService.pageQuery(query);
+        return PageResult.success(result);
     }
 
     @ApiOperation(value = "优惠券模板下优惠券领取详情")

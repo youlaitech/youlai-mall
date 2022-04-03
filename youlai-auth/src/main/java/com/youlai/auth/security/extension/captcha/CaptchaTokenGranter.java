@@ -3,7 +3,6 @@ package com.youlai.auth.security.extension.captcha;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.common.constant.SecurityConstants;
-import com.youlai.common.web.exception.BizException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -58,11 +57,11 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
 
         // 从缓存取出正确的验证码和用户输入的验证码比对
         String correctValidateCode = redisTemplate.opsForValue().get(validateCodeKey);
-        if (!validateCode.equals(correctValidateCode)) {
-            throw new BizException("验证码不正确");
-        } else {
-            redisTemplate.delete(validateCodeKey);
-        }
+        Assert.isTrue(StrUtil.isNotBlank(correctValidateCode),"验证码已过期");
+        Assert.isTrue(validateCode.equals(correctValidateCode),"您输入的验证码不正确");
+
+        // 验证码验证通过，删除 Redis 的验证码
+        redisTemplate.delete(validateCodeKey);
 
         String username = parameters.get("username");
         String password = parameters.get("password");

@@ -3,6 +3,7 @@ package com.youlai.mall.ums.controller.app;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
@@ -27,15 +28,15 @@ public class MemberController {
 
     private final IUmsMemberService memberService;
 
-    @ApiOperation(value = "根据会员的openid")
+    @ApiOperation(value = "根据会员ID获取openid")
     @GetMapping("/{memberId}/openid")
     public Result<String> getMemberById(
             @ApiParam("会员ID") @PathVariable Long memberId
     ) {
         UmsMember member = memberService.getOne(
                 new LambdaQueryWrapper<UmsMember>()
-                .eq(UmsMember::getId,memberId)
-                .select(UmsMember::getOpenid)
+                        .eq(UmsMember::getId, memberId)
+                        .select(UmsMember::getOpenid)
         );
         String openid = member.getOpenid();
         return Result.success(openid);
@@ -58,10 +59,10 @@ public class MemberController {
     @ApiOperation(value = "扣减会员余额")
     @PutMapping("/current/balances/_deduct")
     public <T> Result<T> deductBalance(@RequestParam Long balances) {
-        Long userId = MemberUtils.getMemberId();
+        Long memberId = MemberUtils.getMemberId();
         boolean result = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .setSql("balance = balance - " + balances)
-                .eq(UmsMember::getId, userId)
+                .eq(UmsMember::getId, memberId)
         );
         return Result.judge(result);
     }
@@ -92,6 +93,9 @@ public class MemberController {
             @ApiParam("微信身份标识") @PathVariable String openid
     ) {
         MemberAuthInfoDTO memberAuthInfo = memberService.getByOpenid(openid);
+        if (memberAuthInfo == null) {
+            return Result.failed(ResultCode.USER_NOT_EXIST);
+        }
         return Result.success(memberAuthInfo);
     }
 
@@ -106,6 +110,9 @@ public class MemberController {
             @ApiParam("手机号码") @PathVariable String mobile
     ) {
         MemberAuthInfoDTO memberAuthInfo = memberService.getByMobile(mobile);
+        if (memberAuthInfo == null) {
+            return Result.failed(ResultCode.USER_NOT_EXIST);
+        }
         return Result.success(memberAuthInfo);
     }
 

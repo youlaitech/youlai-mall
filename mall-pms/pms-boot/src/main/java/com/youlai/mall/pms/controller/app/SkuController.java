@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 商品库存单元控制器 (Stock Keeping Unit)
  */
-@Api(tags = "「移动端」商品库存")
+@Api(tags = "「移动端」库存信息")
 @RestController
 @RequestMapping("/app-api/v1/sku")
 @RequiredArgsConstructor

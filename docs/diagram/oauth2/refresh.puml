@@ -1,0 +1,34 @@
+` 有来 Spring Security OAuth2 刷新模式
+@startuml
+'https://plantuml.com/sequence-diagram
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+header 有来 Spring Security OAuth2 刷新模式
+
+actor 客户端
+
+客户端 -> AuthController: 刷新模式 \n /oauth/token?gran_type=refresh_token
+AuthController -> TokenEndpoint: postAccessToken()
+TokenEndpoint -> CompositeTokenGranter: this.getTokenGranter().grant()
+CompositeTokenGranter->RefreshTokenGranter:grant( grantType, tokenRequest )\n根据 grant_type 匹配 Granter
+note over of AuthenticationManagerDelegator #aqua
+WebSecurityConfigurerAdapter 内部类
+end note
+RefreshTokenGranter-> AuthenticationManagerDelegator:this.authenticationManager.authenticate()
+AuthenticationManagerDelegator -> ProviderManager: this.delegate.authenticate()
+
+
+ProviderManager -> ProviderManager: 匹配支持\nPreAuthenticatedAuthenticationToken\n的Provider
+activate ProviderManager
+ProviderManager ->  PreAuthenticatedAuthenticationProvider: provider.authenticate(authentication)
+deactivate ProviderManager
+PreAuthenticatedAuthenticationProvider -> PreAuthenticatedAuthenticationProvider:authenticate()\n用户校验\n是否锁定\n是否有效\n是否过期
+ProviderManager <-- PreAuthenticatedAuthenticationProvider: Authentication
+AuthenticationManagerDelegator <-- ProviderManager: Authentication
+RefreshTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
+CompositeTokenGranter <-- RefreshTokenGranter: OAuth2AccessToken
+TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
+AuthController <-- TokenEndpoint:OAuth2AccessToken
+客户端 <-- AuthController: OAuth2AccessToken
+@enduml

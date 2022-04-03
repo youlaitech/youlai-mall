@@ -21,6 +21,7 @@ import com.youlai.mall.pms.pojo.query.SpuPageQuery;
 import com.youlai.mall.pms.pojo.vo.GoodsDetailVO;
 import com.youlai.mall.pms.pojo.vo.GoodsPageVO;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
+import com.youlai.mall.pms.pojo.vo.PmsGoodsDetailVO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import com.youlai.mall.pms.service.IPmsSpuAttributeValueService;
 import com.youlai.mall.pms.service.IPmsSpuService;
@@ -165,32 +166,33 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
      * @return
      */
     @Override
-    public com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO getGoodsById(Long id) {
-        com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO goodsDetailVO = new com.youlai.mall.pms.pojo.vo.admin.GoodsDetailVO();
+    public PmsGoodsDetailVO getGoodsById(Long id) {
+        PmsGoodsDetailVO pmsGoodsDetailVO = new PmsGoodsDetailVO();
 
-        PmsSpu spu = this.getById(id);
-        Assert.isTrue(spu != null, "商品不存在");
+        PmsSpu pmsSpu = this.getById(id);
+        Assert.isTrue(pmsSpu != null, "商品不存在");
 
-        BeanUtil.copyProperties(spu, goodsDetailVO);
+        BeanUtil.copyProperties(pmsSpu, pmsGoodsDetailVO,"album");
+        pmsGoodsDetailVO.setSubPicUrls(pmsSpu.getAlbum());
 
         // 商品属性列表
         List<PmsSpuAttributeValue> attrList = spuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
                 .eq(PmsSpuAttributeValue::getSpuId, id)
                 .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.ATTRIBUTE.getValue())
         );
-        goodsDetailVO.setAttrList(attrList);
+        pmsGoodsDetailVO.setAttrList(attrList);
 
         // 商品规格列表
         List<PmsSpuAttributeValue> specList = spuAttributeValueService.list(new LambdaQueryWrapper<PmsSpuAttributeValue>()
                 .eq(PmsSpuAttributeValue::getSpuId, id)
                 .eq(PmsSpuAttributeValue::getType, AttributeTypeEnum.SPECIFICATION.getValue())
         );
-        goodsDetailVO.setSpecList(specList);
+        pmsGoodsDetailVO.setSpecList(specList);
 
         // 商品SKU列表
         List<PmsSku> skuList = skuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, id));
-        goodsDetailVO.setSkuList(skuList);
-        return goodsDetailVO;
+        pmsGoodsDetailVO.setSkuList(skuList);
+        return pmsGoodsDetailVO;
 
     }
 

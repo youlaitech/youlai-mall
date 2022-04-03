@@ -1,6 +1,7 @@
 package com.youlai.auth.security.config;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
@@ -38,6 +39,7 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
@@ -80,6 +82,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenEnhancers.add(jwtAccessTokenConverter());
         tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
 
+        //token存储模式设定 默认为InMemoryTokenStore模式存储到内存中
+        endpoints.tokenStore(jwtTokenStore());
+
         // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
         List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
 
@@ -104,15 +109,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenGranter(compositeTokenGranter)
-                /** refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
-                 *  1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
-                 *  2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
-                 */
-                .reuseRefreshTokens(true)
+
                 .tokenServices(tokenServices(endpoints))
         ;
     }
 
+    /**
+     * jwt token存储模式
+     */
+    @Bean
+    public JwtTokenStore jwtTokenStore(){
+        return new JwtTokenStore(jwtAccessTokenConverter());
+    }
 
     public DefaultTokenServices tokenServices(AuthorizationServerEndpointsConfigurer endpoints) {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
@@ -137,6 +145,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
         provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
         tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
+
+        /** refresh_token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
+         *  1 重复使用：access_token过期刷新时， refresh_token过期时间未改变，仍以初次生成的时间为准
+         *  2 非重复使用：access_token过期刷新时， refresh_token过期时间延续，在refresh_token有效期内刷新便永不失效达到无需再次登录的目的
+         */
+        tokenServices.setReuseRefreshToken(true);
         return tokenServices;
 
     }
@@ -167,22 +181,24 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            Map<String, Object> additionalInfo = CollectionUtil.newHashMap();
+            Map<String, Object> additionalInfo = MapUtil.newHashMap();
             Object principal = authentication.getUserAuthentication().getPrincipal();
             if (principal instanceof SysUserDetails) {
                 SysUserDetails sysUserDetails = (SysUserDetails) principal;
                 additionalInfo.put("userId", sysUserDetails.getUserId());
                 additionalInfo.put("username", sysUserDetails.getUsername());
-                additionalInfo.put("deptId",sysUserDetails.getDeptId());
-                if (StrUtil.isNotBlank(sysUserDetails.getAuthenticationMethod())) {
-                    additionalInfo.put("authenticationMethod", sysUserDetails.getAuthenticationMethod());
+                additionalInfo.put("deptId", sysUserDetails.getDeptId());
+                // 认证身份标识(username:用户名；)
+                if (StrUtil.isNotBlank(sysUserDetails.getAuthenticationIdentity())) {
+                    additionalInfo.put("authenticationIdentity", sysUserDetails.getAuthenticationIdentity());
                 }
             } else if (principal instanceof MemberUserDetails) {
                 MemberUserDetails memberUserDetails = (MemberUserDetails) principal;
                 additionalInfo.put("memberId", memberUserDetails.getMemberId());
                 additionalInfo.put("username", memberUserDetails.getUsername());
-                if (StrUtil.isNotBlank(memberUserDetails.getAuthenticationMethod())) {
-                    additionalInfo.put("authenticationMethod", memberUserDetails.getAuthenticationMethod());
+                // 认证身份标识(mobile:手机号；openId:开放式认证系统唯一身份标识)
+                if (StrUtil.isNotBlank(memberUserDetails.getAuthenticationIdentity())) {
+                    additionalInfo.put("authenticationIdentity", memberUserDetails.getAuthenticationIdentity());
                 }
             }
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);

@@ -26,7 +26,7 @@ import java.util.List;
  * @Date 2021-12-10 13:28
  */
 @Slf4j
-public class DataPermissionHandlerImpl implements DataPermissionHandler {
+public class MyDataPermissionHandler implements DataPermissionHandler {
 
     @Override
     public Expression getSqlSegment(Expression where, String mappedStatementId) {
