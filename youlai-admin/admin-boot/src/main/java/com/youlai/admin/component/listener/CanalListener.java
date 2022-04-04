@@ -30,13 +30,14 @@ public class CanalListener {
     private final ISysOauthClientService oauthClientService;
     private final ISysMenuService menuService;
 
-    @RabbitListener(bindings = {
+    /*@RabbitListener(bindings = {
             @QueueBinding(
                     value = @Queue(value = "canal.queue", durable = "true"),
                     exchange = @Exchange(value = "canal.exchange"),
                     key = "canal.routing.key"
             )
-    })
+    })*/
+    @RabbitListener(queues = "canal.queue")
     public void handleDataChange(String message) {
         CanalMessage canalMessage = JSONUtil.toBean(message, CanalMessage.class);
         String tableName = canalMessage.getTable();
