@@ -27,7 +27,6 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
     public RabbitModuleInitializer(AmqpAdmin amqpAdmin, RabbitModuleProperties rabbitModuleProperties) {
         this.amqpAdmin = amqpAdmin;
         this.rabbitModuleProperties = rabbitModuleProperties;
-
     }
 
     @Override
