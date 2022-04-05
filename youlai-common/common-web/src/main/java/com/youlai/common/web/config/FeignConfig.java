@@ -5,6 +5,7 @@ import feign.RequestInterceptor;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -42,17 +43,19 @@ public class FeignConfig {
     @Bean
     public RequestInterceptor requestInterceptor() {
         return (template) -> {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
-                    .getRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
-            //获取请求头
-            Enumeration<String> headerNames = request.getHeaderNames();
-            if (headerNames != null) {
-                while (headerNames.hasMoreElements()) {
-                    String name = headerNames.nextElement();
-                    String values = request.getHeader(name);
-                    //将请求头保存到模板中
-                    template.header(name, values);
+            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+            if (requestAttributes != null) {
+                ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+                HttpServletRequest request = attributes.getRequest();
+                //获取请求头
+                Enumeration<String> headerNames = request.getHeaderNames();
+                if (headerNames != null) {
+                    while (headerNames.hasMoreElements()) {
+                        String name = headerNames.nextElement();
+                        String values = request.getHeader(name);
+                        //将请求头保存到模板中
+                        template.header(name, values);
+                    }
                 }
             }
         };
