@@ -1,8 +1,10 @@
 package com.youlai.mall.oms.constant;
 
 /**
- * @author hxr
- * @date 2021-03-16
+ * 订单服务常量
+ *
+ * @author haoxr
+ * @date 2021/03/16
  */
 public interface OmsConstants {
 
