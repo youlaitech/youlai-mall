@@ -1,4 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.youlai.common.rabbitmq.config.RabbitConfig,\
-  com.youlai.common.rabbitmq.queue.OrderCloseQueue,\
   com.youlai.common.rabbitmq.dynamic.RabbitModuleProperties

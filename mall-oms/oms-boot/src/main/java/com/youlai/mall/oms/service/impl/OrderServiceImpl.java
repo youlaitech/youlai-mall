@@ -191,7 +191,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 result = orderItemService.saveBatch(saveOrderItems);
                 if (result) {
                     // 订单超时取消
-                    rabbitTemplate.convertAndSend("order.exchange", "order.create", orderToken);
+                    rabbitTemplate.convertAndSend("order.exchange", "order.create.routing.key", orderToken);
                 }
             }
             Assert.isTrue(result, "订单提交失败");

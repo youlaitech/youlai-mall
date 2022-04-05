@@ -56,11 +56,6 @@ public class RabbitModuleInfo {
         private boolean autoDelete = false; // 默认false，不自动删除
 
         /**
-         * 是否延迟交换机
-         */
-        private boolean delayed;
-
-        /**
          * 交换机其他参数
          */
         private Map<String, Object> arguments;
@@ -96,16 +91,12 @@ public class RabbitModuleInfo {
         /**
          * 绑定死信队列的交换机名称
          */
-        private String deadExchangeName;
-
+        private String deadLetterExchange;
 
         /**
          * 绑定死信队列的路由key
          */
-        private String deadRoutingKey;
-
-
-        private Long messageTtl;
+        private String deadLetterRoutingKey;
 
 
         private Map<String, Object> arguments;

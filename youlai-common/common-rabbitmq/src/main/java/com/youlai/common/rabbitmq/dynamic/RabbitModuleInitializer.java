@@ -1,6 +1,7 @@
 package com.youlai.common.rabbitmq.dynamic;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,14 +32,14 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
 
     @Override
     public void afterSingletonsInstantiated() {
-        log.info("初始化 RabbitMQ 队列、交换机和绑定关系");
-        initRabbitModule();
+        log.info("RabbitMQ 根据配置动态创建和绑定队列、交换机");
+        declareRabbitModule();
     }
 
     /**
-     * 初始化 RabbitMQ 队列、交换机和绑定关系
+     * RabbitMQ 根据配置动态创建和绑定队列、交换机
      */
-    private void initRabbitModule() {
+    private void declareRabbitModule() {
         List<RabbitModuleInfo> rabbitModuleInfos = rabbitModuleProperties.getModules();
         if (CollectionUtil.isEmpty(rabbitModuleInfos)) {
             return;
@@ -47,9 +48,9 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
             configParamValidate(rabbitModuleInfo);
 
             // 队列
-            Queue queue = convertToQueue(rabbitModuleInfo.getQueue());
+            Queue queue = convertQueue(rabbitModuleInfo.getQueue());
             // 交换机
-            Exchange exchange = convertToExchange(rabbitModuleInfo.getExchange());
+            Exchange exchange = convertExchange(rabbitModuleInfo.getExchange());
             // 绑定关系
             String routingKey = rabbitModuleInfo.getRoutingKey();
             String queueName = rabbitModuleInfo.getQueue().getName();
@@ -88,19 +89,25 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
      * @param queue
      * @return
      */
-    public Queue convertToQueue(RabbitModuleInfo.Queue queue) {
+    public Queue convertQueue(RabbitModuleInfo.Queue queue) {
         Map<String, Object> arguments = queue.getArguments();
 
-        // 是否需要绑定死信队列
-        String deadExchangeName = queue.getDeadExchangeName();
-        String deadRoutingKey = queue.getDeadRoutingKey();
-        if (StrUtil.isNotBlank(deadExchangeName) && StrUtil.isNotBlank(deadRoutingKey)) {
+        // 转换ttl的类型为long
+        if (arguments != null && arguments.containsKey("x-message-ttl")) {
+            arguments.put("x-message-ttl", Convert.toLong(arguments.get("x-message-ttl")));
+        }
 
-            if (arguments != null) {
+        // 是否需要绑定死信队列
+        String deadLetterExchange = queue.getDeadLetterExchange();
+        String deadLetterRoutingKey = queue.getDeadLetterRoutingKey();
+        if (StrUtil.isNotBlank(deadLetterExchange) && StrUtil.isNotBlank(deadLetterRoutingKey)) {
+
+            if (arguments == null) {
                 arguments = new HashMap<>(4);
-                arguments.put("x-dead-letter-exchange", deadExchangeName);
-                arguments.put("x-dead-letter-routing-key", deadRoutingKey);
             }
+            arguments.put("x-dead-letter-exchange", deadLetterExchange);
+            arguments.put("x-dead-letter-routing-key", deadLetterRoutingKey);
+
         }
 
         return new Queue(queue.getName(), queue.isDurable(), queue.isExclusive(), queue.isAutoDelete(), arguments);
@@ -113,7 +120,7 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
      * @param exchangeInfo
      * @return
      */
-    public Exchange convertToExchange(RabbitModuleInfo.Exchange exchangeInfo) {
+    public Exchange convertExchange(RabbitModuleInfo.Exchange exchangeInfo) {
 
         AbstractExchange exchange = null;
 
@@ -140,7 +147,6 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
                 break;
         }
 
-        exchange.setDelayed(exchangeInfo.isDelayed());
         return exchange;
 
     }

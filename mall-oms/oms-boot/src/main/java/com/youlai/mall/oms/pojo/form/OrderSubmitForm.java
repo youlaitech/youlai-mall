@@ -27,7 +27,6 @@ public class OrderSubmitForm {
      */
     private Long totalAmount;
 
-
     /**
      * 支付金额(单位：分)
      */
@@ -38,9 +37,9 @@ public class OrderSubmitForm {
      */
     private List<OrderItemDTO> orderItems;
 
-    // 收货地址
-
-
+    /**
+     * 订单备注
+     */
     @Size(max = 500, message = "订单备注长度不能超过500")
     private String remark;
 
@@ -48,7 +47,6 @@ public class OrderSubmitForm {
      * 优惠券ID
      */
     private String couponId;
-
 
     /**
      * 收获地址
