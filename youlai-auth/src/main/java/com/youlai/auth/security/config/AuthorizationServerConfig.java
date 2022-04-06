@@ -1,6 +1,5 @@
 package com.youlai.auth.security.config;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
@@ -10,9 +9,9 @@ import com.youlai.auth.security.core.userdetails.member.MemberUserDetails;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetails;
 import com.youlai.auth.security.core.userdetails.user.SysUserDetailsServiceImpl;
+import com.youlai.auth.security.extension.captcha.CaptchaTokenGranter;
 import com.youlai.auth.security.extension.mobile.SmsCodeTokenGranter;
 import com.youlai.auth.security.extension.refresh.PreAuthenticatedUserDetailsService;
-import com.youlai.auth.security.extension.captcha.CaptchaTokenGranter;
 import com.youlai.auth.security.extension.wechat.WechatTokenGranter;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.Result;
