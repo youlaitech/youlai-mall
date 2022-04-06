@@ -63,9 +63,9 @@
 
 | 「App」Spring Security OAuth2 手机短信验证码模式             | 「小程序」Spring Security OAuth2 微信授权模式                |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img src="http://cdn.youlai.tech/smsauth.gif" width="100%" height="400px"/> | <img src="http://cdn.youlai.tech/wechatauth.gif" width="100%" height="400px"/> |
+| <img src="https://s2.loli.net/2022/04/06/5LUCwTpPQJAl6dD.gif" width="100%" height="400px"/> | <img src="https://s2.loli.net/2022/04/06/nmWKq6LgrjMvTS8.gif" width="100%" height="400px"/> |
 | **「管理前端」Spring Security OAuth2 密码模式**              | **「管理前端」Spring Security OAuth2 验证码模式**            |
-| <img src="http://cdn.youlai.tech/passwordauth.gif" width="100%" height="400px"/> | <img src="http://cdn.youlai.tech/captchaauth.gif" width="100%" height="400px"/> |
+| <img src="https://s2.loli.net/2022/04/06/nmWKq6LgrjMvTS8.gif" width="100%" height="400px"/> | <img src="https://s2.loli.net/2022/04/06/nmWKq6LgrjMvTS8.gif" width="100%" height="400px"/> |
 
 ## 🍸 源码地址
 
@@ -90,21 +90,21 @@
 1. **启动 Nacos**
 
 
-   - IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
+- IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
 
 
 2. **服务启动**
 
-   - `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
+    - `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
 
-   - `youlai-auth` 模块的启动类 AuthApplication 启动认证中心；
+    - `youlai-auth` 模块的启动类 AuthApplication 启动认证中心；
 
-   - `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
+    - `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
 
-   - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致；
+    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致；
 
-   - 访问接口文档地址测试: [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
-     
+    - 访问接口文档地址测试: [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
+
 
 #### 2️⃣ 本地启动
 
@@ -113,75 +113,75 @@
 
    > 为了避免数据和线上环境冲突，MySQL 和 Redis 必装，不安装可默认使用有来线上环境
 
-   - 🔴MySQL 安装
-   - 🔴Redis 安装
-   - ⚪RabbitMQ
-   - ⚪Seata 安装
-   - ⚪Sentinel 安装
+    - 🔴MySQL 安装
+    - 🔴Redis 安装
+    - ⚪RabbitMQ
+    - ⚪Seata 安装
+    - ⚪Sentinel 安装
 
 
 2. **数据库创建和数据初始化**
 
-   - **系统数据库**
+    - **系统数据库**
 
-       进入 `docs/sql` 目录 ， 根据 MySQL 版本选择对应的脚本；
-    
-       先执行 `database.sql` 完成数据库的创建；
+      进入 `docs/sql` 目录 ， 根据 MySQL 版本选择对应的脚本；
 
-       再执行 `youlai.sql` 、`mall_*.sql` 完成数据表的创建和数据初始化。
+      先执行 `database.sql` 完成数据库的创建；
 
-   - **Nacos 数据库**
+      再执行 `youlai.sql` 、`mall_*.sql` 完成数据表的创建和数据初始化。
 
-     创建名为 `nacos` 的数据库，执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
+    - **Nacos 数据库**
+
+      创建名为 `nacos` 的数据库，执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
 
 3. **Nacos 配置和启动**
 
 
-   1.  **Nacos 配置持久化至 MySQL**
+1.  **Nacos 配置持久化至 MySQL**
 
-       进入项目的 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
+    进入项目的 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
 
-       ```properties
-       spring.datasource.platform=mysql
-       db.num=1
-       db.url.0=jdbc:mysql://localhost:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
-       db.user.0=root
-       db.password.0=123456
-       ```
+    ```properties
+    spring.datasource.platform=mysql
+    db.num=1
+    db.url.0=jdbc:mysql://localhost:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+    db.user.0=root
+    db.password.0=123456
+    ```
 
-   2.  **启动Nacos**
+2.  **启动Nacos**
 
-       IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
+    IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
 
-   3.  **导入Nacos配置**
+3.  **导入Nacos配置**
 
-       打开浏览器，地址栏输入 Nacos 控制台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
+    打开浏览器，地址栏输入 Nacos 控制台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
 
-       输入用户名/密码：nacos/nacos ；
+    输入用户名/密码：nacos/nacos ；
 
-       进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `docs/nacos/DEFAULT_GROUP.zip` 文件。
+    进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `docs/nacos/DEFAULT_GROUP.zip` 文件。
 
-   4.  **修改Nacos配置**
+4.  **修改Nacos配置**
 
-       在 Nacos 控制台配置列表选择共享配置 `youlai-common.yaml` 进行编辑，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认「有来」线上环境。
-   
-   5. **修改Nacos配置中心地址**
-      
-        批量替换应用的 bootstrap-dev.yml 文件的配置中心地址 `http://c.youlai.tech/8848` → `http://localhost/8848` ，默认「有来」线上的配置中心地址。 
+    在 Nacos 控制台配置列表选择共享配置 `youlai-common.yaml` 进行编辑，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认「有来」线上环境。
+
+5. **修改Nacos配置中心地址**
+
+   批量替换应用的 bootstrap-dev.yml 文件的配置中心地址 `http://c.youlai.tech/8848` → `http://localhost/8848` ，默认「有来」线上的配置中心地址。
 
 
 4. **服务启动**
 
-   - 进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
+    - 进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
 
-   - 进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
+    - 进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
 
-   - 进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
+    - 进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
 
-   - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致;
+    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致;
 
-   - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
-    
+    - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
+
 ### 🗁 管理前端启动
 
 1. 本机安装 Node 环境
@@ -239,5 +239,5 @@
 
 |                         全栈                          |                             全栈                             |                            DevOps                            |
 | :---------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![](http://cdn.youlai.tech/rui.jpg) | ![](http://cdn.youlai.tech/chuan.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
+| ![](https://s2.loli.net/2022/04/06/yRx8uzj4emA5QVr.jpg) | ![](https://s2.loli.net/2022/04/06/cQihGv9uPsTjXk1.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
 
