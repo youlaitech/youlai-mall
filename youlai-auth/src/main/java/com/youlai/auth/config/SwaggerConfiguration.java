@@ -1,6 +1,7 @@
 package com.youlai.auth.config;
 
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,29 +33,29 @@ public class SwaggerConfiguration {
     @Bean
     public Docket restApi() {
         //schema
-        List<GrantType> grantTypes=new ArrayList<>();
+        List<GrantType> grantTypes = new ArrayList<>();
         //密码模式
-        ResourceOwnerPasswordCredentialsGrant resourceOwnerPasswordCredentialsGrant=new ResourceOwnerPasswordCredentialsGrant(passwordTokenUrl);
+        ResourceOwnerPasswordCredentialsGrant resourceOwnerPasswordCredentialsGrant = new ResourceOwnerPasswordCredentialsGrant(passwordTokenUrl);
         grantTypes.add(resourceOwnerPasswordCredentialsGrant);
-        OAuth oAuth=new OAuthBuilder().name("oauth2")
+        OAuth oAuth = new OAuthBuilder().name("oauth2")
                 .grantTypes(grantTypes).build();
         //context
         //scope方位
-        List<AuthorizationScope> scopes=new ArrayList<>();
-        scopes.add(new AuthorizationScope("read","read  resources"));
-        scopes.add(new AuthorizationScope("write","write resources"));
-        scopes.add(new AuthorizationScope("reads","read all resources"));
-        scopes.add(new AuthorizationScope("writes","write all resources"));
+        List<AuthorizationScope> scopes = new ArrayList<>();
+        scopes.add(new AuthorizationScope("read", "read  resources"));
+        scopes.add(new AuthorizationScope("write", "write resources"));
+        scopes.add(new AuthorizationScope("reads", "read all resources"));
+        scopes.add(new AuthorizationScope("writes", "write all resources"));
 
-        SecurityReference securityReference=new SecurityReference("oauth2",scopes.toArray(new AuthorizationScope[]{}));
-        SecurityContext securityContext=new SecurityContext(Lists.newArrayList(securityReference),PathSelectors.ant("/**"));
+        SecurityReference securityReference = new SecurityReference("oauth2", scopes.toArray(new AuthorizationScope[]{}));
+        SecurityContext securityContext = new SecurityContext(Lists.newArrayList(securityReference), PathSelectors.ant("/**"));
         //schemas
-        List<SecurityScheme> securitySchemes=Lists.newArrayList(oAuth);
+        List<SecurityScheme> securitySchemes = Lists.newArrayList(oAuth);
         //securyContext
-        List<SecurityContext> securityContexts=Lists.newArrayList(securityContext);
+        List<SecurityContext> securityContexts = Lists.newArrayList(securityContext);
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.youlai.auth.controller"))
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
                 .build()
                 .securityContexts(securityContexts)
@@ -69,7 +70,7 @@ public class SwaggerConfiguration {
                 .contact(new Contact("有来技术团队", "https://gitee.com/youlaiorg", "youlaitech@163.com"))
                 .license("Open Source")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
-                .version("1.0.0")
+                .version("2.0.0")
                 .build();
     }
 

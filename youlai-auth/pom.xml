@@ -13,6 +13,7 @@
 
     <properties>
         <youlai.version>2.0.0</youlai.version>
+        <!-- K8S属性配置(可忽略) -->
         <service.port>8000</service.port>
         <service.nodeport>32005</service.nodeport>
     </properties>

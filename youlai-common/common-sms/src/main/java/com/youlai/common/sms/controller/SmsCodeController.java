@@ -1,4 +1,4 @@
-package com.youlai.auth.controller;
+package com.youlai.common.sms.controller;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.sms.service.AliyunSmsService;
@@ -21,7 +21,7 @@ public class SmsCodeController {
     @ApiOperation(value = "发送短信验证码")
     @ApiImplicitParam(name = "phoneNumber", example = "17621590365", value = "手机号", required = true)
     @PostMapping
-    public Result sendSmsCode(String phoneNumber)  {
+    public Result sendSmsCode(String phoneNumber) {
         boolean result = aliyunSmsService.sendSmsCode(phoneNumber);
         return Result.judge(result);
     }
