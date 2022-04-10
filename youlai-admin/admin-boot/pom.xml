@@ -118,6 +118,11 @@
             <artifactId>common-rabbitmq</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-file</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -22,5 +22,6 @@
         <module>common-elasticsearch</module>
         <module>common-log</module>
         <module>common-sms</module>
+        <module>common-file</module>
     </modules>
 </project>
