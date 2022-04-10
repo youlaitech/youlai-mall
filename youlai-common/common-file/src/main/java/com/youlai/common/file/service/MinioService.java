@@ -49,7 +49,7 @@ public class MinioService implements InitializingBean {
      * 存储桶名称，默认微服务单独一个存储桶
      */
     @Setter
-    private String defaultBucket = "default";
+    private String defaultBucket;
 
     private MinioClient minioClient;
 
@@ -112,7 +112,7 @@ public class MinioService implements InitializingBean {
      */
     @SneakyThrows
     public String putObject(MultipartFile file, String bucketName) {
-        // 没有
+        // 存储桶名称为空则使用默认的存储桶
         if (StrUtil.isBlank(bucketName)) {
             bucketName = defaultBucket;
         }
