@@ -23,7 +23,7 @@ public class FileController {
     @SneakyThrows
     public Result<String> uploadFile(
             @ApiParam("文件") @RequestParam(value = "file") MultipartFile file,
-            @ApiParam("存储桶名称(非必须，微服务有单独默认存储桶)") @RequestParam(value = "file", required = false) String bucketName
+            @ApiParam("存储桶名称(非必须，微服务有单独默认存储桶)") @RequestParam(value = "bucketName", required = false) String bucketName
     ) {
         String path = minioService.putObject(file, bucketName);
         return Result.success(path);
