@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
+import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
+
+import java.io.InputStream;
 
 /**
  * 用户业务接口
@@ -55,4 +58,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     UserFormVO getUserFormDetail(Long userId);
+
+    /**
+     * 导入用户
+     *
+     * @param inputStream
+     * @return
+     */
+    String importUsers(InputStream inputStream, UserImportForm userImportForm);
 }

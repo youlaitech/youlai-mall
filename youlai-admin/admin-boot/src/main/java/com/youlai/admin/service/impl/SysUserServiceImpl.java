@@ -1,24 +1,36 @@
 package com.youlai.admin.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.read.builder.ExcelReaderBuilder;
+import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.common.constant.SystemConstants;
+import com.youlai.admin.common.enums.GenderEnum;
+import com.youlai.admin.component.listener.excel.UserImportListener;
 import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.mapper.SysUserMapper;
 import com.youlai.admin.pojo.entity.SysUserRole;
+import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
+import com.youlai.common.base.IBaseEnum;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +47,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final PasswordEncoder passwordEncoder;
     private final ISysUserRoleService iSysUserRoleService;
+    private final UserImportListener userImportListener;
 
     /**
      * 获取用户分页列表
@@ -80,13 +93,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public boolean updateUser(SysUser user) {
 
-        // 原来的用户角色ID集合
+        // 用户的旧的角色ID集合
         List<Long> oldRoleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
                 .eq(SysUserRole::getUserId, user.getId())).stream()
                 .map(item -> item.getRoleId())
                 .collect(Collectors.toList());
 
-        // 新的用户角色ID集合
+        // 用户的新的角色ID集合
         List<Long> newRoleIds = user.getRoleIds();
 
         // 需要新增的用户角色ID集合
@@ -133,6 +146,93 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserFormVO getUserFormDetail(Long userId) {
         UserFormVO userDetail = this.baseMapper.getUserFormDetail(userId);
         return userDetail;
+    }
+
+
+    /**
+     * 导入用户
+     *
+     * @param inputStream
+     * @param userImportForm
+     * @return
+     */
+    @SneakyThrows
+    @Override
+    @Transactional
+    public String importUsers(InputStream inputStream, UserImportForm userImportForm) {
+        Long deptId = userImportForm.getDeptId();
+        Long roleId = userImportForm.getRoleId();
+
+        ExcelReaderBuilder excelReaderBuilder = EasyExcel.read(inputStream, UserImportForm.UserItem.class, userImportListener);
+        ExcelReaderSheetBuilder sheet = excelReaderBuilder.sheet();
+        List<UserImportForm.UserItem> list = sheet.doReadSync();
+
+        Assert.isTrue(CollectionUtil.isNotEmpty(list), "未检测到任何数据");
+
+
+        // 有效数据列表
+        List<UserImportForm.UserItem> validDataList = list.stream()
+                .filter(item -> StrUtil.isNotBlank(item.getUsername()))
+                .collect(Collectors.toList());
+
+        Assert.isTrue(CollectionUtil.isNotEmpty(validDataList), "未检测到有效数据");
+
+        long distinctCount = validDataList.stream()
+                .map(UserImportForm.UserItem::getUsername)
+                .distinct()
+                .count();
+        Assert.isTrue(validDataList.size() == distinctCount, "导入数据中有重复的用户名，请检查！");
+
+
+        List<SysUser> saveUserList = new ArrayList<>();
+
+        StringBuilder errMsg = new StringBuilder();
+        for (int i = 0; i < validDataList.size(); i++) {
+            UserImportForm.UserItem userItem = validDataList.get(i);
+
+            String username = userItem.getUsername();
+            if (StrUtil.isBlank(username)) {
+                errMsg.append(StrUtil.format("第{}条数据导入失败，原因：用户名为空", i + 1));
+                continue;
+            }
+
+            String nickname = userItem.getNickname();
+            if (StrUtil.isBlank(nickname)) {
+                errMsg.append(StrUtil.format("第{}条数据导入失败，原因：用户昵称为空", i + 1));
+                continue;
+            }
+
+            SysUser user = new SysUser();
+            user.setUsername(username);
+            user.setNickname(nickname);
+            user.setMobile(userItem.getMobile());
+            user.setEmail(userItem.getEmail());
+            user.setDeptId(deptId);
+            // 默认密码
+            user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
+            // 性别转换
+            Integer gender = (Integer) IBaseEnum.getValueByLabel(userItem.getGenderLabel(), GenderEnum.class);
+            user.setGender(gender);
+
+            saveUserList.add(user);
+        }
+
+        if (CollectionUtil.isNotEmpty(saveUserList)) {
+            boolean result = this.saveBatch(saveUserList);
+            Assert.isTrue(result, "导入数据失败，原因：保存用户出错");
+
+            List<SysUserRole> userRoleList = saveUserList.stream().map(user -> {
+                SysUserRole userRole = new SysUserRole();
+                userRole.setUserId(user.getId());
+                userRole.setRoleId(roleId);
+                return userRole;
+            }).collect(Collectors.toList());
+            iSysUserRoleService.saveBatch(userRoleList);
+        }
+
+        errMsg.append(StrUtil.format("一共{}条数据，成功导入{}条数据，导入失败数据{}条", list.size(), saveUserList.size(), list.size() - saveUserList.size()));
+        return errMsg.toString();
+
     }
 
 }

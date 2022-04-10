@@ -1,10 +1,15 @@
 package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.admin.component.listener.excel.UserImportListener;
 import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
+import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserFormVO;
@@ -18,9 +23,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -128,5 +140,36 @@ public class UserController {
         loginUserVO.setPerms(perms);
         return Result.success(loginUserVO);
     }
+
+    @ApiOperation("用户导入模板下载")
+    @GetMapping("/template")
+    public void downloadTemplate(HttpServletResponse response) throws IOException {
+        String fileName = "用户导入模板.xlsx";
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+        String fileClassPath = "excel-templates" + File.separator + fileName;
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileClassPath);
+
+        ServletOutputStream outputStream = response.getOutputStream();
+        ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(inputStream).build();
+
+        excelWriter.finish();
+    }
+
+    @SneakyThrows
+    @ApiOperation("导入用户")
+    @PostMapping("/_import")
+    public Result importUsers(@RequestBody UserImportForm userImportForm, MultipartFile file) {
+        InputStream inputStream = file.getInputStream();
+
+        String errMsg = iSysUserService.importUsers(inputStream,userImportForm);
+
+        if (StrUtil.isNotBlank(errMsg)) {
+            return Result.failed(errMsg);
+        }
+        return Result.success();
+    }
+
 
 }
