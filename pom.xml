@@ -46,7 +46,9 @@
         <mysql.version>8.0.19</mysql.version>
         <druid.version>1.2.4</druid.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
-        <minio.version>7.1.0</minio.version>
+        <minio.version>8.3.7</minio.version>
+        <!-- 覆盖SpringBoot中okhttp3的旧版本声明，解决MinIO 8.3.x的依赖冲突 -->
+        <okhttp3.version>4.8.1 </okhttp3.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
         <seata.version>1.4.2</seata.version>
@@ -58,6 +60,7 @@
         <dozer.version>6.2.0</dozer.version>
         <swagger.version>1.6.2</swagger.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <!-- 阿里云短信 -->
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
 
@@ -258,6 +261,12 @@
             <dependency>
                 <groupId>com.youlai</groupId>
                 <artifactId>common-sms</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-file</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
 
