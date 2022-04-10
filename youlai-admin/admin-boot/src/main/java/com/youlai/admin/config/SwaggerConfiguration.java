@@ -1,6 +1,7 @@
 package com.youlai.admin.config;
 
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +61,9 @@ public class SwaggerConfiguration {
         List<SecurityContext> securityContexts = Lists.newArrayList(securityContext);
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.youlai.admin.controller"))
+                // .apis(RequestHandlerSelectors.basePackage("com.youlai.admin.controller"))
+                // .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
                 .build()
                 .securityContexts(securityContexts)
