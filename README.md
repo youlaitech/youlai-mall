@@ -118,8 +118,7 @@
     - ⚪RabbitMQ
     - ⚪Seata 安装
     - ⚪Sentinel 安装
-
-
+    
 2. **数据库创建和数据初始化**
 
     - **系统数据库**
@@ -134,10 +133,7 @@
 
       创建名为 `nacos` 的数据库，执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
 
-3. **Nacos 配置和启动**
-
-
-1.  **Nacos 配置持久化至 MySQL**
+3. **Nacos 配置持久化至 MySQL**
 
     进入项目的 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
 
@@ -149,11 +145,9 @@
     db.password.0=123456
     ```
 
-2.  **启动Nacos**
-
+4.  **导入Nacos配置**
+    
     IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
-
-3.  **导入Nacos配置**
 
     打开浏览器，地址栏输入 Nacos 控制台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
 
@@ -161,16 +155,15 @@
 
     进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `docs/nacos/DEFAULT_GROUP.zip` 文件。
 
-4.  **修改Nacos配置**
+5.  **修改Nacos配置**
 
     在 Nacos 控制台配置列表选择共享配置 `youlai-common.yaml` 进行编辑，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认「有来」线上环境。
 
-5. **修改Nacos配置中心地址**
+6. **修改Nacos配置中心地址**
 
    批量替换应用的 bootstrap-dev.yml 文件的配置中心地址 `http://c.youlai.tech/8848` → `http://localhost/8848` ，默认「有来」线上的配置中心地址。
 
-
-4. **服务启动**
+7. **服务启动**
 
     - 进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
 
@@ -239,5 +232,5 @@
 
 |                         全栈                          |                             全栈                             |                            DevOps                            |
 | :---------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![](https://s2.loli.net/2022/04/06/yRx8uzj4emA5QVr.jpg) | ![](https://s2.loli.net/2022/04/06/cQihGv9uPsTjXk1.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
+| ![](https://www.youlai.tech/files/blog/rui.jpg) | ![](https://www.youlai.tech/files/blog/chuan.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
 
