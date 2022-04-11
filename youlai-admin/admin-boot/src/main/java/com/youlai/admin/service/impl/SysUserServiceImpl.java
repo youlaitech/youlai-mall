@@ -19,6 +19,7 @@ import com.youlai.admin.mapper.SysUserMapper;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.admin.service.ISysUserRoleService;
@@ -169,8 +170,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         Assert.isTrue(CollectionUtil.isNotEmpty(list), "未检测到任何数据");
 
-
-        // 有效数据列表
+        // 有效数据集合
         List<UserImportForm.UserItem> validDataList = list.stream()
                 .filter(item -> StrUtil.isNotBlank(item.getUsername()))
                 .collect(Collectors.toList());
@@ -233,6 +233,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         errMsg.append(StrUtil.format("一共{}条数据，成功导入{}条数据，导入失败数据{}条", list.size(), saveUserList.size(), list.size() - saveUserList.size()));
         return errMsg.toString();
 
+    }
+
+    /**
+     * 获取导出用户列表
+     *
+     * @param queryParams
+     * @return
+     */
+    @Override
+    public List<UserExportVO> listExportUsers(UserPageQuery queryParams) {
+        List<UserExportVO> list = this.baseMapper.listExportUsers(queryParams);
+        return list;
     }
 
 }

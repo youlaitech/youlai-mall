@@ -7,10 +7,12 @@ import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 用户业务接口
@@ -66,4 +68,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     String importUsers(InputStream inputStream, UserImportForm userImportForm);
+
+    /**
+     * 获取导出用户列表
+     *
+     * @param queryParams
+     * @return
+     */
+    List<UserExportVO> listExportUsers(UserPageQuery queryParams);
 }

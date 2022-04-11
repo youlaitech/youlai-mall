@@ -6,12 +6,12 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youlai.admin.component.listener.excel.UserImportListener;
 import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
+import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.admin.service.ISysPermissionService;
@@ -23,7 +23,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,8 +47,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class UserController {
-
+public class UserController  {
     private final ISysUserService iSysUserService;
     private final PasswordEncoder passwordEncoder;
     private final ISysPermissionService iSysPermissionService;
@@ -146,7 +145,7 @@ public class UserController {
     public void downloadTemplate(HttpServletResponse response) throws IOException {
         String fileName = "用户导入模板.xlsx";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName,"UTF-8"));
 
         String fileClassPath = "excel-templates" + File.separator + fileName;
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileClassPath);
@@ -157,19 +156,30 @@ public class UserController {
         excelWriter.finish();
     }
 
-    @SneakyThrows
     @ApiOperation("导入用户")
     @PostMapping("/_import")
-    public Result importUsers(@RequestBody UserImportForm userImportForm, MultipartFile file) {
+    public Result importUsers(@RequestBody UserImportForm userImportForm, MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
-
-        String errMsg = iSysUserService.importUsers(inputStream,userImportForm);
+        String errMsg = iSysUserService.importUsers(inputStream, userImportForm);
 
         if (StrUtil.isNotBlank(errMsg)) {
             return Result.failed(errMsg);
         }
         return Result.success();
+
     }
 
+    @ApiOperation("导出用户")
+    @GetMapping("/_export")
+    public void exportUsers(UserPageQuery queryParams, HttpServletResponse response) throws IOException {
+        String fileName = "用户列表.xlsx";
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=" +  URLEncoder.encode(fileName,"UTF-8"));
 
+        List<UserExportVO> exportUserList = iSysUserService.listExportUsers(queryParams);
+
+        EasyExcel.write(response.getOutputStream(), UserExportVO.class)
+                .sheet("用户列表")
+                .doWrite(exportUserList);
+    }
 }

@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.common.mybatis.annotation.DataPermission;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -47,5 +49,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     AuthUserDTO getAuthInfoByUsername(String username);
 
-
+    /**
+     * 获取导出用户列表
+     *
+     * @param queryParams
+     * @return
+     */
+    @DataPermission(deptAlias = "d")
+    List<UserExportVO> listExportUsers(UserPageQuery queryParams);
 }

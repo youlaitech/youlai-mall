@@ -29,8 +29,8 @@ public class UserPageVO {
     @ApiModelProperty("手机号")
     private String mobile;
 
-    @ApiModelProperty("性别(1:男;2:女)")
-    private Integer gender;
+    @ApiModelProperty("性别")
+    private String gender;
 
     @ApiModelProperty("用户头像地址")
     private String avatar;

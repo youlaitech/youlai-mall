@@ -11,7 +11,11 @@
             u.username,
             u.nickname,
             u.mobile,
-            u.gender,
+            CASE u.gender
+                WHEN 1 THEN '男'
+                WHEN 2 THEN '女'
+                ELSE '未知'
+            END gender,
             u.avatar,
             u.STATUS,
             d.NAME AS dept_name,
@@ -25,9 +29,9 @@
         <where>
             u.deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
-                AND (u.username like concat('%',#{queryParams.keywords},'%')
-                OR u.nickname like concat('%',#{queryParams.keywords},'%')
-                OR u.mobile like concat('%',#{queryParams.keywords},'%'))
+                AND (u.username LIKE CONCAT('%',#{queryParams.keywords},'%')
+                OR u.nickname LIKE CONCAT('%',#{queryParams.keywords},'%')
+                OR u.mobile LIKE CONCAT('%',#{queryParams.keywords},'%'))
             </if>
             <if test='queryParams.status!=null'>
                 AND u.status = #{queryParams.status}
@@ -102,5 +106,38 @@
                 LEFT JOIN sys_role t3 ON t3.id = t2.role_id
         WHERE
             t1.username = #{username} and t1.deleted=0
+    </select>
+
+    <!-- 获取用户导出列表 -->
+    <select id="listExportUsers" resultType="com.youlai.admin.pojo.vo.user.UserExportVO">
+        SELECT
+            u.username,
+            u.nickname,
+            u.mobile,
+            CASE u.gender
+                WHEN 1 THEN '男'
+                WHEN 2 THEN '女'
+                ELSE '未知'
+            END gender,
+            d.NAME AS dept_name,
+            u.gmt_create
+        FROM
+            sys_user u
+            LEFT JOIN sys_dept d ON u.dept_id = d.id
+        <where>
+            u.deleted = 0
+            <if test='keywords!=null and keywords.trim() neq ""'>
+                AND (u.username LIKE CONCAT('%',#{keywords},'%')
+                OR u.nickname LIKE CONCAT('%',#{keywords},'%')
+                OR u.mobile LIKE CONCAT('%',#{keywords},'%'))
+            </if>
+            <if test='status!=null'>
+                AND u.status = #{status}
+            </if>
+            <if test='deptId!=null'>
+                AND concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{deptId},',%')
+            </if>
+        </where>
+        GROUP BY u.id
     </select>
 </mapper>
