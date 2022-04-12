@@ -1,18 +1,18 @@
 package com.youlai.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
+import com.youlai.admin.pojo.form.UserForm;
 import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
+import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
-import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.admin.service.ISysUserService;
@@ -25,7 +25,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -47,10 +46,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class UserController  {
+public class UserController {
+
     private final ISysUserService iSysUserService;
-    private final PasswordEncoder passwordEncoder;
     private final ISysPermissionService iSysPermissionService;
+    private final PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "用户分页列表")
     @GetMapping("/page")
@@ -61,19 +61,19 @@ public class UserController  {
         return PageResult.success(result);
     }
 
-    @ApiOperation(value = "获取用户表单详情")
-    @GetMapping("/{userId}/form_detail")
-    public Result<UserFormVO> getUserDetail(
-            @ApiParam(value = "用户ID", example = "1") @PathVariable Long userId
+    @ApiOperation(value = "获取用户详情")
+    @GetMapping("/{userId}")
+    public Result<UserDetailVO> getUserDetail(
+            @ApiParam(value = "用户ID") @PathVariable Long userId
     ) {
-        UserFormVO userDetail = iSysUserService.getUserFormDetail(userId);
+        UserDetailVO userDetail = iSysUserService.getUserDetail(userId);
         return Result.success(userDetail);
     }
 
     @ApiOperation(value = "新增用户")
     @PostMapping
-    public Result addUser(@RequestBody SysUser user) {
-        boolean result = iSysUserService.saveUser(user);
+    public Result addUser(@RequestBody UserForm userForm) {
+        boolean result = iSysUserService.saveUser(userForm);
         return Result.judge(result);
     }
 
@@ -81,9 +81,9 @@ public class UserController  {
     @PutMapping(value = "/{userId}")
     public Result updateUser(
             @ApiParam("用户ID") @PathVariable Long userId,
-            @RequestBody SysUser user
+            @RequestBody UserForm userForm
     ) {
-        boolean result = iSysUserService.updateUser(user);
+        boolean result = iSysUserService.updateUser(userId, userForm);
         return Result.judge(result);
     }
 
@@ -96,7 +96,7 @@ public class UserController  {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "选择性更新用户")
+    @ApiOperation(value = "选择性修改用户")
     @PatchMapping(value = "/{userId}")
     public Result updateUserPart(
             @ApiParam("用户ID") @PathVariable Long userId,
@@ -145,7 +145,7 @@ public class UserController  {
     public void downloadTemplate(HttpServletResponse response) throws IOException {
         String fileName = "用户导入模板.xlsx";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName,"UTF-8"));
+        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
         String fileClassPath = "excel-templates" + File.separator + fileName;
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileClassPath);
@@ -158,15 +158,9 @@ public class UserController  {
 
     @ApiOperation("导入用户")
     @PostMapping("/_import")
-    public Result importUsers(@RequestBody UserImportForm userImportForm, MultipartFile file) throws IOException {
-        InputStream inputStream = file.getInputStream();
-        String errMsg = iSysUserService.importUsers(inputStream, userImportForm);
-
-        if (StrUtil.isNotBlank(errMsg)) {
-            return Result.failed(errMsg);
-        }
-        return Result.success();
-
+    public Result importUsers(UserImportForm userImportForm) throws IOException {
+        String msg = iSysUserService.importUsers(userImportForm);
+        return Result.success(msg);
     }
 
     @ApiOperation("导出用户")
@@ -174,7 +168,7 @@ public class UserController  {
     public void exportUsers(UserPageQuery queryParams, HttpServletResponse response) throws IOException {
         String fileName = "用户列表.xlsx";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment; filename=" +  URLEncoder.encode(fileName,"UTF-8"));
+        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
         List<UserExportVO> exportUserList = iSysUserService.listExportUsers(queryParams);
 

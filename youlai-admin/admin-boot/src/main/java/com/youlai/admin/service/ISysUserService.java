@@ -5,13 +5,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.dto.AuthUserDTO;
 import com.youlai.admin.pojo.entity.SysUser;
+import com.youlai.admin.pojo.form.UserForm;
 import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
-import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,18 +33,19 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 新增用户
      *
-     * @param user
+     * @param userForm 用户表单对象
      * @return
      */
-    boolean saveUser(SysUser user);
+    boolean saveUser(UserForm userForm);
 
     /**
      * 修改用户
      *
-     * @param user
+     * @param userId 用户ID
+     * @param userForm 用户表单对象
      * @return
      */
-    boolean updateUser(SysUser user);
+    boolean updateUser(Long userId,UserForm userForm);
 
     /**
      * 根据用户名获取认证信息
@@ -59,15 +61,15 @@ public interface ISysUserService extends IService<SysUser> {
      * @param userId
      * @return
      */
-    UserFormVO getUserFormDetail(Long userId);
+    UserDetailVO getUserDetail(Long userId);
 
     /**
      * 导入用户
      *
-     * @param inputStream
+     * @param userImportForm
      * @return
      */
-    String importUsers(InputStream inputStream, UserImportForm userImportForm);
+    String importUsers( UserImportForm userImportForm) throws IOException;
 
     /**
      * 获取导出用户列表

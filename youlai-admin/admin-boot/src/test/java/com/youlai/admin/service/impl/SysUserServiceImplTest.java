@@ -19,11 +19,5 @@ class SysUserServiceImplTest {
 
     @Test
     public void saveUser() {
-        SysUser user=new SysUser();
-        user.setUsername("root");
-        user.setNickname("有来技术");
-        user.setMobile("17621590365");
-        user.setEmail("youlaitech@163.com");
-        iSysUserService.saveUser(user);
     }
 }

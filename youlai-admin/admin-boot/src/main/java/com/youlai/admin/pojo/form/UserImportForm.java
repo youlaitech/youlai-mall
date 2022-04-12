@@ -1,8 +1,10 @@
 package com.youlai.admin.pojo.form;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.apache.catalina.User;
+import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,7 +25,10 @@ public class UserImportForm {
     /**
      * 角色ID
      */
-    private Long roleId;
+    private String roleIds;
+
+
+    private MultipartFile file;
 
     /**
      * 导入的用户列表
@@ -31,7 +36,10 @@ public class UserImportForm {
     private List<UserItem> userList;
 
     @Data
-    public class UserItem {
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserItem {
+
         @ExcelProperty(value = "用户名")
         private String username;
 
@@ -39,7 +47,7 @@ public class UserImportForm {
         private String nickname;
 
         @ExcelProperty(value = "性别")
-        private String genderLabel;
+        private String gender;
 
         @ExcelProperty(value = "手机号码")
         private String mobile;

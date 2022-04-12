@@ -7,14 +7,14 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 用户表单视图对象
+ * 用户详情视图对象
  *
  * @author haoxr
  * @date 2022/1/14
  */
-@ApiModel("用户表单视图对象")
+@ApiModel("用户详情视图对象")
 @Data
-public class UserFormVO {
+public class UserDetailVO {
 
     @ApiModelProperty("用户ID")
     private Long id;

@@ -1,6 +1,8 @@
 package com.youlai.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
@@ -14,26 +16,29 @@ import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.common.enums.GenderEnum;
 import com.youlai.admin.component.listener.excel.UserImportListener;
 import com.youlai.admin.dto.AuthUserDTO;
-import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.mapper.SysUserMapper;
+import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.entity.SysUserRole;
+import com.youlai.admin.pojo.form.UserForm;
 import com.youlai.admin.pojo.form.UserImportForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
-import com.youlai.admin.pojo.vo.user.UserFormVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
 import com.youlai.admin.service.ISysUserRoleService;
 import com.youlai.admin.service.ISysUserService;
 import com.youlai.common.base.IBaseEnum;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -67,19 +72,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 新增用户
      *
-     * @param user
+     * @param userForm 用户表单对象
      * @return
      */
     @Override
-    public boolean saveUser(SysUser user) {
-        user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
+    public boolean saveUser(UserForm userForm) {
+
+        SysUser user = new SysUser();
+        user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD)); // 初始化默认密码
+
+        BeanUtil.copyProperties(userForm, user);
         boolean result = this.save(user);
         if (result) {
+            Long userId = user.getId();
             List<Long> roleIds = user.getRoleIds();
-            if (CollectionUtil.isNotEmpty(roleIds)) {
-                List<SysUserRole> userRoleList = new ArrayList<>();
-                roleIds.forEach(roleId -> userRoleList.add(new SysUserRole().setUserId(user.getId()).setRoleId(roleId)));
-                result = iSysUserRoleService.saveBatch(userRoleList);
+            List<SysUserRole> sysUserRoles = Optional.ofNullable(roleIds).orElse(new ArrayList<>())
+                    .stream().map(roleId -> new SysUserRole(userId, roleId))
+                    .collect(Collectors.toList());
+            if (CollectionUtil.isNotEmpty(sysUserRoles)) {
+                iSysUserRoleService.saveBatch(sysUserRoles);
             }
         }
         return result;
@@ -88,41 +99,46 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 更新用户
      *
-     * @param user
+     * @param userId   用户ID
+     * @param userForm 用户表单对象
      * @return
      */
     @Override
-    public boolean updateUser(SysUser user) {
+    @Transactional
+    public boolean updateUser(Long userId, UserForm userForm) {
+        SysUser user = this.getById(userId);
+        Assert.isTrue(user != null, "用户不存在或已被删除");
 
-        // 用户的旧的角色ID集合
+        // 用户旧角色ID集合
         List<Long> oldRoleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                .eq(SysUserRole::getUserId, user.getId())).stream()
+                .eq(SysUserRole::getUserId, userId))
+                .stream()
                 .map(item -> item.getRoleId())
                 .collect(Collectors.toList());
 
-        // 用户的新的角色ID集合
-        List<Long> newRoleIds = user.getRoleIds();
+        // 用户新角色ID集合
+        List<Long> newRoleIds = userForm.getRoleIds();
 
-        // 需要新增的用户角色ID集合
+        // 新增的用户角色
         List<Long> addRoleIds = newRoleIds.stream().filter(roleId -> !oldRoleIds.contains(roleId)).collect(Collectors.toList());
-        if (CollectionUtil.isNotEmpty(addRoleIds)) {
-            List<SysUserRole> addUserRoleList = new ArrayList<>();
-            addRoleIds.forEach(roleId -> {
-                addUserRoleList.add(new SysUserRole().setUserId(user.getId()).setRoleId(roleId));
-            });
-            iSysUserRoleService.saveBatch(addUserRoleList);
-        }
+        List<SysUserRole> addUserRoles = Optional.ofNullable(addRoleIds).orElse(new ArrayList<>())
+                .stream().map(roleId -> new SysUserRole(userId, roleId))
+                .collect(Collectors.toList());
+        iSysUserRoleService.saveBatch(addUserRoles);
 
-        // 需要删除的用户的角色ID集合
+        // 删除的用户角色
         List<Long> removeRoleIds = oldRoleIds.stream().filter(roleId -> !newRoleIds.contains(roleId)).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(removeRoleIds)) {
-            removeRoleIds.forEach(roleId -> {
-                iSysUserRoleService.remove(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, user.getId()).eq(SysUserRole::getRoleId, roleId));
-            });
+            iSysUserRoleService.remove(new LambdaQueryWrapper<SysUserRole>()
+                    .eq(SysUserRole::getUserId, userId)
+                    .in(SysUserRole::getRoleId, removeRoleIds)
+            );
         }
 
-        // 最后更新用户
-        return this.updateById(user);
+        BeanUtil.copyProperties(userForm, user);
+
+        boolean updateRes = this.updateById(user);
+        return updateRes;
     }
 
     /**
@@ -144,8 +160,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public UserFormVO getUserFormDetail(Long userId) {
-        UserFormVO userDetail = this.baseMapper.getUserFormDetail(userId);
+    public UserDetailVO getUserDetail(Long userId) {
+        UserDetailVO userDetail = this.baseMapper.getUserDetail(userId);
         return userDetail;
     }
 
@@ -153,16 +169,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 导入用户
      *
-     * @param inputStream
      * @param userImportForm
      * @return
      */
-    @SneakyThrows
     @Override
     @Transactional
-    public String importUsers(InputStream inputStream, UserImportForm userImportForm) {
+    public String importUsers(UserImportForm userImportForm) throws IOException {
+
         Long deptId = userImportForm.getDeptId();
-        Long roleId = userImportForm.getRoleId();
+        List<Long> roleIds = Arrays.stream(userImportForm.getRoleIds().split(",")).map(roleId -> Convert.toLong(roleId)).collect(Collectors.toList());
+        InputStream inputStream = userImportForm.getFile().getInputStream();
 
         ExcelReaderBuilder excelReaderBuilder = EasyExcel.read(inputStream, UserImportForm.UserItem.class, userImportListener);
         ExcelReaderSheetBuilder sheet = excelReaderBuilder.sheet();
@@ -211,7 +227,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             // 默认密码
             user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD));
             // 性别转换
-            Integer gender = (Integer) IBaseEnum.getValueByLabel(userItem.getGenderLabel(), GenderEnum.class);
+            Integer gender = (Integer) IBaseEnum.getValueByLabel(userItem.getGender(), GenderEnum.class);
             user.setGender(gender);
 
             saveUserList.add(user);
@@ -221,12 +237,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             boolean result = this.saveBatch(saveUserList);
             Assert.isTrue(result, "导入数据失败，原因：保存用户出错");
 
-            List<SysUserRole> userRoleList = saveUserList.stream().map(user -> {
-                SysUserRole userRole = new SysUserRole();
-                userRole.setUserId(user.getId());
-                userRole.setRoleId(roleId);
-                return userRole;
-            }).collect(Collectors.toList());
+            List<SysUserRole> userRoleList = new ArrayList<>();
+
+            if (CollectionUtil.isNotEmpty(roleIds)) {
+
+                roleIds.forEach(roleId -> {
+                    userRoleList.addAll(
+                            saveUserList.stream()
+                                    .map(user -> new SysUserRole(user.getId(), roleId)).
+                                    collect(Collectors.toList()));
+                });
+            }
+
             iSysUserRoleService.saveBatch(userRoleList);
         }
 

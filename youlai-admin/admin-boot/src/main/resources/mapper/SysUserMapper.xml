@@ -44,7 +44,7 @@
     </select>
 
     <!-- 用户表单信息映射 -->
-    <resultMap id="UserFormMap" type="com.youlai.admin.pojo.vo.user.UserFormVO">
+    <resultMap id="UserFormMap" type="com.youlai.admin.pojo.vo.user.UserDetailVO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
@@ -63,7 +63,7 @@
     </resultMap>
 
     <!-- 根据用户ID获取用户详情 -->
-    <select id="getUserFormDetail" resultMap="UserFormMap">
+    <select id="getUserDetail" resultMap="UserFormMap">
         SELECT id,
                username,
                nickname,
