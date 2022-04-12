@@ -143,7 +143,7 @@ public class MinioService implements InitializingBean {
             fileUrl = minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
             fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
         } else { // 自定义文件路径域名，Nginx配置方向代理转发MinIO
-            fileUrl = customDomain + bucketName + "/" + fileName;
+            fileUrl = customDomain +'/'+ bucketName + "/" + fileName;
         }
         return fileUrl;
     }
