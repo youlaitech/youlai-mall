@@ -63,9 +63,9 @@
 
 | 「App」Spring Security OAuth2 手机短信验证码模式             | 「小程序」Spring Security OAuth2 微信授权模式                |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img src="https://s2.loli.net/2022/04/06/5LUCwTpPQJAl6dD.gif" width="100%" height="400px"/> | <img src="https://s2.loli.net/2022/04/06/nmWKq6LgrjMvTS8.gif" width="100%" height="400px"/> |
+| <img src="https://www.youlai.tech/files/blog/smsauth.gif" width="100%" height="400px"/> | <img src="https://www.youlai.tech/files/blog/wechatauth.gif" width="100%" height="400px"/> |
 | **「管理前端」Spring Security OAuth2 密码模式**              | **「管理前端」Spring Security OAuth2 验证码模式**            |
-| <img src="https://s2.loli.net/2022/04/06/nmWKq6LgrjMvTS8.gif" width="100%" height="400px"/> | <img src="https://s2.loli.net/2022/04/06/nmWKq6LgrjMvTS8.gif" width="100%" height="400px"/> |
+| <img src="https://www.youlai.tech/files/blog/passwordauth.gif" width="100%" height="400px"/> | <img src="https://www.youlai.tech/files/blog/captchaauth.gif" width="100%" height="400px"/> |
 
 ## 🍸 源码地址
 
