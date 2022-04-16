@@ -7,7 +7,6 @@ import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
-import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
 import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
@@ -23,9 +22,15 @@ import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 public interface IOrderService extends IService<OmsOrder> {
 
     /**
-     * 订单确认
+     * 订单确认 → 进入创建订单页面
+     * <p>
+     * 获取购买商品明细、用户默认收货地址、防重提交唯一token
+     * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
+     *
+     * @param skuId 直接购买必填，购物车结算不填
+     * @return
      */
-    OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO);
+    OrderConfirmVO confirm(Long skuId);
 
     /**
      * 订单提交

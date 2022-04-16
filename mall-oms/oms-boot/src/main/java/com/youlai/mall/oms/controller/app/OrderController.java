@@ -1,10 +1,10 @@
 package com.youlai.mall.oms.controller.app;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.common.base.IBaseEnum;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.enums.PayTypeEnum;
-import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
@@ -40,10 +40,22 @@ public class OrderController {
         return PageResult.success(result);
     }
 
+
+    /**
+     * 订单确认 → 进入创建订单页面
+     * <p>
+     * 获取购买商品明细、用户默认收货地址、防重提交唯一token
+     * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
+     *
+     * @param skuId 直接购买必填，购物车结算不填
+     * @return
+     */
     @ApiOperation("订单确认")
     @PostMapping("/_confirm")
-    public Result<OrderConfirmVO> confirm(@RequestBody OrderConfirmDTO orderConfirm) {
-        OrderConfirmVO result = orderService.confirm(orderConfirm);
+    public Result<OrderConfirmVO> confirm(
+            @RequestParam(required = false) Long skuId
+    ) {
+        OrderConfirmVO result = orderService.confirm(skuId);
         return Result.success(result);
     }
 
@@ -63,7 +75,7 @@ public class OrderController {
     })
     public <T> Result<T> pay(@PathVariable Long orderId, Integer payType, String appId) {
 
-        PayTypeEnum payTypeEnum = PayTypeEnum.getByCode(payType);
+        PayTypeEnum payTypeEnum = IBaseEnum.getEnumByValue(payType, PayTypeEnum.class);
         if (payTypeEnum == null) {
             return Result.failed("系统暂不支持该支付方式~");
         }

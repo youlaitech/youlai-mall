@@ -31,7 +31,6 @@ import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
-import com.youlai.mall.oms.pojo.dto.OrderConfirmDTO;
 import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
@@ -110,15 +109,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     }
 
     /**
-     * 订单确认
+     * 订单确认 → 进入创建订单页面
+     * <p>
+     * 获取购买商品明细、用户默认收货地址、防重提交唯一token
+     * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
+     *
+     * @param skuId 直接购买必填，购物车结算不填
+     * @return
      */
     @Override
-    public OrderConfirmVO confirm(OrderConfirmDTO orderConfirmDTO) {
-        log.info("订单确认:{}", orderConfirmDTO);
+    public OrderConfirmVO confirm(Long skuId) {
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
-        // 获取订单的商品信息
+        // 获取订单的商品明细信息
         CompletableFuture<Void> orderItemsCompletableFuture = CompletableFuture.runAsync(() -> {
-            List<OrderItemDTO> orderItems = this.getOrderItems(orderConfirmDTO.getSkuId());
+            List<OrderItemDTO> orderItems = this.getOrderItems(skuId);
             orderConfirmVO.setOrderItems(orderItems);
         }, threadPoolExecutor);
 
@@ -128,7 +132,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderConfirmVO.setAddresses(addresses);
         }, threadPoolExecutor);
 
-        // 生成唯一 token，防止订单重复提交
+        // 生成唯一token，防止订单重复提交
         CompletableFuture<Void> orderTokenCompletableFuture = CompletableFuture.runAsync(() -> {
             String orderToken = businessNoGenerator.generate(BusinessTypeEnum.ORDER);
             orderConfirmVO.setOrderToken(orderToken);
@@ -233,7 +237,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             }
             T result;
             switch (payTypeEnum) {
-                case WEIXIN_JSAPI:
+                case WX_JSAPI:
                     result = (T) wxJsapiPay(appId, order);
                     break;
                 default:
@@ -271,7 +275,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 更新订单状态
         order.setStatus(OrderStatusEnum.PAYED.getCode());
-        order.setPayType(PayTypeEnum.BALANCE.getCode());
+        order.setPayType(PayTypeEnum.BALANCE.getValue());
         order.setPayTime(new Date());
         this.updateById(order);
         // 支付成功删除购物车已勾选的商品
@@ -285,7 +289,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Long memberId = MemberUtils.getMemberId();
         Long payAmount = order.getPayAmount();
         // 如果已经有outTradeNo了就先进行关单
-        if (PayTypeEnum.WEIXIN_JSAPI.getCode().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
+        if (PayTypeEnum.WX_JSAPI.getValue().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
             try {
                 wxPayService.closeOrderV3(order.getOutTradeNo());
             } catch (WxPayException e) {
@@ -301,7 +305,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         String outTradeNo = "wxo_" + System.currentTimeMillis() + RandomUtil.randomNumbers(3) + fiveDigitsUserId;
         log.info("商户订单号拼接完成：{}", outTradeNo);
         // 更新订单状态
-        order.setPayType(PayTypeEnum.WEIXIN_JSAPI.getCode());
+        order.setPayType(PayTypeEnum.WX_JSAPI.getValue());
         order.setOutTradeNo(outTradeNo);
         this.updateById(order);
 
@@ -333,7 +337,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             return false;
         }
         // 如果已经有outTradeNo了就先进行关单
-        if (PayTypeEnum.WEIXIN_JSAPI.getCode().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
+        if (PayTypeEnum.WX_JSAPI.getValue().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
             try {
                 wxPayService.closeOrderV3(order.getOutTradeNo());
                 order.setOutTradeNo(null);
@@ -358,7 +362,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             throw new BizException("取消失败，订单状态不支持取消"); // 通过自定义异常，将异常信息抛出由异常处理器捕获显示给前端页面
         }
         // 如果已经有outTradeNo了就先进行关单
-        if (PayTypeEnum.WEIXIN_JSAPI.getCode().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
+        if (PayTypeEnum.WX_JSAPI.getValue().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
             try {
                 wxPayService.closeOrderV3(order.getOutTradeNo());
                 order.setOutTradeNo(null);
@@ -465,9 +469,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     }
 
     /**
-     * 获取订单的商品明细
+     * 获取订单的商品明细信息
+     * <p>
+     * 创建订单两种方式，1：直接购买；2：购物车结算
      *
-     * @param skuId 直接购买会有值
+     * @param skuId 直接购买必有值，购物车结算必没值
      * @return
      */
     private List<OrderItemDTO> getOrderItems(Long skuId) {
