@@ -37,7 +37,7 @@ public interface IBaseEnum<T> {
     }
 
     /**
-     * 根据值获取标签
+     * 根据文本标签获取值
      *
      * @param value
      * @param clazz
@@ -61,7 +61,7 @@ public interface IBaseEnum<T> {
 
 
     /**
-     * 根据值获取标签
+     * 根据值获取文本标签
      *
      * @param label
      * @param clazz
