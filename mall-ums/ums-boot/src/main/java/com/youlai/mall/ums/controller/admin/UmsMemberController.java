@@ -7,6 +7,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
@@ -39,11 +40,11 @@ public class UmsMemberController {
 
     @ApiOperation(value = "获取会员信息")
     @GetMapping("/{memberId}/info")
-    public Result<MemberDTO> getMemberInfo(
+    public Result<MemberInfoDTO> getMemberInfo(
             @ApiParam("会员ID") @PathVariable Long memberId
     ) {
-        MemberDTO memberDTO = memberService.getMemberInfo(memberId);
-        return Result.success(memberDTO);
+        MemberInfoDTO memberInfoDTO = memberService.getMemberInfo(memberId);
+        return Result.success(memberInfoDTO);
     }
 
     @ApiOperation(value = "修改会员")

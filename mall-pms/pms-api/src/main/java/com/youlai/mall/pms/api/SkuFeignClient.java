@@ -35,7 +35,6 @@ public interface SkuFeignClient {
     @PutMapping("/app-api/v1/sku/_deduct")
     Result deductStock(@RequestParam String orderToken);
 
-
     /**
      * 订单商品验价
      *
@@ -43,7 +42,6 @@ public interface SkuFeignClient {
      */
     @PostMapping("/app-api/v1/sku/price/_check")
     Result<Boolean> checkPrice(@RequestBody CheckPriceDTO checkPriceDTO);
-
 
     /**
      * 「实验室」修改商品库存

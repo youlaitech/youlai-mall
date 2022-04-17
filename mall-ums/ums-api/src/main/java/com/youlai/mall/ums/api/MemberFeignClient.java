@@ -4,6 +4,7 @@ import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberInfoDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,8 +84,8 @@ public interface MemberFeignClient {
      * @param memberId
      * @return
      */
-    @GetMapping("/api/v1/members/{memberId}")
-    Result<MemberDTO> getMemberInfo(@PathVariable Long memberId);
+    @GetMapping("/api/v1/members/{memberId}/info")
+    Result<MemberInfoDTO> getMemberInfo(@PathVariable Long memberId);
 
 
 }

@@ -16,6 +16,7 @@ import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
 import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.vo.MemberVO;
@@ -193,12 +194,12 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * @return
      */
     @Override
-    public MemberDTO getMemberInfo(Long memberId) {
-        MemberDTO memberDTO = new MemberDTO();
+    public MemberInfoDTO getMemberInfo(Long memberId) {
+        MemberInfoDTO memberInfoDTO = new MemberInfoDTO();
         UmsMember umsMember = this.getById(memberId);
         if (umsMember != null) {
-            BeanUtil.copyProperties(umsMember, memberDTO);
+            BeanUtil.copyProperties(umsMember, memberInfoDTO);
         }
-        return memberDTO;
+        return memberInfoDTO;
     }
 }

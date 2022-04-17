@@ -9,6 +9,7 @@ import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberInfoDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,15 +70,18 @@ public class SeataServiceImpl implements ISeataService {
         SkuInfoDTO skuInfoDTO = skuFeignClient.getSkuInfo(skuId).getData();
         SeataDataVO.SkuInfo skuInfo = new SeataDataVO.SkuInfo();
         BeanUtil.copyProperties(skuInfoDTO, skuInfo);
+        skuInfo.setName(skuInfoDTO.getSkuName());
         seataDataVO.setSkuInfo(skuInfo);
 
-        MemberDTO memberInfoDTO = memberFeignClient.getMemberInfo(memberId).getData();
+        MemberInfoDTO memberInfoDTO = memberFeignClient.getMemberInfo(memberId).getData();
         SeataDataVO.MemberInfo memberInfo = new SeataDataVO.MemberInfo();
         BeanUtil.copyProperties(memberInfoDTO, memberInfo);
+        seataDataVO.setMemberInfo(memberInfo);
 
         OrderInfoDTO orderInfoDTO = orderFeignClient.getOrderInfo(orderId).getData();
         SeataDataVO.OrderInfo orderInfo = new SeataDataVO.OrderInfo();
         BeanUtil.copyProperties(orderInfoDTO, orderInfo);
+        seataDataVO.setOrderInfo(orderInfo);
 
         return seataDataVO;
     }
