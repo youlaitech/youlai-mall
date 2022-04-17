@@ -7,7 +7,6 @@ import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @FeignClient(value = "mall-pms", contextId = "sku")
 public interface SkuFeignClient {
@@ -31,7 +30,7 @@ public interface SkuFeignClient {
     Result unlockStock(@RequestParam String orderToken);
 
     /**
-     * 扣减商品库存
+     * 扣减订单商品库存
      */
     @PutMapping("/app-api/v1/sku/_deduct")
     Result deductStock(@RequestParam String orderToken);
@@ -44,4 +43,27 @@ public interface SkuFeignClient {
      */
     @PostMapping("/app-api/v1/sku/price/_check")
     Result<Boolean> checkPrice(@RequestBody CheckPriceDTO checkPriceDTO);
+
+
+    /**
+     * 「实验室」修改商品库存
+     *
+     * @param skuId
+     * @param stockNum
+     * @return
+     */
+    @PutMapping("/api/v1/sku/{skuId}/stock")
+    Result updateStock(@PathVariable Long skuId, @RequestParam Integer stockNum);
+
+
+    /**
+     * 「实验室」扣减商品库存
+     *
+     * @param skuId
+     * @param num   扣减数量
+     * @return
+     */
+    @PutMapping("/api/v1/sku/{skuId}/stock/_deduct")
+    Result deductStock(@PathVariable Long skuId, @RequestParam Integer num);
+
 }

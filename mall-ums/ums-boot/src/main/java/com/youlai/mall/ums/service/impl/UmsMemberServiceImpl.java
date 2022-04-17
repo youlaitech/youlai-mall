@@ -3,6 +3,7 @@ package com.youlai.mall.ums.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,6 +11,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.MemberUtils;
+import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
 import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
@@ -149,5 +151,54 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
         MemberVO memberVO = new MemberVO();
         BeanUtil.copyProperties(umsMember, memberVO);
         return memberVO;
+    }
+
+
+    /**
+     * 「实验室」修改会员余额
+     *
+     * @param memberId
+     * @param balance  会员余额
+     * @return
+     */
+    @Override
+    public boolean updateBalance(Long memberId, Long balance) {
+        boolean result = this.update(new LambdaUpdateWrapper<UmsMember>()
+                .eq(UmsMember::getId, memberId)
+                .set(UmsMember::getBalance, balance)
+        );
+        return result;
+    }
+
+    /**
+     * 「实验室」扣减账户余额
+     *
+     * @param memberId
+     * @param amount   扣减金额
+     * @return
+     */
+    @Override
+    public boolean deductBalance(Long memberId, Long amount) {
+        boolean result = this.update(new LambdaUpdateWrapper<UmsMember>()
+                .setSql("balance = balance - " + amount)
+                .eq(UmsMember::getId, memberId)
+        );
+        return result;
+    }
+
+    /**
+     * 「实验室」获取会员信息
+     *
+     * @param memberId
+     * @return
+     */
+    @Override
+    public MemberDTO getMemberInfo(Long memberId) {
+        MemberDTO memberDTO = new MemberDTO();
+        UmsMember umsMember = this.getById(memberId);
+        if (umsMember != null) {
+            BeanUtil.copyProperties(umsMember, memberDTO);
+        }
+        return memberDTO;
     }
 }

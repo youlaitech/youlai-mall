@@ -8,6 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,6 +27,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.config.WxPayProperties;
+import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderTypeEnum;
 import com.youlai.mall.oms.enums.PayTypeEnum;
@@ -65,7 +67,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.youlai.mall.oms.constant.OmsConstants.*;
@@ -217,24 +218,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * @return
      */
     @Override
-    @GlobalTransactional(rollbackFor = Exception.class)
+    @GlobalTransactional
     public <T> T pay(Long orderId, String appId, PayTypeEnum payTypeEnum) {
         OmsOrder order = this.getById(orderId);
-        if (order == null) {
-            throw new BizException("订单不存在");
-        }
-        RLock lock = redissonClient.getLock(ORDER_SN_PREFIX + order.getOrderSn());
+        Assert.isTrue(order != null, "订单不存在");
+        Assert.isTrue(OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus()), "订单不可支付，请检查订单状态");
 
-        boolean flag = false;
+        RLock lock = redissonClient.getLock(ORDER_SN_PREFIX + order.getOrderSn());
         try {
-            // 尝试加锁，最多等待1秒，上锁10秒后自动解锁
-            flag = lock.tryLock(1L, 10L, TimeUnit.SECONDS);
-            if (!flag) {
-                throw new BizException("订单不可重复支付");
-            }
-            if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
-                throw new BizException("支付失败，请检查订单状态");
-            }
+
+            lock.lock();
             T result;
             switch (payTypeEnum) {
                 case WX_JSAPI:
@@ -248,16 +241,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             Result<?> deductStockResult = skuFeignClient.deductStock(order.getOrderSn());
             Assert.isTrue(Result.isSuccess(deductStockResult), "扣减商品库存失败");
             return result;
-        } catch (InterruptedException e) {
-            log.error(e.getMessage(), e);
-            throw new BizException("锁订单异常");
         } finally {
             //释放锁
-            if (flag && lock.isLocked()) {
+            if (lock.isLocked()) {
                 lock.unlock();
             }
         }
-
     }
 
 
@@ -520,4 +509,39 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         lockStockDTO.setLockedSkuList(lockedSkuList);
         skuFeignClient.lockStock(lockStockDTO);
     }
+
+
+    /**
+     * 修改订单状态
+     *
+     * @param orderId 订单ID
+     * @param status  订单状态
+     * @return
+     */
+    @Override
+    public boolean updateOrderStatus(Long orderId, Integer status) {
+        boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, orderId)
+                .set(OmsOrder::getStatus, status));
+        return result;
+    }
+
+    /**
+     * 获取订单信息
+     *
+     * @param orderId
+     * @return
+     */
+    @Override
+    public OrderInfoDTO getOrderInfo(Long orderId) {
+
+        OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+
+        OmsOrder omsOrder = this.getById(orderId);
+        if (omsOrder != null) {
+            BeanUtil.copyProperties(omsOrder,orderInfoDTO);
+        }
+
+        return orderInfoDTO;
+    }
+
 }

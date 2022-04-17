@@ -6,17 +6,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.List;
 
 
 @Api(tags = "「系统端」会员管理")
@@ -38,20 +37,19 @@ public class UmsMemberController {
         return PageResult.success(result);
     }
 
-    @ApiOperation(value = "获取会员详情")
-    @ApiImplicitParam(name = "id", value = "会员ID", required = true, paramType = "path", dataType = "Long")
-    @GetMapping("/{id}")
-    public Result<UmsMember> getMemberDetail(
-            @ApiParam("会员ID") @PathVariable Long id
+    @ApiOperation(value = "获取会员信息")
+    @GetMapping("/{memberId}/info")
+    public Result<MemberDTO> getMemberInfo(
+            @ApiParam("会员ID") @PathVariable Long memberId
     ) {
-        UmsMember user = memberService.getById(id);
-        return Result.success(user);
+        MemberDTO memberDTO = memberService.getMemberInfo(memberId);
+        return Result.success(memberDTO);
     }
 
     @ApiOperation(value = "修改会员")
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/{memberId}")
     public <T> Result<T> update(
-            @ApiParam("会员ID") @PathVariable Long id,
+            @ApiParam("会员ID") @PathVariable Long memberId,
             @RequestBody UmsMember member
     ) {
         boolean status = memberService.updateById(member);

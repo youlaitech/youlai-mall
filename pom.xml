@@ -19,7 +19,7 @@
         <module>mall-pms</module>
         <module>mall-oms</module>
         <!-- 实验室 -->
-        <module>youlai-laboratory</module>
+        <module>youlai-lab</module>
     </modules>
 
     <parent>
@@ -48,7 +48,7 @@
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
         <minio.version>8.3.7</minio.version>
         <!-- 覆盖SpringBoot中okhttp3的旧版本声明，解决MinIO 8.3.x的依赖冲突 -->
-        <okhttp3.version>4.8.1 </okhttp3.version>
+        <okhttp3.version>4.8.1</okhttp3.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
         <seata.version>1.4.2</seata.version>
@@ -295,6 +295,24 @@
                 <version>${easyexcel.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>oms-api</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>pms-api</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>ums-api</artifactId>
+                <version>${youlai.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

@@ -57,6 +57,36 @@ public interface MemberFeignClient {
     @GetMapping("/app-api/v1/members/mobile/{mobile}")
     Result<MemberAuthInfoDTO> loadUserByMobile(@PathVariable String mobile);
 
+    /**
+     * 「实验室」修改会员余额
+     *
+     * @param memberId
+     * @param balance  余额(单位:分)
+     * @return
+     */
+    @PutMapping("/api/v1/members/{memberId}/balance")
+    Result updateBalance(@PathVariable Long memberId, @RequestParam Integer balance);
+
+    /**
+     * 「实验室」扣减会员余额
+     *
+     * @param memberId
+     * @param amount   扣减金额(单位:分)
+     * @return
+     */
+    @PutMapping("/api/v1/members/{memberId}/balance/_deduct")
+    Result deductBalance(@PathVariable Long memberId, @RequestParam Integer amount);
+
+    /**
+     * 「实验室」获取会员信息
+     *
+     * @param memberId
+     * @return
+     */
+    @GetMapping("/api/v1/members/{memberId}")
+    Result<MemberDTO> getMemberInfo(@PathVariable Long memberId);
+
+
 }
 
 

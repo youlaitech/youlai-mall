@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
+import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
@@ -82,5 +83,22 @@ public interface IOrderService extends IService<OmsOrder> {
      * @return
      */
     IPage<OmsOrder> listOrderPages(OrderPageQuery queryParams);
+
+    /**
+     * 修改订单状态
+     *
+     * @param orderId 订单ID
+     * @param status 订单状态
+     * @return
+     */
+    boolean updateOrderStatus(Long orderId, Integer status);
+
+    /**
+     * 获取订单信息
+     *
+     * @param orderId
+     * @return
+     */
+    OrderInfoDTO getOrderInfo(Long orderId);
 }
 

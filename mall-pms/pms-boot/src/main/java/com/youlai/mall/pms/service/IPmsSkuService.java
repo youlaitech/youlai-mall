@@ -1,13 +1,11 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
 
-import java.util.List;
 
 /**
  * 商品库存单元接口
@@ -57,4 +55,23 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @return
      */
     boolean checkPrice(CheckPriceDTO checkPriceDTO);
+
+
+    /**
+     * 「实验室」修改商品库存数量
+     *
+     * @param skuId
+     * @param stockNum 商品库存数量
+     * @return
+     */
+    boolean updateStockNum(Long skuId, Integer stockNum);
+
+    /**
+     * 「实验室」扣减商品库存
+     *
+     * @param skuId
+     * @param num 商品库存数量
+     * @return
+     */
+    boolean deductStock(Long skuId, Integer num);
 }

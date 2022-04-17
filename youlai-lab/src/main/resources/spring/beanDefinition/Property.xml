@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="beanC"
+          class="com.youlai.lab.spring.beanDefinition.BeanC"
+          init-method="afterPropertiesSet"
+          destroy-method="destroy"
+       />
+
+    <bean id="bean"
+          class="com.youlai.lab.spring.beanDefinition.BeanD">
+        <property name="name" value="youlai"/>
+        <property name="age" value="2"/>
+    </bean>
+
+
+    <bean id="parent"
+          class="com.youlai.lab.spring.Bean"
+        parent="bean">
+        <property name="age" value="1"/>
+    </bean>
+
+
+
+
+</beans>

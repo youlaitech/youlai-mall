@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.pojo.dto.OrderDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
@@ -14,10 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +60,22 @@ public class OmsOrderController {
 
         orderDTO.setOrder(order).setOrderItems(orderItems);
         return Result.success(orderDTO);
+    }
+
+    @ApiOperation(value = "修改订单状态", notes = "实验室模拟接口", hidden = true)
+    @PutMapping("/{orderId}/status")
+    public Result updateOrderStatus(@PathVariable Long orderId, @RequestParam Integer status) {
+        boolean result = orderService.updateOrderStatus(orderId, status);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "获取订单信息", notes = "实验室模拟接口", hidden = true)
+    @GetMapping("/{orderId}/info")
+    public Result<OrderInfoDTO> getOrderInfo(
+            @ApiParam("订单ID") @PathVariable Long orderId
+    ) {
+        OrderInfoDTO orderInfo = orderService.getOrderInfo(orderId);
+        return Result.success(orderInfo);
     }
 
 }

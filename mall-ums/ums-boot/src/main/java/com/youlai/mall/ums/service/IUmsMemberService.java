@@ -56,4 +56,31 @@ public interface IUmsMemberService extends IService<UmsMember> {
      * @return
      */
     MemberVO getCurrentMemberInfo();
+
+
+    /**
+     * 「实验室」修改会员余额
+     *
+     * @param memberId
+     * @param balance  会员余额
+     * @return
+     */
+    boolean updateBalance(Long memberId, Long balance);
+
+    /**
+     * 「实验室」扣减账户余额
+     *
+     * @param memberId
+     * @param amount   扣减金额
+     * @return
+     */
+    boolean deductBalance(Long memberId, Long amount);
+
+    /**
+     * 「实验室」获取会员信息
+     *
+     * @param memberId
+     * @return
+     */
+    MemberDTO getMemberInfo(Long memberId);
 }
