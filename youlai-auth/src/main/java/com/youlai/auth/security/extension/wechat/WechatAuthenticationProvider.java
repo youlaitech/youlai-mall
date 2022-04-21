@@ -11,7 +11,7 @@ import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import lombok.Data;
-import me.chanjar.weixin.common.error.WxErrorException;
+import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -40,17 +40,13 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
      * @return
      * @throws AuthenticationException
      */
+    @SneakyThrows
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         WechatAuthenticationToken authenticationToken = (WechatAuthenticationToken) authentication;
         String code = (String) authenticationToken.getPrincipal();
 
-        WxMaJscode2SessionResult sessionInfo = null;
-        try {
-            sessionInfo = wxMaService.getUserService().getSessionInfo(code);
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-        }
+        WxMaJscode2SessionResult sessionInfo =  wxMaService.getUserService().getSessionInfo(code);
         String openid = sessionInfo.getOpenid();
         Result<MemberAuthInfoDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
         // 微信用户不存在，注册成为新会员
