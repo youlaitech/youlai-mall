@@ -54,7 +54,8 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         // 线上演示环境修改和删除行为的接口禁止操作
         String requestPath = request.getPath().toString();
         if (env.equals("prod") && !SecurityConstants.LOGOUT_PATH.equals(requestPath)
-                && !StrUtil.contains(requestPath, "app-api") // APP所有接口放行
+                && !StrUtil.contains(requestPath,"/youlai-lab") // 实验室接口放行
+                && !StrUtil.contains(requestPath, "/app-api") // APP所有接口放行
                 && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法禁止
                 || HttpMethod.PUT.toString().equals(request.getMethodValue())// 修改方法禁止
                 || SecurityConstants.SAVE_MENU_PATH.equals(request.getPath().toString()) // 新增菜单禁止
@@ -62,7 +63,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
             return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
         }
 
-        // 不是正确的的JWT不做解析处理
+        // 错误的JWT不做解析处理
         String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
         if (StrUtil.isBlank(token) || !StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX)) {
             return chain.filter(exchange);
