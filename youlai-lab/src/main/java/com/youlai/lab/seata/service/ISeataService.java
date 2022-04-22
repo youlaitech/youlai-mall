@@ -1,5 +1,6 @@
 package com.youlai.lab.seata.service;
 
+import com.youlai.lab.seata.pojo.form.SeataForm;
 import com.youlai.lab.seata.pojo.vo.SeataDataVO;
 
 /**
@@ -9,11 +10,19 @@ import com.youlai.lab.seata.pojo.vo.SeataDataVO;
 public interface ISeataService {
 
     /**
-     * 模拟订单提交
+     * 模拟订单支付
      *
      * @return
      */
-    boolean payOrder();
+    boolean payOrder(SeataForm seataForm);
+
+    /**
+     * 模拟订单支付(分布式事务)
+     *
+     * @param seataForm
+     * @return
+     */
+    boolean payOrderWithTx(SeataForm seataForm);
 
     /**
      * 获取模拟数据

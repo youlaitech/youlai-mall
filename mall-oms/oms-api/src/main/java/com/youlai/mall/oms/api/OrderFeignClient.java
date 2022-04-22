@@ -14,18 +14,20 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author haoxr
  * @createTime 2021/3/13 11:59
  */
-@FeignClient(value = "mall-oms",contextId = "order")
+@FeignClient(value = "mall-oms", contextId = "order")
 public interface OrderFeignClient {
 
 
     /**
-     * 「实验室」订单完结
+     * 「实验室」订单状态修改
      *
+     * @param orderId 订单ID
+     * @param status  订单状态
+     * @param orderEx 订单异常
      * @return
      */
     @PutMapping("/api/v1/orders/{orderId}/status")
-    Result updateOrderStatus(@PathVariable Long orderId, @RequestParam Integer status);
-
+    Result updateOrderStatus(@PathVariable Long orderId, @RequestParam Integer status, @RequestParam Boolean orderEx);
 
     /**
      * 「实验室」获取订单信息

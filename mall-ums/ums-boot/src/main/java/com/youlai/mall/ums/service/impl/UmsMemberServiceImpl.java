@@ -24,6 +24,7 @@ import com.youlai.mall.ums.service.IUmsMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -175,10 +176,11 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * 「实验室」扣减账户余额
      *
      * @param memberId
-     * @param amount   扣减金额
+     * @param amount    扣减金额
      * @return
      */
     @Override
+    @Transactional
     public boolean deductBalance(Long memberId, Long amount) {
         boolean result = this.update(new LambdaUpdateWrapper<UmsMember>()
                 .setSql("balance = balance - " + amount)

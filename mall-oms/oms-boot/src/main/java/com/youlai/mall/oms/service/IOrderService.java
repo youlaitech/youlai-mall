@@ -89,9 +89,10 @@ public interface IOrderService extends IService<OmsOrder> {
      *
      * @param orderId 订单ID
      * @param status 订单状态
+     * @param orderEx 订单是否异常
      * @return
      */
-    boolean updateOrderStatus(Long orderId, Integer status);
+    boolean updateOrderStatus(Long orderId, Integer status,Boolean orderEx);
 
     /**
      * 获取订单信息

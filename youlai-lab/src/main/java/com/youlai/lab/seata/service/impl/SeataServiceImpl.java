@@ -1,6 +1,7 @@
 package com.youlai.lab.seata.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.youlai.lab.seata.pojo.form.SeataForm;
 import com.youlai.lab.seata.pojo.vo.SeataDataVO;
 import com.youlai.lab.seata.service.ISeataService;
 import com.youlai.mall.oms.api.OrderFeignClient;
@@ -8,7 +9,6 @@ import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
@@ -40,20 +40,37 @@ public class SeataServiceImpl implements ISeataService {
      * @return
      */
     @Override
-    @GlobalTransactional
-    public boolean payOrder() {
+    public boolean payOrder(SeataForm seataForm) {
 
-        log.info("扣减库存----begin");
+        log.info("========扣减商品库存========");
         skuFeignClient.deductStock(skuId, 1); // 扣减库存
-        log.info("扣减库存----end");
 
-        log.info("扣减账户余额----begin");
-        memberFeignClient.deductBalance(memberId, 1000 * 100); //扣款1000
-        log.info("扣减账户余额----end");
+        log.info("========扣减账户余额========");
+        memberFeignClient.deductBalance(memberId, 1000 * 100l); // 扣款1000
 
-        log.info("修改订单状态----begin");
-        orderFeignClient.updateOrderStatus(orderId, 901); // 订单完结
-        log.info("修改订单状态----end");
+        log.info("========修改订单状态========");
+        orderFeignClient.updateOrderStatus(orderId, 201, seataForm.isOrderEx()); // 已支付
+
+        return true;
+    }
+
+    /**
+     * 模拟订单支付(分布式事务)
+     *
+     * @param seataForm
+     * @return
+     */
+    @Override
+    @GlobalTransactional
+    public boolean payOrderWithTx(SeataForm seataForm) {
+        log.info("========扣减商品库存(Seata)========");
+        skuFeignClient.deductStock(skuId, 1); // 扣减库存
+
+        log.info("========扣减账户余额(Seata)========");
+        memberFeignClient.deductBalance(memberId, 1000 * 100l); // 扣款1000
+
+        log.info("========修改订单状态(Seata)========");
+        orderFeignClient.updateOrderStatus(orderId, 201, seataForm.isOrderEx()); // 已支付
 
         return true;
     }
@@ -103,7 +120,7 @@ public class SeataServiceImpl implements ISeataService {
         log.info("扣减账户余额----end");
 
         log.info("修改订单状态----begin");
-        orderFeignClient.updateOrderStatus(orderId, 101); // 待支付
+        orderFeignClient.updateOrderStatus(orderId, 101, false); // 待支付
         log.info("修改订单状态----end");
 
         return true;

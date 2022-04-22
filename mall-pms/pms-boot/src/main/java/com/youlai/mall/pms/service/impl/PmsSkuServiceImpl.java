@@ -187,6 +187,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
      * @return
      */
     @Override
+    @Transactional
     public boolean updateStockNum(Long skuId, Integer stockNum) {
         boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
                 .eq(PmsSku::getId, skuId)

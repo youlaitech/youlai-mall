@@ -64,8 +64,8 @@ public class OmsOrderController {
 
     @ApiOperation(value = "修改订单状态", notes = "实验室模拟接口", hidden = true)
     @PutMapping("/{orderId}/status")
-    public Result updateOrderStatus(@PathVariable Long orderId, @RequestParam Integer status) {
-        boolean result = orderService.updateOrderStatus(orderId, status);
+    public Result updateOrderStatus(@PathVariable Long orderId, @RequestParam Integer status,@RequestParam Boolean orderEx) {
+        boolean result = orderService.updateOrderStatus(orderId, status,orderEx);
         return Result.judge(result);
     }
 

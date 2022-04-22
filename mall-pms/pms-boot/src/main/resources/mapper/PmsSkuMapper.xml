@@ -22,7 +22,7 @@
         select
                t1.id skuId,
                t1.sku_sn,
-               t1.name skuName,
+               concat(t2.name,' ',t1.name) skuName,
                t1.pic_url,
                t1.price,
                t1.stock_num,

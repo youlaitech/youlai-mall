@@ -80,4 +80,25 @@ public class UmsMemberController {
                 .set(UmsMember::getDeleted, GlobalConstants.STATUS_YES));
         return Result.judge(status);
     }
+
+
+    @ApiOperation(value = "修改会员余额", notes = "实验室模拟", hidden = true)
+    @PutMapping(value = "/{memberId}/balance")
+    public Result updateBalance(
+            @PathVariable Long memberId,
+            @RequestParam Long balance
+    ) {
+        boolean result = memberService.updateBalance(memberId, balance);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "扣减会员余额", notes = "实验室模拟", hidden = true)
+    @PutMapping(value = "/{memberId}/balance/_deduct")
+    public Result deductBalance(
+            @PathVariable Long memberId,
+            @RequestParam Long amount
+    ) {
+        boolean result = memberService.deductBalance(memberId, amount);
+        return Result.judge(result);
+    }
 }

@@ -76,7 +76,7 @@ public interface MemberFeignClient {
      * @return
      */
     @PutMapping("/api/v1/members/{memberId}/balance/_deduct")
-    Result deductBalance(@PathVariable Long memberId, @RequestParam Integer amount);
+    Result deductBalance(@PathVariable Long memberId, @RequestParam Long amount);
 
     /**
      * 「实验室」获取会员信息
@@ -86,7 +86,6 @@ public interface MemberFeignClient {
      */
     @GetMapping("/api/v1/members/{memberId}/info")
     Result<MemberInfoDTO> getMemberInfo(@PathVariable Long memberId);
-
 
 }
 

@@ -50,7 +50,7 @@ public interface SkuFeignClient {
      * @param stockNum
      * @return
      */
-    @PutMapping("/api/v1/sku/{skuId}/stock")
+    @PutMapping("/api/v1/sku/{skuId}/stock_num")
     Result updateStock(@PathVariable Long skuId, @RequestParam Integer stockNum);
 
 

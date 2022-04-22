@@ -53,6 +53,7 @@ public class OmsSkuController {
     public Result deductStock(
             @PathVariable Long skuId,
             @RequestParam Integer num
+
     ) {
         boolean result = skuService.deductStock(skuId, num);
         return Result.judge(result);

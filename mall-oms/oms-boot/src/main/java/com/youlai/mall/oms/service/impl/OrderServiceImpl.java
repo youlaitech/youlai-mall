@@ -512,16 +512,23 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
 
     /**
-     * 修改订单状态
+     * 「实验室」修改订单状态
      *
      * @param orderId 订单ID
      * @param status  订单状态
+     * @param orderEx 订单是否异常
      * @return
      */
     @Override
-    public boolean updateOrderStatus(Long orderId, Integer status) {
-        boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>().eq(OmsOrder::getId, orderId)
+    @Transactional
+    public boolean updateOrderStatus(Long orderId, Integer status, Boolean orderEx) {
+        boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>()
+                .eq(OmsOrder::getId, orderId)
                 .set(OmsOrder::getStatus, status));
+
+        if (orderEx) {
+            int i = 1 / 0;
+        }
         return result;
     }
 
@@ -538,7 +545,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         OmsOrder omsOrder = this.getById(orderId);
         if (omsOrder != null) {
-            BeanUtil.copyProperties(omsOrder,orderInfoDTO);
+            BeanUtil.copyProperties(omsOrder, orderInfoDTO);
         }
 
         return orderInfoDTO;
