@@ -15,6 +15,7 @@
         <result property="visible" column="visible" jdbcType="BOOLEAN"/>
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
         <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="type" column="type" jdbcType="OTHER"/>
         <collection property="roles" ofType="string" javaType="list">
             <result column="code"/>
         </collection>
@@ -38,7 +39,8 @@
                t1.sort,
                t1.visible,
                t1.redirect,
-               t3.code
+               t3.code,
+               t1.type
         from sys_menu t1
                  left join sys_role_menu t2 on t1.id = t2.menu_id
                  left join sys_role t3 on t2.role_id = t3.id

@@ -2,8 +2,8 @@ package com.youlai.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.vo.menu.MenuVO;
-import com.youlai.admin.pojo.vo.menu.RouteVO;
+import com.youlai.admin.pojo.vo.menu.MenuTableVO;
+import com.youlai.admin.pojo.vo.menu.NextRouteVO;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysPermissionService;
 import com.youlai.common.result.Result;
@@ -28,38 +28,38 @@ import java.util.List;
 @RequestMapping("/api/v1/menus")
 @RequiredArgsConstructor
 @Slf4j
-public class MenuController {
+public class SysMenuController {
 
     private final ISysMenuService menuService;
     private final ISysPermissionService permissionService;
 
     @ApiOperation(value = "菜单表格(Table)列表")
     @GetMapping("/table")
-    public Result getTableList(
+    public Result listTableMenus(
             @ApiParam(value = "菜单名称", type = "query") String name
     ) {
-        List<MenuVO> menuList = menuService.listTableMenus(name);
+        List<MenuTableVO> menuList = menuService.listTableMenus(name);
         return Result.success(menuList);
     }
 
     @ApiOperation(value = "菜单下拉(Select)列表")
     @GetMapping("/select")
-    public Result getSelectList() {
+    public Result listSelectMenus() {
         List<OptionVO> menuList = menuService.listSelectMenus();
         return Result.success(menuList);
     }
 
     @ApiOperation(value = "菜单路由(Route)列表")
     @GetMapping("/route")
-    public Result listRouteMenus() {
-        List<RouteVO> routeList = menuService.listRouteMenus();
+    public Result getRouteList() {
+        List<NextRouteVO> routeList = menuService.listNextRoutes();
         return Result.success(routeList);
     }
 
     @ApiOperation(value = "菜单详情")
     @GetMapping("/{id}")
     public Result detail(
-            @ApiParam(value = "菜单ID", type = "path") @PathVariable Long id
+            @ApiParam(value = "菜单ID") @PathVariable Long id
     ) {
         SysMenu menu = menuService.getById(id);
         return Result.success(menu);

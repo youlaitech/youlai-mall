@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v2/dict")
 @RequiredArgsConstructor
-public class DictV2Controller {
+public class SysDictV2Controller {
 
     private final ISysDictService iSysDictService;
     private final ISysDictItemService iSysDictItemService;

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/dicts")
 @RequiredArgsConstructor
-public class DictController {
+public class SysDictController {
 
     private final ISysDictService iSysDictService;
     private final ISysDictItemService iSysDictItemService;

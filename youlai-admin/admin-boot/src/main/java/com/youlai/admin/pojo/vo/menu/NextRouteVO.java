@@ -33,11 +33,16 @@ public class NextRouteVO {
         private Boolean hidden;
 
         /**
-         * 如果设置为 true，菜单就算没有子节点也会显示
+         * 如果设置为 true，目录没有子节点也会显示
          */
         private Boolean alwaysShow;
 
         private List<String> roles;
+
+        /**
+         * 页面缓存开启状态
+         */
+        private Boolean keepAlive;
     }
 
     private List<NextRouteVO> children;

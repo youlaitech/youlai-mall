@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/depts")
 @RequiredArgsConstructor
-public class DeptController {
+public class SysDeptController {
 
     private final ISysDeptService deptService;
 

@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor
-public class RoleController {
+public class SysRoleController {
 
     private final ISysRoleService iSysRoleService;
     private final ISysRoleMenuService iSysRoleMenuService;

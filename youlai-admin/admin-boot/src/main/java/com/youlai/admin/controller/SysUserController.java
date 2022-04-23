@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class UserController {
+public class SysUserController {
 
     private final ISysUserService iSysUserService;
     private final ISysPermissionService iSysPermissionService;

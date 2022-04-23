@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/permissions")
 @RequiredArgsConstructor
-public class PermissionController {
+public class SysPermissionController {
 
     private final ISysPermissionService iSysPermissionService;
 

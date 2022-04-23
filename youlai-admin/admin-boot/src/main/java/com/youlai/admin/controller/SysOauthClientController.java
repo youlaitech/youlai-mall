@@ -26,7 +26,7 @@ import java.util.Arrays;
 @RequestMapping("/api/v1/oauth-clients")
 @Slf4j
 @AllArgsConstructor
-public class OauthClientController {
+public class SysOauthClientController {
 
     private ISysOauthClientService iSysOauthClientService;
 
