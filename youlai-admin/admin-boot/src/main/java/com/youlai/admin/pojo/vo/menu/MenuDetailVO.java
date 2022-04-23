@@ -1,13 +1,9 @@
 package com.youlai.admin.pojo.vo.menu;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.youlai.common.base.BaseEntity;
 import lombok.Data;
-import java.util.List;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class MenuVO extends BaseEntity {
+public class MenuDetailVO {
 
     private Long id;
 
@@ -29,7 +25,6 @@ public class MenuVO extends BaseEntity {
 
     private String redirect;
 
-    @JsonInclude(value = JsonInclude.Include.NON_NULL)
-    private List<MenuVO> children;
+    private Integer type;
 
 }
