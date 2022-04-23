@@ -22,13 +22,13 @@ CREATE TABLE `sys_dept`  (
                              `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
 INSERT INTO `sys_dept` VALUES (1, '有来技术', 0, '0', 1, 1, 0, NULL, NULL);
-INSERT INTO `sys_dept` VALUES (2, '研发部门', 1, '0,1', 1, 1, 0, NULL, NULL);
+INSERT INTO `sys_dept` VALUES (2, '研发部门', 1, '0,1', 1, 1, 0, NULL, '2022-04-19 12:46:37');
 INSERT INTO `sys_dept` VALUES (3, '测试部门', 1, '0,1', 2, 1, 0, NULL, NULL);
 
 -- ----------------------------
@@ -102,47 +102,51 @@ INSERT INTO `sys_dict_item` VALUES (21, 'PATCH', 'PATCH', 'request_method', 6, 1
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
                              `id` bigint NOT NULL AUTO_INCREMENT,
-                             `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '菜单名称',
                              `parent_id` bigint NULL DEFAULT NULL COMMENT '父菜单ID',
-                             `path` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '路由路径',
-                             `component` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件路径',
+                             `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '菜单名称',
+                             `path` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '路由路径(浏览器地址栏路径)',
+                             `component` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件路径(vue页面完整路径，省略.vue后缀)',
                              `icon` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '菜单图标',
                              `sort` int NULL DEFAULT 0 COMMENT '排序',
-                             `visible` tinyint(1) NULL DEFAULT 1 COMMENT '状态：0-禁用 1-开启',
+                             `visible` tinyint(1) NULL DEFAULT 1 COMMENT '状态(0:禁用;1:开启)',
                              `redirect` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '跳转路径',
                              `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                             `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单类型(1:菜单;2:目录;3:外链)',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, '/system', 'Layout', 'table', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, 'user', 'system/user/index', 'user', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (3, '角色管理', 1, 'role', 'system/role/index', 'peoples', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (4, '菜单管理', 1, 'menu', 'system/menu/index', 'tree-table', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (5, '部门管理', 1, 'dept', 'system/dept/index', 'tree', 4, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (6, '字典管理', 1, 'dict', 'system/dict/index', 'education', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (7, '客户端管理', 1, 'client', 'system/client/index', 'tab', 6, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (9, '营销管理', 0, '/sms', 'Layout', 'number', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (10, '广告管理', 9, 'advert', 'sms/advert/index', 'documentation', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (11, '商品管理', 0, '/pms', 'Layout', 'phone', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (12, '商品列表', 11, 'goods', 'pms/goods/index', 'component', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (13, '订单管理', 0, '/oms', 'Layout', 'shopping', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (14, '订单列表', 13, 'order', 'oms/order/index', 'component', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (15, '会员管理', 0, '/ums', 'Layout', 'user', 4, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (16, '会员列表', 15, 'user', 'ums/member/index', 'peoples', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (17, '品牌管理', 11, 'brand', 'pms/brand/index', 'component', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (18, '商品分类', 11, 'category', 'pms/category/index', 'component', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (19, '商品上架', 11, 'goods-detail', 'pms/goods/detail', 'component', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (20, '多级菜单', 0, '/d6b15bab09d64ce39bc5aae9e6c38ba4', 'Layout', 'nested', 6, 1, '/nested/level1/level2', '2022-02-16 23:11:00', '2022-02-16 23:11:00');
-INSERT INTO `sys_menu` VALUES (21, '菜单一级', 20, 'nested_level1_index', 'nested/level1/index', '', 1, 1, '/nested/level1/level2', '2022-02-16 23:13:38', '2022-02-16 23:13:38');
-INSERT INTO `sys_menu` VALUES (22, '菜单二级', 21, 'nested_level1_level2_index', 'nested/level1/level2/index', '', 1, 1, '/nested/level1/level2/level3', '2022-02-16 23:14:23', '2022-02-16 23:14:23');
-INSERT INTO `sys_menu` VALUES (23, '菜单三级-1', 22, 'nested_level1_level2_level3_index1', 'nested/level1/level2/level3/index1', '', 1, 1, '', '2022-02-16 23:14:51', '2022-02-16 23:14:51');
-INSERT INTO `sys_menu` VALUES (24, '菜单三级-2', 22, 'nested_level1_level2_level3_index2', 'nested/level1/level2/level3/index2', '', 2, 1, '', '2022-02-16 23:15:08', '2022-02-16 23:15:08');
-INSERT INTO `sys_menu` VALUES (26, '外部链接', 0, '/d513e3047d4d447c880cff110234c1f6', 'Layout', 'link', 0, 1, '', '2022-02-17 22:51:20', '2022-02-17 22:51:20');
-INSERT INTO `sys_menu` VALUES (30, 'document', 26, 'https://www.cnblogs.com/haoxianrui/', '', 'link', 1, 1, '', '2022-02-18 00:01:40', '2022-02-18 00:01:40');
+INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '/system', 'Layout', 'system', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '2');
+INSERT INTO `sys_menu` VALUES (2, 1, '用户管理', 'user', 'system/user/index', 'user', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', 'role', 'system/role/index', 'role', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', 'cmenu', 'system/menu/index', 'menu', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (5, 1, '部门管理', 'dept', 'system/dept/index', 'tree', 4, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (6, 1, '字典管理', 'dict', 'system/dict/index', 'education', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (7, 1, '客户端管理', 'client', 'system/client/index', 'client', 6, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (9, 0, '营销管理', '/sms', 'Layout', 'number', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '2');
+INSERT INTO `sys_menu` VALUES (10, 9, '广告管理', 'advert', 'sms/advert/index', 'advert', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (11, 0, '商品管理', '/pms', 'Layout', 'goods', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (12, 11, '商品列表', 'goods', 'pms/goods/index', 'goods-list', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (13, 0, '订单管理', '/oms', 'Layout', 'shopping', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (14, 13, '订单列表', 'order', 'oms/order/index', 'order', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (15, 0, '会员管理', '/ums', 'Layout', 'user', 4, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (16, 15, '会员列表', 'member', 'ums/member/index', 'peoples', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (17, 11, '品牌管理', 'brand', 'pms/brand/index', 'brand', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (18, 11, '商品分类', 'category', 'pms/category/index', 'menu', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (19, 11, '商品上架', 'goods-detail', 'pms/goods/detail', 'publish', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
+INSERT INTO `sys_menu` VALUES (20, 0, '多级菜单', '/multi-level-menu', 'Layout', 'nested', 7, 1, '/nested/level1/level2', '2022-02-16 23:11:00', '2022-02-16 23:11:00', '2');
+INSERT INTO `sys_menu` VALUES (21, 20, '菜单一级', 'nested_level1_index', 'nested/level1/index', '', 1, 1, '/nested/level1/level2', '2022-02-16 23:13:38', '2022-02-16 23:13:38', '1');
+INSERT INTO `sys_menu` VALUES (22, 21, '菜单二级', 'nested_level1_level2_index', 'nested/level1/level2/index', '', 1, 1, '/nested/level1/level2/level3', '2022-02-16 23:14:23', '2022-02-16 23:14:23', '1');
+INSERT INTO `sys_menu` VALUES (23, 22, '菜单三级-1', 'nested_level1_level2_level3_index1', 'nested/level1/level2/level3/index1', '', 1, 1, '', '2022-02-16 23:14:51', '2022-02-16 23:14:51', '1');
+INSERT INTO `sys_menu` VALUES (24, 22, '菜单三级-2', 'nested_level1_level2_level3_index2', 'nested/level1/level2/level3/index2', '', 2, 1, '', '2022-02-16 23:15:08', '2022-02-16 23:15:08', '1');
+INSERT INTO `sys_menu` VALUES (26, 0, '外部链接', '/external-link', 'Layout', 'link', 9, 1, '', '2022-02-17 22:51:20', '2022-02-17 22:51:20', '1');
+INSERT INTO `sys_menu` VALUES (30, 26, 'document', 'https://www.cnblogs.com/haoxianrui/', '', 'link', 1, 1, '', '2022-02-18 00:01:40', '2022-02-18 00:01:40', '3');
+INSERT INTO `sys_menu` VALUES (32, 0, '实验室', '/lab', 'Layout', 'lab', 8, 1, '', '2022-04-19 09:35:38', '2022-04-19 09:35:38', '2');
+INSERT INTO `sys_menu` VALUES (33, 32, 'Seata', 'seata', 'lab/seata/index', 'security', 1, 1, '', '2022-04-19 09:35:38', '2022-04-19 09:35:38', '1');
+INSERT INTO `sys_menu` VALUES (34, 32, 'RabbitMQ', 'rabbitmq', 'lab/rabbit/index', 'rabbitmq', 2, 1, '', '2022-04-19 09:38:25', '2022-04-19 09:38:25', '1');
 
 -- ----------------------------
 -- Table structure for sys_oauth_client
@@ -188,7 +192,7 @@ CREATE TABLE `sys_permission`  (
                                    PRIMARY KEY (`id`) USING BTREE,
                                    INDEX `id`(`id`, `name`) USING BTREE,
                                    INDEX `id_2`(`id`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -214,7 +218,7 @@ CREATE TABLE `sys_role`  (
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              PRIMARY KEY (`id`) USING BTREE,
                              UNIQUE INDEX `name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -256,10 +260,12 @@ INSERT INTO `sys_role_menu` VALUES (2, 10);
 INSERT INTO `sys_role_menu` VALUES (2, 20);
 INSERT INTO `sys_role_menu` VALUES (2, 21);
 INSERT INTO `sys_role_menu` VALUES (2, 22);
-INSERT INTO `sys_role_menu` VALUES (2, 23);
 INSERT INTO `sys_role_menu` VALUES (2, 24);
 INSERT INTO `sys_role_menu` VALUES (2, 26);
 INSERT INTO `sys_role_menu` VALUES (2, 30);
+INSERT INTO `sys_role_menu` VALUES (2, 32);
+INSERT INTO `sys_role_menu` VALUES (2, 33);
+INSERT INTO `sys_role_menu` VALUES (2, 34);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -279,6 +285,7 @@ INSERT INTO `sys_role_permission` VALUES (2, 1);
 INSERT INTO `sys_role_permission` VALUES (2, 2);
 INSERT INTO `sys_role_permission` VALUES (2, 3);
 INSERT INTO `sys_role_permission` VALUES (2, 5);
+INSERT INTO `sys_role_permission` VALUES (2, 4);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -300,14 +307,14 @@ CREATE TABLE `sys_user`  (
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`id`) USING BTREE,
                              UNIQUE INDEX `login_name`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` (`id`, `username`, `nickname`, `gender`, `password`, `dept_id`, `avatar`, `mobile`, `status`, `email`, `deleted`, `gmt_create`, `gmt_modified`) VALUES (1, 'root', '有来技术', 0, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', NULL, '', '17621590365', 1, 'youlaitech@163.com', 0, NULL, NULL);
-INSERT INTO `sys_user` (`id`, `username`, `nickname`, `gender`, `password`, `dept_id`, `avatar`, `mobile`, `status`, `email`, `deleted`, `gmt_create`, `gmt_modified`) VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
-INSERT INTO `sys_user` (`id`, `username`, `nickname`, `gender`, `password`, `dept_id`, `avatar`, `mobile`, `status`, `email`, `deleted`, `gmt_create`, `gmt_modified`) VALUES (3, 'test', '测试小用户', 1, '$2a$10$MPJkNw.hKT/fZOgwYP8q9eu/rFJJDsNov697AmdkHNJkpjIpVSw2q', 3, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2021-06-05 01:31:29', '2021-06-05 01:31:29');
+INSERT INTO `sys_user` VALUES (1, 'root', '有来技术', 0, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', NULL, '', '17621590365', 1, 'youlaitech@163.com', 0, NULL, NULL);
+INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$yJSqqr6sTxNuYtA6EKcVUe2I4USFCzJ29sNcRrBvtAkSYcNg5ydQ6', 2, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2019-10-10 13:41:22', '2021-06-06 23:41:35');
+INSERT INTO `sys_user` VALUES (3, 'test', '测试小用户', 1, '$2a$10$MPJkNw.hKT/fZOgwYP8q9eu/rFJJDsNov697AmdkHNJkpjIpVSw2q', 3, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2021-06-05 01:31:29', '2021-06-05 01:31:29');
 
 -- ----------------------------
 -- Table structure for sys_user_role
