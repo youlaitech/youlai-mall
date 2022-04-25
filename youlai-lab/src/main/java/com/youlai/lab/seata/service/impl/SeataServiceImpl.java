@@ -62,7 +62,7 @@ public class SeataServiceImpl implements ISeataService {
      */
     @Override
     @GlobalTransactional
-    public boolean payOrderWithTx(SeataForm seataForm) {
+    public boolean payOrderWithSeata(SeataForm seataForm) {
         log.info("========扣减商品库存(Seata)========");
         skuFeignClient.deductStock(skuId, 1); // 扣减库存
 
@@ -85,15 +85,15 @@ public class SeataServiceImpl implements ISeataService {
         SeataDataVO seataDataVO = new SeataDataVO();
 
         SkuInfoDTO skuInfoDTO = skuFeignClient.getSkuInfo(skuId).getData();
-        SeataDataVO.SkuInfo skuInfo = new SeataDataVO.SkuInfo();
-        BeanUtil.copyProperties(skuInfoDTO, skuInfo);
-        skuInfo.setName(skuInfoDTO.getSkuName());
-        seataDataVO.setSkuInfo(skuInfo);
+        SeataDataVO.StockInfo stockInfo = new SeataDataVO.StockInfo();
+        BeanUtil.copyProperties(skuInfoDTO, stockInfo);
+        stockInfo.setName(skuInfoDTO.getSkuName());
+        seataDataVO.setStockInfo(stockInfo);
 
         MemberInfoDTO memberInfoDTO = memberFeignClient.getMemberInfo(memberId).getData();
-        SeataDataVO.MemberInfo memberInfo = new SeataDataVO.MemberInfo();
-        BeanUtil.copyProperties(memberInfoDTO, memberInfo);
-        seataDataVO.setMemberInfo(memberInfo);
+        SeataDataVO.AccountInfo accountInfo = new SeataDataVO.AccountInfo();
+        BeanUtil.copyProperties(memberInfoDTO, accountInfo);
+        seataDataVO.setAccountInfo(accountInfo);
 
         OrderInfoDTO orderInfoDTO = orderFeignClient.getOrderInfo(orderId).getData();
         SeataDataVO.OrderInfo orderInfo = new SeataDataVO.OrderInfo();
@@ -104,25 +104,15 @@ public class SeataServiceImpl implements ISeataService {
     }
 
     /**
-     * 重置模拟数据
+     * 重置还原数据
      *
      * @return
      */
     @Override
     public boolean resetData() {
-
-        log.info("扣减库存----begin");
         skuFeignClient.updateStock(skuId, 999); // 还原库存
-        log.info("扣减库存----end");
-
-        log.info("扣减账户余额----begin");
         memberFeignClient.updateBalance(memberId, 10000000 * 100); // 还原余额
-        log.info("扣减账户余额----end");
-
-        log.info("修改订单状态----begin");
         orderFeignClient.updateOrderStatus(orderId, 101, false); // 待支付
-        log.info("修改订单状态----end");
-
         return true;
 
     }

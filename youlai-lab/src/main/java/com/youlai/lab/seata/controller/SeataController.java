@@ -31,7 +31,7 @@ public class SeataController {
         boolean openTx = seataForm.isOpenTx();
         boolean result;
         if (openTx) {
-            result = seataService.payOrderWithTx(seataForm);
+            result = seataService.payOrderWithSeata(seataForm);
         } else {
             result = seataService.payOrder(seataForm);
         }

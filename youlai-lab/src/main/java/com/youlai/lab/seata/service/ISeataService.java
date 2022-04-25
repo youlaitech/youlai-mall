@@ -22,7 +22,7 @@ public interface ISeataService {
      * @param seataForm
      * @return
      */
-    boolean payOrderWithTx(SeataForm seataForm);
+    boolean payOrderWithSeata(SeataForm seataForm);
 
     /**
      * 获取模拟数据
