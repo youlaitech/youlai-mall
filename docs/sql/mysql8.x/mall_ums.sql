@@ -63,28 +63,29 @@ DROP TABLE IF EXISTS `ums_member`;
 CREATE TABLE `ums_member`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `gender` tinyint(1) NULL DEFAULT NULL,
-  `nick_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `mobile` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `birthday` date NULL DEFAULT NULL,
-  `avatar_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `openid` char(28) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `session_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `openid` char(28) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `session_key` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `status` tinyint(1) NULL DEFAULT 1,
   `point` int NULL DEFAULT 0 COMMENT '会员积分',
   `deleted` tinyint(1) NULL DEFAULT 0,
   `gmt_create` datetime NULL DEFAULT NULL,
   `gmt_modified` datetime NULL DEFAULT NULL,
   `balance` bigint NULL DEFAULT 1000000000,
-  `city` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `country` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `language` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `province` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `city` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `country` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `language` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `province` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ums_member
 -- ----------------------------
+INSERT INTO `ums_member` VALUES (1, 1, '郝先瑞', '17621590365', NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/J31cY2qVWviaOqhjPlr18VY5ic1SUvDESG1mQkicQfFugWibYe7VJIhYJBZYDBib0T4TJVhUOtiaW1TGkJRqIWd3K0dQ/132', 'oUBUG5hAB_8EMrSaqd2HjJQBFg74', NULL, 1, 0, 0, '2022-02-26 20:59:20', '2022-02-26 20:59:20', 1000000000, '', '', 'zh_CN', '');
 INSERT INTO `ums_member` VALUES (2, 1, 'Flamesky', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eorwiaJcRPxKMNHgov0HGBRA8JODQrhw67x61FGEFwic2E2UlhXSKmQ455jqT5RIPsZjmpkdia0pyZdA/132', 'oEMah4qx8utBwve1_5U2bq4z9Ucw', NULL, 1, 0, 0, '2021-01-12 17:52:03', NULL, 1000000000, NULL, NULL, NULL, NULL);
 INSERT INTO `ums_member` VALUES (3, 1, '非洲小白脸', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIIs1glKcYOadLFibr2et98eXTADdicLUGrQqF8EtvicIu5e5TwOkuBAzIf8zEl0aYPJaDkfIHTOEWuQ/132', 'oH-MK0V-N4Lotq-kXIMAMjLdXdtY', NULL, 1, 0, 0, '2021-01-12 17:52:06', NULL, 1000000000, NULL, NULL, NULL, NULL);
 INSERT INTO `ums_member` VALUES (4, 1, '花花的世界', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLxWhtkFhVKpfXib0BibMaIzeOAVCGVScnR5ibsibdENiaibjvnfy7AxeSSCTbn9IBvqMe1iaJ6BWTxIjZtg/132', 'oUBUG5lBhnnn-HBCF9mYMZbQv7A8', NULL, 1, 0, 0, '2021-01-12 17:52:09', '2021-02-24 22:43:41', 999680200, NULL, NULL, NULL, NULL);
@@ -105,8 +106,12 @@ INSERT INTO `ums_member` VALUES (22, 1, 'F', NULL, NULL, 'https://thirdwx.qlogo.
 INSERT INTO `ums_member` VALUES (23, 1, '蓝动', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/9cfWYQjJMKsplTQQLJqR3A75j9Hib44jHF0vIEJqfHC2ttfg0GCiaSzQbSQVVxrgicAJallo3eB2qsGyE1Z4RNYCQ/132', 'oUBUG5nOlD91HYvXRhCqKrMSWzUs', NULL, 1, 0, 0, '2021-03-23 17:35:03', '2021-03-23 17:35:03', 1000000000, NULL, NULL, NULL, NULL);
 INSERT INTO `ums_member` VALUES (24, 1, '路亚小生', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/tnib4ZCXWGOznmtyoHBL5BFicYZWICNyic0EyPWk70kr9IWzHSCVdIqFKN2o7BxyuYaDib0ogmfpuMTBgo3pOibPt9A/132', 'oUBUG5l8zS6fstLbQh4GNf81w438', NULL, 1, 0, 0, '2021-03-24 12:06:23', '2021-03-24 12:06:23', 1000000000, NULL, NULL, NULL, NULL);
 INSERT INTO `ums_member` VALUES (25, 1, 'Alan', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/QohQ9hnZnxF2mJOM1RywBPqToNVicDpeF8KdXrwmtYnRyoWaBHk0R25T1wxzleCJV3Un8iappa70yn8fJmgGAZnQ/132', 'oUBUG5kQ2YvWcX7OIYpw8owuWGqE', NULL, 1, 0, 0, '2021-03-29 15:57:24', '2021-03-29 15:57:24', 999380300, NULL, NULL, NULL, NULL);
-INSERT INTO `ums_member` VALUES (39, 1, '郝先瑞', '17621590365', NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/J31cY2qVWviaOqhjPlr18VY5ic1SUvDESG1mQkicQfFugWibYe7VJIhYJBZYDBib0T4TJVhUOtiaW1TGkJRqIWd3K0dQ/132', 'oUBUG5hAB_8EMrSaqd2HjJQBFg74', 'dR9xGLsS+hr98pLqt621hw==', 1, 0, 0, '2021-06-10 01:55:41', '2021-06-10 02:04:31', 994999400, '浦东新区', '中国', 'zh_CN', '上海');
 INSERT INTO `ums_member` VALUES (40, 1, '秋城', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLDfyM5iaYFwhzQ1Xv9zyA3bXDV42niazQlibiajdXba0YK4yAFFWIMY7vwfI1ny8Ej8pm0pmp7OkC2afg/132', 'oUBUG5oPQnarJi7g2mXE_svcHVeU', NULL, 1, 0, 0, '2021-06-19 16:57:51', '2021-06-19 16:57:51', 1000000000, '张家口', '中国', 'zh_CN', '河北');
+INSERT INTO `ums_member` VALUES (72, 0, 'Benji', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/WjvlGaEv9ajwHfpEGWd4KwjloXjCgvibMibPQiaL7I4ausEzp0rH0AHqKpJeERS2UHiaLSlftOYCj77nLEVNtXZqcQ/132', 'oBdKY4iltAU9HBHUBC-S8p3H1vv4', NULL, 1, 0, 0, '2022-03-13 04:23:33', '2022-03-13 04:23:33', 1000000000, '', '', 'zh_CN', '');
+INSERT INTO `ums_member` VALUES (73, 0, '_六月流星', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/gZlE19RpbIuqmicAdL8wC7u26gx6LhRwsicc3icFGYA8TNvy6RJnyGUMTbWkyhg1lJ4yolnOVqCs6gI7Oiaby8lqSQ/132', 'oUBUG5rsrAjW173G25vgL2hq6AZk', NULL, 1, 0, 0, '2022-03-14 16:17:33', '2022-03-14 16:17:33', 1000000000, '', '', 'zh_CN', '');
+INSERT INTO `ums_member` VALUES (74, 0, 'zhang', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIOca9icPByKxn3Z6AZAL3l0xfmOOqbRQVn1f2qoqtOYw3bJliawrTvu4F9Tg2aAHicASicXrW74zVUYA/132', 'oYCwr5IaYCS7web81wifWivPEMGw', NULL, 1, 0, 0, '2022-03-16 11:18:36', '2022-03-16 11:18:36', 1000000000, '', '', 'zh_CN', '');
+INSERT INTO `ums_member` VALUES (75, 0, '德才-Edward', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/4DgXefgtM24MXSMPomsvuwCiav9v77bA5Ou8S74qrlAALfNPMEqD938jrNVybP5sJzfaKyqHrYcicbIwU8Xcc1YA/132', 'oRJIA43TMiAw76HRFEMli4BSvX6c', NULL, 1, 0, 0, '2022-04-06 18:14:07', '2022-04-06 18:14:07', 1000000000, '', '', 'zh_CN', '');
+INSERT INTO `ums_member` VALUES (76, 0, '小乐有点笨', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/gTdG3Zs0OMqruJpGAKu9mZxo4K9WjEzmG759HiaBS5I71LVxktv2zyqNcKiaxeNF3JTSn1epfU3gUz8hZWdqhfPg/132', 'oTAHp5OexvW68nRkn5ISV0zKvEGE', NULL, 1, 0, 0, '2022-04-22 18:55:39', '2022-04-22 18:55:39', 1000000000, '', '', 'zh_CN', '');
 
 -- ----------------------------
 -- Table structure for undo_log
@@ -114,14 +119,14 @@ INSERT INTO `ums_member` VALUES (40, 1, '秋城', NULL, NULL, 'https://thirdwx.q
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log`  (
   `branch_id` bigint NOT NULL COMMENT 'branch transaction id',
-  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'global transaction id',
-  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'undo_log context,such as serialization',
+  `xid` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'global transaction id',
+  `context` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'undo_log context,such as serialization',
   `rollback_info` longblob NOT NULL COMMENT 'rollback info',
   `log_status` int NOT NULL COMMENT '0:normal status,1:defense status',
   `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
   `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
   UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'AT transaction mode undo table' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'AT transaction mode undo table' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of undo_log
