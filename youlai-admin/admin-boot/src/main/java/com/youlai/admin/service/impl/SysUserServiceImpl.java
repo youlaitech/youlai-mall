@@ -79,9 +79,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public boolean saveUser(UserForm userForm) {
 
         SysUser user = new SysUser();
-        user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD)); // 初始化默认密码
-
         BeanUtil.copyProperties(userForm, user);
+
+        user.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD)); // 初始化默认密码
         boolean result = this.save(user);
         if (result) {
             Long userId = user.getId();
