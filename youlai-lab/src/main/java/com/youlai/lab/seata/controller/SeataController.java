@@ -26,12 +26,12 @@ public class SeataController {
 
     @ApiOperation("订单支付")
     @PostMapping("/order/_pay")
-    public Result orderPay(@RequestBody SeataForm seataForm) {
+    public Result payOrder(@RequestBody SeataForm seataForm) {
 
         boolean openTx = seataForm.isOpenTx();
         boolean result;
         if (openTx) {
-            result = seataService.payOrderWithSeata(seataForm);
+            result = seataService.payOrderWithGlobalTx(seataForm);
         } else {
             result = seataService.payOrder(seataForm);
         }

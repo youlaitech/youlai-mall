@@ -62,7 +62,7 @@ public class SeataServiceImpl implements ISeataService {
      */
     @Override
     @GlobalTransactional
-    public boolean payOrderWithSeata(SeataForm seataForm) {
+    public boolean payOrderWithGlobalTx(SeataForm seataForm) {
         log.info("========扣减商品库存(Seata)========");
         skuFeignClient.deductStock(skuId, 1); // 扣减库存
 
