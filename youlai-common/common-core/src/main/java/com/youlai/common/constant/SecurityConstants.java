@@ -1,5 +1,8 @@
 package com.youlai.common.constant;
 
+import java.util.Arrays;
+import java.util.List;
+
 public interface SecurityConstants {
 
     /**
@@ -38,7 +41,6 @@ public interface SecurityConstants {
      */
     String TOKEN_BLACKLIST_PREFIX = "auth:token:blacklist:";
 
-    String USER_ID_KEY = "userId";
 
     String USER_NAME_KEY = "username";
 
@@ -62,15 +64,6 @@ public interface SecurityConstants {
      * 认证身份标识
      */
     String AUTHENTICATION_IDENTITY_KEY = "authenticationIdentity";
-
-    String APP_API_PATTERN = "/*/app-api/**";
-
-    String LOGOUT_PATH = "/youlai-auth/oauth/logout";
-
-    /**
-     * 新增菜单路径,新增不存在的路由会导致系统无法访问，线上禁止新增菜单的操作
-     */
-    String SAVE_MENU_PATH = "/youlai-admin/api/v1/menus";
 
     /**
      * 验证码key前缀
@@ -101,5 +94,22 @@ public interface SecurityConstants {
      * 小程序端（微信小程序、....） 客户端ID
      */
     String WEAPP_CLIENT_ID = "mall-weapp";
+
+
+    /**
+     * 线上环境放行的请求路径
+     */
+    List<String> PROD_PERMIT_PATHS= Arrays.asList("/youlai-lab","/app-api","/youlai-auth/oauth/logout");
+
+    /**
+     * 线上环境禁止的请求路径
+     */
+    List<String> PROD_FORBID_PATHS= Arrays.asList("/youlai-admin/api/v1/menus");
+
+    /**
+     * 线上环境禁止方法
+     */
+    List<String> PROD_FORBID_METHODS= Arrays.asList("PUT","DELETE");
+
 
 }

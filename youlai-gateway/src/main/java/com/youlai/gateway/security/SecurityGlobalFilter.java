@@ -16,7 +16,6 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -51,19 +50,22 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        // 线上演示环境修改和删除行为的接口禁止操作
-        String requestPath = request.getPath().toString();
-        if (env.equals("prod") && !SecurityConstants.LOGOUT_PATH.equals(requestPath)
-                && !StrUtil.contains(requestPath,"/youlai-lab") // 实验室接口放行
-                && !StrUtil.contains(requestPath, "/app-api") // APP所有接口放行
-                && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法禁止
-                || HttpMethod.PUT.toString().equals(request.getMethodValue())// 修改方法禁止
-                || SecurityConstants.SAVE_MENU_PATH.equals(request.getPath().toString()) // 新增菜单禁止
-        )) {
-            return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
+        // 线上环境
+        String requestPath = request.getPath().pathWithinApplication().value();
+        if (env.equals("prod")) {
+            String methodValue = request.getMethodValue();
+            if (SecurityConstants.PROD_FORBID_METHODS.contains(methodValue)) { // PUT和DELETE方法禁止
+                if (!SecurityConstants.PROD_PERMIT_PATHS.contains(requestPath)) { // PUT和DELETE方法需要放行的方法
+                    return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
+                }
+            } else {
+                if (SecurityConstants.PROD_FORBID_PATHS.contains(requestPath)) { // POST等放行的方法禁止的路径
+                    return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
+                }
+            }
         }
 
-        // 错误的JWT不做解析处理
+        // 非JWT放行不做后续解析处理
         String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
         if (StrUtil.isBlank(token) || !StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX)) {
             return chain.filter(exchange);

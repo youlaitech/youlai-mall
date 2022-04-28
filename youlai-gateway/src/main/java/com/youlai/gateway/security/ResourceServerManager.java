@@ -50,7 +50,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         // 如果token以"bearer "为前缀，到此方法里说明JWT有效即已认证
         String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
         if (StrUtil.isNotBlank(token) && StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX) ) {
-            if (pathMatcher.match(SecurityConstants.APP_API_PATTERN, path)) {
+            if (path.contains("/app-api")) {
                 // 商城移动端请求需认证不需鉴权放行（根据实际场景需求）
                 return Mono.just(new AuthorizationDecision(true));
             }
