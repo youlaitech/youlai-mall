@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.common.enums.GenderEnum;
 import com.youlai.admin.component.listener.excel.UserImportListener;
@@ -199,8 +200,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .count();
         Assert.isTrue(validDataList.size() == distinctCount, "导入数据中有重复的用户名，请检查！");
 
-
-        List<SysUser> saveUserList = new ArrayList<>();
+        List<SysUser> saveUserList = Lists.newArrayList();
 
         StringBuilder errMsg = new StringBuilder();
         for (int i = 0; i < validDataList.size(); i++) {
