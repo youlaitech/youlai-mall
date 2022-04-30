@@ -37,13 +37,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 /**
  * 网关请求响应日志打印
  *
- *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @see
  * @date 2022/4/28 17:04
  */
 @ConditionalOnProperty(
@@ -77,11 +74,11 @@ public class LogFilter implements GlobalFilter, Ordered {
         ) {
             return writeBodyLog(exchange, chain, traceLog);
         } else {
-            return writeBasicLog(exchange, chain, traceLog);
+            return writeLog(exchange, chain, traceLog);
         }
     }
 
-    public Mono<Void> writeBasicLog(ServerWebExchange exchange, GatewayFilterChain chain, TraceLog traceLog) {
+    public Mono<Void> writeLog(ServerWebExchange exchange, GatewayFilterChain chain, TraceLog traceLog) {
         StringBuilder sb = new StringBuilder();
         MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
 
@@ -92,12 +89,11 @@ public class LogFilter implements GlobalFilter, Ordered {
         if (sb.length() > 0) {
             traceLog.setRequestBody(sb.substring(0, sb.length() - 1));
         }
+        log.info(traceLog.toRequestString());
         ServerHttpResponseDecorator serverHttpResponseDecorator = serverHttpResponseDecorator(exchange, traceLog);
         return chain.filter(exchange.mutate().response(serverHttpResponseDecorator)
                 .build())
-                .then(Mono.fromRunnable(() -> {
-                    log.info(traceLog.toString());
-                }));
+                .then(Mono.fromRunnable(() -> log.info(traceLog.toResponseString())));
     }
 
 
@@ -116,6 +112,7 @@ public class LogFilter implements GlobalFilter, Ordered {
 
         Mono<String> cachedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
             traceLog.setRequestBody(body);
+            log.info(traceLog.toRequestString());
             return Mono.just(body);
         });
 
@@ -130,15 +127,15 @@ public class LogFilter implements GlobalFilter, Ordered {
                     ServerHttpRequest serverHttpRequest = serverHttpRequestDecorator(exchange, headers, outputMessage);
                     ServerHttpResponseDecorator serverHttpResponseDecorator = serverHttpResponseDecorator(exchange, traceLog);
                     return chain.filter(exchange.mutate().request(serverHttpRequest).response(serverHttpResponseDecorator).build())
-                            .then(Mono.fromRunnable(() -> {
-                                log.info(traceLog.toString());
-                            }));
+                            .then(Mono.fromRunnable(() -> log.info(traceLog.toResponseString())));
                 }));
     }
 
 
-    private ServerHttpRequestDecorator serverHttpRequestDecorator(ServerWebExchange exchange, HttpHeaders headers,
-                                                                  CachedBodyOutputMessage outputMessage) {
+    private ServerHttpRequestDecorator serverHttpRequestDecorator(ServerWebExchange exchange,
+                                                                  HttpHeaders headers,
+                                                                  CachedBodyOutputMessage outputMessage
+    ) {
         return new ServerHttpRequestDecorator(exchange.getRequest()) {
             @Override
             public HttpHeaders getHeaders() {
