@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://img.shields.io/badge/SpringBoot-2.6.3-brightgreen.svg"/>
+    <img src="https://img.shields.io/badge/SpringBoot-2.6.6-brightgreen.svg"/>
     <img src="https://img.shields.io/badge/SpringCloud & Alibaba -2021-green.svg"/>
     <a src="https://github.com/hxrui" target="_blank">
         <img src="https://img.shields.io/github/stars/youlaitech/youlai-mall.svg?style=social&label=Stars"/>
@@ -212,15 +212,6 @@
 - ci 持续集成
 
 ## 💹 趋势统计
-
-- Gitee
-
-<p align="center">
-    <a target="_blank" href='https://whnb.wang/stars/youlaitech/youlai-mall'><img src="https://whnb.wang/stars/youlaitech/youlai-mall"></a>
-</p>
-
-
-- Github
 
 <p align="center">
     <a target="_blank" href='https://starchart.cc/hxrui/youlai-mall'><img src="https://starchart.cc/hxrui/youlai-mall.svg"></a>
