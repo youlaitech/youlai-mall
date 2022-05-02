@@ -217,6 +217,15 @@
     <a target="_blank" href='https://starchart.cc/hxrui/youlai-mall'><img src="https://starchart.cc/hxrui/youlai-mall.svg"></a>
 </p>
 
+
+## 贡献者
+
+有来项目的存在离不开你们的贡献，真心感谢您们！ 贴出您们的个人主页希望对你们有点些许帮助，也希望更多的学习爱好者加入到开源组织。
+
+<a href="https://github.com/youlaitech/youlai-mall/graphs/contributors"><img src="https://opencollective.com/youlai-mall/contributors.svg?width=890" /></a>
+
+
+
 ## 💬 联系信息
 
 > 欢迎添加开发者微信，备注「有来」进群
