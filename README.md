@@ -218,9 +218,9 @@
 </p>
 
 
-## 贡献者
+## 🧑‍💻 贡献者
 
-有来项目的存在离不开你们的贡献，真心感谢您们！ 贴出您们的个人主页希望对你们有点些许帮助，也希望更多的学习爱好者加入到开源组织。
+有来项目的存在离不开你们一直以来的贡献，真心感谢！ 贴出人主页希望对你们有些许帮助，同样也希望更多的学习爱好者加入到开源学习平台。
 
 <a href="https://github.com/youlaitech/youlai-mall/graphs/contributors"><img src="https://opencollective.com/youlai-mall/contributors.svg?width=890" /></a>
 
