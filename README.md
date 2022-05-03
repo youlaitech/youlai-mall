@@ -69,12 +69,12 @@
 
 ## 🏠️ 源码地址
 
-|      |Gitee| Github| GitCode |
-| ---- | ----| ---- | ---- |
-| 微服务后端 | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall)| [youlai-mall](https://github.com/youlaitech/youlai-mall) | [youlai-mall](https://gitcode.net/youlai/youlai-mall)  |
-| 管理前端| [mall-admin-web](https://gitee.com/youlaiorg/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) | [mall-admin-web](https://gitcode.net/youlai/mall-admin-web) |
-| 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)| [mall-app](https://github.com/youlaitech/mall-app) | [mall-app](https://gitcode.net/youlai/mall-app) |
-| vue3-element-admin| [vue3-element-admin](https://gitee.com/youlaiorg/vue3-element-admin) | [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) |-|
+|      |Gitee| Github|
+| ---- | ----| ---- | 
+| 微服务后端 | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall)| [youlai-mall](https://github.com/youlaitech/youlai-mall) | 
+| 管理前端| [mall-admin-web](https://gitee.com/youlaiorg/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) |
+| 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)| [mall-app](https://github.com/youlaitech/mall-app) | 
+| vue3-element-admin| [vue3-element-admin](https://gitee.com/youlaiorg/vue3-element-admin) | [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) |
 
 ## 🏘️ 开源社区
 |      |Gitee| Github| GitCode |
