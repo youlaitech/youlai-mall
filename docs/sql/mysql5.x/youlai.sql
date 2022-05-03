@@ -112,41 +112,41 @@ CREATE TABLE `sys_menu`  (
                              `redirect` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '跳转路径',
                              `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
-                             `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单类型(1:菜单;2:目录;3:外链)',
+                             `type` tinyint NULL DEFAULT NULL COMMENT '菜单类型(1:菜单;2:目录;3:外链)',
                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '/system', 'Layout', 'system', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '2');
-INSERT INTO `sys_menu` VALUES (2, 1, '用户管理', 'user', 'system/user/index', 'user', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', 'role', 'system/role/index', 'role', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', 'cmenu', 'system/menu/index', 'menu', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (5, 1, '部门管理', 'dept', 'system/dept/index', 'tree', 4, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (6, 1, '字典管理', 'dict', 'system/dict/index', 'education', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (7, 1, '客户端管理', 'client', 'system/client/index', 'client', 6, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (9, 0, '营销管理', '/sms', 'Layout', 'number', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '2');
-INSERT INTO `sys_menu` VALUES (10, 9, '广告管理', 'advert', 'sms/advert/index', 'advert', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (11, 0, '商品管理', '/pms', 'Layout', 'goods', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (12, 11, '商品列表', 'goods', 'pms/goods/index', 'goods-list', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (13, 0, '订单管理', '/oms', 'Layout', 'shopping', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (14, 13, '订单列表', 'order', 'oms/order/index', 'order', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (15, 0, '会员管理', '/ums', 'Layout', 'user', 4, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (16, 15, '会员列表', 'member', 'ums/member/index', 'peoples', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (17, 11, '品牌管理', 'brand', 'pms/brand/index', 'brand', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (18, 11, '商品分类', 'category', 'pms/category/index', 'menu', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (19, 11, '商品上架', 'goods-detail', 'pms/goods/detail', 'publish', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1');
-INSERT INTO `sys_menu` VALUES (20, 0, '多级菜单', '/multi-level-menu', 'Layout', 'nested', 7, 1, '/nested/level1/level2', '2022-02-16 23:11:00', '2022-02-16 23:11:00', '2');
-INSERT INTO `sys_menu` VALUES (21, 20, '菜单一级', 'nested_level1_index', 'nested/level1/index', '', 1, 1, '/nested/level1/level2', '2022-02-16 23:13:38', '2022-02-16 23:13:38', '1');
-INSERT INTO `sys_menu` VALUES (22, 21, '菜单二级', 'nested_level1_level2_index', 'nested/level1/level2/index', '', 1, 1, '/nested/level1/level2/level3', '2022-02-16 23:14:23', '2022-02-16 23:14:23', '1');
-INSERT INTO `sys_menu` VALUES (23, 22, '菜单三级-1', 'nested_level1_level2_level3_index1', 'nested/level1/level2/level3/index1', '', 1, 1, '', '2022-02-16 23:14:51', '2022-02-16 23:14:51', '1');
-INSERT INTO `sys_menu` VALUES (24, 22, '菜单三级-2', 'nested_level1_level2_level3_index2', 'nested/level1/level2/level3/index2', '', 2, 1, '', '2022-02-16 23:15:08', '2022-02-16 23:15:08', '1');
-INSERT INTO `sys_menu` VALUES (26, 0, '外部链接', '/external-link', 'Layout', 'link', 9, 1, '', '2022-02-17 22:51:20', '2022-02-17 22:51:20', '1');
-INSERT INTO `sys_menu` VALUES (30, 26, 'document', 'https://www.cnblogs.com/haoxianrui/', '', 'link', 1, 1, '', '2022-02-18 00:01:40', '2022-02-18 00:01:40', '3');
-INSERT INTO `sys_menu` VALUES (32, 0, '实验室', '/lab', 'Layout', 'lab', 8, 1, '', '2022-04-19 09:35:38', '2022-04-19 09:35:38', '2');
-INSERT INTO `sys_menu` VALUES (33, 32, 'Seata', 'seata', 'lab/seata/index', 'security', 1, 1, '', '2022-04-19 09:35:38', '2022-04-19 09:35:38', '1');
-INSERT INTO `sys_menu` VALUES (34, 32, 'RabbitMQ', 'rabbitmq', 'lab/rabbit/index', 'rabbitmq', 2, 1, '', '2022-04-19 09:38:25', '2022-04-19 09:38:25', '1');
+INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '/system', 'Layout', 'system', 1, 1, '/system/user', '2021-08-28 09:12:21', '2021-08-28 09:12:21', 2);
+INSERT INTO `sys_menu` VALUES (2, 1, '用户管理', 'user', 'system/user/index', 'user', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', 'role', 'system/role/index', 'role', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', 'cmenu', 'system/menu/index', 'menu', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (5, 1, '部门管理', 'dept', 'system/dept/index', 'tree', 4, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (6, 1, '字典管理', 'dict', 'system/dict/index', 'education', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (7, 1, '客户端管理', 'client', 'system/client/index', 'client', 6, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (9, 0, '营销管理', '/sms', 'Layout', 'number', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 2);
+INSERT INTO `sys_menu` VALUES (10, 9, '广告管理', 'advert', 'sms/advert/index', 'advert', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (11, 0, '商品管理', '/pms', 'Layout', 'goods', 2, 1, '/pms/goods', '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (12, 11, '商品列表', 'goods', 'pms/goods/index', 'goods-list', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (13, 0, '订单管理', '/oms', 'Layout', 'shopping', 3, 1, '/oms/order', '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (14, 13, '订单列表', 'order', 'oms/order/index', 'order', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (15, 0, '会员管理', '/ums', 'Layout', 'user', 4, 1, '/ums/member', '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (16, 15, '会员列表', 'member', 'ums/member/index', 'peoples', 1, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (17, 11, '品牌管理', 'brand', 'pms/brand/index', 'brand', 5, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (18, 11, '商品分类', 'category', 'pms/category/index', 'menu', 3, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (19, 11, '商品上架', 'goods-detail', 'pms/goods/detail', 'publish', 2, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1);
+INSERT INTO `sys_menu` VALUES (20, 0, '多级菜单', '/multi-level-menu', 'Layout', 'nested', 7, 1, '/nested/level1/level2', '2022-02-16 23:11:00', '2022-02-16 23:11:00', 2);
+INSERT INTO `sys_menu` VALUES (21, 20, '菜单一级', 'nested_level1_index', 'nested/level1/index', '', 1, 1, '/nested/level1/level2', '2022-02-16 23:13:38', '2022-02-16 23:13:38', 1);
+INSERT INTO `sys_menu` VALUES (22, 21, '菜单二级', 'nested_level1_level2_index', 'nested/level1/level2/index', '', 1, 1, '/nested/level1/level2/level3', '2022-02-16 23:14:23', '2022-02-16 23:14:23', 1);
+INSERT INTO `sys_menu` VALUES (23, 22, '菜单三级-1', 'nested_level1_level2_level3_index1', 'nested/level1/level2/level3/index1', '', 1, 1, '', '2022-02-16 23:14:51', '2022-02-16 23:14:51', 1);
+INSERT INTO `sys_menu` VALUES (24, 22, '菜单三级-2', 'nested_level1_level2_level3_index2', 'nested/level1/level2/level3/index2', '', 2, 1, '', '2022-02-16 23:15:08', '2022-02-16 23:15:08', 1);
+INSERT INTO `sys_menu` VALUES (26, 0, '外部链接', '/external-link', 'Layout', 'link', 9, 1, 'noredirect', '2022-02-17 22:51:20', '2022-02-17 22:51:20', 1);
+INSERT INTO `sys_menu` VALUES (30, 26, 'document', 'https://www.cnblogs.com/haoxianrui/', '', 'link', 1, 1, '', '2022-02-18 00:01:40', '2022-02-18 00:01:40', 3);
+INSERT INTO `sys_menu` VALUES (32, 0, '实验室', '/lab', 'Layout', 'lab', 8, 1, 'noredirect', '2022-04-19 09:35:38', '2022-04-19 09:35:38', 2);
+INSERT INTO `sys_menu` VALUES (33, 32, 'Seata', 'seata', 'lab/seata/index', 'security', 1, 1, '', '2022-04-19 09:35:38', '2022-04-19 09:35:38', 1);
+INSERT INTO `sys_menu` VALUES (34, 32, 'RabbitMQ', 'rabbitmq', 'lab/rabbit/index', 'rabbitmq', 2, 1, '', '2022-04-19 09:38:25', '2022-04-19 09:38:25', 1);
 
 -- ----------------------------
 -- Table structure for sys_oauth_client
