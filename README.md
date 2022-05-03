@@ -43,7 +43,8 @@
 
 ### 🗁 项目特色
 
-- 项目使用皆是当前主流的技术栈，无过度自定义封装，易理解学习和二次扩展；
+- 项目使用皆是当前主流前后端技术栈(持续更新...)，无过度自定义封装，易理解学习和二次扩展；
+- 极速启动，在IDEA和Java环境OK的情况下`1分钟之内`可正常启动微服务，可以快速拥有微服务环境和上手微服务；
 - SpringBoot 2.6、SpringCloud 2021 & Alibaba 2021 一站式微服务开箱即用的解决方案；
 - Spring Security OAuth2 、 Spring Cloud Gateway 、 JWT 统一认证鉴权和常用 OAuth2 授权模式扩展；
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
@@ -52,11 +53,10 @@
 
 ### 🗁 在线预览
 
-|               | 地址                                                |
-| ------------- | --------------------------------------------------- |
-| 管理前端 Vue3 | [www.youlai.tech](http://www.youlai.tech)           |
-| 管理前端 Vue2 | [www.youlai.tech:9527](http://www.youlai.tech:9527) |
-| H5 移动端     | [www.youlai.tech:81](http://www.youlai.tech:9527)   |
+|               | 地址               |
+| ------------- | ------------------------- |
+| 管理前端   | [www.youlai.tech](http://www.youlai.tech)           |
+| 移动H5     | [www.youlai.tech:81](http://www.youlai.tech:81)   |
 
 
 ### 🗁 项目预览
@@ -67,17 +67,20 @@
 | **「管理前端」Spring Security OAuth2 密码模式**              | **「管理前端」Spring Security OAuth2 验证码模式**            |
 | <img src="https://www.youlai.tech/files/blog/passwordauth.gif" width="100%" height="400px"/> | <img src="https://www.youlai.tech/files/blog/captchaauth.gif" width="100%" height="400px"/> |
 
-## 🍸 源码地址
+## 🏠️ 源码地址
 
+|      |Gitee| Github| GitCode |
+| ---- | ----| ---- | ---- |
+| 微服务后端 | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall)| [youlai-mall](https://github.com/youlaitech/youlai-mall) | [youlai-mall](https://gitcode.net/youlai/youlai-mall)  |
+| 管理前端| [mall-admin-web](https://gitee.com/youlaiorg/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) | [mall-admin-web](https://gitcode.net/youlai/mall-admin-web) |
+| 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)| [mall-app](https://github.com/youlaitech/mall-app) | [mall-app](https://gitcode.net/youlai/mall-app) |
+| vue3-element-admin| [vue3-element-admin](https://gitee.com/youlaiorg/vue3-element-admin) | [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) |-|
+
+## 🏘️ 开源社区
 |      |Gitee| Github| GitCode |
 | ---- | ----| ---- | ---- |
 | 开源组织  | [有来开源组织](https://gitee.com/youlaiorg)  | [有来开源组织](https://github.com/youlaitech) | [有来开源组织](https://gitcode.net/youlai)  |
 | 技术团队  | [有来技术团队](https://gitee.com/youlaitech)  | [有来技术团队](https://github.com/youlaitech) | -  |
-| 商城后端 | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall)| [youlai-mall](https://github.com/youlaitech/youlai-mall) | [youlai-mall](https://gitcode.net/youlai/youlai-mall)  |
-| 商城管理前端(Vue3)| [mall-admin-web](https://gitee.com/youlaiorg/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) | [mall-admin-web](https://gitcode.net/youlai/mall-admin-web) |
-| 商城管理前端(Vue2)| [mall-admin-web](https://gitee.com/youlaitech/youlai-mall-admin/tree/vue2/) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web/tree/vue2/) | - |
-| 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)| [mall-app](https://github.com/youlaitech/mall-app) | [mall-app](https://gitcode.net/youlai/mall-app) |
-| vue3-element-admin| [vue3-element-admin](https://gitee.com/youlaiorg/vue3-element-admin) | [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) |-|
 
 ## 🚤 项目启动
 
@@ -109,15 +112,16 @@
 #### 2️⃣ 本地启动
 
 
-1. **中间件安装(🔴必装 ⚪可选)**
+1. **中间件安装**
 
-   > 为了避免数据和线上环境冲突，MySQL 和 Redis 必装，不安装可默认使用有来线上环境
+   > 为了避免数据和线上环境冲突，MySQL 和 Redis 必装，其他不安装可默认使用有来线上环境(🔴必装 ⚪可选)
 
-    - 🔴MySQL 安装
-    - 🔴Redis 安装
-    - ⚪RabbitMQ
-    - ⚪Seata 安装
-    - ⚪Sentinel 安装
+   - 🔴 MySQL &nbsp;&nbsp;[Linux部署]()
+   - 🔴 Redis  &nbsp;&nbsp;[Linux部署]()
+   - ⚪ RabbitMQ  &nbsp;&nbsp;[Linux部署]()
+   - ⚪ Seata  &nbsp;&nbsp;[本地启动](/project/youlai-mall/start/backend/Seata本地启动.md) &nbsp; | &nbsp;[Linux部署]()
+   - ⚪ Sentinel &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
+   - ⚪ Canal  &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
     
 2. **数据库创建和数据初始化**
 
@@ -133,7 +137,7 @@
 
       创建名为 `nacos` 的数据库，执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
 
-3. **Nacos 配置持久化至 MySQL**
+   3. **Nacos 配置持久化至 MySQL**
 
     进入项目的 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
 
