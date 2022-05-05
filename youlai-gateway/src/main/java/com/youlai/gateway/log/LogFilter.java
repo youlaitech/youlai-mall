@@ -139,14 +139,9 @@ public class LogFilter implements GlobalFilter, Ordered {
         return new ServerHttpRequestDecorator(exchange.getRequest()) {
             @Override
             public HttpHeaders getHeaders() {
-                long contentLength = headers.getContentLength();
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.putAll(super.getHeaders());
-                if (contentLength > 0) {
-                    httpHeaders.setContentLength(contentLength);
-                } else {
-                    httpHeaders.set(HttpHeaders.TRANSFER_ENCODING, "chunked");
-                }
+                httpHeaders.setContentLength( headers.getContentLength());
                 return httpHeaders;
             }
 
