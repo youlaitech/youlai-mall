@@ -22,7 +22,13 @@ public class TraceLog {
     private String requestMethod;
 
     /**
-     * 请求实体
+     * 查询参数
+     */
+    private String queryParams;
+
+
+    /**
+     * 请求体参数
      */
     private String requestBody;
 
@@ -50,7 +56,8 @@ public class TraceLog {
     public String toRequestString() {
         return
                 "^^^^^^^^请求日志^^^^^^^^: " + requestMethod + ':' + requestPath + '\n'  +
-                        "请求参数:" + requestBody + '\n' +
+                        "查询参数:" + queryParams + '\n' +
+                        "请求载荷:" + requestBody + '\n' +
                         "请求时间:" + requestTime;
     }
 

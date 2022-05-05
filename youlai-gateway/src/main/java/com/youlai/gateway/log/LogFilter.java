@@ -87,7 +87,7 @@ public class LogFilter implements GlobalFilter, Ordered {
             sb.append(entry.getKey()).append("=").append(val).append("&");
         }
         if (sb.length() > 0) {
-            traceLog.setRequestBody(sb.substring(0, sb.length() - 1));
+            traceLog.setQueryParams(sb.substring(0, sb.length() - 1));
         }
         log.info(traceLog.toRequestString());
         ServerHttpResponseDecorator serverHttpResponseDecorator = serverHttpResponseDecorator(exchange, traceLog);
@@ -110,11 +110,21 @@ public class LogFilter implements GlobalFilter, Ordered {
 
         ServerRequest serverRequest = ServerRequest.create(exchange, messageReaders);
 
+        MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
+
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
+            String val = entry.getValue().stream().map(String::valueOf).collect(Collectors.joining(","));
+            sb.append(entry.getKey()).append("=").append(val).append("&");
+        }
+        if (sb.length() > 0) {
+            traceLog.setQueryParams(sb.substring(0, sb.length() - 1));
+        }
+
         Mono<String> cachedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
             traceLog.setRequestBody(body);
-            log.info(traceLog.toRequestString());
             return Mono.just(body);
-        });
+        }).doFinally(body -> log.info(traceLog.toRequestString()));
 
         BodyInserter bodyInserter = BodyInserters.fromPublisher(cachedBody, String.class);
         HttpHeaders headers = new HttpHeaders();
