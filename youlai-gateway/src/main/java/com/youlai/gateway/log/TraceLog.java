@@ -57,13 +57,11 @@ public class TraceLog {
     public String toResponseString() {
         return
                 "$$$$$$$$响应日志$$$$$$$$: " + requestMethod + ':' + requestPath + '\n' +
-                        "请求时间:" + requestTime + '\n' +
+                        "请求时间:" + requestTime +  '\n' +
                         "响应时间:" + responseTime + '\n' +
-                         "响应数据:" + responseBody + '\n' +
+                        "响应数据:" + responseBody + '\n' +
                         "执行耗时:" + executeTime + "毫秒";
     }
-
-
 
     @Override
     public String toString() {

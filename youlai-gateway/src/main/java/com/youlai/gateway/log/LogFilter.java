@@ -120,8 +120,8 @@ public class LogFilter implements GlobalFilter, Ordered {
         HttpHeaders headers = new HttpHeaders();
         headers.putAll(exchange.getRequest().getHeaders());
         headers.remove(HttpHeaders.CONTENT_LENGTH);
-
         CachedBodyOutputMessage outputMessage = new CachedBodyOutputMessage(exchange, headers);
+
         return bodyInserter.insert(outputMessage, new BodyInserterContext())
                 .then(Mono.defer(() -> {
                     ServerHttpRequest serverHttpRequest = serverHttpRequestDecorator(exchange, headers, outputMessage);
@@ -141,7 +141,7 @@ public class LogFilter implements GlobalFilter, Ordered {
             public HttpHeaders getHeaders() {
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.putAll(super.getHeaders());
-                httpHeaders.setContentLength( headers.getContentLength());
+                httpHeaders.setContentLength(headers.getContentLength());
                 return httpHeaders;
             }
 
