@@ -4,11 +4,18 @@ import com.youlai.common.rabbitmq.dynamic.RabbitModuleInitializer;
 import com.youlai.common.rabbitmq.dynamic.RabbitModuleProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
+import org.springframework.messaging.handler.annotation.support.MessageHandlerMethodFactory;
 
 /**
  * @author huawei
@@ -17,15 +24,23 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @Slf4j
-public class RabbitConfig {
-    /**
-     * 使用json序列化机制，进行消息转换
-     *
-     * @return
-     */
+public class RabbitConfig implements RabbitListenerConfigurer{
+
+    @Override
+    public void configureRabbitListeners(RabbitListenerEndpointRegistrar rabbitListenerEndpointRegistrar) {
+        rabbitListenerEndpointRegistrar.setMessageHandlerMethodFactory(messageHandlerMethodFactory());
+    }
+
     @Bean
-    public MessageConverter jackson2MessageConverter() {
-        return new Jackson2JsonMessageConverter();
+    MessageHandlerMethodFactory messageHandlerMethodFactory(){
+        DefaultMessageHandlerMethodFactory messageHandlerMethodFactory = new DefaultMessageHandlerMethodFactory();
+        messageHandlerMethodFactory.setMessageConverter(mappingJackson2MessageConverter());
+        return messageHandlerMethodFactory;
+    }
+
+    @Bean
+    public MappingJackson2MessageConverter mappingJackson2MessageConverter() {
+        return new MappingJackson2MessageConverter();
     }
 
     /**
