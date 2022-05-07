@@ -1,6 +1,5 @@
 package com.youlai.admin.component.listener;
 
-import cn.hutool.json.JSONUtil;
 import com.youlai.admin.service.ISysMenuService;
 import com.youlai.admin.service.ISysOauthClientService;
 import com.youlai.admin.service.ISysPermissionService;
@@ -8,6 +7,7 @@ import com.youlai.common.dto.CanalMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -27,17 +27,10 @@ public class CanalListener {
     private final ISysOauthClientService oauthClientService;
     private final ISysMenuService menuService;
 
-    /*@RabbitListener(bindings = {
-            @QueueBinding(
-                    value = @Queue(value = "canal.queue", durable = "true"),
-                    exchange = @Exchange(value = "canal.exchange"),
-                    key = "canal.routing.key"
-            )
-    })*/
+
     @RabbitListener(queues = "canal.queue")
-    public void handleDataChange(String message) {
-        CanalMessage canalMessage = JSONUtil.toBean(message, CanalMessage.class);
-        String tableName = canalMessage.getTable();
+    public void handleDataChange(@Payload CanalMessage message) {
+        String tableName = message.getTable();
 
         log.info("Canal 监听 {} 发生变化；明细：{}", tableName, message);
 
