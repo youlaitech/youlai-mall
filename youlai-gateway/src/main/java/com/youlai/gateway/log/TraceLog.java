@@ -26,9 +26,8 @@ public class TraceLog {
      */
     private String queryParams;
 
-
     /**
-     * 请求体参数
+     * 请求载荷
      */
     private String requestBody;
 
