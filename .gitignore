@@ -10,7 +10,7 @@ gen
 target
 *.log
 
-### Nacos
+# Nacos
 !**/nacos/target
 **/nacos/bin/work
 **/nacos/data
@@ -18,9 +18,23 @@ logs
 **/nacos/LICENSE
 **/nacos/NOTICE
 
-
-### Canal
+# Canal
 h2.mv.db
 **/meta.dat
-.DS_Store
 
+# https://raw.githubusercontent.com/redhat-developer/vscode-java/master/.gitignore
+# vscode
+server
+node_modules
+*.vsix
+.DS_Store
+.vscode-test
+undefined
+dist
+jre
+bin/
+.settings
+.classpath
+.project
+test/resources/projects/**/.vscode
+test/resources/projects/maven/salut/testGradle
