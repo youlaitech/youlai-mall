@@ -266,22 +266,22 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
     /**
      * 批量删除商品（SPU）
      *
-     * @param goodsIds
+     * @param spuIds 商品ID集合列表
      * @return
      */
     @Override
     @Transactional
-    public boolean removeByGoodsIds(List<Long> goodsIds) {
+    public boolean removeByGoodsIds(List<Long> spuIds) {
         boolean result = true;
-        for (Long goodsId : goodsIds) {
-            // sku
-            skuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, goodsId));
+        for (Long spuId : spuIds) {
+            // SKU
+            skuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
             // 规格
-            spuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getId, goodsId));
+            spuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, spuId));
             // 属性
-            spuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, goodsId));
-            // spu
-            result = this.removeById(goodsId);
+            spuAttributeValueService.remove(new LambdaQueryWrapper<PmsSpuAttributeValue>().eq(PmsSpuAttributeValue::getSpuId, spuId));
+            // SPU
+            result = this.removeById(spuId);
         }
         return result;
     }
