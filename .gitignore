@@ -32,7 +32,6 @@ node_modules
 undefined
 dist
 jre
-bin/
 .settings
 .classpath
 .project
