@@ -116,10 +116,10 @@
 
    > 为了避免数据和线上环境冲突，MySQL 和 Redis 必装，其他不安装可默认使用有来线上环境(🔴必装 ⚪可选)
 
-   - 🔴 MySQL &nbsp;&nbsp;[Linux部署]()
-   - 🔴 Redis  &nbsp;&nbsp;[Linux部署]()
-   - ⚪ RabbitMQ  &nbsp;&nbsp;[Linux部署]()
-   - ⚪ Seata  &nbsp;&nbsp;[本地启动](/project/youlai-mall/start/backend/Seata本地启动.md) &nbsp; | &nbsp;[Linux部署]()
+   - 🔴 MySQL &nbsp;&nbsp;[Linux部署](http://youlaitech.gitee.io/youlai-mall/pages/vjoqc/)
+   - 🔴 Redis  &nbsp;&nbsp;[Linux部署](http://youlaitech.gitee.io/youlai-mall/pages/k2a20/)
+   - ⚪ RabbitMQ  &nbsp;&nbsp;[Linux部署](http://youlaitech.gitee.io/youlai-mall/pages/8znee/)
+   - ⚪ Seata  &nbsp;&nbsp;[本地启动](http://youlaitech.gitee.io/youlai-mall/pages/0bzvi/) &nbsp; | &nbsp;[Linux部署](http://youlaitech.gitee.io/youlai-mall/pages/4vjq5/)
    - ⚪ Sentinel &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
    - ⚪ Canal  &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
     
