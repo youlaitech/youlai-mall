@@ -14,24 +14,20 @@
     </a>
 </p>
 <p align="center">
-<strong>在线预览：</strong><a target="_blank" href="http://www.youlai.tech">www.youlai.tech</a> 
+<a target="_blank" href="https://admin.youlai.tech">在线预览</a> | <a target="_blank" href="http://app.youlai.tech">移动H5在线预览</a>
+</p>
+
+
+
+<p align="center">
+ <a target="_blank" href='https://github.com/hxrui'>Github</a> | <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://gitcode.net/youlai'>GitCode</a> 
 </p>
 
 <p align="center">
-<strong>H5商城在线预览：</strong><a target="_blank" href="http://www.youlai.tech:81">mall.youlai.tech</a> 
+<a target="_blank" href="http://youlaitech.gitee.io/youlai-mall">有来商城官方文档</a> |
+<a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> 有来技术团队博客</a> 
 </p>
 
-<p align="center">
-<strong>开源地址：</strong>  <a target="_blank" href='https://github.com/hxrui'>Github</a> | <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://gitcode.net/youlai'>GitCode</a> 
-</p>
-
-<p align="center">
-<strong>博客主页：</strong><a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> https://www.cnblogs.com/haoxianrui</a> 
-</p>
-
-<p align="center">
-<strong>开发者文档：</strong><a target="_blank" href="http://youlaitech.gitee.io/youlai-mall">http://youlaitech.gitee.io/youlai-mall</a> 
-</p>
 
 
 ## 🈶 项目介绍
@@ -49,14 +45,6 @@
 - Spring Security OAuth2 、 Spring Cloud Gateway 、 JWT 统一认证鉴权和常用 OAuth2 授权模式扩展；
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、K8s、Docker实现微服务持续集成与交付(CI/CD)。
-
-
-### 🗁 在线预览
-
-|               | 地址               |
-| ------------- | ------------------------- |
-| 管理前端   | [www.youlai.tech](http://www.youlai.tech)           |
-| 移动H5     | [www.youlai.tech:81](http://www.youlai.tech:81)   |
 
 
 ### 🗁 项目预览
@@ -116,10 +104,10 @@
 
    > 为了避免数据和线上环境冲突，MySQL 和 Redis 必装，其他不安装可默认使用有来线上环境(🔴必装 ⚪可选)
 
-   - 🔴 MySQL &nbsp;&nbsp;[Linux部署](http://youlaitech.gitee.io/youlai-mall/pages/vjoqc/)
-   - 🔴 Redis  &nbsp;&nbsp;[Linux部署](http://youlaitech.gitee.io/youlai-mall/pages/k2a20/)
-   - ⚪ RabbitMQ  &nbsp;&nbsp;[Linux部署](http://youlaitech.gitee.io/youlai-mall/pages/8znee/)
-   - ⚪ Seata  &nbsp;&nbsp;[本地启动](http://youlaitech.gitee.io/youlai-mall/pages/0bzvi/) &nbsp; | &nbsp;[Linux部署](http://youlaitech.gitee.io/youlai-mall/pages/4vjq5/)
+   - 🔴 MySQL &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/vjoqc/)
+   - 🔴 Redis  &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/k2a20/)
+   - ⚪ RabbitMQ  &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/8znee/)
+   - ⚪ Seata  &nbsp;&nbsp;[本地启动](https://www.youlai.tech/pages/0bzvi/) &nbsp; | &nbsp;[Linux部署](https://www.youlai.tech/pages/4vjq5/)
    - ⚪ Sentinel &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
    - ⚪ Canal  &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
     
@@ -212,7 +200,7 @@
 - style 代码风格改变但不影响运行结果(代码格式化、空格和空行调整等)
 - refactor 代码重构
 - test 测试
-- chore 依赖更新
+- chore 依赖更新或配置修改
 - ci 持续集成
 
 ## 💹 趋势统计
