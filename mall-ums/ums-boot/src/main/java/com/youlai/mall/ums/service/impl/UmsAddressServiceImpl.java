@@ -49,6 +49,7 @@ public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddr
                 this.update(new LambdaUpdateWrapper<UmsAddress>()
                         .eq(UmsAddress::getMemberId, memberId)
                         .eq(UmsAddress::getDefaulted, 1)
+                        .ne(UmsAddress::getId,umsAddress.getId())
                         .set(UmsAddress::getDefaulted, 0)
                 );
             }
