@@ -13,29 +13,29 @@
         <img src="https://img.shields.io/badge/Author-有来开源组织-orange.svg"/>
     </a>
 </p>
+
+<p align="center">
+<a target="_blank" href="https://www.youlai.tech">有来商城官方文档</a> |
+<a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> 有来技术团队博客</a> 
+</p>
+
 <p align="center">
 <a target="_blank" href="https://admin.youlai.tech">在线预览</a> | <a target="_blank" href="http://app.youlai.tech">移动H5在线预览</a>
 </p>
-
-
 
 <p align="center">
  <a target="_blank" href='https://github.com/hxrui'>Github</a> | <a target="_blank" href='https://gitee.com/haoxr'>Gitee</a> | <a target="_blank" href='https://gitcode.net/youlai'>GitCode</a> 
 </p>
 
-<p align="center">
-<a target="_blank" href="http://youlaitech.gitee.io/youlai-mall">有来商城官方文档</a> |
-<a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> 有来技术团队博客</a> 
-</p>
-
-
-
 ## 🈶 项目介绍
 
 ### 🗁 项目简介
 
-[youlai-mall](https://gitee.com/haoxr) 是基于Spring Boot 2.6、Spring Cloud 2021 & Alibaba 2021、Vue3、Element-Plus、uni-app等主流技术栈构建的一整套全栈开源商城项目， 涉及 [后端微服务](https://gitee.com/youlaitech/youlai-mall)、 [前端管理](https://gitee.com/youlaitech/youlai-mall-admin) 、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp)和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp) 等多端的开发。
-
+[youlai-mall](https://gitee.com/haoxr) 是基于Spring Boot 2.6、Spring Cloud 2021 & Alibaba
+2021、Vue3、Element-Plus、uni-app等主流技术栈构建的一整套全栈开源商城项目，
+涉及 [后端微服务](https://gitee.com/youlaitech/youlai-mall)、 [前端管理](https://gitee.com/youlaitech/youlai-mall-admin)
+、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp)和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp)
+等多端的开发。
 
 ### 🗁 项目特色
 
@@ -45,7 +45,6 @@
 - Spring Security OAuth2 、 Spring Cloud Gateway 、 JWT 统一认证鉴权和常用 OAuth2 授权模式扩展；
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、K8s、Docker实现微服务持续集成与交付(CI/CD)。
-
 
 ### 🗁 项目预览
 
@@ -65,6 +64,7 @@
 | vue3-element-admin| [vue3-element-admin](https://gitee.com/youlaiorg/vue3-element-admin) | [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) |
 
 ## 🏘️ 开源社区
+
 |      |Gitee| Github| GitCode |
 | ---- | ----| ---- | ---- |
 | 开源组织  | [有来开源组织](https://gitee.com/youlaiorg)  | [有来开源组织](https://github.com/youlaitech) | [有来开源组织](https://gitcode.net/youlai)  |
@@ -72,7 +72,7 @@
 
 ## 🚤 项目启动
 
-###  🗁 后端启动
+### 🗁 后端启动
 
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
@@ -96,21 +96,20 @@
 
     - 访问接口文档地址测试: [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-
 #### 2️⃣ 本地启动
-
 
 1. **中间件安装**
 
    > 为了避免数据和线上环境冲突，MySQL 和 Redis 必装，其他不安装可默认使用有来线上环境(🔴必装 ⚪可选)
 
-   - 🔴 MySQL &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/vjoqc/)
-   - 🔴 Redis  &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/k2a20/)
-   - ⚪ RabbitMQ  &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/8znee/)
-   - ⚪ Seata  &nbsp;&nbsp;[本地启动](https://www.youlai.tech/pages/0bzvi/) &nbsp; | &nbsp;[Linux部署](https://www.youlai.tech/pages/4vjq5/)
-   - ⚪ Sentinel &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
-   - ⚪ Canal  &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
-    
+    - 🔴 MySQL &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/vjoqc/)
+    - 🔴 Redis &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/k2a20/)
+    - ⚪ RabbitMQ &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/8znee/)
+    - ⚪ Seata &nbsp;&nbsp;[本地启动](https://www.youlai.tech/pages/0bzvi/) &nbsp; |
+      &nbsp;[Linux部署](https://www.youlai.tech/pages/4vjq5/)
+    - ⚪ Sentinel &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
+    - ⚪ Canal &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
+
 2. **数据库创建和数据初始化**
 
     - **系统数据库**
@@ -125,9 +124,9 @@
 
       创建名为 `nacos` 的数据库，执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
 
-   3. **Nacos 配置持久化至 MySQL**
+    3. **Nacos 配置持久化至 MySQL**
 
-    进入项目的 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
+   进入项目的 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
 
     ```properties
     spring.datasource.platform=mysql
@@ -137,19 +136,19 @@
     db.password.0=123456
     ```
 
-4.  **导入Nacos配置**
-    
-    IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
+4. **导入Nacos配置**
 
-    打开浏览器，地址栏输入 Nacos 控制台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
+   IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
 
-    输入用户名/密码：nacos/nacos ；
+   打开浏览器，地址栏输入 Nacos 控制台的地址 [ http://localhost:8848/nacos]( http://localhost:8848/nacos) ；
 
-    进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `docs/nacos/DEFAULT_GROUP.zip` 文件。
+   输入用户名/密码：nacos/nacos ；
 
-5.  **修改Nacos配置**
+   进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `docs/nacos/DEFAULT_GROUP.zip` 文件。
 
-    在 Nacos 控制台配置列表选择共享配置 `youlai-common.yaml` 进行编辑，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认「有来」线上环境。
+5. **修改Nacos配置**
+
+   在 Nacos 控制台配置列表选择共享配置 `youlai-common.yaml` 进行编辑，修改 MySQL、Redis、RabbitMQ等中间件信息为您自己本地环境，默认「有来」线上环境。
 
 6. **修改Nacos配置中心地址**
 
@@ -190,8 +189,8 @@
 2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
 3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
 
-
 ## ✅ Git 贡献提交规范
+
 > IDEA 安装 Git Commit Template 插件
 
 - feat 增加新功能
@@ -209,14 +208,11 @@
     <a target="_blank" href='https://starchart.cc/hxrui/youlai-mall'><img src="https://starchart.cc/hxrui/youlai-mall.svg"></a>
 </p>
 
-
 ## 🧑‍💻 贡献者
 
 有来项目的存在离不开你们一直以来的贡献，真心感谢！ 贴出人主页希望对你们有些许帮助，同样也希望更多的学习爱好者加入到开源学习平台。
 
 <a href="https://github.com/youlaitech/youlai-mall/graphs/contributors"><img src="https://opencollective.com/youlai-mall/contributors.svg?width=890" /></a>
-
-
 
 ## 💬 联系信息
 
