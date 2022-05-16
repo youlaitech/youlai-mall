@@ -1,8 +1,9 @@
-package com.youlai.gateway.log;
+package com.youlai.gateway.filter;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -51,7 +52,7 @@ import java.util.stream.Collectors;
 )
 @Component
 @Slf4j
-public class LogFilter implements GlobalFilter, Ordered {
+public class GatewayLogFilter implements GlobalFilter, Ordered {
 
     private final List<HttpMessageReader<?>> messageReaders = HandlerStrategies.withDefaults().messageReaders();
 
@@ -215,5 +216,82 @@ public class LogFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return -1;
+    }
+
+
+
+
+    @Data
+    public static class TraceLog {
+
+        /**
+         * 请求路径
+         */
+        private String requestPath;
+
+        /**
+         * 请求方法
+         */
+        private String requestMethod;
+
+        /**
+         * 查询参数
+         */
+        private String queryParams;
+
+        /**
+         * 请求载荷
+         */
+        private String requestBody;
+
+        /**
+         * 响应数据
+         */
+        private String responseBody;
+
+        /**
+         * 请求时间
+         */
+        private String requestTime;
+
+        /**
+         * 响应时间
+         */
+        private String responseTime;
+
+        /**
+         * 执行耗时(毫秒)
+         */
+        private Long executeTime;
+
+
+        public String toRequestString() {
+            return
+                    "^^^^^^^^请求日志^^^^^^^^: " + requestMethod + ':' + requestPath + '\n'  +
+                            "查询参数:" + queryParams + '\n' +
+                            "请求载荷:" + requestBody + '\n' +
+                            "请求时间:" + requestTime;
+        }
+
+        public String toResponseString() {
+            return
+                    "$$$$$$$$响应日志$$$$$$$$: " + requestMethod + ':' + requestPath + '\n' +
+                            "请求时间:" + requestTime +  '\n' +
+                            "响应时间:" + responseTime + '\n' +
+                            "响应数据:" + responseBody + '\n' +
+                            "执行耗时:" + executeTime + "毫秒";
+        }
+
+        @Override
+        public String toString() {
+            return "========网关请求响应日志========\n" +
+                    "请求路径:" + requestPath + '\n' +
+                    "请求方法:" + requestMethod + '\n' +
+                    "请求参数:" + requestBody + '\n' +
+                    "响应数据:" + responseBody + '\n' +
+                    "请求时间:" + requestTime + '\n' +
+                    "响应时间:" + responseTime + '\n' +
+                    "执行耗时:" + executeTime + "毫秒";
+        }
     }
 }

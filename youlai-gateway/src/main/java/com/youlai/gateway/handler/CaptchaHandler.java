@@ -1,4 +1,4 @@
-package com.youlai.gateway.kaptcha.handler;
+package com.youlai.gateway.handler;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FastByteArrayOutputStream;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021/10/4
  */
 @Component
@@ -35,7 +35,7 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
     private final StringRedisTemplate redisTemplate;
 
     @Override
-    public Mono<ServerResponse> handle(ServerRequest serverRequest) {
+    public Mono<ServerResponse> handle(ServerRequest request) {
         // 生成验证码
         String capText = producer.createText();
         String capStr = capText.substring(0, capText.lastIndexOf("@"));
@@ -56,6 +56,6 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
         resultMap.put("uuid", uuid);
         resultMap.put("img", Base64.encode(os.toByteArray()));
 
-        return ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(Result.success(resultMap)));
+        return ServerResponse.ok().body(BodyInserters.fromValue(Result.success(resultMap)));
     }
 }

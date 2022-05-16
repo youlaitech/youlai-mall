@@ -1,4 +1,4 @@
-package com.youlai.gateway.security;
+package com.youlai.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;

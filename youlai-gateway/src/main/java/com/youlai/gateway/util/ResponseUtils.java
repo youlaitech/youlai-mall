@@ -14,8 +14,10 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @Author hxr
- * @Date 2021-01-29 13:30
+ * 异常响应工具类
+ *
+ * @Author haoxr
+ * @Date 2021/01/29 13:30
  */
 public class ResponseUtils {
 
