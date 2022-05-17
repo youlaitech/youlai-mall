@@ -87,6 +87,7 @@ public class CartServiceImpl implements ICartService {
             SkuInfoDTO skuInfo = skuFeignService.getSkuInfo(skuId).getData();
             if (skuInfo != null) {
                 BeanUtil.copyProperties(skuInfo,cartItem);
+                cartItem.setStock(skuInfo.getStockNum());
                 cartItem.setCount(1);
                 cartItem.setChecked(true);
             }
