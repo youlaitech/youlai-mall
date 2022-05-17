@@ -1,6 +1,6 @@
 package com.youlai.gateway.router;
 
-import com.youlai.gateway.handler.CaptchaHandler;
+import com.youlai.gateway.handler.EasyCaptchaHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -13,16 +13,16 @@ import org.springframework.web.reactive.function.server.ServerResponse;
  * 验证码路由
  *
  * @author haoxr
- * @date 2022/5/16
+ * @date 2022/5/17 12:10
  */
 @Configuration
-public class CaptchaRouter {
+public class EasyCaptchaRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> captchaRouterFunction(CaptchaHandler captchaHandler) {
+    public RouterFunction<ServerResponse> captchaRouterFunction(EasyCaptchaHandler easyCaptchaHandler) {
         return RouterFunctions
                 .route(RequestPredicates.GET("/captcha")
-                        .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), captchaHandler::handle);
+                        .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), easyCaptchaHandler::handle);
     }
 
 }
