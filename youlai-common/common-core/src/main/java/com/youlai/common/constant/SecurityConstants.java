@@ -68,7 +68,7 @@ public interface SecurityConstants {
     /**
      * 验证码key前缀
      */
-    String VALIDATE_CODE_PREFIX = "VALIDATE_CODE:";
+    String VALIDATION_CODE_KEY_PREFIX = "CAPTCHA:";
 
     /**
      * 短信验证码key前缀

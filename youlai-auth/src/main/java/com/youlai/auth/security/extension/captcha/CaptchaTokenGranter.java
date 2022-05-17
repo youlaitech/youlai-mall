@@ -53,7 +53,7 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
         String uuid = parameters.get("uuid");
 
         Assert.isTrue(StrUtil.isNotBlank(validateCode), "验证码不能为空");
-        String validateCodeKey = SecurityConstants.VALIDATE_CODE_PREFIX + uuid;
+        String validateCodeKey = SecurityConstants.VALIDATION_CODE_KEY_PREFIX + uuid;
 
         // 从缓存取出正确的验证码和用户输入的验证码比对
         String correctValidateCode = redisTemplate.opsForValue().get(validateCodeKey);
