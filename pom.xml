@@ -18,7 +18,7 @@
         <module>mall-ums</module>
         <module>mall-pms</module>
         <module>mall-oms</module>
-        <!-- 实验室 -->
+        <!-- 实验室模块(可忽略，无关业务的真实和模拟的学习空间) -->
         <module>youlai-lab</module>
     </modules>
 
@@ -65,6 +65,8 @@
 
         <easyexcel.version>3.0.5</easyexcel.version>
 
+        <easy-captcha.version>1.6.2</easy-captcha.version>
+
         <docker.image.prefix>youlai</docker.image.prefix>
     </properties>
 
@@ -79,12 +81,6 @@
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-        <!-- jasypt加密 -->
-        <!--<dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>${jasypt.version}</version>
-        </dependency>-->
     </dependencies>
 
     <dependencyManagement>
@@ -108,12 +104,6 @@
             </dependency>
 
             <dependency>
-                <groupId>io.minio</groupId>
-                <artifactId>minio</artifactId>
-                <version>${minio.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
@@ -129,6 +119,13 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- 分布式文件存储 -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
             </dependency>
 
             <dependency>
@@ -271,11 +268,10 @@
                 <version>${youlai.version}</version>
             </dependency>
 
-            <!-- 验证码 -->
             <dependency>
-                <groupId>com.github.penggle</groupId>
-                <artifactId>kaptcha</artifactId>
-                <version>${kaptcha.version}</version>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
             </dependency>
 
             <dependency>
@@ -289,12 +285,12 @@
                 <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
                 <version>${aliyun.java.sdk.dysmsapi.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.youlai</groupId>
