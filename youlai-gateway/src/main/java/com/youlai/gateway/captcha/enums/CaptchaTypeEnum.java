@@ -1,6 +1,12 @@
-package com.youlai.gateway.enums;
+package com.youlai.gateway.captcha.enums;
 
-public enum CodeTypeEnum {
+/**
+ * 验证码类型枚举
+ *
+ * @author haoxr
+ * @date 2022/5/18 12:14
+ */
+public enum CaptchaTypeEnum {
 
     /**
      * 算数
@@ -18,6 +24,8 @@ public enum CodeTypeEnum {
      * 闪图
      */
     GIF,
+
     SPEC
+
 
 }

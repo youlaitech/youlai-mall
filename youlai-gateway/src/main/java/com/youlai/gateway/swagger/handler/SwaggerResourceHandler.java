@@ -1,4 +1,4 @@
-package com.youlai.gateway.handler.swagger;
+package com.youlai.gateway.swagger.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

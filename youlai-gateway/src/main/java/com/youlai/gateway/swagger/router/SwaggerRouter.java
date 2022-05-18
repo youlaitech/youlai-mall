@@ -1,8 +1,8 @@
-package com.youlai.gateway.router;
+package com.youlai.gateway.swagger.router;
 
-import com.youlai.gateway.handler.swagger.SwaggerResourceHandler;
-import com.youlai.gateway.handler.swagger.SwaggerSecurityHandler;
-import com.youlai.gateway.handler.swagger.SwaggerUiHandler;
+import com.youlai.gateway.swagger.handler.SwaggerResourceHandler;
+import com.youlai.gateway.swagger.handler.SwaggerSecurityHandler;
+import com.youlai.gateway.swagger.handler.SwaggerUiHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

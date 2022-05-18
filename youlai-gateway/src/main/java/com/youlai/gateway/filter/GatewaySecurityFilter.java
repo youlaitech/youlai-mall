@@ -35,10 +35,9 @@ import java.net.URLEncoder;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class SecurityGlobalFilter implements GlobalFilter, Ordered {
+public class GatewaySecurityFilter implements GlobalFilter, Ordered {
 
     private final RedisTemplate redisTemplate;
-
 
     @Value("${spring.profiles.active}")
     private String env;
@@ -50,7 +49,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        // 线上环境
+        // 线上环境请求拦截处理
         String requestPath = request.getPath().pathWithinApplication().value();
         if (env.equals("prod")) {
             String methodValue = request.getMethodValue();
@@ -59,7 +58,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
                     return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                 }
             } else {
-                if (SecurityConstants.PROD_FORBID_PATHS.contains(requestPath)) { // POST等放行的方法禁止的路径
+                if (SecurityConstants.PROD_FORBID_PATHS.contains(requestPath)) { // POST等放行的方法禁止特殊的请求路径
                     return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                 }
             }

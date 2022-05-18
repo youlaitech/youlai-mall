@@ -1,6 +1,6 @@
-package com.youlai.gateway.router;
+package com.youlai.gateway.captcha.router;
 
-import com.youlai.gateway.handler.EasyCaptchaHandler;
+import com.youlai.gateway.captcha.handler.EasyCaptchaHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;

@@ -1,20 +1,14 @@
-package com.youlai.gateway.component;
+package com.youlai.gateway.captcha.component;
 
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
-import com.youlai.gateway.enums.CodeTypeEnum;
-import lombok.RequiredArgsConstructor;
+import com.youlai.gateway.captcha.enums.CaptchaTypeEnum;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
 
 @Component
 public class EasyCaptchaProducer {
-
-    /**
-     * 验证码配置
-     */
-    private CodeTypeEnum codeType = CodeTypeEnum.ARITHMETIC;
 
     /**
      * 验证码内容长度
@@ -44,7 +38,7 @@ public class EasyCaptchaProducer {
      */
     private int fontSize = 20;
 
-    public Captcha getCaptcha(CodeTypeEnum codeType) {
+    public Captcha getCaptcha(CaptchaTypeEnum codeType) {
         Captcha captcha;
         switch (codeType) {
             case ARITHMETIC:

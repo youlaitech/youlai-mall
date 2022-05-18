@@ -1,11 +1,11 @@
-package com.youlai.gateway.handler;
+package com.youlai.gateway.captcha.handler;
 
 import cn.hutool.core.util.IdUtil;
 import com.wf.captcha.base.Captcha;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.Result;
-import com.youlai.gateway.component.EasyCaptchaProducer;
-import com.youlai.gateway.enums.CodeTypeEnum;
+import com.youlai.gateway.captcha.component.EasyCaptchaProducer;
+import com.youlai.gateway.captcha.enums.CaptchaTypeEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -35,12 +35,12 @@ public class EasyCaptchaHandler implements HandlerFunction<ServerResponse> {
     @Override
     public Mono<ServerResponse> handle(ServerRequest request) {
 
-        CodeTypeEnum codeTypeEnum = CodeTypeEnum.ARITHMETIC;
-        Captcha captcha = easyCaptchaProducer.getCaptcha(codeTypeEnum);
+        CaptchaTypeEnum captchaTypeEnum = CaptchaTypeEnum.ARITHMETIC;
+        Captcha captcha = easyCaptchaProducer.getCaptcha(captchaTypeEnum);
         String captchaValue = captcha.text();
         // 对于数学类型的需要进行处理
-        if (codeTypeEnum == null || codeTypeEnum == CodeTypeEnum.ARITHMETIC) {
-            if (captcha.getCharType() - 1 == CodeTypeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
+        if (captchaTypeEnum == null || captchaTypeEnum == CaptchaTypeEnum.ARITHMETIC) {
+            if (captcha.getCharType() - 1 == CaptchaTypeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
                 captchaValue = captchaValue.split("\\.")[0];
             }
         }
