@@ -124,7 +124,7 @@
 
       创建名为 `nacos` 的数据库，执行 `middleware/nacos/conf/nacos-mysql.sql` 脚本完成 Nacos 数据库初始化。
 
-    3. **Nacos 配置持久化至 MySQL**
+ 3. **Nacos 配置持久化至 MySQL**
 
    进入项目的 `middleware/nacos/conf/application.properties` 文件修改 Nacos 配置的数据连接，需要修改配置如下：
 
