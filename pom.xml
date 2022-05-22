@@ -10,22 +10,26 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!-- 基础模块 -->
         <module>youlai-common</module>
+        <module>youlai-gateway</module>
         <module>youlai-admin</module>
         <module>youlai-auth</module>
-        <module>youlai-gateway</module>
+
+        <!-- 商城模块 -->
         <module>mall-sms</module>
         <module>mall-ums</module>
         <module>mall-pms</module>
         <module>mall-oms</module>
-        <!-- 实验室模块(可忽略，无关业务的真实和模拟的学习空间) -->
+
+        <!-- 实验室模块(可忽略，无关业务的真实和模拟交互空间) -->
         <module>youlai-lab</module>
     </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.6</version>
+        <version>2.6.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -36,8 +40,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <spring-boot.version>2.6.6</spring-boot.version>
-        <spring-cloud.version>2021.0.0</spring-cloud.version>
+        <spring-boot.version>2.6.7</spring-boot.version>
+        <spring-cloud.version>2021.0.2</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 
         <lombok.version>1.18.18</lombok.version>
@@ -61,9 +65,7 @@
         <!-- 阿里云短信 -->
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
-
         <easyexcel.version>3.0.5</easyexcel.version>
-
         <easy-captcha.version>1.6.2</easy-captcha.version>
 
         <docker.image.prefix>youlai</docker.image.prefix>
@@ -75,6 +77,7 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
