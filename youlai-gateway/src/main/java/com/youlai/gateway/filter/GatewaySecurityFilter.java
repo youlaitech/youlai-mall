@@ -25,9 +25,9 @@ import reactor.core.publisher.Mono;
 import java.net.URLEncoder;
 
 /**
- * 安全拦截全局过滤器
+ * 安全拦截全局过滤器，非网关鉴权的逻辑
  * <p>
- * 善后一些无关紧要的工作，在 ResourceServerManager#check 鉴权之后执行
+ * 在ResourceServerManager#check鉴权善后一些无关紧要的事宜(线上请求拦截、黑名单拦截)
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2022/2/15
@@ -49,17 +49,23 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        // 线上环境请求拦截处理
-        String requestPath = request.getPath().pathWithinApplication().value();
-        if (env.equals("prod")) {
-            String methodValue = request.getMethodValue();
-            if (SecurityConstants.PROD_FORBID_METHODS.contains(methodValue)) { // PUT和DELETE方法禁止
-                if (!SecurityConstants.PROD_PERMIT_PATHS.contains(requestPath)) { // PUT和DELETE方法需要放行的方法
-                    return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
-                }
-            } else {
-                if (SecurityConstants.PROD_FORBID_PATHS.contains(requestPath)) { // POST等放行的方法禁止特殊的请求路径
-                    return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
+        // 线上环境请求拦截处理，实际请自行删除下面代码块
+        {
+            String requestPath = request.getPath().pathWithinApplication().value();
+            if (env.equals("prod")) {
+                String methodValue = request.getMethodValue();
+                if (SecurityConstants.PROD_FORBID_METHODS.contains(methodValue)) { // PUT和DELETE方法禁止
+                    // 是否需要放行的请求路径
+                    boolean isPermitPath = SecurityConstants.PROD_PERMIT_PATHS.stream().anyMatch(permitPath -> requestPath.contains(permitPath));
+                    if (!isPermitPath) {
+                        return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
+                    }
+                } else {
+                    // 是否禁止放行的请求路径
+                    boolean isForbidPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(permitPath -> requestPath.contains(permitPath));
+                    if (isForbidPath) {
+                        return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
+                    }
                 }
             }
         }
@@ -80,7 +86,7 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
             return ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
         }
 
-        // 存在token且不是黑名单，request写入JWT的载体信息
+        // 存在token且不在黑名单中，request写入JWT的载体信息传递给微服务
         request = exchange.getRequest().mutate()
                 .header(SecurityConstants.JWT_PAYLOAD_KEY, URLEncoder.encode(payload, "UTF-8"))
                 .build();

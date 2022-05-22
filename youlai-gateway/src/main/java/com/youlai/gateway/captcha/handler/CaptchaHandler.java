@@ -4,9 +4,10 @@ import cn.hutool.core.util.IdUtil;
 import com.wf.captcha.base.Captcha;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.Result;
-import com.youlai.gateway.captcha.component.EasyCaptchaProducer;
+import com.youlai.gateway.captcha.component.CaptchaProducer;
 import com.youlai.gateway.captcha.enums.CaptchaTypeEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -27,19 +28,30 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @RequiredArgsConstructor
-public class EasyCaptchaHandler implements HandlerFunction<ServerResponse> {
+public class CaptchaHandler implements HandlerFunction<ServerResponse> {
 
-    private final EasyCaptchaProducer easyCaptchaProducer;
+    private final CaptchaProducer captchaProducer;
     private final StringRedisTemplate stringRedisTemplate;
+
+    /**
+     * 验证码类型，默认:ARITHMETIC
+     */
+    @Value("${captcha.type:ARITHMETIC}")
+    CaptchaTypeEnum captchaType;
+
+    /**
+     * 验证码值的有效期(单位:秒)，默认:120
+     */
+    @Value("${captcha.ttl:120}")
+    long captchaValueTtl ;
 
     @Override
     public Mono<ServerResponse> handle(ServerRequest request) {
 
-        CaptchaTypeEnum captchaTypeEnum = CaptchaTypeEnum.ARITHMETIC;
-        Captcha captcha = easyCaptchaProducer.getCaptcha(captchaTypeEnum);
+        Captcha captcha = captchaProducer.getCaptcha(captchaType);
         String captchaValue = captcha.text();
         // 对于数学类型的需要进行处理
-        if (captchaTypeEnum == null || captchaTypeEnum == CaptchaTypeEnum.ARITHMETIC) {
+        if (captchaType == null || captchaType == CaptchaTypeEnum.ARITHMETIC) {
             if (captcha.getCharType() - 1 == CaptchaTypeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
                 captchaValue = captchaValue.split("\\.")[0];
             }
@@ -47,7 +59,7 @@ public class EasyCaptchaHandler implements HandlerFunction<ServerResponse> {
 
         // 缓存验证码至Redis
         String uuid = IdUtil.simpleUUID();
-        stringRedisTemplate.opsForValue().set(SecurityConstants.VALIDATION_CODE_KEY_PREFIX + uuid, captchaValue, 60, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(SecurityConstants.VALIDATION_CODE_KEY_PREFIX + uuid, captchaValue, captchaValueTtl, TimeUnit.SECONDS);
 
         // 获取到验证码Base64编码字符串
         String captchaBase64 = captcha.toBase64();

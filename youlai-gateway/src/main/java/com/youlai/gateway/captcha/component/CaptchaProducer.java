@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.awt.*;
 
 @Component
-public class EasyCaptchaProducer {
+public class CaptchaProducer {
 
     /**
      * 验证码内容长度
