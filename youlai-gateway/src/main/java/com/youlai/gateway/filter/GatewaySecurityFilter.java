@@ -56,13 +56,13 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
                 String methodValue = request.getMethodValue();
                 if (SecurityConstants.PROD_FORBID_METHODS.contains(methodValue)) { // PUT和DELETE方法禁止
                     // 是否需要放行的请求路径
-                    boolean isPermitPath = SecurityConstants.PROD_PERMIT_PATHS.stream().anyMatch(permitPath -> requestPath.contains(permitPath));
+                    boolean isPermitPath = SecurityConstants.PROD_PERMIT_PATHS.stream().anyMatch(permitPath -> permitPath.contains(requestPath));
                     if (!isPermitPath) {
                         return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                     }
                 } else {
                     // 是否禁止放行的请求路径
-                    boolean isForbidPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(permitPath -> requestPath.contains(permitPath));
+                    boolean isForbidPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(permitPath -> permitPath.contains(requestPath));
                     if (isForbidPath) {
                         return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                     }
