@@ -34,41 +34,55 @@
     </parent>
 
     <properties>
-        <youlai.version>2.0.0</youlai.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
+        <!-- config -->
+        <youlai.version>2.0.0</youlai.version>
+        <docker.image.prefix>youlai</docker.image.prefix>
+
+        <!-- spring boot -->
         <spring-boot.version>2.6.7</spring-boot.version>
+
+        <!-- spring cloud -->
         <spring-cloud.version>2021.0.2</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 
-        <lombok.version>1.18.18</lombok.version>
-        <hutool.version>5.7.21</hutool.version>
-        <jasypt.version>3.0.4</jasypt.version>
+        <!-- db && orm -->
         <mysql.version>8.0.19</mysql.version>
         <druid.version>1.2.4</druid.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
-        <minio.version>8.3.7</minio.version>
-        <!-- 覆盖SpringBoot中okhttp3的旧版本声明，解决MinIO 8.3.x的依赖冲突 -->
-        <okhttp3.version>4.8.1</okhttp3.version>
-        <weixin-java.version>4.1.5.B</weixin-java.version>
-        <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
-        <seata.version>1.4.2</seata.version>
+
+        <!-- api doc -->
         <knife4j.version>2.0.9</knife4j.version>
-        <redisson.version>3.16.8</redisson.version>
-        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
-        <elasticsearch.version>7.10.1</elasticsearch.version>
-        <dozer.version>6.2.0</dozer.version>
         <swagger.version>1.6.2</swagger.version>
-        <!-- 阿里云短信 -->
-        <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
-        <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
+
+        <!-- tools -->
+        <lombok.version>1.18.18</lombok.version>
+        <hutool.version>5.7.21</hutool.version>
+        <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
+        <mapstruct.version>1.5.0.RC1</mapstruct.version>
+        <weixin-java.version>4.1.5.B</weixin-java.version>
         <easyexcel.version>3.0.5</easyexcel.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
 
-        <docker.image.prefix>youlai</docker.image.prefix>
+        <!-- elastic stack -->
+        <elasticsearch.version>7.10.1</elasticsearch.version>
+        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+
+        <!-- distributed -->
+        <seata.version>1.4.2</seata.version>
+        <redisson.version>3.16.8</redisson.version>
+
+        <!-- 阿里云短信 -->
+        <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
+        <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
+
+        <!-- minio -->
+        <minio.version>8.3.7</minio.version>
+        <okhttp3.version>4.8.1</okhttp3.version>
     </properties>
 
     <dependencies>
@@ -205,12 +219,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.github.dozermapper</groupId>
-                <artifactId>dozer-core</artifactId>
-                <version>${dozer.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
@@ -311,6 +319,60 @@
                 <artifactId>ums-api</artifactId>
                 <version>${youlai.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-jdk8</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- maven-compiler-plugin 插件，解决 Lombok + MapStruct 组合 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>aliyun</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+    </repositories>
 </project>
