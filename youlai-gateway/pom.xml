@@ -117,6 +117,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <configuration>
+
+                    <excludes>
+                        <!-- 打包忽略lombok(作用于编译阶段)-->
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+
+                </configuration>
             </plugin>
         </plugins>
     </build>
