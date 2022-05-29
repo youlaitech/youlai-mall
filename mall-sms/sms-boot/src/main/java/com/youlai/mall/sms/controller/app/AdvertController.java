@@ -2,8 +2,8 @@ package com.youlai.mall.sms.controller.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.mall.sms.pojo.SmsAdvert;
-import com.youlai.mall.sms.service.ISmsAdvertService;
+import com.youlai.mall.sms.pojo.entity.SmsAdvert;
+import com.youlai.mall.sms.service.SmsAdvertService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @Api(tags = "「移动端」营销广告")
-@RestController("APPAdvertController")
+@RestController
 @RequestMapping("/app-api/v1/adverts")
 @Slf4j
 @AllArgsConstructor
 public class AdvertController {
 
-    private ISmsAdvertService iSmsAdvertService;
+    private SmsAdvertService smsAdvertService;
 
     @ApiOperation(value = "列表分页")
     @GetMapping
     public Result list() {
         LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
                 .orderByAsc(SmsAdvert::getSort);
-        List<SmsAdvert> data = iSmsAdvertService.list(queryWrapper);
+        List<SmsAdvert> data = smsAdvertService.list(queryWrapper);
         return Result.success(data);
     }
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.sms.mapper.SmsCouponMapper">
+
+    <resultMap id="BaseResultMap" type="com.youlai.mall.sms.pojo.entity.SmsCoupon">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="platform" column="platform" jdbcType="INTEGER"/>
+            <result property="amount" column="amount" jdbcType="BIGINT"/>
+            <result property="discount" column="discount" jdbcType="DECIMAL"/>
+            <result property="totalCount" column="total_count" jdbcType="INTEGER"/>
+            <result property="minPoint" column="min_point" jdbcType="BIGINT"/>
+            <result property="perLimit" column="per_limit" jdbcType="INTEGER"/>
+            <result property="validType" column="valid_type" jdbcType="TINYINT"/>
+            <result property="validDays" column="valid_days" jdbcType="INTEGER"/>
+            <result property="validBeginTime" column="valid_begin_time" jdbcType="TIMESTAMP"/>
+            <result property="validEndTime" column="valid_end_time" jdbcType="TIMESTAMP"/>
+            <result property="useType" column="use_type" jdbcType="TINYINT"/>
+            <result property="receivedCount" column="received_count" jdbcType="INTEGER"/>
+            <result property="usedCount" column="used_count" jdbcType="INTEGER"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,type,
+        code,status,platform,
+        amount,discount,total_count,
+        min_point,per_limit,valid_type,
+        valid_days,valid_begin_time,valid_end_time,
+        use_type,received_count,used_count,
+        remark,gmt_create,gmt_modified,
+        deleted
+    </sql>
+
+    <!-- 优惠券分页列表 -->
+    <select id="listCouponsPage" resultType="com.youlai.mall.sms.pojo.entity.SmsCoupon">
+        SELECT
+            *
+        FROM
+            sms_coupon
+    </select>
+</mapper>

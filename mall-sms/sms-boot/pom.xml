@@ -12,6 +12,7 @@
     <artifactId>sms-boot</artifactId>
     <properties>
         <youlai.version>2.0.0</youlai.version>
+
         <service.port>8804</service.port>
         <service.nodeport>32002</service.nodeport>
     </properties>
@@ -68,27 +69,22 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-mybatis</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-web</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.github.dozermapper</groupId>
-            <artifactId>dozer-core</artifactId>
-            <version>${dozer.version}</version>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
         </dependency>
-
 
     </dependencies>
 
