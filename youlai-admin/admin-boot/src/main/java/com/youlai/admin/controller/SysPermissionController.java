@@ -3,9 +3,9 @@ package com.youlai.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.admin.pojo.entity.SysPermission;
-import com.youlai.admin.pojo.query.PermissionPageQuery;
-import com.youlai.admin.pojo.vo.permission.PermissionPageVO;
-import com.youlai.admin.service.ISysPermissionService;
+import com.youlai.admin.pojo.query.PermPageQuery;
+import com.youlai.admin.pojo.vo.permission.PermPageVO;
+import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.*;
@@ -21,14 +21,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysPermissionController {
 
-    private final ISysPermissionService iSysPermissionService;
+    private final SysPermissionService sysPermissionService;
 
-    @ApiOperation(value = "列表分页")
+    @ApiOperation(value = "权限分页列表")
     @GetMapping("/page")
-    public PageResult<PermissionPageVO> listPermissionsWithPage(
-            PermissionPageQuery permissionPageQuery
+    public PageResult<PermPageVO> listPermsPage(
+            PermPageQuery permPageQuery
     ) {
-        IPage<PermissionPageVO> result = iSysPermissionService.listPermissionsWithPage(permissionPageQuery);
+        IPage<PermPageVO> result = sysPermissionService.listPermsPage(permPageQuery);
         return PageResult.success(result);
     }
 
@@ -37,7 +37,7 @@ public class SysPermissionController {
     public Result listPermissions(
             @ApiParam(value = "菜单ID") @RequestParam(required = false) Long menuId
     ) {
-        List<SysPermission> list = iSysPermissionService.list(
+        List<SysPermission> list = sysPermissionService.list(
                 new LambdaQueryWrapper<SysPermission>()
                         .eq(menuId != null, SysPermission::getMenuId, menuId)
         );
@@ -49,31 +49,31 @@ public class SysPermissionController {
     public Result getPermissionDetail(
             @ApiParam("权限ID") @PathVariable Long permissionId
     ) {
-        SysPermission permission = iSysPermissionService.getById(permissionId);
+        SysPermission permission = sysPermissionService.getById(permissionId);
         return Result.success(permission);
     }
 
     @ApiOperation(value = "新增权限")
     @PostMapping
-    public Result addPermission(
+    public Result addPerm(
             @RequestBody SysPermission permission
     ) {
-        boolean result = iSysPermissionService.save(permission);
+        boolean result = sysPermissionService.save(permission);
         if (result) {
-            iSysPermissionService.refreshPermRolesRules();
+            sysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
 
     @ApiOperation(value = "修改权限")
     @PutMapping(value = "/{permissionId}")
-    public Result updatePermission(
+    public Result updatePerm(
             @ApiParam("权限ID") @PathVariable Long permissionId,
             @RequestBody SysPermission permission
     ) {
-        boolean result = iSysPermissionService.updateById(permission);
+        boolean result = sysPermissionService.updateById(permission);
         if (result) {
-            iSysPermissionService.refreshPermRolesRules();
+            sysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -83,7 +83,7 @@ public class SysPermissionController {
     public Result deletePermissions(
             @ApiParam("权限ID，多个以英文逗号(,)分割") @PathVariable String ids
     ) {
-        boolean status = iSysPermissionService.removeByIds(Arrays.asList(ids.split(",")));
+        boolean status = sysPermissionService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 }

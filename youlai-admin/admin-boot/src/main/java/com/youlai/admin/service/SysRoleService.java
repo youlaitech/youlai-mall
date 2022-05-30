@@ -6,7 +6,7 @@ import com.youlai.admin.pojo.entity.SysRole;
 
 import java.util.List;
 
-public interface ISysRoleService extends IService<SysRole> {
+public interface SysRoleService extends IService<SysRole> {
 
     boolean delete(List<Long> ids);
 }

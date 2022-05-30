@@ -2,10 +2,10 @@ package com.youlai.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.vo.menu.MenuTableVO;
-import com.youlai.admin.pojo.vo.menu.NextRouteVO;
-import com.youlai.admin.service.ISysMenuService;
-import com.youlai.admin.service.ISysPermissionService;
+import com.youlai.admin.pojo.vo.menu.TableMenuVO;
+import com.youlai.admin.pojo.vo.menu.RouteVO;
+import com.youlai.admin.service.SysMenuService;
+import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.vo.OptionVO;
 import io.swagger.annotations.*;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * 菜单路由控制器
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2020-11-06
  */
 @Api(tags = "菜单接口")
@@ -30,29 +30,38 @@ import java.util.List;
 @Slf4j
 public class SysMenuController {
 
-    private final ISysMenuService menuService;
-    private final ISysPermissionService permissionService;
+    private final SysMenuService menuService;
+    private final SysPermissionService permissionService;
+
+    @ApiOperation(value = "菜单表格(Table)列表")
+    @GetMapping("/list")
+    public Result list(
+            @ApiParam(value = "菜单名称", type = "query") String name
+    ) {
+        List<OptionVO> menuList = menuService.listMenuPerms(name);
+        return Result.success(menuList);
+    }
 
     @ApiOperation(value = "菜单表格(Table)列表")
     @GetMapping("/table")
     public Result listTableMenus(
             @ApiParam(value = "菜单名称", type = "query") String name
     ) {
-        List<MenuTableVO> menuList = menuService.listTableMenus(name);
+        List<TableMenuVO> menuList = menuService.listTableMenus(name);
         return Result.success(menuList);
     }
 
     @ApiOperation(value = "菜单下拉(Select)列表")
     @GetMapping("/select")
     public Result listSelectMenus() {
-        List<OptionVO> menuList = menuService.listSelectMenus();
-        return Result.success(menuList);
+        List<OptionVO> menus = menuService.listMenus();
+        return Result.success(menus);
     }
 
     @ApiOperation(value = "菜单路由(Route)列表")
     @GetMapping("/route")
     public Result getRouteList() {
-        List<NextRouteVO> routeList = menuService.listNextRoutes();
+        List<RouteVO> routeList = menuService.listNextRoutes();
         return Result.success(routeList);
     }
 
@@ -77,10 +86,9 @@ public class SysMenuController {
     @PutMapping(value = "/{id}")
     @CacheEvict(cacheNames = "system", key = "'routes'")
     public Result updateMenu(
-            @ApiParam("菜单ID") @PathVariable Long id,
             @RequestBody SysMenu menu
     ) {
-        boolean result = menuService.updateMenu(menu);
+        boolean result = menuService.saveMenu(menu);
         return Result.judge(result);
     }
 

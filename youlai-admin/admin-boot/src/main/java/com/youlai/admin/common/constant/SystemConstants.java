@@ -3,7 +3,7 @@ package com.youlai.admin.common.constant;
 /**
  * 系统常量
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021/10/30 9:32
  */
 public interface SystemConstants {

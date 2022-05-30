@@ -6,7 +6,7 @@ import com.youlai.admin.pojo.entity.SysRoleMenu;
 
 import java.util.List;
 
-public interface ISysRoleMenuService extends IService<SysRoleMenu> {
+public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
     List<Long> listMenuIds(Long roleId);
 

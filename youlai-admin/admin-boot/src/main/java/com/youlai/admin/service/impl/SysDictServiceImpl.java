@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysDictMapper;
 import com.youlai.admin.pojo.entity.SysDict;
 import com.youlai.admin.pojo.entity.SysDictItem;
-import com.youlai.admin.service.ISysDictItemService;
-import com.youlai.admin.service.ISysDictService;
+import com.youlai.admin.service.SysDictItemService;
+import com.youlai.admin.service.SysDictService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements ISysDictService {
+public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {
 
-    private final ISysDictItemService iSysDictItemService;
+    private final SysDictItemService sysDictItemService;
 
     /**
      * 修改字典
@@ -41,7 +41,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         Assert.isTrue(oldDict != null, "字典不存在");
         if (!StrUtil.equals(newDict.getCode(), oldDict.getCode())) {
             // 字典编码变化，同步修改字典项的字典编码
-            iSysDictItemService.update(new LambdaUpdateWrapper<SysDictItem>()
+            sysDictItemService.update(new LambdaUpdateWrapper<SysDictItem>()
                     .eq(SysDictItem::getDictCode, oldDict.getCode())
                     .set(SysDictItem::getDictCode, newDict.getCode())
             );
@@ -68,7 +68,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         if (CollectionUtil.isNotEmpty(dictList)) {
             List<String> dictCodes = dictList.stream().map(item -> item.getCode()).collect(Collectors.toList());
             // 批量删除字典项
-            iSysDictItemService.remove(new LambdaQueryWrapper<SysDictItem>()
+            sysDictItemService.remove(new LambdaQueryWrapper<SysDictItem>()
                     .in(SysDictItem::getDictCode, dictCodes)
             );
         }

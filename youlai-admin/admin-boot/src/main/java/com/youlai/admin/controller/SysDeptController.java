@@ -2,7 +2,7 @@ package com.youlai.admin.controller;
 
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
-import com.youlai.admin.service.ISysDeptService;
+import com.youlai.admin.service.SysDeptService;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.vo.OptionVO;
 import io.swagger.annotations.*;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 部门控制器
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2020-11-06
  */
 @Api(tags = "部门接口")
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysDeptController {
 
-    private final ISysDeptService deptService;
+    private final SysDeptService deptService;
 
     @ApiOperation(value = "部门表格(Table)列表")
     @ApiImplicitParams({

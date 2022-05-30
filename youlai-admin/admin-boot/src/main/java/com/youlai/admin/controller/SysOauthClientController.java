@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.dto.AuthClientDTO;
 import com.youlai.admin.pojo.entity.SysOauthClient;
-import com.youlai.admin.service.ISysOauthClientService;
+import com.youlai.admin.service.SysOauthClientService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
@@ -28,7 +28,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class SysOauthClientController {
 
-    private ISysOauthClientService iSysOauthClientService;
+    private SysOauthClientService sysOauthClientService;
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
@@ -38,7 +38,7 @@ public class SysOauthClientController {
     })
     @GetMapping
     public PageResult<SysOauthClient> list(long pageNum, long pageSize, String clientId) {
-        IPage<SysOauthClient> result = iSysOauthClientService.page(
+        IPage<SysOauthClient> result = sysOauthClientService.page(
                 new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SysOauthClient>()
                         .like(StrUtil.isNotBlank(clientId), SysOauthClient::getClientId, clientId));
@@ -49,7 +49,7 @@ public class SysOauthClientController {
     @ApiImplicitParam(name = "clientId", value = "客户端id", required = true, paramType = "path", dataType = "String")
     @GetMapping("/{clientId}")
     public Result detail(@PathVariable String clientId) {
-        SysOauthClient client = iSysOauthClientService.getById(clientId);
+        SysOauthClient client = sysOauthClientService.getById(clientId);
         return Result.success(client);
     }
 
@@ -57,7 +57,7 @@ public class SysOauthClientController {
     @ApiImplicitParam(name = "client", value = "实体JSON对象", required = true, paramType = "body", dataType = "OauthClientDetails")
     @PostMapping
     public Result add(@RequestBody SysOauthClient client) {
-        boolean status = iSysOauthClientService.save(client);
+        boolean status = sysOauthClientService.save(client);
         return Result.judge(status);
     }
 
@@ -70,7 +70,7 @@ public class SysOauthClientController {
     public Result update(
             @PathVariable String clientId,
             @RequestBody SysOauthClient client) {
-        boolean status = iSysOauthClientService.updateById(client);
+        boolean status = sysOauthClientService.updateById(client);
         return Result.judge(status);
     }
 
@@ -78,7 +78,7 @@ public class SysOauthClientController {
     @ApiImplicitParam(name = "ids", value = "id集合,以,拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable("ids") String ids) {
-        boolean status = iSysOauthClientService.removeByIds(Arrays.asList(ids.split(",")));
+        boolean status = sysOauthClientService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 
@@ -86,7 +86,7 @@ public class SysOauthClientController {
     @ApiOperation(hidden = true, value = "获取 OAuth2 客户端认证信息", notes = "Feign 调用")
     @GetMapping("/getOAuth2ClientById")
     public Result<AuthClientDTO> getOAuth2ClientById(@RequestParam String clientId) {
-        SysOauthClient client = iSysOauthClientService.getById(clientId);
+        SysOauthClient client = sysOauthClientService.getById(clientId);
         Assert.isTrue(client != null, "OAuth2 客户端不存在");
         AuthClientDTO authClientDTO = new AuthClientDTO();
         BeanUtil.copyProperties(client, authClientDTO);

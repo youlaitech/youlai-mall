@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 性别枚举
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/4/10 22:34
  */
 public enum GenderEnum implements IBaseEnum<Integer> {

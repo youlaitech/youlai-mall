@@ -1,8 +1,8 @@
 package com.youlai.admin.component.listener;
 
-import com.youlai.admin.service.ISysMenuService;
-import com.youlai.admin.service.ISysOauthClientService;
-import com.youlai.admin.service.ISysPermissionService;
+import com.youlai.admin.service.SysMenuService;
+import com.youlai.admin.service.SysOauthClientService;
+import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.dto.CanalMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 /**
  * Canal + RabbitMQ 监听数据库数据变化
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021/11/4 23:14
  */
 @Component
@@ -23,9 +23,9 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class CanalListener {
 
-    private final ISysPermissionService permissionService;
-    private final ISysOauthClientService oauthClientService;
-    private final ISysMenuService menuService;
+    private final SysPermissionService permissionService;
+    private final SysOauthClientService oauthClientService;
+    private final SysMenuService menuService;
 
 
     @RabbitListener(queues = "canal.queue")

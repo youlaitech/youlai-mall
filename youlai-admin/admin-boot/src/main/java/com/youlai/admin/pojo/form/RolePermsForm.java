@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 角色权限传输层对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021/12/19 11:46
  */
 @Data

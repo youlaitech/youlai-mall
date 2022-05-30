@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * 菜单路由业务接口
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021-08-22
  */
-public interface ISysDeptService extends IService<SysDept> {
+public interface SysDeptService extends IService<SysDept> {
     /**
      * 部门表格（Table）层级列表
      *

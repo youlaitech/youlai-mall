@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysPermissionMapper;
 import com.youlai.admin.pojo.entity.SysPermission;
-import com.youlai.admin.pojo.query.PermissionPageQuery;
-import com.youlai.admin.pojo.vo.permission.PermissionPageVO;
-import com.youlai.admin.service.ISysPermissionService;
+import com.youlai.admin.pojo.query.PermPageQuery;
+import com.youlai.admin.pojo.vo.permission.PermPageVO;
+import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements ISysPermissionService {
+public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
 
     private final RedisTemplate redisTemplate;
 
@@ -41,9 +41,9 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
      * @return
      */
     @Override
-    public IPage<PermissionPageVO> listPermissionsWithPage(PermissionPageQuery queryParams) {
-        Page<PermissionPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<PermissionPageVO> list = this.baseMapper.listPermissionsWithPage(page, queryParams);
+    public IPage<PermPageVO> listPermsPage(PermPageQuery queryParams) {
+        Page<PermPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
+        List<PermPageVO> list = this.baseMapper.listPermsPage(page, queryParams);
         page.setRecords(list);
         return page;
     }

@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * 用户分页视图对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/1/15 9:41
  */
 @ApiModel("用户分页视图对象")

@@ -11,8 +11,8 @@ import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
-import com.youlai.admin.service.ISysDeptService;
-import com.youlai.admin.service.ISysUserService;
+import com.youlai.admin.service.SysDeptService;
+import com.youlai.admin.service.SysUserService;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.vo.OptionVO;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +26,14 @@ import java.util.stream.Collectors;
 /**
  * 部门业务类
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021-08-22
  */
 @Service
 @RequiredArgsConstructor
-public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
+public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
-    private final ISysUserService iSysUserService;
+    private final SysUserService sysUserService;
 
     /**
      * 部门表格（Table）层级列表
@@ -68,7 +68,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
             // 不在节点 id 集合中存在的 id 即为顶级节点 id, 递归生成列表
             Long parentId = sysDept.getParentId();
             if (!nodeIdSet.contains(parentId)) {
-                deptTableList.addAll(recursionTableList(parentId, deptList));
+                deptTableList.addAll(recurTableMenus(parentId, deptList));
                 nodeIdSet.add(parentId);
             }
         }
@@ -92,7 +92,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @param deptList
      * @return
      */
-    public static List<DeptVO> recursionTableList(Long parentId, List<SysDept> deptList) {
+    public static List<DeptVO> recurTableMenus(Long parentId, List<SysDept> deptList) {
         List<DeptVO> deptTableList = new ArrayList<>();
         Optional.ofNullable(deptList).orElse(new ArrayList<>())
                 .stream()
@@ -100,7 +100,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .forEach(dept -> {
                     DeptVO deptVO = new DeptVO();
                     BeanUtil.copyProperties(dept, deptVO);
-                    List<DeptVO> children = recursionTableList(dept.getId(), deptList);
+                    List<DeptVO> children = recurTableMenus(dept.getId(), deptList);
                     deptVO.setChildren(children);
                     deptTableList.add(deptVO);
                 });

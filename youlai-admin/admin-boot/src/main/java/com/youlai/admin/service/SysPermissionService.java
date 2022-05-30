@@ -3,8 +3,8 @@ package com.youlai.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysPermission;
-import com.youlai.admin.pojo.query.PermissionPageQuery;
-import com.youlai.admin.pojo.vo.permission.PermissionPageVO;
+import com.youlai.admin.pojo.query.PermPageQuery;
+import com.youlai.admin.pojo.vo.permission.PermPageVO;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author haoxr
  * @date 2022/1/22
  */
-public interface ISysPermissionService extends IService<SysPermission> {
+public interface SysPermissionService extends IService<SysPermission> {
 
     List<SysPermission> listPermRoles();
 
@@ -34,8 +34,8 @@ public interface ISysPermissionService extends IService<SysPermission> {
     /**
      * 获取权限分页列表
      *
-     * @param permissionPageQuery
+     * @param permPageQuery
      * @return
      */
-    IPage<PermissionPageVO> listPermissionsWithPage(PermissionPageQuery permissionPageQuery);
+    IPage<PermPageVO> listPermsPage(PermPageQuery permPageQuery);
 }

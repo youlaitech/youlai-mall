@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.pojo.form.RolePermsForm;
-import com.youlai.admin.service.ISysPermissionService;
-import com.youlai.admin.service.ISysRoleMenuService;
-import com.youlai.admin.service.ISysRolePermissionService;
-import com.youlai.admin.service.ISysRoleService;
+import com.youlai.admin.service.SysPermissionService;
+import com.youlai.admin.service.SysRoleMenuService;
+import com.youlai.admin.service.SysRolePermissionService;
+import com.youlai.admin.service.SysRoleService;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -33,10 +33,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysRoleController {
 
-    private final ISysRoleService iSysRoleService;
-    private final ISysRoleMenuService iSysRoleMenuService;
-    private final ISysRolePermissionService iSysRolePermissionService;
-    private final ISysPermissionService iSysPermissionService;
+    private final SysRoleService sysRoleService;
+    private final SysRoleMenuService sysRoleMenuService;
+    private final SysRolePermissionService sysRolePermissionService;
+    private final SysPermissionService sysPermissionService;
 
     @ApiOperation(value = "列表分页")
     @GetMapping("/page")
@@ -53,7 +53,7 @@ public class SysRoleController {
                 .orderByAsc(SysRole::getSort)
                 .orderByDesc(SysRole::getGmtModified)
                 .orderByDesc(SysRole::getGmtCreate);
-        Page<SysRole> result = iSysRoleService.page(new Page<>(pageNum, pageSize), queryWrapper);
+        Page<SysRole> result = sysRoleService.page(new Page<>(pageNum, pageSize), queryWrapper);
         return PageResult.success(result);
     }
 
@@ -62,7 +62,7 @@ public class SysRoleController {
     public Result getRoleList() {
         List<String> roles = UserUtils.getRoles();
         boolean isRoot = roles.contains(GlobalConstants.ROOT_ROLE_CODE);  // 判断是否是超级管理员
-        List list = iSysRoleService.list(new LambdaQueryWrapper<SysRole>()
+        List list = sysRoleService.list(new LambdaQueryWrapper<SysRole>()
                 .eq(SysRole::getStatus, GlobalConstants.STATUS_YES)
                 .ne(!isRoot, SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
                 .orderByAsc(SysRole::getSort)
@@ -75,22 +75,22 @@ public class SysRoleController {
     public Result getRoleDetail(
             @ApiParam("角色ID") @PathVariable Long roleId
     ) {
-        SysRole role = iSysRoleService.getById(roleId);
+        SysRole role = sysRoleService.getById(roleId);
         return Result.success(role);
     }
 
     @ApiOperation(value = "新增角色")
     @PostMapping
     public Result saveRole(@RequestBody SysRole role) {
-        int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
+        int count = sysRoleService.count(new LambdaQueryWrapper<SysRole>()
                 .eq(SysRole::getCode, role.getCode())
                 .or()
                 .eq(SysRole::getName, role.getName())
         );
         Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
-        boolean result = iSysRoleService.save(role);
+        boolean result = sysRoleService.save(role);
         if (result) {
-            iSysPermissionService.refreshPermRolesRules();
+            sysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -100,7 +100,7 @@ public class SysRoleController {
     public Result updateRole(
             @ApiParam("角色ID") @PathVariable Long id,
             @RequestBody SysRole role) {
-        int count = iSysRoleService.count(new LambdaQueryWrapper<SysRole>()
+        int count = sysRoleService.count(new LambdaQueryWrapper<SysRole>()
                 .ne(SysRole::getId, id)
                 .and(wrapper ->
                         wrapper.eq(SysRole::getCode, role.getCode())
@@ -108,9 +108,9 @@ public class SysRoleController {
                                 .eq(SysRole::getName, role.getName())
                 ));
         Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
-        boolean result = iSysRoleService.updateById(role);
+        boolean result = sysRoleService.updateById(role);
         if (result) {
-            iSysPermissionService.refreshPermRolesRules();
+            sysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -120,10 +120,10 @@ public class SysRoleController {
     public Result deleteRoles(
             @ApiParam("删除角色，多个以英文逗号(,)分割") @PathVariable String ids
     ) {
-        boolean result = iSysRoleService.delete(Arrays.asList(ids.split(",")).stream()
+        boolean result = sysRoleService.delete(Arrays.asList(ids.split(",")).stream()
                 .map(id -> Long.parseLong(id)).collect(Collectors.toList()));
         if (result) {
-            iSysPermissionService.refreshPermRolesRules();
+            sysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -137,9 +137,9 @@ public class SysRoleController {
         LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<SysRole>()
                 .eq(SysRole::getId, roleId)
                 .set(role.getStatus() != null, SysRole::getStatus, role.getStatus());
-        boolean result = iSysRoleService.update(updateWrapper);
+        boolean result = sysRoleService.update(updateWrapper);
         if (result) {
-            iSysPermissionService.refreshPermRolesRules();
+            sysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -150,7 +150,7 @@ public class SysRoleController {
     public Result listRoleMenuIds(
             @ApiParam("角色ID") @PathVariable Long roleId
     ) {
-        List<Long> menuIds = iSysRoleMenuService.listMenuIds(roleId);
+        List<Long> menuIds = sysRoleMenuService.listMenuIds(roleId);
         return Result.success(menuIds);
     }
 
@@ -160,7 +160,7 @@ public class SysRoleController {
             @ApiParam("角色ID") @PathVariable Long roleId,
             @ApiParam("菜单ID") Long menuId
     ) {
-        List<Long> permissionIds = iSysRolePermissionService.listPermIds(menuId, roleId);
+        List<Long> permissionIds = sysRolePermissionService.listPermIds(menuId, roleId);
         return Result.success(permissionIds);
     }
 
@@ -172,9 +172,9 @@ public class SysRoleController {
             @RequestBody SysRole role
     ) {
         List<Long> menuIds = role.getMenuIds();
-        boolean result = iSysRoleMenuService.update(roleId, menuIds);
+        boolean result = sysRoleMenuService.update(roleId, menuIds);
         if (result) {
-            iSysPermissionService.refreshPermRolesRules();
+            sysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }
@@ -186,9 +186,9 @@ public class SysRoleController {
             @ApiParam("角色ID") @PathVariable Long roleId,
             @RequestBody RolePermsForm rolePerms) {
         rolePerms.setRoleId(roleId);
-        boolean result = iSysRolePermissionService.saveRolePerms(rolePerms);
+        boolean result = sysRolePermissionService.saveRolePerms(rolePerms);
         if (result) {
-            iSysPermissionService.refreshPermRolesRules();
+            sysPermissionService.refreshPermRolesRules();
         }
         return Result.judge(result);
     }

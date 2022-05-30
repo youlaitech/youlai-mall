@@ -1,6 +1,6 @@
 package com.youlai.admin.component.cache;
 
-import com.youlai.admin.service.ISysPermissionService;
+import com.youlai.admin.service.SysPermissionService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class InitPermissionRolesCache implements CommandLineRunner {
 
-    private ISysPermissionService iSysPermissionService;
+    private SysPermissionService sysPermissionService;
 
     @Override
     public void run(String... args) {
-        iSysPermissionService.refreshPermRolesRules();
+        sysPermissionService.refreshPermRolesRules();
     }
 }

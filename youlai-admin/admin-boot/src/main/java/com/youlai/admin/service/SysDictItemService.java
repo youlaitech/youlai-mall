@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysDictItem;
 
 
-public interface ISysDictItemService extends IService<SysDictItem> {
+public interface SysDictItemService extends IService<SysDictItem> {
 
     IPage<SysDictItem> list(Page<SysDictItem> page, SysDictItem dict);
 

@@ -4,11 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.pojo.entity.SysOauthClient;
 import com.youlai.admin.mapper.SysOauthClientMapper;
-import com.youlai.admin.service.ISysOauthClientService;
+import com.youlai.admin.service.SysOauthClientService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +19,7 @@ import java.util.Set;
  */
 @Service
 @RequiredArgsConstructor
-public class SysOauthClientServiceImpl extends ServiceImpl<SysOauthClientMapper, SysOauthClient> implements ISysOauthClientService {
+public class SysOauthClientServiceImpl extends ServiceImpl<SysOauthClientMapper, SysOauthClient> implements SysOauthClientService {
 
     private final StringRedisTemplate stringRedisTemplate;
 

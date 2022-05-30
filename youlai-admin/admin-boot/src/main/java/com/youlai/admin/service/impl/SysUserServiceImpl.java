@@ -26,8 +26,8 @@ import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
-import com.youlai.admin.service.ISysUserRoleService;
-import com.youlai.admin.service.ISysUserService;
+import com.youlai.admin.service.SysUserRoleService;
+import com.youlai.admin.service.SysUserService;
 import com.youlai.common.base.IBaseEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,10 +50,10 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final PasswordEncoder passwordEncoder;
-    private final ISysUserRoleService iSysUserRoleService;
+    private final SysUserRoleService sysUserRoleService;
     private final UserImportListener userImportListener;
 
     /**
@@ -91,7 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .stream().map(roleId -> new SysUserRole(userId, roleId))
                     .collect(Collectors.toList());
             if (CollectionUtil.isNotEmpty(sysUserRoles)) {
-                iSysUserRoleService.saveBatch(sysUserRoles);
+                sysUserRoleService.saveBatch(sysUserRoles);
             }
         }
         return result;
@@ -111,7 +111,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Assert.isTrue(user != null, "用户不存在或已被删除");
 
         // 用户旧角色ID集合
-        List<Long> oldRoleIds = iSysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
+        List<Long> oldRoleIds = sysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
                 .eq(SysUserRole::getUserId, userId))
                 .stream()
                 .map(item -> item.getRoleId())
@@ -125,12 +125,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         List<SysUserRole> addUserRoles = Optional.ofNullable(addRoleIds).orElse(new ArrayList<>())
                 .stream().map(roleId -> new SysUserRole(userId, roleId))
                 .collect(Collectors.toList());
-        iSysUserRoleService.saveBatch(addUserRoles);
+        sysUserRoleService.saveBatch(addUserRoles);
 
         // 删除的用户角色
         List<Long> removeRoleIds = oldRoleIds.stream().filter(roleId -> !newRoleIds.contains(roleId)).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(removeRoleIds)) {
-            iSysUserRoleService.remove(new LambdaQueryWrapper<SysUserRole>()
+            sysUserRoleService.remove(new LambdaQueryWrapper<SysUserRole>()
                     .eq(SysUserRole::getUserId, userId)
                     .in(SysUserRole::getRoleId, removeRoleIds)
             );
@@ -249,7 +249,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 });
             }
 
-            iSysUserRoleService.saveBatch(userRoleList);
+            sysUserRoleService.saveBatch(userRoleList);
         }
 
         errMsg.append(StrUtil.format("一共{}条数据，成功导入{}条数据，导入失败数据{}条", list.size(), saveUserList.size(), list.size() - saveUserList.size()));

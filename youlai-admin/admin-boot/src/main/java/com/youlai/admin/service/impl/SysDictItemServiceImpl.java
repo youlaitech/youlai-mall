@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysDictItemMapper;
 import com.youlai.admin.pojo.entity.SysDictItem;
-import com.youlai.admin.service.ISysDictItemService;
+import com.youlai.admin.service.SysDictItemService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * 字典项业务实现类
  */
 @Service
-public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements ISysDictItemService {
+public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements SysDictItemService {
 
     /**
      * 字典项分页列表

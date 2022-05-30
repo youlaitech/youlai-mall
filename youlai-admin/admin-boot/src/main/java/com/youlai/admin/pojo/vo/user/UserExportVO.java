@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 用户导出视图对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/4/11 8:46
  */
 

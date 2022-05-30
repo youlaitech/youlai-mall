@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 用户导入表单对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/4/10 20:15
  */
 @Data

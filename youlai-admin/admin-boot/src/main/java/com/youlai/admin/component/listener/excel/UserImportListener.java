@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/4/10 20:49
  */
 @Component

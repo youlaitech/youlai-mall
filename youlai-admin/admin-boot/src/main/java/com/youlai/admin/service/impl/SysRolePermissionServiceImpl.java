@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysRolePermissionMapper;
 import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.pojo.form.RolePermsForm;
-import com.youlai.admin.service.ISysRolePermissionService;
+import com.youlai.admin.service.SysRolePermissionService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * 角色权限实现类
  */
 @Service
-public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermission> implements ISysRolePermissionService {
+public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermission> implements SysRolePermissionService {
 
 
     /**

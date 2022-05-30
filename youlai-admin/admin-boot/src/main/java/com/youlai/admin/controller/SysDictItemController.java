@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysDictItem;
-import com.youlai.admin.service.ISysDictItemService;
+import com.youlai.admin.service.SysDictItemService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysDictItemController {
 
-    private final ISysDictItemService iSysDictItemService;
+    private final SysDictItemService sysDictItemService;
 
     @ApiOperation(value = "用户分页列表")
     @ApiImplicitParams({
@@ -41,7 +41,7 @@ public class SysDictItemController {
             String name,
             String dictCode
     ) {
-        IPage<SysDictItem> result = iSysDictItemService.list(
+        IPage<SysDictItem> result = sysDictItemService.list(
                 new Page<>(pageNum, pageSize),
                 new SysDictItem().setName(name).setDictCode(dictCode)
         );
@@ -51,7 +51,7 @@ public class SysDictItemController {
     @ApiOperation(value = "字典项列表")
     @GetMapping
     public Result list(String name, String dictCode) {
-        List<SysDictItem> list = iSysDictItemService.list(
+        List<SysDictItem> list = sysDictItemService.list(
                 new LambdaQueryWrapper<SysDictItem>()
                         .like(StrUtil.isNotBlank(name), SysDictItem::getName, name)
                         .eq(StrUtil.isNotBlank(dictCode), SysDictItem::getDictCode, dictCode)
@@ -65,7 +65,7 @@ public class SysDictItemController {
     @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
-        SysDictItem dictItem = iSysDictItemService.getById(id);
+        SysDictItem dictItem = sysDictItemService.getById(id);
         return Result.success(dictItem);
     }
 
@@ -73,7 +73,7 @@ public class SysDictItemController {
     @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
     @PostMapping
     public Result add(@RequestBody SysDictItem dictItem) {
-        boolean status = iSysDictItemService.save(dictItem);
+        boolean status = sysDictItemService.save(dictItem);
         return Result.judge(status);
     }
 
@@ -86,7 +86,7 @@ public class SysDictItemController {
     public Result update(
             @PathVariable Long id,
             @RequestBody SysDictItem dictItem) {
-        boolean status = iSysDictItemService.updateById(dictItem);
+        boolean status = sysDictItemService.updateById(dictItem);
         return Result.judge(status);
     }
 
@@ -94,7 +94,7 @@ public class SysDictItemController {
     @ApiImplicitParam(name = "ids", value = "主键ID集合，以,分割拼接字符串", required = true, paramType = "query", dataType = "String")
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
-        boolean status = iSysDictItemService.removeByIds(Arrays.asList(ids.split(",")));
+        boolean status = sysDictItemService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 
@@ -108,7 +108,7 @@ public class SysDictItemController {
     public Result patch(@PathVariable Integer id, @RequestBody SysDictItem dictItem) {
         LambdaUpdateWrapper<SysDictItem> updateWrapper = new LambdaUpdateWrapper<SysDictItem>().eq(SysDictItem::getId, id);
         updateWrapper.set(dictItem.getStatus() != null, SysDictItem::getStatus, dictItem.getStatus());
-        boolean status = iSysDictItemService.update(updateWrapper);
+        boolean status = sysDictItemService.update(updateWrapper);
         return Result.judge(status);
     }
 }

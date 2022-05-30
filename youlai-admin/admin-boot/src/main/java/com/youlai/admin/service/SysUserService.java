@@ -21,7 +21,7 @@ import java.util.List;
  * @author haoxr
  * @date 2022/1/14
  */
-public interface ISysUserService extends IService<SysUser> {
+public interface SysUserService extends IService<SysUser> {
 
     /**
      * 用户分页列表

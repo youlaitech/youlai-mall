@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysDict;
 import com.youlai.admin.pojo.entity.SysDictItem;
-import com.youlai.admin.service.ISysDictItemService;
-import com.youlai.admin.service.ISysDictService;
+import com.youlai.admin.service.SysDictItemService;
+import com.youlai.admin.service.SysDictService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysDictController {
 
-    private final ISysDictService iSysDictService;
-    private final ISysDictItemService iSysDictItemService;
+    private final SysDictService sysDictService;
+    private final SysDictItemService sysDictItemService;
 
     @ApiOperation(value = "列表分页")
     @ApiImplicitParams({
@@ -40,7 +40,7 @@ public class SysDictController {
     })
     @GetMapping("/page")
     public PageResult<SysDict> list(Long pageNum, Long pageSize, String name) {
-        Page<SysDict> result = iSysDictService.page(new Page<>(pageNum, pageSize), new LambdaQueryWrapper<SysDict>()
+        Page<SysDict> result = sysDictService.page(new Page<>(pageNum, pageSize), new LambdaQueryWrapper<SysDict>()
                 .like(StrUtil.isNotBlank(name), SysDict::getName, StrUtil.trimToNull(name))
                 .orderByDesc(SysDict::getGmtModified)
                 .orderByDesc(SysDict::getGmtCreate));
@@ -50,7 +50,7 @@ public class SysDictController {
     @ApiOperation(value = "字典列表")
     @GetMapping
     public Result list() {
-        List<SysDict> list = iSysDictService.list(new LambdaQueryWrapper<SysDict>()
+        List<SysDict> list = sysDictService.list(new LambdaQueryWrapper<SysDict>()
                 .orderByDesc(SysDict::getGmtModified)
                 .orderByDesc(SysDict::getGmtCreate));
         return Result.success(list);
@@ -61,7 +61,7 @@ public class SysDictController {
     @ApiImplicitParam(name = "id", value = "字典id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result detail(@PathVariable Integer id) {
-        SysDict dict = iSysDictService.getById(id);
+        SysDict dict = sysDictService.getById(id);
         return Result.success(dict);
     }
 
@@ -69,7 +69,7 @@ public class SysDictController {
     @ApiImplicitParam(name = "dictItem", value = "实体JSON对象", required = true, paramType = "body", dataType = "SysDictItem")
     @PostMapping
     public Result add(@RequestBody SysDict dict) {
-        boolean status = iSysDictService.save(dict);
+        boolean status = sysDictService.save(dict);
         return Result.judge(status);
     }
 
@@ -83,12 +83,12 @@ public class SysDictController {
             @PathVariable Long id,
             @RequestBody SysDict dict) {
 
-        boolean status = iSysDictService.updateById(dict);
+        boolean status = sysDictService.updateById(dict);
         if (status) {
-            SysDict dbDict = iSysDictService.getById(id);
+            SysDict dbDict = sysDictService.getById(id);
             // 字典code更新，同步更新字典项code
             if (!StrUtil.equals(dbDict.getCode(), dict.getCode())) {
-                iSysDictItemService.update(new LambdaUpdateWrapper<SysDictItem>().eq(SysDictItem::getDictCode, dbDict.getCode())
+                sysDictItemService.update(new LambdaUpdateWrapper<SysDictItem>().eq(SysDictItem::getDictCode, dbDict.getCode())
                         .set(SysDictItem::getDictCode, dict.getCode()));
             }
         }
@@ -100,12 +100,12 @@ public class SysDictController {
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable String ids) {
         List<String> idList = Arrays.asList(ids.split(","));
-        List<String> codeList = iSysDictService.listByIds(idList).stream().map(item -> item.getCode()).collect(Collectors.toList());
+        List<String> codeList = sysDictService.listByIds(idList).stream().map(item -> item.getCode()).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(codeList)) {
-            int count = iSysDictItemService.count(new LambdaQueryWrapper<SysDictItem>().in(SysDictItem::getDictCode, codeList));
+            int count = sysDictItemService.count(new LambdaQueryWrapper<SysDictItem>().in(SysDictItem::getDictCode, codeList));
             Assert.isTrue(count == 0, "删除字典失败，请先删除关联字典数据");
         }
-        boolean status = iSysDictService.removeByIds(idList);
+        boolean status = sysDictService.removeByIds(idList);
         return Result.judge(status);
     }
 
@@ -118,7 +118,7 @@ public class SysDictController {
     public Result patch(@PathVariable Long id, @RequestBody SysDict dict) {
         LambdaUpdateWrapper<SysDict> updateWrapper = new LambdaUpdateWrapper<SysDict>().eq(SysDict::getId, id);
         updateWrapper.set(dict.getStatus() != null, SysDict::getStatus, dict.getStatus());
-        boolean update = iSysDictService.update(updateWrapper);
+        boolean update = sysDictService.update(updateWrapper);
         return Result.success(update);
     }
 }

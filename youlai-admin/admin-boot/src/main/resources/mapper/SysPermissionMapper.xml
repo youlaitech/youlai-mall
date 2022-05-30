@@ -25,7 +25,7 @@
     </sql>
 
     <!-- 获取权限分页列表 -->
-    <select id="listPermissionsWithPage" resultType="com.youlai.admin.pojo.vo.permission.PermissionPageVO">
+    <select id="listPermsPage" resultType="com.youlai.admin.pojo.vo.permission.PermPageVO">
         SELECT
             t1.id,
             t1.menu_id,

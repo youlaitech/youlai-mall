@@ -14,8 +14,8 @@ import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserPageVO;
-import com.youlai.admin.service.ISysPermissionService;
-import com.youlai.admin.service.ISysUserService;
+import com.youlai.admin.service.SysPermissionService;
+import com.youlai.admin.service.SysUserService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.util.UserUtils;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 /**
  * 用户管理控制器
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/1/15 10:25
  */
 @Api(tags = "用户管理")
@@ -48,8 +48,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysUserController {
 
-    private final ISysUserService iSysUserService;
-    private final ISysPermissionService iSysPermissionService;
+    private final SysUserService sysUserService;
+    private final SysPermissionService sysPermissionService;
     private final PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "用户分页列表")
@@ -57,7 +57,7 @@ public class SysUserController {
     public PageResult<UserPageVO> listUsersPage(
             UserPageQuery queryParams
     ) {
-        IPage<UserPageVO> result = iSysUserService.listUsersPage(queryParams);
+        IPage<UserPageVO> result = sysUserService.listUsersPage(queryParams);
         return PageResult.success(result);
     }
 
@@ -66,14 +66,14 @@ public class SysUserController {
     public Result<UserDetailVO> getUserDetail(
             @ApiParam(value = "用户ID") @PathVariable Long userId
     ) {
-        UserDetailVO userDetail = iSysUserService.getUserDetail(userId);
+        UserDetailVO userDetail = sysUserService.getUserDetail(userId);
         return Result.success(userDetail);
     }
 
     @ApiOperation(value = "新增用户")
     @PostMapping
     public Result addUser(@RequestBody UserForm userForm) {
-        boolean result = iSysUserService.saveUser(userForm);
+        boolean result = sysUserService.saveUser(userForm);
         return Result.judge(result);
     }
 
@@ -83,7 +83,7 @@ public class SysUserController {
             @ApiParam("用户ID") @PathVariable Long userId,
             @RequestBody UserForm userForm
     ) {
-        boolean result = iSysUserService.updateUser(userId, userForm);
+        boolean result = sysUserService.updateUser(userId, userForm);
         return Result.judge(result);
     }
 
@@ -92,7 +92,7 @@ public class SysUserController {
     public Result deleteUsers(
             @ApiParam("用户ID，多个以英文逗号(,)分割") @PathVariable String ids
     ) {
-        boolean status = iSysUserService.removeByIds(Arrays.asList(ids.split(",")).stream().collect(Collectors.toList()));
+        boolean status = sysUserService.removeByIds(Arrays.asList(ids.split(",")).stream().collect(Collectors.toList()));
         return Result.judge(status);
     }
 
@@ -108,7 +108,7 @@ public class SysUserController {
         updateWrapper.set(user.getPassword() != null, SysUser::getPassword,
                 user.getPassword() != null ? passwordEncoder.encode(user.getPassword())
                         : null);
-        boolean status = iSysUserService.update(updateWrapper);
+        boolean status = sysUserService.update(updateWrapper);
         return Result.judge(status);
     }
 
@@ -116,7 +116,7 @@ public class SysUserController {
     @GetMapping("/username/{username}")
     public Result<AuthUserDTO> getAuthInfoByUsername(
             @ApiParam("用户名") @PathVariable String username) {
-        AuthUserDTO user = iSysUserService.getAuthInfoByUsername(username);
+        AuthUserDTO user = sysUserService.getAuthInfoByUsername(username);
         return Result.success(user);
     }
 
@@ -126,13 +126,13 @@ public class SysUserController {
         LoginUserVO loginUserVO = new LoginUserVO();
         // 用户基本信息
         Long userId = UserUtils.getUserId();
-        SysUser user = iSysUserService.getById(userId);
+        SysUser user = sysUserService.getById(userId);
         BeanUtil.copyProperties(user, loginUserVO);
         // 用户角色信息
         List<String> roles = UserUtils.getRoles();
         loginUserVO.setRoles(roles);
         // 用户按钮权限信息
-        List<String> perms = iSysPermissionService.listBtnPermByRoles(roles);
+        List<String> perms = sysPermissionService.listBtnPermByRoles(roles);
         loginUserVO.setPerms(perms);
         return Result.success(loginUserVO);
     }
@@ -156,7 +156,7 @@ public class SysUserController {
     @ApiOperation("导入用户")
     @PostMapping("/_import")
     public Result importUsers(UserImportForm userImportForm) throws IOException {
-        String msg = iSysUserService.importUsers(userImportForm);
+        String msg = sysUserService.importUsers(userImportForm);
         return Result.success(msg);
     }
 
@@ -167,7 +167,7 @@ public class SysUserController {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
-        List<UserExportVO> exportUserList = iSysUserService.listExportUsers(queryParams);
+        List<UserExportVO> exportUserList = sysUserService.listExportUsers(queryParams);
 
         EasyExcel.write(response.getOutputStream(), UserExportVO.class)
                 .sheet("用户列表")

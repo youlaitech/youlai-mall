@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 角色权限接口
  */
-public interface ISysRolePermissionService extends IService<SysRolePermission> {
+public interface SysRolePermissionService extends IService<SysRolePermission> {
 
 
     /**

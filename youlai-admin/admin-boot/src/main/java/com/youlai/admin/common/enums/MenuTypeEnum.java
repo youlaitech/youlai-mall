@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * 菜单类型枚举
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/4/23 9:36
  */
 

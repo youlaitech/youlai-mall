@@ -7,7 +7,7 @@ import com.youlai.admin.pojo.entity.SysDict;
 /**
  * 字典业务接口
  */
-public interface ISysDictService extends IService<SysDict> {
+public interface SysDictService extends IService<SysDict> {
 
     /**
      * 修改字典
