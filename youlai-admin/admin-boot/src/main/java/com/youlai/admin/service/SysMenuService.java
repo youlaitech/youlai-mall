@@ -49,7 +49,7 @@ public interface SysMenuService extends IService<SysMenu> {
      *
      * @return
      */
-    List<RouteVO> listNextRoutes();
+    List<RouteVO> listRoutes();
 
     /**
      * 

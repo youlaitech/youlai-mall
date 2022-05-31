@@ -9,6 +9,7 @@ import com.youlai.admin.common.constant.SystemConstants;
 import com.youlai.admin.common.enums.MenuTypeEnum;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.entity.SysMenu;
+import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.vo.menu.TableMenuVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
 import com.youlai.admin.service.SysMenuService;
@@ -38,9 +39,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     /**
      * 菜单表格树形列表
-     *
-     * @param name 菜单名称
-     * @return
      */
     @Override
     public List<TableMenuVO> listTableMenus(String name) {
@@ -61,17 +59,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             return new LinkedList<TableMenuVO>();
         }).collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
         return tableMenus;
-    }
-
-
-    /**
-     * 菜单下拉列表
-     */
-    @Override
-    public List<OptionVO> listMenus() {
-        List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
-        List<OptionVO> menus = recursionMenus(SystemConstants.ROOT_MENU_ID, menuList);
-        return menus;
     }
 
 
@@ -100,17 +87,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return result;
     }
 
+    /**
+     * 菜单下拉数据
+     */
+    @Override
+    public List<OptionVO> listMenus() {
+        List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
+        List<OptionVO> menus = recursionMenus(SystemConstants.ROOT_MENU_ID, menuList);
+        return menus;
+    }
 
     /**
-     * 获取路由列表(适配Vue3的vue-next-router)
-     *
-     * @return
+     * 路由列表
      */
     @Override
     @Cacheable(cacheNames = "system", key = "'routes'")
-    public List<RouteVO> listNextRoutes() {
+    public List<RouteVO> listRoutes() {
         List<SysMenu> menuList = this.baseMapper.listRoutes();
-        List<RouteVO> list = recursionNextRoute(SystemConstants.ROOT_MENU_ID, menuList);
+        List<RouteVO> list = recurRoutes(SystemConstants.ROOT_MENU_ID, menuList);
         return list;
     }
 
@@ -121,7 +115,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList 菜单列表
      * @return
      */
-    private List<RouteVO> recursionNextRoute(Long parentId, List<SysMenu> menuList) {
+    private List<RouteVO> recurRoutes(Long parentId, List<SysMenu> menuList) {
         List<RouteVO> list = new ArrayList<>();
         Optional.ofNullable(menuList).ifPresent(menus -> menus.stream().filter(menu -> menu.getParentId().equals(parentId))
                 .forEach(menu -> {
@@ -130,9 +124,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     MenuTypeEnum menuTypeEnum = menu.getType();
 
                     if (MenuTypeEnum.MENU.equals(menuTypeEnum)) {
-                        routeVO.setName(menu.getPath()); //  根据name路由跳转 this.$router.push({path:xxx})
+                        routeVO.setName(menu.getPath()); //  根据name路由跳转 this.$router.push({name:xxx})
                     }
-                    routeVO.setPath(menu.getPath()); // 根据path路由跳转 this.$router.push({name:xxx})
+                    routeVO.setPath(menu.getPath()); // 根据path路由跳转 this.$router.push({path:xxx})
                     routeVO.setRedirect(menu.getRedirect());
                     routeVO.setComponent(menu.getComponent());
                     routeVO.setRedirect(menu.getRedirect());
@@ -145,8 +139,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     meta.setKeepAlive(true);
 
                     routeVO.setMeta(meta);
-                    List<RouteVO> children = recursionNextRoute(menu.getId(), menuList);
+                    List<RouteVO> children = recurRoutes(menu.getId(), menuList);
                     routeVO.setChildren(children);
+
                     list.add(routeVO);
                 }));
         return list;
@@ -161,8 +156,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public List<OptionVO> listMenuPerms(String name) {
-        List<OptionVO> menus = this.listMenus();
-        return null;
+        List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
+        List<SysPermission> permList = permissionService.list();
+        List<OptionVO> menus = recursionMenuPerms(SystemConstants.ROOT_MENU_ID, menuList, permList);
+        return menus;
     }
 
     /**
@@ -201,6 +198,30 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return menus;
     }
 
+    /**
+     * 递归生成菜单下拉层级列表
+     *
+     * @param parentId 父级ID
+     * @param menuList 菜单列表
+     * @return
+     */
+    private static List<OptionVO> recursionMenuPerms(Long parentId, List<SysMenu> menuList, List<SysPermission> permList) {
+        List<OptionVO> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
+                .filter(menu -> menu.getParentId().equals(parentId))
+                .map(menu -> {
+
+                    OptionVO option = new OptionVO("m_" + menu.getId(), menu.getName());
+                    List<OptionVO> children = recursionMenuPerms(menu.getId(), menuList, permList);
+                    List<OptionVO> permChildren = permList.stream().filter(perm -> perm.getMenuId().equals(menu.getId()))
+                            .map(perm -> new OptionVO("p_" + perm.getId(), perm.getName()))
+                            .collect(Collectors.toList());
+                    children.addAll(permChildren);
+                    option.setChildren(children);
+                    return option;
+                }).collect(Collectors.toList());
+        return menus;
+    }
+
 
     /**
      * 清理路由缓存
@@ -209,6 +230,5 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @CacheEvict(cacheNames = "system", key = "'routes'")
     public void cleanCache() {
     }
-
 
 }

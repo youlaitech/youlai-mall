@@ -21,7 +21,7 @@ import java.util.List;
  * 菜单路由控制器
  *
  * @author haoxr
- * @date 2020-11-06
+ * @date 2020/11/06
  */
 @Api(tags = "菜单接口")
 @RestController
@@ -33,8 +33,8 @@ public class SysMenuController {
     private final SysMenuService menuService;
     private final SysPermissionService permissionService;
 
-    @ApiOperation(value = "菜单表格(Table)列表")
-    @GetMapping("/list")
+    @ApiOperation(value = "菜单权限列表")
+    @GetMapping("/authorization-list")
     public Result list(
             @ApiParam(value = "菜单名称", type = "query") String name
     ) {
@@ -42,7 +42,7 @@ public class SysMenuController {
         return Result.success(menuList);
     }
 
-    @ApiOperation(value = "菜单表格(Table)列表")
+    @ApiOperation(value = "菜单表格树形列表")
     @GetMapping("/table")
     public Result listTableMenus(
             @ApiParam(value = "菜单名称", type = "query") String name
@@ -51,17 +51,17 @@ public class SysMenuController {
         return Result.success(menuList);
     }
 
-    @ApiOperation(value = "菜单下拉(Select)列表")
+    @ApiOperation(value = "菜单下拉树列表")
     @GetMapping("/select")
     public Result listSelectMenus() {
         List<OptionVO> menus = menuService.listMenus();
         return Result.success(menus);
     }
 
-    @ApiOperation(value = "菜单路由(Route)列表")
+    @ApiOperation(value = "菜单路由列表")
     @GetMapping("/route")
     public Result getRouteList() {
-        List<RouteVO> routeList = menuService.listNextRoutes();
+        List<RouteVO> routeList = menuService.listRoutes();
         return Result.success(routeList);
     }
 
