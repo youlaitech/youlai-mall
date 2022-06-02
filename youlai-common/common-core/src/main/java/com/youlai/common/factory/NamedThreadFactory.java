@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 自定义 ThreadFactory 实现线程重命名
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/13 0:14
  */
 public class NamedThreadFactory implements ThreadFactory {

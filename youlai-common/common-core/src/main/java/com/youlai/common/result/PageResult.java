@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 分页响应结构体
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/18 23:29
  */
 @Data

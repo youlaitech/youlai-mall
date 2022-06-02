@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Canal 消息监听
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021/11/4 23:59
  */
 @NoArgsConstructor

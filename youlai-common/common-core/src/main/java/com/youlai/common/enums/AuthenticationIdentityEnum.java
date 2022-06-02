@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 认证身份标识枚举
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021/10/4
  */
 public enum AuthenticationIdentityEnum implements IBaseEnum<String> {
