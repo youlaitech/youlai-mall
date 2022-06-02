@@ -1,6 +1,7 @@
 package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -137,10 +138,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     meta.setRoles(menu.getRoles());
                     meta.setHidden(!GlobalConstants.STATUS_YES.equals(menu.getVisible()));
                     meta.setKeepAlive(true);
-                    meta.setAlwaysShow(true);
+
 
                     routeVO.setMeta(meta);
                     List<RouteVO> children = recurRoutes(menu.getId(), menuList);
+                    // 含有子节点的目录设置为可见
+                    boolean alwaysShow = CollectionUtil.isNotEmpty(children) && children.stream().anyMatch(item -> item.getMeta().getHidden().equals(false));
+                    meta.setAlwaysShow(alwaysShow);
                     routeVO.setChildren(children);
 
                     list.add(routeVO);
