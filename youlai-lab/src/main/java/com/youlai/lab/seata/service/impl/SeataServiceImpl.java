@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 /**
  * Seata实验室业务类接口
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/4/16 20:49
  */
 @Service

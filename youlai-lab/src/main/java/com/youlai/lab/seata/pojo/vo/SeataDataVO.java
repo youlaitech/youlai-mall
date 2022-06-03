@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * Seata模拟数据视图对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/4/17 16:51
  */
 @ApiModel("Seata模拟数据视图对象")

@@ -4,7 +4,7 @@ import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/12 16:12
  */
 @Data
