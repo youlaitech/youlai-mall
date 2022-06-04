@@ -14,7 +14,7 @@ import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.service.SysDeptService;
 import com.youlai.admin.service.SysUserService;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
@@ -114,12 +114,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @return
      */
     @Override
-    public List<OptionVO> listTreeSelectDepartments() {
+    public List<Option> listTreeSelectDepartments() {
         List<SysDept> deptList = this.list(new LambdaQueryWrapper<SysDept>()
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)
         );
-        List<OptionVO> deptSelectList = recursionTreeSelectList(SystemConstants.ROOT_DEPT_ID, deptList);
+        List<Option> deptSelectList = recursionTreeSelectList(SystemConstants.ROOT_DEPT_ID, deptList);
         return deptSelectList;
     }
 
@@ -131,18 +131,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @param deptList
      * @return
      */
-    public static List<OptionVO> recursionTreeSelectList(long parentId, List<SysDept> deptList) {
-        List<OptionVO> deptTreeSelectList = new ArrayList<>();
+    public static List<Option> recursionTreeSelectList(long parentId, List<SysDept> deptList) {
+        List<Option> deptTreeSelectList = new ArrayList<>();
         Optional.ofNullable(deptList).orElse(new ArrayList<>())
                 .stream()
                 .filter(dept -> dept.getParentId().equals(parentId))
                 .forEach(dept -> {
-                    OptionVO optionVO = new OptionVO(dept.getId(), dept.getName());
-                    List<OptionVO> children = recursionTreeSelectList(dept.getId(), deptList);
+                    Option Option = new Option(dept.getId(), dept.getName());
+                    List<Option> children = recursionTreeSelectList(dept.getId(), deptList);
                     if (CollectionUtil.isNotEmpty(children)) {
-                        optionVO.setChildren(children);
+                        Option.setChildren(children);
                     }
-                    deptTreeSelectList.add(optionVO);
+                    deptTreeSelectList.add(Option);
                 });
         return deptTreeSelectList;
     }

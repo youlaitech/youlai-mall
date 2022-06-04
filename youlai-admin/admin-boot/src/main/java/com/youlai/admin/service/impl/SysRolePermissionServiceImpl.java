@@ -79,5 +79,17 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
         return updateFlag;
     }
 
+    /**
+     * 获取角色拥有的权限ID集合
+     *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<Long> listPermIdsByRoleId(Long roleId) {
+        List<Long> permIds = this.baseMapper.listPermIdsByRoleId(roleId);
+        return permIds;
+    }
+
 
 }

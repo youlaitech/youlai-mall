@@ -4,7 +4,7 @@ import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.service.SysDeptService;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +42,7 @@ public class SysDeptController {
     @ApiOperation(value = "部门树形下拉(TreeSelect)列表")
     @GetMapping("/select")
     public Result listTreeSelectDepartments() {
-        List<OptionVO> list = deptService.listTreeSelectDepartments();
+        List<Option> list = deptService.listTreeSelectDepartments();
         return Result.success(list);
     }
 

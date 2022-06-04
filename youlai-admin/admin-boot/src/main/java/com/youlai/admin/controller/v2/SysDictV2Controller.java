@@ -10,7 +10,7 @@ import com.youlai.admin.service.SysDictItemService;
 import com.youlai.admin.service.SysDictService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -97,7 +97,7 @@ public class SysDictV2Controller {
 
     @ApiOperation(value = "根据字典编码获取字典项列表")
     @GetMapping("/items")
-    public Result<List<OptionVO>> list(String dictCode) {
+    public Result<List<Option>> list(String dictCode) {
         List<SysDictItem> dictItems = sysDictItemService.list(
                 new LambdaQueryWrapper<SysDictItem>()
                         .eq(StrUtil.isNotBlank(dictCode), SysDictItem::getDictCode, dictCode)
@@ -106,9 +106,9 @@ public class SysDictV2Controller {
         );
 
 
-        List<OptionVO> list = Optional.ofNullable(dictItems)
+        List<Option> list = Optional.ofNullable(dictItems)
                 .orElse(Collections.emptyList()).stream() // 返回空集合非null
-                .map(item -> new OptionVO(item.getValue(), item.getName()))
+                .map(item -> new Option(item.getValue(), item.getName()))
                 .collect(Collectors.toList());
 
         return Result.success(list);

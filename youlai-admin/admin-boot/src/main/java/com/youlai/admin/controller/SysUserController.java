@@ -18,7 +18,7 @@ import com.youlai.admin.service.SysPermissionService;
 import com.youlai.admin.service.SysUserService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.UserUtils;
+import com.youlai.common.web.utils.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -54,9 +54,7 @@ public class SysUserController {
 
     @ApiOperation(value = "用户分页列表")
     @GetMapping("/page")
-    public PageResult<UserPageVO> listUsersPage(
-            UserPageQuery queryParams
-    ) {
+    public PageResult<UserPageVO> listUsersPage(UserPageQuery queryParams) {
         IPage<UserPageVO> result = sysUserService.listUsersPage(queryParams);
         return PageResult.success(result);
     }
@@ -112,7 +110,7 @@ public class SysUserController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "根据用户名获取认证信息",notes = "提供用于用户登录认证信息")
+    @ApiOperation(value = "根据用户名获取认证信息", notes = "提供用于用户登录认证信息")
     @GetMapping("/username/{username}")
     public Result<AuthUserDTO> getAuthInfoByUsername(
             @ApiParam("用户名") @PathVariable String username) {

@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
 import com.youlai.mall.pms.service.IPmsCategoryService;
@@ -68,26 +68,26 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
      * @return
      */
     @Override
-    public List<OptionVO> listCascadeCategories() {
+    public List<Option> listCascadeCategories() {
         List<PmsCategory> categoryList = this.list(
                 new LambdaQueryWrapper<PmsCategory>()
                         .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)
                         .orderByAsc(PmsCategory::getSort)
         );
-        List<OptionVO> list = recursionCascade(0l, categoryList);
+        List<Option> list = recursionCascade(0l, categoryList);
         return list;
     }
 
-    private List<OptionVO> recursionCascade(Long parentId, List<PmsCategory> categoryList) {
-        List<OptionVO> list = new ArrayList<>();
+    private List<Option> recursionCascade(Long parentId, List<PmsCategory> categoryList) {
+        List<Option> list = new ArrayList<>();
         Optional.ofNullable(categoryList)
                 .ifPresent(categories ->
                         categories.stream().filter(category ->
                                 category.getParentId().equals(parentId))
                                 .forEach(category -> {
-                                    OptionVO categoryVO = new OptionVO<>(category.getId(), category.getName());
+                                    Option categoryVO = new Option<>(category.getId(), category.getName());
                                     BeanUtil.copyProperties(category, categoryVO);
-                                    List<OptionVO> children = recursionCascade(category.getId(), categoryList);
+                                    List<Option> children = recursionCascade(category.getId(), categoryList);
                                     categoryVO.setChildren(children);
                                     list.add(categoryVO);
                                 })

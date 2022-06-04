@@ -8,7 +8,14 @@ import java.util.List;
 
 public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
-    List<Long> listMenuIds(Long roleId);
+
+    /**
+     * 获取角色拥有的菜单ID集合
+     *
+     * @param roleId
+     * @return
+     */
+    List<Long> listMenuIdsByRoleId(Long roleId);
 
     /**
      * 修改角色菜单

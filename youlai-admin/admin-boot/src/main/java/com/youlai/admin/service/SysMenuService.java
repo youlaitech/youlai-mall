@@ -3,9 +3,10 @@ package com.youlai.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysMenu;
+import com.youlai.admin.pojo.vo.menu.MenuOptionVO;
 import com.youlai.admin.pojo.vo.menu.TableMenuVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public interface SysMenuService extends IService<SysMenu> {
      *
      * @return
      */
-    List<OptionVO> listMenus();
+    List<Option> listMenus();
 
     /**
      * 新增菜单
@@ -52,9 +53,9 @@ public interface SysMenuService extends IService<SysMenu> {
     List<RouteVO> listRoutes();
 
     /**
+     * 获取资源树形裂开表
      * 
-     * @param name
      * @return
      */
-    List<OptionVO> listMenuPerms(String name);
+    List<MenuOptionVO> listResources();
 }

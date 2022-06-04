@@ -9,9 +9,16 @@
         SELECT t1.permission_id
         FROM sys_role_permission t1
                  INNER JOIN sys_permission t2 ON t1.permission_id = t2.id
-        WHERE
-              t1.role_id = #{roleId}
-              AND t2.menu_id = #{menuId}
+        WHERE t1.role_id = #{roleId}
+          AND t2.menu_id = #{menuId}
 
+    </select>
+
+    <!-- 获取角色拥有的权限ID集合 -->
+    <select id="listPermIdsByRoleId" resultType="java.lang.Long">
+        SELECT rp.permission_id
+        FROM sys_role_permission rp
+                 INNER JOIN sys_permission p ON rp.permission_id = p.id
+        WHERE rp.role_id = #{roleId}
     </select>
 </mapper>

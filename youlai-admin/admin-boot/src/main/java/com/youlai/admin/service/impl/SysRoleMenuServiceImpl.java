@@ -16,9 +16,16 @@ import java.util.stream.Collectors;
 @Service
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements SysRoleMenuService {
 
+    /**
+     * 获取角色拥有的菜单ID集合
+     *
+     * @param roleId
+     * @return
+     */
     @Override
-    public List<Long> listMenuIds(Long roleId) {
-        return this.baseMapper.listMenuIds(roleId);
+    public List<Long> listMenuIdsByRoleId(Long roleId) {
+        List<Long> menuIds = this.baseMapper.listMenuIdsByRoleId(roleId);
+        return menuIds;
     }
 
     @Override

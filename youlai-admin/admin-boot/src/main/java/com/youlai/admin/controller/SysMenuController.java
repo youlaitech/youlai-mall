@@ -2,12 +2,13 @@ package com.youlai.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.admin.pojo.entity.SysMenu;
+import com.youlai.admin.pojo.vo.menu.MenuOptionVO;
 import com.youlai.admin.pojo.vo.menu.TableMenuVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
 import com.youlai.admin.service.SysMenuService;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 菜单路由控制器
+ * 菜单控制器
  *
  * @author haoxr
  * @date 2020/11/06
@@ -33,13 +34,11 @@ public class SysMenuController {
     private final SysMenuService menuService;
     private final SysPermissionService permissionService;
 
-    @ApiOperation(value = "菜单权限列表")
-    @GetMapping("/authorization-list")
-    public Result list(
-            @ApiParam(value = "菜单名称", type = "query") String name
-    ) {
-        List<OptionVO> menuList = menuService.listMenuPerms(name);
-        return Result.success(menuList);
+    @ApiOperation(value = "资源树形列表")
+    @GetMapping("/resource_list")
+    public Result<List<MenuOptionVO>> listResources( ) {
+        List<MenuOptionVO> resources = menuService.listResources();
+        return Result.success(resources);
     }
 
     @ApiOperation(value = "菜单表格树形列表")
@@ -54,7 +53,7 @@ public class SysMenuController {
     @ApiOperation(value = "菜单下拉树列表")
     @GetMapping("/select")
     public Result listSelectMenus() {
-        List<OptionVO> menus = menuService.listMenus();
+        List<Option> menus = menuService.listMenus();
         return Result.success(menus);
     }
 

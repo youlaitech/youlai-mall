@@ -3,7 +3,7 @@ package com.youlai.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysDept;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public interface SysDeptService extends IService<SysDept> {
      *
      * @return
      */
-    List<OptionVO> listTreeSelectDepartments();
+    List<Option> listTreeSelectDepartments();
 
     /**
      * 新增/修改部门

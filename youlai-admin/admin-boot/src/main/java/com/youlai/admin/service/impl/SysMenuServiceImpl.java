@@ -11,12 +11,13 @@ import com.youlai.admin.common.enums.MenuTypeEnum;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.entity.SysPermission;
+import com.youlai.admin.pojo.vo.menu.MenuOptionVO;
 import com.youlai.admin.pojo.vo.menu.TableMenuVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
 import com.youlai.admin.service.SysMenuService;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -92,9 +93,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 菜单下拉数据
      */
     @Override
-    public List<OptionVO> listMenus() {
+    public List<Option> listMenus() {
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
-        List<OptionVO> menus = recursionMenus(SystemConstants.ROOT_MENU_ID, menuList);
+        List<Option> menus = recursionMenus(SystemConstants.ROOT_MENU_ID, menuList);
         return menus;
     }
 
@@ -154,16 +155,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
 
     /**
-     * 获取菜单权限树形列表
+     * 获取菜单资源树形列表
      *
-     * @param name
      * @return
      */
     @Override
-    public List<OptionVO> listMenuPerms(String name) {
+    public List<MenuOptionVO> listResources() {
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
         List<SysPermission> permList = permissionService.list();
-        List<OptionVO> menus = recursionMenuPerms(SystemConstants.ROOT_MENU_ID, menuList, permList);
+        List<MenuOptionVO> menus = recurResources(SystemConstants.ROOT_MENU_ID, menuList, permList);
         return menus;
     }
 
@@ -195,10 +195,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList 菜单列表
      * @return
      */
-    private static List<OptionVO> recursionMenus(Long parentId, List<SysMenu> menuList) {
-        List<OptionVO> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
+    private static List<Option> recursionMenus(Long parentId, List<SysMenu> menuList) {
+        List<Option> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
-                .map(menu -> new OptionVO(menu.getId(), menu.getName(), recursionMenus(menu.getId(), menuList)))
+                .map(menu -> new Option(menu.getId(), menu.getName(), recursionMenus(menu.getId(), menuList)))
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
         return menus;
     }
@@ -210,19 +210,32 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList 菜单列表
      * @return
      */
-    private static List<OptionVO> recursionMenuPerms(Long parentId, List<SysMenu> menuList, List<SysPermission> permList) {
-        List<OptionVO> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
+    private static List<MenuOptionVO> recurResources(Long parentId, List<SysMenu> menuList, List<SysPermission> permList) {
+        List<MenuOptionVO> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .map(menu -> {
+                    MenuOptionVO menuOptionVO = new MenuOptionVO();
+                    menuOptionVO.setValue("m_" + menu.getId());
+                    menuOptionVO.setLabel(menu.getName());
+                    List<MenuOptionVO> children = recurResources(menu.getId(), menuList, permList);
 
-                    OptionVO option = new OptionVO("m_" + menu.getId(), menu.getName());
-                    List<OptionVO> children = recursionMenuPerms(menu.getId(), menuList, permList);
-                    List<OptionVO> permChildren = permList.stream().filter(perm -> perm.getMenuId().equals(menu.getId()))
-                            .map(perm -> new OptionVO("p_" + perm.getId(), perm.getName()))
+
+                    List<MenuOptionVO> perms = permList.stream().filter(perm -> perm.getMenuId().equals(menu.getId()))
+                            .map(perm -> new MenuOptionVO("p_" + perm.getId(), perm.getName()))
                             .collect(Collectors.toList());
-                    children.addAll(permChildren);
-                    option.setChildren(children);
-                    return option;
+
+                    // 如果该菜单下有权限，添加权限数据
+                    if(CollectionUtil.isNotEmpty(perms)){
+                        MenuOptionVO permOptionVO = new MenuOptionVO();
+                        permOptionVO.setIsPerm(true);
+                        permOptionVO.setDisabled(true);
+                        permOptionVO.setPerms(perms);
+                        children.add(permOptionVO);
+                    }
+                    menuOptionVO.setChildren(children);
+
+
+                    return menuOptionVO;
                 }).collect(Collectors.toList());
         return menus;
     }

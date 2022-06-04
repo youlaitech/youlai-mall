@@ -7,6 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 角色<->菜单持久层
+ *
+ * @author haoxr
+ * @date 2022/6/4
+ */
 @Mapper
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
@@ -16,11 +22,11 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
     List<Integer> listByMenuId(Integer menuId);
 
 
-    @Select(" SELECT " +
-            " 	t1.menu_id  " +
-            " FROM " +
-            " 	sys_role_menu t1 " +
-            " 	INNER JOIN sys_menu t2 ON t1.menu_id = t2.id  " +
-            " WHERE role_id =#{roleId}")
-    List<Long> listMenuIds(Long roleId);
+    /**
+     * 获取角色拥有的菜单ID集合
+     *
+     * @param roleId
+     * @return
+     */
+    List<Long> listMenuIdsByRoleId(Long roleId);
 }
