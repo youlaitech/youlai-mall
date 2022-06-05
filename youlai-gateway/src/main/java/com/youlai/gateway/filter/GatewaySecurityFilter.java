@@ -29,7 +29,7 @@ import java.net.URLEncoder;
  * <p>
  * 在ResourceServerManager#check鉴权善后一些无关紧要的事宜(线上请求拦截、黑名单拦截)
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/15
  */
 @Component

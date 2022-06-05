@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 /**
  * 网关请求响应日志打印
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/4/28 17:04
  */
 @ConditionalOnProperty(
