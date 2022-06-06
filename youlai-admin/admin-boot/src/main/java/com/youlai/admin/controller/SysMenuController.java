@@ -2,7 +2,7 @@ package com.youlai.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.vo.menu.MenuOptionVO;
+import com.youlai.admin.pojo.vo.menu.ResourceVO;
 import com.youlai.admin.pojo.vo.menu.TableMenuVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
 import com.youlai.admin.service.SysMenuService;
@@ -35,10 +35,10 @@ public class SysMenuController {
     private final SysPermissionService permissionService;
 
     @ApiOperation(value = "资源树形列表")
-    @GetMapping("/resource_list")
-    public Result<List<MenuOptionVO>> listResources( ) {
-        List<MenuOptionVO> resources = menuService.listResources();
-        return Result.success(resources);
+    @GetMapping("/resource")
+    public Result<ResourceVO> getResource( ) {
+        ResourceVO resource = menuService.getResource();
+        return Result.success(resource);
     }
 
     @ApiOperation(value = "菜单表格树形列表")

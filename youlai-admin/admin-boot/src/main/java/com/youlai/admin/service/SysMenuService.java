@@ -1,9 +1,8 @@
 package com.youlai.admin.service;
 
-
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysMenu;
-import com.youlai.admin.pojo.vo.menu.MenuOptionVO;
+import com.youlai.admin.pojo.vo.menu.ResourceVO;
 import com.youlai.admin.pojo.vo.menu.TableMenuVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
 import com.youlai.common.web.domain.Option;
@@ -17,7 +16,7 @@ import java.util.List;
 public interface SysMenuService extends IService<SysMenu> {
 
     /**
-     * 菜单表格(Table)层级列表
+     * 获取菜单表格列表
      *
      * @param name 菜单名称
      * @return
@@ -26,7 +25,7 @@ public interface SysMenuService extends IService<SysMenu> {
 
 
     /**
-     * 菜单下拉(Select)层级列表
+     * 获取菜单下拉列表
      *
      * @return
      */
@@ -46,16 +45,16 @@ public interface SysMenuService extends IService<SysMenu> {
     void cleanCache();
 
     /**
-     * 获取路由列表(适配Vue3的vue-next-router)
+     * 获取路由列表
      *
      * @return
      */
     List<RouteVO> listRoutes();
 
     /**
-     * 获取资源树形裂开表
-     * 
+     * 获取资源
+     *
      * @return
      */
-    List<MenuOptionVO> listResources();
+    ResourceVO getResource();
 }
