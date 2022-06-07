@@ -223,23 +223,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<ResourceVO.MenuOption> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .map(menu -> {
+                    Long menuId= menu.getId();
+
                     ResourceVO.MenuOption menuOption = new ResourceVO.MenuOption();
                     menuOption.setValue( menu.getId());
                     menuOption.setLabel(menu.getName());
                     List< ResourceVO.MenuOption> children = recurResources(menu.getId(), menuList, permList);
 
-
-                    long count = permList.stream().filter(perm -> perm.getMenuId().equals(menu.getId())).count();
+                    long count = permList.stream().filter(perm -> perm.getMenuId().equals(menuId)).count();
 
                     // 如果该菜单下有权限，添加一个节点存放权限数据
                     if(count>0){
                         ResourceVO.MenuOption permOption = new ResourceVO.MenuOption();
                         permOption.setIsPerm(true);
-                        permOption.setValue(-1l); // 一个特殊节点存放权限数据，value无实际意义但是不能为空
+                        permOption.setValue(-1l);
+                        permOption.setPermPid(menuId);
                         children.add(permOption);
                     }
                     menuOption.setChildren(children);
-
 
                     return menuOption;
                 }).collect(Collectors.toList());

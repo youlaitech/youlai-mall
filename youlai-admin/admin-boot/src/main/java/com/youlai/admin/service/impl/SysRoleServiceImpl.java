@@ -1,5 +1,6 @@
 package com.youlai.admin.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,21 +14,24 @@ import com.youlai.admin.pojo.entity.SysRoleMenu;
 import com.youlai.admin.pojo.entity.SysRolePermission;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.form.RoleForm;
+import com.youlai.admin.pojo.form.RoleResourceForm;
 import com.youlai.admin.pojo.query.RolePageQuery;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
+import com.youlai.admin.pojo.vo.role.RoleResourceIds;
 import com.youlai.admin.service.*;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.domain.Option;
 import com.youlai.common.web.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 角色业务实现类
@@ -43,7 +47,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private final SysUserRoleService sysUserRoleService;
     private final SysRolePermissionService sysRolePermissionService;
     private final SysPermissionService sysPermissionService;
-
     private final SysRoleConvert sysRoleConvert;
 
     /**
@@ -59,13 +62,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 new LambdaQueryWrapper<SysRole>()
                         .eq(StrUtil.isNotBlank(queryParams.getName()), SysRole::getName, queryParams.getName())
-                        .ne(!UserUtils.isRoot(), SysRole::getCode,GlobalConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
+                        .ne(!UserUtils.isRoot(), SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
                         .select(SysRole::getId, SysRole::getName, SysRole::getCode)
         );
         // 实体转换
         return sysRoleConvert.role2Page(rolePage);
     }
-
 
     /**
      * 角色下拉列表
@@ -161,27 +163,55 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     /**
-     * 获取角色的资源ID集合,资源包括菜单(m_id)和权限(p_id)
+     * 获取角色的资源ID集合,资源包括菜单和权限
      *
      * @param roleId
      * @return
      */
     @Override
-    public List<String> listRoleResourceIds(Long roleId) {
-
-        String menuPrefix = "m_", permPrefix = "p_"; // 菜单和权限都属于资源，合并使用不同前缀进行区分
+    public RoleResourceIds getRoleResourceIds(Long roleId) {
+        RoleResourceIds roleResourceIds = new RoleResourceIds();
 
         // 获取角色拥有的菜单ID集合
         List<Long> menuIds = sysRoleMenuService.listMenuIdsByRoleId(roleId);
-        List<String> convertedMenuIds = Optional.ofNullable(menuIds).orElse(new ArrayList<>()).stream().map(menuId -> menuPrefix + menuId).collect(Collectors.toList());
+        roleResourceIds.setMenuIds(menuIds);
 
         // 获取角色拥有的权限ID集合
         List<Long> permIds = sysRolePermissionService.listPermIdsByRoleId(roleId);
-        List<String> convertedPermIds = Optional.ofNullable(permIds).orElse(new ArrayList<>()).stream().map(permId -> permPrefix + permId).collect(Collectors.toList());
+        roleResourceIds.setPermIds(permIds);
 
-        // 资源ID(菜单+权限)合并
-        convertedMenuIds.addAll(convertedPermIds);
-        return convertedMenuIds;
+        return roleResourceIds;
+    }
+
+    /**
+     * 修改角色的资源权限
+     *
+     * @param roleId
+     * @param roleResourceForm
+     * @return
+     */
+    @Override
+    @Transactional
+    @CacheEvict(cacheNames = "system", key = "'routes'")
+    public boolean updateRoleResource(Long roleId, RoleResourceForm roleResourceForm) {
+        // 删除角色菜单
+        sysRoleMenuService.remove(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getRoleId, roleId));
+        // 新增角色菜单
+        List<Long> menuIds = roleResourceForm.getMenuIds();
+        if (CollectionUtil.isNotEmpty(menuIds)) {
+            List<SysRoleMenu> roleMenus = menuIds.stream().map(menuId -> new SysRoleMenu(roleId, menuId)).collect(Collectors.toList());
+            sysRoleMenuService.saveBatch(roleMenus);
+        }
+
+        // 删除角色权限
+        sysRolePermissionService.remove(new LambdaQueryWrapper<SysRolePermission>().eq(SysRolePermission::getRoleId, roleId));
+        // 新增角色权限
+        List<Long> permIds = roleResourceForm.getPermIds();
+        if (CollectionUtil.isNotEmpty(permIds)) {
+            List<SysRolePermission> rolePerms = permIds.stream().map(permId -> new SysRolePermission(roleId, permId)).collect(Collectors.toList());
+            sysRolePermissionService.saveBatch(rolePerms);
+        }
+        return true;
     }
 
 }

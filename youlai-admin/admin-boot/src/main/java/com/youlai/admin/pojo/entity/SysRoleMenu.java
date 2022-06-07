@@ -1,10 +1,12 @@
 package com.youlai.admin.pojo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain = true)
+@AllArgsConstructor
 public class SysRoleMenu {
 
     private Long roleId;

@@ -37,6 +37,9 @@ public class ResourceVO {
         @JsonInclude(value = JsonInclude.Include.NON_NULL)
         private Boolean isPerm;
 
+        @JsonInclude(value = JsonInclude.Include.NON_NULL)
+        private Long permPid;
+
     }
 
 

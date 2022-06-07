@@ -3,9 +3,10 @@ package com.youlai.admin.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.pojo.form.RoleForm;
-import com.youlai.admin.pojo.form.RolePermsForm;
+import com.youlai.admin.pojo.form.RoleResourceForm;
 import com.youlai.admin.pojo.query.RolePageQuery;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
+import com.youlai.admin.pojo.vo.role.RoleResourceIds;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.admin.service.SysRoleMenuService;
 import com.youlai.admin.service.SysRolePermissionService;
@@ -84,56 +85,29 @@ public class SysRoleController {
     @PutMapping(value = "/{roleId}/status")
     public Result updateRoleStatus(
             @ApiParam("角色ID") @PathVariable Long roleId,
-            @ApiParam("角色状态(1：启用；0：禁用)") @RequestParam Integer status
+            @ApiParam("角色状态:1->启用；0->禁用") @RequestParam Integer status
     ) {
         boolean result = sysRoleService.updateRoleStatus(roleId, status);
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "获取角色的资源ID集合",notes = "资源包括菜单(m_id)和权限(p_id)")
+    @ApiOperation(value = "获取角色的资源ID集合", notes = "资源包括菜单和权限ID")
     @GetMapping("/{roleId}/resource_ids")
-    public Result listRoleResourceIds(
+    public Result<RoleResourceIds> getRoleResourceIds(
             @ApiParam("角色ID") @PathVariable Long roleId
     ) {
-        List<String> resourceIds = sysRoleService.listRoleResourceIds(roleId);
+        RoleResourceIds resourceIds = sysRoleService.getRoleResourceIds(roleId);
         return Result.success(resourceIds);
     }
 
-    @ApiOperation(value = "获取角色的权限ID集合")
-    @GetMapping("/{roleId}/permissions")
-    public Result listRolePermission(
-            @ApiParam("角色ID") @PathVariable Long roleId,
-            @ApiParam("菜单ID") Long menuId
-    ) {
-        List<Long> permissionIds = sysRolePermissionService.listPermIds(menuId, roleId);
-        return Result.success(permissionIds);
-    }
+    @ApiOperation(value = "获取角色的资源ID集合")
+    @PutMapping("/{roleId}/resources")
 
-    @ApiOperation(value = "修改角色菜单")
-    @CacheEvict(cacheNames = "system", key = "'routes'")
-    @PutMapping(value = "/{roleId}/menus")
-    public Result updateRoleMenu(
-            @ApiParam("角色ID") @PathVariable Long roleId,
-            @RequestBody SysRole role
+    public Result<RoleResourceIds> updateRoleResource(
+            @PathVariable Long roleId,
+            @RequestBody RoleResourceForm roleResourceForm
     ) {
-        List<Long> menuIds = role.getMenuIds();
-        boolean result = sysRoleMenuService.update(roleId, menuIds);
-        if (result) {
-            sysPermissionService.refreshPermRolesRules();
-        }
-        return Result.judge(result);
-    }
-
-    @ApiOperation(value = "修改角色权限")
-    @PutMapping(value = "/{roleId}/permissions")
-    public Result saveRolePerms(
-            @ApiParam("角色ID") @PathVariable Long roleId,
-            @RequestBody RolePermsForm rolePerms) {
-        rolePerms.setRoleId(roleId);
-        boolean result = sysRolePermissionService.saveRolePerms(rolePerms);
-        if (result) {
-            sysPermissionService.refreshPermRolesRules();
-        }
+        boolean result = sysRoleService.updateRoleResource(roleId,roleResourceForm);
         return Result.judge(result);
     }
 }

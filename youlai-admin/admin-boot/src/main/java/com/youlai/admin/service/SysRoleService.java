@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.pojo.form.RoleForm;
+import com.youlai.admin.pojo.form.RoleResourceForm;
 import com.youlai.admin.pojo.query.RolePageQuery;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
+import com.youlai.admin.pojo.vo.role.RoleResourceIds;
 import com.youlai.common.web.domain.Option;
 
 import java.util.List;
@@ -26,7 +28,6 @@ public interface SysRoleService extends IService<SysRole> {
      * @return
      */
     Page<RolePageVO> listPageRoles(RolePageQuery queryParams);
-
 
 
     /**
@@ -62,10 +63,20 @@ public interface SysRoleService extends IService<SysRole> {
 
 
     /**
-     * 获取角色的资源ID集合,资源包括菜单(m_id)和权限(p_id)
+     * 获取角色的资源ID集合,资源包括菜单和权限
      *
      * @param roleId
      * @return
      */
-    List<String> listRoleResourceIds(Long roleId);
+    RoleResourceIds getRoleResourceIds(Long roleId);
+
+
+    /**
+     * 修改角色的资源权限
+     *
+     * @param roleId
+     * @param roleResourceForm
+     * @return
+     */
+    boolean updateRoleResource(Long roleId, RoleResourceForm roleResourceForm);
 }
