@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.convert.SysRoleConvert;
+import com.youlai.admin.convert.RoleConvert;
 import com.youlai.admin.mapper.SysRoleMapper;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.pojo.entity.SysRoleMenu;
@@ -47,7 +47,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private final SysUserRoleService sysUserRoleService;
     private final SysRolePermissionService sysRolePermissionService;
     private final SysPermissionService sysPermissionService;
-    private final SysRoleConvert sysRoleConvert;
+    private final RoleConvert roleConvert;
 
     /**
      * 角色分页列表
@@ -57,16 +57,25 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Override
     public Page<RolePageVO> listPageRoles(RolePageQuery queryParams) {
+        // 查询参数
+        int pageNum = queryParams.getPageNum();
+        int pageSize = queryParams.getPageSize();
+        String keywords = queryParams.getKeywords();
+
         // 查询数据
         Page<SysRole> rolePage = this.page(
-                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+                new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SysRole>()
-                        .eq(StrUtil.isNotBlank(queryParams.getName()), SysRole::getName, queryParams.getName())
+                        .like(StrUtil.isNotBlank(keywords), SysRole::getName, keywords)
+                        .or()
+                        .like(StrUtil.isNotBlank(keywords), SysRole::getCode, keywords)
                         .ne(!UserUtils.isRoot(), SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
                         .select(SysRole::getId, SysRole::getName, SysRole::getCode)
         );
+
         // 实体转换
-        return sysRoleConvert.role2Page(rolePage);
+        Page<RolePageVO> pageResult = roleConvert.entity2Page(rolePage);
+        return pageResult;
     }
 
     /**
@@ -84,7 +93,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         );
 
         // 实体转换
-        List<Option> list = sysRoleConvert.roles2Options(roleList);
+        List<Option> list = roleConvert.roles2Options(roleList);
         return list;
     }
 
@@ -106,7 +115,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
 
         // 实体转换
-        SysRole role = sysRoleConvert.form2Entity(roleForm);
+        SysRole role = roleConvert.form2Entity(roleForm);
 
         boolean result = this.saveOrUpdate(role);
         // 刷新权限缓存

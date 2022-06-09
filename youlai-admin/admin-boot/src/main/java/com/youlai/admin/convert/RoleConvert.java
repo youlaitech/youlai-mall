@@ -18,10 +18,9 @@ import java.util.List;
  * @date 2022/5/29
  */
 @Mapper(componentModel = "spring")
-public interface SysRoleConvert {
+public interface RoleConvert {
 
-    Page<RolePageVO> role2Page(Page<SysRole> page);
-
+    Page<RolePageVO> entity2Page(Page<SysRole> page);
 
     @Mappings({
             @Mapping(target = "value", source = "id"),
@@ -31,7 +30,6 @@ public interface SysRoleConvert {
 
 
     List<Option> roles2Options(List<SysRole> roleList);
-
 
     SysRole form2Entity(RoleForm roleForm);
 }

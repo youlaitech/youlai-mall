@@ -7,9 +7,6 @@ import com.youlai.admin.pojo.form.RoleResourceForm;
 import com.youlai.admin.pojo.query.RolePageQuery;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
 import com.youlai.admin.pojo.vo.role.RoleResourceIds;
-import com.youlai.admin.service.SysPermissionService;
-import com.youlai.admin.service.SysRoleMenuService;
-import com.youlai.admin.service.SysRolePermissionService;
 import com.youlai.admin.service.SysRoleService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -18,7 +15,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,9 +27,6 @@ import java.util.List;
 public class SysRoleController {
 
     private final SysRoleService sysRoleService;
-    private final SysRoleMenuService sysRoleMenuService;
-    private final SysRolePermissionService sysRolePermissionService;
-    private final SysPermissionService sysPermissionService;
 
     @ApiOperation(value = "角色分页列表")
     @GetMapping("/page_list")

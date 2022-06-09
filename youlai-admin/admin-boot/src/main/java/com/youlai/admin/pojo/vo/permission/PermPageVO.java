@@ -10,8 +10,8 @@ import lombok.Data;
  * @author haoxr
  * @date 2021/10/30 10:54
  */
-@Data
 @ApiModel("权限视图对象")
+@Data
 public class PermPageVO {
 
     @ApiModelProperty("权限ID")

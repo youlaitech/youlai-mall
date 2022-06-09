@@ -14,6 +14,6 @@ import lombok.Data;
 @Data
 public class RolePageQuery extends BasePageQuery {
 
-    @ApiModelProperty("角色名称")
-    private String name;
+    @ApiModelProperty("关键字(角色名称/角色编码)")
+    private String keywords;
 }

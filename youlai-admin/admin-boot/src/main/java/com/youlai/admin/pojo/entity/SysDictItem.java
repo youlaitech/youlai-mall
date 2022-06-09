@@ -17,7 +17,7 @@ public class SysDictItem extends BaseEntity {
 
     private String value;
 
-    private String dictCode;
+    private String typeCode;
 
     private Integer sort;
 

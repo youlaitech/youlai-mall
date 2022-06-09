@@ -6,7 +6,7 @@ import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
 @Data
-public class SysDict extends BaseEntity {
+public class SysDictType extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;

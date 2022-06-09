@@ -16,12 +16,4 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      * @return
      */
     List<Long> listMenuIdsByRoleId(Long roleId);
-
-    /**
-     * 修改角色菜单
-     * @param roleId
-     * @param menuIds
-     * @return
-     */
-    boolean update(Long roleId, List<Long> menuIds);
 }

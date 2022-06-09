@@ -25,8 +25,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "权限分页列表")
     @GetMapping("/page")
-    public PageResult<PermPageVO> listPermsPage(
-            PermPageQuery permPageQuery
+    public PageResult<PermPageVO> listPermsPage(PermPageQuery permPageQuery
     ) {
         IPage<PermPageVO> result = sysPermissionService.listPermsPage(permPageQuery);
         return PageResult.success(result);
@@ -34,9 +33,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "权限列表")
     @GetMapping
-    public Result listPermissions(
-            @ApiParam(value = "菜单ID") @RequestParam(required = false) Long menuId
-    ) {
+    public Result listPermissions(@ApiParam(value = "菜单ID") @RequestParam(required = false) Long menuId) {
         List<SysPermission> list = sysPermissionService.list(
                 new LambdaQueryWrapper<SysPermission>()
                         .eq(menuId != null, SysPermission::getMenuId, menuId)
