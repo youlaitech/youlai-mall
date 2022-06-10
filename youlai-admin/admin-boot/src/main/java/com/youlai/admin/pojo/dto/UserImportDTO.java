@@ -1,4 +1,4 @@
-package com.youlai.admin.pojo.form;
+package com.youlai.admin.pojo.dto;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.AllArgsConstructor;
@@ -9,13 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * 用户导入表单对象
+ * 用户导入对象
  *
  * @author haoxr
- * @date 2022/4/10 20:15
+ * @date 2022/4/10
  */
 @Data
-public class UserImportForm {
+public class UserImportDTO {
 
     /**
      * 部门ID

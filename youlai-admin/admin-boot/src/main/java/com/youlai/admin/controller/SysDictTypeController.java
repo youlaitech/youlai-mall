@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.form.DictTypeForm;
 import com.youlai.admin.pojo.query.DictTypePageQuery;
 import com.youlai.admin.pojo.vo.dict.DictTypePageVO;
-import com.youlai.admin.service.SysDictItemService;
 import com.youlai.admin.service.SysDictTypeService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class SysDictTypeController {
 
     private final SysDictTypeService dictTypeService;
-    private final SysDictItemService sysDictItemService;
 
     @ApiOperation(value = "字典类型分页列表")
     @GetMapping("/page_list")

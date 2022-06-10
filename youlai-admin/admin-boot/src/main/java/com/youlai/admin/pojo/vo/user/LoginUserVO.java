@@ -29,6 +29,6 @@ public class LoginUserVO {
     private List<String> roles;
 
     @ApiModelProperty("用户的按钮权限标识集合")
-    private List<String> perms ;
+    private List<String> perms;
 
 }

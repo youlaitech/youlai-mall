@@ -16,6 +16,11 @@ import java.util.List;
  */
 public interface SysPermissionService extends IService<SysPermission> {
 
+    /**
+     * 权限<->有权限的角色集合
+     *
+     * @return
+     */
     List<SysPermission> listPermRoles();
 
     /**

@@ -1,17 +1,17 @@
-package com.youlai.admin.dto;
+package com.youlai.admin.pojo.po;
 
 import lombok.Data;
 
 import java.util.List;
 
 /**
- * OAuth2认证用户信息传输层对象
+ * 认证用户持久层对象
  *
  * @author haoxr
  * @date 2021/9/27
  */
 @Data
-public class AuthUserDTO {
+public class UserAuthPO {
 
     /**
      * 用户ID

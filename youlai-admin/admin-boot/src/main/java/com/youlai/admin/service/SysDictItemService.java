@@ -9,7 +9,7 @@ import com.youlai.admin.pojo.vo.dict.DictItemPageVO;
 
 
 /**
- * 字典数据项业务实现类
+ * 字典数据项业务接口层
  *
  * @author haoxr
  * @date 2022/6/9
@@ -43,7 +43,7 @@ public interface SysDictItemService extends IService<SysDictItem> {
     /**
      * 修改字典数据项
      *
-     * @param id 字典数据项ID
+     * @param id           字典数据项ID
      * @param dictItemForm 字典数据项表单
      * @return
      */
@@ -52,8 +52,8 @@ public interface SysDictItemService extends IService<SysDictItem> {
     /**
      * 删除字典数据项
      *
-     * @param ids 字典数据项ID，多个以英文逗号(,)分割
+     * @param idsStr 字典数据项ID，多个以英文逗号(,)分割
      * @return
      */
-    boolean deleteDictItems(String ids);
+    boolean deleteDictItems(String idsStr);
 }

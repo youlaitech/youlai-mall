@@ -15,7 +15,7 @@ import java.util.List;
  * 部门控制器
  *
  * @author haoxr
- * @date 2020-11-06
+ * @date 2020/11/6
  */
 @Api(tags = "部门接口")
 @RestController
@@ -77,8 +77,8 @@ public class SysDeptController {
     public Result deleteDepartments(
             @ApiParam("部门ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids
     ) {
-        boolean status = deptService.deleteByIds(ids);
-        return Result.judge(status);
+        boolean result = deptService.deleteByIds(ids);
+        return Result.judge(result);
     }
 
 }

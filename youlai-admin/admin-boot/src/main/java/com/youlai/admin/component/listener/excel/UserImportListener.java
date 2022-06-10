@@ -2,7 +2,7 @@ package com.youlai.admin.component.listener.excel;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.youlai.admin.pojo.form.UserImportForm;
+import com.youlai.admin.pojo.dto.UserImportDTO;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("prototype")
-public class UserImportListener extends AnalysisEventListener<UserImportForm.UserItem> {
+public class UserImportListener extends AnalysisEventListener<UserImportDTO.UserItem> {
 
 
     @Override
-    public void invoke(UserImportForm.UserItem userItem, AnalysisContext analysisContext) {
+    public void invoke(UserImportDTO.UserItem userItem, AnalysisContext analysisContext) {
 
     }
 

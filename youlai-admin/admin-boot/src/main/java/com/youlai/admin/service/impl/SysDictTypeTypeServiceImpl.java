@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 public class SysDictTypeTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService {
 
     private final SysDictItemService dictItemService;
-
     private final DictTypeConvert dictTypeConvert;
 
     /**

@@ -9,13 +9,13 @@ import lombok.Data;
  * 用户分页查询对象
  *
  * @author haoxr
- * @date 2022/1/14 22:22
+ * @date 2022/1/14
  */
-@Data
 @ApiModel
+@Data
 public class UserPageQuery extends BasePageQuery {
 
-    @ApiModelProperty("关键字(用户名、昵称、手机号)")
+    @ApiModelProperty("关键字(用户名/昵称/手机号)")
     private String keywords;
 
     @ApiModelProperty("用户状态")

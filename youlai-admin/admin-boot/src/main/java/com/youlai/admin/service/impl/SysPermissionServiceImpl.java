@@ -61,7 +61,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     /**
-     * 获取权限和拥有权限的角色映射
+     * 权限<->有权限的角色集合
      *
      * @return
      */

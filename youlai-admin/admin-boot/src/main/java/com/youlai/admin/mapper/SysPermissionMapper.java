@@ -22,7 +22,7 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
     List<PermPageVO> listPermsPage(Page<PermPageVO> page, PermPageQuery queryParams);
 
     /**
-     * 获取权限和拥有权限的角色映射
+     * 权限<->有权限的角色集合
      *
      * @return
      */

@@ -21,7 +21,7 @@ public class SysDictItemController {
 
     private final SysDictItemService dictItemService;
 
-    @ApiOperation(value = "字典数据分页列表")
+    @ApiOperation(value = "字典数据项分页列表")
     @GetMapping("/page_list")
     public PageResult<DictItemPageVO> listPageDictItems(DictItemPageQuery queryParams) {
         Page<DictItemPageVO> result = dictItemService.listPageDictItems(queryParams);

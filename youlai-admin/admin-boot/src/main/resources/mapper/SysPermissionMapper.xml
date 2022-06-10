@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.admin.mapper.SysPermissionMapper">
 
-    <resultMap id="BaseResultMap" type="com.youlai.admin.pojo.entity.SysPermission">
+    <resultMap id="PermRolesMap" type="com.youlai.admin.pojo.entity.SysPermission">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="menuId" column="menu_id" jdbcType="BIGINT"/>
@@ -16,13 +16,6 @@
             <result column="code"/>
         </collection>
     </resultMap>
-
-    <sql id="Base_Column_List">
-        id
-        ,name,menu_id,
-        url_perm,btn_perm,gmt_create,
-        gmt_modified
-    </sql>
 
     <!-- 获取权限分页列表 -->
     <select id="listPermsPage" resultType="com.youlai.admin.pojo.vo.permission.PermPageVO">
@@ -65,8 +58,8 @@
         ORDER BY t1.id DESC
     </select>
 
-    <!-- 获取权限和拥有权限的角色映射 -->
-    <select id="listPermRoles" resultMap="BaseResultMap">
+    <!-- 权限<->有权限的角色集合 -->
+    <select id="listPermRoles" resultMap="PermRolesMap">
         SELECT t1.id,
                t1.NAME,
                t1.menu_id,
