@@ -1,4 +1,4 @@
-package com.youlai.admin.common.constant;
+package com.youlai.common.constant;
 
 /**
  * 系统常量

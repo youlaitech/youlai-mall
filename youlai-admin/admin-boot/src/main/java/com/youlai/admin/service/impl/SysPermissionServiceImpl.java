@@ -41,9 +41,9 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
      * @return
      */
     @Override
-    public IPage<PermPageVO> listPermsPage(PermPageQuery queryParams) {
+    public IPage<PermPageVO> listPagePerms(PermPageQuery queryParams) {
         Page<PermPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<PermPageVO> list = this.baseMapper.listPermsPage(page, queryParams);
+        List<PermPageVO> list = this.baseMapper.listPagePerms(page, queryParams);
         page.setRecords(list);
         return page;
     }

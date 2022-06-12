@@ -72,7 +72,7 @@ public class SysDictTypeTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, S
      * @return
      */
     @Override
-    public DictTypeForm getDictTypeFormDetail(Long id) {
+    public DictTypeForm getDictTypeFormData(Long id) {
         // 获取entity
         SysDictType entity = this.getOne(new LambdaQueryWrapper<SysDictType>()
                 .eq(SysDictType::getId, id)

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 商品验价传输层实体
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/7 22:52
  */
 @Data

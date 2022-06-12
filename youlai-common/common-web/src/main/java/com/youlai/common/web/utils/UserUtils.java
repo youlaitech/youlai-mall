@@ -1,4 +1,4 @@
-package com.youlai.common.web.util;
+package com.youlai.common.web.utils;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONObject;

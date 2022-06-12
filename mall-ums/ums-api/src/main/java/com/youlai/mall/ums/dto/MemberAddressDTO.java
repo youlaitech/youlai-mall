@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 会员地址传输层对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/12 15:57
  */
 @Data

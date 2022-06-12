@@ -7,7 +7,7 @@ import lombok.Data;
 
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/1 19:14
  */
 @Data

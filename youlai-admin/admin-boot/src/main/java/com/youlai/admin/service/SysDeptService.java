@@ -2,6 +2,7 @@ package com.youlai.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysDept;
+import com.youlai.admin.pojo.query.DeptQuery;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.common.web.domain.Option;
 
@@ -15,13 +16,11 @@ import java.util.List;
  */
 public interface SysDeptService extends IService<SysDept> {
     /**
-     * 部门表格（Table）层级列表
+     * 部门列表
      *
-     * @param status 部门状态： 1-开启 0-禁用
-     * @param name
      * @return
      */
-    List<DeptVO> listTableDepartments(Integer status, String name);
+    List<DeptVO> listDepartments(DeptQuery queryParams);
 
     /**
      * 部门树形下拉（TreeSelect）层级列表

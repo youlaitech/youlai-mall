@@ -42,5 +42,5 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @param permPageQuery
      * @return
      */
-    IPage<PermPageVO> listPermsPage(PermPageQuery permPageQuery);
+    IPage<PermPageVO> listPagePerms(PermPageQuery permPageQuery);
 }

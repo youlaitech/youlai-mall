@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.common.web.vo.OptionVO;
+import com.youlai.common.web.domain.Option;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 
@@ -28,7 +28,7 @@ public interface IPmsCategoryService extends IService<PmsCategory> {
      * 分类列表（级联）
      * @return
      */
-    List<OptionVO> listCascadeCategories();
+    List<Option> listCascadeCategories();
 
 
     /**

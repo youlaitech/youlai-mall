@@ -11,11 +11,7 @@
         u.username,
         u.nickname,
         u.mobile,
-        CASE u.gender
-        WHEN 1 THEN '男'
-        WHEN 2 THEN '女'
-        ELSE '未知'
-        END gender,
+        u.gender,
         u.avatar,
         u.STATUS,
         d.NAME AS dept_name,

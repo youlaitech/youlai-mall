@@ -7,12 +7,12 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.common.constant.SystemConstants;
+import com.youlai.common.constant.SystemConstants;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.pojo.entity.SysDept;
+import com.youlai.admin.pojo.query.DeptQuery;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.service.SysDeptService;
-import com.youlai.admin.service.SysUserService;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.domain.Option;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
- * 部门业务类
+ * 部门业务实现类
  *
  * @author haoxr
  * @date 2021-08-22
@@ -33,23 +33,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
-    private final SysUserService sysUserService;
 
     /**
-     * 部门表格（Table）层级列表
+     * 部门列表
      *
-     * @param name 部门名称
      * @return
      */
     @Override
-    public List<DeptVO> listTableDepartments(Integer status, String name) {
+    public List<DeptVO> listDepartments(DeptQuery queryParams) {
+        // 查询参数
+        String keywords = queryParams.getKeywords();
+        Integer status = queryParams.getStatus();
+
+        // 查询数据
         List<SysDept> deptList = this.list(
                 new LambdaQueryWrapper<SysDept>()
-                        .like(StrUtil.isNotBlank(name), SysDept::getName, name)
+                        .like(StrUtil.isNotBlank(keywords), SysDept::getName, keywords)
                         .eq(Validator.isNotNull(status), SysDept::getStatus, status)
                         .orderByAsc(SysDept::getSort)
         );
-        return recursion(deptList);
+        return recurDepartments(deptList);
     }
 
     /**
@@ -58,7 +61,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @param deptList 部门列表
      * @return 部门列表
      */
-    private static List<DeptVO> recursion(List<SysDept> deptList) {
+    private static List<DeptVO> recurDepartments(List<SysDept> deptList) {
         List<DeptVO> deptTableList = new ArrayList<>();
         // 保存所有节点的 id
         Set<Long> nodeIdSet = deptList.stream()
@@ -68,7 +71,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
             // 不在节点 id 集合中存在的 id 即为顶级节点 id, 递归生成列表
             Long parentId = sysDept.getParentId();
             if (!nodeIdSet.contains(parentId)) {
-                deptTableList.addAll(recurTableMenus(parentId, deptList));
+                deptTableList.addAll(recurTableDepts(parentId, deptList));
                 nodeIdSet.add(parentId);
             }
         }
@@ -92,7 +95,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @param deptList
      * @return
      */
-    public static List<DeptVO> recurTableMenus(Long parentId, List<SysDept> deptList) {
+    public static List<DeptVO> recurTableDepts(Long parentId, List<SysDept> deptList) {
         List<DeptVO> deptTableList = new ArrayList<>();
         Optional.ofNullable(deptList).orElse(new ArrayList<>())
                 .stream()
@@ -100,7 +103,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .forEach(dept -> {
                     DeptVO deptVO = new DeptVO();
                     BeanUtil.copyProperties(dept, deptVO);
-                    List<DeptVO> children = recurTableMenus(dept.getId(), deptList);
+                    List<DeptVO> children = recurTableDepts(dept.getId(), deptList);
                     deptVO.setChildren(children);
                     deptTableList.add(deptVO);
                 });

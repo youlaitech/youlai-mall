@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.util.MemberUtils;
+import com.youlai.common.web.utils.MemberUtils;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.mapper.UmsAddressMapper;
 import com.youlai.mall.ums.pojo.entity.UmsAddress;

@@ -10,7 +10,7 @@ import com.youlai.admin.pojo.dto.UserImportDTO;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
-import com.youlai.admin.pojo.vo.user.UserPageVO;
+import com.youlai.admin.pojo.vo.user.UserVO;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,7 +28,7 @@ public interface SysUserService extends IService<SysUser> {
      *
      * @return
      */
-    IPage<UserPageVO> listPageUsers(UserPageQuery queryParams);
+    IPage<UserVO> listPageUsers(UserPageQuery queryParams);
 
 
     /**
@@ -84,7 +84,6 @@ public interface SysUserService extends IService<SysUser> {
      */
     UserAuthDTO getAuthInfoByUsername(String username);
 
-
     /**
      * 导入用户
      *
@@ -103,7 +102,7 @@ public interface SysUserService extends IService<SysUser> {
 
 
     /**
-     * 获取当前登录用户信息
+     * 获取登录用户信息
      *
      * @return
      */

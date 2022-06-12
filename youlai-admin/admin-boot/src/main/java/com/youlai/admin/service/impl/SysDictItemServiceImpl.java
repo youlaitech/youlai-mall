@@ -12,11 +12,11 @@ import com.youlai.admin.pojo.form.DictItemForm;
 import com.youlai.admin.pojo.query.DictItemPageQuery;
 import com.youlai.admin.pojo.vo.dict.DictItemPageVO;
 import com.youlai.admin.service.SysDictItemService;
+import com.youlai.common.web.domain.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -51,8 +51,8 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
                 new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<SysDictItem>()
                         .like(StrUtil.isNotBlank(keywords), SysDictItem::getName, keywords)
-                        .eq(StrUtil.isNotBlank(keywords), SysDictItem::getTypeCode, typeCode)
-                        .select(SysDictItem::getId, SysDictItem::getName, SysDictItem::getTypeCode, SysDictItem::getStatus)
+                        .eq(StrUtil.isNotBlank(typeCode), SysDictItem::getTypeCode, typeCode)
+                        .select(SysDictItem::getId, SysDictItem::getName, SysDictItem::getValue, SysDictItem::getStatus)
         );
 
         // 实体转换
@@ -67,7 +67,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
      * @return
      */
     @Override
-    public DictItemForm getDictItemFormDetail(Long id) {
+    public DictItemForm getDictItemFormData(Long id) {
         // 获取entity
         SysDictItem entity = this.getOne(new LambdaQueryWrapper<SysDictItem>()
                 .eq(SysDictItem::getId, id)
@@ -134,5 +134,29 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
         // 删除字典数据项
         boolean result = this.removeByIds(ids);
         return result;
+    }
+
+
+    /**
+     * 根据字典类型编码获取字典数据项
+     *
+     * @param typeCode 字典类型编码
+     * @return
+     */
+    @Override
+    public List<Option> listDictItemsByTypeCode(String typeCode) {
+
+        // 数据字典项
+        List<SysDictItem> dictItems = this.list(new LambdaQueryWrapper<SysDictItem>()
+                .eq(SysDictItem::getTypeCode, typeCode)
+                .select(SysDictItem::getValue, SysDictItem::getName)
+        );
+
+        // 转换下拉数据
+        List<Option> options = Optional.ofNullable(dictItems).orElse(new ArrayList<>()).stream()
+                .map(dictItem -> new Option(dictItem.getValue(), dictItem.getName()))
+                .collect(Collectors.toList());
+
+        return options;
     }
 }

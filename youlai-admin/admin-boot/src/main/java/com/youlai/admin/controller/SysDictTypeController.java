@@ -22,18 +22,18 @@ public class SysDictTypeController {
     private final SysDictTypeService dictTypeService;
 
     @ApiOperation(value = "字典类型分页列表")
-    @GetMapping("/page_list")
+    @GetMapping
     public PageResult<DictTypePageVO> listPageDictTypes(DictTypePageQuery queryParams) {
         Page<DictTypePageVO> result = dictTypeService.listPageDictTypes(queryParams);
         return PageResult.success(result);
     }
 
     @ApiOperation(value = "字典类型表单详情")
-    @GetMapping("/{id}/form_detail")
-    public Result<DictTypeForm> getDictTypeFormDetail(
+    @GetMapping("/{id}/form_data")
+    public Result<DictTypeForm> getDictTypeFormData(
             @ApiParam("字典ID") @PathVariable Long id
     ) {
-        DictTypeForm dictTypeForm = dictTypeService.getDictTypeFormDetail(id);
+        DictTypeForm dictTypeForm = dictTypeService.getDictTypeFormData(id);
         return Result.success(dictTypeForm);
     }
 

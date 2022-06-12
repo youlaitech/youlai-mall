@@ -1,10 +1,10 @@
-package com.youlai.common.web.util;
+package com.youlai.common.web.utils;
 
 import cn.hutool.json.JSONObject;
 import com.youlai.common.constant.SecurityConstants;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/12 20:14
  */
 public class MemberUtils {

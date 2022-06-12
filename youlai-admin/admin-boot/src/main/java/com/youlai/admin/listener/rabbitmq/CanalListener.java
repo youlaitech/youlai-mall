@@ -1,9 +1,9 @@
-package com.youlai.admin.component.listener;
+package com.youlai.admin.listener.rabbitmq;
 
 import com.youlai.admin.service.SysMenuService;
 import com.youlai.admin.service.SysOauthClientService;
 import com.youlai.admin.service.SysPermissionService;
-import com.youlai.common.dto.CanalMessage;
+import com.youlai.common.web.domain.CanalMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -26,7 +26,6 @@ public class CanalListener {
     private final SysPermissionService permissionService;
     private final SysOauthClientService oauthClientService;
     private final SysMenuService menuService;
-
 
     @RabbitListener(queues = "canal.queue")
     public void handleDataChange(@Payload CanalMessage message) {

@@ -1,6 +1,7 @@
 package com.youlai.admin.controller;
 
 import com.youlai.admin.pojo.entity.SysDept;
+import com.youlai.admin.pojo.query.DeptQuery;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.service.SysDeptService;
 import com.youlai.common.result.Result;
@@ -25,32 +26,23 @@ public class SysDeptController {
 
     private final SysDeptService deptService;
 
-    @ApiOperation(value = "部门表格(Table)列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "部门名称", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "status", value = "部门状态", paramType = "query", dataType = "Long"),
-    })
-    @GetMapping("/table")
-    public Result listTableDepartments(
-            Integer status,
-            String name
-    ) {
-        List<DeptVO> list = deptService.listTableDepartments(status, name);
+    @ApiOperation(value = "部门列表")
+    @GetMapping
+    public Result<List<DeptVO>> listDepartments(DeptQuery queryParams) {
+        List<DeptVO> list = deptService.listDepartments(queryParams);
         return Result.success(list);
     }
 
-    @ApiOperation(value = "部门树形下拉(TreeSelect)列表")
-    @GetMapping("/select")
+    @ApiOperation(value = "部门下拉列表")
+    @GetMapping("/select_list")
     public Result listTreeSelectDepartments() {
         List<Option> list = deptService.listTreeSelectDepartments();
         return Result.success(list);
     }
 
-    @ApiOperation(value = "部门详情")
-    @GetMapping("/{deptId}")
-    public Result getDeptDetail(
-            @ApiParam("部门ID") @PathVariable Long deptId
-    ) {
+    @ApiOperation(value = "部门表单数据")
+    @GetMapping("/{deptId}/form_data")
+    public Result getDeptDetail(@ApiParam("部门ID") @PathVariable Long deptId) {
         SysDept sysDept = deptService.getById(deptId);
         return Result.success(sysDept);
     }
@@ -64,19 +56,14 @@ public class SysDeptController {
 
     @ApiOperation(value = "修改部门")
     @PutMapping(value = "/{deptId}")
-    public Result updateDept(
-            @ApiParam("部门ID") @PathVariable Long deptId,
-            @RequestBody SysDept dept
-    ) {
+    public Result updateDept(@ApiParam("部门ID") @PathVariable Long deptId, @RequestBody SysDept dept) {
         deptId = deptService.saveDept(dept);
         return Result.success(deptId);
     }
 
     @ApiOperation(value = "删除部门")
     @DeleteMapping("/{ids}")
-    public Result deleteDepartments(
-            @ApiParam("部门ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids
-    ) {
+    public Result deleteDepartments(@ApiParam("部门ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids) {
         boolean result = deptService.deleteByIds(ids);
         return Result.judge(result);
     }

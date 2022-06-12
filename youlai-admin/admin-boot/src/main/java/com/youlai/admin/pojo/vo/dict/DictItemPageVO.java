@@ -16,7 +16,7 @@ public class DictItemPageVO {
     private String name;
 
     @ApiModelProperty("值")
-    private String code;
+    private String value;
 
     @ApiModelProperty("类型状态：1->启用;0->禁用")
     private Integer status;

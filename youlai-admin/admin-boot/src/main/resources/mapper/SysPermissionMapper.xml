@@ -18,7 +18,7 @@
     </resultMap>
 
     <!-- 获取权限分页列表 -->
-    <select id="listPermsPage" resultType="com.youlai.admin.pojo.vo.permission.PermPageVO">
+    <select id="listPagePerms" resultType="com.youlai.admin.pojo.vo.permission.PermPageVO">
         SELECT
             t1.id,
             t1.menu_id,

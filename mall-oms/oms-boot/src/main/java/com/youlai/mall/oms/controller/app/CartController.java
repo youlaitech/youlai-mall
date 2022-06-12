@@ -2,7 +2,7 @@ package com.youlai.mall.oms.controller.app;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.MemberUtils;
+import com.youlai.common.web.utils.MemberUtils;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
 import io.swagger.annotations.Api;

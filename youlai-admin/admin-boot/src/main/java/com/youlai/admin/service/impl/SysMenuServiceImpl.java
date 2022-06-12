@@ -5,15 +5,16 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.common.constant.SystemConstants;
-import com.youlai.admin.common.enums.MenuTypeEnum;
+import com.youlai.common.constant.SystemConstants;
+import com.youlai.common.enums.MenuTypeEnum;
 import com.youlai.admin.mapper.SysMenuMapper;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.vo.menu.ResourceVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
-import com.youlai.admin.pojo.vo.menu.TableMenuVO;
+import com.youlai.admin.pojo.vo.menu.MenuVO;
 import com.youlai.admin.service.SysMenuService;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
@@ -43,7 +44,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 菜单表格树形列表
      */
     @Override
-    public List<TableMenuVO> listTableMenus(String name) {
+    public List<MenuVO> listMenus(String name) {
         List<SysMenu> menus = this.list(new LambdaQueryWrapper<SysMenu>()
                 .like(StrUtil.isNotBlank(name), SysMenu::getName, name)
                 .orderByAsc(SysMenu::getSort)
@@ -51,14 +52,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         Set<Long> cacheMenuIds = menus.stream().map(menu -> menu.getId()).collect(Collectors.toSet());
 
-        List<TableMenuVO> tableMenus = menus.stream().map(menu -> {
+        List<MenuVO> tableMenus = menus.stream().map(menu -> {
             Long parentId = menu.getParentId();
             // parentId不在当前菜单ID的列表，说明为顶级菜单ID，根据此ID作为递归的开始条件节点
             if (!cacheMenuIds.contains(parentId)) {
                 cacheMenuIds.add(parentId);
                 return recurTableMenus(parentId, menus);
             }
-            return new LinkedList<TableMenuVO>();
+            return new LinkedList<MenuVO>();
         }).collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
         return tableMenus;
     }
@@ -93,7 +94,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 菜单下拉数据
      */
     @Override
-    public List<Option> listMenus() {
+    public List<Option> listSelectMenus() {
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
         List<Option> menus = recurMenus(SystemConstants.ROOT_MENU_ID, menuList);
         return menus;
@@ -164,7 +165,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
         List<SysPermission> permList = permissionService.list();
 
-        ResourceVO resource=new ResourceVO();
+        ResourceVO resource = new ResourceVO();
         List<ResourceVO.MenuOption> menus = recurResources(SystemConstants.ROOT_MENU_ID, menuList, permList);
         resource.setMenus(menus);
 
@@ -177,22 +178,41 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     /**
+     * 修改菜单显示状态
+     *
+     * @param menuId  菜单ID
+     * @param visible 是否显示(1->显示；2->隐藏)
+     * @return
+     */
+    @Override
+    public boolean updateMenuVisible(Long menuId, Integer visible) {
+        boolean result = this.update(new LambdaUpdateWrapper<SysMenu>()
+                .eq(SysMenu::getId, menuId)
+                .set(SysMenu::getVisible, visible)
+        );
+        if (result) {
+            permissionService.refreshPermRolesRules();
+        }
+        return result;
+    }
+
+    /**
      * 递归生成菜单表格层级列表
      *
      * @param parentId 父级ID
      * @param menuList 菜单列表
      * @return
      */
-    private static List<TableMenuVO> recurTableMenus(Long parentId, List<SysMenu> menuList) {
-        List<TableMenuVO> tableMenus = Optional.ofNullable(menuList).orElse(new ArrayList<>())
+    private static List<MenuVO> recurTableMenus(Long parentId, List<SysMenu> menuList) {
+        List<MenuVO> tableMenus = Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .map(menu -> {
-                    TableMenuVO tableMenuVO = new TableMenuVO();
-                    BeanUtil.copyProperties(menu, tableMenuVO);
-                    List<TableMenuVO> children = recurTableMenus(menu.getId(), menuList);
-                    tableMenuVO.setChildren(children);
-                    return tableMenuVO;
+                    MenuVO menuVO = new MenuVO();
+                    BeanUtil.copyProperties(menu, menuVO);
+                    List<MenuVO> children = recurTableMenus(menu.getId(), menuList);
+                    menuVO.setChildren(children);
+                    return menuVO;
                 }).collect(Collectors.toList());
         return tableMenus;
     }
@@ -223,17 +243,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<ResourceVO.MenuOption> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .map(menu -> {
-                    Long menuId= menu.getId();
+                    Long menuId = menu.getId();
 
                     ResourceVO.MenuOption menuOption = new ResourceVO.MenuOption();
-                    menuOption.setValue( menu.getId());
+                    menuOption.setValue(menu.getId());
                     menuOption.setLabel(menu.getName());
-                    List< ResourceVO.MenuOption> children = recurResources(menu.getId(), menuList, permList);
+                    List<ResourceVO.MenuOption> children = recurResources(menu.getId(), menuList, permList);
 
                     long count = permList.stream().filter(perm -> perm.getMenuId().equals(menuId)).count();
 
                     // 如果该菜单下有权限，添加一个节点存放权限数据
-                    if(count>0){
+                    if (count > 0) {
                         ResourceVO.MenuOption permOption = new ResourceVO.MenuOption();
                         permOption.setIsPerm(true);
                         permOption.setValue(-1l);

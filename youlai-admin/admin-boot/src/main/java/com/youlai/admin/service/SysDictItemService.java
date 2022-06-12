@@ -6,6 +6,9 @@ import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.pojo.form.DictItemForm;
 import com.youlai.admin.pojo.query.DictItemPageQuery;
 import com.youlai.admin.pojo.vo.dict.DictItemPageVO;
+import com.youlai.common.web.domain.Option;
+
+import java.util.List;
 
 
 /**
@@ -30,7 +33,7 @@ public interface SysDictItemService extends IService<SysDictItem> {
      * @param id 字典数据项ID
      * @return
      */
-    DictItemForm getDictItemFormDetail(Long id);
+    DictItemForm getDictItemFormData(Long id);
 
     /**
      * 新增字典数据项
@@ -56,4 +59,12 @@ public interface SysDictItemService extends IService<SysDictItem> {
      * @return
      */
     boolean deleteDictItems(String idsStr);
+
+    /**
+     * 根据字典类型编码获取字典数据项
+     *
+     * @param typeCode 字典类型编码
+     * @return
+     */
+    List<Option> listDictItemsByTypeCode(String typeCode);
 }

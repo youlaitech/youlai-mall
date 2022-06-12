@@ -4,7 +4,7 @@ import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsService
 import com.youlai.common.base.IBaseEnum;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.enums.AuthenticationIdentityEnum;
-import com.youlai.common.web.util.RequestUtils;
+import com.youlai.common.web.utils.RequestUtils;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.Authentication;

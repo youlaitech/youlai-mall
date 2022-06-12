@@ -1,7 +1,7 @@
 package com.youlai.auth.security.core.userdetails.user;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.youlai.admin.dto.AuthUserDTO;
+import com.youlai.admin.dto.UserAuthDTO;
 import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.Data;
@@ -50,7 +50,7 @@ public class SysUserDetails implements UserDetails {
     /**
      * 系统管理用户
      */
-    public SysUserDetails(AuthUserDTO user) {
+    public SysUserDetails(UserAuthDTO user) {
         this.setUserId(user.getUserId());
         this.setUsername(user.getUsername());
         this.setDeptId(user.getDeptId());

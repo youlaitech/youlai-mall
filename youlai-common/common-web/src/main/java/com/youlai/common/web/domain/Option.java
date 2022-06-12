@@ -33,7 +33,7 @@ public class Option<T> {
     @ApiModelProperty("选项的值")
     private T value;
 
-    @ApiModelProperty("选项的标签，若不设置则默认与value相同")
+    @ApiModelProperty("选项的标签")
     private String label;
 
     @JsonInclude(value = JsonInclude.Include.NON_EMPTY)

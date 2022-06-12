@@ -29,7 +29,7 @@ public class SysRoleController {
     private final SysRoleService sysRoleService;
 
     @ApiOperation(value = "角色分页列表")
-    @GetMapping("/page_list")
+    @GetMapping
     public PageResult<RolePageVO> listPageRoles(RolePageQuery queryParams) {
         Page<RolePageVO> result = sysRoleService.listPageRoles(queryParams);
         return PageResult.success(result);

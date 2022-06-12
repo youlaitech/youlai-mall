@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TableMenuVO {
+public class MenuVO {
 
     private Long id;
 
@@ -28,6 +28,6 @@ public class TableMenuVO {
     private String redirect;
 
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
-    private List<TableMenuVO> children;
+    private List<MenuVO> children;
 
 }

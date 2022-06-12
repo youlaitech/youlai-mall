@@ -1,6 +1,5 @@
 package com.youlai.admin.controller;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -12,16 +11,15 @@ import com.youlai.admin.pojo.form.UserForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
-import com.youlai.admin.pojo.vo.user.UserPageVO;
-import com.youlai.admin.service.SysPermissionService;
+import com.youlai.admin.pojo.vo.user.UserVO;
 import com.youlai.admin.service.SysUserService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.utils.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
@@ -45,88 +43,72 @@ import java.util.List;
 public class SysUserController {
 
     private final SysUserService userService;
-    private final SysPermissionService sysPermissionService;
 
-
-    @ApiOperation(value = "用户列表")
+    @ApiOperation(value = "用户分页列表")
     @GetMapping
-    public PageResult<UserPageVO> listPageUsers(UserPageQuery queryParams) {
-        IPage<UserPageVO> result = userService.listPageUsers(queryParams);
+    public PageResult<UserVO> listPageUsers(UserPageQuery queryParams) {
+        IPage<UserVO> result = userService.listPageUsers(queryParams);
         return PageResult.success(result);
     }
 
     @ApiOperation(value = "用户表单数据")
     @GetMapping("/{userId}/form_data")
-    public Result<UserForm> getUserFormData(
-            @ApiParam(value = "用户ID") @PathVariable Long userId
-    ) {
+    public Result<UserForm> getUserFormData(@ApiParam(value = "用户ID") @PathVariable Long userId) {
         UserForm userForm = userService.getUserFormData(userId);
         return Result.success(userForm);
     }
 
     @ApiOperation(value = "新增用户")
     @PostMapping
-    public Result saveUser(@RequestBody UserForm userForm) {
+    public Result saveUser(@RequestBody @Validated UserForm userForm) {
         boolean result = userService.saveUser(userForm);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "修改用户")
     @PutMapping(value = "/{userId}")
-    public Result updateUser(
-            @ApiParam("用户ID") @PathVariable Long userId,
-            @RequestBody UserForm userForm
-    ) {
+    public Result updateUser(@ApiParam("用户ID") @PathVariable Long userId, @RequestBody @Validated UserForm userForm) {
         boolean result = userService.updateUser(userId, userForm);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/{ids}")
-    public Result deleteUsers(
-            @ApiParam("用户ID，多个以英文逗号(,)分割") @PathVariable String ids
-    ) {
+    public Result deleteUsers(@ApiParam("用户ID，多个以英文逗号(,)分割") @PathVariable String ids) {
         boolean result = userService.deleteUsers(ids);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "修改用户密码")
     @PatchMapping(value = "/{userId}/password")
-    public Result updateUserPassword(
-            @ApiParam("用户ID") @PathVariable Long userId,
-            @RequestParam String password
-    ) {
+    public Result updateUserPassword(@ApiParam("用户ID") @PathVariable Long userId, @RequestParam String password) {
         boolean result = userService.updateUserPassword(userId, password);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "修改用户状态")
     @PatchMapping(value = "/{userId}/status")
-    public Result updateUserPassword(
-            @ApiParam("用户ID") @PathVariable Long userId,
-            @RequestParam Integer status
-    ) {
-        boolean result = userService.update(
-                new LambdaUpdateWrapper<SysUser>().eq(SysUser::getId, userId)
-                        .set(SysUser::getStatus, status)
+    public Result updateUserPassword(@ApiParam("用户ID") @PathVariable Long userId, @RequestParam Integer status) {
+        boolean result = userService.update(new LambdaUpdateWrapper<SysUser>()
+                .eq(SysUser::getId, userId)
+                .set(SysUser::getStatus, status)
         );
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "根据用户名获取认证信息", notes = "提供用于用户登录认证信息")
-    @GetMapping("/username/{username}")
-    public Result<UserAuthDTO> getAuthInfoByUsername(
-            @ApiParam("用户名") @PathVariable String username) {
-        UserAuthDTO user = userService.getAuthInfoByUsername(username);
-        return Result.success(user);
-    }
-
-    @ApiOperation(value = "获取当前登陆的用户信息")
+    @ApiOperation(value = "获取登录用户信息")
     @GetMapping("/me")
     public Result<LoginUserVO> getLoginUserInfo() {
-
-       LoginUserVO loginUserVO =  userService.getLoginUserInfo();
+        LoginUserVO loginUserVO = userService.getLoginUserInfo();
         return Result.success(loginUserVO);
+    }
+
+
+    @ApiOperation(value = "根据用户名获取认证信息", notes = "提供用于用户登录认证信息", hidden = true)
+    @GetMapping("/username/{username}")
+    public Result<UserAuthDTO> getAuthInfoByUsername(@ApiParam("用户名") @PathVariable String username) {
+        UserAuthDTO user = userService.getAuthInfoByUsername(username);
+        return Result.success(user);
     }
 
     @ApiOperation("用户导入模板下载")
@@ -160,9 +142,6 @@ public class SysUserController {
         response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
         List<UserExportVO> exportUserList = userService.listExportUsers(queryParams);
-
-        EasyExcel.write(response.getOutputStream(), UserExportVO.class)
-                .sheet("用户列表")
-                .doWrite(exportUserList);
+        EasyExcel.write(response.getOutputStream(), UserExportVO.class).sheet("用户列表").doWrite(exportUserList);
     }
 }

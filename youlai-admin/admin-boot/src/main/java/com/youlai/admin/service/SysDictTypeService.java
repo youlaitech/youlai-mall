@@ -31,7 +31,7 @@ public interface SysDictTypeService extends IService<SysDictType> {
      * @param id 字典类型ID
      * @return
      */
-    DictTypeForm getDictTypeFormDetail(Long id);
+    DictTypeForm getDictTypeFormData(Long id);
 
 
     /**

@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @ApiModel("用户分页视图对象")
 @Data
-public class UserPageVO {
+public class UserVO {
 
     @ApiModelProperty("用户ID")
     private Long id;
@@ -30,7 +30,7 @@ public class UserPageVO {
     private String mobile;
 
     @ApiModelProperty("性别")
-    private String gender;
+    private String genderLabel;
 
     @ApiModelProperty("用户头像地址")
     private String avatar;

@@ -1,22 +1,14 @@
-package com.youlai.admin.pojo.entity;
+package com.youlai.admin.pojo.vo.client;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-/**
- * 客户端实体
- *
- * @author haoxr
- * @date 2022/6/11
- */
+
 @Data
-public class SysOauthClient {
+public class ClientPageVO {
 
     /**
      * 客户端ID
      */
-    @TableId(type = IdType.INPUT)
     private String clientId;
 
     /**

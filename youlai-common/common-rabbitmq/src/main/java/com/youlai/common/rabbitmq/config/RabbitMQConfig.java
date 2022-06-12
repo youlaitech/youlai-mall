@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @Slf4j
-public class RabbitConfig {
+public class RabbitMQConfig {
 
     /**
      * 消息序列化配置

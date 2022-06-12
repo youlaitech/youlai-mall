@@ -1,17 +1,17 @@
 package com.youlai.common.web.exception;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,12 +20,13 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.ServletException;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
 import java.sql.SQLSyntaxErrorException;
 import java.util.concurrent.CompletionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * 全局系统异常处理
@@ -39,53 +40,45 @@ import java.util.regex.Pattern;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    /**
-     * 表单绑定到 java bean 出错时抛出 BindException 异常
-     */
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public <T> Result<T> processException(BindException e) {
-        log.error(e.getMessage(), e);
-        JSONObject msg = new JSONObject();
-        e.getAllErrors().forEach(error -> {
-            if (error instanceof FieldError) {
-                FieldError fieldError = (FieldError) error;
-                msg.set(fieldError.getField(),
-                        fieldError.getDefaultMessage());
-            } else {
-                msg.set(error.getObjectName(),
-                        error.getDefaultMessage());
-            }
-        });
-        return Result.failed(ResultCode.PARAM_ERROR, msg.toString());
+        log.error("BindException:{}", e.getMessage());
+        String msg = e.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("；"));
+        return Result.failed(ResultCode.PARAM_ERROR, msg);
     }
 
     /**
-     * 普通参数(非 java bean)校验出错时抛出 ConstraintViolationException 异常
+     * RequestParam参数的校验
+     *
+     * @param e
+     * @param <T>
+     * @return
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public <T> Result<T> processException(ConstraintViolationException e) {
-        log.error(e.getMessage(), e);
-        JSONObject msg = new JSONObject();
-        e.getConstraintViolations().forEach(constraintViolation -> {
-            String template = constraintViolation.getMessage();
-            String path = constraintViolation.getPropertyPath().toString();
-            msg.set(path, template);
-        });
-        return Result.failed(ResultCode.PARAM_ERROR, msg.toString());
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ValidationException.class)
-    public <T> Result<T> processException(ValidationException e) {
-        log.error(e.getMessage(), e);
-        return Result.failed(ResultCode.PARAM_ERROR, "参数校验失败");
+        log.error("ConstraintViolationException:{}", e.getMessage());
+        String msg = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining("；"));
+        return Result.failed(ResultCode.PARAM_ERROR, msg);
     }
 
     /**
-     * NoHandlerFoundException
+     * RequestBody参数的校验
+     *
+     * @param e
+     * @param <T>
+     * @return
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public <T> Result<T> processException(MethodArgumentNotValidException e) {
+        log.error("MethodArgumentNotValidException:{}", e.getMessage());
+        String msg = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("；"));
+        return Result.failed(ResultCode.PARAM_ERROR, msg);
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     public <T> Result<T> processException(NoHandlerFoundException e) {
@@ -220,9 +213,7 @@ public class GlobalExceptionHandler {
         String group = "";
         if (matcher.find()) {
             String matchString = matcher.group();
-            matchString = matchString
-                    .replace("[", "")
-                    .replace("]", "");
+            matchString = matchString.replace("[", "").replace("]", "");
             matchString = matchString.replaceAll("\\\"", "") + "字段类型错误";
             group += matchString;
         }

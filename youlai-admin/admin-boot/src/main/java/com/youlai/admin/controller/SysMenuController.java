@@ -1,9 +1,8 @@
 package com.youlai.admin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.menu.ResourceVO;
-import com.youlai.admin.pojo.vo.menu.TableMenuVO;
+import com.youlai.admin.pojo.vo.menu.MenuVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
 import com.youlai.admin.service.SysMenuService;
 import com.youlai.admin.service.SysPermissionService;
@@ -35,31 +34,31 @@ public class SysMenuController {
     private final SysPermissionService permissionService;
 
     @ApiOperation(value = "资源树形列表")
-    @GetMapping("/resource")
-    public Result<ResourceVO> getResource( ) {
+    @GetMapping("/resources")
+    public Result<ResourceVO> getResource() {
         ResourceVO resource = menuService.getResource();
         return Result.success(resource);
     }
 
-    @ApiOperation(value = "菜单表格树形列表")
-    @GetMapping("/table")
-    public Result listTableMenus(
+    @ApiOperation(value = "菜单列表")
+    @GetMapping
+    public Result listMenus(
             @ApiParam(value = "菜单名称", type = "query") String name
     ) {
-        List<TableMenuVO> menuList = menuService.listTableMenus(name);
+        List<MenuVO> menuList = menuService.listMenus(name);
         return Result.success(menuList);
     }
 
-    @ApiOperation(value = "菜单下拉树列表")
-    @GetMapping("/select")
+    @ApiOperation(value = "菜单下拉列表")
+    @GetMapping("/select_list")
     public Result listSelectMenus() {
-        List<Option> menus = menuService.listMenus();
+        List<Option> menus = menuService.listSelectMenus();
         return Result.success(menus);
     }
 
-    @ApiOperation(value = "菜单路由列表")
-    @GetMapping("/route")
-    public Result getRouteList() {
+    @ApiOperation(value = "路由列表")
+    @GetMapping("/route_list")
+    public Result listRoutes() {
         List<RouteVO> routeList = menuService.listRoutes();
         return Result.success(routeList);
     }
@@ -94,8 +93,9 @@ public class SysMenuController {
     @ApiOperation(value = "删除菜单")
     @DeleteMapping("/{ids}")
     @CacheEvict(cacheNames = "system", key = "'routes'")
-    public Result delete(
-            @ApiParam("菜单ID，多个以英文(,)分割") @PathVariable("ids") String ids) {
+    public Result deleteMenus(
+            @ApiParam("菜单ID，多个以英文(,)分割") @PathVariable("ids") String ids
+    ) {
         boolean result = menuService.removeByIds(Arrays.asList(ids.split(",")));
         if (result) {
             permissionService.refreshPermRolesRules();
@@ -103,16 +103,17 @@ public class SysMenuController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "选择性修改菜单")
-    @PatchMapping(value = "/{id}")
-    @CacheEvict(cacheNames = "system", key = "'routes'")
-    public Result patch(@PathVariable Integer id, @RequestBody SysMenu menu) {
-        LambdaUpdateWrapper<SysMenu> updateWrapper = new LambdaUpdateWrapper<SysMenu>().eq(SysMenu::getId, id);
-        updateWrapper.set(menu.getVisible() != null, SysMenu::getVisible, menu.getVisible());
-        boolean result = menuService.update(updateWrapper);
-        if (result) {
-            permissionService.refreshPermRolesRules();
-        }
+    @ApiOperation(value = "修改菜单显示状态")
+    @PatchMapping("/{menuId}")
+    public Result updateMenuVisible(
+            @ApiParam(value = "菜单ID") @PathVariable Long menuId,
+            @ApiParam(value = "是否显示(1->显示；2->隐藏)") Integer visible
+
+    ) {
+        boolean result =menuService.updateMenuVisible(menuId, visible);
         return Result.judge(result);
     }
+
+
 }
+

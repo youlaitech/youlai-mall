@@ -53,12 +53,11 @@
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
 
+        <!-- JWT工具 -->
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
-            <version>9.16.1</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.mapstruct</groupId>

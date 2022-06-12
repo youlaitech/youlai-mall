@@ -155,7 +155,6 @@ public class GatewayLogFilter implements GlobalFilter, Ordered {
                 httpHeaders.setContentLength(headers.getContentLength());
                 return httpHeaders;
             }
-
             @Override
             public Flux<DataBuffer> getBody() {
                 return outputMessage.getBody();

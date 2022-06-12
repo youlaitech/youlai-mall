@@ -1,4 +1,4 @@
-package com.youlai.admin.common.enums;
+package com.youlai.common.enums;
 
 import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;

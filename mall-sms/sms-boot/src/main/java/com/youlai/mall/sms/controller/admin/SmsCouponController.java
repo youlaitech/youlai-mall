@@ -29,10 +29,9 @@ public class SmsCouponController {
 
     @ApiOperation("新增优惠券")
     @PostMapping
-    public Result saveCoupon(@RequestBody CouponForm couponForm){
-
-      boolean result  = smsCouponService.saveCoupon(couponForm);
-      return  Result.judge(result);
+    public Result saveCoupon(@RequestBody CouponForm couponForm) {
+        boolean result = smsCouponService.saveCoupon(couponForm);
+        return Result.judge(result);
     }
 
 }
