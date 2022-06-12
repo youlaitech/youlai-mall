@@ -1,8 +1,6 @@
 package com.youlai.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.ResultCode;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -36,8 +33,6 @@ import java.net.URLEncoder;
 @Slf4j
 @RequiredArgsConstructor
 public class GatewaySecurityFilter implements GlobalFilter, Ordered {
-
-    private final RedisTemplate redisTemplate;
 
     @Value("${spring.profiles.active}")
     private String env;
@@ -79,12 +74,12 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
         // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在则拦截访问
         token = StrUtil.replaceIgnoreCase(token, SecurityConstants.JWT_PREFIX, Strings.EMPTY);
         String payload = StrUtil.toString(JWSObject.parse(token).getPayload());
-        JSONObject jsonObject = JSONUtil.parseObj(payload);
+        /*JSONObject jsonObject = JSONUtil.parseObj(payload);
         String jti = jsonObject.getStr(SecurityConstants.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti);
         if (isBlack) {
             return ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
-        }
+        }*/
 
         // 存在token且不在黑名单中，request写入JWT的载体信息传递给微服务
         request = exchange.getRequest().mutate()

@@ -3,6 +3,8 @@ package com.youlai.gateway.security;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import com.nimbusds.jwt.proc.BadJWTException;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.ResultCode;
 import com.youlai.gateway.util.ResponseUtils;
@@ -16,10 +18,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
@@ -63,8 +68,9 @@ public class ResourceServerConfig {
                 .oauth2ResourceServer()
                 .jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter())
-                .publicKey(rsaPublicKey())   // 本地加载公钥
-                //.jwkSetUri()  // 远程获取公钥，默认读取的key是spring.security.oauth2.resourceserver.jwt.jwk-set-uri
+//                .publicKey(rsaPublicKey())   // 本地加载公钥
+                .jwtDecoder(jwtDecoder())
+        //.jwkSetUri()  // 远程获取公钥，默认读取的key是spring.security.oauth2.resourceserver.jwt.jwk-set-uri
         ;
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         http.authorizeExchange()
@@ -77,6 +83,45 @@ public class ResourceServerConfig {
                 .and().csrf().disable();
 
         return http.build();
+    }
+
+    /**
+     * 1. 添加 jwt 类型(access_token/refresh_token) 校验
+     * 2. 将 com.youlai.gateway.filter.GatewaySecurityFilter#filter(org.springframework.web.server.ServerWebExchange, org.springframework.cloud.gateway.filter.GatewayFilterChain)
+     * 黑名单部分校验提取到此处
+     *
+     * @return
+     */
+    @Bean
+    public ReactiveJwtDecoder jwtDecoder() {
+        NimbusReactiveJwtDecoder jwtDecoder = NimbusReactiveJwtDecoder
+                .withPublicKey(rsaPublicKey()) // 本地公钥获取
+                /**
+                 * 方式1 使用 预留自定义校验方式对jwt进行校验
+                 * 此种校验方式 会将抛出的异常信息进行包装，
+                 * 无法直接获取到异常内容，但是 无论是非法的 access_token或者 是token 在黑名单内，
+                 * 以上两种情况 系统都认为该token非法  ，对于程序没有影响
+                 */
+                .jwtProcessorCustomizer(jwtProcessor -> jwtProcessor.setJWTClaimsSetVerifier(((claimsSet, context) -> {
+                    // 包含 ATI 说明此 token是 refresh token, 该类型token应仅作为获取刷新token时使用
+                    if (claimsSet.getClaims().containsKey(SecurityConstants.JWT_ATI)) {
+                        throw new BadJWTException("非法的AccessToken");// 此处异常信息不是很重要 还需要把变量抽取出来吗？
+                    }
+                    // 调用过注销接口  黑名单校验
+                    if (SpringUtil.getBean("redisTemplate", RedisTemplate.class).hasKey(SecurityConstants.TOKEN_BLACKLIST_PREFIX + claimsSet.getJWTID())) {
+                        throw new BadJWTException("token已被禁止访问");
+                    }
+                })))
+//                .withJwkSetUri() //远程获取公钥，
+                .build();
+
+        // 方式2. 添加jwt类型以及 黑名单校验
+        /*jwtDecoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(
+                Arrays.asList(
+                        new JwtTimestampValidator(),
+                        new JwtValidator(SpringUtil.getBean("redisTemplate", RedisTemplate.class)))
+        ));*/
+        return jwtDecoder;
     }
 
     /**
