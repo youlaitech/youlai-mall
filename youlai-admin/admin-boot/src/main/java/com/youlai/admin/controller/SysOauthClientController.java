@@ -64,7 +64,6 @@ public class SysOauthClientController {
         return Result.judge(status);
     }
 
-
     @ApiOperation(value = "获取 OAuth2 客户端认证信息", notes = "Feign 调用", hidden = true)
     @GetMapping("/getOAuth2ClientById")
     public Result<ClientAuthDTO> getOAuth2ClientById(
