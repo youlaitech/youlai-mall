@@ -1,5 +1,6 @@
 package com.youlai.mall.sms.pojo.form;
 
+import com.youlai.mall.sms.common.enums.CouponTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class CouponForm {
      * 1满减券 2叠加满减券 3无门槛券（需要限制大小）
      */
     @ApiModelProperty("优惠券类型")
-    private Integer type;
+    private CouponTypeEnum type;
 
     /**
      * 满多少才可以使用（为0则不限制金额）
