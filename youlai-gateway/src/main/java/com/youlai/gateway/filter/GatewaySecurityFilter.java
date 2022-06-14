@@ -60,9 +60,9 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
                     if (!isPermitPath) {
                         return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                     }
-                } else {
+                } else if(methodValue.equals("POST")){
                     // 是否禁止放行的请求路径
-                    boolean isForbidPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(permitPath -> requestPath.contains(permitPath));
+                    boolean isForbidPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(permitPath -> requestPath.equals(permitPath));
                     if (isForbidPath) {
                         return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                     }
