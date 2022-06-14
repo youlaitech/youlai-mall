@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.admin.mapper.SysPermissionMapper;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.query.PermPageQuery;
-import com.youlai.admin.pojo.vo.permission.PermPageVO;
+import com.youlai.admin.pojo.vo.perm.PermPageVO;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
 import lombok.RequiredArgsConstructor;

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.query.PermPageQuery;
-import com.youlai.admin.pojo.vo.permission.PermPageVO;
+import com.youlai.admin.pojo.vo.perm.PermPageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

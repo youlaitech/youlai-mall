@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.query.PermPageQuery;
-import com.youlai.admin.pojo.vo.permission.PermPageVO;
+import com.youlai.admin.pojo.vo.perm.PermPageVO;
 
 import java.util.List;
 

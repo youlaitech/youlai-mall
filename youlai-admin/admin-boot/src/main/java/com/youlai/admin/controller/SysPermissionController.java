@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.admin.pojo.entity.SysPermission;
 import com.youlai.admin.pojo.query.PermPageQuery;
-import com.youlai.admin.pojo.vo.permission.PermPageVO;
+import com.youlai.admin.pojo.vo.perm.PermPageVO;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
