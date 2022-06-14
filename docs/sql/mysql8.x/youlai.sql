@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 14/06/2022 23:20:50
+ Date: 14/06/2022 23:37:41
 */
 
 SET NAMES utf8mb4;
@@ -27,8 +27,8 @@ CREATE TABLE `sys_dept`  (
                              `parent_id` bigint NULL DEFAULT 0 COMMENT '父节点id',
                              `tree_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '父节点id路径',
                              `sort` int NULL DEFAULT 0 COMMENT '显示顺序',
-                             `status` tinyint(1) NULL DEFAULT 1 COMMENT '状态：1-正常 0-禁用',
-                             `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '删除状态：1-删除 0-未删除',
+                             `status` tinyint NULL DEFAULT 1 COMMENT '状态(1:正常;0:禁用)',
+                             `deleted` tinyint NULL DEFAULT 0 COMMENT '逻辑删除标识(1:已删除;0:未删除)',
                              `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`id`) USING BTREE
@@ -51,8 +51,8 @@ CREATE TABLE `sys_dict_item`  (
                                   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典项名称',
                                   `value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典项值',
                                   `sort` int NULL DEFAULT 0 COMMENT '排序',
-                                  `status` tinyint(1) NULL DEFAULT 0 COMMENT '状态（0 停用 1正常）',
-                                  `defaulted` tinyint(1) NULL DEFAULT 0 COMMENT '是否默认（0否 1是）',
+                                  `status` tinyint NULL DEFAULT 0 COMMENT '状态(1:正常;0:禁用)',
+                                  `defaulted` tinyint NULL DEFAULT 0 COMMENT '是否默认(1:是;0:否)',
                                   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
                                   `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                                   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
@@ -91,7 +91,7 @@ CREATE TABLE `sys_dict_type`  (
                                   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键 ',
                                   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '类型名称',
                                   `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '类型编码',
-                                  `status` tinyint(1) NULL DEFAULT 0 COMMENT '状态（0-正常 ,1-停用）',
+                                  `status` tinyint(1) NULL DEFAULT 0 COMMENT '状态(0:正常;1:禁用)',
                                   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
                                   `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                                   `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
@@ -224,8 +224,8 @@ CREATE TABLE `sys_role`  (
                              `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '角色名称',
                              `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色编码',
                              `sort` int NULL DEFAULT NULL COMMENT '显示顺序',
-                             `status` tinyint(1) NULL DEFAULT 1 COMMENT '角色状态：0-正常；1-停用',
-                             `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除；1-已删除',
+                             `status` tinyint(1) NULL DEFAULT 1 COMMENT '角色状态(1-正常；0-停用)',
+                             `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除标识(0-未删除；1-已删除)',
                              `gmt_create` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              PRIMARY KEY (`id`) USING BTREE,
@@ -312,14 +312,14 @@ CREATE TABLE `sys_user`  (
                              `id` int NOT NULL AUTO_INCREMENT,
                              `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
                              `nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
-                             `gender` tinyint(1) NULL DEFAULT 1 COMMENT '性别：1-男 2-女',
+                             `gender` tinyint(1) NULL DEFAULT 1 COMMENT '性别((1:男;2:女))',
                              `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '密码',
                              `dept_id` int NULL DEFAULT NULL COMMENT '部门ID',
                              `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户头像',
                              `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系方式',
-                             `status` tinyint(1) NULL DEFAULT 1 COMMENT '用户状态：1-正常 0-禁用',
+                             `status` tinyint(1) NULL DEFAULT 1 COMMENT '用户状态((1:正常;0:禁用))',
                              `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户邮箱',
-                             `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除；1-已删除',
+                             `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除标识(0:未删除;1:已删除)',
                              `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`id`) USING BTREE,
@@ -349,18 +349,3 @@ CREATE TABLE `sys_user_role`  (
 INSERT INTO `sys_user_role` VALUES (1, 1);
 INSERT INTO `sys_user_role` VALUES (2, 2);
 INSERT INTO `sys_user_role` VALUES (3, 3);
-
--- ----------------------------
--- Triggers structure for table sys_user
--- ----------------------------
-DROP TRIGGER IF EXISTS `sys_user_2_update`;
-delimiter ;;
-CREATE TRIGGER `sys_user_2_update` BEFORE UPDATE ON `sys_user` FOR EACH ROW BEGIN
-    IF NEW.id = 2 THEN
-		SET NEW.status=OLD.status,NEW.deleted=OLD.deleted;
-END IF;
-END
-;;
-delimiter ;
-
-SET FOREIGN_KEY_CHECKS = 1;
