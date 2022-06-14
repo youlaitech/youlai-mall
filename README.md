@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://img.shields.io/badge/SpringBoot-2.6.6-brightgreen.svg"/>
+    <img src="https://img.shields.io/badge/SpringBoot-2.7.0-brightgreen.svg"/>
     <img src="https://img.shields.io/badge/SpringCloud & Alibaba -2021-green.svg"/>
     <a src="https://github.com/hxrui" target="_blank">
         <img src="https://img.shields.io/github/stars/youlaitech/youlai-mall.svg?style=social&label=Stars"/>
@@ -31,7 +31,7 @@
 
 ### 🗁 项目简介
 
-[youlai-mall](https://gitee.com/haoxr) 是基于Spring Boot 2.6、Spring Cloud 2021 & Alibaba
+[youlai-mall](https://gitee.com/haoxr) 是基于Spring Boot 2.7、Spring Cloud 2021 & Alibaba
 2021、Vue3、Element-Plus、uni-app等主流技术栈构建的一整套全栈开源商城项目，
 涉及 [后端微服务](https://gitee.com/youlaitech/youlai-mall)、 [前端管理](https://gitee.com/youlaitech/youlai-mall-admin)
 、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp)和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp)
