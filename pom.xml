@@ -73,7 +73,7 @@
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
 
         <!-- distributed -->
-        <seata.version>1.4.2</seata.version>
+        <seata.version>1.5.1</seata.version>
         <redisson.version>3.16.8</redisson.version>
 
         <!-- 阿里云短信 -->
