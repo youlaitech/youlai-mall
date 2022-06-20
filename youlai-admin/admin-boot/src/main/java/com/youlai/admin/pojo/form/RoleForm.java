@@ -21,4 +21,10 @@ public class RoleForm {
     @NotBlank(message = "角色编码不能为空")
     private String code;
 
+    @ApiModelProperty("排序")
+    private Integer sort;
+
+    @ApiModelProperty("角色状态(1-正常；0-停用)")
+    private Integer status;
+
 }
