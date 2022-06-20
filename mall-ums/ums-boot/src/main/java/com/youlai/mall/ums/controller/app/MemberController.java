@@ -6,7 +6,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.web.utils.MemberUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
-import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
+import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.vo.MemberVO;
@@ -89,10 +89,10 @@ public class MemberController {
 
     @ApiOperation(value = "根据 openid 获取会员认证信息")
     @GetMapping("/openid/{openid}")
-    public Result<MemberAuthInfoDTO> getByOpenid(
+    public Result<MemberAuthDTO> getByOpenid(
             @ApiParam("微信身份标识") @PathVariable String openid
     ) {
-        MemberAuthInfoDTO memberAuthInfo = memberService.getByOpenid(openid);
+        MemberAuthDTO memberAuthInfo = memberService.getByOpenid(openid);
         if (memberAuthInfo == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }
@@ -106,10 +106,10 @@ public class MemberController {
      * @return
      */
     @GetMapping("/mobile/{mobile}")
-    public Result<MemberAuthInfoDTO> getByMobile(
+    public Result<MemberAuthDTO> getByMobile(
             @ApiParam("手机号码") @PathVariable String mobile
     ) {
-        MemberAuthInfoDTO memberAuthInfo = memberService.getByMobile(mobile);
+        MemberAuthDTO memberAuthInfo = memberService.getByMobile(mobile);
         if (memberAuthInfo == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
         }

@@ -8,7 +8,7 @@ import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsService
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
+import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import lombok.Data;
 import lombok.SneakyThrows;
@@ -48,7 +48,7 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
 
         WxMaJscode2SessionResult sessionInfo =  wxMaService.getUserService().getSessionInfo(code);
         String openid = sessionInfo.getOpenid();
-        Result<MemberAuthInfoDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
+        Result<MemberAuthDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
         // 微信用户不存在，注册成为新会员
         if (memberAuthResult != null && ResultCode.USER_NOT_EXIST.getCode().equals(memberAuthResult.getCode())) {
 

@@ -11,7 +11,8 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.utils.MemberUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
-import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
+import com.youlai.mall.ums.convert.MemberConvert;
+import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
@@ -37,6 +38,7 @@ import java.util.Set;
 public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember> implements IUmsMemberService {
 
     private final RedisTemplate redisTemplate;
+    private final MemberConvert memberConvert;
 
     @Override
     public IPage<UmsMember> list(Page<UmsMember> page, String nickname) {
@@ -69,22 +71,16 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * @return
      */
     @Override
-    public MemberAuthInfoDTO getByOpenid(String openid) {
-        UmsMember member = this.getOne(new LambdaQueryWrapper<UmsMember>()
+    public MemberAuthDTO getByOpenid(String openid) {
+        UmsMember entity = this.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getOpenid, openid)
                 .select(UmsMember::getId,
                         UmsMember::getOpenid,
                         UmsMember::getStatus
                 )
         );
-        MemberAuthInfoDTO memberAuth = null;
-        if (member != null) {
-            memberAuth = new MemberAuthInfoDTO()
-                    .setMemberId(member.getId())
-                    .setUsername(member.getOpenid())
-                    .setStatus(member.getStatus());
-        }
-        return memberAuth;
+        MemberAuthDTO memberAuthDTO = memberConvert.entity2OpenidAuthDTO(entity);
+        return memberAuthDTO;
     }
 
     /**
@@ -94,23 +90,17 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * @return
      */
     @Override
-    public MemberAuthInfoDTO getByMobile(String mobile) {
-        UmsMember member = this.getOne(new LambdaQueryWrapper<UmsMember>()
+    public MemberAuthDTO getByMobile(String mobile) {
+        UmsMember entity = this.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getMobile, mobile)
                 .select(UmsMember::getId,
-                        UmsMember::getOpenid,
+                        UmsMember::getMobile,
                         UmsMember::getStatus
                 )
         );
 
-        MemberAuthInfoDTO memberAuth = null;
-        if (member != null) {
-            memberAuth = new MemberAuthInfoDTO()
-                    .setMemberId(member.getId())
-                    .setUsername(member.getMobile())
-                    .setStatus(member.getStatus());
-        }
-        return memberAuth;
+        MemberAuthDTO memberAuthDTO = memberConvert.entity2MobileAuthDTO(entity);
+        return memberAuthDTO;
     }
 
     /**
@@ -173,7 +163,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * 「实验室」扣减账户余额
      *
      * @param memberId
-     * @param amount    扣减金额
+     * @param amount   扣减金额
      * @return
      */
     @Override

@@ -1,7 +1,7 @@
 package com.youlai.auth.security.core.userdetails.member;
 
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
+import com.youlai.mall.ums.dto.MemberAuthDTO;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +35,7 @@ public class MemberUserDetails implements UserDetails {
      *
      * @param member 小程序会员用户认证信息
      */
-    public MemberUserDetails(MemberAuthInfoDTO member) {
+    public MemberUserDetails(MemberAuthDTO member) {
         this.setMemberId(member.getMemberId());
         this.setUsername(member.getUsername());
         this.setEnabled(GlobalConstants.STATUS_YES.equals(member.getStatus()));

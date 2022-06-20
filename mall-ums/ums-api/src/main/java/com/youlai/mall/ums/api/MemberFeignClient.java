@@ -2,7 +2,7 @@ package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
-import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
+import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -47,7 +47,7 @@ public interface MemberFeignClient {
      * @return
      */
     @GetMapping("/app-api/v1/members/openid/{openid}")
-    Result<MemberAuthInfoDTO> loadUserByOpenId(@PathVariable String openid);
+    Result<MemberAuthDTO> loadUserByOpenId(@PathVariable String openid);
 
     /**
      * 根据手机号获取会员认证信息
@@ -56,7 +56,7 @@ public interface MemberFeignClient {
      * @return
      */
     @GetMapping("/app-api/v1/members/mobile/{mobile}")
-    Result<MemberAuthInfoDTO> loadUserByMobile(@PathVariable String mobile);
+    Result<MemberAuthDTO> loadUserByMobile(@PathVariable String mobile);
 
     /**
      * 「实验室」修改会员余额

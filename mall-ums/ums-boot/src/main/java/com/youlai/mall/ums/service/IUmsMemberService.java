@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
-import com.youlai.mall.ums.dto.MemberAuthInfoDTO;
+import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
@@ -33,7 +33,7 @@ public interface IUmsMemberService extends IService<UmsMember> {
      * @param openid
      * @return
      */
-    MemberAuthInfoDTO getByOpenid(String openid);
+    MemberAuthDTO getByOpenid(String openid);
 
     /**
      * 根据手机号获取会员认证信息
@@ -41,7 +41,7 @@ public interface IUmsMemberService extends IService<UmsMember> {
      * @param mobile
      * @return
      */
-    MemberAuthInfoDTO getByMobile(String mobile);
+    MemberAuthDTO getByMobile(String mobile);
 
     /**
      * 新增会员
