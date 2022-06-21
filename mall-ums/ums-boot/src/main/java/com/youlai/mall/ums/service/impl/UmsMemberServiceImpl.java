@@ -11,15 +11,20 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.utils.MemberUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
+import com.youlai.mall.ums.convert.AddressConvert;
 import com.youlai.mall.ums.convert.MemberConvert;
+import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
+import com.youlai.mall.ums.pojo.entity.UmsAddress;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.vo.MemberVO;
+import com.youlai.mall.ums.service.IUmsAddressService;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +40,14 @@ import java.util.Set;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember> implements IUmsMemberService {
 
     private final RedisTemplate redisTemplate;
     private final MemberConvert memberConvert;
+
+    private final AddressConvert addressConvert;
+    private final IUmsAddressService addressService;
 
     @Override
     public IPage<UmsMember> list(Page<UmsMember> page, String nickname) {
@@ -90,7 +99,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * @return
      */
     @Override
-    public MemberAuthDTO getByMobile(String mobile) {
+    public MemberAuthDTO getMemberByMobile(String mobile) {
         UmsMember entity = this.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getMobile, mobile)
                 .select(UmsMember::getId,
@@ -126,7 +135,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * @return
      */
     @Override
-    public MemberVO getCurrentMemberInfo() {
+    public MemberVO getCurrMemberInfo() {
         Long memberId = MemberUtils.getMemberId();
         UmsMember umsMember = this.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getId, memberId)
@@ -140,6 +149,25 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
         MemberVO memberVO = new MemberVO();
         BeanUtil.copyProperties(umsMember, memberVO);
         return memberVO;
+    }
+
+    /**
+     * 获取会员地址
+     *
+     * @param memberId
+     * @return
+     */
+    @Override
+    public List<MemberAddressDTO> listMemberAddress(Long memberId) {
+        log.info("memberId:{}", MemberUtils.getMemberId());
+
+        List<UmsAddress> entities = addressService.list(
+                new LambdaQueryWrapper<UmsAddress>()
+                        .eq(UmsAddress::getMemberId, memberId)
+        );
+
+        List<MemberAddressDTO> list = addressConvert.entity2DTO(entities);
+        return list;
     }
 
 

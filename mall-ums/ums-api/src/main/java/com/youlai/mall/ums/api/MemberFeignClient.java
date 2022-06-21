@@ -2,11 +2,14 @@ package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
+import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @FeignClient(name = "mall-ums", contextId = "member")
 public interface MemberFeignClient {
@@ -57,6 +60,16 @@ public interface MemberFeignClient {
      */
     @GetMapping("/app-api/v1/members/mobile/{mobile}")
     Result<MemberAuthDTO> loadUserByMobile(@PathVariable String mobile);
+
+
+    /**
+     * 获取会员地址列表
+     *
+     * @param memberId
+     * @return
+     */
+    @GetMapping("/app-api/v1/members/{memberId}/addresses")
+    Result<List<MemberAddressDTO>> listMemberAddresses(@PathVariable Long memberId);
 
     /**
      * 「实验室」修改会员余额

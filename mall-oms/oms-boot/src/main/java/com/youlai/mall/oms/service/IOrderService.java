@@ -31,12 +31,12 @@ public interface IOrderService extends IService<OmsOrder> {
      * @param skuId 直接购买必填，购物车结算不填
      * @return
      */
-    OrderConfirmVO confirm(Long skuId);
+    OrderConfirmVO confirmOrder(Long skuId);
 
     /**
      * 订单提交
      */
-    OrderSubmitVO submit(OrderSubmitForm orderSubmitForm) ;
+    OrderSubmitVO submitOrder(OrderSubmitForm orderSubmitForm) ;
 
     /**
      * 订单支付

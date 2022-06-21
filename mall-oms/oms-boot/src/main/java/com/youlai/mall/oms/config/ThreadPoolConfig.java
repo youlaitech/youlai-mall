@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * 线程池配置
+ * 自定义订单线程池
  *
  * @author haoxr
  * @date 2022/2/13
@@ -20,6 +20,6 @@ public class ThreadPoolConfig {
 
     @Bean
     public ThreadPoolExecutor threadPoolExecutor() {
-        return new ThreadPoolExecutor(50, 500, 30, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10000), new NamedThreadFactory("订单线程"));
+        return new ThreadPoolExecutor(50, 500, 30, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10000), new NamedThreadFactory("oms"));
     }
 }

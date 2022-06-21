@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,7 +41,6 @@ public class OrderController {
         return PageResult.success(result);
     }
 
-
     /**
      * 订单确认 → 进入创建订单页面
      * <p>
@@ -52,27 +52,21 @@ public class OrderController {
      */
     @ApiOperation("订单确认")
     @PostMapping("/_confirm")
-    public Result<OrderConfirmVO> confirm(
-            @RequestParam(required = false) Long skuId
-    ) {
-        OrderConfirmVO result = orderService.confirm(skuId);
+    public Result<OrderConfirmVO> confirmOrder(@RequestParam(required = false) Long skuId) {
+        OrderConfirmVO result = orderService.confirmOrder(skuId);
         return Result.success(result);
     }
 
     @ApiOperation("订单提交")
     @PostMapping("/_submit")
-    public Result submit(@Valid @RequestBody OrderSubmitForm orderSubmitForm) {
-        OrderSubmitVO result = orderService.submit(orderSubmitForm);
+    public Result submitOrder(@RequestBody @Validated OrderSubmitForm orderSubmitForm) {
+        OrderSubmitVO result = orderService.submitOrder(orderSubmitForm);
         return Result.success(result);
     }
 
     @ApiOperation("订单支付")
     @PostMapping("/{orderId}/_pay")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "payType", value = "支付方式", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "appId", value = "小程序appId", paramType = "query", dataType = "String")
-    })
+    @ApiImplicitParams({@ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "path", dataType = "Long"), @ApiImplicitParam(name = "payType", value = "支付方式", paramType = "query", dataType = "Integer"), @ApiImplicitParam(name = "appId", value = "小程序appId", paramType = "query", dataType = "String")})
     public <T> Result<T> pay(@PathVariable Long orderId, Integer payType, String appId) {
 
         PayTypeEnum payTypeEnum = IBaseEnum.getEnumByValue(payType, PayTypeEnum.class);

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
@@ -29,7 +28,7 @@ public class UmsMemberController {
 
     @ApiOperation(value = "会员分页列表")
     @GetMapping
-    public PageResult<UmsMember> listMembersWithPage(
+    public PageResult<UmsMember> listPageMembers(
             @ApiParam("页码") Long pageNum,
             @ApiParam("每页数量") Long pageSize,
             @ApiParam("会员昵称") String nickName
@@ -57,15 +56,16 @@ public class UmsMemberController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "选择性修改会员")
-    @PatchMapping("/{id}")
-    public <T> Result<T> patch(
-            @ApiParam("会员ID") @PathVariable Long id,
+    @ApiOperation(value = "修改会员状态")
+    @PatchMapping("/{memberId}/status")
+    public <T> Result<T> updateMemberStatus(
+            @ApiParam("会员ID") @PathVariable Long memberId,
             @RequestBody UmsMember member
     ) {
-        boolean status = memberService.update(new LambdaUpdateWrapper<UmsMember>()
-                .eq(UmsMember::getId, id)
-                .set(member.getStatus() != null, UmsMember::getStatus, member.getStatus())
+        boolean status = memberService.update(
+                new LambdaUpdateWrapper<UmsMember>()
+                        .eq(UmsMember::getId, memberId)
+                        .set(UmsMember::getStatus, member.getStatus())
         );
         return Result.judge(status);
     }

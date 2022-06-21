@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
+import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.vo.MemberVO;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,7 +43,7 @@ public interface IUmsMemberService extends IService<UmsMember> {
      * @param mobile
      * @return
      */
-    MemberAuthDTO getByMobile(String mobile);
+    MemberAuthDTO getMemberByMobile(String mobile);
 
     /**
      * 新增会员
@@ -56,9 +58,16 @@ public interface IUmsMemberService extends IService<UmsMember> {
      *
      * @return
      */
-    MemberVO getCurrentMemberInfo();
+    MemberVO getCurrMemberInfo();
 
-
+    /**
+     * 获取会员地址列表
+     *
+     * @param memberId
+     * @return
+     */
+    List<MemberAddressDTO> listMemberAddress(Long memberId);
+    
     /**
      * 「实验室」修改会员余额
      *
@@ -84,4 +93,7 @@ public interface IUmsMemberService extends IService<UmsMember> {
      * @return
      */
     MemberInfoDTO getMemberInfo(Long memberId);
+
+    
+
 }
