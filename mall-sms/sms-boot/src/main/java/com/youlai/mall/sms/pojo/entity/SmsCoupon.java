@@ -32,7 +32,7 @@ public class SmsCoupon extends BaseEntity {
     /**
      * 优惠券类型(1:满减券;2:直减券;3:折扣券)
      */
-    private CouponTypeEnum type;
+    private Integer type;
 
     /**
      * 优惠券码
@@ -50,9 +50,9 @@ public class SmsCoupon extends BaseEntity {
     private Integer platform;
 
     /**
-     * 优惠券面值金额
+     * 优惠券面值金额(单位:分)
      */
-    private Long amount;
+    private Long faceValue;
 
     /**
      * 优惠券折扣
