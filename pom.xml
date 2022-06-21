@@ -51,7 +51,7 @@
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 
         <!-- db && orm -->
-        <mysql.version>8.0.19</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <druid.version>1.2.4</druid.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
 
