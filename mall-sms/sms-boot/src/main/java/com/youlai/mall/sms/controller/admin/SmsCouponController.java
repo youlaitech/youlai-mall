@@ -21,7 +21,7 @@ public class SmsCouponController {
     private final SmsCouponService smsCouponService;
 
     @ApiOperation(value = "优惠券分页列表")
-    @GetMapping("/pagelist")
+    @GetMapping
     public PageResult listCouponsPage(CouponPageQuery queryParams) {
         Page<CouponPageVO> result = smsCouponService.listCouponsPage(queryParams);
         return PageResult.success(result);
@@ -29,7 +29,7 @@ public class SmsCouponController {
 
     @ApiOperation("新增优惠券")
     @PostMapping
-    public Result saveCoupon(@RequestBody CouponForm couponForm) {
+    public Result saveCoupon(@RequestBody  CouponForm couponForm) {
         boolean result = smsCouponService.saveCoupon(couponForm);
         return Result.judge(result);
     }
