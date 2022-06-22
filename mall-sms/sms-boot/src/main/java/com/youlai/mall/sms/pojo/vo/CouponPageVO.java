@@ -16,7 +16,7 @@ public class CouponPageVO {
     private String name;
 
     @ApiModelProperty("优惠券类型")
-    private CouponTypeEnum type;
+    private Integer type;
 
     @ApiModelProperty("优惠券面值")
     private BigDecimal faceValue;
