@@ -69,7 +69,7 @@
         <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
 
         <!-- elastic stack -->
-        <elasticsearch.version>7.10.1</elasticsearch.version>
+        <elasticsearch.version>7.13.4</elasticsearch.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
 
         <!-- distributed -->
