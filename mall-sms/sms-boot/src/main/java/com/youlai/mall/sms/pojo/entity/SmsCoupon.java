@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import com.youlai.mall.sms.common.enums.CouponTypeEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;

@@ -17,8 +17,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SmsCouponConvert {
 
-    List<CouponPageVO> entity2PageVO(List<SmsCoupon> couponList);
+    List<CouponPageVO> entity2PageVO(List<SmsCoupon> entities);
 
-    SmsCoupon form2Entity(CouponForm couponForm);
+    SmsCoupon form2Entity(CouponForm form);
 
 }

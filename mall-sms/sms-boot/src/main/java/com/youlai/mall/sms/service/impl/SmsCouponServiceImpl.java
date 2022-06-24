@@ -1,5 +1,7 @@
 package com.youlai.mall.sms.service.impl;
 
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.sms.convert.SmsCouponConvert;
@@ -12,7 +14,9 @@ import com.youlai.mall.sms.service.SmsCouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 优惠券业务实现类
@@ -47,7 +51,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
     /**
      * 新增优惠券
      *
-     * @param couponForm
+     * @param couponForm 优惠券表单
      * @return
      */
     @Override
@@ -56,6 +60,37 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
         boolean result = this.save(smsCoupon);
         return result;
     }
+
+    /**
+     * 修改优惠券
+     *
+     * @param couponId   优惠券ID
+     * @param couponForm 优惠券表单
+     * @return
+     */
+    @Override
+    public boolean updateCoupon(Long couponId, CouponForm couponForm) {
+        SmsCoupon entity = smsCouponConvert.form2Entity(couponForm);
+        boolean result = this.updateById(entity);
+        return result;
+    }
+
+    /**
+     * 删除优惠券
+     *
+     * @param idsStr 优惠券ID，多个以英文逗号(,)分割
+     * @return
+     */
+    @Override
+    public boolean deleteCoupons(String idsStr) {
+        Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的优惠券数据为空");
+        // 逻辑删除
+        List<Long> ids = Arrays.asList(idsStr.split(",")).stream()
+                .map(idStr -> Long.parseLong(idStr)).collect(Collectors.toList());
+        boolean result = this.removeByIds(ids);
+        return result;
+    }
+
 }
 
 

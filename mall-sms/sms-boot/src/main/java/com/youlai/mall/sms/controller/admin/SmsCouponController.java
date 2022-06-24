@@ -9,8 +9,11 @@ import com.youlai.mall.sms.pojo.vo.CouponPageVO;
 import com.youlai.mall.sms.service.SmsCouponService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Api(tags = "「系统端」优惠券管理")
 @RestController
@@ -18,20 +21,38 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SmsCouponController {
 
-    private final SmsCouponService smsCouponService;
+    private final SmsCouponService couponService;
 
     @ApiOperation(value = "优惠券分页列表")
     @GetMapping
     public PageResult listCouponsPage(CouponPageQuery queryParams) {
-        Page<CouponPageVO> result = smsCouponService.listCouponsPage(queryParams);
+        Page<CouponPageVO> result = couponService.listCouponsPage(queryParams);
         return PageResult.success(result);
     }
 
     @ApiOperation("新增优惠券")
     @PostMapping
-    public Result saveCoupon(@RequestBody  CouponForm couponForm) {
-        boolean result = smsCouponService.saveCoupon(couponForm);
+    public Result saveCoupon(@RequestBody @Valid CouponForm couponForm) {
+        boolean result = couponService.saveCoupon(couponForm);
         return Result.judge(result);
     }
+
+    @ApiOperation("修改优惠券")
+    @PutMapping("/{couponId}")
+    public Result updateCoupon(
+            @PathVariable Long couponId,
+            @RequestBody @Valid CouponForm couponForm
+    ) {
+        boolean result = couponService.updateCoupon(couponId,couponForm);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "删除优惠券")
+    @DeleteMapping("/{ids}")
+    public Result deleteCoupons(@ApiParam("用户ID，多个以英文逗号(,)分割") @PathVariable String ids) {
+        boolean result = couponService.deleteCoupons(ids);
+        return Result.judge(result);
+    }
+
 
 }

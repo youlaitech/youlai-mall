@@ -30,4 +30,21 @@ public interface SmsCouponService extends IService<SmsCoupon> {
      * @return
      */
     boolean saveCoupon(CouponForm couponForm);
+
+    /**
+     * 修改优惠券
+     *
+     * @param couponId 优惠券ID
+     * @param couponForm 优惠券表单
+     * @return
+     */
+    boolean updateCoupon(Long couponId, CouponForm couponForm);
+
+    /**
+     * 删除优惠券
+     *
+     * @param ids 优惠券ID，多个以英文逗号(,)分割
+     * @return
+     */
+    boolean deleteCoupons(String ids);
 }
