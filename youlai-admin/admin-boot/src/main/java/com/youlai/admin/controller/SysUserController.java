@@ -103,7 +103,6 @@ public class SysUserController {
         return Result.success(loginUserVO);
     }
 
-
     @ApiOperation(value = "根据用户名获取认证信息", notes = "提供用于用户登录认证信息", hidden = true)
     @GetMapping("/username/{username}")
     public Result<UserAuthDTO> getAuthInfoByUsername(@ApiParam("用户名") @PathVariable String username) {
