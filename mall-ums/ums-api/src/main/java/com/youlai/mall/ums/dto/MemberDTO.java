@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
-
 /**
  * 会员传输层对象
  *
