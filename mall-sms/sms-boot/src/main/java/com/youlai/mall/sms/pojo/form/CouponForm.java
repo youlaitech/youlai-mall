@@ -26,6 +26,12 @@ public class CouponForm {
     @ApiModelProperty("优惠券类型(1:满减券;2:直减券;3:折扣券)")
     private Integer type;
 
+    @ApiModelProperty("优惠券面值金额(单位:分)")
+    private Long faceValue;
+
+    @ApiModelProperty("优惠券折扣")
+    private BigDecimal discount;
+
     @ApiModelProperty("优惠券码")
     private String code;
 
@@ -35,22 +41,16 @@ public class CouponForm {
     @ApiModelProperty("使用平台(0:全部;1:移动端;2:PC;)")
     private Integer platform;
 
-    @ApiModelProperty("优惠券面值金额(单位:分)")
-    private Long faceValue;
-
-    @ApiModelProperty("优惠券折扣")
-    private BigDecimal discount;
-
     @ApiModelProperty("优惠券总数(0:无限制)")
     private Integer totalCount;
 
-    @ApiModelProperty("使用门槛(0:无门槛)")
+    @ApiModelProperty("最低消费金额(0:无门槛)")
     private Long minPoint;
 
     @ApiModelProperty("每人限领张数(0:不限制)")
     private Integer perLimit;
 
-    @ApiModelProperty("有效期类型(0:自领取之日起有效天数;1:有效起止时间)")
+    @ApiModelProperty("有效期类型(1:自领取之日起有效天数;2:有效起止时间)")
     private Integer validType;
 
     @ApiModelProperty("自领取之日起有效天数")

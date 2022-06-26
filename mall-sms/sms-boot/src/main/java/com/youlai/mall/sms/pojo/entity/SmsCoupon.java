@@ -74,24 +74,24 @@ public class SmsCoupon extends BaseEntity {
     private Integer perLimit;
 
     /**
-     * 有效期类型(0:自领取之日起有效天数;1:有效起止时间)
+     * 有效期类型(1:自领取之起有效天数;2:有效起止时间)
      */
-    private Integer validType;
+    private Integer validityPeriodType;
 
     /**
      * 自领取之日起有效天数
      */
-    private Integer validDays;
+    private Integer validityDays;
 
     /**
-     * 有效期开始时间
+     * 有效期起始时间
      */
-    private Date validBeginTime;
+    private Date validityBeginTime;
 
     /**
      * 有效期截止时间
      */
-    private Date validEndTime;
+    private Date validityEndTime;
 
     /**
      * 使用类型(0:全场通用;1:指定分类;2:指定商品)

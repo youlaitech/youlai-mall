@@ -21,7 +21,7 @@ public interface SmsCouponService extends IService<SmsCoupon> {
      * @param queryParams
      * @return
      */
-    Page<CouponPageVO> listCouponsPage(CouponPageQuery queryParams);
+    Page<CouponPageVO> listPageCoupons(CouponPageQuery queryParams);
 
     /**
      * 新增优惠券
@@ -47,4 +47,12 @@ public interface SmsCouponService extends IService<SmsCoupon> {
      * @return
      */
     boolean deleteCoupons(String ids);
+
+    /**
+     * 优惠券表单数据
+     * 
+     * @param couponId
+     * @return
+     */
+    CouponForm getCouponFormData(Long couponId);
 }

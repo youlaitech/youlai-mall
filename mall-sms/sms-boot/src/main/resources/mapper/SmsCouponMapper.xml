@@ -41,7 +41,7 @@
     </sql>
 
     <!-- 优惠券分页列表 -->
-    <select id="listCouponsPage" resultType="com.youlai.mall.sms.pojo.entity.SmsCoupon">
+    <select id="listPageCoupons" resultType="com.youlai.mall.sms.pojo.entity.SmsCoupon">
         SELECT
             *
         FROM

@@ -25,9 +25,16 @@ public class SmsCouponController {
 
     @ApiOperation(value = "优惠券分页列表")
     @GetMapping
-    public PageResult listCouponsPage(CouponPageQuery queryParams) {
-        Page<CouponPageVO> result = couponService.listCouponsPage(queryParams);
+    public PageResult listPageCoupons(CouponPageQuery queryParams) {
+        Page<CouponPageVO> result = couponService.listPageCoupons(queryParams);
         return PageResult.success(result);
+    }
+
+    @ApiOperation(value = "优惠券表单数据")
+    @GetMapping("/{couponId}/form_data")
+    public Result<CouponForm> getCouponFormData(@ApiParam(value = "优惠券ID") @PathVariable Long couponId) {
+        CouponForm couponForm = couponService.getCouponFormData(couponId);
+        return Result.success(couponForm);
     }
 
     @ApiOperation("新增优惠券")
@@ -53,6 +60,4 @@ public class SmsCouponController {
         boolean result = couponService.deleteCoupons(ids);
         return Result.judge(result);
     }
-
-
 }

@@ -38,14 +38,28 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      * @return
      */
     @Override
-    public Page<CouponPageVO> listCouponsPage(CouponPageQuery queryParams) {
+    public Page<CouponPageVO> listPageCoupons(CouponPageQuery queryParams) {
         Page<CouponPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
         // 查询数据
-        List<SmsCoupon> couponList = this.baseMapper.listCouponsPage(page, queryParams);
+        List<SmsCoupon> couponList = this.baseMapper.listPageCoupons(page, queryParams);
         // 实体转换
         List<CouponPageVO> records = smsCouponConvert.entity2PageVO(couponList);
         page.setRecords(records);
         return page;
+    }
+
+    /**
+     * 优惠券表单数据
+     *
+     * @param couponId
+     * @return
+     */
+    @Override
+    public CouponForm getCouponFormData(Long couponId) {
+        SmsCoupon entity = this.getById(couponId);
+        // 实体转换entity->form
+        CouponForm couponForm = smsCouponConvert.entity2Form(entity);
+        return couponForm;
     }
 
     /**
@@ -91,6 +105,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
         return result;
     }
 
+ 
 }
 
 
