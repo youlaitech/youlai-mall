@@ -135,7 +135,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 获取会员收获地址
         CompletableFuture<Void> getMemberAddressFuture = CompletableFuture.runAsync(() -> {
-
             RequestContextHolder.setRequestAttributes(attributes);
             Long memberId = MemberUtils.getMemberId();
             Result<List<MemberAddressDTO>> getMemberAddressResult = memberFeignClient.listMemberAddresses(memberId);
@@ -174,10 +173,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 订单重复提交校验
         String orderToken = orderSubmitForm.getOrderToken();
-        Long releaseLockResult = this.redisTemplate.execute(
-                new DefaultRedisScript<>("if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end", Long.class),
-                Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken),
-                orderToken);  // 释放锁成功则返回1
+        Long releaseLockResult = this.redisTemplate.execute(new DefaultRedisScript<>("if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end", Long.class), Collections.singletonList(ORDER_TOKEN_PREFIX + orderToken), orderToken);  // 释放锁成功则返回1
         Assert.isTrue(releaseLockResult.equals(1l), "订单不可重复提交");
 
         OmsOrder order;
@@ -192,16 +188,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
             // 创建订单
             order = new OmsOrder().setOrderSn(orderToken) // 把orderToken赋值给订单编号
-                    .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode()).setSourceType(OrderTypeEnum.APP.getCode())
-                    .setMemberId(MemberUtils.getMemberId())
-                    .setRemark(orderSubmitForm.getRemark())
-                    .setPayAmount(orderSubmitForm.getPayAmount())
-                    .setTotalQuantity(orderItems.stream()
-                            .map(OrderItemDTO::getCount)
-                            .reduce(0, Integer::sum))
-                    .setTotalAmount(orderItems.stream()
-                            .map(item -> item.getPrice() * item.getCount())
-                            .reduce(0L, Long::sum));
+                    .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode()).setSourceType(OrderTypeEnum.APP.getCode()).setMemberId(MemberUtils.getMemberId()).setRemark(orderSubmitForm.getRemark()).setPayAmount(orderSubmitForm.getPayAmount()).setTotalQuantity(orderItems.stream().map(OrderItemDTO::getCount).reduce(0, Integer::sum)).setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum));
             boolean result = this.save(order);
 
             // 添加订单明细
@@ -234,8 +221,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
     /**
      * 订单支付
-     *
-     * @return
      */
     @Override
     @GlobalTransactional
@@ -484,7 +469,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderItems.add(orderItemDTO);
         } else { // 购物车结算
             Long memberId = MemberUtils.getMemberId();
-            log.info("购物车结算获取商品明细的memberId:{}",memberId);
+            log.info("购物车结算获取商品明细的memberId:{}", memberId);
             List<CartItemDTO> cartItems = cartService.listCartItemByMemberId(memberId);
             orderItems = cartItems.stream().filter(CartItemDTO::getChecked).map(cartItem -> {
                 OrderItemDTO orderItemDTO = new OrderItemDTO();
