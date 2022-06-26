@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.utils.MemberUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
@@ -120,10 +119,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      */
     @Override
     public Long addMember(MemberDTO memberDTO) {
-        UmsMember umsMember = new UmsMember();
-        BeanUtil.copyProperties(memberDTO, umsMember);
-        umsMember.setStatus(GlobalConstants.STATUS_YES);
-
+        UmsMember umsMember = memberConvert.dto2Entity(memberDTO);
         boolean result = this.save(umsMember);
         Assert.isTrue(result, "新增会员失败");
         return umsMember.getId();
@@ -159,14 +155,13 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      */
     @Override
     public List<MemberAddressDTO> listMemberAddress(Long memberId) {
-        log.info("memberId:{}", MemberUtils.getMemberId());
 
         List<UmsAddress> entities = addressService.list(
                 new LambdaQueryWrapper<UmsAddress>()
                         .eq(UmsAddress::getMemberId, memberId)
         );
 
-        List<MemberAddressDTO> list = addressConvert.entity2DTO(entities);
+        List<MemberAddressDTO> list = addressConvert.entity2Dto(entities);
         return list;
     }
 
@@ -212,11 +207,8 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      */
     @Override
     public MemberInfoDTO getMemberInfo(Long memberId) {
-        MemberInfoDTO memberInfoDTO = new MemberInfoDTO();
-        UmsMember umsMember = this.getById(memberId);
-        if (umsMember != null) {
-            BeanUtil.copyProperties(umsMember, memberInfoDTO);
-        }
+        UmsMember entity = this.getById(memberId);
+        MemberInfoDTO memberInfoDTO = memberConvert.entity2MemberInfoDTO(entity);
         return memberInfoDTO;
     }
 }

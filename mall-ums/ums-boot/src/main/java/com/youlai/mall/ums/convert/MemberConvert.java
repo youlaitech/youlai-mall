@@ -1,6 +1,8 @@
 package com.youlai.mall.ums.convert;
 
 import com.youlai.mall.ums.dto.MemberAuthDTO;
+import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,4 +27,8 @@ public interface MemberConvert {
             @Mapping(target = "username", source = "mobile")
     })
     MemberAuthDTO entity2MobileAuthDTO(UmsMember entity);
+
+    MemberInfoDTO entity2MemberInfoDTO(UmsMember entity);
+
+    UmsMember dto2Entity(MemberDTO memberDTO);
 }

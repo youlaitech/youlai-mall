@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AddressConvert {
 
-    MemberAddressDTO entity2DTO(UmsAddress entity);
+    MemberAddressDTO entity2Dto(UmsAddress entity);
 
-    List<MemberAddressDTO> entity2DTO(List<UmsAddress> entities);
+    List<MemberAddressDTO> entity2Dto(List<UmsAddress> entities);
 }
