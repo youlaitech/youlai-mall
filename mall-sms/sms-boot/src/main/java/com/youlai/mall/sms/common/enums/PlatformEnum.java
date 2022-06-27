@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public enum PlatformEnum implements IBaseEnum<Integer> {
 
-    ALL(0, "全部平台"),
+    ALL(0, "全平台"),
     APP(1, "APP"),
     PC(2, "PC"),
     ;
