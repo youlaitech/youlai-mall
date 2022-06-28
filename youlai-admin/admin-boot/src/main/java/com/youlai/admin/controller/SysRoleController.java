@@ -29,16 +29,16 @@ public class SysRoleController {
     private final SysRoleService sysRoleService;
 
     @ApiOperation(value = "角色分页列表")
-    @GetMapping
-    public PageResult<RolePageVO> listPageRoles(RolePageQuery queryParams) {
-        Page<RolePageVO> result = sysRoleService.listPageRoles(queryParams);
+    @GetMapping("/pages")
+    public PageResult<RolePageVO> listRolePages(RolePageQuery queryParams) {
+        Page<RolePageVO> result = sysRoleService.listRolePages(queryParams);
         return PageResult.success(result);
     }
 
     @ApiOperation(value = "角色下拉列表")
-    @GetMapping("/select_list")
-    public Result<List<Option>> listSelectRoles() {
-        List<Option> list = sysRoleService.listSelectRoles();
+    @GetMapping("/options")
+    public Result<List<Option>> listRoleOptions() {
+        List<Option> list = sysRoleService.listRoleOptions();
         return Result.success(list);
     }
 
@@ -78,7 +78,7 @@ public class SysRoleController {
     @PutMapping(value = "/{roleId}/status")
     public Result updateRoleStatus(
             @ApiParam("角色ID") @PathVariable Long roleId,
-            @ApiParam("角色状态:1->启用；0->禁用") @RequestParam Integer status
+            @ApiParam("角色状态:1-正常；0-禁用") @RequestParam Integer status
     ) {
         boolean result = sysRoleService.updateRoleStatus(roleId, status);
         return Result.judge(result);

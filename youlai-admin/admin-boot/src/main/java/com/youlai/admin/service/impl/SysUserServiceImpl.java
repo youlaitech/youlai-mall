@@ -70,7 +70,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public IPage<UserVO> listPageUsers(UserPageQuery queryParams) {
+    public IPage<UserVO> listUserPages(UserPageQuery queryParams) {
 
         // 参数构建
         int pageNum = queryParams.getPageNum();
@@ -78,7 +78,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<UserPO> page = new Page<>(pageNum, pageSize);
 
         // 查询数据
-        Page<UserPO> userPoPage = this.baseMapper.listPageUsers(page, queryParams);
+        Page<UserPO> userPoPage = this.baseMapper.listUserPages(page, queryParams);
 
         // 实体转换
         Page<UserVO> userVoPage = userConvert.po2Vo(userPoPage);

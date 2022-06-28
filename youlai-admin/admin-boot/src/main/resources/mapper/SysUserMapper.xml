@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.admin.mapper.SysUserMapper">
 
     <!-- 用户分页列表 -->
-    <select id="listPageUsers" resultType="com.youlai.admin.pojo.po.UserPO">
+    <select id="listUserPages" resultType="com.youlai.admin.pojo.po.UserPO">
         SELECT
         u.id,
         u.username,

@@ -66,7 +66,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
 
     /**
-     * 保存菜单路由
+     * 保存菜单
      */
     @Override
     public boolean saveMenu(SysMenu menu) {
@@ -94,7 +94,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 菜单下拉数据
      */
     @Override
-    public List<Option> listSelectMenus() {
+    public List<Option> listMenuOptions() {
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
         List<Option> menus = recurMenus(SystemConstants.ROOT_MENU_ID, menuList);
         return menus;

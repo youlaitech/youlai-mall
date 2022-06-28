@@ -31,7 +31,7 @@ public interface SysMenuService extends IService<SysMenu> {
      *
      * @return
      */
-    List<Option> listSelectMenus();
+    List<Option> listMenuOptions();
 
     /**
      * 新增菜单

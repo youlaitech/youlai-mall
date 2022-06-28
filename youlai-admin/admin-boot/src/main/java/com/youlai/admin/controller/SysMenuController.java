@@ -50,14 +50,14 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "菜单下拉列表")
-    @GetMapping("/select_list")
-    public Result listSelectMenus() {
-        List<Option> menus = menuService.listSelectMenus();
+    @GetMapping("/options")
+    public Result listMenuOptions() {
+        List<Option> menus = menuService.listMenuOptions();
         return Result.success(menus);
     }
 
     @ApiOperation(value = "路由列表")
-    @GetMapping("/route_list")
+    @GetMapping("/routes")
     public Result listRoutes() {
         List<RouteVO> routeList = menuService.listRoutes();
         return Result.success(routeList);
@@ -107,7 +107,7 @@ public class SysMenuController {
     @PatchMapping("/{menuId}")
     public Result updateMenuVisible(
             @ApiParam(value = "菜单ID") @PathVariable Long menuId,
-            @ApiParam(value = "是否显示(1->显示；2->隐藏)") Integer visible
+            @ApiParam(value = "显示状态(1-显示；2-隐藏)") Integer visible
 
     ) {
         boolean result =menuService.updateMenuVisible(menuId, visible);

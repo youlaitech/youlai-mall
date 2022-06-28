@@ -27,7 +27,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param queryParams
      * @return
      */
-    Page<RolePageVO> listPageRoles(RolePageQuery queryParams);
+    Page<RolePageVO> listRolePages(RolePageQuery queryParams);
 
 
     /**
@@ -35,7 +35,7 @@ public interface SysRoleService extends IService<SysRole> {
      *
      * @return
      */
-    List<Option> listSelectRoles();
+    List<Option> listRoleOptions();
 
     /**
      *

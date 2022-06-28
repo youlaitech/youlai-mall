@@ -45,9 +45,9 @@ public class SysUserController {
     private final SysUserService userService;
 
     @ApiOperation(value = "用户分页列表")
-    @GetMapping
-    public PageResult<UserVO> listPageUsers(UserPageQuery queryParams) {
-        IPage<UserVO> result = userService.listPageUsers(queryParams);
+    @GetMapping("/pages")
+    public PageResult<UserVO> listUserPages(UserPageQuery queryParams) {
+        IPage<UserVO> result = userService.listUserPages(queryParams);
         return PageResult.success(result);
     }
 

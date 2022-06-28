@@ -56,7 +56,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return
      */
     @Override
-    public Page<RolePageVO> listPageRoles(RolePageQuery queryParams) {
+    public Page<RolePageVO> listRolePages(RolePageQuery queryParams) {
         // 查询参数
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
@@ -84,7 +84,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return
      */
     @Override
-    public List<Option> listSelectRoles() {
+    public List<Option> listRoleOptions() {
         // 查询数据
         List<SysRole> roleList = this.list(new LambdaQueryWrapper<SysRole>()
                 .ne(!UserUtils.isRoot(), SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
