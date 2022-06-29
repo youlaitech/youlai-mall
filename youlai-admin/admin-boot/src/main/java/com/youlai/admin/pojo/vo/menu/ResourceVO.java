@@ -15,7 +15,7 @@ public class ResourceVO {
     @ApiModelProperty("菜单列表")
     private List<MenuOption> menus;
 
-    @ApiModelProperty
+    @ApiModelProperty("按钮权限列表")
     private List<PermOption> perms;
 
     @Data

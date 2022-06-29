@@ -20,7 +20,7 @@ public interface SysOauthClientService extends IService<SysOauthClient> {
      * @param queryParams
      * @return
      */
-    IPage<ClientPageVO> listPageClients(ClientPageQuery queryParams);
+    IPage<ClientPageVO> listClientPages(ClientPageQuery queryParams);
 
 
     void cleanCache();

@@ -38,7 +38,7 @@ public class SysOauthClientServiceImpl extends ServiceImpl<SysOauthClientMapper,
      * @return
      */
     @Override
-    public IPage<ClientPageVO> listPageClients(ClientPageQuery queryParams) {
+    public IPage<ClientPageVO> listClientPages(ClientPageQuery queryParams) {
 
         // 参数构建
         int pageNum = queryParams.getPageNum();

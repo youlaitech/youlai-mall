@@ -20,14 +20,14 @@ public interface SysDeptService extends IService<SysDept> {
      *
      * @return
      */
-    List<DeptVO> listDepartments(DeptQuery queryParams);
+    List<DeptVO> listDepts(DeptQuery queryParams);
 
     /**
      * 部门树形下拉（TreeSelect）层级列表
      *
      * @return
      */
-    List<Option> listTreeSelectDepartments();
+    List<Option> lisetDeptOptions();
 
     /**
      * 新增/修改部门

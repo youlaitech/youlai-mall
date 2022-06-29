@@ -39,7 +39,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
      * @return
      */
     @Override
-    public Page<DictItemPageVO> listPageDictItems(DictItemPageQuery queryParams) {
+    public Page<DictItemPageVO> listDictItemPages(DictItemPageQuery queryParams) {
         // 查询参数
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();

@@ -28,15 +28,15 @@ public class SysDeptController {
 
     @ApiOperation(value = "部门列表")
     @GetMapping
-    public Result<List<DeptVO>> listDepartments(DeptQuery queryParams) {
-        List<DeptVO> list = deptService.listDepartments(queryParams);
+    public Result<List<DeptVO>> listDepts(DeptQuery queryParams) {
+        List<DeptVO> list = deptService.listDepts(queryParams);
         return Result.success(list);
     }
 
     @ApiOperation(value = "部门下拉列表")
     @GetMapping("/select_list")
-    public Result listTreeSelectDepartments() {
-        List<Option> list = deptService.listTreeSelectDepartments();
+    public Result lisetDeptOptions() {
+        List<Option> list = deptService.lisetDeptOptions();
         return Result.success(list);
     }
 

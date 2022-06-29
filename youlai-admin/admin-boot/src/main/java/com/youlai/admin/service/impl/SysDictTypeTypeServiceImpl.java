@@ -44,7 +44,7 @@ public class SysDictTypeTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, S
      * @return
      */
     @Override
-    public Page<DictTypePageVO> listPageDictTypes(DictTypePageQuery queryParams) {
+    public Page<DictTypePageVO> listDictTypePages(DictTypePageQuery queryParams) {
         // 查询参数
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();

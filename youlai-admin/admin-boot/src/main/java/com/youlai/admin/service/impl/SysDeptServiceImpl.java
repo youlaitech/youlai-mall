@@ -40,7 +40,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @return
      */
     @Override
-    public List<DeptVO> listDepartments(DeptQuery queryParams) {
+    public List<DeptVO> listDepts(DeptQuery queryParams) {
         // 查询参数
         String keywords = queryParams.getKeywords();
         Integer status = queryParams.getStatus();
@@ -117,7 +117,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @return
      */
     @Override
-    public List<Option> listTreeSelectDepartments() {
+    public List<Option> lisetDeptOptions() {
         List<SysDept> deptList = this.list(new LambdaQueryWrapper<SysDept>()
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .orderByAsc(SysDept::getSort)

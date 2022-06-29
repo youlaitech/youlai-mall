@@ -23,8 +23,8 @@ public class SysDictTypeController {
 
     @ApiOperation(value = "字典类型分页列表")
     @GetMapping
-    public PageResult<DictTypePageVO> listPageDictTypes(DictTypePageQuery queryParams) {
-        Page<DictTypePageVO> result = dictTypeService.listPageDictTypes(queryParams);
+    public PageResult<DictTypePageVO> listDictTypePages(DictTypePageQuery queryParams) {
+        Page<DictTypePageVO> result = dictTypeService.listDictTypePages(queryParams);
         return PageResult.success(result);
     }
 

@@ -25,7 +25,7 @@ public interface SysDictItemService extends IService<SysDictItem> {
      * @param queryParams
      * @return
      */
-    Page<DictItemPageVO> listPageDictItems(DictItemPageQuery queryParams);
+    Page<DictItemPageVO> listDictItemPages(DictItemPageQuery queryParams);
 
     /**
      * 字典数据项表单详情

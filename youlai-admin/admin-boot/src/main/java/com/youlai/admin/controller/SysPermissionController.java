@@ -25,8 +25,8 @@ public class SysPermissionController {
 
     @ApiOperation(value = "权限分页列表")
     @GetMapping("/page")
-    public PageResult<PermPageVO> listPagePerms(PermPageQuery permPageQuery) {
-        IPage<PermPageVO> result = sysPermissionService.listPagePerms(permPageQuery);
+    public PageResult<PermPageVO> listPermPages(PermPageQuery permPageQuery) {
+        IPage<PermPageVO> result = sysPermissionService.listPermPages(permPageQuery);
         return PageResult.success(result);
     }
 

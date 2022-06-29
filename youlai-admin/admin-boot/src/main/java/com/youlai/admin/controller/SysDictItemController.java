@@ -26,8 +26,8 @@ public class SysDictItemController {
 
     @ApiOperation(value = "字典数据项分页列表")
     @GetMapping
-    public PageResult<DictItemPageVO> listPageDictItems(DictItemPageQuery queryParams) {
-        Page<DictItemPageVO> result = dictItemService.listPageDictItems(queryParams);
+    public PageResult<DictItemPageVO> listDictItemPages(DictItemPageQuery queryParams) {
+        Page<DictItemPageVO> result = dictItemService.listDictItemPages(queryParams);
         return PageResult.success(result);
     }
 

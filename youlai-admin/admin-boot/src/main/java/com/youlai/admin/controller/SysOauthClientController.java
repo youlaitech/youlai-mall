@@ -26,8 +26,8 @@ public class SysOauthClientController {
 
     @ApiOperation(value = "客户端分页列表")
     @GetMapping
-    public PageResult<ClientPageVO> listPageClients(ClientPageQuery queryParams) {
-        IPage<ClientPageVO> result = clientService.listPageClients(queryParams);
+    public PageResult<ClientPageVO> listClientPages(ClientPageQuery queryParams) {
+        IPage<ClientPageVO> result = clientService.listClientPages(queryParams);
         return PageResult.success(result);
     }
 

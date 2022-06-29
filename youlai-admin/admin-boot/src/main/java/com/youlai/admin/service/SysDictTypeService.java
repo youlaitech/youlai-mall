@@ -22,7 +22,7 @@ public interface SysDictTypeService extends IService<SysDictType> {
      * @param queryParams 分页查询对象
      * @return
      */
-    Page<DictTypePageVO> listPageDictTypes(DictTypePageQuery queryParams);
+    Page<DictTypePageVO> listDictTypePages(DictTypePageQuery queryParams);
 
 
     /**
