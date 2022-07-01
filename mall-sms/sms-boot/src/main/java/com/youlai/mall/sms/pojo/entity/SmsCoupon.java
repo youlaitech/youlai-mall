@@ -39,12 +39,7 @@ public class SmsCoupon extends BaseEntity {
     private String code;
 
     /**
-     * 优惠券状态(0:未发布;1:已发布;2:已结束)
-     */
-    private Integer status;
-
-    /**
-     * 使用平台(0:全部;1:移动端;2:PC;)
+     * 使用平台(0-全平台;1-移动端;2-PC)
      */
     private Integer platform;
 
@@ -57,11 +52,6 @@ public class SmsCoupon extends BaseEntity {
      * 优惠券折扣
      */
     private BigDecimal discount;
-
-    /**
-     * 优惠券总数(0:无限制)
-     */
-    private Integer totalCount;
 
     /**
      * 使用门槛(0:无门槛)
@@ -94,9 +84,15 @@ public class SmsCoupon extends BaseEntity {
     private Date validityEndTime;
 
     /**
-     * 使用类型(0:全场通用;1:指定分类;2:指定商品)
+     * 适用类型(0-全场通用;1-指定商品分类;2-指定商品)
      */
-    private Integer useType;
+    private Integer applicableType;
+
+
+    /**
+     * 优惠券发放数量(-1:无限制)
+     */
+    private Integer issueCount;
 
     /**
      * 已领取的优惠券数量(统计)
