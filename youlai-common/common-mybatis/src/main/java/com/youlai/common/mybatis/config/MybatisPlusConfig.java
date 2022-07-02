@@ -14,7 +14,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * mybatis-plus 配置类
+ *
+ * @author haoxr
+ * @date 2022/7/2
  */
 @Configuration
 @EnableTransactionManagement
