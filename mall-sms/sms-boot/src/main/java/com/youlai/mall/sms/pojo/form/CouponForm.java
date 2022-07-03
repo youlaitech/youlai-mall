@@ -39,13 +39,13 @@ public class CouponForm {
     @ApiModelProperty("使用平台(0-全平台;1-移动端;2-PC;)")
     private Integer platform;
 
-    @ApiModelProperty("优惠券总数(0:无限制)")
+    @ApiModelProperty("优惠券总数(-1:无限制)")
     private Integer totalCount;
 
     @ApiModelProperty("最低消费金额(0:无门槛)")
     private Long minPoint;
 
-    @ApiModelProperty("每人限领张数(0:不限制)")
+    @ApiModelProperty("每人限领张数(-1:不限制)")
     private Integer perLimit;
 
     @ApiModelProperty("有效期类型(1:自领取之日起有效天数;2:有效起止时间)")
@@ -60,8 +60,8 @@ public class CouponForm {
     @ApiModelProperty("有效期截止时间")
     private Date validEndTime;
 
-    @ApiModelProperty("适用类型(0-全场通用;1-指定商品分类;2-指定商品)")
-    private Integer applicableType;
+    @ApiModelProperty("使用类型(0-全场通用;1-指定商品分类;2-指定商品)")
+    private Integer useType;
 
     @ApiModelProperty("备注")
     private String remark;

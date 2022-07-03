@@ -84,9 +84,9 @@ public class SmsCoupon extends BaseEntity {
     private Date validityEndTime;
 
     /**
-     * 适用类型(0-全场通用;1-指定商品分类;2-指定商品)
+     * 使用类型(0-全场通用;1-指定商品分类;2-指定商品)
      */
-    private Integer applicableType;
+    private Integer useType;
 
 
     /**
