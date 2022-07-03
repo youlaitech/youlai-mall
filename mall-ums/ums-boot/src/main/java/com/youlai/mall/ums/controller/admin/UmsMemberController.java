@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 
-@Api(tags = "「系统端」会员管理")
+@Api(tags = "「管理端」会员管理")
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor

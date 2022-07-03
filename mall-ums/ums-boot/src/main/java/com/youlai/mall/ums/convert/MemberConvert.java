@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 /**
- *  会员实体转换器
+ *  会员对象转换器
  *
  * @author haoxr
  * @date 2022/6/11

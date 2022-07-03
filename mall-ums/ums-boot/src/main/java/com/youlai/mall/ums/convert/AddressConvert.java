@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 /**
- * 会员地址实体转换器
+ * 会员地址对象转换器
  *
  * @author haoxr
  * @date 2022/6/21 23:52
