@@ -22,8 +22,8 @@ CREATE TABLE `ums_address`  (
                                 `detail_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '详细地址',
                                 `zip_code` char(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮编',
                                 `defaulted` tinyint NULL DEFAULT NULL COMMENT '是否默认地址',
-                                `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
-                                `gmt_modified` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                                `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                                `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
@@ -61,8 +61,8 @@ CREATE TABLE `ums_member`  (
                                `status` tinyint(1) NULL DEFAULT 1,
                                `point` int NULL DEFAULT 0 COMMENT '会员积分',
                                `deleted` tinyint(1) NULL DEFAULT 0,
-                               `gmt_create` datetime NULL DEFAULT NULL,
-                               `gmt_modified` datetime NULL DEFAULT NULL,
+                               `create_time` datetime NULL DEFAULT NULL,
+                               `update_time` datetime NULL DEFAULT NULL,
                                `balance` bigint NULL DEFAULT 1000000000,
                                `city` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
                                `country` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,

@@ -22,8 +22,8 @@ CREATE TABLE `sms_advert`  (
                                `sort` int NULL DEFAULT NULL COMMENT '排序',
                                `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '链接地址',
                                `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-                               `gmt_create` datetime NULL DEFAULT NULL,
-                               `gmt_modified` datetime NULL DEFAULT NULL,
+                               `create_time` datetime NULL DEFAULT NULL,
+                               `update_time` datetime NULL DEFAULT NULL,
                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '广告表' ROW_FORMAT = DYNAMIC;
 
@@ -57,8 +57,8 @@ CREATE TABLE `sms_coupon`  (
                                `end_time` datetime NOT NULL COMMENT '发放结束时间',
                                `valid_days` int NOT NULL DEFAULT 1 COMMENT '自领取之日起有效天数',
                                `status` int NOT NULL DEFAULT 1 COMMENT '逻辑删除使用',
-                               `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
-                               `gmt_modified` datetime NULL DEFAULT NULL COMMENT '修改时间',
+                               `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                               `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券表' ROW_FORMAT = DYNAMIC;
 
@@ -86,8 +86,8 @@ CREATE TABLE `sms_coupon_record`  (
                                       `end_time` datetime NULL DEFAULT NULL COMMENT '结束时间',
                                       `order_id` bigint NULL DEFAULT NULL COMMENT '订单id',
                                       `status` int NOT NULL DEFAULT 1 COMMENT '逻辑删除使用',
-                                      `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
-                                      `gmt_modified` datetime NULL DEFAULT NULL COMMENT '修改时间',
+                                      `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                                      `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                       PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券领劵使用记录' ROW_FORMAT = DYNAMIC;
 
@@ -116,10 +116,10 @@ CREATE TABLE `sms_coupon_template`  (
                                         `total` int NOT NULL DEFAULT 0 COMMENT '总优惠券数量',
                                         `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '优惠券模板编码',
                                         `rule` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '优惠券规则',
-                                        `gmt_create` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-                                        `gmt_created_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-                                        `gmt_modified` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-                                        `gmt_modified_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+                                        `create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+                                        `create_timed_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+                                        `update_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+                                        `update_time_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
                                         PRIMARY KEY (`id`) USING BTREE,
                                         UNIQUE INDEX `sms_coupon_template_name_uindex`(`name`) USING BTREE COMMENT '优惠券模板名称全局唯一',
                                         UNIQUE INDEX `sms_coupon_template_code_uindex`(`code`) USING BTREE COMMENT '优惠券模板编码全局唯一'
@@ -139,8 +139,8 @@ CREATE TABLE `sms_seckill_session`  (
                                         `start_time` datetime NULL DEFAULT NULL COMMENT '每日开始时间',
                                         `end_time` datetime NULL DEFAULT NULL COMMENT '每日结束时间',
                                         `status` tinyint(1) NULL DEFAULT NULL COMMENT '启用状态 1-开启  0-关闭',
-                                        `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
-                                        `gmt_modified` datetime NULL DEFAULT NULL COMMENT '修改时间',
+                                        `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                                        `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '秒杀活动场次' ROW_FORMAT = DYNAMIC;
 
@@ -162,8 +162,8 @@ CREATE TABLE `sms_seckill_sku_relation`  (
                                              `seckill_count` int NOT NULL DEFAULT 0 COMMENT '秒杀总量',
                                              `seckill_limit` int NOT NULL DEFAULT 0 COMMENT '每人限购数量',
                                              `seckill_sort` int NULL DEFAULT NULL COMMENT '排序',
-                                             `gmt_create` datetime NULL DEFAULT NULL COMMENT '创建时间',
-                                             `gmt_modified` datetime NULL DEFAULT NULL COMMENT '修改时间',
+                                             `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                                             `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '秒杀活动商品关联' ROW_FORMAT = DYNAMIC;
 
