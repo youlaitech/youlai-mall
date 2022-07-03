@@ -152,7 +152,7 @@
 
 6. **修改Nacos配置中心地址**
 
-   批量替换应用的 bootstrap-dev.yml 文件的配置中心地址 `http://c.youlai.tech/8848` → `http://localhost/8848` ，默认「有来」线上的配置中心地址。
+   批量替换应用的 bootstrap-dev.yml 文件的配置中心地址 `http://c.youlai.tech:8848` → `http://localhost:8848` ，默认「有来」线上的配置中心地址。
 
 7. **服务启动**
 
