@@ -8,7 +8,6 @@
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="value" column="value" jdbcType="VARCHAR"/>
-            <result property="dictCode" column="dict_code" jdbcType="VARCHAR"/>
             <result property="sort" column="sort" jdbcType="INTEGER"/>
             <result property="status" column="status" jdbcType="BOOLEAN"/>
             <result property="defaulted" column="defaulted" jdbcType="BOOLEAN"/>
@@ -26,15 +25,19 @@
 
 
     <select id="list" resultMap="BaseResultMap" >
-        select a.*,b.name as dict_name from sys_dict_item a
-        left join sys_dict b on a.dict_code=b.code
-        where 1=1
-
-        <if test='dictItem.name != null and dictItem.name.trim() neq ""'>
-            and a.name like concat('%',#{dictItem.name},'%')
-        </if>
-        <if test='dictItem.dictCode !=null and dictItem.dictCode.trim() neq ""'>
-            and a.dict_code = #{dictItem.dictCode}
-        </if>
+        SELECT
+            a.*,
+            b.name as dict_name
+        FROM
+            sys_dict_item a
+                LEFT JOIN sys_dict b ON a.dict_code=b.code
+        <where>
+            <if test='dictItem.name != null and dictItem.name.trim() neq ""'>
+                AND a.name like concat('%',#{dictItem.name},'%')
+            </if>
+            <if test='dictItem.dictCode !=null and dictItem.dictCode.trim() neq ""'>
+                AND a.dict_code = #{dictItem.dictCode}
+            </if>
+        </where>
     </select>
 </mapper>
