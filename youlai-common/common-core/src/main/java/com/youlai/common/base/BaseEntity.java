@@ -14,10 +14,10 @@ public class BaseEntity implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime gmtCreate;
+    private LocalDateTime createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime gmtModified;
+    private LocalDateTime updateTime;
 }
