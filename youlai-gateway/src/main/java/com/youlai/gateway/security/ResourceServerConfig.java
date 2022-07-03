@@ -56,7 +56,7 @@ public class ResourceServerConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 
         if (ignoreUrls == null) {
-            log.error("网关白名单路径读取失败，Nacos 配置读取失败，请检查相关配置！！！");
+            log.error("网关白名单路径读取失败：Nacos配置读取失败，请检查配置中心连接是否正确！");
         }
 
         http
