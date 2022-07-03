@@ -7,27 +7,29 @@
     <!-- 用户分页列表 -->
     <select id="listUserPages" resultType="com.youlai.admin.pojo.po.UserPO">
         SELECT
-        u.id,
-        u.username,
-        u.nickname,
-        u.mobile,
-        u.gender,
-        u.avatar,
-        u.STATUS,
-        d.NAME AS dept_name,
-        GROUP_CONCAT( r.NAME ) AS roleNames,
-        u.create_time
+            u.id,
+            u.username,
+            u.nickname,
+            u.mobile,
+            u.gender,
+            u.avatar,
+            u.STATUS,
+            d.NAME AS dept_name,
+            GROUP_CONCAT( r.NAME ) AS roleNames,
+            u.create_time
         FROM
-        sys_user u
-        LEFT JOIN sys_dept d ON u.dept_id = d.id
-        LEFT JOIN sys_user_role ur ON u.id = ur.user_id
-        LEFT JOIN sys_role r ON ur.role_id = r.id
+            sys_user u
+            LEFT JOIN sys_dept d ON u.dept_id = d.id
+            LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+            LEFT JOIN sys_role r ON ur.role_id = r.id
         <where>
             u.deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
-                AND (u.username LIKE CONCAT('%',#{queryParams.keywords},'%')
-                OR u.nickname LIKE CONCAT('%',#{queryParams.keywords},'%')
-                OR u.mobile LIKE CONCAT('%',#{queryParams.keywords},'%'))
+                AND (
+                    u.username LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    OR u.nickname LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    OR u.mobile LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    )
             </if>
             <if test='queryParams.status!=null'>
                 AND u.status = #{queryParams.status}
