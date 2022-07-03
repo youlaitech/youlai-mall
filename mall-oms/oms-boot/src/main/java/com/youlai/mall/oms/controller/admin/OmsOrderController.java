@@ -26,7 +26,7 @@ import java.util.Optional;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-@Api(tags = "「系统端」订单管理")
+@Api(tags = "「管理端」订单管理")
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor

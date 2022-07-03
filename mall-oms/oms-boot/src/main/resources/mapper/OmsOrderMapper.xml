@@ -13,7 +13,7 @@
         <result property="payType" column="pay_type" jdbcType="TINYINT"/>
         <result property="status" column="status" jdbcType="TINYINT"/>
         <result property="totalQuantity" column="total_quantity" jdbcType="TINYINT"/>
-        <result property="gmtCreate" column="gmt_create" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
         <result property="memberId" column="member_id" jdbcType="BIGINT"/>
         <result property="sourceType" column="source_type" jdbcType="TINYINT"/>
         <collection property="orderItems"
@@ -43,7 +43,7 @@
                status,
                total_amount,
                total_quantity,
-               gmt_create,
+               create_time,
                member_id,
                source_type
         FROM oms_order
@@ -59,13 +59,13 @@
             </if>
 
             <if test ='queryParams.beginDate !=null and  queryParams.beginDate.trim() neq ""' >
-                AND date_format (gmt_crate,'%Y-%m-%d') &gt;= date_format(#{queryParams.beginDate},'%Y-%m-%d')
+                AND date_format (create_time,'%Y-%m-%d') &gt;= date_format(#{queryParams.beginDate},'%Y-%m-%d')
             </if>
 
             <if test ='queryParams.endDate !=null and  queryParams.endDate.trim() neq ""' >
-                AND date_format (gmt_crate,'%Y-%m-%d') &lt;= date_format(#{queryParams.endDate},'%Y-%m-%d')
+                AND date_format (create_time,'%Y-%m-%d') &lt;= date_format(#{queryParams.endDate},'%Y-%m-%d')
             </if>
         </where>
-        ORDER BY gmt_create DESC
+        ORDER BY create_time DESC
     </select>
 </mapper>
