@@ -1,10 +1,16 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.pojo.dto.admin.AttributeFormDTO;
-import com.youlai.mall.pms.pojo.entity.PmsAttribute;
+import com.youlai.mall.pms.pojo.form.PmsCategoryAttributeForm;
+import com.youlai.mall.pms.pojo.entity.PmsCategoryAttribute;
 
-public interface IPmsAttributeService extends IService<PmsAttribute> {
+public interface IPmsAttributeService extends IService<PmsCategoryAttribute> {
 
-    boolean saveBatch(AttributeFormDTO attributeForm);
+    /**
+     * 批量保存商品属性
+     *
+     * @param formData 属性表单数据
+     * @return
+     */
+    boolean saveBatch(PmsCategoryAttributeForm formData);
 }

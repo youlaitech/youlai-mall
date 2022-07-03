@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.entity.PmsAttribute;
+import com.youlai.mall.pms.pojo.entity.PmsCategoryAttribute;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import com.youlai.mall.pms.service.IPmsAttributeService;
@@ -21,16 +21,16 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * * 「系统端」商品分类控制器
+ * * 「管理端」商品分类控制器
  *
  * @author <a href="mailto:1490493387@qq.com">haoxr</a>
  * @date 2022/01/01
  */
-@Api(tags = "「系统端」商品分类")
+@Api(tags = "「管理端」商品分类")
 @RestController
 @RequestMapping("/api/v1/categories")
 @AllArgsConstructor
-public class CategoryController {
+public class PmsCategoryController {
 
     private IPmsCategoryService iPmsCategoryService;
     private IPmsAttributeService iPmsAttributeService;
@@ -82,7 +82,7 @@ public class CategoryController {
     @CacheEvict(value = "pms", key = "'categoryList'")
     public Result delete(@PathVariable String ids) {
         List<String> categoryIds = Arrays.asList(ids.split(","));
-        iPmsAttributeService.remove(new LambdaQueryWrapper<PmsAttribute>().in(CollectionUtil.isNotEmpty(categoryIds), PmsAttribute::getCategoryId, categoryIds));
+        iPmsAttributeService.remove(new LambdaQueryWrapper<PmsCategoryAttribute>().in(CollectionUtil.isNotEmpty(categoryIds), PmsCategoryAttribute::getCategoryId, categoryIds));
         boolean result = iPmsCategoryService.removeByIds(categoryIds);
         return Result.judge(result);
     }

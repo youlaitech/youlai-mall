@@ -9,8 +9,8 @@ import lombok.Getter;
  */
 public enum AttributeTypeEnum {
 
-    SPECIFICATION(1, "规格"),
-    ATTRIBUTE(2, "属性");
+    SPEC(1, "规格"),
+    ATTR(2, "属性");
 
     AttributeTypeEnum(int value, String name) {
         this.value = value;

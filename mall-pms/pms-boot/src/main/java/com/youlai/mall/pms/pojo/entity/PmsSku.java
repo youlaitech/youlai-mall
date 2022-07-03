@@ -6,7 +6,7 @@ import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
 /**
- * 商品库存单元实体
+ * 商品库存单元
  *
  * @author haoxr
  * @date 2022/2/6

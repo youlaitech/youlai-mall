@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.pojo.vo;
 
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.entity.PmsSpuAttributeValue;
+import com.youlai.mall.pms.pojo.entity.PmsSpuAttribute;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,14 +9,14 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 商品详情视图对象
+ * 【管理端】商品详情视图对象
  *
  * @author haoxr
  * @date 2022/3/13
  */
 @Data
 @ApiModel("商品详情视图对象")
-public class PmsGoodsDetailVO {
+public class PmsSpuDetailVO {
 
     private Long id;
 
@@ -40,9 +40,9 @@ public class PmsGoodsDetailVO {
 
     private String detail;
 
-    private List<PmsSpuAttributeValue> attrList;
+    private List<PmsSpuAttribute> attrList;
 
-    private List<PmsSpuAttributeValue> specList;
+    private List<PmsSpuAttribute> specList;
 
     private List<PmsSku> skuList;
 

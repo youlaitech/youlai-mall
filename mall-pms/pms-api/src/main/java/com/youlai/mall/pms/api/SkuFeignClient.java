@@ -3,7 +3,7 @@ package com.youlai.mall.pms.api;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
-import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
+import com.youlai.mall.pms.pojo.dto.LockStockDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

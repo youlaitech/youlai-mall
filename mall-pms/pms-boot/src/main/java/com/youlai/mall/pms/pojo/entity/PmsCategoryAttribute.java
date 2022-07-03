@@ -8,17 +8,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * 商品分类属性/规格
+ *
+ * @author haoxr
+ * @date 2022/7/2
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PmsAttribute extends BaseEntity {
+public class PmsCategoryAttribute extends BaseEntity {
 
     @TableId(type=IdType.AUTO)
     private Long id;
 
+    /**
+     * 商品分类ID
+     */
     private Long categoryId;
 
+    /**
+     * 属性/规格名称
+     */
     private String name;
 
     /**

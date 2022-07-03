@@ -8,15 +8,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * 「管理端」SKU控制器
+ *
+ * @author haoxr
  * @date 2022/2/8
  */
-@Api(tags = "「系统端」SKU信息")
+@Api(tags = "「管理端」SKU接口")
 @RestController
 @RequestMapping("/api/v1/sku")
 @RequiredArgsConstructor
-public class OmsSkuController {
-
+public class PmsSkuController {
     private final IPmsSkuService skuService;
 
     @ApiOperation(value = "商品SKU详情")
@@ -28,14 +29,14 @@ public class OmsSkuController {
         return Result.success(sku);
     }
 
-    @ApiOperation(value = "修改SKU信息")
+    @ApiOperation(value = "修改SKU")
     @PutMapping(value = "/{skuId}")
     public Result updateSku(
             @ApiParam @PathVariable Long skuId,
             @RequestBody PmsSku sku
     ) {
-        boolean status = skuService.updateById(sku);
-        return Result.judge(status);
+        boolean result = skuService.updateById(sku);
+        return Result.judge(result);
     }
 
     @ApiOperation(value = "修改库存数量", notes = "实验室模拟", hidden = true)

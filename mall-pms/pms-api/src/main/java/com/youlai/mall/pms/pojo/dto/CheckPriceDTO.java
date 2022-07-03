@@ -5,10 +5,10 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 商品验价传输层实体
+ * 商品验价传输对象
  *
  * @author haoxr
- * @date 2022/2/7 22:52
+ * @date 2022/2/7
  */
 @Data
 public class CheckPriceDTO {

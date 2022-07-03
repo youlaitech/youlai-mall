@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.service.impl;
 
-import com.youlai.mall.pms.pojo.vo.PmsGoodsDetailVO;
+import com.youlai.mall.pms.pojo.vo.PmsSpuDetailVO;
 import com.youlai.mall.pms.service.IPmsSpuService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,8 @@ class PmsSpuServiceImplTest {
     private IPmsSpuService iPmsSpuService;
 
     @Test
-    void getGoodsById() {
-        PmsGoodsDetailVO goodsDetail = iPmsSpuService.getGoodsById(1l);
+    void getPmsSpuDetail() {
+        PmsSpuDetailVO goodsDetail = iPmsSpuService.getPmsSpuDetail(1l);
         log.info(goodsDetail.toString());
     }
 }

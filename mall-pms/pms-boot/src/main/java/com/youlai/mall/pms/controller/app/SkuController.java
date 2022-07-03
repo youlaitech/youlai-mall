@@ -3,15 +3,13 @@ package com.youlai.mall.pms.controller.app;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
-import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
+import com.youlai.mall.pms.pojo.dto.LockStockDTO;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 商品库存单元控制器 (Stock Keeping Unit)

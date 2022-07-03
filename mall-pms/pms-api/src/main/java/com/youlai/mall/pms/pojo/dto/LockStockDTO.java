@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo.dto.app;
+package com.youlai.mall.pms.pojo.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import java.util.List;
 
 /**
- * 锁定库存传输层实体
+ * 锁定库存传输对象
  *
  * @author haoxr
  * @date 2021-03-07 15:14

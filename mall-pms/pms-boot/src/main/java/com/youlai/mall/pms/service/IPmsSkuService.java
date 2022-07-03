@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
+import com.youlai.mall.pms.pojo.dto.LockStockDTO;
 
 
 /**

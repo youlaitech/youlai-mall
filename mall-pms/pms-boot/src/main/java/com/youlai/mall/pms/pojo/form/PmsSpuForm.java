@@ -1,14 +1,17 @@
-package com.youlai.mall.pms.pojo.dto.admin;
+package com.youlai.mall.pms.pojo.form;
 
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import lombok.Data;
 import java.util.List;
 
 /**
+ * 商品SPU表单对象
+ *
  * @author haoxr
+ * @date  2022/7/2
  */
 @Data
-public class GoodsFormDTO {
+public class PmsSpuForm {
 
     private Long id;
     private String name;
@@ -21,24 +24,9 @@ public class GoodsFormDTO {
     private String description;
     private String detail;
 
-    private List<AttributeValue> attrList;
+    private List<PmsSpuAttributeForm> attrList;
 
-    private List<AttributeValue> specList;
+    private List<PmsSpuAttributeForm> specList;
 
     private List<PmsSku> skuList;
-
-    @Data
-    public static class AttributeValue{
-
-        private Long attributeId;
-
-        private String id;
-
-        private String name;
-
-        private String value;
-
-        private String picUrl;
-
-    }
 }

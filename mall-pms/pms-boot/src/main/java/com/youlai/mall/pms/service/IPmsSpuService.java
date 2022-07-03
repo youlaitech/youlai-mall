@@ -1,14 +1,14 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.pojo.dto.admin.GoodsFormDTO;
+import com.youlai.mall.pms.pojo.form.PmsSpuForm;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
-import com.youlai.mall.pms.pojo.vo.GoodsDetailVO;
-import com.youlai.mall.pms.pojo.vo.GoodsPageVO;
-import com.youlai.mall.pms.pojo.vo.PmsGoodsDetailVO;
+import com.youlai.mall.pms.pojo.vo.PmsSpuPageVO;
+import com.youlai.mall.pms.pojo.vo.SpuDetailVO;
+import com.youlai.mall.pms.pojo.vo.SpuPageVO;
+import com.youlai.mall.pms.pojo.vo.PmsSpuDetailVO;
 
 import java.util.List;
 
@@ -20,40 +20,67 @@ import java.util.List;
  */
 public interface IPmsSpuService extends IService<PmsSpu> {
 
+
     /**
-     * 「移动端」商品分页列表
+     * 「管理端」商品分页列表
      *
      * @param queryParams
      * @return
      */
-    IPage<GoodsPageVO> listAppSpuPage(SpuPageQuery queryParams);
-
+    IPage<PmsSpuPageVO> listPmsSpuPages(SpuPageQuery queryParams);
 
     /**
-     * 「移动端」获取商品详情
+     * 「应用端」商品分页列表
      *
-     * @param spuId
+     * @param queryParams
      * @return
      */
-    GoodsDetailVO getAppSpuDetail(Long spuId);
+    IPage<SpuPageVO> listSpuPages(SpuPageQuery queryParams);
 
 
     /**
+     * 「管理端」获取商品详情
      *
      * @param id
      * @return
      */
-    PmsGoodsDetailVO getGoodsById(Long id);
+    PmsSpuDetailVO getPmsSpuDetail(Long id);
+
+    /**
+     * 「应用端」获取商品详情
+     *
+     * @param spuId
+     * @return
+     */
+    SpuDetailVO getSpuDetail(Long spuId);
 
 
-    IPage<PmsSpu> list(Page<PmsSpu> page,  String name,Long categoryId);
+    /**
+     * 新增商品
+     *
+     * @param formData
+     * @return
+     */
+    boolean addSpu(PmsSpuForm formData);
 
-    boolean addGoods(GoodsFormDTO goodsFormDTO);
+    /**
+     * 修改商品
+     *
+     * @param spuId 商品ID
+     * @param formData
+     * @return
+     */
+    boolean updateSpuById(Long spuId,PmsSpuForm formData);
 
-    boolean removeByGoodsIds(List<Long> spuIds);
+    /**
+     *  删除商品
+     *
+     * @param ids 商品ID，多个以英文逗号(,)分割
+     * @return
+     */
+    boolean removeBySpuIds(String ids);
 
-    boolean updateGoods(GoodsFormDTO goodsFormDTO);
 
 
-   
+
 }

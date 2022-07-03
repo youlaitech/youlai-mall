@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.common.constant;
 
 /**
- *
+ * 商品模块常量
  *
  * @author haoxr
  * @date 2021-02-28 20:10
@@ -14,6 +14,9 @@ public interface PmsConstants {
 
     String GOODS_BLOOM_FILTER = "pms:bloom:filter";
 
-    String TEMP_ID_PREFIX = "tid_";
+    /**
+     * 临时规格ID前缀
+     */
+    String SPEC_TEMP_ID_PREFIX = "tid_";
 
 }

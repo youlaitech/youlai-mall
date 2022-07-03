@@ -5,14 +5,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 商品分页对象
+ * 【应用端】商品分页视图对象
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/8/8
  */
 @ApiModel("商品分页对象")
 @Data
-public class GoodsPageVO {
+public class SpuPageVO {
 
     @ApiModelProperty("商品ID")
     private Long id;

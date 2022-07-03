@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.pojo.dto.admin;
+package com.youlai.mall.pms.pojo.form;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @ApiModel("属性表单")
-public class AttributeFormDTO {
+public class PmsCategoryAttributeForm {
 
     @ApiModelProperty("分类ID")
     @NotNull

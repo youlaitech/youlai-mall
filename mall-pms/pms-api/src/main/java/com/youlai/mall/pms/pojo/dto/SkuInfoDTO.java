@@ -1,9 +1,10 @@
 package com.youlai.mall.pms.pojo.dto;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
+ * SKU信息传输对象
+ *
  * @author haoxr
  * @date 2022/2/5 23:09
  */

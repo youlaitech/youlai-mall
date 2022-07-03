@@ -11,7 +11,7 @@ import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
-import com.youlai.mall.pms.pojo.dto.app.LockStockDTO;
+import com.youlai.mall.pms.pojo.dto.LockStockDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.service.IPmsSkuService;
 import lombok.RequiredArgsConstructor;

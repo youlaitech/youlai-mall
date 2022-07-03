@@ -26,7 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BloomFilterConfig implements InitializingBean {
 
-    private final IPmsSpuService spuService;
+    private final IPmsSpuService pmsSpuServiced;
     private final RedisTemplate redisTemplate;
 
     @Bean
@@ -46,7 +46,7 @@ public class BloomFilterConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        List<PmsSpu> list = spuService.list();
+        List<PmsSpu> list = pmsSpuServiced.list();
         log.info("加载产品到布隆过滤器当中,size:{}", list.size());
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().filter(item -> item.getId() > 0).forEach(item -> {
