@@ -14,8 +14,8 @@
         <result property="icon" column="icon" jdbcType="VARCHAR"/>
         <result property="sort" column="sort" jdbcType="INTEGER"/>
         <result property="visible" column="visible" jdbcType="BOOLEAN"/>
-        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="type" column="type" jdbcType="OTHER"/>
         <collection property="roles" ofType="string" javaType="list">
             <result column="code"/>

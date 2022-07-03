@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.convert.RoleConvert;
+import com.youlai.admin.converter.RoleConverter;
 import com.youlai.admin.mapper.SysRoleMapper;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.pojo.entity.SysRoleMenu;
@@ -47,7 +47,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private final SysUserRoleService sysUserRoleService;
     private final SysRolePermissionService sysRolePermissionService;
     private final SysPermissionService sysPermissionService;
-    private final RoleConvert roleConvert;
+    private final RoleConverter roleConverter;
 
     /**
      * 角色分页列表
@@ -74,7 +74,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         );
 
         // 实体转换
-        Page<RolePageVO> pageResult = roleConvert.entity2Page(rolePage);
+        Page<RolePageVO> pageResult = roleConverter.entity2Page(rolePage);
         return pageResult;
     }
 
@@ -93,7 +93,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         );
 
         // 实体转换
-        List<Option> list = roleConvert.roles2Options(roleList);
+        List<Option> list = roleConverter.roles2Options(roleList);
         return list;
     }
 
@@ -115,7 +115,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Assert.isTrue(count == 0, "角色名称或角色编码重复，请检查！");
 
         // 实体转换
-        SysRole role = roleConvert.form2Entity(roleForm);
+        SysRole role = roleConverter.form2Entity(roleForm);
 
         boolean result = this.saveOrUpdate(role);
         // 刷新权限缓存

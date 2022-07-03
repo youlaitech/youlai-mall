@@ -8,13 +8,14 @@ import org.springframework.stereotype.Component;
 
 /**
  *
+ *
+ *
  * @author haoxr
  * @date 2022/4/10 20:49
  */
 @Component
 @Scope("prototype")
 public class UserImportListener extends AnalysisEventListener<UserImportDTO.UserItem> {
-
 
     @Override
     public void invoke(UserImportDTO.UserItem userItem, AnalysisContext analysisContext) {

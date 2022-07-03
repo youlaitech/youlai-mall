@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.convert.ClientConvert;
+import com.youlai.admin.converter.ClientConverter;
 import com.youlai.admin.mapper.SysOauthClientMapper;
 import com.youlai.admin.pojo.entity.SysOauthClient;
 import com.youlai.admin.pojo.query.ClientPageQuery;
@@ -29,7 +29,7 @@ import java.util.Set;
 public class SysOauthClientServiceImpl extends ServiceImpl<SysOauthClientMapper, SysOauthClient> implements SysOauthClientService {
 
     private final StringRedisTemplate stringRedisTemplate;
-    private final ClientConvert clientConvert;
+    private final ClientConverter clientConverter;
 
     /**
      * 客户端分页列表
@@ -54,7 +54,7 @@ public class SysOauthClientServiceImpl extends ServiceImpl<SysOauthClientMapper,
         );
 
         // 实体转换
-        Page<ClientPageVO> voPage = clientConvert.entity2PageVO(entityPage);
+        Page<ClientPageVO> voPage = clientConverter.entity2PageVO(entityPage);
 
         return voPage;
     }

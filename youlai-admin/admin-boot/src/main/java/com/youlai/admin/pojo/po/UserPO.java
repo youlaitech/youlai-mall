@@ -68,5 +68,5 @@ public class UserPO {
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date gmtCreate;
+    private Date createTime;
 }

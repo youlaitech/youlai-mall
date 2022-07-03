@@ -16,7 +16,7 @@
         u.STATUS,
         d.NAME AS dept_name,
         GROUP_CONCAT( r.NAME ) AS roleNames,
-        u.gmt_create
+        u.create_time
         FROM
         sys_user u
         LEFT JOIN sys_dept d ON u.dept_id = d.id
@@ -116,7 +116,7 @@
                 ELSE '未知'
             END gender,
             d.NAME AS dept_name,
-            u.gmt_create
+            u.create_time
         FROM
             sys_user u
             LEFT JOIN sys_dept d ON u.dept_id = d.id

@@ -10,8 +10,8 @@
         <result property="menuId" column="menu_id" jdbcType="BIGINT"/>
         <result property="urlPerm" column="url_perm" jdbcType="VARCHAR"/>
         <result property="btnPerm" column="btn_perm" jdbcType="VARCHAR"/>
-        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-        <result  property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result  property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <collection property="roles" ofType="String" javaType="list">
             <result column="code"/>
         </collection>

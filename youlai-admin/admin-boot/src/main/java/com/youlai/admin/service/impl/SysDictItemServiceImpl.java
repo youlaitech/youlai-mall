@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.convert.DictItemConvert;
+import com.youlai.admin.converter.DictItemConverter;
 import com.youlai.admin.mapper.SysDictItemMapper;
 import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.pojo.form.DictItemForm;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements SysDictItemService {
 
-    private final DictItemConvert dictItemConvert;
+    private final DictItemConverter dictItemConverter;
 
     /**
      * 字典数据项分页列表
@@ -56,7 +56,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
         );
 
         // 实体转换
-        Page<DictItemPageVO> pageResult = dictItemConvert.entity2Page(dictItemPage);
+        Page<DictItemPageVO> pageResult = dictItemConverter.entity2Page(dictItemPage);
         return pageResult;
     }
 
@@ -83,7 +83,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
         Assert.isTrue(entity != null, "字典数据项不存在");
 
         // 实体转换
-        DictItemForm dictItemForm = dictItemConvert.entity2Form(entity);
+        DictItemForm dictItemForm = dictItemConverter.entity2Form(entity);
         return dictItemForm;
     }
 
@@ -96,7 +96,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
     @Override
     public boolean saveDictItem(DictItemForm dictItemForm) {
         // 实体对象转换 form->entity
-        SysDictItem entity = dictItemConvert.form2Entity(dictItemForm);
+        SysDictItem entity = dictItemConverter.form2Entity(dictItemForm);
         // 持久化
         boolean result = this.save(entity);
         return result;
@@ -111,7 +111,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
      */
     @Override
     public boolean updateDictItem(Long id, DictItemForm dictItemForm) {
-        SysDictItem entity = dictItemConvert.form2Entity(dictItemForm);
+        SysDictItem entity = dictItemConverter.form2Entity(dictItemForm);
         boolean result = this.updateById(entity);
         return result;
     }

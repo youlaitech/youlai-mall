@@ -1,4 +1,4 @@
-package com.youlai.admin.convert;
+package com.youlai.admin.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysUser;
@@ -13,13 +13,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 /**
- * 用户实体转换器
+ * 用户对象转换器
  *
  * @author haoxr
  * @date 2022/6/8
  */
 @Mapper(componentModel = "spring")
-public interface UserConvert {
+public interface UserConverter {
 
     @Mappings({
             @Mapping(target = "genderLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(po.getGender(), com.youlai.common.enums.GenderEnum.class))")

@@ -17,7 +17,7 @@ import com.youlai.admin.pojo.vo.user.UserVO;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.enums.GenderEnum;
 import com.youlai.admin.listener.excel.UserImportListener;
-import com.youlai.admin.convert.UserConvert;
+import com.youlai.admin.converter.UserConverter;
 import com.youlai.admin.dto.UserAuthDTO;
 import com.youlai.admin.mapper.SysUserMapper;
 import com.youlai.admin.pojo.dto.UserImportDTO;
@@ -61,7 +61,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysUserRoleService userRoleService;
     private final UserImportListener userImportListener;
     private final SysPermissionService permissionService;
-    private final UserConvert userConvert;
+    private final UserConverter userConverter;
 
     /**
      * 获取用户分页列表
@@ -81,7 +81,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<UserPO> userPoPage = this.baseMapper.listUserPages(page, queryParams);
 
         // 实体转换
-        Page<UserVO> userVoPage = userConvert.po2Vo(userPoPage);
+        Page<UserVO> userVoPage = userConverter.po2Vo(userPoPage);
 
         return userVoPage;
     }
@@ -96,7 +96,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserForm getUserFormData(Long userId) {
         UserFormPO userFormPO = this.baseMapper.getUserFormData(userId);
         // 实体转换po->form
-        UserForm userForm = userConvert.po2Form(userFormPO);
+        UserForm userForm = userConverter.po2Form(userFormPO);
         return userForm;
     }
 
@@ -110,7 +110,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public boolean saveUser(UserForm userForm) {
 
         // 实体转换 form->entity
-        SysUser entity = userConvert.form2Entity(userForm);
+        SysUser entity = userConverter.form2Entity(userForm);
 
         // 设置默认加密密码
         String defaultEncryptPwd = passwordEncoder.encode(SystemConstants.DEFAULT_USER_PASSWORD);
@@ -172,7 +172,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
         // form -> entity
-        SysUser entity = userConvert.form2Entity(userForm);
+        SysUser entity = userConverter.form2Entity(userForm);
 
         // 修改用户
         boolean result = this.updateById(entity);
@@ -345,7 +345,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 )
         );
         // entity->VO
-        LoginUserVO loginUserVO = userConvert.entity2LoginUser(user);
+        LoginUserVO loginUserVO = userConverter.entity2LoginUser(user);
 
         // 用户角色集合
         List<String> roles = UserUtils.getRoles();

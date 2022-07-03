@@ -49,6 +49,6 @@ public class UserVO {
 
     @ApiModelProperty("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date gmtCreate;
+    private Date createTime;
 
 }

@@ -1,4 +1,4 @@
-package com.youlai.admin.convert;
+package com.youlai.admin.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysRole;
@@ -12,13 +12,13 @@ import org.mapstruct.Mappings;
 import java.util.List;
 
 /**
- * 角色实体转换器
+ * 角色对象转换器
  *
  * @author haoxr
  * @date 2022/5/29
  */
 @Mapper(componentModel = "spring")
-public interface RoleConvert {
+public interface RoleConverter {
 
     Page<RolePageVO> entity2Page(Page<SysRole> page);
 
@@ -29,7 +29,7 @@ public interface RoleConvert {
     Option role2Option(SysRole role);
 
 
-    List<Option> roles2Options(List<SysRole> roleList);
+    List<Option> roles2Options(List<SysRole> roles);
 
     SysRole form2Entity(RoleForm roleForm);
 }

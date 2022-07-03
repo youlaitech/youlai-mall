@@ -1,4 +1,4 @@
-package com.youlai.admin.convert;
+package com.youlai.admin.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysDictItem;
@@ -14,7 +14,7 @@ import org.mapstruct.Mapper;
  * @date 2022/6/8
  */
 @Mapper(componentModel = "spring")
-public interface DictItemConvert {
+public interface DictItemConverter {
 
     Page<DictItemPageVO> entity2Page(Page<SysDictItem> page);
 

@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.admin.convert.DictTypeConvert;
+import com.youlai.admin.converter.DictTypeConverter;
 import com.youlai.admin.mapper.SysDictTypeMapper;
 import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.pojo.entity.SysDictType;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 public class SysDictTypeTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService {
 
     private final SysDictItemService dictItemService;
-    private final DictTypeConvert dictTypeConvert;
+    private final DictTypeConverter dictTypeConverter;
 
     /**
      * 字典分页列表
@@ -61,7 +61,7 @@ public class SysDictTypeTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, S
         );
 
         // 实体转换
-        Page<DictTypePageVO> pageResult = dictTypeConvert.entity2Page(dictTypePage);
+        Page<DictTypePageVO> pageResult = dictTypeConverter.entity2Page(dictTypePage);
         return pageResult;
     }
 
@@ -86,7 +86,7 @@ public class SysDictTypeTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, S
         Assert.isTrue(entity != null, "字典类型不存在");
 
         // 实体转换
-        DictTypeForm dictTypeForm = dictTypeConvert.entity2Form(entity);
+        DictTypeForm dictTypeForm = dictTypeConverter.entity2Form(entity);
         return dictTypeForm;
     }
 
@@ -99,7 +99,7 @@ public class SysDictTypeTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, S
     @Override
     public boolean saveDictType(DictTypeForm dictTypeForm) {
         // 实体对象转换 form->entity
-        SysDictType entity = dictTypeConvert.form2Entity(dictTypeForm);
+        SysDictType entity = dictTypeConverter.form2Entity(dictTypeForm);
         // 持久化
         boolean result = this.save(entity);
         return result;
@@ -119,7 +119,7 @@ public class SysDictTypeTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, S
         SysDictType sysDictType = this.getById(id);
         Assert.isTrue(sysDictType != null, "字典类型不存在");
 
-        SysDictType entity = dictTypeConvert.form2Entity(dictTypeForm);
+        SysDictType entity = dictTypeConverter.form2Entity(dictTypeForm);
         boolean result = this.updateById(entity);
         if (result) {
             // 字典类型code变化，同步修改字典项的类型code

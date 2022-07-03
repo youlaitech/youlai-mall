@@ -39,7 +39,7 @@ public class UserExportVO {
 
     @ExcelProperty(value = "创建时间")
     @DateTimeFormat("yyyy/MM/dd HH:mm:ss")
-    private LocalDateTime gmtCreate;
+    private LocalDateTime createTime;
 
 
 }
