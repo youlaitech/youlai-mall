@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Api(tags = "「系统端」优惠券管理")
+@Api(tags = "「管理端」优惠券管理")
 @RestController
 @RequestMapping("/api/v1/coupons")
 @RequiredArgsConstructor
@@ -25,8 +25,8 @@ public class SmsCouponController {
 
     @ApiOperation(value = "优惠券分页列表")
     @GetMapping
-    public PageResult listPageCoupons(CouponPageQuery queryParams) {
-        Page<CouponPageVO> result = couponService.listPageCoupons(queryParams);
+    public PageResult listCouponPages(CouponPageQuery queryParams) {
+        Page<CouponPageVO> result = couponService.listCouponPages(queryParams);
         return PageResult.success(result);
     }
 

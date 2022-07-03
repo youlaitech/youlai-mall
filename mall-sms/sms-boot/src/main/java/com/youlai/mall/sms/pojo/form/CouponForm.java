@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 优惠券表单对象
@@ -35,10 +36,7 @@ public class CouponForm {
     @ApiModelProperty("优惠券码")
     private String code;
 
-    @ApiModelProperty("优惠券状态(0:未发布;1:已发布;2:已结束;)")
-    private Integer status;
-
-    @ApiModelProperty("使用平台(0:全部;1:移动端;2:PC;)")
+    @ApiModelProperty("使用平台(0-全平台;1-移动端;2-PC;)")
     private Integer platform;
 
     @ApiModelProperty("优惠券总数(0:无限制)")
@@ -62,10 +60,40 @@ public class CouponForm {
     @ApiModelProperty("有效期截止时间")
     private Date validEndTime;
 
-    @ApiModelProperty("使用类型(0:全场通用;1:指定分类;2:指定商品)")
-    private Integer useType;
+    @ApiModelProperty("适用类型(0-全场通用;1-指定商品分类;2-指定商品)")
+    private Integer applicableType;
 
     @ApiModelProperty("备注")
     private String remark;
 
+    @ApiModelProperty("优惠券适用商品分类列表")
+    private List<CouponSpuCategory> spuCategoryList;
+
+    @ApiModelProperty("优惠券适用商品列表")
+    private List<CouponSpu> spuList;
+
+    @ApiModel("优惠券适用商品分类")
+    @Data
+    public static class CouponSpuCategory {
+
+        private Long id;
+
+        private Long categoryId;
+
+        private String categoryName;
+
+    }
+
+    @ApiModel("优惠券适用商品")
+    @Data
+
+    public static class CouponSpu {
+
+        private Long id;
+
+        private Long spuId;
+
+        private String spuName;
+
+    }
 }

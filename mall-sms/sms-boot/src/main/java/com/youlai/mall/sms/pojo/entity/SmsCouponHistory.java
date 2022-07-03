@@ -69,12 +69,12 @@ public class SmsCouponHistory implements Serializable {
     /**
      * 创建时间
      */
-    private Date gmtCreate;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date gmtModified;
+    private Date updateTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

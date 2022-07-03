@@ -1,4 +1,4 @@
-package com.youlai.mall.sms.convert;
+package com.youlai.mall.sms.converter;
 
 
 import com.youlai.mall.sms.pojo.entity.SmsCoupon;
@@ -11,13 +11,13 @@ import org.mapstruct.Mappings;
 import java.util.List;
 
 /**
- * 优惠券实体转换器
+ * 优惠券对象转换器
  *
  * @author haoxr
  * @date 2022/5/29
  */
 @Mapper(componentModel = "spring")
-public interface SmsCouponConvert {
+public interface SmsCouponConverter {
 
     @Mappings({
             @Mapping(target = "platformLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(entity.getPlatform(), com.youlai.mall.sms.common.enums.PlatformEnum.class))"),

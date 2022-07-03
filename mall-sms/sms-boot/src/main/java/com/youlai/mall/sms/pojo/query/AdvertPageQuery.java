@@ -6,15 +6,16 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @author xinyi
- * @desc: 优惠券领取使用详情条件分页查询
+ * 广告分页列表查询对象
+ *
+ * @author haoxr
  * @date 2021/7/11
  */
-@ApiModel("优惠券领取使用详情条件分页查询")
+@ApiModel("广告分页查询对象")
 @Data
 public class AdvertPageQuery extends BasePageQuery {
 
-    @ApiModelProperty("广告)")
-    private String title;
+    @ApiModelProperty("关键字")
+    private String keywords;
 
 }

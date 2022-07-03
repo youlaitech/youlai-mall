@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.sms.convert.SmsCouponConvert;
+import com.youlai.mall.sms.converter.SmsCouponConverter;
 import com.youlai.mall.sms.mapper.SmsCouponMapper;
 import com.youlai.mall.sms.pojo.entity.SmsCoupon;
 import com.youlai.mall.sms.pojo.form.CouponForm;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon>
         implements SmsCouponService {
 
-    private final SmsCouponConvert smsCouponConvert;
+    private final SmsCouponConverter smsCouponConverter;
 
     /**
      * 优惠券分页列表
@@ -38,12 +38,12 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      * @return
      */
     @Override
-    public Page<CouponPageVO> listPageCoupons(CouponPageQuery queryParams) {
+    public Page<CouponPageVO> listCouponPages(CouponPageQuery queryParams) {
         Page<CouponPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
         // 查询数据
-        List<SmsCoupon> couponList = this.baseMapper.listPageCoupons(page, queryParams);
+        List<SmsCoupon> couponList = this.baseMapper.listCouponPages(page, queryParams);
         // 实体转换
-        List<CouponPageVO> records = smsCouponConvert.entity2PageVO(couponList);
+        List<CouponPageVO> records = smsCouponConverter.entity2PageVO(couponList);
         page.setRecords(records);
         return page;
     }
@@ -58,7 +58,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
     public CouponForm getCouponFormData(Long couponId) {
         SmsCoupon entity = this.getById(couponId);
         // 实体转换entity->form
-        CouponForm couponForm = smsCouponConvert.entity2Form(entity);
+        CouponForm couponForm = smsCouponConverter.entity2Form(entity);
         return couponForm;
     }
 
@@ -70,7 +70,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean saveCoupon(CouponForm couponForm) {
-        SmsCoupon smsCoupon = smsCouponConvert.form2Entity(couponForm);
+        SmsCoupon smsCoupon = smsCouponConverter.form2Entity(couponForm);
         boolean result = this.save(smsCoupon);
         return result;
     }
@@ -84,7 +84,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean updateCoupon(Long couponId, CouponForm couponForm) {
-        SmsCoupon entity = smsCouponConvert.form2Entity(couponForm);
+        SmsCoupon entity = smsCouponConverter.form2Entity(couponForm);
         boolean result = this.updateById(entity);
         return result;
     }

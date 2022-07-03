@@ -16,6 +16,6 @@
             </if>
         </where>
         ORDER BY
-           gmt_modified desc
+           update_time desc
     </select>
 </mapper>
