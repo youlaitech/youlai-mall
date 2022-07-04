@@ -24,7 +24,7 @@ public class SmsCouponController {
     private final SmsCouponService couponService;
 
     @ApiOperation(value = "优惠券分页列表")
-    @GetMapping
+    @GetMapping("/pages")
     public PageResult listCouponPages(CouponPageQuery queryParams) {
         Page<CouponPageVO> result = couponService.listCouponPages(queryParams);
         return PageResult.success(result);
