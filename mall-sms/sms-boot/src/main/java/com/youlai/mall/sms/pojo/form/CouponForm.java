@@ -49,16 +49,16 @@ public class CouponForm {
     private Integer perLimit;
 
     @ApiModelProperty("有效期类型(1:自领取之日起有效天数;2:有效起止时间)")
-    private Integer validType;
+    private Integer validityPeriodType;
 
     @ApiModelProperty("自领取之日起有效天数")
-    private Integer validDays;
+    private Integer validityDays;
 
     @ApiModelProperty("有效期开始时间")
-    private Date validBeginTime;
+    private Date validityBeginTime;
 
     @ApiModelProperty("有效期截止时间")
-    private Date validEndTime;
+    private Date validityEndTime;
 
     @ApiModelProperty("使用类型(0-全场通用;1-指定商品分类;2-指定商品)")
     private Integer useType;
