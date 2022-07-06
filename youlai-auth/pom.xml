@@ -5,14 +5,13 @@
     <parent>
         <artifactId>youlai-mall</artifactId>
         <groupId>com.youlai</groupId>
-        <version>2.0.0</version>
+        <version>2.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>youlai-auth</artifactId>
 
     <properties>
-        <youlai.version>2.0.0</youlai.version>
         <!-- K8S属性配置(可忽略) -->
         <service.port>8000</service.port>
         <service.nodeport>32005</service.nodeport>
@@ -68,31 +67,26 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>ums-api</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>admin-api</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-web</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-redis</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>

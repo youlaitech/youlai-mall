@@ -5,14 +5,13 @@
     <parent>
         <artifactId>mall-oms</artifactId>
         <groupId>com.youlai</groupId>
-        <version>2.0.0</version>
+        <version>2.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>oms-boot</artifactId>
 
     <properties>
-        <youlai.version>2.0.0</youlai.version>
         <service.port>8603</service.port>
         <service.nodeport>32000</service.nodeport>
     </properties>
@@ -69,13 +68,11 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>oms-api</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>pms-api</artifactId>
-            <version>${youlai.version}</version>
         </dependency>
 
         <dependency>
