@@ -2,10 +2,13 @@ package com.youlai.mall.pms.converter;
 
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.form.PmsSpuForm;
+import com.youlai.mall.pms.pojo.vo.SeckillingSpuVO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+
+import java.util.List;
 
 /**
  * 商品对象转换器
@@ -23,5 +26,9 @@ public interface SpuConverter {
 
     @InheritInverseConfiguration(name="form2Entity")
     PmsSpuForm entity2Form(PmsSpu entity);
+
+    SeckillingSpuVO entity2SeckillingVO(PmsSpu entity);
+
+    List<SeckillingSpuVO> entity2SeckillingVO(List<PmsSpu> entities);
 
 }

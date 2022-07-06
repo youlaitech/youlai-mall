@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.form.PmsSpuForm;
 import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
-import com.youlai.mall.pms.pojo.vo.PmsSpuPageVO;
-import com.youlai.mall.pms.pojo.vo.SpuDetailVO;
-import com.youlai.mall.pms.pojo.vo.SpuPageVO;
-import com.youlai.mall.pms.pojo.vo.PmsSpuDetailVO;
+import com.youlai.mall.pms.pojo.vo.*;
 
 import java.util.List;
 
@@ -66,21 +63,25 @@ public interface IPmsSpuService extends IService<PmsSpu> {
     /**
      * 修改商品
      *
-     * @param spuId 商品ID
+     * @param spuId    商品ID
      * @param formData
      * @return
      */
-    boolean updateSpuById(Long spuId,PmsSpuForm formData);
+    boolean updateSpuById(Long spuId, PmsSpuForm formData);
 
     /**
-     *  删除商品
+     * 删除商品
      *
      * @param ids 商品ID，多个以英文逗号(,)分割
      * @return
      */
     boolean removeBySpuIds(String ids);
 
-
-
-
+    /**
+     * 获取秒杀商品列表
+     * TODO
+     *
+     * @return
+     */
+    List<SeckillingSpuVO> listSeckillingSpu();
 }

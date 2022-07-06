@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
+import com.youlai.mall.pms.pojo.vo.SeckillingSpuVO;
 import com.youlai.mall.pms.pojo.vo.SpuPageVO;
 import com.youlai.mall.pms.pojo.vo.SpuDetailVO;
 import com.youlai.mall.pms.service.IPmsSpuService;
@@ -16,18 +17,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "「移动端」商品信息")
-@RestController("appSpuController")
+import java.util.List;
+
+@Api(tags = "「移动端」商品接口")
+@RestController
 @RequestMapping("/app-api/v1/spu")
 @RequiredArgsConstructor
 public class SpuController {
 
-    private final IPmsSpuService iPmsSpuService;
+    private final IPmsSpuService spuService;
 
     @ApiOperation(value = "商品分页列表")
-    @GetMapping("/page")
-    public PageResult listSpuPage(SpuPageQuery queryParams) {
-        IPage<SpuPageVO> result = iPmsSpuService.listSpuPages(queryParams);
+    @GetMapping("/pages")
+    public PageResult listSpuPages(SpuPageQuery queryParams) {
+        IPage<SpuPageVO> result = spuService.listSpuPages(queryParams);
         return PageResult.success(result);
     }
 
@@ -36,8 +39,15 @@ public class SpuController {
     public Result<SpuDetailVO> getSpuDetail(
             @ApiParam("商品ID") @PathVariable Long spuId
     ) {
-        SpuDetailVO spuDetailVO = iPmsSpuService.getSpuDetail(spuId);
+        SpuDetailVO spuDetailVO = spuService.getSpuDetail(spuId);
         return Result.success(spuDetailVO);
+    }
+
+    @ApiOperation(value = "获取秒杀商品列表")
+    @GetMapping("/seckilling_list")
+    public Result<List<SeckillingSpuVO>> listSeckillingSpu() {
+        List<SeckillingSpuVO> list = spuService.listSeckillingSpu();
+        return Result.success(list);
     }
 
 }

@@ -298,6 +298,21 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         return true;
     }
 
+    /**
+     * 获取商品秒杀接口
+     *
+     * @return
+     */
+    @Override
+    public List<SeckillingSpuVO> listSeckillingSpu() {
+        List<PmsSpu> entities = this.list(new LambdaQueryWrapper<PmsSpu>()
+                .select(PmsSpu::getId, PmsSpu::getName, PmsSpu::getPicUrl, PmsSpu::getPrice)
+                .orderByDesc(PmsSpu::getCreateTime)
+        );
+        List<SeckillingSpuVO> list = spuConverter.entity2SeckillingVO(entities);
+        return list;
+    }
+
 
     /**
      * 保存SKU，需要替换提交表单中的临时规格ID
