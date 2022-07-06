@@ -62,8 +62,8 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
                     }
                 } else if(methodValue.equals("POST")){
                     // 是否禁止放行的请求路径
-                    boolean isForbidPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(permitPath -> requestPath.equals(permitPath));
-                    if (isForbidPath) {
+                    boolean isForbiddenPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(forbiddenPath -> requestPath.contains(forbiddenPath));
+                    if (isForbiddenPath) {
                         return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                     }
                 }
@@ -86,7 +86,7 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
             return ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
         }
 
-        // 存在token且不在黑名单中，request写入JWT的载体信息传递给微服务
+        // token有效不在黑名单中，request写入JWT的载体信息传递给其他服务
         request = exchange.getRequest().mutate()
                 .header(SecurityConstants.JWT_PAYLOAD_KEY, URLEncoder.encode(payload, "UTF-8"))
                 .build();

@@ -104,7 +104,7 @@ public interface SecurityConstants {
     /**
      * 线上环境禁止的请求路径
      */
-    List<String> PROD_FORBID_PATHS= Arrays.asList("/youlai-admin/api/v1/menus");
+    List<String> PROD_FORBID_PATHS= Arrays.asList("/youlai-admin/api/v1/menus","/mall-pms/api");
 
     /**
      * 线上环境禁止方法
