@@ -9,8 +9,8 @@ import lombok.Getter;
 public enum ValidityPeriodTypeEnum implements IBaseEnum<Integer> {
 
     UNKNOWN(0, null),
-    DAYS(1, "自领取时起有效天数"),
-    PERIOD(2, "有效起止时间"),
+    DATE_RANGE(1, "日期范围"),
+    FIXED_DAYS(2, "固定天数"),
     ;
     @Getter
     @EnumValue //  Mybatis-Plus 提供注解表示插入数据库时插入该值

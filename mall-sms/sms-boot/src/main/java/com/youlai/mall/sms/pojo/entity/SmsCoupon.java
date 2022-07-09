@@ -88,11 +88,10 @@ public class SmsCoupon extends BaseEntity {
      */
     private Integer useType;
 
-
     /**
-     * 优惠券发放数量(-1:无限制)
+     * 发行量(-1:无限制)
      */
-    private Integer issueCount;
+    private Integer circulation;
 
     /**
      * 已领取的优惠券数量(统计)

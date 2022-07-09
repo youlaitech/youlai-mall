@@ -39,8 +39,8 @@ public class CouponForm {
     @ApiModelProperty("使用平台(0-全平台;1-移动端;2-PC;)")
     private Integer platform;
 
-    @ApiModelProperty("优惠券总数(-1:无限制)")
-    private Integer totalCount;
+    @ApiModelProperty("发行量(-1:无限制)")
+    private Integer circulation;
 
     @ApiModelProperty("最低消费金额(0:无门槛)")
     private Long minPoint;

@@ -28,8 +28,10 @@ public class CouponUtils {
             case ZK:
                 faceValueLabel = NumberUtil.mul(discount, 10) + "折";
                 break;
-            default:
+            case MJ:
+            case ZJ:
                 faceValueLabel = NumberUtil.div(faceValue, new Float(10000), 2) + "元";
+                break;
         }
         return faceValueLabel;
     }
@@ -48,13 +50,12 @@ public class CouponUtils {
         String validityPeriodLabel = null;
         ValidityPeriodTypeEnum validityPeriodTypeEnum = IBaseEnum.getEnumByValue(validityPeriodType, ValidityPeriodTypeEnum.class);
         switch (validityPeriodTypeEnum) {
-            case DAYS:
+            case DATE_RANGE:
+                validityPeriodLabel = DateUtil.format(validityBeginTime, "yyyy/MM/dd") + "~" + DateUtil.format(validityEndTime, "yyyy/MM/dd");
+                break;
+            case FIXED_DAYS:
                 validityPeriodLabel = "领取后" + validityDays + "天有效";
                 break;
-            case PERIOD:
-                validityPeriodLabel = DateUtil.format(validityBeginTime,"yyyy/MM/dd HH:mm:ss") + "~" + DateUtil.format(validityEndTime,"yyyy/MM/dd HH:mm:ss");
-                break;
-
         }
         return validityPeriodLabel;
     }
