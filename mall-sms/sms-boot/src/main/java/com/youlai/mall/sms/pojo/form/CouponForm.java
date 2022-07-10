@@ -1,5 +1,6 @@
 package com.youlai.mall.sms.pojo.form;
 
+import cn.hutool.core.util.NumberUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,6 +28,9 @@ public class CouponForm {
     @ApiModelProperty("优惠券类型(1:满减券;2:直减券;3:折扣券)")
     private Integer type;
 
+    @ApiModelProperty("优惠券面值类型((1:金额;2:折扣)")
+    private Integer faceValueType;
+
     @ApiModelProperty("优惠券面值金额(单位:分)")
     private Long faceValue;
 
@@ -42,13 +46,13 @@ public class CouponForm {
     @ApiModelProperty("发行量(-1:无限制)")
     private Integer circulation;
 
-    @ApiModelProperty("最低消费金额(0:无门槛)")
+    @ApiModelProperty("使用门槛(0:无门槛)")
     private Long minPoint;
 
     @ApiModelProperty("每人限领张数(-1:不限制)")
     private Integer perLimit;
 
-    @ApiModelProperty("有效期类型(1:自领取之日起有效天数;2:有效起止时间)")
+    @ApiModelProperty("有效期类型(1:日期范围;2:固定天数)")
     private Integer validityPeriodType;
 
     @ApiModelProperty("自领取之日起有效天数")
@@ -60,7 +64,7 @@ public class CouponForm {
     @ApiModelProperty("有效期截止时间")
     private Date validityEndTime;
 
-    @ApiModelProperty("使用类型(0-全场通用;1-指定商品分类;2-指定商品)")
+    @ApiModelProperty("使用类型(0:全场通用;1:指定商品分类;2:指定商品)")
     private Integer useType;
 
     @ApiModelProperty("备注")
@@ -95,5 +99,9 @@ public class CouponForm {
 
         private String spuName;
 
+    }
+
+    public static void main(String[] args) {
+        double div = NumberUtil.div(1L, 1L);
     }
 }

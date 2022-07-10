@@ -27,15 +27,22 @@ public interface SmsCouponConverter {
                     target = "validityPeriodLabel",
                     expression = "java(com.youlai.mall.sms.common.utils.CouponUtils.getValidityPeriod(entity.getValidityPeriodType(),entity.getValidityDays(),entity.getValidityBeginTime(),entity.getValidityBeginTime()))"
             ),
-            @Mapping(target = "minPointLabel", expression = "java(cn.hutool.core.util.NumberUtil.div(entity.getMinPoint(),new java.math.BigDecimal(10000)).setScale(2).toString())"),
+            @Mapping(target = "minPointLabel", expression = "java(cn.hutool.core.util.NumberUtil.toStr(cn.hutool.core.util.NumberUtil.div(entity.getMinPoint(),new java.math.BigDecimal(100)).setScale(2)))"),
     })
     CouponPageVO entity2PageVO(SmsCoupon entity);
 
 
     List<CouponPageVO> entity2PageVO(List<SmsCoupon> entities);
 
+
+    @Mappings({
+            @Mapping(target = "discount",expression = "java(cn.hutool.core.util.NumberUtil.div(form.getDiscount(),10L))"),
+    })
     SmsCoupon form2Entity(CouponForm form);
 
 
+    @Mappings({
+            @Mapping(target = "discount",expression = "java(cn.hutool.core.util.NumberUtil.mul(entity.getDiscount(),10L))"),
+    })
     CouponForm entity2Form(SmsCoupon entity);
 }

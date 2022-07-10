@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,14 +25,14 @@ public class SmsCoupon extends BaseEntity {
     private Long id;
 
     /**
-     * 优惠券名称
-     */
-    private String name;
-
-    /**
      * 优惠券类型(1:满减券;2:直减券;3:折扣券)
      */
     private Integer type;
+
+    /**
+     * 优惠券名称
+     */
+    private String name;
 
     /**
      * 优惠券码
@@ -39,9 +40,14 @@ public class SmsCoupon extends BaseEntity {
     private String code;
 
     /**
-     * 使用平台(0-全平台;1-移动端;2-PC)
+     * 使用平台(0:全平台;1:移动端;2:PC端)
      */
     private Integer platform;
+
+    /**
+     * 优惠券面值类型((1:金额;2:折扣)
+     */
+    private Integer faceValueType;
 
     /**
      * 优惠券面值金额(单位:分)
