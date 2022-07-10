@@ -132,7 +132,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     routeVO.setPath(menu.getPath()); // 根据path路由跳转 this.$router.push({path:xxx})
                     routeVO.setRedirect(menu.getRedirect());
                     routeVO.setComponent(menu.getComponent());
-                    routeVO.setRedirect(menu.getRedirect());
 
                     RouteVO.Meta meta = new RouteVO.Meta();
                     meta.setTitle(menu.getName());
