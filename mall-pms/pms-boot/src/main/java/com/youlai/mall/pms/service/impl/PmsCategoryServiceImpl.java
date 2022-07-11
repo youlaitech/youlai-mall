@@ -68,7 +68,7 @@ public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCa
      * @return
      */
     @Override
-    public List<Option> listCascadeCategories() {
+    public List<Option> listCategoryOptions() {
         List<PmsCategory> categoryList = this.list(
                 new LambdaQueryWrapper<PmsCategory>()
                         .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)

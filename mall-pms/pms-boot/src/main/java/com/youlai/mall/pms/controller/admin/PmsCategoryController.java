@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,11 +30,11 @@ import java.util.List;
 @Api(tags = "「管理端」商品分类")
 @RestController
 @RequestMapping("/api/v1/categories")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PmsCategoryController {
 
-    private IPmsCategoryService iPmsCategoryService;
-    private IPmsAttributeService iPmsAttributeService;
+    private final IPmsCategoryService iPmsCategoryService;
+    private final IPmsAttributeService iPmsAttributeService;
 
     @ApiOperation(value = "商品分类列表")
     @GetMapping
@@ -43,9 +44,9 @@ public class PmsCategoryController {
     }
 
     @ApiOperation(value = "商品分类级联列表")
-    @GetMapping("/cascade")
-    public Result listCascadeCategories() {
-        List list = iPmsCategoryService.listCascadeCategories();
+    @GetMapping("/options")
+    public Result listCategoryOptions() {
+        List list = iPmsCategoryService.listCategoryOptions();
         return Result.success(list);
     }
 
@@ -82,7 +83,8 @@ public class PmsCategoryController {
     @CacheEvict(value = "pms", key = "'categoryList'")
     public Result delete(@PathVariable String ids) {
         List<String> categoryIds = Arrays.asList(ids.split(","));
-        iPmsAttributeService.remove(new LambdaQueryWrapper<PmsCategoryAttribute>().in(CollectionUtil.isNotEmpty(categoryIds), PmsCategoryAttribute::getCategoryId, categoryIds));
+        iPmsAttributeService.remove(new LambdaQueryWrapper<PmsCategoryAttribute>().in(CollectionUtil.isNotEmpty(categoryIds),
+                PmsCategoryAttribute::getCategoryId, categoryIds));
         boolean result = iPmsCategoryService.removeByIds(categoryIds);
         return Result.judge(result);
     }

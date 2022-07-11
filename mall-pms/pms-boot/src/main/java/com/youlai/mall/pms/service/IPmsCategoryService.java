@@ -28,7 +28,7 @@ public interface IPmsCategoryService extends IService<PmsCategory> {
      * 分类列表（级联）
      * @return
      */
-    List<Option> listCascadeCategories();
+    List<Option> listCategoryOptions();
 
 
     /**
