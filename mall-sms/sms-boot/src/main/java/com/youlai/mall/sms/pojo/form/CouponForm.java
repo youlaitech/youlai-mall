@@ -64,44 +64,15 @@ public class CouponForm {
     @ApiModelProperty("有效期截止时间")
     private Date validityEndTime;
 
-    @ApiModelProperty("使用类型(0:全场通用;1:指定商品分类;2:指定商品)")
-    private Integer useType;
+    @ApiModelProperty("应用范围(0:全场通用;1:指定商品分类;2:指定商品)")
+    private Integer applicationScope;
 
     @ApiModelProperty("备注")
     private String remark;
 
-    @ApiModelProperty("优惠券适用商品分类列表")
-    private List<CouponSpuCategory> spuCategoryList;
+    @ApiModelProperty("优惠券适用商品分类ID集合")
+    private List<Long> spuCategoryIds;
 
     @ApiModelProperty("优惠券适用商品列表")
-    private List<CouponSpu> spuList;
-
-    @ApiModel("优惠券适用商品分类")
-    @Data
-    public static class CouponSpuCategory {
-
-        private Long id;
-
-        private Long categoryId;
-
-        private String categoryName;
-
-    }
-
-    @ApiModel("优惠券适用商品")
-    @Data
-
-    public static class CouponSpu {
-
-        private Long id;
-
-        private Long spuId;
-
-        private String spuName;
-
-    }
-
-    public static void main(String[] args) {
-        double div = NumberUtil.div(1L, 1L);
-    }
+    private List<Long> spuIds;
 }
