@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * 
@@ -13,11 +15,12 @@ import lombok.Data;
  */
 @TableName(value ="sms_coupon_spu")
 @Data
+@Accessors(chain = true)
 public class SmsCouponSpu implements Serializable {
     /**
      * 
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

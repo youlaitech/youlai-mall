@@ -6,9 +6,12 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.base.IBaseEnum;
+import com.youlai.mall.sms.common.enums.CouponApplicationScopeEnum;
 import com.youlai.mall.sms.converter.SmsCouponConverter;
 import com.youlai.mall.sms.mapper.SmsCouponMapper;
 import com.youlai.mall.sms.pojo.entity.SmsCoupon;
+import com.youlai.mall.sms.pojo.entity.SmsCouponSpu;
 import com.youlai.mall.sms.pojo.entity.SmsCouponSpuCategory;
 import com.youlai.mall.sms.pojo.form.CouponForm;
 import com.youlai.mall.sms.pojo.query.CouponPageQuery;
@@ -67,6 +70,30 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
         SmsCoupon entity = this.getById(couponId);
         // 实体转换entity->form
         CouponForm couponForm = smsCouponConverter.entity2Form(entity);
+
+        Integer applicationScope = couponForm.getApplicationScope();
+
+        CouponApplicationScopeEnum applicationScopeEnum = IBaseEnum.getEnumByValue(applicationScope, CouponApplicationScopeEnum.class);
+        if (applicationScopeEnum != null) {
+            switch (applicationScopeEnum) {
+                case SPU_CATEGORY:
+                    List<SmsCouponSpuCategory> couponSpuCategoryList = smsCouponSpuCategoryService.list(new LambdaQueryWrapper<SmsCouponSpuCategory>()
+                            .eq(SmsCouponSpuCategory::getCouponId, couponId)
+                            .select(SmsCouponSpuCategory::getCategoryId)
+                    );
+                    List<Long> categoryIds = couponSpuCategoryList.stream().map(item -> item.getCategoryId()).collect(Collectors.toList());
+                    couponForm.setSpuCategoryIds(categoryIds);
+                    break;
+                case SPU:
+                    List<SmsCouponSpu> couponSpuList = smsCouponSpuService.list(new LambdaQueryWrapper<SmsCouponSpu>()
+                            .eq(SmsCouponSpu::getCouponId, couponId)
+                            .select(SmsCouponSpu::getSpuId)
+                    );
+                    List<Long> spuIds = couponSpuList.stream().map(item -> item.getSpuId()).collect(Collectors.toList());
+                    couponForm.setSpuIds(spuIds);
+                    break;
+            }
+        }
         return couponForm;
     }
 
@@ -78,27 +105,39 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean saveCoupon(CouponForm couponForm) {
-        SmsCoupon smsCoupon = smsCouponConverter.form2Entity(couponForm);
-        boolean result = this.save(smsCoupon);
+        SmsCoupon entity = smsCouponConverter.form2Entity(couponForm);
+        boolean result = this.save(entity);
 
         if (result) {
-
-            Long couponId = smsCoupon.getId();
-            List<Long> spuCategoryIds = couponForm.getSpuCategoryIds();
-
+            // 根据优惠券适用商品范围保存对应的关联关系
+            // 指定商品分类： 优惠券 <-> 商品分类
+            // 指定商品： 优惠券 <-> 商品
+            Long couponId = entity.getId();
             Integer applicationScope = couponForm.getApplicationScope();
+            CouponApplicationScopeEnum applicationScopeEnum = IBaseEnum.getEnumByValue(applicationScope, CouponApplicationScopeEnum.class);
 
+            Assert.isTrue(applicationScopeEnum != null, "请指定优惠券适用范围");
+            switch (applicationScopeEnum) {
+                case SPU_CATEGORY:
+                    List<Long> spuCategoryIds = couponForm.getSpuCategoryIds();
+                    if (CollectionUtil.isNotEmpty(spuCategoryIds)) {
+                        List<SmsCouponSpuCategory> smsCouponSpuCategories = spuCategoryIds.stream()
+                                .map(spuCategoryId -> new SmsCouponSpuCategory().setCouponId(couponId).setCategoryId(spuCategoryId))
+                                .collect(Collectors.toList());
+                        smsCouponSpuCategoryService.saveBatch(smsCouponSpuCategories);
+                    }
+                    break;
 
-            if (CollectionUtil.isNotEmpty(spuCategoryIds)) {
-                List<SmsCouponSpuCategory> smsCouponSpuCategories = spuCategoryIds.stream().map(spuCategoryId -> {
-                    SmsCouponSpuCategory smsCouponSpuCategory = new SmsCouponSpuCategory();
-                    smsCouponSpuCategory.setCouponId(couponId);
-                    smsCouponSpuCategory.setCouponId(spuCategoryId);
-                    return smsCouponSpuCategory;
-                }).collect(Collectors.toList());
-
+                case SPU:
+                    List<Long> spuIds = couponForm.getSpuIds();
+                    if (CollectionUtil.isNotEmpty(spuIds)) {
+                        List<SmsCouponSpu> smsCouponSpuList = spuIds.stream()
+                                .map(spuId -> new SmsCouponSpu().setCouponId(couponId).setSpuId(spuId))
+                                .collect(Collectors.toList());
+                        smsCouponSpuService.saveBatch(smsCouponSpuList);
+                    }
+                    break;
             }
-
         }
         return result;
     }
@@ -116,11 +155,55 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
         boolean result = this.updateById(entity);
 
         if (result) {
-            List<SmsCouponSpuCategory> list = smsCouponSpuCategoryService.list(new LambdaQueryWrapper<SmsCouponSpuCategory>().eq(SmsCouponSpuCategory::getCouponId, couponId));
+            // 根据优惠券适用商品范围保存对应的关联关系
+            // 全场通用： 删除所有关联
+            // 指定商品分类： 优惠券 <-> 商品分类
+            // 指定商品： 优惠券 <-> 商品
+            Integer applicationScope = couponForm.getApplicationScope();
+            CouponApplicationScopeEnum applicationScopeEnum = IBaseEnum.getEnumByValue(applicationScope, CouponApplicationScopeEnum.class);
+
+            Assert.isTrue(applicationScopeEnum != null, "请指定优惠券适用范围");
+            switch (applicationScopeEnum) {
+                case ALL:
+                    smsCouponSpuCategoryService.remove(new LambdaQueryWrapper<SmsCouponSpuCategory>()
+                            .eq(SmsCouponSpuCategory::getCouponId, couponId)
+                    );
+                    smsCouponSpuService.remove(new LambdaQueryWrapper<SmsCouponSpu>()
+                            .eq(SmsCouponSpu::getCouponId, couponId)
+                    );
+
+                    break;
+                case SPU_CATEGORY:
+                    List<Long> spuCategoryIds = couponForm.getSpuCategoryIds();
+                    if (CollectionUtil.isNotEmpty(spuCategoryIds)) {
+                        smsCouponSpuCategoryService.remove(new LambdaQueryWrapper<SmsCouponSpuCategory>()
+                                .eq(SmsCouponSpuCategory::getCouponId, couponId)
+                        );
+                        List<SmsCouponSpuCategory> smsCouponSpuCategories = spuCategoryIds.stream()
+                                .map(spuCategoryId -> new SmsCouponSpuCategory().setCouponId(couponId)
+                                        .setCategoryId(spuCategoryId))
+                                .collect(Collectors.toList());
+                        smsCouponSpuCategoryService.saveBatch(smsCouponSpuCategories);
+                    }
+                    break;
+                case SPU:
+                    List<Long> spuIds = couponForm.getSpuIds();
+                    if (CollectionUtil.isNotEmpty(spuIds)) {
+                        smsCouponSpuService.remove(new LambdaQueryWrapper<SmsCouponSpu>()
+                                .eq(SmsCouponSpu::getCouponId, couponId)
+                        );
+                        List<SmsCouponSpu> smsCouponSpuList = spuIds.stream()
+                                .map(spuId -> new SmsCouponSpu().setCouponId(couponId).setSpuId(spuId))
+                                .collect(Collectors.toList());
+                        smsCouponSpuService.saveBatch(smsCouponSpuList);
+                    }
+                    break;
+            }
         }
 
         return result;
     }
+
 
     /**
      * 删除优惠券
@@ -132,7 +215,9 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
     public boolean deleteCoupons(String idsStr) {
         Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的优惠券数据为空");
         // 逻辑删除
-        List<Long> ids = Arrays.asList(idsStr.split(",")).stream().map(idStr -> Long.parseLong(idStr)).collect(Collectors.toList());
+        List<Long> ids = Arrays.asList(idsStr.split(",")).stream()
+                .map(idStr -> Long.parseLong(idStr))
+                .collect(Collectors.toList());
         boolean result = this.removeByIds(ids);
         return result;
     }

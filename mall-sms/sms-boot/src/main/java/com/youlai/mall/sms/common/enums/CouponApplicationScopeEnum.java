@@ -15,6 +15,9 @@ import lombok.Getter;
 public enum CouponApplicationScopeEnum implements IBaseEnum<Integer> {
 
     ALL(0, "全场通用"),
+    /**
+     * 指定商品分类
+     */
     SPU_CATEGORY(1, "指定商品分类"),
     SPU(2, "指定商品"),
     ;
