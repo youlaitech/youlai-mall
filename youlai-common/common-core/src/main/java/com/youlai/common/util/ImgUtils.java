@@ -36,18 +36,22 @@ public class ImgUtils {
 
 
     /**
-     * 根据图片大小获取压缩比
+     * 根据图片大小设置压缩比
      *
      * @param size 图片大小(单位：Bytes)
      * @return 压缩比例
      */
     public static float getCompressQuality(long size) {
-        if (size <= 0.1 * 1024 * 1024) {
-            return 0.5f;
-        } else if (size > 0.1 * 1024 * 1024 && size <= 1 * 1024 * 1024) {
-            return 0.3f;
+        if (size > 0.1 * 1024 * 1024 && size <= 0.5 * 1024 * 1024) {
+            return 0.8f;
+        } else if (size > 0.5 * 1024 * 1024 && size <= 1 * 1024 * 1024) {
+            return 0.6f;
+        } else if (size > 1 * 1024 * 1024 && size <= 2 * 1024 * 1024) {
+            return 0.4f;
+        } else if (size > 2 * 1024 * 1024 && size <= 5 * 1024 * 1024) {
+            return 0.2f;
         } else {
-            // 大于1M
+            // 大于5M
             return 0.1f;
         }
     }
