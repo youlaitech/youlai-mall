@@ -21,7 +21,7 @@ import com.youlai.admin.pojo.vo.role.RoleResourceIds;
 import com.youlai.admin.service.*;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.domain.Option;
-import com.youlai.common.web.utils.UserUtils;
+import com.youlai.common.web.util.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;

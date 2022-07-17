@@ -1,4 +1,4 @@
-package com.youlai.common.web.utils;
+package com.youlai.common.web.util;
 
 import cn.hutool.json.JSONObject;
 import com.youlai.common.constant.SecurityConstants;

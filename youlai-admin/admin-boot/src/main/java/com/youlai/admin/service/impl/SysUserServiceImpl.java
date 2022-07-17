@@ -33,7 +33,7 @@ import com.youlai.admin.service.SysPermissionService;
 import com.youlai.admin.service.SysUserRoleService;
 import com.youlai.admin.service.SysUserService;
 import com.youlai.common.base.IBaseEnum;
-import com.youlai.common.web.utils.UserUtils;
+import com.youlai.common.web.util.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

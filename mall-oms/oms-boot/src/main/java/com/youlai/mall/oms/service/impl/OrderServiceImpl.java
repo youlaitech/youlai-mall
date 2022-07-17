@@ -25,7 +25,7 @@ import com.youlai.common.enums.BusinessTypeEnum;
 import com.youlai.common.redis.BusinessNoGenerator;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.common.web.utils.MemberUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.config.WxPayProperties;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.enums.OrderStatusEnum;

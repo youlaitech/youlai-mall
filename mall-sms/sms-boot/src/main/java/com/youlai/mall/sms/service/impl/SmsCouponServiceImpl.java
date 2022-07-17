@@ -1,6 +1,7 @@
 package com.youlai.mall.sms.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

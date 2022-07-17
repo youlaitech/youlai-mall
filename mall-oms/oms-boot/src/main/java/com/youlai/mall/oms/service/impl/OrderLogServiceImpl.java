@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.web.utils.MemberUtils;
+import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.mapper.OrderLogMapper;
 import com.youlai.mall.oms.pojo.entity.OmsOrderLog;
 import com.youlai.mall.oms.service.IOrderLogService;
