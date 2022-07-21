@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2022/4/16 20:46
  */
 
-@Api(tags = "「实验室」Seata接口模拟")
+@Api(tags = "「实验室」Seata接口")
 @RestController
 @RequestMapping("/api/v1/seata")
 @RequiredArgsConstructor
