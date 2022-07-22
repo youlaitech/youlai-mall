@@ -60,10 +60,8 @@ public class MinioService implements InitializingBean {
     @Setter
     private String defaultBucket;
 
-
     @Value("${minio.img_compression_enabled:false}")
     private boolean imgCompressionEnabled;
-
 
     private MinioClient minioClient;
 
