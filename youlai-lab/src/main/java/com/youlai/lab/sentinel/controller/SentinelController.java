@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Api(tags = "「实验室」Sentinel接口")
 @RestController
 @RequestMapping("/api/v1/sentinel")
@@ -19,11 +16,22 @@ import java.util.List;
 @Slf4j
 public class SentinelController {
 
-    @ApiOperation("【限流】获取订单列表")
-    @GetMapping("/orders/_limit")
-    public Result listOrders() {
-        List<String> orderList = Arrays.asList("订单1", "订单2", "订单3");
-        return Result.success(orderList);
+    @ApiOperation("【普通流控】获取数据")
+    @GetMapping("/flow_limiting/data")
+    public Result getFlowLimitingData() {
+        return Result.success("正常数据");
+    }
+
+    @ApiOperation("【网关流控-RouteID】获取数据")
+    @GetMapping("/gateway_route_flow_limiting/data")
+    public Result getGatewayRouteFlowLimitingData() {
+        return Result.success("正常数据");
+    }
+
+    @ApiOperation("【网关流控-API分组】获取数据")
+    @GetMapping("/gateway_api_flow_limiting/data")
+    public Result getGatewayApiFlowLimitingData() {
+        return Result.success("正常数据");
     }
 
 }

@@ -11,7 +11,7 @@ VOLUME /tmp
 # 复制jar至镜像
 ADD target/youlai-gateway.jar app.jar
 
-ENTRYPOINT ["java", "-Xmx128m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-Xmx128m", "-Djava.security.egd=file:/dev/./urandom","-Dcsp.sentinel.app.type=1", "-jar", "/app.jar"]
 
 EXPOSE 9999
 
