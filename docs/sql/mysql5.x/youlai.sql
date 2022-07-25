@@ -150,6 +150,7 @@ INSERT INTO `sys_menu` VALUES (33, 32, 'Seata', 'seata', 'lab/seata/index', 'sec
 INSERT INTO `sys_menu` VALUES (34, 32, 'RabbitMQ', 'rabbitmq', 'lab/rabbit/index', 'rabbitmq', 2, 1, '', '2022-04-19 09:38:25', '2022-04-19 09:38:25', 1);
 INSERT INTO `sys_menu` VALUES (37, 9, '优惠券列表', 'coupon', 'sms/coupon/index', 'input', 2, 1, '', '2022-05-29 00:24:07', '2022-05-29 00:24:07', 1);
 INSERT INTO `sys_menu` VALUES (38, 1, '分配权限', 'assign-perm', 'system/role/AssignPerm', 'perm', 1, 0, '', '2022-06-01 08:49:22', '2022-06-01 08:49:22', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `name`, `path`, `component`, `icon`, `sort`, `visible`, `redirect`, `type`, `create_time`, `update_time`) VALUES (39, 32, 'Sentinel', 'sentinel', 'lab/sentinel/index', 'security', 2, 1, '', 1, '2022-07-23 09:52:41', '2022-07-23 09:52:41');
 
 -- ----------------------------
 -- Table structure for sys_oauth_client
@@ -274,6 +275,8 @@ INSERT INTO `sys_role_menu` VALUES (2, 33);
 INSERT INTO `sys_role_menu` VALUES (2, 34);
 INSERT INTO `sys_role_menu` VALUES (2, 26);
 INSERT INTO `sys_role_menu` VALUES (2, 30);
+INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES (2, 39);
+
 
 -- ----------------------------
 -- Table structure for sys_role_permission
