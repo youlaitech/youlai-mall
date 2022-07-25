@@ -8,7 +8,6 @@ import com.youlai.admin.pojo.form.RoleForm;
 import com.youlai.admin.pojo.form.RoleResourceForm;
 import com.youlai.admin.pojo.query.RolePageQuery;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
-import com.youlai.admin.pojo.vo.role.RoleResourceIds;
 import com.youlai.common.web.domain.Option;
 
 import java.util.List;
@@ -68,7 +67,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param roleId
      * @return
      */
-    RoleResourceIds getRoleResourceIds(Long roleId);
+    RoleResourceForm getRoleResources(Long roleId);
 
 
     /**

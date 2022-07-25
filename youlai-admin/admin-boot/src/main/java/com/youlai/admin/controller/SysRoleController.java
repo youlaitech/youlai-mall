@@ -6,7 +6,6 @@ import com.youlai.admin.pojo.form.RoleForm;
 import com.youlai.admin.pojo.form.RoleResourceForm;
 import com.youlai.admin.pojo.query.RolePageQuery;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
-import com.youlai.admin.pojo.vo.role.RoleResourceIds;
 import com.youlai.admin.service.SysRoleService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -85,18 +84,17 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "获取角色的资源ID集合", notes = "资源包括菜单和权限ID")
-    @GetMapping("/{roleId}/resource_ids")
-    public Result<RoleResourceIds> getRoleResourceIds(
+    @GetMapping("/{roleId}/resources")
+    public Result<RoleResourceForm> getRoleResources(
             @ApiParam("角色ID") @PathVariable Long roleId
     ) {
-        RoleResourceIds resourceIds = sysRoleService.getRoleResourceIds(roleId);
+        RoleResourceForm resourceIds = sysRoleService.getRoleResources(roleId);
         return Result.success(resourceIds);
     }
 
-    @ApiOperation(value = "获取角色的资源ID集合")
+    @ApiOperation(value = "分配角色的资源权限")
     @PutMapping("/{roleId}/resources")
-
-    public Result<RoleResourceIds> updateRoleResource(
+    public Result updateRoleResource(
             @PathVariable Long roleId,
             @RequestBody RoleResourceForm roleResourceForm
     ) {

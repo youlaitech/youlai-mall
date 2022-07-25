@@ -17,7 +17,6 @@ import com.youlai.admin.pojo.form.RoleForm;
 import com.youlai.admin.pojo.form.RoleResourceForm;
 import com.youlai.admin.pojo.query.RolePageQuery;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
-import com.youlai.admin.pojo.vo.role.RoleResourceIds;
 import com.youlai.admin.service.*;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.domain.Option;
@@ -178,18 +177,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return
      */
     @Override
-    public RoleResourceIds getRoleResourceIds(Long roleId) {
-        RoleResourceIds roleResourceIds = new RoleResourceIds();
+    public RoleResourceForm getRoleResources(Long roleId) {
+        RoleResourceForm roleResources = new RoleResourceForm();
 
         // 获取角色拥有的菜单ID集合
         List<Long> menuIds = sysRoleMenuService.listMenuIdsByRoleId(roleId);
-        roleResourceIds.setMenuIds(menuIds);
+        roleResources.setMenuIds(menuIds);
 
         // 获取角色拥有的权限ID集合
         List<Long> permIds = sysRolePermissionService.listPermIdsByRoleId(roleId);
-        roleResourceIds.setPermIds(permIds);
+        roleResources.setPermIds(permIds);
 
-        return roleResourceIds;
+        return roleResources;
     }
 
     /**
