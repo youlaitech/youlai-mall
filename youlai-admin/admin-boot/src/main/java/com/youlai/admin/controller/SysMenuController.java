@@ -33,17 +33,17 @@ public class SysMenuController {
     private final SysMenuService menuService;
     private final SysPermissionService permissionService;
 
-    @ApiOperation(value = "资源树形列表")
+    @ApiOperation(value = "资源(菜单+权限)列表")
     @GetMapping("/resources")
-    public Result<ResourceVO> getResource() {
-        ResourceVO resource = menuService.getResource();
-        return Result.success(resource);
+    public Result<List<ResourceVO>> listResources() {
+        List<ResourceVO> resources = menuService.listResources();
+        return Result.success(resources);
     }
 
     @ApiOperation(value = "菜单列表")
     @GetMapping
     public Result listMenus(
-            @ApiParam(value = "菜单名称", type = "query") String name
+            @ApiParam("菜单名称") String name
     ) {
         List<MenuVO> menuList = menuService.listMenus(name);
         return Result.success(menuList);

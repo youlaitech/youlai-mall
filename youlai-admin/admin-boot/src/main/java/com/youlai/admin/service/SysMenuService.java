@@ -54,11 +54,11 @@ public interface SysMenuService extends IService<SysMenu> {
     List<RouteVO> listRoutes();
 
     /**
-     * 获取资源
+     * 资源(菜单+权限)树形列表
      *
      * @return
      */
-    ResourceVO getResource();
+    List<ResourceVO> listResources();
 
     /**
      * 修改菜单显示状态
