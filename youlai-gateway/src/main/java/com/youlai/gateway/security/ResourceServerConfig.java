@@ -19,7 +19,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.converter.RsaKeyConverters;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
@@ -128,7 +127,12 @@ public class ResourceServerConfig {
     @Bean
     public RSAPublicKey rsaPublicKey() {
         Resource resource = new ClassPathResource("public.key");
-        RSAPublicKey rsaPublicKey = RsaKeyConverters.x509().convert(resource.getInputStream());
+        InputStream is = resource.getInputStream();
+        String publicKeyData = IoUtil.read(is).toString();
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec((Base64.decode(publicKeyData)));
+
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        RSAPublicKey rsaPublicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
         return rsaPublicKey;
     }
 
