@@ -1,7 +1,7 @@
-package com.youlai.admin.cache;
+package com.youlai.admin.component;
 
 import com.youlai.admin.service.SysPermissionService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
  * @date 2021/5/1
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InitPermissionRolesCache implements CommandLineRunner {
 
-    private SysPermissionService sysPermissionService;
+    private final SysPermissionService sysPermissionService;
 
     @Override
     public void run(String... args) {

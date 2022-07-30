@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.admin.converter.MenuConverter;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.enums.MenuTypeEnum;
 import com.youlai.admin.mapper.SysMenuMapper;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
     private final SysPermissionService permissionService;
+    private final MenuConverter menuConverter;
 
     /**
      * 菜单表格树形列表
@@ -197,14 +199,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList 菜单列表
      * @return
      */
-    private static List<MenuVO> recurTableMenus(Long parentId, List<SysMenu> menuList) {
+    private List<MenuVO> recurTableMenus(Long parentId, List<SysMenu> menuList) {
         List<MenuVO> tableMenus = Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
-                .map(menu -> {
-                    MenuVO menuVO = new MenuVO();
-                    BeanUtil.copyProperties(menu, menuVO);
-                    List<MenuVO> children = recurTableMenus(menu.getId(), menuList);
+                .map(entity -> {
+                    MenuVO menuVO = menuConverter.entity2VO(entity);
+                    List<MenuVO> children = recurTableMenus(entity.getId(), menuList);
                     menuVO.setChildren(children);
                     return menuVO;
                 }).collect(Collectors.toList());
