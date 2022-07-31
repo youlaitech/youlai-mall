@@ -15,6 +15,7 @@ import com.youlai.admin.pojo.vo.user.UserVO;
 import com.youlai.admin.service.SysUserService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.common.web.security.annotation.RequirePerms;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -73,6 +74,7 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "删除用户")
+    @RequirePerms(value = "sys:user:delete")
     @DeleteMapping("/{ids}")
     public Result deleteUsers(@ApiParam("用户ID，多个以英文逗号(,)分割") @PathVariable String ids) {
         boolean result = userService.deleteUsers(ids);
