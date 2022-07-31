@@ -5,6 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 阿里云短信配置
+ * <p>
+ * 配置文件 youlai-common.yml
+ *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @date 2021/10/13 22:44
  */
