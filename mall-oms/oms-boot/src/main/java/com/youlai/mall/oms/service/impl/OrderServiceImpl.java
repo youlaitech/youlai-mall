@@ -24,7 +24,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.youlai.common.enums.BusinessTypeEnum;
 import com.youlai.common.redis.BusinessNoGenerator;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.exception.BizException;
+import com.youlai.common.web.exception.BusinessException;
 import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.config.WxPayProperties;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
@@ -208,7 +208,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             Assert.isTrue(result, "订单提交失败");
         } catch (Exception e) {
             redisTemplate.opsForValue().set(ORDER_TOKEN_PREFIX + orderToken, orderToken);
-            throw new BizException(e);
+            throw new BusinessException(e);
         }
         // 成功响应返回值构建
         OrderSubmitVO submitVO = new OrderSubmitVO();
@@ -287,7 +287,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 wxPayService.closeOrderV3(order.getOutTradeNo());
             } catch (WxPayException e) {
                 log.error(e.getMessage(), e);
-                throw new BizException("微信关单异常");
+                throw new BusinessException("微信关单异常");
             }
         }
         // 用户id前补零保证五位，对超出五位的保留后五位
@@ -310,7 +310,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             jsapiResult = wxPayService.createOrderV3(TradeTypeEnum.JSAPI, wxRequest);
         } catch (WxPayException e) {
             log.error(e.getMessage(), e);
-            throw new BizException("微信统一下单异常");
+            throw new BusinessException("微信统一下单异常");
         }
         return jsapiResult;
     }
@@ -329,7 +329,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 order.setOutTradeNo(null);
             } catch (WxPayException e) {
                 log.error(e.getMessage(), e);
-                throw new BizException("微信关单异常");
+                throw new BusinessException("微信关单异常");
             }
         }
         order.setStatus(OrderStatusEnum.AUTO_CANCEL.getCode());
@@ -341,11 +341,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         log.info("订单超时取消，订单ID：{}", id);
         OmsOrder order = this.getById(id);
         if (order == null) {
-            throw new BizException("订单不存在");
+            throw new BusinessException("订单不存在");
         }
 
         if (!OrderStatusEnum.PENDING_PAYMENT.getCode().equals(order.getStatus())) {
-            throw new BizException("取消失败，订单状态不支持取消"); // 通过自定义异常，将异常信息抛出由异常处理器捕获显示给前端页面
+            throw new BusinessException("取消失败，订单状态不支持取消"); // 通过自定义异常，将异常信息抛出由异常处理器捕获显示给前端页面
         }
         // 如果已经有outTradeNo了就先进行关单
         if (PayTypeEnum.WX_JSAPI.getValue().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
@@ -354,7 +354,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 order.setOutTradeNo(null);
             } catch (WxPayException e) {
                 log.error(e.getMessage(), e);
-                throw new BizException("微信关单异常");
+                throw new BusinessException("微信关单异常");
             }
         }
         order.setStatus(OrderStatusEnum.USER_CANCEL.getCode());
@@ -363,7 +363,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             // 释放被锁定的库存
             Result<?> unlockResult = skuFeignClient.unlockStock(order.getOrderSn());
             if (!Result.isSuccess(unlockResult)) {
-                throw new BizException(unlockResult.getMsg());
+                throw new BusinessException(unlockResult.getMsg());
             }
         }
         return result;
@@ -375,7 +375,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         log.info("=======================订单删除，订单ID：{}=======================", id);
         OmsOrder order = this.getById(id);
         if (order != null && !OrderStatusEnum.AUTO_CANCEL.getCode().equals(order.getStatus()) && !OrderStatusEnum.USER_CANCEL.getCode().equals(order.getStatus())) {
-            throw new BizException("订单删除失败，订单不存在或订单状态不支持删除");
+            throw new BusinessException("订单删除失败，订单不存在或订单状态不支持删除");
         }
         return this.removeById(id);
     }

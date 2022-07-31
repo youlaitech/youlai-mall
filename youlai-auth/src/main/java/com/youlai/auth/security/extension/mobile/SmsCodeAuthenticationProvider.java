@@ -2,9 +2,8 @@ package com.youlai.auth.security.extension.mobile;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
-import com.youlai.auth.security.extension.wechat.WechatAuthenticationToken;
 import com.youlai.common.constant.SecurityConstants;
-import com.youlai.common.web.exception.BizException;
+import com.youlai.common.web.exception.BusinessException;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.Data;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -40,7 +39,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
             String correctCode = redisTemplate.opsForValue().get(codeKey);
             // 验证码比对
             if (StrUtil.isBlank(correctCode) || !code.equals(correctCode)) {
-                throw new BizException("验证码不正确");
+                throw new BusinessException("验证码不正确");
             }
             // 比对成功删除缓存的验证码
             redisTemplate.delete(codeKey);
