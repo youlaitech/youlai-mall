@@ -71,6 +71,7 @@ public class GatewayLogFilter implements GlobalFilter, Ordered {
         MediaType contentType = request.getHeaders().getContentType();
 
         if (MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(contentType)
+                || MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType)
                 || MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
         ) {
             return writeBodyLog(exchange, chain, traceLog);
@@ -79,6 +80,14 @@ public class GatewayLogFilter implements GlobalFilter, Ordered {
         }
     }
 
+    /**
+     * 无请求体请求日志输出
+     *
+     * @param exchange
+     * @param chain
+     * @param traceLog
+     * @return
+     */
     public Mono<Void> writeLog(ServerWebExchange exchange, GatewayFilterChain chain, TraceLog traceLog) {
         StringBuilder sb = new StringBuilder();
         MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
@@ -99,7 +108,7 @@ public class GatewayLogFilter implements GlobalFilter, Ordered {
 
 
     /**
-     * 解决 request body 只能读取一次问题，
+     * 有请求体请求日志输出
      *
      * @param exchange
      * @param chain
@@ -211,15 +220,10 @@ public class GatewayLogFilter implements GlobalFilter, Ordered {
             }
         };
     }
-
     @Override
     public int getOrder() {
         return -1;
     }
-
-
-
-
     @Data
     public static class TraceLog {
 
@@ -266,7 +270,7 @@ public class GatewayLogFilter implements GlobalFilter, Ordered {
 
         public String toRequestString() {
             return
-                    "^^^^^^^^请求日志^^^^^^^^: " + requestMethod + ':' + requestPath + '\n'  +
+                    "^^请求日志: " + requestMethod + ':' + requestPath + '\n'  +
                             "查询参数:" + queryParams + '\n' +
                             "请求载荷:" + requestBody + '\n' +
                             "请求时间:" + requestTime;
@@ -274,7 +278,7 @@ public class GatewayLogFilter implements GlobalFilter, Ordered {
 
         public String toResponseString() {
             return
-                    "$$$$$$$$响应日志$$$$$$$$: " + requestMethod + ':' + requestPath + '\n' +
+                    "$$响应日志: " + requestMethod + ':' + requestPath + '\n' +
                             "请求时间:" + requestTime +  '\n' +
                             "响应时间:" + responseTime + '\n' +
                             "响应数据:" + responseBody + '\n' +
@@ -283,7 +287,7 @@ public class GatewayLogFilter implements GlobalFilter, Ordered {
 
         @Override
         public String toString() {
-            return "========网关请求响应日志========\n" +
+            return "========网关请求响应日志=======\n" +
                     "请求路径:" + requestPath + '\n' +
                     "请求方法:" + requestMethod + '\n' +
                     "请求参数:" + requestBody + '\n' +
