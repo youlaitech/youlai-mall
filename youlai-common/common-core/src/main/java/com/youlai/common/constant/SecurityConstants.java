@@ -91,7 +91,7 @@ public interface SecurityConstants {
     String APP_CLIENT_ID = "mall-app";
 
     /**
-     * 小程序端（微信小程序、....） 客户端ID
+     * 微信小程序客户端ID
      */
     String WEAPP_CLIENT_ID = "mall-weapp";
 
@@ -111,5 +111,7 @@ public interface SecurityConstants {
      */
     List<String> PROD_FORBID_METHODS= Arrays.asList("PUT","DELETE");
 
+
+    String TOKEN_PREFIX="auth:token:";
 
 }
