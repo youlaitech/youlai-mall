@@ -41,7 +41,7 @@
 
 - 项目使用皆是当前主流前后端技术栈(持续更新...)，无过度自定义封装，易理解学习和二次扩展；
 - 极速启动，在IDEA和Java环境OK的情况下`1分钟之内`可正常启动微服务，可以快速拥有微服务环境和上手微服务；
-- SpringBoot 2.6、SpringCloud 2021 & Alibaba 2021 一站式微服务开箱即用的解决方案；
+- SpringBoot 2.7、SpringCloud 2021 & Alibaba 2021 一站式微服务开箱即用的解决方案；
 - Spring Security OAuth2 、 Spring Cloud Gateway 、 JWT 统一认证鉴权和常用 OAuth2 授权模式扩展；
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、K8s、Docker实现微服务持续集成与交付(CI/CD)。
