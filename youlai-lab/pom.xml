@@ -61,15 +61,6 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-core</artifactId>
-        </dependency>
         <!-- Api文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
@@ -84,11 +75,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
         </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework</groupId>-->
-        <!--            <artifactId>spring-aspects</artifactId>-->
-        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -127,6 +113,11 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>ums-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-web</artifactId>
         </dependency>
 
         <dependency>
