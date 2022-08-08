@@ -32,6 +32,11 @@ public interface SecurityConstants {
     String JWT_JTI = "jti";
 
     /**
+     * JWT refresh_token 标识
+     */
+    String JWT_ATI = "ati";
+
+    /**
      * JWT ID 唯一标识
      */
     String JWT_EXP = "exp";
