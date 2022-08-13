@@ -5,7 +5,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.IoUtil;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.ResultCode;
-import com.youlai.gateway.util.ResponseUtils;
+import com.youlai.gateway.util.WebfluxResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -86,7 +86,7 @@ public class ResourceServerConfig {
     ServerAccessDeniedHandler accessDeniedHandler() {
         return (exchange, denied) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
-                    .flatMap(response -> ResponseUtils.writeErrorInfo(response, ResultCode.ACCESS_UNAUTHORIZED));
+                    .flatMap(response -> WebfluxResponseUtils.writeErrorInfo(response, ResultCode.ACCESS_UNAUTHORIZED));
             return mono;
         };
     }
@@ -98,7 +98,7 @@ public class ResourceServerConfig {
     ServerAuthenticationEntryPoint authenticationEntryPoint() {
         return (exchange, e) -> {
             Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
-                    .flatMap(response -> ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_INVALID_OR_EXPIRED));
+                    .flatMap(response -> WebfluxResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_INVALID_OR_EXPIRED));
             return mono;
         };
     }

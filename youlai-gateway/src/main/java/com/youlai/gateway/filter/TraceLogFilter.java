@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 )
 @Component
 @Slf4j
-public class GatewayLogFilter implements GlobalFilter, Ordered {
+public class TraceLogFilter implements GlobalFilter, Ordered {
 
     private final List<HttpMessageReader<?>> messageReaders = HandlerStrategies.withDefaults().messageReaders();
 

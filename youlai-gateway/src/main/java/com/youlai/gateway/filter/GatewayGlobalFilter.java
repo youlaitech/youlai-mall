@@ -6,7 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.ResultCode;
-import com.youlai.gateway.util.ResponseUtils;
+import com.youlai.gateway.util.WebfluxResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ import java.net.URLEncoder;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class GatewaySecurityFilter implements GlobalFilter, Ordered {
+public class GatewayGlobalFilter implements GlobalFilter, Ordered {
 
     private final RedisTemplate redisTemplate;
 
@@ -56,15 +56,15 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
                 String methodValue = request.getMethodValue();
                 if (SecurityConstants.PROD_FORBID_METHODS.contains(methodValue)) { // PUT和DELETE方法禁止
                     // 是否需要放行的请求路径
-                    boolean isPermitPath = SecurityConstants.PROD_PERMIT_PATHS.stream().anyMatch(permitPath ->requestPath.contains(permitPath));
+                    boolean isPermitPath = SecurityConstants.PROD_PERMIT_PATHS.stream().anyMatch(permitPath -> requestPath.contains(permitPath));
                     if (!isPermitPath) {
-                        return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
+                        return WebfluxResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                     }
-                } else if(methodValue.equals("POST")){
+                } else if (methodValue.equals("POST")) {
                     // 是否禁止放行的请求路径
                     boolean isForbiddenPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(forbiddenPath -> requestPath.contains(forbiddenPath));
                     if (isForbiddenPath) {
-                        return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
+                        return WebfluxResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
                     }
                 }
             }
@@ -83,7 +83,7 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
         String jti = jsonObject.getStr(SecurityConstants.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti);
         if (isBlack) {
-            return ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
+            return WebfluxResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
         }
 
         // token有效不在黑名单中，request写入JWT的载体信息传递给其他服务
