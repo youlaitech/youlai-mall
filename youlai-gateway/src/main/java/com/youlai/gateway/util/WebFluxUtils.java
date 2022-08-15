@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  * @Author haoxr
  * @Date 2021/01/29 13:30
  */
-public class WebfluxResponseUtils {
+public class WebFluxUtils {
 
     public static Mono<Void> writeErrorInfo(ServerHttpResponse response, ResultCode resultCode) {
         switch (resultCode) {
