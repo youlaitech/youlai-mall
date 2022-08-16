@@ -13,12 +13,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
-import com.youlai.admin.pojo.vo.user.UserVO;
-import com.youlai.common.constant.SystemConstants;
-import com.youlai.common.enums.GenderEnum;
-import com.youlai.admin.listener.excel.UserImportListener;
 import com.youlai.admin.converter.UserConverter;
 import com.youlai.admin.dto.UserAuthDTO;
+import com.youlai.admin.listener.excel.UserImportListener;
 import com.youlai.admin.mapper.SysUserMapper;
 import com.youlai.admin.pojo.dto.UserImportDTO;
 import com.youlai.admin.pojo.entity.SysUser;
@@ -29,10 +26,13 @@ import com.youlai.admin.pojo.po.UserPO;
 import com.youlai.admin.pojo.query.UserPageQuery;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
+import com.youlai.admin.pojo.vo.user.UserVO;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.admin.service.SysUserRoleService;
 import com.youlai.admin.service.SysUserService;
 import com.youlai.common.base.IBaseEnum;
+import com.youlai.common.constant.SystemConstants;
+import com.youlai.common.enums.GenderEnum;
 import com.youlai.common.web.util.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +44,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -109,6 +108,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public boolean saveUser(UserForm userForm) {
 
+        String username = userForm.getUsername();
+
+        int count = this.count(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username));
+        Assert.isTrue(count == 0, "用户名已存在");
+
         // 实体转换 form->entity
         SysUser entity = userConverter.form2Entity(userForm);
 
@@ -120,16 +124,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         boolean result = this.save(entity);
 
         if (result) {
-            // 保存用户角色关联信息
-            Long userId = entity.getId();
-            List<Long> roleIds = userForm.getRoleIds();
-            if (CollectionUtil.isNotEmpty(roleIds)) {
-                List<SysUserRole> userRoles = roleIds
-                        .stream()
-                        .map(roleId -> new SysUserRole(userId, roleId))
-                        .collect(Collectors.toList());
-                userRoleService.saveBatch(userRoles);
-            }
+            // 保存用户角色
+            userRoleService.saveUserRoles(entity.getId(), userForm.getRoleIds());
         }
         return result;
     }
@@ -144,38 +140,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional
     public boolean updateUser(Long userId, UserForm userForm) {
-        // 用户的旧角色ID集合
-        List<Long> oldRoleIds = userRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                .eq(SysUserRole::getUserId, userId))
-                .stream()
-                .map(item -> item.getRoleId())
-                .collect(Collectors.toList());
 
-        // 用户的新角色ID集合
-        List<Long> newRoleIds = userForm.getRoleIds();
+        String username = userForm.getUsername();
 
-        // 新增用户的角色
-        List<Long> addRoleIds = newRoleIds.stream().filter(roleId -> !oldRoleIds.contains(roleId)).collect(Collectors.toList());
-        List<SysUserRole> addUserRoles = Optional.ofNullable(addRoleIds).orElse(new ArrayList<>())
-                .stream().map(roleId -> new SysUserRole(userId, roleId))
-                .collect(Collectors.toList());
-        userRoleService.saveBatch(addUserRoles);
-
-        // 删除用户的角色
-        List<Long> removeRoleIds = oldRoleIds.stream().filter(roleId -> !newRoleIds.contains(roleId)).collect(Collectors.toList());
-        if (CollectionUtil.isNotEmpty(removeRoleIds)) {
-            userRoleService.remove(new LambdaQueryWrapper<SysUserRole>()
-                    .eq(SysUserRole::getUserId, userId)
-                    .in(SysUserRole::getRoleId, removeRoleIds)
-            );
-        }
-
+        int count = this.count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUsername, username)
+                .ne(SysUser::getId,userId)
+        );
+        Assert.isTrue(count == 0, "用户名已存在");
 
         // form -> entity
         SysUser entity = userConverter.form2Entity(userForm);
 
         // 修改用户
         boolean result = this.updateById(entity);
+
+        if (result) {
+            // 保存用户角色
+            userRoleService.saveUserRoles(entity.getId(), userForm.getRoleIds());
+        }
         return result;
     }
 
@@ -357,5 +340,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         return loginUserVO;
     }
+
 
 }
