@@ -48,8 +48,8 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         String restfulPath = method + ":" + path; // RESTFul接口权限设计: https://www.cnblogs.com/haoxianrui/p/14961707.html
 
         // 如果token以"bearer "为前缀，到此方法里说明JWT有效即已认证
-        String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isNotBlank(token) && StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX) ) {
+        String token = request.getHeaders().getFirst("Authorization");
+        if (StrUtil.isNotBlank(token) && StrUtil.startWithIgnoreCase(token, "Bearer ") ) {
             if (path.contains("/app-api")) {
                 // 商城移动端请求需认证不需鉴权放行（根据实际场景需求）
                 return Mono.just(new AuthorizationDecision(true));
@@ -92,7 +92,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
-                    String roleCode = StrUtil.removePrefix(authority,SecurityConstants.AUTHORITY_PREFIX);// ROLE_ADMIN移除前缀ROLE_得到用户的角色编码ADMIN
+                    String roleCode = StrUtil.removePrefix(authority,"ROLE_");// ROLE_ADMIN移除前缀ROLE_得到用户的角色编码ADMIN
                     if (GlobalConstants.ROOT_ROLE_CODE.equals(roleCode)) {
                         return true; // 如果是超级管理员则放行
                     }

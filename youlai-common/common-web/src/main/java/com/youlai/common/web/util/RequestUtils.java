@@ -24,12 +24,7 @@ import java.util.Base64;
  */
 @Slf4j
 public class RequestUtils {
-    @SneakyThrows
-    public static String getGrantType() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String grantType = request.getParameter(SecurityConstants.GRANT_TYPE_KEY);
-        return grantType;
-    }
+
 
     /**
      * 获取登录认证的客户端ID
@@ -46,15 +41,15 @@ public class RequestUtils {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         // 从请求路径中获取
-        String clientId = request.getParameter(SecurityConstants.CLIENT_ID_KEY);
+        String clientId = request.getParameter("client_id");
         if (StrUtil.isNotBlank(clientId)) {
             return clientId;
         }
 
         // 从请求头获取
-        String basic = request.getHeader(SecurityConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isNotBlank(basic) && basic.startsWith(SecurityConstants.BASIC_PREFIX)) {
-            basic = basic.replace(SecurityConstants.BASIC_PREFIX, Strings.EMPTY);
+        String basic = request.getHeader("Authorization");
+        if (StrUtil.isNotBlank(basic) && basic.startsWith("Basic ")) {
+            basic = basic.replace("Basic ", "");
             String basicPlainText = new String(Base64.getDecoder().decode(basic.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
             clientId = basicPlainText.split(":")[0]; //client:secret
         }
@@ -69,7 +64,7 @@ public class RequestUtils {
     @SneakyThrows
     public static String getAuthenticationIdentity() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String refreshToken = request.getParameter(SecurityConstants.REFRESH_TOKEN_KEY);
+        String refreshToken = request.getParameter("refresh_token");
 
         String payload = StrUtil.toString(JWSObject.parse(refreshToken).getPayload());
         JSONObject jsonObject = JSONUtil.parseObj(payload);

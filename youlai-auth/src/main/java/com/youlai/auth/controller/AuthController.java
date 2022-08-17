@@ -81,8 +81,8 @@ public class AuthController {
     @DeleteMapping("/logout")
     public Result logout() {
         JSONObject payload = JwtUtils.getJwtPayload();
-        String jti = payload.getStr(SecurityConstants.JWT_JTI); // JWT唯一标识
-        Long expireTime = payload.getLong(SecurityConstants.JWT_EXP); // JWT过期时间戳(单位：秒)
+        String jti = payload.getStr("jti"); // JWT唯一标识
+        Long expireTime = payload.getLong("exp"); // JWT过期时间戳(单位：秒)
         if (expireTime != null) {
             long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
             if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间

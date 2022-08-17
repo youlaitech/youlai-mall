@@ -69,8 +69,8 @@ public class UserUtils {
     public static List<String> getRoles() {
         List<String> roles;
         JSONObject payload =  JwtUtils.getJwtPayload();
-        if (payload.containsKey(SecurityConstants.JWT_AUTHORITIES_KEY)) {
-            roles = payload.getJSONArray(SecurityConstants.JWT_AUTHORITIES_KEY).toList(String.class);
+        if (payload.containsKey("authorities")) {
+            roles = payload.getJSONArray("authorities").toList(String.class);
         } else {
             roles = Collections.emptyList();
         }
