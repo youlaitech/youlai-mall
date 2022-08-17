@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class WebFluxUtils {
 
-    public static Mono<Void> writeErrorInfo(ServerHttpResponse response, ResultCode resultCode) {
+    public static Mono<Void> writeResponse(ServerHttpResponse response, ResultCode resultCode) {
         switch (resultCode) {
             case ACCESS_UNAUTHORIZED:
             case TOKEN_INVALID_OR_EXPIRED:

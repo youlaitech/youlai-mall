@@ -1,7 +1,6 @@
 package com.youlai.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.common.constant.SecurityConstants;
@@ -10,12 +9,12 @@ import com.youlai.gateway.util.WebFluxUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -23,6 +22,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.net.URLEncoder;
+import java.text.ParseException;
 
 /**
  * 安全拦截全局过滤器，非网关鉴权的逻辑
@@ -49,46 +49,29 @@ public class GatewayGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        // 线上环境请求拦截处理，实际请自行删除下面代码块
-        {
-            String requestPath = request.getPath().pathWithinApplication().value();
-            if (env.equals("prod")) {
-                String methodValue = request.getMethodValue();
-                if (SecurityConstants.PROD_FORBID_METHODS.contains(methodValue)) { // PUT和DELETE方法禁止
-                    // 是否需要放行的请求路径
-                    boolean isPermitPath = SecurityConstants.PROD_PERMIT_PATHS.stream().anyMatch(permitPath -> requestPath.contains(permitPath));
-                    if (!isPermitPath) {
-                        return WebFluxUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
-                    }
-                } else if (methodValue.equals("POST")) {
-                    // 是否禁止放行的请求路径
-                    boolean isForbiddenPath = SecurityConstants.PROD_FORBID_PATHS.stream().anyMatch(forbiddenPath -> requestPath.contains(forbiddenPath));
-                    if (isForbiddenPath) {
-                        return WebFluxUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
-                    }
-                }
-            }
+        // 拦截线上禁止的操作
+        boolean isForbiddenRequest = isForbiddenRequest(request);
+        if (isForbiddenRequest) {
+            return WebFluxUtils.writeResponse(response, ResultCode.FORBIDDEN_OPERATION);
         }
 
-        // 非JWT放行不做后续解析处理
-        String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isBlank(token) || !StrUtil.startWithIgnoreCase(token, SecurityConstants.JWT_PREFIX)) {
+        // 拦截黑名单的JWT
+        String authorization = request.getHeaders().getFirst("Authorization");
+        String payload = this.getPayload(authorization);
+        if (StrUtil.isBlank(payload)) {
             return chain.filter(exchange);
         }
 
-        // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在则拦截访问
-        token = StrUtil.replaceIgnoreCase(token, SecurityConstants.JWT_PREFIX, Strings.EMPTY);
-        String payload = StrUtil.toString(JWSObject.parse(token).getPayload());
-        JSONObject jsonObject = JSONUtil.parseObj(payload);
-        String jti = jsonObject.getStr(SecurityConstants.JWT_JTI);
-        Boolean isBlack = redisTemplate.hasKey(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti);
-        if (isBlack) {
-            return WebFluxUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
+        String jti = JSONUtil.parseObj(payload).getStr("jti");
+        Boolean isBlackJwt = redisTemplate.hasKey(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti);
+        if (isBlackJwt) {
+            return WebFluxUtils.writeResponse(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
         }
 
-        // token有效不在黑名单中，request写入JWT的载体信息传递给其他服务
-        request = exchange.getRequest().mutate()
-                .header(SecurityConstants.JWT_PAYLOAD_KEY, URLEncoder.encode(payload, "UTF-8"))
+        // 传递 payload 给其他微服务
+        request = exchange.getRequest()
+                .mutate()
+                .header("payload", URLEncoder.encode(payload, "UTF-8"))
                 .build();
         exchange = exchange.mutate().request(request).build();
         return chain.filter(exchange);
@@ -98,4 +81,42 @@ public class GatewayGlobalFilter implements GlobalFilter, Ordered {
     public int getOrder() {
         return 0;
     }
+
+
+    /**
+     * 线上演示环境禁止的操作请求判断
+     *
+     * @param request
+     * @return
+     */
+    private boolean isForbiddenRequest(ServerHttpRequest request) {
+        String requestPath = request.getPath().pathWithinApplication().value();
+        if (env.equals("prod")) {
+            String method = request.getMethodValue();
+            // PUT和DELETE方法禁止
+            if (HttpMethod.DELETE.matches(method) || HttpMethod.PUT.matches(method)) {
+                return !SecurityConstants.PERMIT_PATHS.stream().anyMatch(permitPath -> requestPath.contains(permitPath));
+            } else if (HttpMethod.POST.matches(method)) {
+                return SecurityConstants.FORBID_PATHS.stream().anyMatch(forbiddenPath -> requestPath.contains(forbiddenPath));
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 获取JWT的载体payload
+     *
+     * @param authorization 请求头authorization
+     * @return
+     * @throws ParseException
+     */
+    public String getPayload(String authorization) throws ParseException {
+        String payload = null;
+        if (StrUtil.isNotBlank(authorization) && StrUtil.startWithIgnoreCase(authorization, "Bearer ")) {
+            authorization = StrUtil.replaceIgnoreCase(authorization, "Bearer ", "");
+            payload = JWSObject.parse(authorization).getPayload().toString();
+        }
+        return payload;
+    }
+
 }
