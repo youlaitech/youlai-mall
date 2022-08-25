@@ -4,15 +4,18 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
- * 用户详情视图对象
+ * 用户表详情视图对象
  *
  * @author haoxr
- * @date 2022/1/14
+ * @date 2022/8/25
  */
-@ApiModel("用户详情视图对象")
+@ApiModel
 @Data
 public class UserDetailVO {
 
@@ -22,28 +25,28 @@ public class UserDetailVO {
     @ApiModelProperty("用户名")
     private String username;
 
-    @ApiModelProperty("用户昵称")
+    @ApiModelProperty("昵称")
     private String nickname;
 
-    @ApiModelProperty("手机号")
+    @ApiModelProperty("")
     private String mobile;
 
-    @ApiModelProperty("性别(1:男;2:女)")
+    @ApiModelProperty("性别")
     private Integer gender;
 
     @ApiModelProperty("用户头像")
     private String avatar;
 
-    @ApiModelProperty("用户邮箱")
+    @ApiModelProperty("邮箱")
     private String email;
 
-    @ApiModelProperty("用户状态(1:启用;0:禁用)")
+    @ApiModelProperty("用户状态(1:正常;0:禁用)")
     private Integer status;
 
     @ApiModelProperty("部门ID")
     private Long deptId;
 
-    @ApiModelProperty("用户角色ID的集合")
+    @ApiModelProperty("角色ID集合")
     private List<Long> roleIds;
 
 }

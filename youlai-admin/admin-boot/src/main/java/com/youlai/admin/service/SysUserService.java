@@ -8,6 +8,7 @@ import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.form.UserForm;
 import com.youlai.admin.pojo.dto.UserImportDTO;
 import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserVO;
@@ -32,12 +33,12 @@ public interface SysUserService extends IService<SysUser> {
 
 
     /**
-     * 获取用户表单详情
+     * 获取用户详情
      *
      * @param userId
      * @return
      */
-    UserForm getUserFormData(Long userId);
+    UserDetailVO getUserDetail(Long userId);
 
 
     /**

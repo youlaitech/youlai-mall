@@ -21,9 +21,10 @@ import com.youlai.admin.pojo.dto.UserImportDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.entity.SysUserRole;
 import com.youlai.admin.pojo.form.UserForm;
-import com.youlai.admin.pojo.po.UserFormPO;
+import com.youlai.admin.pojo.po.UserDetailPO;
 import com.youlai.admin.pojo.po.UserPO;
 import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserVO;
@@ -86,17 +87,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     /**
-     * 获取用户表单详情
+     * 获取用户详情
      *
      * @param userId
      * @return
      */
     @Override
-    public UserForm getUserFormData(Long userId) {
-        UserFormPO userFormPO = this.baseMapper.getUserFormData(userId);
+    public UserDetailVO getUserDetail(Long userId) {
+        UserDetailPO userDetailPO = this.baseMapper.getUserDetail(userId);
         // 实体转换po->form
-        UserForm userForm = userConverter.po2Form(userFormPO);
-        return userForm;
+        UserDetailVO userDetailVO = userConverter.po2Vo(userDetailPO);
+        return userDetailVO;
     }
 
     /**

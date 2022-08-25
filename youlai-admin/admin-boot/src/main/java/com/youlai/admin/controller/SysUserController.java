@@ -9,6 +9,7 @@ import com.youlai.admin.pojo.dto.UserImportDTO;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.form.UserForm;
 import com.youlai.admin.pojo.query.UserPageQuery;
+import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserExportVO;
 import com.youlai.admin.pojo.vo.user.UserVO;
@@ -53,10 +54,10 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "用户表单数据")
-    @GetMapping("/{userId}/form_data")
-    public Result<UserForm> getUserFormData(@ApiParam(value = "用户ID") @PathVariable Long userId) {
-        UserForm userForm = userService.getUserFormData(userId);
-        return Result.success(userForm);
+    @GetMapping("/{userId}")
+    public Result<UserDetailVO> getUserDetail(@ApiParam(value = "用户ID") @PathVariable Long userId) {
+        UserDetailVO userDetail = userService.getUserDetail(userId);
+        return Result.success(userDetail);
     }
 
     @ApiOperation(value = "新增用户")

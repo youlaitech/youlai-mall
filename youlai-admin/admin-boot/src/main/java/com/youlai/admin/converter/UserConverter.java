@@ -3,8 +3,9 @@ package com.youlai.admin.converter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysUser;
 import com.youlai.admin.pojo.form.UserForm;
-import com.youlai.admin.pojo.po.UserFormPO;
+import com.youlai.admin.pojo.po.UserDetailPO;
 import com.youlai.admin.pojo.po.UserPO;
+import com.youlai.admin.pojo.vo.user.UserDetailVO;
 import com.youlai.admin.pojo.vo.user.LoginUserVO;
 import com.youlai.admin.pojo.vo.user.UserVO;
 import org.mapstruct.InheritInverseConfiguration;
@@ -28,7 +29,7 @@ public interface UserConverter {
 
     Page<UserVO> po2Vo(Page<UserPO> po);
 
-    UserForm po2Form(UserFormPO po);
+    UserDetailVO po2Vo(UserDetailPO po);
 
     UserForm entity2Form(SysUser entity);
 

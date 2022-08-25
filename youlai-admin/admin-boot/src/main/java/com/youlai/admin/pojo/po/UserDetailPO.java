@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2022/6/10
  */
 @Data
-public class UserFormPO {
+public class UserDetailPO {
 
     /**
      * 用户ID

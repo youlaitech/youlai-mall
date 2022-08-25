@@ -57,10 +57,12 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                     .filter(roleId -> !roleIds.contains(roleId))
                     .collect(Collectors.toList());
 
-            this.remove(new LambdaQueryWrapper<SysUserRole>()
-                    .eq(SysUserRole::getUserId, userId)
-                    .in(SysUserRole::getRoleId, removeRoleIds)
-            );
+           if(CollectionUtil.isNotEmpty(removeRoleIds)){
+               this.remove(new LambdaQueryWrapper<SysUserRole>()
+                       .eq(SysUserRole::getUserId, userId)
+                       .in(SysUserRole::getRoleId, removeRoleIds)
+               );
+           }
         }
         return true;
 

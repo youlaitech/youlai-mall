@@ -33,8 +33,6 @@ public class UserForm {
 
     private String avatar;
 
-    private String password;
-
     private String email;
 
     private Integer status;
