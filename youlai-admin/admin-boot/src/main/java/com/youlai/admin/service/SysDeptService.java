@@ -2,17 +2,19 @@ package com.youlai.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.admin.pojo.entity.SysDept;
+import com.youlai.admin.pojo.form.DeptForm;
 import com.youlai.admin.pojo.query.DeptQuery;
+import com.youlai.admin.pojo.vo.dept.DeptDetailVO;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.common.web.domain.Option;
 
 import java.util.List;
 
 /**
- * 菜单路由业务接口
+ * 部门业务接口
  *
  * @author haoxr
- * @date 2021-08-22
+ * @date 2021/8/22
  */
 public interface SysDeptService extends IService<SysDept> {
     /**
@@ -23,19 +25,28 @@ public interface SysDeptService extends IService<SysDept> {
     List<DeptVO> listDepts(DeptQuery queryParams);
 
     /**
-     * 部门树形下拉（TreeSelect）层级列表
+     * 部门树形下拉选项
      *
      * @return
      */
     List<Option> lisetDeptOptions();
 
     /**
-     * 新增/修改部门
+     * 新增部门
      *
-     * @param dept
+     * @param formData
      * @return
      */
-    Long saveDept(SysDept dept);
+    Long saveDept(DeptForm formData);
+
+    /**
+     * 修改部门
+     *
+     * @param deptId
+     * @param formData
+     * @return
+     */
+    Long updateDept(Long deptId, DeptForm formData);
 
     /**
      * 删除部门
@@ -44,4 +55,12 @@ public interface SysDeptService extends IService<SysDept> {
      * @return
      */
     boolean deleteByIds(String ids);
+
+    /**
+     * 获取部门详情
+     *
+     * @param deptId
+     * @return
+     */
+    DeptDetailVO getDeptDetail(Long deptId);
 }

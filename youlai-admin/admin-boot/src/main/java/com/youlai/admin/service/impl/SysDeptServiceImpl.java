@@ -7,20 +7,22 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.constant.SystemConstants;
+import com.youlai.admin.converter.DeptConverter;
 import com.youlai.admin.mapper.SysDeptMapper;
 import com.youlai.admin.pojo.entity.SysDept;
+import com.youlai.admin.pojo.form.DeptForm;
 import com.youlai.admin.pojo.query.DeptQuery;
+import com.youlai.admin.pojo.vo.dept.DeptDetailVO;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.service.SysDeptService;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.web.domain.Option;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -34,10 +36,10 @@ import java.util.stream.Collectors;
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
 
+    private final DeptConverter deptConverter;
+
     /**
      * 部门列表
-     *
-     * @return
      */
     @Override
     public List<DeptVO> listDepts(DeptQuery queryParams) {
@@ -112,7 +114,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 
     /**
-     * 部门下拉（Select）层级列表
+     * 部门下拉选项
      *
      * @return
      */
@@ -120,12 +122,36 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     public List<Option> lisetDeptOptions() {
         List<SysDept> deptList = this.list(new LambdaQueryWrapper<SysDept>()
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
+                .select(SysDept::getId, SysDept::getParentId, SysDept::getName)
                 .orderByAsc(SysDept::getSort)
         );
-        List<Option> deptSelectList = recursionTreeSelectList(SystemConstants.ROOT_DEPT_ID, deptList);
-        return deptSelectList;
+        List<Option> options = recurDeptTreeOptions(SystemConstants.ROOT_DEPT_ID, deptList);
+        return options;
     }
 
+    @Override
+    public Long saveDept(DeptForm formData) {
+        SysDept entity = deptConverter.form2Entity(formData);
+        // 部门路径
+        String treePath = generateDeptTreePath(formData.getParentId());
+        entity.setTreePath(treePath);
+        // 保存部门并返回部门ID
+        this.save(entity);
+        return entity.getId();
+    }
+
+    @Override
+    public Long updateDept(Long deptId, DeptForm formData) {
+        // form->entity
+        SysDept entity = deptConverter.form2Entity(formData);
+        entity.setId(deptId);
+        // 部门路径
+        String treePath = generateDeptTreePath(formData.getParentId());
+        entity.setTreePath(treePath);
+        // 保存部门并返回部门ID
+        this.updateById(entity);
+        return entity.getId();
+    }
 
     /**
      * 递归生成部门表格层级列表
@@ -134,39 +160,26 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @param deptList
      * @return
      */
-    public static List<Option> recursionTreeSelectList(long parentId, List<SysDept> deptList) {
-        List<Option> deptTreeSelectList = new ArrayList<>();
-        Optional.ofNullable(deptList).orElse(new ArrayList<>())
-                .stream()
+    public static List<Option> recurDeptTreeOptions(long parentId, List<SysDept> deptList) {
+        if (CollectionUtil.isEmpty(deptList)) {
+            return Collections.EMPTY_LIST;
+        }
+
+        List<Option> list = deptList.stream()
                 .filter(dept -> dept.getParentId().equals(parentId))
-                .forEach(dept -> {
-                    Option Option = new Option(dept.getId(), dept.getName());
-                    List<Option> children = recursionTreeSelectList(dept.getId(), deptList);
+                .map(dept -> {
+                    Option option = new Option(dept.getId(), dept.getName());
+                    List<Option> children = recurDeptTreeOptions(dept.getId(), deptList);
                     if (CollectionUtil.isNotEmpty(children)) {
-                        Option.setChildren(children);
+                        option.setChildren(children);
                     }
-                    deptTreeSelectList.add(Option);
-                });
-        return deptTreeSelectList;
+                    return option;
+                })
+                .collect(Collectors.toList());
+
+        return list;
     }
 
-
-    /**
-     * 保存（新增/修改）部门
-     *
-     * @param dept
-     * @return
-     */
-    @Override
-    public Long saveDept(SysDept dept) {
-        // 生成部门树路径
-        String treePath = generateDeptTreePath(dept);
-        dept.setTreePath(treePath);
-
-        boolean result = this.saveOrUpdate(dept);
-        Assert.isTrue(result, "保存部门出错");
-        return dept.getId();
-    }
 
     /**
      * 删除部门
@@ -176,33 +189,57 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      */
     @Override
     public boolean deleteByIds(String ids) {
-        AtomicBoolean result = new AtomicBoolean(true);
-        List<String> idList = Arrays.asList(ids.split(","));
         // 删除部门及子部门
-        Optional.ofNullable(idList).orElse(new ArrayList<>()).forEach(id ->
-                result.set(this.remove(new LambdaQueryWrapper<SysDept>()
-                        .eq(SysDept::getId, id)
-                        .or()
-                        .apply("concat (',',tree_path,',') like concat('%,',{0},',%')", id)))
-        );
-        return result.get();
+        Optional.ofNullable(Arrays.stream(ids.split(",")))
+                .ifPresent(deptIds -> deptIds.forEach(deptId ->
+                        this.remove(new LambdaQueryWrapper<SysDept>()
+                                .eq(SysDept::getId, deptId)
+                                .or()
+                                .apply("concat (',',tree_path,',') like concat('%,',{0},',%')", deptId))
+                ));
+        return true;
+    }
+
+    /**
+     * 获取部门详情
+     *
+     * @param deptId
+     * @return
+     */
+    @Override
+    public DeptDetailVO getDeptDetail(Long deptId) {
+
+        SysDept entity = this.getOne(new LambdaQueryWrapper<SysDept>()
+                .eq(SysDept::getId, deptId)
+                .select(
+                        SysDept::getId,
+                        SysDept::getName,
+                        SysDept::getParentId,
+                        SysDept::getStatus,
+                        SysDept::getSort
+
+                ));
+
+        DeptDetailVO detailVO = deptConverter.entity2DetailVO(entity);
+        return detailVO;
     }
 
 
     /**
-     * 生成部门路径
+     * 部门路径生成
      *
-     * @param dept
+     * @param parentId
      * @return
      */
-    private String generateDeptTreePath(SysDept dept) {
-        Long parentId = dept.getParentId();
-        String treePath;
-        if (parentId.equals(SystemConstants.ROOT_DEPT_ID)) {
-            treePath = String.valueOf(SystemConstants.ROOT_DEPT_ID);
+    private String generateDeptTreePath(Long parentId) {
+        String treePath = null;
+        if (SystemConstants.ROOT_DEPT_ID.equals(parentId)) {
+            treePath = parentId + "";
         } else {
-            SysDept parentDept = this.getById(parentId);
-            treePath = Optional.ofNullable(parentDept).map(item -> item.getTreePath() + "," + item.getId()).orElse(Strings.EMPTY);
+            SysDept parent = this.getById(parentId);
+            if (parent != null) {
+                treePath = parent.getTreePath() + "," + parent.getId();
+            }
         }
         return treePath;
     }
