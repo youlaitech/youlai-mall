@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2021/1/15
  */
 @Data
-public class ClientAuthDTO {
+public class OAuth2ClientDTO {
 
     /**
      * 客户端ID

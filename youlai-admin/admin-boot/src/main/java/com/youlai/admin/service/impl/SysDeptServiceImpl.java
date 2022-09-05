@@ -119,7 +119,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @return
      */
     @Override
-    public List<Option> lisetDeptOptions() {
+    public List<Option> listDeptOptions() {
         List<SysDept> deptList = this.list(new LambdaQueryWrapper<SysDept>()
                 .eq(SysDept::getStatus, GlobalConstants.STATUS_YES)
                 .select(SysDept::getId, SysDept::getParentId, SysDept::getName)

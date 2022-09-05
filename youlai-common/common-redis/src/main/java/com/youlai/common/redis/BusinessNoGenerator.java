@@ -2,8 +2,8 @@ package com.youlai.common.redis;
 
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.enums.BusinessTypeEnum;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -11,13 +11,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class BusinessNoGenerator {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
     /**
      * @param businessType 业务类型枚举

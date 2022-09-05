@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * Select选择器默认Option属性对象
+ * 下拉选项对象
  *
  * @author haoxr
  * @date 2022/1/22
  */
-@ApiModel("Select选择器默认Option属性")
+@ApiModel("下拉选项对象")
 @Data
 @NoArgsConstructor
 public class Option<T> {
@@ -38,6 +38,5 @@ public class Option<T> {
 
     @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
     private List<Option> children;
-
 
 }

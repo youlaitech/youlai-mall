@@ -1,7 +1,7 @@
 package com.youlai.auth.security.core.clientdetails;
 
-import com.youlai.admin.api.OAuthClientFeignClient;
-import com.youlai.admin.dto.ClientAuthDTO;
+import com.youlai.admin.api.OAuth2ClientFeignClient;
+import com.youlai.admin.dto.OAuth2ClientDTO;
 import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
 import com.youlai.common.result.Result;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +20,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ClientDetailsServiceImpl implements ClientDetailsService {
 
-    private final OAuthClientFeignClient oAuthClientFeignClient;
+    private final OAuth2ClientFeignClient oAuth2ClientFeignClient;
 
     @Override
     @Cacheable(cacheNames = "auth", key = "'oauth-client:'+#clientId")
     public ClientDetails loadClientByClientId(String clientId) {
         try {
-            Result<ClientAuthDTO> result = oAuthClientFeignClient.getOAuth2ClientById(clientId);
+            Result<OAuth2ClientDTO> result = oAuth2ClientFeignClient.getOAuth2ClientById(clientId);
             if (Result.success().getCode().equals(result.getCode())) {
-                ClientAuthDTO client = result.getData();
+                OAuth2ClientDTO client = result.getData();
                 BaseClientDetails clientDetails = new BaseClientDetails(
                         client.getClientId(),
                         client.getResourceIds(),

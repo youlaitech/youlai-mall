@@ -3,7 +3,7 @@ package com.youlai.admin.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youlai.admin.dto.ClientAuthDTO;
+import com.youlai.admin.dto.OAuth2ClientDTO;
 import com.youlai.admin.pojo.entity.SysOauthClient;
 import com.youlai.admin.pojo.query.ClientPageQuery;
 import com.youlai.admin.pojo.vo.client.ClientPageVO;
@@ -66,13 +66,13 @@ public class SysOauthClientController {
 
     @ApiOperation(value = "获取 OAuth2 客户端认证信息", notes = "Feign 调用", hidden = true)
     @GetMapping("/getOAuth2ClientById")
-    public Result<ClientAuthDTO> getOAuth2ClientById(
+    public Result<OAuth2ClientDTO> getOAuth2ClientById(
 
             @ApiParam("客户端ID") @RequestParam String clientId) {
         SysOauthClient client = clientService.getById(clientId);
         Assert.isTrue(client != null, "OAuth2 客户端不存在");
-        ClientAuthDTO clientAuthDTO = new ClientAuthDTO();
-        BeanUtil.copyProperties(client, clientAuthDTO);
-        return Result.success(clientAuthDTO);
+        OAuth2ClientDTO oAuth2ClientDTO = new OAuth2ClientDTO();
+        BeanUtil.copyProperties(client, oAuth2ClientDTO);
+        return Result.success(oAuth2ClientDTO);
     }
 }

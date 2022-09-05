@@ -39,8 +39,8 @@ public class SysDeptController {
 
     @ApiOperation(value = "获取部门下拉选项")
     @GetMapping("/options")
-    public Result<List<Option>> lisetDeptOptions() {
-        List<Option> list = deptService.lisetDeptOptions();
+    public Result<List<Option>> listDeptOptions() {
+        List<Option> list = deptService.listDeptOptions();
         return Result.success(list);
     }
 
