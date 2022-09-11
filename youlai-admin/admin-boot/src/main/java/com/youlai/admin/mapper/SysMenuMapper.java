@@ -11,11 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-/**
- *
- * @author haoxr
- * @date 2020-11-06
- */
 @Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
