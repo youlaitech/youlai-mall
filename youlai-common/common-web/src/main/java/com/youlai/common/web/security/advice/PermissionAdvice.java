@@ -59,7 +59,7 @@ public class PermissionAdvice {
 
         // 超级管理员放行
         if (UserUtils.isRoot()) {
-            return true;
+            return joinPoint.proceed();
         }
 
         Map<String, Object> permRolesMap = redisTemplate.opsForHash().entries(GlobalConstants.BTN_PERM_ROLES_KEY);
@@ -82,9 +82,7 @@ public class PermissionAdvice {
             return Result.failed(ResultCode.ACCESS_UNAUTHORIZED);
         }
 
-        // 执行正常业务逻辑
-        Object result = joinPoint.proceed();
-        return result;
+        return joinPoint.proceed();
     }
 
 }
