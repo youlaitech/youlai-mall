@@ -86,6 +86,9 @@
         <collection property="roles" ofType="string" javaType="list">
             <result column="roleCode"></result>
         </collection>
+        <collection property="dataScopes" ofType="int" javaType="list">
+            <result column="dataScope"></result>
+        </collection>
     </resultMap>
 
     <!-- 根据用户名获取认证信息 -->
@@ -97,7 +100,8 @@
             t1.PASSWORD,
             t1.STATUS,
             t1.dept_id deptId,
-            t3.CODE roleCode
+            t3.CODE roleCode,
+             t3.data_scope dataScope
         FROM
             sys_user t1
                 LEFT JOIN sys_user_role t2 ON t2.user_id = t1.id

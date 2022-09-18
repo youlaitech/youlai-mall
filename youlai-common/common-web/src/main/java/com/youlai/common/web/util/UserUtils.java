@@ -78,6 +78,22 @@ public class UserUtils {
     }
 
     /**
+     * JWT获取用户数据权限列表
+     *
+     * @return 角色数据权限列表
+     */
+    public static List<Integer> getDataScopes() {
+        List<Integer> dataScopes;
+        JSONObject payload =  JwtUtils.getJwtPayload();
+        if (payload.containsKey("dataScopes")) {
+            dataScopes = payload.getJSONArray("dataScopes").toList(Integer.class);
+        } else {
+            dataScopes = Collections.emptyList();
+        }
+        return dataScopes;
+    }
+
+    /**
      * 是否「超级管理员」
      *
      * @return

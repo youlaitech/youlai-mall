@@ -27,4 +27,7 @@ public class RoleForm {
     @ApiModelProperty("角色状态(1-正常；0-停用)")
     private Integer status;
 
+    @ApiModelProperty("数据范围（1：全部数据权限  2：本部门数据权限 3：本部门及以下数据权限 4:本人数据）")
+    private Integer dataScope;
+
 }

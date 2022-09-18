@@ -187,6 +187,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 additionalInfo.put("userId", sysUserDetails.getUserId());
                 additionalInfo.put("username", sysUserDetails.getUsername());
                 additionalInfo.put("deptId", sysUserDetails.getDeptId());
+                additionalInfo.put("dataScopes",sysUserDetails.getDataScopes());
                 // 认证身份标识(username:用户名；)
                 if (StrUtil.isNotBlank(sysUserDetails.getAuthenticationIdentity())) {
                     additionalInfo.put("authenticationIdentity", sysUserDetails.getAuthenticationIdentity());

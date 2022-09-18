@@ -28,6 +28,28 @@ import java.util.List;
 @Slf4j
 public class MyDataPermissionHandler implements DataPermissionHandler {
 
+    /**
+     * 全部数据权限
+     */
+    public static final Integer DATA_SCOPE_ALL = 1;
+
+
+    /**
+     * 部门数据权限
+     */
+    public static final Integer DATA_SCOPE_DEPT = 2;
+
+    /**
+     * 部门及以下数据权限
+     */
+    public static final Integer DATA_SCOPE_DEPT_AND_CHILD =3;
+
+    /**
+     * 仅本人数据权限
+     */
+    public static final Integer DATA_SCOPE_SELF = 4;
+
+
     @Override
     public Expression getSqlSegment(Expression where, String mappedStatementId) {
         try {
@@ -61,6 +83,19 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
      * @return 构建后查询条件
      */
     public static Expression dataScopeFilter(String deptAlias, Expression where) {
+        // 获取当前的用户数据权限
+        List<Integer> dataScopes = UserUtils.getDataScopes();
+        for (Integer dataScope: dataScopes) {
+            if(dataScope == DATA_SCOPE_ALL){
+
+            }else if(dataScope == DATA_SCOPE_DEPT){
+
+            }else if(dataScope == DATA_SCOPE_DEPT_AND_CHILD){
+
+            }else if(dataScope == DATA_SCOPE_SELF){
+
+            }
+        }
         Expression expression = new EqualsTo(new Column(StrUtil.isEmpty(deptAlias) ? "id" : deptAlias + ".id"), getDeptId());
         LikeExpression likeExpression = new LikeExpression();
         Function left = new Function();

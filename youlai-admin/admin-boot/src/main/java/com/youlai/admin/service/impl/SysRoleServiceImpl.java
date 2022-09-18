@@ -69,7 +69,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                         .or()
                         .like(StrUtil.isNotBlank(keywords), SysRole::getCode, keywords)
                         .ne(!UserUtils.isRoot(), SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
-                        .select(SysRole::getId, SysRole::getName, SysRole::getCode)
+                        .select(SysRole::getId, SysRole::getName, SysRole::getCode,SysRole::getDataScope)
         );
 
         // 实体转换
