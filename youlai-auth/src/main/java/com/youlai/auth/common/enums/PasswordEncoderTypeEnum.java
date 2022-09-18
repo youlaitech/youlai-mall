@@ -3,8 +3,9 @@ package com.youlai.auth.common.enums;
 import lombok.Getter;
 
 /**
+ * 密码编码类型枚举
+ *
  * @author haoxr
- * @description TODO
  * @createTime 2021/6/5 17:57
  */
 
