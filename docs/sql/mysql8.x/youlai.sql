@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 19/09/2022 01:04:44
+ Date: 21/09/2022 00:03:49
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,7 @@ CREATE TABLE `sys_dept`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -40,6 +40,10 @@ CREATE TABLE `sys_dept`  (
 INSERT INTO `sys_dept` VALUES (1, '有来技术', 0, '0', 1, 1, 0, NULL, NULL);
 INSERT INTO `sys_dept` VALUES (2, '研发部门', 1, '0,1', 1, 1, 0, NULL, '2022-04-19 12:46:37');
 INSERT INTO `sys_dept` VALUES (3, '测试部门', 1, '0,1', 2, 1, 0, NULL, NULL);
+INSERT INTO `sys_dept` VALUES (47, '研发子部门1', 2, '0,1,2', 1, 1, 0, '2022-09-19 22:06:23', '2022-09-19 22:06:23');
+INSERT INTO `sys_dept` VALUES (48, '研发子部门2', 2, '0,1,2', 1, 1, 0, '2022-09-19 22:06:41', '2022-09-19 22:06:41');
+INSERT INTO `sys_dept` VALUES (49, '测试子部门1', 3, '0,1,3', 1, 1, 0, '2022-09-19 22:06:57', '2022-09-19 22:06:57');
+INSERT INTO `sys_dept` VALUES (50, '测试子部门2', 3, '0,1,3', 1, 1, 0, '2022-09-19 22:07:11', '2022-09-19 22:07:11');
 
 -- ----------------------------
 -- Table structure for sys_dict_item
@@ -231,14 +235,24 @@ CREATE TABLE `sys_role`  (
   `data_scope` int NULL DEFAULT 1 COMMENT '数据范围（1：全部数据权限  2：本部门数据权限 3：本部门及以下数据权限 4:本人数据）',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, '超级管理员', 'ROOT', 1, 1, 0, '2021-05-21 14:56:51', '2018-12-23 16:00:00', 1);
-INSERT INTO `sys_role` VALUES (2, '系统管理员', 'ADMIN', 2, 1, 0, '2021-03-25 12:39:54', '2022-09-18 23:02:50', 1);
+INSERT INTO `sys_role` VALUES (2, '系统管理员', 'ADMIN', 2, 1, 0, '2021-03-25 12:39:54', '2022-09-19 22:05:50', 2);
 INSERT INTO `sys_role` VALUES (3, '访问游客', 'GUEST', 3, 1, 0, '2021-05-26 15:49:05', '2022-09-18 23:02:42', 2);
+INSERT INTO `sys_role` VALUES (21, '研发部经理', 'YF', 0, 1, 0, '2022-09-19 22:10:42', '2022-09-21 00:01:37', 3);
+INSERT INTO `sys_role` VALUES (22, '研发子部门1经理', 'YF1', 0, 1, 0, '2022-09-19 22:11:30', '2022-09-19 22:11:30', 2);
+INSERT INTO `sys_role` VALUES (23, '研发子部门2经理', 'YF2', NULL, 1, 0, '2022-09-19 22:12:01', '2022-09-19 22:17:58', 3);
+INSERT INTO `sys_role` VALUES (24, '测试部门经理', 'TEST', 1, 1, 0, '2022-09-19 22:12:36', '2022-09-19 22:12:42', 3);
+INSERT INTO `sys_role` VALUES (25, '测试子部门1经理', 'TEST1', 0, 1, 0, '2022-09-19 22:13:13', '2022-09-19 22:17:50', 3);
+INSERT INTO `sys_role` VALUES (26, '测试子部门2经理', 'TEST2', 1, 1, 0, '2022-09-19 22:13:39', '2022-09-19 22:18:08', 3);
+INSERT INTO `sys_role` VALUES (27, '研发部1-1', 'YF1-1', 0, 1, 0, '2022-09-19 22:17:13', '2022-09-19 22:17:13', 2);
+INSERT INTO `sys_role` VALUES (28, '研发部2-1', 'YF2-1', 0, 1, 0, '2022-09-19 22:17:42', '2022-09-19 22:19:54', 2);
+INSERT INTO `sys_role` VALUES (29, '测试部1-1', 'TEST1-1', 1, 1, 0, '2022-09-19 22:18:54', '2022-09-19 22:18:54', 2);
+INSERT INTO `sys_role` VALUES (30, '测试部2-1', 'TEST2-1', 1, 1, 0, '2022-09-19 22:19:33', '2022-09-19 22:19:33', 2);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -286,6 +300,76 @@ INSERT INTO `sys_role_menu` VALUES (2, 34);
 INSERT INTO `sys_role_menu` VALUES (2, 26);
 INSERT INTO `sys_role_menu` VALUES (2, 30);
 INSERT INTO `sys_role_menu` VALUES (2, 39);
+INSERT INTO `sys_role_menu` VALUES (21, 1);
+INSERT INTO `sys_role_menu` VALUES (21, 2);
+INSERT INTO `sys_role_menu` VALUES (21, 3);
+INSERT INTO `sys_role_menu` VALUES (21, 4);
+INSERT INTO `sys_role_menu` VALUES (21, 5);
+INSERT INTO `sys_role_menu` VALUES (21, 6);
+INSERT INTO `sys_role_menu` VALUES (21, 7);
+INSERT INTO `sys_role_menu` VALUES (22, 1);
+INSERT INTO `sys_role_menu` VALUES (22, 2);
+INSERT INTO `sys_role_menu` VALUES (22, 3);
+INSERT INTO `sys_role_menu` VALUES (22, 4);
+INSERT INTO `sys_role_menu` VALUES (22, 5);
+INSERT INTO `sys_role_menu` VALUES (22, 6);
+INSERT INTO `sys_role_menu` VALUES (22, 7);
+INSERT INTO `sys_role_menu` VALUES (23, 1);
+INSERT INTO `sys_role_menu` VALUES (23, 2);
+INSERT INTO `sys_role_menu` VALUES (23, 3);
+INSERT INTO `sys_role_menu` VALUES (23, 4);
+INSERT INTO `sys_role_menu` VALUES (23, 5);
+INSERT INTO `sys_role_menu` VALUES (23, 6);
+INSERT INTO `sys_role_menu` VALUES (23, 7);
+INSERT INTO `sys_role_menu` VALUES (24, 1);
+INSERT INTO `sys_role_menu` VALUES (24, 2);
+INSERT INTO `sys_role_menu` VALUES (24, 3);
+INSERT INTO `sys_role_menu` VALUES (24, 4);
+INSERT INTO `sys_role_menu` VALUES (24, 5);
+INSERT INTO `sys_role_menu` VALUES (24, 6);
+INSERT INTO `sys_role_menu` VALUES (24, 7);
+INSERT INTO `sys_role_menu` VALUES (25, 1);
+INSERT INTO `sys_role_menu` VALUES (25, 2);
+INSERT INTO `sys_role_menu` VALUES (25, 3);
+INSERT INTO `sys_role_menu` VALUES (25, 4);
+INSERT INTO `sys_role_menu` VALUES (25, 5);
+INSERT INTO `sys_role_menu` VALUES (25, 6);
+INSERT INTO `sys_role_menu` VALUES (25, 7);
+INSERT INTO `sys_role_menu` VALUES (26, 1);
+INSERT INTO `sys_role_menu` VALUES (26, 2);
+INSERT INTO `sys_role_menu` VALUES (26, 3);
+INSERT INTO `sys_role_menu` VALUES (26, 4);
+INSERT INTO `sys_role_menu` VALUES (26, 5);
+INSERT INTO `sys_role_menu` VALUES (26, 6);
+INSERT INTO `sys_role_menu` VALUES (26, 7);
+INSERT INTO `sys_role_menu` VALUES (27, 1);
+INSERT INTO `sys_role_menu` VALUES (27, 2);
+INSERT INTO `sys_role_menu` VALUES (27, 3);
+INSERT INTO `sys_role_menu` VALUES (27, 4);
+INSERT INTO `sys_role_menu` VALUES (27, 5);
+INSERT INTO `sys_role_menu` VALUES (27, 6);
+INSERT INTO `sys_role_menu` VALUES (27, 7);
+INSERT INTO `sys_role_menu` VALUES (28, 1);
+INSERT INTO `sys_role_menu` VALUES (28, 2);
+INSERT INTO `sys_role_menu` VALUES (28, 3);
+INSERT INTO `sys_role_menu` VALUES (28, 4);
+INSERT INTO `sys_role_menu` VALUES (28, 5);
+INSERT INTO `sys_role_menu` VALUES (28, 6);
+INSERT INTO `sys_role_menu` VALUES (28, 7);
+INSERT INTO `sys_role_menu` VALUES (29, 1);
+INSERT INTO `sys_role_menu` VALUES (29, 2);
+INSERT INTO `sys_role_menu` VALUES (29, 3);
+INSERT INTO `sys_role_menu` VALUES (29, 4);
+INSERT INTO `sys_role_menu` VALUES (29, 5);
+INSERT INTO `sys_role_menu` VALUES (29, 6);
+INSERT INTO `sys_role_menu` VALUES (29, 7);
+INSERT INTO `sys_role_menu` VALUES (30, 1);
+INSERT INTO `sys_role_menu` VALUES (30, 2);
+INSERT INTO `sys_role_menu` VALUES (30, 3);
+INSERT INTO `sys_role_menu` VALUES (30, 4);
+INSERT INTO `sys_role_menu` VALUES (30, 5);
+INSERT INTO `sys_role_menu` VALUES (30, 6);
+INSERT INTO `sys_role_menu` VALUES (30, 7);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -305,6 +389,56 @@ INSERT INTO `sys_role_permission` VALUES (2, 1);
 INSERT INTO `sys_role_permission` VALUES (2, 2);
 INSERT INTO `sys_role_permission` VALUES (2, 3);
 INSERT INTO `sys_role_permission` VALUES (2, 4);
+INSERT INTO `sys_role_permission` VALUES (21, 1);
+INSERT INTO `sys_role_permission` VALUES (21, 2);
+INSERT INTO `sys_role_permission` VALUES (21, 3);
+INSERT INTO `sys_role_permission` VALUES (21, 4);
+INSERT INTO `sys_role_permission` VALUES (21, 5);
+INSERT INTO `sys_role_permission` VALUES (22, 1);
+INSERT INTO `sys_role_permission` VALUES (22, 2);
+INSERT INTO `sys_role_permission` VALUES (22, 3);
+INSERT INTO `sys_role_permission` VALUES (22, 4);
+INSERT INTO `sys_role_permission` VALUES (22, 5);
+INSERT INTO `sys_role_permission` VALUES (23, 1);
+INSERT INTO `sys_role_permission` VALUES (23, 2);
+INSERT INTO `sys_role_permission` VALUES (23, 3);
+INSERT INTO `sys_role_permission` VALUES (23, 4);
+INSERT INTO `sys_role_permission` VALUES (23, 5);
+INSERT INTO `sys_role_permission` VALUES (24, 1);
+INSERT INTO `sys_role_permission` VALUES (24, 2);
+INSERT INTO `sys_role_permission` VALUES (24, 3);
+INSERT INTO `sys_role_permission` VALUES (24, 4);
+INSERT INTO `sys_role_permission` VALUES (24, 5);
+INSERT INTO `sys_role_permission` VALUES (25, 1);
+INSERT INTO `sys_role_permission` VALUES (25, 2);
+INSERT INTO `sys_role_permission` VALUES (25, 3);
+INSERT INTO `sys_role_permission` VALUES (25, 4);
+INSERT INTO `sys_role_permission` VALUES (25, 5);
+INSERT INTO `sys_role_permission` VALUES (26, 1);
+INSERT INTO `sys_role_permission` VALUES (26, 2);
+INSERT INTO `sys_role_permission` VALUES (26, 3);
+INSERT INTO `sys_role_permission` VALUES (26, 4);
+INSERT INTO `sys_role_permission` VALUES (26, 5);
+INSERT INTO `sys_role_permission` VALUES (27, 1);
+INSERT INTO `sys_role_permission` VALUES (27, 2);
+INSERT INTO `sys_role_permission` VALUES (27, 3);
+INSERT INTO `sys_role_permission` VALUES (27, 4);
+INSERT INTO `sys_role_permission` VALUES (27, 5);
+INSERT INTO `sys_role_permission` VALUES (28, 1);
+INSERT INTO `sys_role_permission` VALUES (28, 2);
+INSERT INTO `sys_role_permission` VALUES (28, 3);
+INSERT INTO `sys_role_permission` VALUES (28, 4);
+INSERT INTO `sys_role_permission` VALUES (28, 5);
+INSERT INTO `sys_role_permission` VALUES (29, 1);
+INSERT INTO `sys_role_permission` VALUES (29, 2);
+INSERT INTO `sys_role_permission` VALUES (29, 3);
+INSERT INTO `sys_role_permission` VALUES (29, 4);
+INSERT INTO `sys_role_permission` VALUES (29, 5);
+INSERT INTO `sys_role_permission` VALUES (30, 1);
+INSERT INTO `sys_role_permission` VALUES (30, 2);
+INSERT INTO `sys_role_permission` VALUES (30, 3);
+INSERT INTO `sys_role_permission` VALUES (30, 4);
+INSERT INTO `sys_role_permission` VALUES (30, 5);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -326,14 +460,23 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `login_name`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 99 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 108 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'root', '有来技术', 0, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', NULL, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', '17621590365', 1, 'youlaitech@163.com', 0, NULL, NULL);
-INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$8/8PxGHA.30EeWg8x4/4BuWuCUJubFbGJXyUYRs7RaJEdVvEMRbWe', 2, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', '17621210366', 1, '', 0, '2019-10-10 13:41:22', '2022-06-12 15:32:43');
+INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$8/8PxGHA.30EeWg8x4/4BuWuCUJubFbGJXyUYRs7RaJEdVvEMRbWe', 2, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', '17621210366', 1, '', 0, '2019-10-10 13:41:22', '2022-09-20 23:16:09');
 INSERT INTO `sys_user` VALUES (3, 'test', '测试小用户', 1, '$2a$10$MPJkNw.hKT/fZOgwYP8q9eu/rFJJDsNov697AmdkHNJkpjIpVSw2q', 3, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', '17621210366', 1, 'youlaitech@163.com', 0, '2021-06-05 01:31:29', '2021-06-05 01:31:29');
+INSERT INTO `sys_user` VALUES (99, '研发经理', '研发经理', 1, '$2a$10$aphBXZpRqU.uo3dqfJuIWuzVpL628iok6wufUj2z0yFgGw1nusQP2', 2, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:15:03', '2022-09-19 22:15:03');
+INSERT INTO `sys_user` VALUES (100, '研发1-1', '研发1-1', 1, '$2a$10$YscLYog22KpHrSjEgpsXOeYSpxyW8R3TEPxadw5W1QY3KLb6mf9Pi', 47, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:16:01', '2022-09-19 22:21:54');
+INSERT INTO `sys_user` VALUES (101, '研发2-1', '研发2-1', 1, '$2a$10$cw.JNXZ..ynlVsvRzpyOYu0w0JjQ/VHV9UkxERs.LuEW5R8cHIwFm', 48, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:22:35', '2022-09-19 22:22:35');
+INSERT INTO `sys_user` VALUES (102, '研发1-1-1', '研发1-1-1', 1, '$2a$10$9zfzDEGMkwdSuwLmro82LOST7cGu5j.Aln1UGnpdFVqpjZs7Ub2e.', 47, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:23:11', '2022-09-19 22:23:11');
+INSERT INTO `sys_user` VALUES (103, '研发2-1-1', '研发2-1-1', 1, '$2a$10$PwhfVrPeI12Ia.n6H6jjw.LT2H51YJPZPmi4tVCNLI4tO7OFzFa.y', 48, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:23:45', '2022-09-19 22:23:45');
+INSERT INTO `sys_user` VALUES (104, '测试经理', '测试经理', 1, '$2a$10$6v4RAwspGShJbkwF4tPuue5jDmOYZBc0czZg0ly8JyP4KkxN7GWWG', 3, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:24:16', '2022-09-19 22:24:16');
+INSERT INTO `sys_user` VALUES (105, '测试1-1', '测试1-1', 1, '$2a$10$CRJdFobDJk8nxRNPDHNqsuDQXTSpkD1rSZjX4PA8wToLCIqaK.04W', 49, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:26:05', '2022-09-19 22:26:05');
+INSERT INTO `sys_user` VALUES (106, '测试1-1-1', '测试1-1-1', 1, '$2a$10$2iMk0z5urtG4EnzzWC4/Xu7pl.CSS4/q5Yvl21LamyY2doMSL8NEe', 49, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:26:48', '2022-09-19 22:26:48');
+INSERT INTO `sys_user` VALUES (107, '测试2-1-1', '测试2-1-1', 1, '$2a$10$Raf3uyTP/OEmf0laUkGxSur1zgq/cQ.fScAYOSKxFa0rSzbYkQ4tW', 50, 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif', NULL, 1, NULL, 0, '2022-09-19 22:27:12', '2022-09-19 22:27:12');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -350,6 +493,16 @@ CREATE TABLE `sys_user_role`  (
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1);
 INSERT INTO `sys_user_role` VALUES (2, 2);
+INSERT INTO `sys_user_role` VALUES (2, 21);
 INSERT INTO `sys_user_role` VALUES (3, 3);
+INSERT INTO `sys_user_role` VALUES (99, 21);
+INSERT INTO `sys_user_role` VALUES (100, 22);
+INSERT INTO `sys_user_role` VALUES (101, 23);
+INSERT INTO `sys_user_role` VALUES (102, 27);
+INSERT INTO `sys_user_role` VALUES (103, 28);
+INSERT INTO `sys_user_role` VALUES (104, 24);
+INSERT INTO `sys_user_role` VALUES (105, 25);
+INSERT INTO `sys_user_role` VALUES (106, 29);
+INSERT INTO `sys_user_role` VALUES (107, 30);
 
 SET FOREIGN_KEY_CHECKS = 1;
