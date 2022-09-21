@@ -90,14 +90,12 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
     public static Expression dataScopeFilter(String deptAlias,String userAlias, Expression where) {
         // 获取当前的用户数据权限
         List<Integer> dataScopes = UserUtils.getDataScopes();
-        List<String> roles = UserUtils.getRoles();
         Long deptId = JwtUtils.getJwtPayload().getLong("deptId");
         Long userId = JwtUtils.getJwtPayload().getLong("userId");
         String deptIdColumn =StrUtil.isEmptyIfStr(deptAlias)?"id":deptAlias+".id";
                 Expression newWhere = null;
         for (int i=0;i<dataScopes.size();i++) {
             Integer dataScope = dataScopes.get(i);
-            String role = roles.get(i);
             if(dataScope == DATA_SCOPE_ALL){
                 break;
             }else if(dataScope == DATA_SCOPE_DEPT){
@@ -115,6 +113,9 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
                     newWhere = addWhereExpression(newWhere,deptIdColumn+"=0");
                 }
             }
+        }
+        if(newWhere == null){
+            return where;
         }
         Expression expression = ObjectUtil.isEmpty(where)? newWhere : new AndExpression(where,newWhere);
         return expression ;
@@ -134,22 +135,6 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
                 newExpression = new OrExpression(whereExpression,addExpression);
         }
         return newExpression;
-    }
-
-
-    /**
-     * 当前用户的部门id
-     *
-     * @return
-     */
-    private static Expression getDeptId() {
-        LongValue deptId = new LongValue(JwtUtils.getJwtPayload().getLong("deptId"));
-        return deptId;
-    }
-
-    private static Expression getUserId() {
-        LongValue userId = new LongValue(JwtUtils.getJwtPayload().getLong("userId"));
-        return userId;
     }
 
 

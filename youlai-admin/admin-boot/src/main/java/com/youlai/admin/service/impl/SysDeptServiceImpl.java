@@ -125,9 +125,11 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 .select(SysDept::getId, SysDept::getParentId, SysDept::getName)
                 .orderByAsc(SysDept::getSort)
         );
-        List<Option> options = recurDeptTreeOptions(SystemConstants.ROOT_DEPT_ID, deptList);
+      //  List<Option> options = recurDeptTreeOptions(rootId, deptList);
+        List<Option> options = buildDeptTree(deptList);
         return options;
     }
+
 
     @Override
     public Long saveDept(DeptForm formData) {
@@ -179,6 +181,93 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
         return list;
     }
+
+    /**
+     * 递归生成部门表格层级列表
+     *
+     * @param depts
+     * @return
+     */
+    public List<Option> buildDeptTree(List<SysDept> depts)
+    {
+        if (CollectionUtil.isEmpty(depts)) {
+            return Collections.EMPTY_LIST;
+        }
+        List<Option> returnList = new ArrayList<Option>();
+        List<Long> tempList = new ArrayList<Long>();
+        for (SysDept dept : depts)
+        {
+            tempList.add(dept.getId());
+        }
+        for (SysDept dept : depts)
+        {
+            // 如果是顶级节点, 遍历该父节点的所有子节点
+            if (!tempList.contains(dept.getParentId()))
+            {
+                Option option = new Option(dept.getId(), dept.getName());
+                recursionFn(depts, option);
+                returnList.add(option);
+            }
+        }
+        if (returnList.isEmpty())
+        {
+            depts.stream().forEach(dept -> {
+                Option option = new Option(dept.getId(), dept.getName());
+                returnList.add(option);
+            });
+        }
+        return returnList;
+    }
+
+    /**
+     * 递归列表
+     */
+    private void recursionFn(List<SysDept> list, Option t)
+    {
+        // 得到子节点列表
+        List<Option> childList = getChildList(list, t);
+        t.setChildren(childList);
+        for (Option tChild : childList)
+        {
+            if (hasChild(list, tChild))
+            {
+                recursionFn(list, tChild);
+            }
+        }
+    }
+
+    /**
+     * 得到子节点列表
+     */
+    private List<Option> getChildList(List<SysDept> list, Option t)
+    {
+        List<Option> tlist = new ArrayList<Option>();
+        Iterator<SysDept> it = list.iterator();
+        while (it.hasNext())
+        {
+            SysDept n = (SysDept) it.next();
+            if (n.getParentId() != null && n.getParentId() == t.getValue())
+            {
+                Option option = new Option(n.getId(), n.getName());
+                tlist.add(option);
+            }
+        }
+        return tlist;
+    }
+
+    /**
+     * 判断是否有子节点
+     */
+    private boolean hasChild(List<SysDept> list, Option t)
+    {
+        return getChildList(list, t).size() > 0;
+    }
+
+
+
+
+
+
 
 
     /**
