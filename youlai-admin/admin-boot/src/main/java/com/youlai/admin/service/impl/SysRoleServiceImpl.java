@@ -59,19 +59,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         // 查询参数
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
-        String keywords = queryParams.getKeywords();
-
-        // 查询数据
-        Page<SysRole> rolePage = this.page(
-                new Page<>(pageNum, pageSize),
-                new LambdaQueryWrapper<SysRole>()
-                        .like(StrUtil.isNotBlank(keywords), SysRole::getName, keywords)
-                        .or()
-                        .like(StrUtil.isNotBlank(keywords), SysRole::getCode, keywords)
-                        .ne(!UserUtils.isRoot(), SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
-                        .select(SysRole::getId, SysRole::getName, SysRole::getCode,SysRole::getDataScope)
-        );
-
+        Page<SysRole> rolePage = this.baseMapper.listRolePages( new Page<>(pageNum, pageSize), queryParams,UserUtils.isRoot(),GlobalConstants.ROOT_ROLE_CODE);
         // 实体转换
         Page<RolePageVO> pageResult = roleConverter.entity2Page(rolePage);
         return pageResult;
@@ -85,12 +73,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public List<Option> listRoleOptions() {
         // 查询数据
-        List<SysRole> roleList = this.list(new LambdaQueryWrapper<SysRole>()
-                .ne(!UserUtils.isRoot(), SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
-                .select(SysRole::getId, SysRole::getName)
-                .orderByAsc(SysRole::getSort)
-        );
-
+        List<SysRole> roleList = this.baseMapper.listDeptOptions(UserUtils.isRoot(),GlobalConstants.ROOT_ROLE_CODE);
         // 实体转换
         List<Option> list = roleConverter.roles2Options(roleList);
         return list;
