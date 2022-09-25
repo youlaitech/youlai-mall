@@ -30,7 +30,7 @@ SmsCodeAuthenticationProvider -> SmsCodeAuthenticationProvider:authenticate()\n�
 ProviderManager <-- SmsCodeAuthenticationProvider: Authentication
 AuthenticationManagerDelegator <-- ProviderManager: Authentication
 SmsCodeTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
-CompositeTokenGranter <-- SmsCodeTokenGranter: OAuth2AccessToken
+CompositeTokenGranter <-- SmsCodeTokenGranter: OAuth2Authentication
 TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
 AuthController <-- TokenEndpoint:OAuth2AccessToken
 客户端 <-- AuthController: OAuth2AccessToken

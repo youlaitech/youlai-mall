@@ -27,7 +27,7 @@ PreAuthenticatedAuthenticationProvider -> PreAuthenticatedAuthenticationProvider
 ProviderManager <-- PreAuthenticatedAuthenticationProvider: Authentication
 AuthenticationManagerDelegator <-- ProviderManager: Authentication
 RefreshTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
-CompositeTokenGranter <-- RefreshTokenGranter: OAuth2AccessToken
+CompositeTokenGranter <-- RefreshTokenGranter: OAuth2Authentication
 TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
 AuthController <-- TokenEndpoint:OAuth2AccessToken
 客户端 <-- AuthController: OAuth2AccessToken

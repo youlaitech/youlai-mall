@@ -26,7 +26,7 @@ DaoAuthenticationProvider -> DaoAuthenticationProvider:authenticate()\n密码判
 ProviderManager <-- DaoAuthenticationProvider: Authentication
 AuthenticationManagerDelegator <-- ProviderManager: Authentication
 CaptchaTokenGranter <-- AuthenticationManagerDelegator: OAuth2Authentication
-CompositeTokenGranter <-- CaptchaTokenGranter: OAuth2AccessToken
+CompositeTokenGranter <-- CaptchaTokenGranter: OAuth2Authentication
 TokenEndpoint <-- CompositeTokenGranter:OAuth2AccessToken
 AuthController <-- TokenEndpoint:OAuth2AccessToken
 客户端 <-- AuthController: OAuth2AccessToken
