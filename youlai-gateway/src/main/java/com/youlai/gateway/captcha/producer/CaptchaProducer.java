@@ -1,4 +1,4 @@
-package com.youlai.gateway.captcha.component;
+package com.youlai.gateway.captcha.producer;
 
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
