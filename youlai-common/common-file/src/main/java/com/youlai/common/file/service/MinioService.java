@@ -55,11 +55,14 @@ public class MinioService implements InitializingBean {
     private String customDomain;
 
     /**
-     * 存储桶名称，默认微服务单独一个存储桶
+     * 默认存储桶
      */
     @Setter
     private String defaultBucket;
 
+    /**
+     * 是否开启图片压缩(true:开启;false:关闭)
+     */
     @Value("${minio.img_compression_enabled:false}")
     private boolean imgCompressionEnabled;
 
@@ -67,13 +70,15 @@ public class MinioService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        log.info("初始化 MinIO 客户端...");
+        log.info("MinIO Client init...");
         Assert.notBlank(endpoint, "MinIO endpoint不能为空");
         Assert.notBlank(accessKey, "MinIO accessKey不能为空");
         Assert.notBlank(secretKey, "MinIO secretKey不能为空");
         this.minioClient = MinioClient.builder()
                 //.endpoint(endpoint, 443, true)
-                .endpoint(endpoint).credentials(accessKey, secretKey).build();
+                .endpoint(endpoint)
+                .credentials(accessKey, secretKey)
+                .build();
     }
 
     /**
@@ -91,8 +96,9 @@ public class MinioService implements InitializingBean {
 
             // 设置存储桶访问权限为PUBLIC， 如果不配置，则新建的存储桶默认是PRIVATE，则存储桶文件会拒绝访问 Access Denied
             SetBucketPolicyArgs setBucketPolicyArgs = SetBucketPolicyArgs
-                    .builder().bucket(bucketName)
-                    .config(publicBucketPolicy(bucketName).toString())
+                    .builder()
+                    .bucket(bucketName)
+                    .config(publicBucketPolicy(bucketName))
                     .build();
             minioClient.setBucketPolicy(setBucketPolicyArgs);
         }
@@ -122,18 +128,17 @@ public class MinioService implements InitializingBean {
         if (StrUtil.isBlank(bucketName)) {
             bucketName = defaultBucket;
         }
-        // 判断存储桶是否存在
+        // 存储桶不存在则创建
         createBucketIfAbsent(bucketName);
 
-        // 获取文件后缀
+        // 生成文件名(日期文件夹)
         String suffix = FileUtil.getSuffix(file.getOriginalFilename());
-        // 文件名
         String uuid = IdUtil.simpleUUID();
         String fileName = DateUtil.format(LocalDateTime.now(), "yyyy/MM/dd") + "/" + uuid + "." + suffix;
 
-        InputStream inputStream;
         // 是否开启压缩
-        if (ImgUtils.isImg(fileName) && imgCompressionEnabled) {
+        InputStream inputStream;
+        if (ImgUtils.isImg(fileName) && imgCompressionEnabled) { // 图片格式的文件判断是否开启压缩
             long fileSize = file.getSize();
             log.info("图片({})压缩前大小：{}KB", uuid, fileSize / 1024);
             float compressQuality = ImgUtils.getCompressQuality(fileSize);
@@ -149,18 +154,18 @@ public class MinioService implements InitializingBean {
             inputStream = file.getInputStream();
         }
 
-        // 上传参数构建
+        // 文件上传
         PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                 .bucket(bucketName)
                 .object(fileName)
                 .contentType(file.getContentType())
                 .stream(inputStream, inputStream.available(), -1)
                 .build();
-        // 上传
         minioClient.putObject(putObjectArgs);
 
+        // 返回文件路径
         String fileUrl;
-        if (StrUtil.isBlank(customDomain)) { // 没有自定义文件路径域名
+        if (StrUtil.isBlank(customDomain)) { // 未配置自定义域名
             GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
                     .bucket(bucketName).object(fileName)
                     .method(Method.GET)
@@ -168,8 +173,7 @@ public class MinioService implements InitializingBean {
 
             fileUrl = minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
             fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
-        } else {
-            // 自定义文件路径域名，Nginx配置代理转发
+        } else { // 配置自定义文件路径域名
             fileUrl = customDomain + '/' + bucketName + "/" + fileName;
         }
         return fileUrl;
@@ -188,7 +192,7 @@ public class MinioService implements InitializingBean {
      * @param bucketName
      * @return
      */
-    private static StringBuilder publicBucketPolicy(String bucketName) {
+    private static String publicBucketPolicy(String bucketName) {
         /**
          * AWS的S3存储桶策略
          * Principal: 生效用户对象
@@ -205,7 +209,7 @@ public class MinioService implements InitializingBean {
                 + "\"Action\":[\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:GetObject\"],"
                 + "\"Resource\":[\"arn:aws:s3:::" + bucketName + "/*\"]}]}");
 
-        return builder;
+        return builder.toString();
     }
 
 
