@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,14 +36,10 @@ import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
-import java.security.KeyPair;
 import java.util.*;
 
 /**
@@ -60,6 +56,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final MemberUserDetailsServiceImpl memberUserDetailsService;
     private final StringRedisTemplate stringRedisTemplate;
 
+    private final  RedisConnectionFactory redisConnectionFactory;
+
     /**
      * OAuth2客户端
      */
@@ -69,20 +67,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.withClientDetails(clientDetailsService);
     }
 
+
+
     /**
      * 配置授权（authorization）以及令牌（token）的访问端点和令牌服务(token services)
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        // Token增强
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
-        tokenEnhancers.add(tokenEnhancer());
-        tokenEnhancers.add(jwtAccessTokenConverter());
-        tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
 
-        //token存储模式设定 默认为InMemoryTokenStore模式存储到内存中
-        endpoints.tokenStore(jwtTokenStore());
 
         // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
         List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
@@ -105,34 +97,28 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
         endpoints
                 .authenticationManager(authenticationManager)
-                .accessTokenConverter(jwtAccessTokenConverter())
-                .tokenEnhancer(tokenEnhancerChain)
+                .tokenStore(redisTokenStore())
                 .tokenGranter(compositeTokenGranter)
 
                 .tokenServices(tokenServices(endpoints))
         ;
     }
 
-    /**
-     * jwt token存储模式
-     */
     @Bean
-    public JwtTokenStore jwtTokenStore(){
-        return new JwtTokenStore(jwtAccessTokenConverter());
+    public RedisTokenStore redisTokenStore() {
+        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+        redisTokenStore.setPrefix("token:");
+        return redisTokenStore;
     }
 
+
     public DefaultTokenServices tokenServices(AuthorizationServerEndpointsConfigurer endpoints) {
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
-        tokenEnhancers.add(tokenEnhancer());
-        tokenEnhancers.add(jwtAccessTokenConverter());
-        tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
+
 
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(endpoints.getTokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setClientDetailsService(clientDetailsService);
-        tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
         // 多用户体系下，刷新token再次认证客户端ID和 UserDetailService 的映射Map
         Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
@@ -153,58 +139,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return tokenServices;
 
     }
-
-    /**
-     * 使用非对称加密算法对token签名
-     */
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setKeyPair(keyPair());
-        return converter;
-    }
-
-    /**
-     * 密钥库中获取密钥对(公钥+私钥)
-     */
-    @Bean
-    public KeyPair keyPair() {
-        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
-        KeyPair keyPair = factory.getKeyPair("jwt", "123456".toCharArray());
-        return keyPair;
-    }
-
-    /**
-     * JWT内容增强
-     */
-    @Bean
-    public TokenEnhancer tokenEnhancer() {
-        return (accessToken, authentication) -> {
-            Map<String, Object> additionalInfo = MapUtil.newHashMap();
-            Object principal = authentication.getUserAuthentication().getPrincipal();
-            if (principal instanceof SysUserDetails) {
-                SysUserDetails sysUserDetails = (SysUserDetails) principal;
-                additionalInfo.put("userId", sysUserDetails.getUserId());
-                additionalInfo.put("username", sysUserDetails.getUsername());
-                additionalInfo.put("deptId", sysUserDetails.getDeptId());
-                // 认证身份标识(username:用户名；)
-                if (StrUtil.isNotBlank(sysUserDetails.getAuthenticationIdentity())) {
-                    additionalInfo.put("authenticationIdentity", sysUserDetails.getAuthenticationIdentity());
-                }
-            } else if (principal instanceof MemberUserDetails) {
-                MemberUserDetails memberUserDetails = (MemberUserDetails) principal;
-                additionalInfo.put("memberId", memberUserDetails.getMemberId());
-                additionalInfo.put("username", memberUserDetails.getUsername());
-                // 认证身份标识(mobile:手机号；openId:开放式认证系统唯一身份标识)
-                if (StrUtil.isNotBlank(memberUserDetails.getAuthenticationIdentity())) {
-                    additionalInfo.put("authenticationIdentity", memberUserDetails.getAuthenticationIdentity());
-                }
-            }
-            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-            return accessToken;
-        };
-    }
-
 
     /**
      * 自定义认证异常响应数据
