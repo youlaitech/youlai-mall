@@ -1,9 +1,10 @@
 package com.youlai.auth.security.core.userdetails.user;
 
-import com.youlai.admin.api.UserFeignClient;
-import com.youlai.admin.dto.UserAuthDTO;
+import com.youlai.system.api.UserFeignClient;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
+import com.youlai.common.security.dto.UserAuthDTO;
+import com.youlai.common.security.userdetails.SysUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -17,7 +18,8 @@ import org.springframework.stereotype.Service;
 /**
  * 系统用户体系业务类
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
+ * @date 2022/10/2
  */
 @Service("sysUserDetailsService")
 @Slf4j

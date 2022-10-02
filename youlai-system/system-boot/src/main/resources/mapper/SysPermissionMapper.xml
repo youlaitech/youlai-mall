@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.system.mapper.SysPermissionMapper">
+
+    <resultMap id="PermRolesMap" type="com.youlai.system.pojo.entity.SysPermission">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="menuId" column="menu_id" jdbcType="BIGINT"/>
+        <result property="urlPerm" column="url_perm" jdbcType="VARCHAR"/>
+        <result property="btnPerm" column="btn_perm" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result  property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <collection property="roles" ofType="String" javaType="list">
+            <result column="code"/>
+        </collection>
+    </resultMap>
+
+    <!-- 获取权限分页列表 -->
+    <select id="listPermPages" resultType="com.youlai.system.pojo.vo.perm.PermPageVO">
+        SELECT
+            t1.id,
+            t1.menu_id,
+            t1.NAME,
+            t1.btn_perm,
+            t3.NAME requestMethod,
+            t4.NAME serviceName,
+            t1.requestPath
+        FROM
+            (
+                SELECT
+                    id,
+                    menu_id,
+                    NAME,
+                    btn_perm,
+                    SUBSTRING_INDEX( url_perm, ':', 1 ) requestMethod,
+                    SUBSTRING_INDEX( SUBSTR( SUBSTRING_INDEX( url_perm, ':',- 1 ), 2 ), '/', 1 ) serviceName,
+                    SUBSTR(
+                            SUBSTRING_INDEX( url_perm, ':', - 1 ),
+                            LENGTH(
+                                    SUBSTRING_INDEX( SUBSTR( SUBSTRING_INDEX( url_perm, ':',- 1 ), 2 ), '/', 1 ))+ 2
+                        ) requestPath
+                FROM
+                    sys_permission
+            ) t1
+                LEFT JOIN sys_menu t2 ON t1.menu_id = t2.id
+                LEFT JOIN sys_dict_item t3 ON t3.`value` = t1.requestMethod
+                LEFT JOIN sys_dict_item t4 ON t4.`value` = t1.serviceName
+        <where>
+            <if test='queryParams.name != null and queryParams.name.trim() neq ""'>
+                and t1.name like concat('%',#{queryParams.name},'%')
+            </if>
+            <if test='queryParams.menuId !=null '>
+                and t1.menu_id = #{queryParams.menuId}
+            </if>
+        </where>
+        ORDER BY t1.id DESC
+    </select>
+
+    <!-- 权限<->有权限的角色集合 -->
+    <select id="listPermRoles" resultMap="PermRolesMap">
+        SELECT
+           t1.id,
+           t1.NAME,
+           t1.menu_id,
+           t1.url_perm,
+           t1.btn_perm,
+           t3.CODE
+        FROM sys_permission t1
+                 LEFT JOIN sys_role_permission t2 ON t1.id = t2.permission_id
+                 LEFT JOIN sys_role t3 ON t2.role_id = t3.id
+    </select>
+
+    <!-- 根据角色编码集合获取按钮权限 -->
+    <select id="listBtnPermByRoles" resultType="java.lang.String">
+        SELECT
+            DISTINCT (t1.btn_perm)
+        FROM
+            sys_permission t1,sys_role_permission t2 ,sys_role t3
+        WHERE
+            t1.btn_perm is not null and t1.id=t2.permission_id and t2.role_id=t3.id
+            AND t3.code IN
+            <foreach collection='roles' item='role' open='(' separator=',' close=')'>
+                #{role}
+            </foreach>
+    </select>
+
+</mapper>

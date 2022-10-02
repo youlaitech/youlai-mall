@@ -13,7 +13,7 @@
         <!-- 基础模块 -->
         <module>youlai-common</module>
         <module>youlai-gateway</module>
-        <module>youlai-admin</module>
+        <module>youlai-system</module>
         <module>youlai-auth</module>
 
         <!-- 商城模块 -->
@@ -24,6 +24,7 @@
 
         <!-- 实验室模块(可忽略，无关业务的真实和模拟交互空间) -->
         <module>youlai-lab</module>
+        <module>youlai-common/common-security</module>
     </modules>
 
     <parent>
@@ -273,6 +274,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${easy-captcha.version}</version>
@@ -298,7 +305,7 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>admin-api</artifactId>
+                <artifactId>system-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

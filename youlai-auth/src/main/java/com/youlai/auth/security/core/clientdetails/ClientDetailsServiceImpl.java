@@ -1,9 +1,9 @@
 package com.youlai.auth.security.core.clientdetails;
 
-import com.youlai.admin.api.OAuth2ClientFeignClient;
-import com.youlai.admin.dto.OAuth2ClientDTO;
 import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
 import com.youlai.common.result.Result;
+import com.youlai.system.api.OAuth2ClientFeignClient;
+import com.youlai.system.dto.OAuth2ClientDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 /**
  * OAuth2 客户端信息
+ *
+ * @author haoxr
+ * @date 2022/10/2
  */
 @Service
 @RequiredArgsConstructor
