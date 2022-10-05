@@ -5,6 +5,10 @@ import com.youlai.common.enums.MenuTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @ApiModel("菜单视图对象")
@@ -36,5 +40,11 @@ public class MenuVO {
 
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private List<MenuVO> children;
+
+    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+    private LocalDateTime createTime;
+
+    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+    private LocalDateTime updateTime;
 
 }

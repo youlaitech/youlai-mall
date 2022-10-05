@@ -46,23 +46,26 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public List<MenuVO> listMenus(String name) {
-        List<SysMenu> menus = this.list(new LambdaQueryWrapper<SysMenu>()
+        List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>()
                 .like(StrUtil.isNotBlank(name), SysMenu::getName, name)
                 .orderByAsc(SysMenu::getSort)
         );
 
-        Set<Long> cacheMenuIds = menus.stream().map(menu -> menu.getId()).collect(Collectors.toSet());
+        Set<Long> menuIds = menuList.stream().map(menu -> menu.getId()).collect(Collectors.toSet());
 
-        List<MenuVO> tableMenus = menus.stream().map(menu -> {
-            Long parentId = menu.getParentId();
-            // parentId不在当前菜单ID的列表，说明为顶级菜单ID，根据此ID作为递归的开始条件节点
-            if (!cacheMenuIds.contains(parentId)) {
-                cacheMenuIds.add(parentId);
-                return recurTableMenus(parentId, menus);
-            }
-            return new LinkedList<MenuVO>();
-        }).collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
-        return tableMenus;
+        List<MenuVO> menus = menuList
+                .stream()
+                .map(menu -> {
+                    Long parentId = menu.getParentId();
+                    // parentId 如果不在菜单id集合中，即为根节点，作为递归的根节点
+                    if (!menuIds.contains(parentId)) {
+                        menuIds.add(parentId); // 避免根节点重复递归
+                        return recurMenuList(parentId, menuList);
+                    }
+                    return Collections.EMPTY_LIST;
+                })
+                .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
+        return menus;
     }
 
 
@@ -80,6 +83,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 menu.setComponent("Layout");
                 break;
             case EXTLINK: // 外链
+            case BUTTON:
                 menu.setComponent(null);
                 break;
         }
@@ -96,7 +100,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public List<Option> listMenuOptions() {
-        List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
+        List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>()
+                .select(SysMenu::getId, SysMenu::getName,SysMenu::getParentId)
+                .in(SysMenu::getType, Arrays.asList("C", "M", "E"))
+                .orderByAsc(SysMenu::getSort)
+        );
         List<Option> menus = recurMenus(SystemConstants.ROOT_MENU_ID, menuList);
         return menus;
     }
@@ -198,13 +206,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList 菜单列表
      * @return
      */
-    private List<MenuVO> recurTableMenus(Long parentId, List<SysMenu> menuList) {
+    private List<MenuVO> recurMenuList(Long parentId, List<SysMenu> menuList) {
         List<MenuVO> tableMenus = Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .map(entity -> {
                     MenuVO menuVO = menuConverter.entity2VO(entity);
-                    List<MenuVO> children = recurTableMenus(entity.getId(), menuList);
+                    List<MenuVO> children = recurMenuList(entity.getId(), menuList);
                     menuVO.setChildren(children);
                     return menuVO;
                 }).collect(Collectors.toList());
@@ -219,10 +227,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     private static List<Option> recurMenus(Long parentId, List<SysMenu> menuList) {
-        List<Option> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
-                .filter(menu -> menu.getParentId().equals(parentId))
-                .map(menu -> new Option(menu.getId(), menu.getName(), recurMenus(menu.getId(), menuList)))
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        List<Option> menus = null;
+        if (CollectionUtil.isNotEmpty(menuList)) {
+            menus = menuList.stream()
+                    .filter(menu -> menu.getParentId().equals(parentId))
+                    .map(menu -> new Option(menu.getId(), menu.getName(), recurMenus(menu.getId(), menuList)))
+                    .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        }
         return menus;
     }
 

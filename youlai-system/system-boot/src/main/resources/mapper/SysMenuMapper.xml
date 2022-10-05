@@ -16,27 +16,31 @@
         <result property="visible" column="visible" jdbcType="BOOLEAN"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <result property="type" column="type" jdbcType="OTHER"/>
         <collection property="roles" ofType="string" javaType="list">
             <result column="code"/>
         </collection>
     </resultMap>
 
+    <!-- 获取路由列表 -->
     <select id="listRoutes" resultMap="BaseResultMap">
-        select t1.id,
-               t1.name,
-               t1.parent_id,
-               t1.path,
-               t1.component,
-               t1.icon,
-               t1.sort,
-               t1.visible,
-               t1.redirect,
-               t3.code,
-               t1.type
-        from sys_menu t1
-                 left join sys_role_menu t2 on t1.id = t2.menu_id
-                 left join sys_role t3 on t2.role_id = t3.id
-        order by t1.sort asc
+        SELECT
+            t1.id,
+            t1.name,
+            t1.parent_id,
+            t1.path,
+            t1.component,
+            t1.icon,
+            t1.sort,
+            t1.visible,
+            t1.redirect,
+            t3.code
+        FROM
+            sys_menu t1
+            LEFT JOIN sys_role_menu t2 ON t1.id = t2.menu_id
+            LEFT JOIN sys_role t3 ON t2.role_id = t3.id
+        WHERE
+            t1.visible = 1 AND t1.type !='B'
+        ORDER BY
+            t1.sort ASC
     </select>
 </mapper>
