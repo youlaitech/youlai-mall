@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -19,6 +22,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -27,20 +32,29 @@ import java.util.TimeZone;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper objectMapper = converter.getObjectMapper();
+        // 日期、时区配置
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 
-        // 后台Long值传递给前端精度丢失问题（JS最大精度整数是Math.pow(2,53)）
+
+        // 基础模块配置
         SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(BigInteger.class, ToStringSerializer.instance);
+        simpleModule.addSerializer(Long.class, ToStringSerializer.instance); // 后台Long值传递给前端精度丢失问题（JS最大精度整数是Math.pow(2,53)）
+        simpleModule.addSerializer(BigInteger.class, ToStringSerializer.instance); // 后台Long值传递给前端精度丢失问题（JS最大精度整数是Math.pow(2,53)）
         objectMapper.registerModule(simpleModule);
 
-        jackson2HttpMessageConverter.setObjectMapper(objectMapper);
-        converters.add(0, jackson2HttpMessageConverter);
+        // LocalDateTime
+        JavaTimeModule timeModule=new JavaTimeModule();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        timeModule.addSerializer(LocalDateTime.class,new LocalDateTimeSerializer(dateTimeFormatter));
+        timeModule.addDeserializer(LocalDateTime.class,new LocalDateTimeDeserializer(dateTimeFormatter));
+        objectMapper.registerModules(timeModule);
+
+        // 重新加入jackson转换器
+        converter.setObjectMapper(objectMapper);
+        converters.add(0,converter);
     }
 
     @Bean

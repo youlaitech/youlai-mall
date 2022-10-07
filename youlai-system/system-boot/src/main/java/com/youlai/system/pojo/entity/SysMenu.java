@@ -43,6 +43,11 @@ public class SysMenu extends BaseEntity {
 
     private Integer visible;
 
+    /**
+     * 权限标识
+     */
+    private String perm;
+
     private String redirect;
 
     @TableField(exist = false)

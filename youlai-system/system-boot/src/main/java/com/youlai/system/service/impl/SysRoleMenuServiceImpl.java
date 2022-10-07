@@ -7,6 +7,7 @@ import com.youlai.system.service.SysRoleMenuService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色菜单
@@ -37,8 +38,8 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      * @return ["sys:user:add"]
      */
     @Override
-    public List<String> listPerms(List<String> roles) {
-        List<String> perms = this.baseMapper.listPerms(roles);
+    public Set<String> listPerms(Set<String> roles) {
+        Set<String> perms = this.baseMapper.listPerms(roles);
         return perms;
     }
 

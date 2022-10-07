@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,16 @@ public class SecurityUtils {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toSet()));
         return roles;
+    }
+
+    /**
+     * 是否超级管理员
+     *
+     * @return
+     */
+    public static boolean isRoot(){
+        Set<String> roles = getRoles();
+        return CollectionUtil.isNotEmpty(roles) && roles.contains("ROOT");
     }
 
 }

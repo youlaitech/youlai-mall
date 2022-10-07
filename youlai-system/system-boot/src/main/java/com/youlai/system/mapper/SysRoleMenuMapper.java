@@ -5,6 +5,7 @@ import com.youlai.system.pojo.entity.SysRoleMenu;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色菜单持久层
@@ -29,5 +30,5 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
      * @param roles
      * @return ["sys:user:add"]
      */
-    List<String> listPerms(List<String> roles);
+    Set<String> listPerms(Set<String> roles);
 }

@@ -27,7 +27,6 @@ import com.youlai.system.pojo.vo.user.UserDetailVO;
 import com.youlai.system.pojo.vo.user.LoginUserVO;
 import com.youlai.system.pojo.vo.user.UserExportVO;
 import com.youlai.system.pojo.vo.user.UserVO;
-import com.youlai.system.service.SysPermissionService;
 import com.youlai.system.service.SysRoleMenuService;
 import com.youlai.system.service.SysUserRoleService;
 import com.youlai.system.service.SysUserService;
@@ -62,8 +61,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final PasswordEncoder passwordEncoder;
     private final SysUserRoleService userRoleService;
     private final UserImportListener userImportListener;
-    private final SysPermissionService permissionService;
-
     private final SysRoleMenuService roleMenuService;
     private final UserConverter userConverter;
 
@@ -82,10 +79,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<UserPO> page = new Page<>(pageNum, pageSize);
 
         // 查询数据
-        Page<UserPO> userPoPage = this.baseMapper.listUserPages(page, queryParams);
+        page = this.baseMapper.listUserPages(page, queryParams);
 
         // 实体转换
-        Page<UserVO> userVoPage = userConverter.po2Vo(userPoPage);
+        Page<UserVO> userVoPage = userConverter.po2Vo(page);
 
         return userVoPage;
     }
@@ -212,9 +209,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserAuthDTO getAuthInfoByUsername(String username) {
         UserAuthDTO userAuthInfo = this.baseMapper.getAuthInfoByUsername(username);
         Assert.isTrue(userAuthInfo != null, "用户不存在!");
-        List<String> roles = userAuthInfo.getRoles();
+        Set<String> roles = userAuthInfo.getRoles();
         if (CollectionUtil.isNotEmpty(roles)) {
-            List<String> perms = roleMenuService.listPerms(roles);
+            Set<String> perms = roleMenuService.listPerms(roles);
             userAuthInfo.setPerms(perms);
         }
         return userAuthInfo;
@@ -348,7 +345,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         loginUserVO.setRoles(roles);
 
         // 用户权限集合
-        loginUserVO.setPerms(null);
+        Set<String> perms = roleMenuService.listPerms(roles);
+        loginUserVO.setPerms(perms);
 
         return loginUserVO;
     }

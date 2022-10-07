@@ -1,5 +1,6 @@
 package com.youlai.system.pojo.vo.menu;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.youlai.common.enums.MenuTypeEnum;
 import io.swagger.annotations.ApiModel;
@@ -33,6 +34,9 @@ public class MenuVO {
 
     private Integer visible;
 
+    @ApiModelProperty("权限标识")
+    private String perm;
+
     private String redirect;
 
     @ApiModelProperty("菜单类型")
@@ -41,10 +45,10 @@ public class MenuVO {
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private List<MenuVO> children;
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+   @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime createTime;
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime updateTime;
 
 }

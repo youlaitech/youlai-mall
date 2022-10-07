@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.system.mapper.SysRoleMenuMapper">
 
-    <!-- 获取角色拥有的菜单ID集合(父节点排除) -->
+    <!-- 获取角色拥有的菜单ID集合 -->
     <select id="listMenuIdsByRoleId" resultType="java.lang.Long">
         SELECT
             rm.menu_id
@@ -13,7 +13,16 @@
                 INNER JOIN sys_menu m ON rm.menu_id = m.id
         WHERE
             rm.role_id = #{roleId}
-          AND rm.menu_id NOT IN ( SELECT m.parent_id FROM sys_role_menu rm INNER JOIN sys_menu m ON rm.menu_id = m.id WHERE rm.role_id = #{roleId} )
+            <!-- 父节点id排除，由子节点的勾选状态控制父节点选中 -->
+            AND rm.menu_id NOT IN
+                (
+                     SELECT
+                         m.parent_id
+                     FROM
+                         sys_role_menu rm
+                             INNER JOIN sys_menu m  ON rm.menu_id = m.id
+                     WHERE rm.role_id = #{roleId}
+                 )
     </select>
 
     <!-- 获取角色权限标识集合 -->
@@ -25,7 +34,9 @@
                 INNER JOIN `sys_menu` m ON rm.menu_id = m.id
                 INNER JOIN `sys_role` r ON rm.role_id = r.id
         WHERE
-            r.`code` IN
+            m.type = 'B'
+            AND m.perm IS NOT NULL
+            AND r.`code` IN
             <foreach collection="roles" item="role" separator="," open="(" close=")">
                #{role}
             </foreach>

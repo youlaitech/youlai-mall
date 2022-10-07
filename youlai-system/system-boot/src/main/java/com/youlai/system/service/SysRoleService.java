@@ -62,20 +62,20 @@ public interface SysRoleService extends IService<SysRole> {
 
 
     /**
-     * 获取角色的资源ID集合,资源包括菜单和权限
+     * 获取角色的资源ID集合
      *
      * @param roleId
      * @return
      */
-    RoleResourceForm getRoleResources(Long roleId);
+    List<Long> getRoleResourceIds(Long roleId);
 
 
     /**
      * 修改角色的资源权限
      *
      * @param roleId
-     * @param roleResourceForm
+     * @param resourceIds
      * @return
      */
-    boolean updateRoleResource(Long roleId, RoleResourceForm roleResourceForm);
+    boolean updateRoleResourceIds(Long roleId, List<Long> resourceIds);
 }

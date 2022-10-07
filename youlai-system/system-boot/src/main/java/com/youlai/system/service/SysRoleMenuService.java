@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.system.pojo.entity.SysRoleMenu;
 
 import java.util.List;
+import java.util.Set;
 
 public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
@@ -23,5 +24,5 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      * @param roles 角色code集合
      * @return ["sys:user:add"]
      */
-    List<String> listPerms(List<String> roles);
+    Set<String> listPerms(Set<String> roles);
 }

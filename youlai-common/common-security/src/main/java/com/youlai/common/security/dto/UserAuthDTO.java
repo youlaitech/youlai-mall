@@ -3,6 +3,7 @@ package com.youlai.common.security.dto;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * OAuth2 认证用户信息
@@ -36,7 +37,7 @@ public class UserAuthDTO {
     /**
      * 用户角色编码集合 ["ROOT","ADMIN"]
      */
-    private List<String> roles;
+    private Set<String> roles;
 
     /**
      * 部门ID
@@ -46,6 +47,6 @@ public class UserAuthDTO {
     /**
      * 用户权限标识集合["sys:user:add"]
      */
-    private List<String> perms;
+    private Set<String> perms;
 
 }

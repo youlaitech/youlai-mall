@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.system.mapper.SysRoleMapper">
+
+    <!-- 角色分页列表 -->
+    <select id="listRolePages" resultType="com.youlai.system.pojo.entity.SysRole">
+        SELECT
+           id,
+           name,
+           code,
+           sort,
+           status,
+           create_time,
+           update_time
+        FROM
+            sys_role
+        <where>
+            deleted = 0
+            <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
+                AND (
+                    name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    OR code LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    )
+            </if>
+            <if test='queryParams.status!=null'>
+                AND status = #{queryParams.status}
+            </if>
+            <!-- 非超级管理员不显示超级管理员角色 -->
+            <if test='@com.youlai.common.security.util.SecurityUtils@isRoot()==false'>
+                AND code != 'ROOT'
+            </if>
+        </where>
+        ORDER BY sort ASC
+    </select>
+
+
+</mapper>

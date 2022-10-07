@@ -83,7 +83,7 @@
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>
         <result property="deptId" column="deptId" jdbcType="BIGINT"></result>
-        <collection property="roles" ofType="string" javaType="list">
+        <collection property="roles" ofType="string" javaType="java.util.Set">
             <result column="roleCode"></result>
         </collection>
     </resultMap>

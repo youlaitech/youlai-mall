@@ -77,28 +77,28 @@ public class SysRoleController {
     @PutMapping(value = "/{roleId}/status")
     public Result updateRoleStatus(
             @ApiParam("角色ID") @PathVariable Long roleId,
-            @ApiParam("角色状态:1-正常；0-禁用") @RequestParam Integer status
+            @ApiParam("角色状态(1:正常;0:禁用)") @RequestParam Integer status
     ) {
         boolean result = sysRoleService.updateRoleStatus(roleId, status);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "获取角色的资源ID集合", notes = "资源包括菜单和权限ID")
-    @GetMapping("/{roleId}/resources")
-    public Result<RoleResourceForm> getRoleResources(
+    @GetMapping("/{roleId}/resourceIds")
+    public Result<List<Long>> getRoleResources(
             @ApiParam("角色ID") @PathVariable Long roleId
     ) {
-        RoleResourceForm resourceIds = sysRoleService.getRoleResources(roleId);
+        List<Long> resourceIds = sysRoleService.getRoleResourceIds(roleId);
         return Result.success(resourceIds);
     }
 
     @ApiOperation(value = "分配角色的资源权限")
-    @PutMapping("/{roleId}/resources")
+    @PutMapping("/{roleId}/resourceIds")
     public Result updateRoleResource(
             @PathVariable Long roleId,
-            @RequestBody RoleResourceForm roleResourceForm
+            @RequestBody List<Long> resourceIds
     ) {
-        boolean result = sysRoleService.updateRoleResource(roleId,roleResourceForm);
+        boolean result = sysRoleService.updateRoleResourceIds(roleId,resourceIds);
         return Result.judge(result);
     }
 }

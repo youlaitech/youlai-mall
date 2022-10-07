@@ -6,20 +6,20 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.system.converter.MenuConverter;
+import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.enums.MenuTypeEnum;
+import com.youlai.common.web.domain.Option;
+import com.youlai.system.converter.MenuConverter;
 import com.youlai.system.mapper.SysMenuMapper;
 import com.youlai.system.pojo.entity.SysMenu;
-import com.youlai.system.pojo.entity.SysPermission;
+import com.youlai.system.pojo.vo.menu.MenuVO;
 import com.youlai.system.pojo.vo.menu.ResourceVO;
 import com.youlai.system.pojo.vo.menu.RouteVO;
-import com.youlai.system.pojo.vo.menu.MenuVO;
 import com.youlai.system.service.SysMenuService;
 import com.youlai.system.service.SysPermissionService;
-import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.domain.Option;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
     private final SysPermissionService permissionService;
-    private final MenuConverter menuConverter;
+    private  final MenuConverter menuConverter;
 
     /**
      * 菜单表格树形列表
@@ -51,7 +51,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .orderByAsc(SysMenu::getSort)
         );
 
-        Set<Long> menuIds = menuList.stream().map(menu -> menu.getId()).collect(Collectors.toSet());
+        Set<Long> menuIds = menuList.stream().map(menu -> menu.getId())
+                .collect(Collectors.toSet());
 
         List<MenuVO> menus = menuList
                 .stream()
@@ -173,9 +174,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>()
                 .orderByAsc(SysMenu::getSort));
 
-        List<SysPermission> permList = permissionService.list();
-
-        List<ResourceVO> resources = recurResources(SystemConstants.ROOT_MENU_ID, menuList, permList);
+        List<ResourceVO> resources = recurResources(SystemConstants.ROOT_MENU_ID, menuList);
 
         return resources;
     }
@@ -207,7 +206,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     private List<MenuVO> recurMenuList(Long parentId, List<SysMenu> menuList) {
-        List<MenuVO> tableMenus = Optional.ofNullable(menuList).orElse(new ArrayList<>())
+        List<MenuVO> tableMenus = Optional.ofNullable(menuList).orElse(Lists.newArrayList())
                 .stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .map(entity -> {
@@ -244,24 +243,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList 菜单列表
      * @return
      */
-    private static List<ResourceVO> recurResources(Long parentId, List<SysMenu> menuList, List<SysPermission> permList) {
+    private  List<ResourceVO> recurResources(Long parentId, List<SysMenu> menuList) {
         List<ResourceVO> menus = Optional.ofNullable(menuList).orElse(new ArrayList<>()).stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .map(menu -> {
-                    Long menuId = menu.getId();
-
-                    ResourceVO resourceVO = new ResourceVO();
-                    resourceVO.setValue(menu.getId());
-                    resourceVO.setLabel(menu.getName());
-
-                    List<ResourceVO> children = recurResources(menu.getId(), menuList, permList);
+                    ResourceVO resourceVO = menuConverter.entity2ResourceVO(menu);
+                    List<ResourceVO> children = recurResources(menu.getId(), menuList);
                     resourceVO.setChildren(children);
-
-                    List<Option> perms = permList.stream().filter(perm -> perm.getMenuId()
-                                    .equals(menuId))
-                            .map(item -> new Option<>(item.getId(), item.getName()))
-                            .collect(Collectors.toList());
-                    resourceVO.setPerms(perms);
                     return resourceVO;
                 }).collect(Collectors.toList());
         return menus;

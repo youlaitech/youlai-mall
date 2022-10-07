@@ -31,14 +31,6 @@ import java.util.List;
 public class SysMenuController {
 
     private final SysMenuService menuService;
-    private final SysPermissionService permissionService;
-
-    @ApiOperation(value = "资源(菜单+权限)列表")
-    @GetMapping("/resources")
-    public Result<List<ResourceVO>> listResources() {
-        List<ResourceVO> resources = menuService.listResources();
-        return Result.success(resources);
-    }
 
     @ApiOperation(value = "菜单列表")
     @GetMapping
@@ -97,9 +89,6 @@ public class SysMenuController {
             @ApiParam("菜单ID，多个以英文(,)分割") @PathVariable("ids") String ids
     ) {
         boolean result = menuService.removeByIds(Arrays.asList(ids.split(",")));
-        if (result) {
-            permissionService.refreshPermRolesRules();
-        }
         return Result.judge(result);
     }
 
@@ -114,6 +103,12 @@ public class SysMenuController {
         return Result.judge(result);
     }
 
+    @ApiOperation(value = "资源列表")
+    @GetMapping("/resources")
+    public Result<List<ResourceVO>> listResources() {
+        List<ResourceVO> resources = menuService.listResources();
+        return Result.success(resources);
+    }
 
 }
 

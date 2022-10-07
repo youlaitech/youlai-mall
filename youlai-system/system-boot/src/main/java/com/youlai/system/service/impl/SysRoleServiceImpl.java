@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.system.converter.RoleConverter;
 import com.youlai.system.mapper.SysRoleMapper;
 import com.youlai.system.pojo.entity.SysRole;
@@ -57,23 +58,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public Page<RolePageVO> listRolePages(RolePageQuery queryParams) {
         // 查询参数
-        int pageNum = queryParams.getPageNum();
-        int pageSize = queryParams.getPageSize();
-        String keywords = queryParams.getKeywords();
-
+        Page<SysRole> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
         // 查询数据
-        Page<SysRole> rolePage = this.page(
-                new Page<>(pageNum, pageSize),
-                new LambdaQueryWrapper<SysRole>()
-                        .like(StrUtil.isNotBlank(keywords), SysRole::getName, keywords)
-                        .or()
-                        .like(StrUtil.isNotBlank(keywords), SysRole::getCode, keywords)
-                        .ne(!UserUtils.isRoot(), SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
-                        .select(SysRole::getId, SysRole::getName, SysRole::getCode)
-        );
+        page = this.baseMapper.listRolePages(page, queryParams);
 
         // 实体转换
-        Page<RolePageVO> pageResult = roleConverter.entity2Page(rolePage);
+        Page<RolePageVO> pageResult = roleConverter.entity2Page(page);
         return pageResult;
     }
 
@@ -86,7 +76,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public List<Option> listRoleOptions() {
         // 查询数据
         List<SysRole> roleList = this.list(new LambdaQueryWrapper<SysRole>()
-                .ne(!UserUtils.isRoot(), SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
+                // 非超级管理员用户超级管理员角色不可见
+                .ne(SecurityUtils.isRoot() == false, SysRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
+                .eq(SysRole::getStatus, GlobalConstants.STATUS_YES)
                 .select(SysRole::getId, SysRole::getName)
                 .orderByAsc(SysRole::getSort)
         );
@@ -171,53 +163,37 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     /**
-     * 获取角色的资源ID集合,资源包括菜单和权限
+     * 获取角色拥有的菜单ID集合
      *
      * @param roleId
      * @return
      */
     @Override
-    public RoleResourceForm getRoleResources(Long roleId) {
-        RoleResourceForm roleResources = new RoleResourceForm();
-
-        // 获取角色拥有的菜单ID集合
+    public List<Long> getRoleResourceIds(Long roleId) {
         List<Long> menuIds = sysRoleMenuService.listMenuIdsByRoleId(roleId);
-        roleResources.setMenuIds(menuIds);
-
-        // 获取角色拥有的权限ID集合
-        List<Long> permIds = sysRolePermissionService.listPermIdsByRoleId(roleId);
-        roleResources.setPermIds(permIds);
-
-        return roleResources;
+        return menuIds;
     }
 
     /**
      * 修改角色的资源权限
      *
      * @param roleId
-     * @param roleResourceForm
+     * @param resourceIds
      * @return
      */
     @Override
     @Transactional
     @CacheEvict(cacheNames = "system", key = "'routes'")
-    public boolean updateRoleResource(Long roleId, RoleResourceForm roleResourceForm) {
+    public boolean updateRoleResourceIds(Long roleId, List<Long> resourceIds) {
         // 删除角色菜单
-        sysRoleMenuService.remove(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getRoleId, roleId));
+        sysRoleMenuService.remove(new LambdaQueryWrapper<SysRoleMenu>()
+                .eq(SysRoleMenu::getRoleId, roleId));
         // 新增角色菜单
-        List<Long> menuIds = roleResourceForm.getMenuIds();
-        if (CollectionUtil.isNotEmpty(menuIds)) {
-            List<SysRoleMenu> roleMenus = menuIds.stream().map(menuId -> new SysRoleMenu(roleId, menuId)).collect(Collectors.toList());
+        if (CollectionUtil.isNotEmpty(resourceIds)) {
+            List<SysRoleMenu> roleMenus = resourceIds.stream()
+                    .map(menuId -> new SysRoleMenu(roleId, menuId))
+                    .collect(Collectors.toList());
             sysRoleMenuService.saveBatch(roleMenus);
-        }
-
-        // 删除角色权限
-        sysRolePermissionService.remove(new LambdaQueryWrapper<SysRolePermission>().eq(SysRolePermission::getRoleId, roleId));
-        // 新增角色权限
-        List<Long> permIds = roleResourceForm.getPermIds();
-        if (CollectionUtil.isNotEmpty(permIds)) {
-            List<SysRolePermission> rolePerms = permIds.stream().map(permId -> new SysRolePermission(roleId, permId)).collect(Collectors.toList());
-            sysRolePermissionService.saveBatch(rolePerms);
         }
         return true;
     }
