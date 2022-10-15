@@ -28,7 +28,6 @@
             <artifactId>common-redis</artifactId>
         </dependency>
 
-        <!-- OAuth2 认证服务器-->
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
