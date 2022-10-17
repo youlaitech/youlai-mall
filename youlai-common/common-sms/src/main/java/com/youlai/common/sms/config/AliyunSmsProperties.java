@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * <p>
  * 配置文件 youlai-common.yml
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2021/10/13 22:44
  */
 @ConfigurationProperties(prefix = "aliyun.sms")
