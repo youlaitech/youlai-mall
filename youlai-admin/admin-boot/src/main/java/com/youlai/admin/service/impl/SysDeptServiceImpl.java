@@ -2,7 +2,6 @@ package com.youlai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -19,7 +18,6 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.web.domain.Option;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -54,62 +52,56 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                         .eq(Validator.isNotNull(status), SysDept::getStatus, status)
                         .orderByAsc(SysDept::getSort)
         );
-        return recurDepartments(deptList);
-    }
 
-    /**
-     * 递归生成部门表格层级列表
-     *
-     * @param deptList 部门列表
-     * @return 部门列表
-     */
-    private static List<DeptVO> recurDepartments(List<SysDept> deptList) {
-        List<DeptVO> deptTableList = new ArrayList<>();
-        // 保存所有节点的 id
-        Set<Long> nodeIdSet = deptList.stream()
-                .map(SysDept::getId)
-                .collect(Collectors.toSet());
-        for (SysDept sysDept : deptList) {
-            // 不在节点 id 集合中存在的 id 即为顶级节点 id, 递归生成列表
-            Long parentId = sysDept.getParentId();
-            if (!nodeIdSet.contains(parentId)) {
-                deptTableList.addAll(recurTableDepts(parentId, deptList));
-                nodeIdSet.add(parentId);
+        List<DeptVO> list = new ArrayList<>();
+
+        if (CollectionUtil.isNotEmpty(deptList)) {
+
+            Set<Long> cacheDeptIds = deptList.stream()
+                    .map(SysDept::getId)
+                    .collect(Collectors.toSet());
+
+
+            for (SysDept dept : deptList) {
+                Long parentId = dept.getParentId();
+                // 不在缓存ID列表的parentId是顶级节点ID，以此作为递归开始
+                if (cacheDeptIds.contains(parentId) == false) {
+                    list.addAll(recurDepartments(parentId, deptList));
+                    cacheDeptIds.add(parentId); // 避免重复递归
+                }
             }
         }
-        // 如果结果列表为空说明所有的节点都是独立分散的, 直接转换后返回
-        if (deptTableList.isEmpty()) {
-            return deptList.stream()
-                    .map(item -> {
+
+        //  列表为空说明所有的节点都是独立的
+        if (list.isEmpty()) {
+            return deptList.stream().map(item -> {
                         DeptVO deptVO = new DeptVO();
                         BeanUtil.copyProperties(item, deptVO);
                         return deptVO;
                     })
                     .collect(Collectors.toList());
         }
-        return deptTableList;
+
+        return list;
     }
 
     /**
-     * 递归生成部门表格层级列表
+     * 递归生成部门层级列表
      *
      * @param parentId
      * @param deptList
      * @return
      */
-    public static List<DeptVO> recurTableDepts(Long parentId, List<SysDept> deptList) {
-        List<DeptVO> deptTableList = new ArrayList<>();
-        Optional.ofNullable(deptList).orElse(new ArrayList<>())
-                .stream()
+    public List<DeptVO> recurDepartments(Long parentId, List<SysDept> deptList) {
+        List<DeptVO> list = deptList.stream()
                 .filter(dept -> dept.getParentId().equals(parentId))
-                .forEach(dept -> {
-                    DeptVO deptVO = new DeptVO();
-                    BeanUtil.copyProperties(dept, deptVO);
-                    List<DeptVO> children = recurTableDepts(dept.getId(), deptList);
+                .map(dept -> {
+                    DeptVO deptVO = deptConverter.entity2Vo(dept);
+                    List<DeptVO> children = recurDepartments(dept.getId(), deptList);
                     deptVO.setChildren(children);
-                    deptTableList.add(deptVO);
-                });
-        return deptTableList;
+                    return deptVO;
+                }).collect(Collectors.toList());
+        return list;
     }
 
 
@@ -217,7 +209,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                         SysDept::getParentId,
                         SysDept::getStatus,
                         SysDept::getSort
-
                 ));
 
         DeptDetailVO detailVO = deptConverter.entity2DetailVO(entity);

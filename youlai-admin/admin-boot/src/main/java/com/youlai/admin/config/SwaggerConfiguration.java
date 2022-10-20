@@ -61,8 +61,6 @@ public class SwaggerConfiguration {
         List<SecurityContext> securityContexts = Lists.newArrayList(securityContext);
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                // .apis(RequestHandlerSelectors.basePackage("com.youlai.admin.controller"))
-                // .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
                 .build()

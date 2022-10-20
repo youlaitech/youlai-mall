@@ -21,8 +21,7 @@ import java.util.List;
 
 /**
  * @Author haoxr
- * @Date 2021-02-25 15:36
- * @Version 1.0.0
+ * @Date 2021/02/25
  */
 @Configuration
 @EnableSwagger2WebMvc
