@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 

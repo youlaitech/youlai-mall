@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
 import com.youlai.mall.pms.service.IPmsCategoryService;

@@ -1,4 +1,4 @@
-package com.youlai.common.web.domain;
+package com.youlai.common.web.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;

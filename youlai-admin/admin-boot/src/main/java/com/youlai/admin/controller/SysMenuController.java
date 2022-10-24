@@ -7,7 +7,7 @@ import com.youlai.admin.pojo.vo.menu.RouteVO;
 import com.youlai.admin.service.SysMenuService;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

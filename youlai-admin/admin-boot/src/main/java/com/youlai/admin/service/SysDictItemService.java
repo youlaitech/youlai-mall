@@ -6,7 +6,7 @@ import com.youlai.admin.pojo.entity.SysDictItem;
 import com.youlai.admin.pojo.form.DictItemForm;
 import com.youlai.admin.pojo.query.DictItemPageQuery;
 import com.youlai.admin.pojo.vo.dict.DictItemPageVO;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 
 import java.util.List;
 

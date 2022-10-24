@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.admin.pojo.entity.SysRole;
 import com.youlai.admin.pojo.form.RoleForm;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

@@ -6,7 +6,7 @@ import com.youlai.admin.pojo.form.DeptForm;
 import com.youlai.admin.pojo.query.DeptQuery;
 import com.youlai.admin.pojo.vo.dept.DeptDetailVO;
 import com.youlai.admin.pojo.vo.dept.DeptVO;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 
 import java.util.List;
 

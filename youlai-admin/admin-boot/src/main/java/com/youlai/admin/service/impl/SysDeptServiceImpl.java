@@ -16,7 +16,7 @@ import com.youlai.admin.pojo.vo.dept.DeptVO;
 import com.youlai.admin.service.SysDeptService;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.constant.SystemConstants;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

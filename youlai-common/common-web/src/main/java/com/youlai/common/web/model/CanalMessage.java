@@ -1,4 +1,4 @@
-package com.youlai.common.web.domain;
+package com.youlai.common.web.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package com.youlai.admin.listener.rabbitmq;
 import com.youlai.admin.service.SysMenuService;
 import com.youlai.admin.service.SysOauthClientService;
 import com.youlai.admin.service.SysPermissionService;
-import com.youlai.common.web.domain.CanalMessage;
+import com.youlai.common.web.model.CanalMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

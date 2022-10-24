@@ -9,7 +9,7 @@ import com.youlai.admin.pojo.vo.role.RolePageVO;
 import com.youlai.admin.service.SysRoleService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

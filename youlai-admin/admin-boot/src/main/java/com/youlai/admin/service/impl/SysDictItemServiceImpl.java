@@ -12,7 +12,7 @@ import com.youlai.admin.pojo.form.DictItemForm;
 import com.youlai.admin.pojo.query.DictItemPageQuery;
 import com.youlai.admin.pojo.vo.dict.DictItemPageVO;
 import com.youlai.admin.service.SysDictItemService;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

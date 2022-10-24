@@ -8,7 +8,7 @@ import com.youlai.admin.pojo.form.RoleForm;
 import com.youlai.admin.pojo.form.RoleResourceForm;
 import com.youlai.admin.pojo.query.RolePageQuery;
 import com.youlai.admin.pojo.vo.role.RolePageVO;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 
 import java.util.List;
 

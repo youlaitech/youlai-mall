@@ -1,7 +1,7 @@
 package com.youlai.admin.pojo.vo.menu;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

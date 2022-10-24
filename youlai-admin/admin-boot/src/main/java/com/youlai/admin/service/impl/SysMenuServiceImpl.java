@@ -1,6 +1,5 @@
 package com.youlai.admin.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
@@ -19,7 +18,7 @@ import com.youlai.admin.pojo.vo.menu.MenuVO;
 import com.youlai.admin.service.SysMenuService;
 import com.youlai.admin.service.SysPermissionService;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

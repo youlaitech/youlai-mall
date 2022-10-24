@@ -5,7 +5,7 @@ import com.youlai.admin.pojo.entity.SysMenu;
 import com.youlai.admin.pojo.vo.menu.ResourceVO;
 import com.youlai.admin.pojo.vo.menu.MenuVO;
 import com.youlai.admin.pojo.vo.menu.RouteVO;
-import com.youlai.common.web.domain.Option;
+import com.youlai.common.web.model.Option;
 
 import java.util.List;
 
