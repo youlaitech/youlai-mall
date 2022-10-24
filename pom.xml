@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.youlai</groupId>
@@ -69,7 +67,7 @@
         <thumbnailator.version>0.4.17</thumbnailator.version>
 
         <!-- elastic stack -->
-        <elasticsearch.version>7.10.1</elasticsearch.version>
+        <elasticsearch.version>7.14.0</elasticsearch.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
 
         <!-- distributed -->
