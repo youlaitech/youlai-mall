@@ -1,5 +1,6 @@
 package com.youlai.system.pojo.bo;
 
+
 import lombok.Data;
 
 import java.util.List;
@@ -42,5 +43,10 @@ public class UserAuthBO {
      * 部门ID
      */
     private Long deptId;
+
+    /**
+     * 用户角色数据权限集合
+     */
+    private List<Integer> dataScopes;
 
 }

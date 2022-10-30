@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.List;
 
 
 /**
@@ -35,6 +36,11 @@ public class SysUserDetails implements UserDetails {
     private Long deptId;
 
     /**
+     * 用户角色数据权限集合
+     */
+    private List<Integer> dataScopes;
+
+    /**
      * 默认字段
      */
     private String username;
@@ -51,6 +57,7 @@ public class SysUserDetails implements UserDetails {
         this.setUserId(user.getUserId());
         this.setUsername(user.getUsername());
         this.setDeptId(user.getDeptId());
+        this.setDataScopes(user.getDataScopes());
         this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword());
         this.setEnabled(StatusEnum.ENABLE.getValue().equals(user.getStatus()));
         if (CollectionUtil.isNotEmpty(user.getRoles())) {

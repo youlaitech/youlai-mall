@@ -19,5 +19,7 @@ public @interface DataPermission {
      * 数据权限 {@link com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor}
      */
     String deptAlias() default "";
+    String userAlias() default "";
+
 }
 

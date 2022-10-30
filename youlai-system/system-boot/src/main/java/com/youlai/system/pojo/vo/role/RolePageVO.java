@@ -16,4 +16,7 @@ public class RolePageVO {
 
     @ApiModelProperty("角色编码")
     private String code;
+
+    @ApiModelProperty("角色数据权限")
+    private Integer dataScope;
 }
