@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.youlai.admin.api.fallback.UserFeignFallbackClient

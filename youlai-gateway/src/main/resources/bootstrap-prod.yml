@@ -17,4 +17,5 @@ spring:
         namespace: youlai-namespace-id
         shared-configs[0]:
           data-id: youlai-common.yaml
+          namespace: develop-namespace-id
           refresh: true

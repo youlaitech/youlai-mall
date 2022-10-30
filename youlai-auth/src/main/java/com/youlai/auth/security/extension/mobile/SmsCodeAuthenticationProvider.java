@@ -1,7 +1,7 @@
 package com.youlai.auth.security.extension.mobile;
 
 import cn.hutool.core.util.StrUtil;
-import com.youlai.auth.security.core.userdetails.member.MemberUserDetailsServiceImpl;
+import com.youlai.auth.security.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.web.exception.BusinessException;
 import com.youlai.mall.ums.api.MemberFeignClient;

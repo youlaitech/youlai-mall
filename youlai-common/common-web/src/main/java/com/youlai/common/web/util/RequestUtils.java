@@ -5,10 +5,8 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.youlai.common.constant.SecurityConstants;
-import com.youlai.common.enums.AuthenticationIdentityEnum;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -56,23 +54,4 @@ public class RequestUtils {
         return clientId;
     }
 
-    /**
-     * 解析JWT获取获取认证身份标识
-     *
-     * @return
-     */
-    @SneakyThrows
-    public static String getAuthenticationIdentity() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String refreshToken = request.getParameter("refresh_token");
-
-        String payload = StrUtil.toString(JWSObject.parse(refreshToken).getPayload());
-        JSONObject jsonObject = JSONUtil.parseObj(payload);
-
-        String authenticationIdentity = jsonObject.getStr(SecurityConstants.AUTHENTICATION_IDENTITY_KEY);
-        if (StrUtil.isBlank(authenticationIdentity)) {
-            authenticationIdentity = AuthenticationIdentityEnum.USERNAME.getValue();
-        }
-        return authenticationIdentity;
-    }
 }

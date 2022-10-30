@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -30,13 +31,12 @@ import java.util.concurrent.TimeUnit;
 @Api(tags = "认证中心")
 @RestController
 @RequestMapping("/oauth")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class AuthController {
 
-    private TokenEndpoint tokenEndpoint;
-    private RedisTemplate redisTemplate;
-    private KeyPair keyPair;
+    private final TokenEndpoint tokenEndpoint;
+    private final RedisTemplate redisTemplate;
 
     @ApiOperation(value = "OAuth2认证", notes = "登录入口")
     @ApiImplicitParams({
@@ -94,12 +94,6 @@ public class AuthController {
         return Result.success("注销成功");
     }
 
-    @ApiOperation(value = "获取公钥")
-    @GetMapping("/public-key")
-    public Map<String, Object> getPublicKey() {
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAKey key = new RSAKey.Builder(publicKey).build();
-        return new JWKSet(key).toJSONObject();
-    }
+
 
 }

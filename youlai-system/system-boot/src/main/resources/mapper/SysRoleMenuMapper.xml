@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.system.mapper.SysRoleMenuMapper">
+
+    <!-- 获取角色拥有的菜单ID集合(父节点排除) -->
+    <select id="listMenuIdsByRoleId" resultType="java.lang.Long">
+        SELECT
+            rm.menu_id
+        FROM
+            sys_role_menu rm
+                INNER JOIN sys_menu m ON rm.menu_id = m.id
+        WHERE
+            rm.role_id = #{roleId}
+          AND rm.menu_id NOT IN ( SELECT m.parent_id FROM sys_role_menu rm INNER JOIN sys_menu m ON rm.menu_id = m.id WHERE rm.role_id = #{roleId} )
+    </select>
+</mapper>
