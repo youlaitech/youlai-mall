@@ -153,9 +153,10 @@ public class SysUserController {
         response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
         List<UserExportVO> exportUserList = userService.listExportUsers(queryParams);
-        EasyExcel.write(response.getOutputStream(), UserExportVO.class).sheet("用户列表").doWrite(exportUserList);
+        EasyExcel.write(response.getOutputStream(), UserExportVO.class)
+                .sheet("用户列表")
+                .doWrite(exportUserList);
     }
-
 
     @ApiOperation(value = "根据用户名获取认证信息", hidden = true)
     @GetMapping("/{username}/authinfo")

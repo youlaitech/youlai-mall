@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Spring Security Context 工具类
+ * Spring Security Context工具类
  * <p>
  * 获取登录用户信息(用户名、角色、部门)
  *
@@ -80,6 +80,16 @@ public class SecurityUtils {
     public static Long getDeptId() {
         Long deptId = Convert.toLong(getTokenAttributes().get("deptId"));
         return deptId;
+    }
+
+    /**
+     * 获取数据权限
+     *
+     * @return DataScope
+     */
+    public static Integer getDataScope() {
+        Integer dataScope = Convert.toInt(getTokenAttributes().get("dataScope"));
+        return dataScope;
     }
 
     /**

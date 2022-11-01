@@ -5,6 +5,7 @@ import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.dto.UserAuthInfo;
 import com.youlai.auth.common.enums.PasswordEncoderTypeEnum;
 import com.youlai.common.constant.GlobalConstants;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,7 +39,7 @@ public class SysUserDetails implements UserDetails {
     /**
      * 用户角色数据权限集合
      */
-    private List<Integer> dataScopes;
+    private Integer dataScope;
 
     /**
      * 默认字段
@@ -57,7 +58,7 @@ public class SysUserDetails implements UserDetails {
         this.setUserId(user.getUserId());
         this.setUsername(user.getUsername());
         this.setDeptId(user.getDeptId());
-        this.setDataScopes(user.getDataScopes());
+        this.setDataScope(user.getDataScope());
         this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword());
         this.setEnabled(StatusEnum.ENABLE.getValue().equals(user.getStatus()));
         if (CollectionUtil.isNotEmpty(user.getRoles())) {

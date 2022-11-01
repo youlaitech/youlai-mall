@@ -49,4 +49,9 @@ public class UserAuthInfo {
      */
     private Long deptId;
 
+    /**
+     * 数据权限范围
+     */
+    private Set<Integer> dataScopes;
+
 }

@@ -34,6 +34,7 @@ public class TokenEnhanceConfig {
                 additionalInfo.put("userId", sysUserDetails.getUserId());
                 additionalInfo.put("username", sysUserDetails.getUsername());
                 additionalInfo.put("deptId", sysUserDetails.getDeptId());
+                additionalInfo.put("dataScope",sysUserDetails.getDataScope());
 
                 /**
                  * 系统用户按钮权限标识数据量多存放至redis
