@@ -26,6 +26,7 @@ import com.youlai.system.pojo.bo.UserFormBO;
 import com.youlai.system.pojo.bo.UserBO;
 import com.youlai.system.pojo.query.UserPageQuery;
 import com.youlai.system.pojo.service.SysMenuService;
+import com.youlai.system.pojo.service.SysRoleService;
 import com.youlai.system.pojo.service.SysUserRoleService;
 import com.youlai.system.pojo.vo.user.UserLoginVO;
 import com.youlai.system.pojo.vo.user.UserExportVO;
@@ -61,8 +62,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysUserRoleService userRoleService;
     private final UserImportListener userImportListener;
     private final UserConverter userConverter;
-
     private final SysMenuService menuService;
+
+    private final SysRoleService roleService;
+
     /**
      * 获取用户分页列表
      *
@@ -212,6 +215,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if(CollectionUtil.isNotEmpty(roles)){
             Set<String> perms = menuService.listRolePerms(roles);
             userAuthInfo.setPerms(perms);
+
+            // 根据角色获取范围最大的数据权限
+
+            Integer dataScope=
+
+
+
         }
         return userAuthInfo;
     }

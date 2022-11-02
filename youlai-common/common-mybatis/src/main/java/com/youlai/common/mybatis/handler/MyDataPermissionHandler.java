@@ -56,6 +56,7 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
      * @param where 当前查询条件
      * @return 构建后查询条件
      */
+    @SneakyThrows
     public static Expression dataScopeFilter(String deptAlias, String userAlias, Expression where) {
 
 
@@ -69,20 +70,15 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
             userColumnName = userAlias + "." + USER_ID_COLUMN_NAME;
         }
 
-
         // 获取当前用户的数据权限
         Integer dataScope = SecurityUtils.getDataScope();
 
-
         DataScopeEnum dataScopeEnum = IBaseEnum.getEnumByValue(dataScope, DataScopeEnum.class);
 
-        Long deptId = null, userId = null;
+        Long deptId, userId;
         String appendSqlStr = null;
-
         switch (dataScopeEnum) {
-            case DEPT_AND_SUB:
-                deptId = SecurityUtils.getDeptId();
-                appendSqlStr = deptColumnName + " IN ( SELECT id FROM sys_dept WHERE id = " + deptId + " or find_in_set( " + deptId + " , tree_path ) )";
+            case ALL:
                 break;
             case DEPT:
                 deptId = SecurityUtils.getDeptId();
@@ -92,15 +88,16 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
                 userId = SecurityUtils.getUserId();
                 appendSqlStr = userColumnName + "=" + userId;
                 break;
+            // 默认部门及子部门数据权限
+            default:
+                deptId = SecurityUtils.getDeptId();
+                appendSqlStr = deptColumnName + " IN ( SELECT id FROM sys_dept WHERE id = " + deptId + " or find_in_set( " + deptId + " , tree_path ) )";
+                break;
         }
 
         Expression appendExpression = null;
         if (StrUtil.isNotBlank(appendSqlStr)) {
-            try {
-                appendExpression = CCJSqlParserUtil.parseCondExpression(appendSqlStr);
-            } catch (JSQLParserException e) {
-                throw new RuntimeException(e);
-            }
+            appendExpression = CCJSqlParserUtil.parseCondExpression(appendSqlStr);
         }
 
         if (appendExpression == null) {

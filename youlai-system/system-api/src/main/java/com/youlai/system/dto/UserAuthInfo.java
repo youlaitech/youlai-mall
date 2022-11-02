@@ -52,6 +52,6 @@ public class UserAuthInfo {
     /**
      * 数据权限范围
      */
-    private Set<Integer> dataScopes;
+    private Integer dataScope;
 
 }
