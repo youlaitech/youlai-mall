@@ -1,14 +1,11 @@
 package com.youlai.system.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.youlai.system.enums.MenuTypeEnum;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * 菜单实体类
@@ -30,12 +27,12 @@ public class SysMenu extends BaseEntity {
     private String icon;
 
     /**
-     * 路由相对路径
+     * 路由path
      */
     private String path;
 
     /**
-     * 组件绝对路径
+     * 组件路径
      */
     private String component;
 
@@ -43,14 +40,16 @@ public class SysMenu extends BaseEntity {
 
     private Integer visible;
 
-    private String redirect;
-
-    @TableField(exist = false)
-    private List<String> roles;
+    private String redirectUrl;
 
     /**
-     * 菜单类型(1:菜单；2：目录；3：外链)
+     * 菜单类型(1:菜单；2：目录；3：外链；4：按钮)
      */
     private MenuTypeEnum type;
+
+    /**
+     * 按钮权限标识
+     */
+    private String perm;
 
 }

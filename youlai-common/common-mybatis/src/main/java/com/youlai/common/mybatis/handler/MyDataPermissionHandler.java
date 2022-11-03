@@ -25,9 +25,6 @@ import java.lang.reflect.Method;
 @Slf4j
 public class MyDataPermissionHandler implements DataPermissionHandler {
 
-    public static final String DPET_ID_COLUMN_NAME = "dept_id";
-    public static final String USER_ID_COLUMN_NAME = "create_by";
-
 
     @Override
     @SneakyThrows
@@ -44,7 +41,7 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
             DataPermission annotation = method.getAnnotation(DataPermission.class);
             if (ObjectUtils.isNotEmpty(annotation)
                     && (method.getName().equals(methodName) || (method.getName() + "_COUNT").equals(methodName))) {
-                return dataScopeFilter(annotation.deptAlias(), annotation.userAlias(), where);
+                return dataScopeFilter(annotation.deptAlias(), annotation.deptIdColumnName(), annotation.userAlias(), annotation.userIdColumnName(), where);
             }
         }
         return where;
@@ -57,18 +54,11 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
      * @return 构建后查询条件
      */
     @SneakyThrows
-    public static Expression dataScopeFilter(String deptAlias, String userAlias, Expression where) {
+    public static Expression dataScopeFilter(String deptAlias, String deptIdColumnName, String userAlias, String userIdColumnName, Expression where) {
 
 
-        String deptColumnName = DPET_ID_COLUMN_NAME;
-        if (StrUtil.isNotBlank(deptAlias)) {
-            deptColumnName = deptAlias + "." + DPET_ID_COLUMN_NAME;
-        }
-
-        String userColumnName = USER_ID_COLUMN_NAME;
-        if (StrUtil.isNotBlank(userAlias)) {
-            userColumnName = userAlias + "." + USER_ID_COLUMN_NAME;
-        }
+        String deptColumnName = StrUtil.isNotBlank(deptAlias) ? (deptAlias + "." + deptIdColumnName) : deptIdColumnName;
+        String userColumnName = StrUtil.isNotBlank(userAlias) ? (userAlias + "." + userIdColumnName) : userIdColumnName;
 
         // 获取当前用户的数据权限
         Integer dataScope = SecurityUtils.getDataScope();
@@ -79,7 +69,7 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
         String appendSqlStr = null;
         switch (dataScopeEnum) {
             case ALL:
-                break;
+                return where;
             case DEPT:
                 deptId = SecurityUtils.getDeptId();
                 appendSqlStr = deptColumnName + "=" + deptId;
@@ -95,13 +85,18 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
                 break;
         }
 
-        Expression appendExpression = null;
-        if (StrUtil.isNotBlank(appendSqlStr)) {
-            appendExpression = CCJSqlParserUtil.parseCondExpression(appendSqlStr);
+        if (StrUtil.isBlank(appendSqlStr)) {
+            return where;
         }
+
+        Expression appendExpression =CCJSqlParserUtil.parseCondExpression(appendSqlStr);
 
         if (appendExpression == null) {
             return where;
+        }
+
+        if(where==null){
+            return appendExpression;
         }
 
         return new AndExpression(where, appendExpression);

@@ -23,7 +23,6 @@ import java.util.List;
 @RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor
 public class SysRoleController {
-
     private final SysRoleService roleService;
 
     @ApiOperation(value = "角色分页列表")

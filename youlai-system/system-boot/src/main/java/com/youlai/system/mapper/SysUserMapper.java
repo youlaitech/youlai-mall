@@ -29,7 +29,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param queryParams 查询参数
      * @return
      */
-    @DataPermission(deptAlias = "d",userAlias = "u")
+    @DataPermission(deptAlias = "u",userAlias = "u")
     Page<UserBO> listUserPages(Page<UserBO> page, UserPageQuery queryParams);
 
     /**
@@ -54,6 +54,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param queryParams
      * @return
      */
-    @DataPermission(deptAlias = "d",userAlias = "u")
+    @DataPermission(deptAlias = "u")
     List<UserExportVO> listExportUsers(UserPageQuery queryParams);
 }
