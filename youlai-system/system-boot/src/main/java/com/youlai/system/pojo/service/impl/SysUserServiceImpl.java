@@ -216,12 +216,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             Set<String> perms = menuService.listRolePerms(roles);
             userAuthInfo.setPerms(perms);
 
-            // 根据角色获取范围最大的数据权限
-
-            Integer dataScope=
-
-
-
+            // 获取最大范围的数据权限
+            Integer dataScope= roleService.getMaximumDataScope(roles);
+            userAuthInfo.setDataScope(dataScope);
         }
         return userAuthInfo;
     }

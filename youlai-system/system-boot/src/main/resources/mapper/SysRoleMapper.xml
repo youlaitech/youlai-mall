@@ -2,52 +2,28 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.admin.mapper.SysRoleMapper">
+<mapper namespace="com.youlai.system.mapper.SysRoleMapper">
 
-   	<resultMap type="com.youlai.admin.pojo.entity.SysRole" id="SysRoleResult">
-		<id     property="id"             column="id"               />
-		<result property="name"           column="name"             />
-		<result property="code"            column="code"              />
-		<result property="sort"           column="sort"             />
-		<result property="status"          column="status"            />
-		<result property="deleted"        column="deleted"   />
-		<result property="createTime"    column="create_time"   />
-		<result property="updateTime"             column="update_time"                />
-		<result property="dataScope"            column="data_scope"              />
-	</resultMap>
 
-	<sql id="selectRoleVo">
-	    select distinct r.id, r.name, r.code, r.sort, r.status, r.deleted, r.create_time,
-            r.update_time, r.data_scope
-        from sys_role r
-	    		LEFT JOIN sys_user_role ur ON ur.role_id = r.id
-		LEFT JOIN sys_user u ON u.id = ur.user_id
-		LEFT JOIN sys_dept d ON u.dept_id = d.id
-    </sql>
+	<!-- 获取最大范围的数据权限 -->
+	<select id="getMaximumDataScope" resultType="java.lang.Integer">
+		SELECT
+		    min(data_scope)
+		FROM
+		    sys_role
+		<where>
+			<choose>
+				<when test="roles!=null and roles.size>0">
+					AND code IN
+					<foreach collection="roles" item="role" separator="," open="(" close=")">
+						#{role}
+					</foreach>
+				</when>
+				<otherwise>
+					id = -1
+				</otherwise>
+			</choose>
+		</where>
 
-    <select id="listRolePages" parameterType="com.youlai.admin.pojo.entity.SysRole" resultMap="SysRoleResult">
-		<include refid="selectRoleVo"/>
-		where r.deleted = 0
-		<if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
-			AND (
-			u.name LIKE CONCAT('%',#{queryParams.keywords},'%')
-			OR u.code LIKE CONCAT('%',#{queryParams.keywords},'%')
-			)
-		</if>
-		<if test="isRoot == false">
-			AND code != #{rootCode}
-		</if>
-		order by r.sort
 	</select>
-
-	<select id="listDeptOptions" parameterType="com.youlai.admin.pojo.entity.SysRole" resultMap="SysRoleResult">
-		<include refid="selectRoleVo"/>
-		where r.deleted = 0
-		<if test="isRoot == false">
-			AND code != #{rootCode}
-		</if>
-		order by r.sort
-	</select>
-
-
 </mapper>

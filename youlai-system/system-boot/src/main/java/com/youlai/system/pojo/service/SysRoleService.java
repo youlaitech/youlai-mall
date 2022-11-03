@@ -10,6 +10,7 @@ import com.youlai.system.pojo.query.RolePageQuery;
 import com.youlai.system.pojo.vo.role.RolePageVO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色业务接口层
@@ -77,4 +78,12 @@ public interface SysRoleService extends IService<SysRole> {
      * @return
      */
     boolean updateRoleMenus(Long roleId, List<Long> menuIds);
+
+    /**
+     * 获取最大范围的数据权限
+     *
+     * @param roles
+     * @return
+     */
+    Integer getMaximumDataScope(Set<String> roles);
 }

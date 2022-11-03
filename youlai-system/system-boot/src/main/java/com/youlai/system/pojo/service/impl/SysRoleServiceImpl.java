@@ -26,10 +26,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -71,7 +68,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                         .ne(!SecurityUtils.isRoot(), SysRole::getCode, SystemConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
         );
 
-       // Page<SysRole> rolePage = this.baseMapper.listRolePages( new Page<>(pageNum, pageSize), queryParams,UserUtils.isRoot(),GlobalConstants.ROOT_ROLE_CODE);
+        // Page<SysRole> rolePage = this.baseMapper.listRolePages( new Page<>(pageNum, pageSize), queryParams,UserUtils.isRoot(),GlobalConstants.ROOT_ROLE_CODE);
         // 实体转换
         Page<RolePageVO> pageResult = roleConverter.entity2Page(rolePage);
         return pageResult;
@@ -91,7 +88,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 .orderByAsc(SysRole::getSort)
         );
 
-       // List<SysRole> roleList = this.baseMapper.listDeptOptions(UserUtils.isRoot(),GlobalConstants.ROOT_ROLE_CODE);
+        // List<SysRole> roleList = this.baseMapper.listDeptOptions(UserUtils.isRoot(),GlobalConstants.ROOT_ROLE_CODE);
         // 实体转换
         List<Option> list = roleConverter.roles2Options(roleList);
         return list;
@@ -192,6 +189,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             sysRoleMenuService.saveBatch(roleMenus);
         }
         return true;
+    }
+
+    /**
+     * 获取最大范围的数据权限
+     *
+     * @param roles
+     * @return
+     */
+    @Override
+    public Integer getMaximumDataScope(Set<String> roles) {
+        Integer dataScope = this.baseMapper.getMaximumDataScope(roles);
+        return dataScope;
     }
 
 }
