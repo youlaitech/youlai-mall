@@ -1,8 +1,8 @@
 package com.youlai.auth.config;
 
 import cn.hutool.core.map.MapUtil;
-import com.youlai.auth.security.userdetails.member.MemberUserDetails;
-import com.youlai.auth.security.userdetails.user.SysUserDetails;
+import com.youlai.auth.userdetails.member.MemberUserDetails;
+import com.youlai.auth.userdetails.user.SysUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

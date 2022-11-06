@@ -13,13 +13,12 @@ spring:
       # 注册中心
       discovery:
         server-addr: nacos-headless.infrastructure:8848   # 使用k8s无头服务
-        namespace: youlai-namespace-id
+        namespace: prod-namespace-id
       # 配置中心
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        namespace: youlai-namespace-id
+        namespace: prod-namespace-id
         shared-configs[0]:
           data-id: youlai-common.yaml
-          namespace: develop-namespace-id
           refresh: true

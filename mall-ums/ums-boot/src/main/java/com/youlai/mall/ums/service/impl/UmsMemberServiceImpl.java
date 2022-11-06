@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.web.util.MemberUtils;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
 import com.youlai.mall.ums.convert.AddressConvert;
@@ -132,7 +132,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      */
     @Override
     public MemberVO getCurrMemberInfo() {
-        Long memberId = MemberUtils.getMemberId();
+        Long memberId = SecurityUtils.getMemberId();
         UmsMember umsMember = this.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getId, memberId)
                 .select(UmsMember::getId,

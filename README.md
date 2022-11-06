@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://img.shields.io/badge/SpringBoot-2.7.3-brightgreen.svg"/>
+    <img src="https://img.shields.io/badge/SpringBoot-2.7.5-brightgreen.svg"/>
     <img src="https://img.shields.io/badge/SpringCloud & Alibaba -2021-green.svg"/>
     <a src="https://github.com/hxrui" target="_blank">
         <img src="https://img.shields.io/github/stars/youlaitech/youlai-mall.svg?style=social&label=Stars"/>

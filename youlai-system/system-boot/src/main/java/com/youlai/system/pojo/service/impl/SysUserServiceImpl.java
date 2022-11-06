@@ -36,6 +36,7 @@ import com.youlai.common.base.IBaseEnum;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.enums.GenderEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,8 +64,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final UserImportListener userImportListener;
     private final UserConverter userConverter;
     private final SysMenuService menuService;
-
     private final SysRoleService roleService;
+    private final RedisTemplate redisTemplate;
 
     /**
      * 获取用户分页列表
@@ -81,10 +82,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<UserBO> page = new Page<>(pageNum, pageSize);
 
         // 查询数据
-        Page<UserBO> userBOPage = this.baseMapper.listUserPages(page, queryParams);
+        Page<UserBO> userBoPage = this.baseMapper.listUserPages(page, queryParams);
 
         // 实体转换
-        Page<UserVO> userVoPage = userConverter.bo2Vo(userBOPage);
+        Page<UserVO> userVoPage = userConverter.bo2Vo(userBoPage);
 
         return userVoPage;
     }
@@ -350,6 +351,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userLoginVO.setRoles(roles);
 
         // 用户权限集合
+        Set<String> perms = (Set<String>)redisTemplate.opsForValue().get("AUTH:USER_PERMS:" + user.getId());
+        userLoginVO.setPerms(perms);
 
         return userLoginVO;
     }

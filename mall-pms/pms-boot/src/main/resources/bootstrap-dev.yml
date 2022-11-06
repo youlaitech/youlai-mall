@@ -21,7 +21,6 @@ spring:
         file-extension: yaml
         shared-configs[0]:
           data-id: youlai-common.yaml
-          namespace: develop-namespace-id
           refresh: true
 
 

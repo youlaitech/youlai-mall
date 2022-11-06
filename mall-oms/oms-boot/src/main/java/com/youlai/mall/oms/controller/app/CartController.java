@@ -2,7 +2,7 @@ package com.youlai.mall.oms.controller.app;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.MemberUtils;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
 import io.swagger.annotations.Api;
@@ -31,7 +31,7 @@ public class CartController {
     @GetMapping
     @ApiOperationSupport(order = 1)
     public <T> Result<T> getCart() {
-        Long memberId = MemberUtils.getMemberId();
+        Long memberId = SecurityUtils.getMemberId();
         List<CartItemDTO> result = cartService.listCartItemByMemberId(memberId);
         return Result.success((T) result);
 

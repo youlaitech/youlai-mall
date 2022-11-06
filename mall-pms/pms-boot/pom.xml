@@ -67,7 +67,6 @@
             <artifactId>ums-api</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-mybatis</artifactId>
@@ -83,24 +82,28 @@
             <artifactId>common-redis</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-rabbitmq</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-security</artifactId>
+        </dependency>
 
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>
+
 
 </project>

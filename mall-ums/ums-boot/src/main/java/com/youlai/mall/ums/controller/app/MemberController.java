@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import com.youlai.common.web.util.MemberUtils;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
@@ -56,7 +56,7 @@ public class MemberController {
     @ApiOperation(value = "扣减会员余额")
     @PutMapping("/current/balances/_deduct")
     public <T> Result<T> deductBalance(@RequestParam Long balances) {
-        Long memberId = MemberUtils.getMemberId();
+        Long memberId = SecurityUtils.getMemberId();
         boolean result = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .setSql("balance = balance - " + balances)
                 .eq(UmsMember::getId, memberId));
@@ -66,7 +66,7 @@ public class MemberController {
     @ApiOperation(value = "添加浏览历史")
     @PostMapping("/view/history")
     public <T> Result<T> addProductViewHistory(@RequestBody ProductHistoryVO product) {
-        Long memberId = MemberUtils.getMemberId();
+        Long memberId = SecurityUtils.getMemberId();
         memberService.addProductViewHistory(product, memberId);
         return Result.success();
     }
@@ -75,7 +75,7 @@ public class MemberController {
     @GetMapping("/view/history")
     public Result<Set<ProductHistoryVO>> getProductViewHistory() {
         try {
-            Long memberId = MemberUtils.getMemberId();
+            Long memberId = SecurityUtils.getMemberId();
             Set<ProductHistoryVO> historyList = memberService.getProductViewHistory(memberId);
             return Result.success(historyList);
         } catch (Exception e) {

@@ -84,7 +84,7 @@ public class SysUserController {
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/{ids}")
-    @PreAuthorize("hasAuthority('sys:user:delete')")
+    @PreAuthorize("hasAuthority('sys:user:del')")
     public Result deleteUsers(
             @ApiParam("用户ID，多个以英文逗号(,)分割") @PathVariable String ids
     ) {

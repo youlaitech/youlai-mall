@@ -20,8 +20,6 @@ import java.util.Set;
 public class PermissionService {
 
     private final RedisTemplate redisTemplate;
-
-
     public boolean hasPermission(String perm) {
 
         if (StrUtil.isBlank(perm)) {

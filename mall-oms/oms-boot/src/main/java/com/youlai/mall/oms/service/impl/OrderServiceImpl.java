@@ -24,8 +24,8 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.youlai.common.enums.BusinessTypeEnum;
 import com.youlai.common.redis.BusinessNoGenerator;
 import com.youlai.common.result.Result;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BusinessException;
-import com.youlai.common.web.util.MemberUtils;
 import com.youlai.mall.oms.config.WxPayProperties;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
@@ -135,7 +135,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 获取会员收获地址
         CompletableFuture<Void> getMemberAddressFuture = CompletableFuture.runAsync(() -> {
             RequestContextHolder.setRequestAttributes(attributes);
-            Long memberId = MemberUtils.getMemberId();
+            Long memberId = SecurityUtils.getMemberId();
             Result<List<MemberAddressDTO>> getMemberAddressResult = memberFeignClient.listMemberAddresses(memberId);
             List<MemberAddressDTO> memberAddresses;
             if (Result.isSuccess(getMemberAddressResult) && (memberAddresses = getMemberAddressResult.getData()) != null) {
@@ -187,7 +187,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
             // 创建订单
             order = new OmsOrder().setOrderSn(orderToken) // 把orderToken赋值给订单编号
-                    .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode()).setSourceType(OrderTypeEnum.APP.getCode()).setMemberId(MemberUtils.getMemberId()).setRemark(orderSubmitForm.getRemark()).setPayAmount(orderSubmitForm.getPayAmount()).setTotalQuantity(orderItems.stream().map(OrderItemDTO::getCount).reduce(0, Integer::sum)).setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum));
+                    .setStatus(OrderStatusEnum.PENDING_PAYMENT.getCode()).setSourceType(OrderTypeEnum.APP.getCode()).setMemberId(SecurityUtils.getMemberId()).setRemark(orderSubmitForm.getRemark()).setPayAmount(orderSubmitForm.getPayAmount()).setTotalQuantity(orderItems.stream().map(OrderItemDTO::getCount).reduce(0, Integer::sum)).setTotalAmount(orderItems.stream().map(item -> item.getPrice() * item.getCount()).reduce(0L, Long::sum));
             boolean result = this.save(order);
 
             // 添加订单明细
@@ -279,7 +279,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
 
     private WxPayUnifiedOrderV3Result.JsapiResult wxJsapiPay(String appId, OmsOrder order) {
-        Long memberId = MemberUtils.getMemberId();
+        Long memberId = SecurityUtils.getMemberId();
         Long payAmount = order.getPayAmount();
         // 如果已经有outTradeNo了就先进行关单
         if (PayTypeEnum.WX_JSAPI.getValue().equals(order.getPayType()) && StrUtil.isNotBlank(order.getOutTradeNo())) {
@@ -467,7 +467,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderItemDTO.setCount(1); // 直接购买商品的数量为1
             orderItems.add(orderItemDTO);
         } else { // 购物车结算
-            Long memberId = MemberUtils.getMemberId();
+            Long memberId = SecurityUtils.getMemberId();
             log.info("购物车结算获取商品明细的memberId:{}", memberId);
             List<CartItemDTO> cartItems = cartService.listCartItemByMemberId(memberId);
             orderItems = cartItems.stream().filter(CartItemDTO::getChecked).map(cartItem -> {

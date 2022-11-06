@@ -40,7 +40,7 @@ public class SysMenu extends BaseEntity {
 
     private Integer visible;
 
-    private String redirectUrl;
+    private String redirect;
 
     /**
      * 菜单类型(1:菜单；2：目录；3：外链；4：按钮)

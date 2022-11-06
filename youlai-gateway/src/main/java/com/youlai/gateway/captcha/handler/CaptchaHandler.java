@@ -59,13 +59,13 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
 
         // 缓存验证码至Redis
         String uuid = IdUtil.simpleUUID();
-        stringRedisTemplate.opsForValue().set(SecurityConstants.VALIDATION_CODE_KEY_PREFIX + uuid, captchaValue, captchaValueTtl, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(SecurityConstants.VERIFY_CODE_KEY_PREFIX + uuid, captchaValue, captchaValueTtl, TimeUnit.SECONDS);
 
         // 获取到验证码Base64编码字符串
         String captchaBase64 = captcha.toBase64();
         Map<String, String> result = new HashMap<>(2);
-        result.put("uuid", uuid);
-        result.put("img", captchaBase64);
+        result.put("verifyCodeKey", uuid);
+        result.put("verifyCodeImg", captchaBase64);
 
         return ServerResponse.ok().body(BodyInserters.fromValue(Result.success(result)));
     }

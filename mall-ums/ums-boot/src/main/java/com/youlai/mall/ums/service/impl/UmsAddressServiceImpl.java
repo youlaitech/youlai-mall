@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.util.MemberUtils;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.mapper.UmsAddressMapper;
 import com.youlai.mall.ums.pojo.entity.UmsAddress;
@@ -37,7 +37,7 @@ public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddr
     @Override
     @Transactional
     public boolean addAddress(AddressForm addressForm) {
-        Long memberId = MemberUtils.getMemberId();
+        Long memberId = SecurityUtils.getMemberId();
 
         UmsAddress umsAddress = new UmsAddress();
         BeanUtil.copyProperties(addressForm, umsAddress);
@@ -65,7 +65,7 @@ public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddr
      */
     @Override
     public boolean updateAddress(AddressForm addressForm) {
-        Long memberId = MemberUtils.getMemberId();
+        Long memberId = SecurityUtils.getMemberId();
 
         UmsAddress umsAddress = new UmsAddress();
         BeanUtil.copyProperties(addressForm, umsAddress);
@@ -93,7 +93,7 @@ public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddr
      */
     @Override
     public List<MemberAddressDTO> listCurrentMemberAddresses() {
-        Long memberId = MemberUtils.getMemberId();
+        Long memberId = SecurityUtils.getMemberId();
         List<UmsAddress> umsAddressList = this.list(new LambdaQueryWrapper<UmsAddress>()
                 .eq(UmsAddress::getMemberId, memberId)
                 .orderByDesc(UmsAddress::getDefaulted) // 默认地址排在首位

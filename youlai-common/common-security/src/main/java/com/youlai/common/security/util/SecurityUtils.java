@@ -34,6 +34,16 @@ public class SecurityUtils {
     }
 
     /**
+     * 获取会员ID
+     *
+     * @return
+     */
+    public static Long getMemberId() {
+        Long userId = Convert.toLong(getTokenAttributes().get("memberId"));
+        return userId;
+    }
+
+    /**
      * 获取用户登录名
      *
      * @return username
@@ -60,16 +70,14 @@ public class SecurityUtils {
      */
     public static Set<String> getRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        Set<String> roles;
-        if (CollectionUtil.isNotEmpty(authentication.getAuthorities())) {
-            roles = authentication.getAuthorities()
+        if (authentication!=null && CollectionUtil.isNotEmpty(authentication.getAuthorities())) {
+            Set<String> roles = authentication.getAuthorities()
                     .stream()
-                    .map(item -> StrUtil.removePrefix(item.getAuthority(), "ROLE_")).collect(Collectors.toSet());
-        } else {
-            roles = Collections.EMPTY_SET;
+                    .map(item -> StrUtil.removePrefix(item.getAuthority(), "ROLE_"))
+                    .collect(Collectors.toSet());
+            return roles;
         }
-        return roles;
+        return Collections.EMPTY_SET;
     }
 
     /**

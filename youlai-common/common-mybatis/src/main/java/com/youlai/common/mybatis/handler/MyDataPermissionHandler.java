@@ -9,7 +9,6 @@ import com.youlai.common.mybatis.annotation.DataPermission;
 import com.youlai.common.security.util.SecurityUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
@@ -20,7 +19,7 @@ import java.lang.reflect.Method;
  * 数据权限控制器
  *
  * @author <a href="mailto:2256222053@qq.com">zc</a>
- * @Date 2021-12-10 13:28
+ * @date 2021-12-10 13:28
  */
 @Slf4j
 public class MyDataPermissionHandler implements DataPermissionHandler {
@@ -35,7 +34,6 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
         }
         Class<?> clazz = Class.forName(mappedStatementId.substring(0, mappedStatementId.lastIndexOf(".")));
         String methodName = mappedStatementId.substring(mappedStatementId.lastIndexOf(".") + 1);
-        clazz.getAnnotatedSuperclass();
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
             DataPermission annotation = method.getAnnotation(DataPermission.class);
@@ -66,7 +64,7 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
         DataScopeEnum dataScopeEnum = IBaseEnum.getEnumByValue(dataScope, DataScopeEnum.class);
 
         Long deptId, userId;
-        String appendSqlStr = null;
+        String appendSqlStr;
         switch (dataScopeEnum) {
             case ALL:
                 return where;
@@ -90,10 +88,6 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
         }
 
         Expression appendExpression =CCJSqlParserUtil.parseCondExpression(appendSqlStr);
-
-        if (appendExpression == null) {
-            return where;
-        }
 
         if(where==null){
             return appendExpression;

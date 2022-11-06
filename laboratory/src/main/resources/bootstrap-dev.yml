@@ -20,5 +20,4 @@ spring:
         # 公共配置
         shared-configs[0]:
           data-id: youlai-common.yaml
-          namespace: develop-namespace-id
           refresh: true
