@@ -158,7 +158,7 @@
     - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
 
-## ✅ Git 贡献提交规范
+## ✅ Git提交规范
 
 > IDEA 安装 Git Commit Template 插件
 
