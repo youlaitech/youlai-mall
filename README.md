@@ -37,7 +37,7 @@
 、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp)和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp)
 等多端的开发。
 
-### 🗁 项目特色
+### 🗁 项目特点
 
 - 项目使用皆是当前主流前后端技术栈(持续更新...)，无过度自定义封装，易理解学习和二次扩展；
 - 极速启动，在IDEA和Java环境OK的情况下`1分钟之内`可正常启动微服务，可以快速拥有微服务环境和上手微服务；
@@ -62,6 +62,25 @@
 | 管理前端| [mall-admin](https://gitee.com/youlaiorg/mall-admin) | [mall-admin](https://github.com/youlaitech/mall-admin) |
 | 移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)| [mall-app](https://github.com/youlaitech/mall-app) | 
 
+## 📇 项目目录
+
+``` lua
+youlai-mall
+├── docs  
+    ├── nacos      -- Nacos配置
+    ├── sql        -- SQL脚本
+├── laboratory     -- 实验室
+├── mall-oms       -- 订单服务
+├── mall-pms       -- 商品服务
+├── mall-sms       -- 营销服务
+├── mall-ums       -- 会员服务
+├── middleware     -- 中间件(nacos/seata)
+├── youlai-auth    -- OAuth2认证授权中心
+├── youlai-common  -- 公共依赖
+├── youlai-gateway -- 网关
+├── youlai-system  -- 系统服务
+└── end
+```
 
 ## 🚤 项目启动
 
@@ -69,7 +88,7 @@
 
 ### 1️⃣ 极速启动
 
-1. **启动 Nacos**
+1. **启动Nacos**
 
 
 - IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
@@ -158,7 +177,7 @@
     - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
 
-## ✅ Git提交规范
+## ✅ Git规范
 
 > IDEA 安装 Git Commit Template 插件
 
