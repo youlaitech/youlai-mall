@@ -19,20 +19,14 @@ import java.util.List;
  * @author haoxr
  * @date 2022/8/28
  */
-@ConfigurationProperties(prefix = "security")
 @EnableWebFluxSecurity
 @Slf4j
 public class OAuth2ClientSecurityConfig {
 
-    @Setter
-    private List<String> ignoreUrls;
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http
     ) {
-        if (ignoreUrls == null) {
-            log.error("failed to read ignoreUrls configuration,please check your nacos connection or configuration!");
-        }
         http.authorizeExchange()
                 .pathMatchers("/**").permitAll()
                 .anyExchange().authenticated()

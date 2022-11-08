@@ -387,11 +387,11 @@
         </pluginManagement>
     </build>
 
-    <repositories>
+   <!-- <repositories>
         <repository>
             <id>aliyunmaven</id>
             <name>aliyun</name>
             <url>https://maven.aliyun.com/repository/public</url>
         </repository>
-    </repositories>
+    </repositories>-->
 </project>

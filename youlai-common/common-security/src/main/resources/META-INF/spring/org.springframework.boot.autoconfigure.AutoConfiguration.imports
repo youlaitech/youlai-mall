@@ -1,1 +1,2 @@
 com.youlai.common.security.service.PermissionService
+com.youlai.common.security.config.ResourceServerConfig

@@ -12,7 +12,7 @@ RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \&& echo 'Asia/Shan
 VOLUME /tmp
 
 # 复制主机文件至镜像内，复制的目录需放置在 Dockerfile 文件同级目录下
-ADD target/admin-boot.jar app.jar
+ADD target/system-boot.jar app.jar
 
 # 容器启动执行命令
 ENTRYPOINT ["java", "-Xmx128m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]

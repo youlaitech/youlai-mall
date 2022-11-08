@@ -23,5 +23,6 @@
         <module>common-log</module>
         <module>common-sms</module>
         <module>common-file</module>
+        <module>common-security</module>
     </modules>
 </project>

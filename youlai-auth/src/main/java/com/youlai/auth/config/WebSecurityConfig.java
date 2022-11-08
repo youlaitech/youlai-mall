@@ -1,11 +1,16 @@
 package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.json.JSONUtil;
 import com.youlai.auth.extension.mobile.SmsCodeAuthenticationProvider;
 import com.youlai.auth.extension.wechat.WechatAuthenticationProvider;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,6 +24,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
+import java.util.List;
+
+@ConfigurationProperties(prefix = "security")
 @Configuration
 @EnableWebSecurity
 @Slf4j
@@ -31,13 +40,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final MemberFeignClient memberFeignClient;
     private final StringRedisTemplate redisTemplate;
 
+    @Setter
+    private List<String> ignoreUrls;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        if (CollectionUtil.isEmpty(ignoreUrls)) {
+            ignoreUrls = Arrays.asList("/webjars/**", "/doc.html", "/swagger-resources/**", "/v2/api-docs");
+        }
+
+        log.info("whitelist path:{}", JSONUtil.toJsonStr(ignoreUrls));
+
         http
-                .authorizeRequests().antMatchers("/oauth/**","/rsa/publicKey", "/sms-code").permitAll()
-                // @link https://gitee.com/xiaoym/knife4j/issues/I1Q5X6 (接口文档knife4j需要放行的规则)
-                .antMatchers("/webjars/**", "/doc.html", "/swagger-resources/**", "/v2/api-docs").permitAll()
+                .authorizeRequests()
+                .antMatchers(Convert.toStrArray(ignoreUrls)).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();

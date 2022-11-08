@@ -6,7 +6,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
 
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
-    <property name="LOG_HOME" value="/var/log/${APP_NAME}" />
+    <property name="LOG_HOME" value="/logs/${APP_NAME}" />
 
     <!--1. 输出到控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">

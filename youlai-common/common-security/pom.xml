@@ -17,6 +17,7 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
