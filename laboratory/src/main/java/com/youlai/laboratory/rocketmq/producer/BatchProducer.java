@@ -1,4 +1,4 @@
-package com.youlai.lab.rocketmq.producer;
+package com.youlai.laboratory.rocketmq.producer;
 
 /**
  * @author zc
