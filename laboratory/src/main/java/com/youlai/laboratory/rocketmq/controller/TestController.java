@@ -1,8 +1,10 @@
-package com.youlai.lab.rocketmq.controller;
+package com.youlai.laboratory.rocketmq.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.youlai.lab.rocketmq.producer.*;
-import com.youlai.lab.rocketmq.producer.tx.TxProducer;
+
+
+import com.youlai.laboratory.rocketmq.producer.*;
+import com.youlai.laboratory.rocketmq.producer.tx.TxProducer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +18,9 @@ import javax.annotation.Resource;
  * @date 2022-10-27 01:01
  */
 
-@Api(tags = "测试接口")
+@Api(tags = "[实验室]RocketMQ接口")
 @RestController
-@RequestMapping("test")
+@RequestMapping("rocket")
 public class TestController {
 
     /**

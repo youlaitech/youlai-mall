@@ -1,4 +1,4 @@
-package com.youlai.lab.rocketmq;
+package com.youlai.laboratory.rocketmq;
 
 import org.apache.rocketmq.common.message.Message;
 import org.springframework.messaging.support.MessageBuilder;

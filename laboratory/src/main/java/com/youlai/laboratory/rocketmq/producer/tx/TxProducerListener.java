@@ -1,4 +1,4 @@
-package com.youlai.lab.rocketmq.producer.tx;
+package com.youlai.laboratory.rocketmq.producer.tx;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
