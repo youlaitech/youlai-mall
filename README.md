@@ -15,12 +15,12 @@
 </p>
 
 <p align="center">
-<a target="_blank" href="https://www.youlai.tech">有来商城官方文档</a> |
-<a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> 有来技术团队博客</a> 
+<a target="_blank" href="https://www.youlai.tech">官方文档</a> |
+<a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> 团队博客</a> 
 </p>
 
 <p align="center">
-<a target="_blank" href="https://admin.youlai.tech">在线预览</a> | <a target="_blank" href="http://app.youlai.tech">移动H5在线预览</a>
+<a target="_blank" href="https://admin.youlai.tech">管理系统在线预览</a> | <a target="_blank" href="http://app.youlai.tech">移动/H5在线预览</a>
 </p>
 
 <p align="center">
@@ -59,24 +59,15 @@
 |      |Gitee| Github|
 | ---- | ----| ---- | 
 | 微服务后端 | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall)| [youlai-mall](https://github.com/youlaitech/youlai-mall) | 
-| 管理前端| [mall-admin-web](https://gitee.com/youlaiorg/mall-admin-web) | [mall-admin-web](https://github.com/youlaitech/mall-admin-web) |
-| 小程序/H5/移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)| [mall-app](https://github.com/youlaitech/mall-app) | 
-| vue3-element-admin| [vue3-element-admin](https://gitee.com/youlaiorg/vue3-element-admin) | [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) |
+| 管理前端| [mall-admin](https://gitee.com/youlaiorg/mall-admin) | [mall-admin](https://github.com/youlaitech/mall-admin) |
+| 移动端 | [mall-app](https://gitee.com/youlaiorg/mall-app)| [mall-app](https://github.com/youlaitech/mall-app) | 
 
-## 🏘️ 开源社区
-
-|      |Gitee| Github| GitCode |
-| ---- | ----| ---- | ---- |
-| 开源组织  | [有来开源组织](https://gitee.com/youlaiorg)  | [有来开源组织](https://github.com/youlaitech) | [有来开源组织](https://gitcode.net/youlai)  |
-| 技术团队  | [有来技术团队](https://gitee.com/youlaitech)  | [有来技术团队](https://github.com/youlaitech) | -  |
 
 ## 🚤 项目启动
 
-### 🗁 后端启动
-
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
-#### 1️⃣ 极速启动
+### 1️⃣ 极速启动
 
 1. **启动 Nacos**
 
@@ -90,13 +81,13 @@
 
     - `youlai-auth` 模块的启动类 AuthApplication 启动认证中心；
 
-    - `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
+    - `youlai-system`  → `system-boot` 模块的启动类 AdminApplication 启动系统服务；
 
-    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致；
+    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-system` 一致；
 
     - 访问接口文档地址测试: [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-#### 2️⃣ 本地启动
+### 2️⃣ 本地启动
 
 1. **中间件安装**
 
@@ -118,7 +109,7 @@
 
       先执行 `database.sql` 完成数据库的创建；
 
-      再执行 `youlai.sql` 、`mall_*.sql` 完成数据表的创建和数据初始化。
+      再执行 `youlai.sql` 、`oauth2.sql`、`mall_*.sql` 完成数据表的创建和数据初始化。
 
     - **Nacos 数据库**
 
@@ -144,7 +135,7 @@
 
    输入用户名/密码：nacos/nacos ；
 
-   进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `docs/nacos/DEFAULT_GROUP.zip` 文件。
+   进入控制台，点击左侧菜单 `配置管理` → `配置列表` 进入列表页面，点击 `导入配置` 选择项目中的 `docs/nacos/nacos_config.zip` 文件。
 
 5. **修改Nacos配置**
 
@@ -160,34 +151,12 @@
 
     - 进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
 
-    - 进入 `youlai-admin`  → `admin-boot` 模块的启动类 AdminApplication 启动系统服务；
+    - 进入 `youlai-system`  → `system-boot` 模块的启动类 AdminApplication 启动系统服务；
 
-    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-admin` 一致;
+    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-system` 一致;
 
     - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-### 🗁 管理前端启动
-
-1. 本机安装 Node 环境
-2. npm install
-3. npm run dev
-4. 访问 http://localhost:9527
-
-### 🗁 微信小程序启动
-
-1. 下载 `HBuilder X` 和 `微信开发者工具` ;
-2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X` ;
-3. 微信公众平台申请小程序，获得小程序的AppID ;
-4. `微信开发者工具` 微信扫码登录，开启服务端口，点击工具栏 `设置` -> `安全设置` -> `安全` -> `服务端口`选择打开 ;
-5. `Hbuilder X` 替换项目AppID成自己的，点击 `manifest.json` 文件->微信小程序配置 ;
-6. Nacos控制台替换 `youlai-auth` 配置中的微信小程序 AppID 和 AppSecret 为自己申请的小程序 ;
-7. `Hbuilder X` 工具栏点击 `运行` -> `运行到小程序模拟器` -> `微信开发者工具`。
-
-### 🗁 H5/移动端启动
-
-1. 下载 `HBuilder X` ;
-2. 导入 [mall-app](https://gitee.com/youlaitech/youlai-mall-weapp) 源码至 `HBuilder X`;
-3. `Hbuilder X` 工具栏点击 `运行` -> `运行到内置浏览器` 。
 
 ## ✅ Git 贡献提交规范
 
@@ -216,9 +185,10 @@
 
 ## 💬 联系信息
 
-> 欢迎添加开发者微信，备注「有来」进群
+> 添加开发者微信，备注「有来」进群，严禁一切利益性行为
 
 |    开发     |           开发          |         DevOps               |
 | :-------: | :------------------: | :---------------------: |
 | ![](https://www.youlai.tech/files/blog/rui.jpg) | ![](https://www.youlai.tech/files/blog/chuan.jpg) | ![](https://gitee.com/haoxr/image/raw/master/default/jialin.jpg) |
 
+欢迎技术爱好者加入我们，参与开发和交流学习，申请入口: https://gitee.com/youlaiorg
