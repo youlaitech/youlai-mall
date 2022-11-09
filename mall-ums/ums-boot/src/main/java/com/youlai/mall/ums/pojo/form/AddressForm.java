@@ -1,7 +1,7 @@
 package com.youlai.mall.ums.pojo.form;
 
-import com.youlai.common.constraint.CheckCityValid;
-import com.youlai.common.constraint.CityType;
+import com.youlai.common.web.constraint.CheckCityValid;
+import com.youlai.common.web.constraint.CityType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

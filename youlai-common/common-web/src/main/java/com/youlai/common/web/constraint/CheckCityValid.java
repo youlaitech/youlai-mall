@@ -1,4 +1,4 @@
-package com.youlai.common.constraint;
+package com.youlai.common.web.constraint;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

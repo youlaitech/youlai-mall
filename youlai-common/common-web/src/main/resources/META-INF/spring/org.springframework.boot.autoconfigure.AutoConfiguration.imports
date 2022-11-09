@@ -1,0 +1,3 @@
+  com.youlai.common.web.config.WebMvcConfig
+  com.youlai.common.web.config.FeignConfig
+  com.youlai.common.web.exception.GlobalExceptionHandler
