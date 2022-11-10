@@ -2,6 +2,7 @@ package com.youlai.common.mybatis.handler;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 import com.youlai.common.base.IBaseEnum;
 import com.youlai.common.enums.DataScopeEnum;
@@ -24,7 +25,6 @@ import java.lang.reflect.Method;
 @Slf4j
 public class MyDataPermissionHandler implements DataPermissionHandler {
 
-
     @Override
     @SneakyThrows
     public Expression getSqlSegment(Expression where, String mappedStatementId) {
@@ -32,8 +32,8 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
         if (SecurityUtils.isRoot()) {
             return where;
         }
-        Class<?> clazz = Class.forName(mappedStatementId.substring(0, mappedStatementId.lastIndexOf(".")));
-        String methodName = mappedStatementId.substring(mappedStatementId.lastIndexOf(".") + 1);
+        Class<?> clazz = Class.forName(mappedStatementId.substring(0, mappedStatementId.lastIndexOf(StringPool.DOT)));
+        String methodName = mappedStatementId.substring(mappedStatementId.lastIndexOf(StringPool.DOT) + 1);
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
             DataPermission annotation = method.getAnnotation(DataPermission.class);
@@ -55,8 +55,8 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
     public static Expression dataScopeFilter(String deptAlias, String deptIdColumnName, String userAlias, String userIdColumnName, Expression where) {
 
 
-        String deptColumnName = StrUtil.isNotBlank(deptAlias) ? (deptAlias + "." + deptIdColumnName) : deptIdColumnName;
-        String userColumnName = StrUtil.isNotBlank(userAlias) ? (userAlias + "." + userIdColumnName) : userIdColumnName;
+        String deptColumnName = StrUtil.isNotBlank(deptAlias) ? (deptAlias +StringPool.DOT+ deptIdColumnName) : deptIdColumnName;
+        String userColumnName = StrUtil.isNotBlank(userAlias) ? (userAlias + StringPool.DOT + userIdColumnName) : userIdColumnName;
 
         // 获取当前用户的数据权限
         Integer dataScope = SecurityUtils.getDataScope();
@@ -70,11 +70,11 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
                 return where;
             case DEPT:
                 deptId = SecurityUtils.getDeptId();
-                appendSqlStr = deptColumnName + "=" + deptId;
+                appendSqlStr = deptColumnName + StringPool.EQUALS+ deptId;
                 break;
             case SELF:
                 userId = SecurityUtils.getUserId();
-                appendSqlStr = userColumnName + "=" + userId;
+                appendSqlStr = userColumnName +  StringPool.EQUALS + userId;
                 break;
             // 默认部门及子部门数据权限
             default:
