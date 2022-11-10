@@ -44,7 +44,7 @@ public class SpuController {
     }
 
     @ApiOperation(value = "获取秒杀商品列表")
-    @GetMapping("/seckilling_list")
+    @GetMapping("/seckillList")
     public Result<List<SeckillingSpuVO>> listSeckillingSpu() {
         List<SeckillingSpuVO> list = spuService.listSeckillingSpu();
         return Result.success(list);
