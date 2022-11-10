@@ -3,9 +3,9 @@ package com.youlai.common.constant;
 public interface SecurityConstants {
 
     /**
-     * 黑名单token前缀
+     * 黑名单TOKEN Key前缀
      */
-    String TOKEN_BLACKLIST_PREFIX = "auth:token:blacklist:";
+    String BLACKLIST_TOKEN_PREFIX = "AUTH:BLACKLIST_TOKEN:";
 
     /**
      * 验证码key前缀

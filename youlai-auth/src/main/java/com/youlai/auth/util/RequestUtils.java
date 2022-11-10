@@ -1,13 +1,17 @@
 package com.youlai.auth.util;
 
 import cn.hutool.core.util.StrUtil;
+import com.nimbusds.jose.JWSObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.Base64;
 
+@Slf4j
 public class RequestUtils {
 
     /**
@@ -38,5 +42,27 @@ public class RequestUtils {
         }
         return clientId;
     }
-    
+
+
+    /**
+     * 获取JWT Payload
+     *
+     * @return
+     */
+    public static String getJwtPayload() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String payload = null;
+        String authorization = request.getHeader("Authorization");
+        if (StrUtil.isNotBlank(authorization) && StrUtil.startWithIgnoreCase(authorization, "Bearer ")) {
+            authorization = StrUtil.replaceIgnoreCase(authorization, "Bearer ", "");
+            try {
+                payload = JWSObject.parse(authorization).getPayload().toString();
+            } catch (ParseException e) {
+                log.error(e.getMessage());
+            }
+        }
+        return payload;
+    }
+
+
 }

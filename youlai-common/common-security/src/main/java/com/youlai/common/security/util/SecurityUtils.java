@@ -70,7 +70,7 @@ public class SecurityUtils {
      */
     public static Set<String> getRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication!=null && CollectionUtil.isNotEmpty(authentication.getAuthorities())) {
+        if (authentication != null && CollectionUtil.isNotEmpty(authentication.getAuthorities())) {
             Set<String> roles = authentication.getAuthorities()
                     .stream()
                     .map(item -> StrUtil.removePrefix(item.getAuthority(), "ROLE_"))
@@ -111,8 +111,13 @@ public class SecurityUtils {
 
     public static Map<String, Object> getTokenAttributes() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
-        Map<String, Object> tokenAttributes = jwtAuthenticationToken.getTokenAttributes();
-        return tokenAttributes;
+        if (authentication != null) {
+            if (authentication instanceof JwtAuthenticationToken) {
+                JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+                Map<String, Object> tokenAttributes = jwtAuthenticationToken.getTokenAttributes();
+                return tokenAttributes;
+            }
+        }
+        return Collections.EMPTY_MAP;
     }
 }

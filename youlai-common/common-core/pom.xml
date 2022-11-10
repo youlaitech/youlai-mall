@@ -5,7 +5,7 @@
     <parent>
         <artifactId>youlai-common</artifactId>
         <groupId>com.youlai</groupId>
-        <version>2.1.0</version>
+        <version>2.1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -38,10 +38,7 @@
             <artifactId>spring-data-redis</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
+
 
     </dependencies>
 

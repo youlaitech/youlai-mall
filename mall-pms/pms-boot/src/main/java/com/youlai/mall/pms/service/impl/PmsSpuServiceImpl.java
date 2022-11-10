@@ -162,8 +162,8 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         }
 
         // 添加用户浏览历史记录
-        Long loginUserId = SecurityUtils.getMemberId();
-        if (loginUserId != null) {
+        Long memberId = SecurityUtils.getMemberId();
+        if (memberId != null) {
             ProductHistoryVO vo = new ProductHistoryVO();
             vo.setId(goodsInfo.getId());
             vo.setName(goodsInfo.getName());

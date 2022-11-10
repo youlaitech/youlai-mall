@@ -1,11 +1,11 @@
 package com.youlai.auth.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.util.RequestUtils;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.util.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,7 +29,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
-
     private final TokenEndpoint tokenEndpoint;
     private final RedisTemplate redisTemplate;
 
@@ -75,16 +74,22 @@ public class AuthController {
     @ApiOperation(value = "注销")
     @DeleteMapping("/logout")
     public Result logout() {
-        JSONObject payload = JwtUtils.getJwtPayload();
-        String jti = payload.getStr("jti"); // JWT唯一标识
-        Long expireTime = payload.getLong("exp"); // JWT过期时间戳(单位：秒)
-        if (expireTime != null) {
-            long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
-            if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
-                redisTemplate.opsForValue().set(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
+        String payload = RequestUtils.getJwtPayload();
+
+        if (StrUtil.isNotBlank(payload)) {
+            JSONObject entries = JSONUtil.parseObj(payload);
+            if (entries != null) {
+                String jti = entries.getStr("jti"); // JWT唯一标识
+                Long expireTime = entries.getLong("exp"); // JWT过期时间戳(单位：秒)
+                if (expireTime != null) {
+                    long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
+                    if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
+                        redisTemplate.opsForValue().set(SecurityConstants.BLACKLIST_TOKEN_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
+                    }
+                } else { // token 永不过期则永久加入黑名单
+                    redisTemplate.opsForValue().set(SecurityConstants.BLACKLIST_TOKEN_PREFIX + jti, null);
+                }
             }
-        } else { // token 永不过期则永久加入黑名单
-            redisTemplate.opsForValue().set(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti, null);
         }
         return Result.success("注销成功");
     }

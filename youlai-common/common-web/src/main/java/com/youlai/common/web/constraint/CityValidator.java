@@ -1,4 +1,4 @@
-package com.youlai.common.constraint;
+package com.youlai.common.web.constraint;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.json.JSONUtil;
