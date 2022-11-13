@@ -1,4 +1,4 @@
-package com.youlai.mall.sms.common.enums;
+package com.youlai.mall.sms.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
