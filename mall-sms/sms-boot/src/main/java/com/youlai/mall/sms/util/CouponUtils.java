@@ -1,11 +1,10 @@
-package com.youlai.mall.sms.common.utils;
+package com.youlai.mall.sms.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.youlai.common.base.IBaseEnum;
-import com.youlai.mall.sms.common.enums.CouponFaceValueTypeEnum;
-import com.youlai.mall.sms.common.enums.CouponTypeEnum;
-import com.youlai.mall.sms.common.enums.ValidityPeriodTypeEnum;
+import com.youlai.mall.sms.enums.CouponFaceValueTypeEnum;
+import com.youlai.mall.sms.enums.ValidityPeriodTypeEnum;
 
 import java.math.BigDecimal;
 import java.util.Date;

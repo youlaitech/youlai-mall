@@ -17,15 +17,15 @@ import java.util.List;
  * @date 2022/5/29
  */
 @Mapper(componentModel = "spring")
-public interface SmsCouponConverter {
+public interface CouponConverter {
 
     @Mappings({
-            @Mapping(target = "platformLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(entity.getPlatform(), com.youlai.mall.sms.common.enums.PlatformEnum.class))"),
-            @Mapping(target = "typeLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(entity.getType(), com.youlai.mall.sms.common.enums.CouponTypeEnum.class))"),
-            @Mapping(target = "faceValueLabel", expression = "java(com.youlai.mall.sms.common.utils.CouponUtils.getFaceValue(entity.getType(),entity.getFaceValue(),entity.getDiscount()))"),
+            @Mapping(target = "platformLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(entity.getPlatform(), com.youlai.mall.sms.enums.PlatformEnum.class))"),
+            @Mapping(target = "typeLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(entity.getType(), com.youlai.mall.sms.enums.CouponTypeEnum.class))"),
+            @Mapping(target = "faceValueLabel", expression = "java(com.youlai.mall.sms.util.CouponUtils.getFaceValue(entity.getType(),entity.getFaceValue(),entity.getDiscount()))"),
             @Mapping(
                     target = "validityPeriodLabel",
-                    expression = "java(com.youlai.mall.sms.common.utils.CouponUtils.getValidityPeriod(entity.getValidityPeriodType(),entity.getValidityDays(),entity.getValidityBeginTime(),entity.getValidityBeginTime()))"
+                    expression = "java(com.youlai.mall.sms.util.CouponUtils.getValidityPeriod(entity.getValidityPeriodType(),entity.getValidityDays(),entity.getValidityBeginTime(),entity.getValidityBeginTime()))"
             ),
             @Mapping(target = "minPointLabel", expression = "java(cn.hutool.core.util.NumberUtil.toStr(cn.hutool.core.util.NumberUtil.div(entity.getMinPoint(),new java.math.BigDecimal(100)).setScale(2)))"),
     })

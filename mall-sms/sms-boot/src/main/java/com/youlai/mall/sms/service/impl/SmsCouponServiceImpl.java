@@ -7,8 +7,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.base.IBaseEnum;
-import com.youlai.mall.sms.common.enums.CouponApplicationScopeEnum;
-import com.youlai.mall.sms.converter.SmsCouponConverter;
+import com.youlai.mall.sms.enums.CouponApplicationScopeEnum;
+import com.youlai.mall.sms.converter.CouponConverter;
 import com.youlai.mall.sms.mapper.SmsCouponMapper;
 import com.youlai.mall.sms.pojo.entity.SmsCoupon;
 import com.youlai.mall.sms.pojo.entity.SmsCouponSpu;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon> implements SmsCouponService {
 
-    private final SmsCouponConverter smsCouponConverter;
+    private final CouponConverter couponConverter;
 
     private final SmsCouponSpuCategoryService smsCouponSpuCategoryService;
 
@@ -54,7 +54,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
         // 查询数据
         List<SmsCoupon> couponList = this.baseMapper.listCouponPages(page, queryParams);
         // 实体转换
-        List<CouponPageVO> records = smsCouponConverter.entity2PageVO(couponList);
+        List<CouponPageVO> records = couponConverter.entity2PageVO(couponList);
         page.setRecords(records);
         return page;
     }
@@ -69,7 +69,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
     public CouponForm getCouponFormData(Long couponId) {
         SmsCoupon entity = this.getById(couponId);
         // 实体转换entity->form
-        CouponForm couponForm = smsCouponConverter.entity2Form(entity);
+        CouponForm couponForm = couponConverter.entity2Form(entity);
 
         Integer applicationScope = couponForm.getApplicationScope();
 
@@ -105,7 +105,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean saveCoupon(CouponForm couponForm) {
-        SmsCoupon entity = smsCouponConverter.form2Entity(couponForm);
+        SmsCoupon entity = couponConverter.form2Entity(couponForm);
         boolean result = this.save(entity);
 
         if (result) {
@@ -151,7 +151,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean updateCoupon(Long couponId, CouponForm couponForm) {
-        SmsCoupon entity = smsCouponConverter.form2Entity(couponForm);
+        SmsCoupon entity = couponConverter.form2Entity(couponForm);
         boolean result = this.updateById(entity);
 
         if (result) {
