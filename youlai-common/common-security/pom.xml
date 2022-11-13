@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>common-web</artifactId>
         </dependency>
 
         <dependency>
@@ -38,11 +38,7 @@
             <artifactId>nimbus-jose-jwt</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <optional>true</optional>
-        </dependency>
+
 
         <!-- OAuth2 Resource Server -->
         <dependency>

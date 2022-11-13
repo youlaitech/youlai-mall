@@ -3,6 +3,9 @@ package com.youlai.common.security.config;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.json.JSONUtil;
+import com.youlai.common.security.exception.MyAccessDeniedHandler;
+import com.youlai.common.security.exception.MyAuthenticationEntryPoint;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,7 +31,11 @@ import java.util.List;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
+@RequiredArgsConstructor
 public class ResourceServerConfig {
+
+    private final MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    private final MyAccessDeniedHandler myAccessDeniedHandler;
 
     @Setter
     private List<String> ignoreUrls;
@@ -48,7 +55,12 @@ public class ResourceServerConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(Convert.toStrArray(ignoreUrls)).permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(myAuthenticationEntryPoint)
+                .accessDeniedHandler(myAccessDeniedHandler)
+        ;
         http.oauth2ResourceServer()
                 .jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter())
