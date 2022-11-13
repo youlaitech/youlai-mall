@@ -76,13 +76,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public IPage<UserVO> listUserPages(UserPageQuery queryParams) {
 
-        // 参数构建
-        int pageNum = queryParams.getPageNum();
-        int pageSize = queryParams.getPageSize();
-        Page<UserBO> page = new Page<>(pageNum, pageSize);
-
         // 查询数据
-        Page<UserBO> userBoPage = this.baseMapper.listUserPages(page, queryParams);
+        Page<UserBO> userBoPage = this.baseMapper.listUserPages(
+                new Page<>(queryParams.getPageNum(),
+                        queryParams.getPageSize()),
+                queryParams
+        );
 
         // 实体转换
         Page<UserVO> userVoPage = userConverter.bo2Vo(userBoPage);
@@ -150,7 +149,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         int count = this.count(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username)
-                .ne(SysUser::getId,userId)
+                .ne(SysUser::getId, userId)
         );
         Assert.isTrue(count == 0, "用户名已存在");
 
@@ -213,12 +212,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         UserAuthInfo userAuthInfo = this.baseMapper.getUserAuthInfo(username);
 
         Set<String> roles = userAuthInfo.getRoles();
-        if(CollectionUtil.isNotEmpty(roles)){
+        if (CollectionUtil.isNotEmpty(roles)) {
             Set<String> perms = menuService.listRolePerms(roles);
             userAuthInfo.setPerms(perms);
 
             // 获取最大范围的数据权限
-            Integer dataScope= roleService.getMaximumDataScope(roles);
+            Integer dataScope = roleService.getMaximumDataScope(roles);
             userAuthInfo.setDataScope(dataScope);
         }
         return userAuthInfo;
@@ -351,7 +350,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userLoginVO.setRoles(roles);
 
         // 用户权限集合
-        Set<String> perms = (Set<String>)redisTemplate.opsForValue().get("AUTH:USER_PERMS:" + user.getId());
+        Set<String> perms = (Set<String>) redisTemplate.opsForValue().get("AUTH:USER_PERMS:" + user.getId());
         userLoginVO.setPerms(perms);
 
         return userLoginVO;

@@ -184,8 +184,8 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BusinessException.class)
-    public <T> Result<T> handleBizException(BusinessException e) {
+    @ExceptionHandler(ApiException.class)
+    public <T> Result<T> handleBizException(ApiException e) {
         log.error("业务异常，异常原因：{}", e.getMessage(), e);
         if (e.getResultCode() != null) {
             return Result.failed(e.getResultCode());
