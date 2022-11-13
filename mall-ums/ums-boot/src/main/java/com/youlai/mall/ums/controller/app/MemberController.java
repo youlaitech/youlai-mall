@@ -110,7 +110,9 @@ public class MemberController {
 
     @ApiOperation("获取会员地址列表")
     @GetMapping("/{memberId}/addresses")
-    public Result<List<MemberAddressDTO>> listMemberAddress(@ApiParam("会员ID") @PathVariable Long memberId) {
+    public Result<List<MemberAddressDTO>> listMemberAddress(
+            @ApiParam("会员ID") @PathVariable Long memberId
+    ) {
         List<MemberAddressDTO> addresses = memberService.listMemberAddress(memberId);
         return Result.success(addresses);
     }
