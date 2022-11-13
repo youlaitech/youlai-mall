@@ -4,6 +4,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.sms.pojo.entity.SmsAdvert;
 import com.youlai.mall.sms.pojo.query.AdvertPageQuery;
+import com.youlai.mall.sms.pojo.vo.AdBannerVO;
+import com.youlai.mall.sms.pojo.vo.AdvertPageVO;
+
+import java.util.List;
 
 public interface SmsAdvertService extends IService<SmsAdvert> {
 
@@ -13,5 +17,7 @@ public interface SmsAdvertService extends IService<SmsAdvert> {
      * @param queryParams
      * @return
      */
-    Page<SmsAdvert> listAdvertsPage(AdvertPageQuery queryParams);
+    Page<AdvertPageVO> listAdvertPages(AdvertPageQuery queryParams);
+
+    List<AdBannerVO> listAdBanners();
 }

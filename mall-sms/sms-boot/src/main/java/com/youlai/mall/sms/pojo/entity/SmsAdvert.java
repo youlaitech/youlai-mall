@@ -24,11 +24,20 @@ public class SmsAdvert extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date endTime;
 
+    /**
+     * 状态
+     */
     private Integer status;
 
+    /**
+     * 排序
+     */
     private Integer sort;
 
-    private  String url;
+    /**
+     * 跳转URL
+     */
+    private  String redirectUrl;
 
     private String remark;
 

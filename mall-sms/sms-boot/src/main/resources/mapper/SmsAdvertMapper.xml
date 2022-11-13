@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.mall.sms.mapper.SmsAdvertMapper">
 
     <!-- 广告分页列表 -->
-    <select id="listAdvertsPage" resultType="com.youlai.mall.sms.pojo.entity.SmsAdvert">
+    <select id="listAdvertPages" resultType="com.youlai.mall.sms.pojo.entity.SmsAdvert">
         SELECT
             *
         FROM
