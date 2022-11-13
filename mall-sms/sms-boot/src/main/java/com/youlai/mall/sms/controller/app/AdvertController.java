@@ -1,8 +1,7 @@
 package com.youlai.mall.sms.controller.app;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.mall.sms.pojo.entity.SmsAdvert;
+import com.youlai.mall.sms.pojo.vo.AdBannerVO;
 import com.youlai.mall.sms.service.SmsAdvertService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,13 +21,10 @@ import java.util.List;
 public class AdvertController {
 
     private SmsAdvertService smsAdvertService;
-
-    @ApiOperation(value = "列表分页")
-    @GetMapping
-    public Result list() {
-        LambdaQueryWrapper<SmsAdvert> queryWrapper = new LambdaQueryWrapper<SmsAdvert>()
-                .orderByAsc(SmsAdvert::getSort);
-        List<SmsAdvert> data = smsAdvertService.list(queryWrapper);
-        return Result.success(data);
+    @ApiOperation(value = "广告横幅列表")
+    @GetMapping("/banners")
+    public Result<List<AdBannerVO>> listAdBanners() {
+        List<AdBannerVO> list = smsAdvertService.listAdBanners();
+        return Result.success(list);
     }
 }
