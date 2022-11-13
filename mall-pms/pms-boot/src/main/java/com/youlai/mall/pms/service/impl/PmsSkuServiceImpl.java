@@ -6,7 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.web.exception.BusinessException;
+import com.youlai.common.web.exception.ApiException;
 import com.youlai.mall.pms.common.constant.PmsConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
@@ -127,7 +127,7 @@ public class PmsSkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> impleme
                     .setSql("locked_stock_num = locked_stock_num - " + item.getCount())
             );
             if (!result) {
-                throw new BusinessException("扣减库存失败,商品" + item.getSkuId() + "库存不足");
+                throw new ApiException("扣减库存失败,商品" + item.getSkuId() + "库存不足");
             }
         });
 

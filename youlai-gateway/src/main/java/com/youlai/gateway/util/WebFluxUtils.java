@@ -24,7 +24,7 @@ public class WebFluxUtils {
     public static Mono<Void> writeResponse(ServerHttpResponse response, ResultCode resultCode) {
         switch (resultCode) {
             case ACCESS_UNAUTHORIZED:
-            case TOKEN_INVALID_OR_EXPIRED:
+            case INVALID_TOKEN:
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 break;
             case TOKEN_ACCESS_FORBIDDEN:
