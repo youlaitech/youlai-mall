@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.web.exception.BusinessException;
+import com.youlai.common.web.exception.ApiException;
 import com.youlai.mall.oms.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -39,10 +40,14 @@ public class CartServiceImpl implements ICartService {
     private SkuFeignClient skuFeignService;
 
     @Override
-    public List<CartItemDTO> listCartItemByMemberId(Long memberId) {
-        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
-        List<CartItemDTO> cartItems = cartHashOperations.values();
-        return cartItems;
+    public List<CartItemDTO> listCartItems() {
+        Long memberId = SecurityUtils.getMemberId();
+        if (memberId != null) {
+            BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
+            List<CartItemDTO> cartItems = cartHashOperations.values();
+            return cartItems;
+        }
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -60,11 +65,9 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean addCartItem(Long skuId) {
-        Long memberId;
-        try {
-            memberId = SecurityUtils.getMemberId();
-        } catch (Exception e) {
-            throw new BusinessException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+        Long memberId=SecurityUtils.getMemberId();
+        if(memberId==null){
+            throw new ApiException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
@@ -83,7 +86,7 @@ public class CartServiceImpl implements ICartService {
         CompletableFuture<Void> cartItemCompletableFuture = CompletableFuture.runAsync(() -> {
             SkuInfoDTO skuInfo = skuFeignService.getSkuInfo(skuId).getData();
             if (skuInfo != null) {
-                BeanUtil.copyProperties(skuInfo,cartItem);
+                BeanUtil.copyProperties(skuInfo, cartItem);
                 cartItem.setStock(skuInfo.getStockNum());
                 cartItem.setCount(1);
                 cartItem.setChecked(true);
@@ -91,7 +94,7 @@ public class CartServiceImpl implements ICartService {
         });
         CompletableFuture.allOf(cartItemCompletableFuture).join();
 
-        Assert.isTrue(cartItem.getSkuId() != null,"商品不存在");
+        Assert.isTrue(cartItem.getSkuId() != null, "商品不存在");
         cartHashOperations.put(hKey, cartItem);
         return true;
     }
@@ -105,7 +108,7 @@ public class CartServiceImpl implements ICartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new BusinessException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+            throw new ApiException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
@@ -131,7 +134,7 @@ public class CartServiceImpl implements ICartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new BusinessException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+            throw new ApiException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
@@ -149,7 +152,7 @@ public class CartServiceImpl implements ICartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new BusinessException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+            throw new ApiException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
@@ -172,7 +175,7 @@ public class CartServiceImpl implements ICartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new BusinessException(ResultCode.TOKEN_INVALID_OR_EXPIRED);
+            throw new ApiException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {

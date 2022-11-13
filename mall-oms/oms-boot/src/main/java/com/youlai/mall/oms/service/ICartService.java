@@ -6,12 +6,13 @@ import java.util.List;
 
 /**
  * 购物车业务接口
+ *
+ * @author haoxr
+ * @date 2022/11/13
  */
 public interface ICartService {
 
-
-
-    List<CartItemDTO> listCartItemByMemberId(Long memberId);
+    List<CartItemDTO> listCartItems();
 
     boolean deleteCart();
 
