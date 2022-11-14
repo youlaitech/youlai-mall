@@ -1,4 +1,4 @@
-package com.youlai.system.pojo.service.impl;
+package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
@@ -18,9 +18,9 @@ import com.youlai.system.pojo.entity.SysUserRole;
 import com.youlai.system.pojo.form.RoleForm;
 import com.youlai.system.pojo.query.RolePageQuery;
 import com.youlai.system.pojo.vo.role.RolePageVO;
-import com.youlai.system.pojo.service.SysRoleMenuService;
-import com.youlai.system.pojo.service.SysRoleService;
-import com.youlai.system.pojo.service.SysUserRoleService;
+import com.youlai.system.service.SysRoleMenuService;
+import com.youlai.system.service.SysRoleService;
+import com.youlai.system.service.SysUserRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;

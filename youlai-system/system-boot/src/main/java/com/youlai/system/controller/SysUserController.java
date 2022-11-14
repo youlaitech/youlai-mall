@@ -12,7 +12,7 @@ import com.youlai.system.pojo.query.UserPageQuery;
 import com.youlai.system.pojo.vo.user.UserExportVO;
 import com.youlai.system.pojo.vo.user.UserLoginVO;
 import com.youlai.system.pojo.vo.user.UserVO;
-import com.youlai.system.pojo.service.SysUserService;
+import com.youlai.system.service.SysUserService;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;

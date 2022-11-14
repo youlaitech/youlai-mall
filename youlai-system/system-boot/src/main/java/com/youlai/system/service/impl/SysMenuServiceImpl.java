@@ -1,4 +1,4 @@
-package com.youlai.system.pojo.service.impl;
+package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
@@ -15,7 +15,7 @@ import com.youlai.system.mapper.SysMenuMapper;
 import com.youlai.system.pojo.bo.RouteBO;
 import com.youlai.system.pojo.entity.SysMenu;
 import com.youlai.system.pojo.query.MenuQuery;
-import com.youlai.system.pojo.service.SysMenuService;
+import com.youlai.system.service.SysMenuService;
 import com.youlai.system.pojo.vo.menu.MenuVO;
 import com.youlai.system.pojo.vo.menu.ResourceVO;
 import com.youlai.system.pojo.vo.menu.RouteVO;

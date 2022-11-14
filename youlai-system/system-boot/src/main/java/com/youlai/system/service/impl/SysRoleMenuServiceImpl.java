@@ -1,9 +1,9 @@
-package com.youlai.system.pojo.service.impl;
+package com.youlai.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.system.mapper.SysRoleMenuMapper;
 import com.youlai.system.pojo.entity.SysRoleMenu;
-import com.youlai.system.pojo.service.SysRoleMenuService;
+import com.youlai.system.service.SysRoleMenuService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

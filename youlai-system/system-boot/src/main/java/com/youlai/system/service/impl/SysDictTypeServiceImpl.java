@@ -1,4 +1,4 @@
-package com.youlai.system.pojo.service.impl;
+package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
@@ -15,8 +15,8 @@ import com.youlai.system.pojo.entity.SysDictType;
 import com.youlai.system.pojo.form.DictTypeForm;
 import com.youlai.system.pojo.query.DictTypePageQuery;
 import com.youlai.system.pojo.vo.dict.DictTypePageVO;
-import com.youlai.system.pojo.service.SysDictItemService;
-import com.youlai.system.pojo.service.SysDictTypeService;
+import com.youlai.system.service.SysDictItemService;
+import com.youlai.system.service.SysDictTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

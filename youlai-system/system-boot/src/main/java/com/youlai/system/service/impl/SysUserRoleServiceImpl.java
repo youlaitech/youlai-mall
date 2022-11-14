@@ -1,11 +1,11 @@
-package com.youlai.system.pojo.service.impl;
+package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.system.mapper.SysUserRoleMapper;
 import com.youlai.system.pojo.entity.SysUserRole;
-import com.youlai.system.pojo.service.SysUserRoleService;
+import com.youlai.system.service.SysUserRoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

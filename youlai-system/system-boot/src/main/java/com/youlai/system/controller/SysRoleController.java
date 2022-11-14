@@ -7,7 +7,7 @@ import com.youlai.common.web.model.Option;
 import com.youlai.system.pojo.entity.SysRole;
 import com.youlai.system.pojo.form.RoleForm;
 import com.youlai.system.pojo.query.RolePageQuery;
-import com.youlai.system.pojo.service.SysRoleService;
+import com.youlai.system.service.SysRoleService;
 import com.youlai.system.pojo.vo.role.RolePageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -4,7 +4,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.model.Option;
 import com.youlai.system.pojo.entity.SysMenu;
 import com.youlai.system.pojo.query.MenuQuery;
-import com.youlai.system.pojo.service.SysMenuService;
+import com.youlai.system.service.SysMenuService;
 import com.youlai.system.pojo.vo.menu.MenuVO;
 import com.youlai.system.pojo.vo.menu.ResourceVO;
 import com.youlai.system.pojo.vo.menu.RouteVO;

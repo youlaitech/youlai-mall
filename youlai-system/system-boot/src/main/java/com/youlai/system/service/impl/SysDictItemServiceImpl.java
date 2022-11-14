@@ -1,4 +1,4 @@
-package com.youlai.system.pojo.service.impl;
+package com.youlai.system.service.impl;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
@@ -10,7 +10,7 @@ import com.youlai.system.mapper.SysDictItemMapper;
 import com.youlai.system.pojo.entity.SysDictItem;
 import com.youlai.system.pojo.form.DictItemForm;
 import com.youlai.system.pojo.query.DictItemPageQuery;
-import com.youlai.system.pojo.service.SysDictItemService;
+import com.youlai.system.service.SysDictItemService;
 import com.youlai.system.pojo.vo.dict.DictItemPageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -6,7 +6,7 @@ import com.youlai.common.result.Result;
 import com.youlai.system.pojo.form.DictItemForm;
 import com.youlai.system.pojo.query.DictItemPageQuery;
 import com.youlai.system.pojo.vo.dict.DictItemPageVO;
-import com.youlai.system.pojo.service.SysDictItemService;
+import com.youlai.system.service.SysDictItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

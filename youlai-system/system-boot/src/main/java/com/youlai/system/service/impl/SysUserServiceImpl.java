@@ -1,4 +1,4 @@
-package com.youlai.system.pojo.service.impl;
+package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
@@ -25,13 +25,13 @@ import com.youlai.system.pojo.form.UserForm;
 import com.youlai.system.pojo.bo.UserFormBO;
 import com.youlai.system.pojo.bo.UserBO;
 import com.youlai.system.pojo.query.UserPageQuery;
-import com.youlai.system.pojo.service.SysMenuService;
-import com.youlai.system.pojo.service.SysRoleService;
-import com.youlai.system.pojo.service.SysUserRoleService;
+import com.youlai.system.service.SysMenuService;
+import com.youlai.system.service.SysRoleService;
+import com.youlai.system.service.SysUserRoleService;
 import com.youlai.system.pojo.vo.user.UserLoginVO;
 import com.youlai.system.pojo.vo.user.UserExportVO;
 import com.youlai.system.pojo.vo.user.UserVO;
-import com.youlai.system.pojo.service.SysUserService;
+import com.youlai.system.service.SysUserService;
 import com.youlai.common.base.IBaseEnum;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.enums.GenderEnum;

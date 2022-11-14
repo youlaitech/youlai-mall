@@ -1,6 +1,6 @@
 package com.youlai.system.service.impl;
 
-import com.youlai.system.pojo.service.SysUserService;
+import com.youlai.system.service.SysUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

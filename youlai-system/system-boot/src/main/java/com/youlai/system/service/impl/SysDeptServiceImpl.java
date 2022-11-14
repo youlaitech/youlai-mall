@@ -1,4 +1,4 @@
-package com.youlai.system.pojo.service.impl;
+package com.youlai.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
@@ -14,7 +14,7 @@ import com.youlai.system.mapper.SysDeptMapper;
 import com.youlai.system.pojo.entity.SysDept;
 import com.youlai.system.pojo.form.DeptForm;
 import com.youlai.system.pojo.query.DeptQuery;
-import com.youlai.system.pojo.service.SysDeptService;
+import com.youlai.system.service.SysDeptService;
 import com.youlai.system.pojo.vo.dept.DeptVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

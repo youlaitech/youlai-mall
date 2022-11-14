@@ -6,7 +6,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.model.Option;
 import com.youlai.system.pojo.form.DictTypeForm;
 import com.youlai.system.pojo.query.DictTypePageQuery;
-import com.youlai.system.pojo.service.SysDictTypeService;
+import com.youlai.system.service.SysDictTypeService;
 import com.youlai.system.pojo.vo.dict.DictTypePageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

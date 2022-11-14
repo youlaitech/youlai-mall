@@ -4,7 +4,7 @@ import com.youlai.common.result.Result;
 import com.youlai.common.web.model.Option;
 import com.youlai.system.pojo.form.DeptForm;
 import com.youlai.system.pojo.query.DeptQuery;
-import com.youlai.system.pojo.service.SysDeptService;
+import com.youlai.system.service.SysDeptService;
 import com.youlai.system.pojo.vo.dept.DeptVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

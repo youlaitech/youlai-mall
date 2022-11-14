@@ -1,7 +1,7 @@
 package com.youlai.system.listener.rabbitmq;
 
 import com.youlai.common.web.model.CanalMessage;
-import com.youlai.system.pojo.service.SysMenuService;
+import com.youlai.system.service.SysMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

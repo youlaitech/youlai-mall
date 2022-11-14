@@ -1,4 +1,4 @@
-package com.youlai.system.pojo.service;
+package com.youlai.system.service;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
