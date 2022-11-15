@@ -40,9 +40,9 @@ INSERT INTO `sms_advert` VALUES (47, 'banner1', 'https://oss.youlai.tech/default
 DROP TABLE IF EXISTS `sms_coupon`;
 CREATE TABLE `sms_coupon`  (
                                `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                               `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_0900_ai_ci NOT NULL COMMENT '优惠券名称',
+                               `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '优惠券名称',
                                `type` tinyint(0) NOT NULL DEFAULT 1 COMMENT '优惠券类型(1-满减券;2-直减券;3-折扣券)',
-                               `code` varchar(32) CHARACTER SET utf8 COLLATE utf8_0900_ai_ci NULL DEFAULT '0' COMMENT '优惠券码',
+                               `code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '优惠券码',
                                `platform` int(0) NULL DEFAULT NULL COMMENT '使用平台(0-全平台;1-APP;2-PC)',
                                `face_value_type` tinyint(0) NULL DEFAULT NULL COMMENT '优惠券面值类型',
                                `face_value` bigint(0) NULL DEFAULT NULL COMMENT '优惠券面值(分)',
@@ -57,12 +57,12 @@ CREATE TABLE `sms_coupon`  (
                                `circulation` int(0) NULL DEFAULT 1 COMMENT '发行量(-1-无限制)',
                                `received_count` int(0) NULL DEFAULT 0 COMMENT '已领取的优惠券数量(统计)',
                                `used_count` int(0) NULL DEFAULT 0 COMMENT '已使用的优惠券数量(统计)',
-                               `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+                               `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
                                `update_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
                                `create_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
                                `deleted` tinyint(0) NULL DEFAULT 1 COMMENT '逻辑删除标识(0-正常;1-删除)',
                                PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_0900_ai_ci COMMENT = '优惠券表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sms_coupon
