@@ -116,5 +116,26 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <resources>
+            <!-- 排除 maven 对 keystore.jks 的过滤处理，导致密钥库文件编码格式被转换出现问题：keytool error: java.io.IOException: Invalid keystore format -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>keystore.jks</exclude>
+                </excludes>
+            </resource>
+            <!-- 下面这段缺少则keystore.jks打包时不会生成到jar包里 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>keystore.jks</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
+
+
 </project>
