@@ -12,7 +12,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
 
 
 /**
- * Security 安全配置
+ * OAuth Client Security 配置
  *
  * @author haoxr
  * @date 2022/8/28
@@ -25,6 +25,7 @@ public class OAuth2ClientSecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http
     ) {
         http.authorizeExchange()
+                // 放行交由资源服务器进行认证鉴权
                 .anyExchange().permitAll()
                 .and()
                 // 禁用csrf token安全校验
