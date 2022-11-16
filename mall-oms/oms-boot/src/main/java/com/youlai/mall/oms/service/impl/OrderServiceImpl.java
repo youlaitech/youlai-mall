@@ -123,17 +123,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
         // 获取原请求线程的参数
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
-
+        Long memberId = SecurityUtils.getMemberId();
         // 获取订单的商品明细信息
         CompletableFuture<Void> getOrderItemsFuture = CompletableFuture.runAsync(() -> {
             // 请求参数传递给子线程
             RequestContextHolder.setRequestAttributes(attributes);
-            List<OrderItemDTO> orderItems = this.getOrderItems(skuId);
+            List<OrderItemDTO> orderItems = this.getOrderItems(skuId,memberId);
             orderConfirmVO.setOrderItems(orderItems);
         }, threadPoolExecutor);
 
         // 获取会员收获地址
-        Long memberId = SecurityUtils.getMemberId();
         CompletableFuture<Void> getMemberAddressFuture = CompletableFuture.runAsync(() -> {
             RequestContextHolder.setRequestAttributes(attributes);
             Result<List<MemberAddressDTO>> getMemberAddressResult = memberFeignClient.listMemberAddresses(memberId);
@@ -456,7 +455,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * @param skuId 直接购买必有值，购物车结算必没值
      * @return
      */
-    private List<OrderItemDTO> getOrderItems(Long skuId) {
+    private List<OrderItemDTO> getOrderItems(Long skuId,Long memberId) {
         List<OrderItemDTO> orderItems;
         if (skuId != null) {  // 直接购买
             orderItems = new ArrayList<>();
@@ -467,7 +466,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderItemDTO.setCount(1); // 直接购买商品的数量为1
             orderItems.add(orderItemDTO);
         } else { // 购物车结算
-            List<CartItemDTO> cartItems = cartService.listCartItems();
+            List<CartItemDTO> cartItems = cartService.listCartItems(memberId);
             orderItems = cartItems.stream().filter(CartItemDTO::getChecked).map(cartItem -> {
                 OrderItemDTO orderItemDTO = new OrderItemDTO();
                 BeanUtil.copyProperties(cartItem, orderItemDTO);

@@ -40,8 +40,7 @@ public class CartServiceImpl implements ICartService {
     private SkuFeignClient skuFeignService;
 
     @Override
-    public List<CartItemDTO> listCartItems() {
-        Long memberId = SecurityUtils.getMemberId();
+    public List<CartItemDTO> listCartItems(Long memberId) {
         if (memberId != null) {
             BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
             List<CartItemDTO> cartItems = cartHashOperations.values();

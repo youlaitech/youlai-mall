@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface ICartService {
 
-    List<CartItemDTO> listCartItems();
+    List<CartItemDTO> listCartItems(Long memberId);
 
     boolean deleteCart();
 

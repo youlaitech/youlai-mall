@@ -1,6 +1,7 @@
 package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.ICartService;
 import io.swagger.annotations.Api;
@@ -28,9 +29,8 @@ public class CartController {
     @ApiOperation(value = "查询购物车")
     @GetMapping
     public <T> Result<T> getCart() {
-        List<CartItemDTO> result = cartService.listCartItems();
+        List<CartItemDTO> result = cartService.listCartItems(SecurityUtils.getMemberId());
         return Result.success((T) result);
-
     }
 
     @ApiOperation(value = "删除购物车")
