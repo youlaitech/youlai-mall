@@ -6,6 +6,7 @@ import com.youlai.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.PatternMatchUtils;
 
 import java.util.Set;
 
@@ -20,13 +21,14 @@ import java.util.Set;
 public class PermissionService {
 
     private final RedisTemplate redisTemplate;
+
     public boolean hasPermission(String perm) {
 
         if (StrUtil.isBlank(perm)) {
             return false;
         }
 
-        if(SecurityUtils.isRoot()){
+        if (SecurityUtils.isRoot()) {
             return true;
         }
 
@@ -37,10 +39,6 @@ public class PermissionService {
         if (CollectionUtil.isEmpty(perms)) {
             return false;
         }
-
-        if (CollectionUtil.contains(perms, perm)) {
-            return true;
-        }
-        return false;
+        return perms.stream().anyMatch(item -> PatternMatchUtils.simpleMatch(perm, item));
     }
 }
