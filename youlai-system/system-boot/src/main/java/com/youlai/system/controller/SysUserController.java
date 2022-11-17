@@ -74,7 +74,7 @@ public class SysUserController {
 
     @ApiOperation(value = "修改用户")
     @PutMapping(value = "/{userId}")
-    @PreAuthorize("hasAuthority('sys:user:edit')")
+    @PreAuthorize("@pms.hasPermission('sys:user:edit')")
     public Result updateUser(
             @ApiParam("用户ID") @PathVariable Long userId,
             @RequestBody @Validated UserForm userForm) {
@@ -84,7 +84,7 @@ public class SysUserController {
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/{ids}")
-    @PreAuthorize("hasAuthority('sys:user:del')")
+    @PreAuthorize("@pms.hasPermission('sys:user:del')")
     public Result deleteUsers(
             @ApiParam("用户ID，多个以英文逗号(,)分割") @PathVariable String ids
     ) {

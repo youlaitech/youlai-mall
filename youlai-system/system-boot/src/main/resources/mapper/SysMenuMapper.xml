@@ -50,8 +50,8 @@
             DISTINCT t1.perm
         FROM
             sys_menu t1
-                INNER JOIN sys_role_menu t2
-                INNER JOIN sys_role t3
+                INNER JOIN sys_role_menu t2 ON t2.menu_id = t1.id
+                INNER JOIN sys_role t3 ON t2.role_id=t3.id
         WHERE
             t1.type = '${@com.youlai.system.enums.MenuTypeEnum@BUTTON.getValue()}'
             AND t1.perm IS NOT NULL
