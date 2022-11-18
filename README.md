@@ -70,11 +70,9 @@ youlai-mall
 └── end
 ```
 
-##  🛫 项目启动
+## 🥇 极速启动
 
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
-
-### 🥇 极速启动
 
 1. **启动Nacos**
 
@@ -94,7 +92,7 @@ youlai-mall
 
    - 访问接口文档地址测试: [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
-###  🥈 本地启动
+## 🥈 本地启动
 
 1. **中间件安装**
 
@@ -103,8 +101,7 @@ youlai-mall
    - 🔴 MySQL &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/vjoqc/)
    - 🔴 Redis &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/k2a20/)
    - ⚪ RabbitMQ &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/8znee/)
-   - ⚪ Seata &nbsp;&nbsp;[本地启动](https://www.youlai.tech/pages/0bzvi/) &nbsp; |
-     &nbsp;[Linux部署](https://www.youlai.tech/pages/4vjq5/)
+   - ⚪ Seata &nbsp;&nbsp;[本地启动](https://www.youlai.tech/pages/0bzvi/) &nbsp; |&nbsp;[Linux部署](https://www.youlai.tech/pages/4vjq5/)
    - ⚪ Sentinel &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
    - ⚪ Canal &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
 
