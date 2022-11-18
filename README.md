@@ -42,7 +42,7 @@
 | 官网地址   | https://www.youlai.tech                       | https://doc.youlai.tech                  |
 | 官方博客   | [博客园](https://www.cnblogs.com/haoxianrui/) | [CSDN](https://blog.csdn.net/u013737132) |
 
-## 💫源码
+## 💫源码地址
 
 | 项目       | Gitee                                                  | Github                                                   | GitCode |
 | ---------- | ------------------------------------------------------ | -------------------------------------------------------- | ------- |
@@ -50,7 +50,7 @@
 | 商城管理端 | [mall-admin](https://gitee.com/youlaiorg/mall-admin)   | [mall-admin](https://github.com/youlaitech/mall-admin)   | -       |
 | 移动应用端 | [mall-app](https://gitee.com/youlaiorg/mall-app)       | [mall-app](https://github.com/youlaitech/mall-app)       | -       |
 
-##  🗂 目录结构
+##  🗂目录结构
 
 ``` cassandra
 youlai-mall
@@ -174,7 +174,7 @@ youlai-mall
 
 ## 
 
-## 💹 趋势统计
+## 💹趋势统计
 
 
 
@@ -208,7 +208,7 @@ youlai-mall
 
 
 
-## 📰 开源协议
+## 📰开源协议
 
 Apache Licence 2.0 是著名的非盈利开源组织Apache采用的协议。该协议鼓励代码共享和尊重原作者的著作权，商用或二次开源须要满足的条件：
 
