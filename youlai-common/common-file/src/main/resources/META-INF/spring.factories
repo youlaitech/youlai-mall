@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.youlai.common.file.service.MinioService,\
-  com.youlai.common.file.controller.FileController
-
