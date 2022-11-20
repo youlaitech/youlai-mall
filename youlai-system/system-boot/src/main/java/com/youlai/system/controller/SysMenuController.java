@@ -31,9 +31,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SysMenuController {
-
     private final SysMenuService menuService;
-
     @ApiOperation(value = "资源(菜单+权限)列表")
     @GetMapping("/resources")
     public Result<List<ResourceVO>> listResources() {
@@ -109,7 +107,5 @@ public class SysMenuController {
         boolean result =menuService.updateMenuVisible(menuId, visible);
         return Result.judge(result);
     }
-
-
 }
 
