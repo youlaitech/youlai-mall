@@ -1,26 +1,22 @@
-package com.youlai.common.file.service;
+package com.youlai.common.file.service.impl;
 
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.common.util.ImgUtils;
+import com.youlai.common.file.service.FileService;
+import com.youlai.common.file.vo.FileInfo;
 import io.minio.*;
 import io.minio.http.Method;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
@@ -28,7 +24,7 @@ import java.time.LocalDateTime;
 @Component
 @ConfigurationProperties(prefix = "minio")
 @Slf4j
-public class MinioService implements InitializingBean {
+public class MinioServiceImpl implements FileService, InitializingBean {
 
     /**
      * MinIO的API地址
@@ -49,85 +45,37 @@ public class MinioService implements InitializingBean {
     private String secretKey;
 
     /**
+     * 存储桶名称
+     */
+    @Setter
+    private String bucketName;
+
+    /**
      * 自定义域名(非必须)
      */
     @Setter
     private String customDomain;
 
-    /**
-     * 默认存储桶
-     */
-    @Setter
-    private String defaultBucket;
-
-    /**
-     * 是否开启图片压缩(true:开启;false:关闭)
-     */
-    @Value("${minio.img_compression_enabled:false}")
-    private boolean imgCompressionEnabled;
 
     private MinioClient minioClient;
 
     @Override
     public void afterPropertiesSet() {
         log.info("MinIO Client init...");
-        Assert.notBlank(endpoint, "MinIO endpoint不能为空");
-        Assert.notBlank(accessKey, "MinIO accessKey不能为空");
-        Assert.notBlank(secretKey, "MinIO secretKey不能为空");
+        Assert.notBlank(endpoint, "MinIO endpoint can not be null");
+        Assert.notBlank(accessKey, "MinIO accessKey can not be null");
+        Assert.notBlank(secretKey, "MinIO secretKey can not be null");
+        Assert.notBlank(bucketName, "MinIO bucketName can not be null");
         this.minioClient = MinioClient.builder()
-                //.endpoint(endpoint, 443, true)
                 .endpoint(endpoint)
                 .credentials(accessKey, secretKey)
                 .build();
     }
 
-    /**
-     * 创建存储桶(存储桶不存在)
-     *
-     * @param bucketName
-     */
+
+    @Override
     @SneakyThrows
-    public void createBucketIfAbsent(String bucketName) {
-        BucketExistsArgs bucketExistsArgs = BucketExistsArgs.builder().bucket(bucketName).build();
-        if (!minioClient.bucketExists(bucketExistsArgs)) {
-            MakeBucketArgs makeBucketArgs = MakeBucketArgs.builder().bucket(bucketName).build();
-
-            minioClient.makeBucket(makeBucketArgs);
-
-            // 设置存储桶访问权限为PUBLIC， 如果不配置，则新建的存储桶默认是PRIVATE，则存储桶文件会拒绝访问 Access Denied
-            SetBucketPolicyArgs setBucketPolicyArgs = SetBucketPolicyArgs
-                    .builder()
-                    .bucket(bucketName)
-                    .config(publicBucketPolicy(bucketName))
-                    .build();
-            minioClient.setBucketPolicy(setBucketPolicyArgs);
-        }
-    }
-
-    /**
-     * 上传文件对象(默认存储桶)
-     *
-     * @param file MultipartFile文件对象
-     * @return
-     */
-    public String putObject(MultipartFile file) {
-        String fileUrl = putObject(file, defaultBucket);
-        return fileUrl;
-    }
-
-    /**
-     * 上传文件对象
-     *
-     * @param file       MultipartFile文件对象
-     * @param bucketName 存储桶名称
-     * @return 上传文件路径
-     */
-    @SneakyThrows
-    public String putObject(MultipartFile file, String bucketName) {
-        // 存储桶名称为空则使用默认的存储桶
-        if (StrUtil.isBlank(bucketName)) {
-            bucketName = defaultBucket;
-        }
+    public FileInfo uploadFile(MultipartFile file) {
         // 存储桶不存在则创建
         createBucketIfAbsent(bucketName);
 
@@ -136,23 +84,7 @@ public class MinioService implements InitializingBean {
         String uuid = IdUtil.simpleUUID();
         String fileName = DateUtil.format(LocalDateTime.now(), "yyyy/MM/dd") + "/" + uuid + "." + suffix;
 
-        // 是否开启压缩
-        InputStream inputStream;
-        if (ImgUtils.isImg(fileName) && imgCompressionEnabled) { // 图片格式的文件判断是否开启压缩
-            long fileSize = file.getSize();
-            log.info("图片({})压缩前大小：{}KB", uuid, fileSize / 1024);
-            float compressQuality = ImgUtils.getCompressQuality(fileSize);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(Convert.toInt(fileSize));
-            Thumbnails.of(file.getInputStream())
-                    .scale(1f) // 图片大小比例
-                    .outputQuality(compressQuality) // 图片质量压缩比
-                    .toOutputStream(outputStream);
-            inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-            log.info("图片({})压缩后大小：{}KB", uuid, inputStream.available() / 1024);
-        } else {
-            inputStream = file.getInputStream();
-        }
+        InputStream inputStream = file.getInputStream();
 
         // 文件上传
         PutObjectArgs putObjectArgs = PutObjectArgs.builder()
@@ -176,12 +108,24 @@ public class MinioService implements InitializingBean {
         } else { // 配置自定义文件路径域名
             fileUrl = customDomain + '/' + bucketName + "/" + fileName;
         }
-        return fileUrl;
+
+        FileInfo fileInfo=new FileInfo();
+        fileInfo.setName(fileName);
+        fileInfo.setUrl(fileUrl);
+        return fileInfo;
     }
 
-    public void removeObject(String bucket, String fileName) throws Exception {
-        RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder().bucket(bucket).object(fileName).build();
+
+
+    @Override
+    @SneakyThrows
+    public boolean deleteFile(String fileName) {
+        RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
+                .bucket(bucketName)
+                .object(fileName)
+                .build();
         minioClient.removeObject(removeObjectArgs);
+        return true;
     }
 
 
@@ -212,5 +156,27 @@ public class MinioService implements InitializingBean {
         return builder.toString();
     }
 
+    /**
+     * 创建存储桶(存储桶不存在)
+     *
+     * @param bucketName
+     */
+    @SneakyThrows
+    private void createBucketIfAbsent(String bucketName) {
+        BucketExistsArgs bucketExistsArgs = BucketExistsArgs.builder().bucket(bucketName).build();
+        if (!minioClient.bucketExists(bucketExistsArgs)) {
+            MakeBucketArgs makeBucketArgs = MakeBucketArgs.builder().bucket(bucketName).build();
+
+            minioClient.makeBucket(makeBucketArgs);
+
+            // 设置存储桶访问权限为PUBLIC， 如果不配置，则新建的存储桶默认是PRIVATE，则存储桶文件会拒绝访问 Access Denied
+            SetBucketPolicyArgs setBucketPolicyArgs = SetBucketPolicyArgs
+                    .builder()
+                    .bucket(bucketName)
+                    .config(publicBucketPolicy(bucketName))
+                    .build();
+            minioClient.setBucketPolicy(setBucketPolicyArgs);
+        }
+    }
 
 }

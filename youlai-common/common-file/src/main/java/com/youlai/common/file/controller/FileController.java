@@ -1,6 +1,7 @@
 package com.youlai.common.file.controller;
 
-import com.youlai.common.file.service.MinioService;
+import com.youlai.common.file.service.FileService;
+import com.youlai.common.file.vo.FileInfo;
 import com.youlai.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,29 +16,25 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/files")
 @RequiredArgsConstructor
 public class FileController {
-    private final MinioService minioService;
+    private final FileService fileService;
 
     @PostMapping
     @ApiOperation(value = "文件上传")
-    @SneakyThrows
-    public Result<String> uploadFile(
-            @ApiParam("文件") @RequestParam(value = "file") MultipartFile file,
-            @ApiParam("存储桶名称(没值默认存储桶)") @RequestParam(value = "bucketName", required = false) String bucketName
+    public Result<FileInfo> uploadFile(
+            @ApiParam("表单文件对象") @RequestParam(value = "file") MultipartFile file
     ) {
-        String path = minioService.putObject(file, bucketName);
-        return Result.success(path);
+        FileInfo fileInfo = fileService.uploadFile(file);
+        return Result.success(fileInfo);
     }
 
     @DeleteMapping
     @ApiOperation(value = "文件删除")
     @SneakyThrows
     public Result deleteFile(
-            @ApiParam("文件路径") @RequestParam String path) {
-        int lastIndex = path.lastIndexOf("/");
-        String bucket = path.substring(path.lastIndexOf("/", lastIndex - 1) + 1, lastIndex);
-        String fileName = path.substring(lastIndex + 1);
-        minioService.removeObject(bucket, fileName);
-        return Result.success();
+            @ApiParam("文件路径") @RequestParam String fileName
+    ) {
+        boolean result = fileService.deleteFile(fileName);
+        return Result.judge(result);
     }
 
 }
