@@ -177,7 +177,7 @@ youlai-mall
 
 [![Star History Chart](https://api.star-history.com/svg?repos=youlaitech/youlai-mall&type=Timeline)](https://star-history.com/#youlaitech/youlai-mall&Timeline)
 
-## 💻贡献者
+## 💻贡献者们
 
 
 
