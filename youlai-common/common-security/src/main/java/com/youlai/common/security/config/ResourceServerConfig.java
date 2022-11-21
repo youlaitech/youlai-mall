@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -21,7 +22,9 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,8 +37,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResourceServerConfig {
 
-    private final MyAuthenticationEntryPoint myAuthenticationEntryPoint;
-    private final MyAccessDeniedHandler myAccessDeniedHandler;
+    private final AccessDeniedHandler accessDeniedHandler;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     @Setter
     private List<String> ignoreUrls;
@@ -56,14 +59,13 @@ public class ResourceServerConfig {
                 .authorizeRequests()
                 .antMatchers(Convert.toStrArray(ignoreUrls)).permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(myAuthenticationEntryPoint)
-                .accessDeniedHandler(myAccessDeniedHandler)
         ;
         http.oauth2ResourceServer()
                 .jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                .and()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
         ;
         return http.build();
     }
