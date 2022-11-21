@@ -27,14 +27,14 @@ import java.util.Set;
 @RequestMapping("/app-api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
-
     private final IUmsMemberService memberService;
 
     @ApiOperation(value = "根据会员ID获取openid")
     @GetMapping("/{memberId}/openid")
     public Result<String> getMemberById(@ApiParam("会员ID") @PathVariable Long memberId) {
         UmsMember member = memberService.getOne(new LambdaQueryWrapper<UmsMember>()
-                .eq(UmsMember::getId, memberId).select(UmsMember::getOpenid));
+                .eq(UmsMember::getId, memberId)
+                .select(UmsMember::getOpenid));
         String openid = member.getOpenid();
         return Result.success(openid);
     }
