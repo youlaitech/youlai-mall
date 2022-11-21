@@ -31,9 +31,9 @@ public class FileController {
     @ApiOperation(value = "文件删除")
     @SneakyThrows
     public Result deleteFile(
-            @ApiParam("文件路径") @RequestParam String fileName
+            @ApiParam("文件路径") @RequestParam String filePath
     ) {
-        boolean result = fileService.deleteFile(fileName);
+        boolean result = fileService.deleteFile(filePath);
         return Result.judge(result);
     }
 

@@ -73,6 +73,12 @@ public class MinioServiceImpl implements FileService, InitializingBean {
     }
 
 
+    /**
+     * 上传文件
+     *
+     * @param file 表单文件对象
+     * @return
+     */
     @Override
     @SneakyThrows
     public FileInfo uploadFile(MultipartFile file) {
@@ -109,17 +115,26 @@ public class MinioServiceImpl implements FileService, InitializingBean {
             fileUrl = customDomain + '/' + bucketName + "/" + fileName;
         }
 
-        FileInfo fileInfo=new FileInfo();
+        FileInfo fileInfo = new FileInfo();
         fileInfo.setName(fileName);
         fileInfo.setUrl(fileUrl);
         return fileInfo;
     }
 
-
-
+    /**
+     * 删除文件
+     *
+     * @param filePath 文件路径
+     *                 https://oss.youlai.tech/default/2022/11/20/test.jpg
+     * @return
+     */
     @Override
     @SneakyThrows
-    public boolean deleteFile(String fileName) {
+    public boolean deleteFile(String filePath) {
+        Assert.notBlank(filePath, "删除文件路径不能为空");
+        String tempStr = "/" + bucketName + "/";
+        String fileName = filePath.substring(filePath.indexOf(tempStr) + tempStr.length()); // 2022/11/20/test.jpg
+
         RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
                 .bucket(bucketName)
                 .object(fileName)

@@ -23,7 +23,7 @@ public interface FileService {
     /**
      * 删除文件
      *
-     * @param filePath
+     * @param filePath 文件路径
      * @return
      */
     boolean deleteFile(String filePath);
