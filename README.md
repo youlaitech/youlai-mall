@@ -74,7 +74,7 @@ youlai-mall
 
 > `极速启动` 是方便快速启动查看效果的启动方式，其中的数据库和Redis等中间件使用的是有来提供的云环境，切勿修改数据，有时间条件建议`本地启动`。
 
-1. **启动Nacos**
+1. **启动 Nacos**
 
 
 - IDEA 打开命令行终端 Terminal，输入 `cd middleware/nacos/bin` 切换到 Nacos 的 bin 目录，执行 `startup -m standalone` 启动 Nacos 服务。
@@ -86,7 +86,7 @@ youlai-mall
 
    - `youlai-auth` 模块的启动类 AuthApplication 启动认证中心；
 
-   - `youlai-system`  → `system-boot` 模块的启动类 AdminApplication 启动系统服务；
+   - `youlai-system`  → `system-boot` 模块的启动类 SystemApplication 启动系统服务；
 
    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-system` 一致；
 
