@@ -78,7 +78,7 @@ CREATE TABLE `oauth_client_details`  (
 INSERT INTO `oauth_client_details` VALUES ('client', '', '{noop}123456', 'all', 'password,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
 INSERT INTO `oauth_client_details` VALUES ('mall-admin', '', '{noop}123456', 'all', 'password,refresh_token,captcha', NULL, '', 3600, 7200, NULL, 'true');
 INSERT INTO `oauth_client_details` VALUES ('mall-app', '', '{noop}123456', 'all', 'sms_code,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `oauth_client_details` VALUES ('mall-weapp', '', '{noop}123456', 'all', 'sms_code,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('mall-weapp', '', '{noop}123456', 'all', 'wechat,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
 
 -- ----------------------------
 -- Table structure for oauth_client_token
