@@ -30,12 +30,11 @@ import java.util.stream.Collectors;
 
 /**
  * 全局系统异常处理
+ * <p>
  * 调整异常处理的HTTP状态码，丰富异常处理类型
  *
- * @author hxrui
  * @author Gadfly
  * @date 2020-02-25 13:54
- * <p>
  **/
 @RestControllerAdvice
 @Slf4j
@@ -158,8 +157,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(SQLSyntaxErrorException.class)
     public <T> Result<T> processSQLSyntaxErrorException(SQLSyntaxErrorException e) {
-        log.error(e.getMessage(), e);
         String errorMsg = e.getMessage();
+        log.error(errorMsg);
         if (StrUtil.isNotBlank(errorMsg) && errorMsg.contains("denied to user")) {
             return Result.failed("数据库用户无操作权限，建议本地搭建数据库环境");
         } else {
@@ -186,7 +185,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ApiException.class)
     public <T> Result<T> handleBizException(ApiException e) {
-        log.error("业务异常，异常原因：{}", e.getMessage(), e);
+        log.error("API异常:{}", e.getMessage(), e);
         if (e.getResultCode() != null) {
             return Result.failed(e.getResultCode());
         }
@@ -196,7 +195,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public <T> Result<T> handleException(Exception e) {
-        return Result.failed(e.getLocalizedMessage());
+        log.error("未知异常:{}", e.getMessage());
+        return Result.failed(e.getMessage());
     }
 
     /**
