@@ -95,24 +95,6 @@
             <version>1.9.5</version>
         </dependency>
 
-
-        <!-- 分布式事务 -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.seata</groupId>
-                    <artifactId>seata-spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-            <version>${seata.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>oms-api</artifactId>
@@ -147,6 +129,11 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-seata</artifactId>
         </dependency>
 
     </dependencies>

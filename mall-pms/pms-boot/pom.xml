@@ -50,11 +50,6 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-        </dependency>
-
         <!-- 商品feign客户端 -->
         <dependency>
             <groupId>com.youlai</groupId>
@@ -90,6 +85,11 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-seata</artifactId>
         </dependency>
 
     </dependencies>
