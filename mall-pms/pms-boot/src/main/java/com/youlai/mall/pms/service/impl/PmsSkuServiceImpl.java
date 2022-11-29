@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.web.exception.ApiException;
-import com.youlai.mall.pms.common.constant.PmsConstants;
+import com.youlai.mall.pms.constant.PmsConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;

@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.common.enums;
+package com.youlai.mall.pms.enums;
 
 import lombok.Getter;
 

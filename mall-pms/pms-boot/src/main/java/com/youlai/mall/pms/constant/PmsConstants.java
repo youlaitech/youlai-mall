@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.common.constant;
+package com.youlai.mall.pms.constant;
 
 /**
  * 商品模块常量

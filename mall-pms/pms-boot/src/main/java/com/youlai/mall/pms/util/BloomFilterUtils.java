@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.utils;
+package com.youlai.mall.pms.util;
 
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Hashing;
