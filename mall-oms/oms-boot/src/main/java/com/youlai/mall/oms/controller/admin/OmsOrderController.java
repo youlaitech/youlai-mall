@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
+import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.oms.pojo.dto.OrderDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
@@ -24,7 +25,7 @@ import java.util.Optional;
 /**
  * @author huawei
  * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @date 2020/12/30
  */
 @Api(tags = "「管理端」订单管理")
 @RestController
@@ -62,11 +63,11 @@ public class OmsOrderController {
         return Result.success(orderDTO);
     }
 
-    @ApiOperation(value = "修改订单状态", notes = "实验室模拟接口", hidden = true)
-    @PutMapping("/{orderId}/status")
-    public Result updateOrderStatus(@PathVariable Long orderId, @RequestParam Integer status,@RequestParam Boolean orderEx) {
-        boolean result = orderService.updateOrderStatus(orderId, status,orderEx);
-        return Result.judge(result);
+    @ApiOperation(value = "「实验室」创建订单", notes = "实验室模拟接口", hidden = true)
+    @PostMapping
+    public Result<String> createOrder(@RequestBody SeataOrderDTO orderDTO, @RequestParam Boolean openEx) {
+        String orderSn = orderService.createOrder(orderDTO, openEx);
+        return Result.success(orderSn);
     }
 
     @ApiOperation(value = "获取订单信息", notes = "实验室模拟接口", hidden = true)

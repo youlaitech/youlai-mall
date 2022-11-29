@@ -1,46 +1,56 @@
 package com.youlai.mall.oms.enums;
 
-import lombok.AllArgsConstructor;
+import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
 
 /**
- * @author huawei
- * @desc
- * @email huawei_code@163.com
- * @date 2021/1/16
+ * 订单状态枚举
+ *
+ * @author haoxr
+ * @date 2022/11/28
  */
-@AllArgsConstructor
-public enum OrderStatusEnum {
+public enum OrderStatusEnum implements IBaseEnum<Integer> {
 
-    PENDING_PAYMENT(101, "待支付"),
-    USER_CANCEL(102, "用户取消"),
-    AUTO_CANCEL(103, "系统自动取消"),
+    /**
+     * 1. 订单创建阶段
+     */
+    PENDING_PAYMENT(10, "待支付"),
+    USER_CANCEL(11, "用户取消"),
+    AUTO_CANCEL(12, "系统自动取消"),
 
-    PAYED(201, "已支付"),
-    APPLY_REFUND(202, "申请退款"),
-    REFUNDED(203, "已退款"),
+    /**
+     * 2. 订单付款阶段
+     */
+    PAYED(20, "已支付"),
+    APPLY_REFUND(21, "申请退款"),
+    REFUNDED(22, "已退款"),
 
-    DELIVERED(301, "已发货"),
+    /**
+     * 订单发货阶段
+     */
+    DELIVERED(30, "已发货"),
 
-    USER_RECEIVE(401, "用户收货"),
-    AUTO_RECEIVE(402, "系统自动收货"),
+    /**
+     * 订单收货阶段
+     */
+    USER_RECEIVE(40, "用户收货"),
+    AUTO_RECEIVE(41, "系统自动收货"),
 
-    FINISHED(901, "已完成");
-
-    @Getter
-    private Integer code;
-
-    @Getter
-    private String text;
+    /**
+     * 订单完结
+     */
+    COMPLETED(99, "已完成");
 
 
-    public static OrderStatusEnum getValue(Integer code) {
-        for (OrderStatusEnum value : values()) {
-            if (value.getCode().equals(code)) {
-                return value;
-            }
-        }
-        return null;
+    OrderStatusEnum(int value, String label) {
+        this.value = value;
+        this.label = label;
     }
+
+    @Getter
+    private Integer value;
+
+    @Getter
+    private String label;
 
 }

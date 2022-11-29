@@ -24,5 +24,6 @@
         <module>common-sms</module>
         <module>common-file</module>
         <module>common-security</module>
+        <module>common-seata</module>
     </modules>
 </project>

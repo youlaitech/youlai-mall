@@ -2,8 +2,8 @@ package com.youlai.laboratory.seata.controller;
 
 import com.youlai.common.result.Result;
 import com.youlai.laboratory.seata.pojo.form.SeataForm;
-import com.youlai.laboratory.seata.pojo.vo.SeataDataVO;
-import com.youlai.laboratory.seata.service.ISeataService;
+import com.youlai.laboratory.seata.pojo.vo.SeataVO;
+import com.youlai.laboratory.seata.service.SeataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -22,26 +22,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class SeataController {
 
-    private final ISeataService seataService;
-
-    @ApiOperation("订单支付")
-    @PostMapping("/order/_pay")
-    public Result payOrder(@RequestBody SeataForm seataForm) {
-
-        boolean openTx = seataForm.isOpenTx();
-        boolean result;
-        if (openTx) {
-            result = seataService.payOrderWithGlobalTx(seataForm);
-        } else {
-            result = seataService.payOrder(seataForm);
-        }
-        return Result.success(result);
-    }
+    private final SeataService seataService;
 
     @ApiOperation("获取模拟数据")
     @GetMapping("/data")
     public Result getData() {
-        SeataDataVO result = seataService.getData();
+        SeataVO result = seataService.getData();
         return Result.success(result);
     }
 
@@ -52,4 +38,19 @@ public class SeataController {
         return Result.success(result);
     }
 
+    @ApiOperation("购买商品")
+    @PostMapping("/purchaseGoods")
+    public Result purchaseGoods(@RequestBody SeataForm seataForm) {
+        boolean openTx = seataForm.isOpenTx();
+
+        String orderSn = null;
+        if (openTx) {
+            // 开启全局事务
+            orderSn = seataService.purchaseGoodsWithGlobalTx(seataForm);
+        } else {
+            orderSn = seataService.purchaseGoods(seataForm);
+        }
+
+        return Result.success(orderSn);
+    }
 }

@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 会员Feign客户端
+ *
+ * @author haoxr
+ * @date 2022/11/29
+ */
 @FeignClient(name = "mall-ums", contextId = "member")
 public interface MemberFeignClient {
 
@@ -61,7 +67,6 @@ public interface MemberFeignClient {
     @GetMapping("/app-api/v1/members/mobile/{mobile}")
     Result<MemberAuthDTO> loadUserByMobile(@PathVariable String mobile);
 
-
     /**
      * 获取会员地址列表
      *
@@ -70,16 +75,6 @@ public interface MemberFeignClient {
      */
     @GetMapping("/app-api/v1/members/{memberId}/addresses")
     Result<List<MemberAddressDTO>> listMemberAddresses(@PathVariable Long memberId);
-
-    /**
-     * 「实验室」修改会员余额
-     *
-     * @param memberId
-     * @param balance  余额(单位:分)
-     * @return
-     */
-    @PutMapping("/api/v1/members/{memberId}/balance")
-    Result updateBalance(@PathVariable Long memberId, @RequestParam Integer balance);
 
     /**
      * 「实验室」扣减会员余额

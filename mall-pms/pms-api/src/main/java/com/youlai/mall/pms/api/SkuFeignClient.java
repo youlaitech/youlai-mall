@@ -58,10 +58,10 @@ public interface SkuFeignClient {
      * 「实验室」扣减商品库存
      *
      * @param skuId
-     * @param num   扣减数量
+     * @param count   扣减数量
      * @return
      */
     @PutMapping("/api/v1/sku/{skuId}/stock/_deduct")
-    Result deductStock(@PathVariable Long skuId, @RequestParam Integer num);
+    Result deductStock(@PathVariable Long skuId, @RequestParam Integer count);
 
 }

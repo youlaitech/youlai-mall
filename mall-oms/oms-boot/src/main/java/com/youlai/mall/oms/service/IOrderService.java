@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
+import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
@@ -36,7 +37,7 @@ public interface IOrderService extends IService<OmsOrder> {
     /**
      * 订单提交
      */
-    OrderSubmitVO submitOrder(OrderSubmitForm orderSubmitForm) ;
+    OrderSubmitVO submitOrder(OrderSubmitForm orderSubmitForm);
 
     /**
      * 订单支付
@@ -84,18 +85,22 @@ public interface IOrderService extends IService<OmsOrder> {
      */
     IPage<OmsOrder> listOrderPages(OrderPageQuery queryParams);
 
-    /**
-     * 修改订单状态
-     *
-     * @param orderId 订单ID
-     * @param status 订单状态
-     * @param orderEx 订单是否异常
-     * @return
-     */
-    boolean updateOrderStatus(Long orderId, Integer status,Boolean orderEx);
 
     /**
-     * 获取订单信息
+     * 「实验室」创建订单
+     * <p>
+     * 非商城业务
+     *
+     * @param orderDTO
+     * @param openEx
+     * @return
+     */
+    String createOrder(SeataOrderDTO orderDTO, Boolean openEx);
+
+    /**
+     * 「实验室」获取订单信息
+     * <p>
+     * 非商城业务
      *
      * @param orderId
      * @return

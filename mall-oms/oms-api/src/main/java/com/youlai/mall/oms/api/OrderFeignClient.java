@@ -2,11 +2,9 @@ package com.youlai.mall.oms.api;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
+import com.youlai.mall.oms.dto.SeataOrderDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 订单Feign客户端
@@ -38,4 +36,13 @@ public interface OrderFeignClient {
     @GetMapping("/api/v1/orders/{orderId}/info")
     Result<OrderInfoDTO> getOrderInfo(@PathVariable Long orderId);
 
+    /**
+     * 「实验室」创建订单
+     *
+     * @param orderDTO
+     * @param openEx 是否出现异常
+     * @return
+     */
+    @PostMapping("/api/v1/orders")
+    Result<String> createOrder(SeataOrderDTO orderDTO, boolean openEx);
 }

@@ -11,17 +11,17 @@ import lombok.Getter;
  */
 
 @AllArgsConstructor
-public enum OrderTypeEnum  {
+public enum OrderSourceTypeEnum {
 
-    WEB(0), // PC订单
+    PC(0), // PC订单
     APP(1), // APP订单
     ;
 
     @Getter
     private Integer code;
 
-    public static OrderTypeEnum getValue(Integer code){
-        for (OrderTypeEnum value : values()) {
+    public static OrderSourceTypeEnum getValue(Integer code){
+        for (OrderSourceTypeEnum value : values()) {
             if (value.getCode().equals(code)) {
                 return value;
             }

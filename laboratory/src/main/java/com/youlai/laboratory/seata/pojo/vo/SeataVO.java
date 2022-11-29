@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @ApiModel("Seata模拟数据视图对象")
 @Data
-public class SeataDataVO {
+public class SeataVO {
 
     @ApiModelProperty("商品库存信息")
     private StockInfo stockInfo;

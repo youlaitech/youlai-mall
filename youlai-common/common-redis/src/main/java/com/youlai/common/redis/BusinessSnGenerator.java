@@ -1,7 +1,6 @@
 package com.youlai.common.redis;
 
 import com.youlai.common.constant.RedisConstants;
-import com.youlai.common.enums.BusinessTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,26 +13,24 @@ import java.time.format.DateTimeFormatter;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class BusinessNoGenerator {
+public class BusinessSnGenerator {
 
     private final RedisTemplate redisTemplate;
 
     /**
-     * @param businessType 业务类型枚举
      * @param digit        业务序号位数
      * @return
      */
-    public String generate(BusinessTypeEnum businessType, Integer digit) {
+    public String generateSerialNo(Integer digit) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
-        String key = RedisConstants.BUSINESS_NO_PREFIX + businessType.getValue() + ":" + date;
+        String key = RedisConstants.BUSINESS_NO_PREFIX +":" + date;
         Long increment = redisTemplate.opsForValue().increment(key);
-        return date + businessType.getValue() + String.format("%0" + digit + "d", increment);
+        return date + String.format("%0" + digit + "d", increment);
     }
 
-    public String generate(BusinessTypeEnum businessType) {
-        Integer defaultDigit = 6;
-        return generate(businessType, defaultDigit);
+    public String generateSerialNo(){
+       return this.generateSerialNo(6);
     }
 
 }
