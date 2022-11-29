@@ -37,49 +37,6 @@ public class SeataServiceImpl implements SeataService {
     private static Long orderId = 1l; // 订单ID
 
     /**
-     * 模拟订单支付
-     *
-     * @return
-     */
-    @Override
-    public boolean payOrder(SeataForm seataForm) {
-
-        log.info("========扣减商品库存========");
-        skuFeignClient.deductStock(skuId, 1); // 扣减库存
-
-        log.info("========扣减账户余额========");
-        memberFeignClient.deductBalance(memberId, 1000 * 100l); // 扣款1000
-
-        log.info("========修改订单状态========");
-        orderFeignClient.updateOrderStatus(orderId, 201, seataForm.isOrderEx()); // 已支付
-
-        return true;
-    }
-
-    /**
-     * 模拟订单支付(分布式事务)
-     *
-     * @param seataForm
-     * @return
-     */
-    @Override
-    @GlobalTransactional
-    public boolean payOrderWithGlobalTx(SeataForm seataForm) {
-        log.info("========扣减商品库存(Seata)========");
-        skuFeignClient.deductStock(skuId, 1); // 扣减库存
-
-        log.info("========修改订单状态(Seata)========");
-        orderFeignClient.createOrder(orderId, 201, seataForm.isOrderEx()); // 已支付
-
-        log.info("========修改订单状态(Seata)========");
-        orderFeignClient.updateOrderStatus(orderId, 201, seataForm.isOrderEx()); // 已支付
-
-        log.info("========扣减账户余额(Seata)========");
-        memberFeignClient.deductBalance(memberId, 1000 * 100l); // 扣款1000
-        return true;
-    }
-
-    /**
      * 获取模拟数据
      *
      * @return
@@ -115,7 +72,6 @@ public class SeataServiceImpl implements SeataService {
     @Override
     public boolean resetData() {
         skuFeignClient.updateStock(skuId, 999); // 还原库存
-        memberFeignClient.updateBalance(memberId, 10000000 * 100); // 还原余额
         orderFeignClient.updateOrderStatus(orderId, 101, false); // 待支付
         return true;
 

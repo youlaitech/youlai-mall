@@ -44,5 +44,5 @@ public interface OrderFeignClient {
      * @return
      */
     @PostMapping("/api/v1/orders")
-    Result<String> createOrder(SeataOrderDTO orderDTO, boolean openEx);
+    Result<String> createOrder(@RequestBody SeataOrderDTO orderDTO, @RequestParam boolean openEx);
 }
