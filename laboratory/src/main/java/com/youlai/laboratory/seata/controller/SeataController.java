@@ -27,8 +27,8 @@ public class SeataController {
 
     @ApiOperation("获取模拟数据")
     @GetMapping("/data")
-    public Result getData() {
-        SeataVO result = seataService.getData();
+    public Result getData(String orderSn) {
+        SeataVO result = seataService.getData(orderSn);
         return Result.success(result);
     }
 
