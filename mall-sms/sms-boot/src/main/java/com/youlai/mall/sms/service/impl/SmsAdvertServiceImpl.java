@@ -55,7 +55,7 @@ public class SmsAdvertServiceImpl extends ServiceImpl<SmsAdvertMapper, SmsAdvert
 
         List<SmsAdvert> entities = this.list(new LambdaQueryWrapper<SmsAdvert>().
                 eq(SmsAdvert::getStatus, StatusEnum.ENABLE.getValue())
-                .select(SmsAdvert::getTitle)
+                .select(SmsAdvert::getTitle, SmsAdvert::getPicUrl, SmsAdvert::getRedirectUrl)
         );
         List<AdBannerVO> list = advertConverter.entity2BannerVo(entities);
         return list;
