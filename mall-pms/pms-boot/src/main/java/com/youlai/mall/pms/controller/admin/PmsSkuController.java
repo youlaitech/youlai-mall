@@ -1,5 +1,6 @@
 package com.youlai.mall.pms.controller.admin;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.service.IPmsSkuService;
@@ -39,24 +40,26 @@ public class PmsSkuController {
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改库存数量", notes = "实验室模拟", hidden = true)
-    @PutMapping(value = "/{skuId}/stock_num")
-    public Result updateStockNum(
-            @PathVariable Long skuId,
-            @RequestParam Integer stockNum
-    ) {
-        boolean result = skuService.updateStockNum(skuId, stockNum);
-        return Result.judge(result);
-    }
-
-    @ApiOperation(value = "扣减库存数量", notes = "实验室模拟", hidden = true)
+    @ApiOperation(value = "「实验室」扣减库存数量", hidden = true)
     @PutMapping(value = "/{skuId}/stock/_deduct")
     public Result deductStock(
             @PathVariable Long skuId,
-            @RequestParam Integer num
+            @RequestParam Integer count
 
     ) {
-        boolean result = skuService.deductStock(skuId, num);
+        boolean result = skuService.deductStock(skuId, count);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "「实验室」重置库存数量", hidden = true)
+    @PutMapping(value = "/{skuId}/stock/_reset")
+    public Result resetStock(
+            @PathVariable Long skuId
+    ) {
+        boolean result = skuService.update(new LambdaUpdateWrapper<PmsSku>()
+                .eq(PmsSku::getId,skuId)
+                .set(PmsSku::getStockNum,999)
+        );
         return Result.judge(result);
     }
 

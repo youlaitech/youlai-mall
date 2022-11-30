@@ -3,7 +3,7 @@ package com.youlai.laboratory.seata.pojo.form;
 import lombok.Data;
 
 /**
- *
+ * Seata 表单数据
  *
  * @author haoxr
  * @date 2022/4/21 23:16

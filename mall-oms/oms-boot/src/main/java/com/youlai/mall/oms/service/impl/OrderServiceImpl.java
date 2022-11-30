@@ -25,7 +25,6 @@ import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.ApiException;
 import com.youlai.mall.oms.config.WxPayProperties;
-import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.OrderSourceTypeEnum;
@@ -243,7 +242,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                     result = (T) wxJsapiPay(appId, order);
                     break;
                 default:
-                    result = (T) balancePay(order);
+                    result = (T)balancePay(order);
                     break;
             }
             // 扣减库存
@@ -267,8 +266,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     private Boolean balancePay(OmsOrder order) {
         // 扣减余额
-        Long payAmount = order.getPayAmount();
-        Result<?> deductBalanceResult = memberFeignClient.deductBalance(payAmount);
+        Long memberId = SecurityUtils.getMemberId();
+        Long amount = order.getPayAmount();
+        Result<?> deductBalanceResult = memberFeignClient.deductBalance(memberId,amount);
         Assert.isTrue(Result.isSuccess(deductBalanceResult), "扣减账户余额失败");
 
         // 更新订单状态
@@ -279,7 +279,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 支付成功删除购物车已勾选的商品
         cartService.removeCheckedItem();
 
-        return Boolean.TRUE;
+        return true;
     }
 
 
@@ -337,7 +337,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 throw new ApiException("微信关单异常");
             }
         }
-        order.setStatus(OrderStatusEnum.AUTO_CANCEL.getValue());
+        order.setStatus(OrderStatusEnum.SYSTEM_CANCEL.getValue());
         return this.updateById(order);
     }
 
@@ -378,7 +378,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     public boolean deleteOrder(Long id) {
         log.info("=======================订单删除，订单ID：{}=======================", id);
         OmsOrder order = this.getById(id);
-        if (order != null && !OrderStatusEnum.AUTO_CANCEL.getValue().equals(order.getStatus())
+        if (order != null && !OrderStatusEnum.SYSTEM_CANCEL.getValue().equals(order.getStatus())
                 && !OrderStatusEnum.USER_CANCEL.getValue().equals(order.getStatus())) {
             throw new ApiException("订单删除失败，订单不存在或订单状态不支持删除");
         }
@@ -535,27 +535,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             int i = 1 / 0;
         }
         return orderSn;
-    }
-
-    /**
-     * 「实验室」获取订单信息
-     * <p>
-     * 非商城业务
-     *
-     * @param orderId
-     * @return
-     */
-    @Override
-    public OrderInfoDTO getOrderInfo(Long orderId) {
-
-        OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
-
-        OmsOrder omsOrder = this.getById(orderId);
-        if (omsOrder != null) {
-            BeanUtil.copyProperties(omsOrder, orderInfoDTO);
-        }
-
-        return orderInfoDTO;
     }
 
 }

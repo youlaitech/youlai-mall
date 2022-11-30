@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.oms.pojo.dto.OrderDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
@@ -64,20 +63,34 @@ public class OmsOrderController {
         return Result.success(orderDTO);
     }
 
-    @ApiOperation(value = "「实验室」创建订单", notes = "实验室模拟接口", hidden = true)
+    @ApiOperation(value = "「实验室」获取订单信息", hidden = true)
+    @GetMapping("/orderSn/{orderSn}")
+    public Result<OmsOrder> getOrderInfo(
+            @ApiParam("订单ID") @PathVariable String orderSn
+    ) {
+        OmsOrder orderInfo = orderService.getOne(new LambdaQueryWrapper<OmsOrder>()
+                .eq(OmsOrder::getOrderSn, orderSn)
+                .select(OmsOrder::getOrderSn, OmsOrder::getStatus)
+                .last("limit 1")
+        );
+        return Result.success(orderInfo);
+    }
+
+    @ApiOperation(value = "「实验室」创建订单", hidden = true)
     @PostMapping
     public Result<String> createOrder(@RequestBody SeataOrderDTO orderDTO, @RequestParam Boolean openEx) {
         String orderSn = orderService.createOrder(orderDTO, openEx);
         return Result.success(orderSn);
     }
 
-    @ApiOperation(value = "获取订单信息", notes = "实验室模拟接口", hidden = true)
-    @GetMapping("/{orderId}/info")
-    public Result<OrderInfoDTO> getOrderInfo(
-            @ApiParam("订单ID") @PathVariable Long orderId
-    ) {
-        OrderInfoDTO orderInfo = orderService.getOrderInfo(orderId);
-        return Result.success(orderInfo);
+    @ApiOperation(value = "「实验室」删除订单", hidden = true)
+    @DeleteMapping("/orderSn/{orderSn}")
+    public Result deleteOrder(@PathVariable String orderSn) {
+        boolean result = orderService.remove(new LambdaQueryWrapper<OmsOrder>()
+                .eq(OmsOrder::getOrderSn, orderSn)
+        );
+        return Result.judge(result);
     }
+
 
 }

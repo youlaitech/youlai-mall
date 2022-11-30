@@ -15,26 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(value = "mall-oms", contextId = "order")
 public interface OrderFeignClient {
 
-
-    /**
-     * 「实验室」订单状态修改
-     *
-     * @param orderId 订单ID
-     * @param status  订单状态
-     * @param orderEx 订单异常
-     * @return
-     */
-    @PutMapping("/api/v1/orders/{orderId}/status")
-    Result updateOrderStatus(@PathVariable Long orderId, @RequestParam Integer status, @RequestParam Boolean orderEx);
-
     /**
      * 「实验室」获取订单信息
      *
-     * @param orderId
+     * @param orderSn
      * @return
      */
-    @GetMapping("/api/v1/orders/{orderId}/info")
-    Result<OrderInfoDTO> getOrderInfo(@PathVariable Long orderId);
+    @GetMapping("/api/v1/orders/orderSn/{orderSn}")
+    Result<OrderInfoDTO> getOrderInfo(@PathVariable String orderSn);
 
     /**
      * 「实验室」创建订单
@@ -45,4 +33,12 @@ public interface OrderFeignClient {
      */
     @PostMapping("/api/v1/orders")
     Result<String> createOrder(@RequestBody SeataOrderDTO orderDTO, @RequestParam boolean openEx);
+
+
+    /**
+     * 「实验室」删除订单
+     */
+    @DeleteMapping("/api/v1/orders/orderSn/{orderSn}")
+    Result deleteOrder(@PathVariable String orderSn);
+
 }

@@ -1,6 +1,7 @@
 package com.youlai.laboratory.seata.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.youlai.common.result.Result;
 import com.youlai.laboratory.seata.pojo.form.SeataForm;
 import com.youlai.laboratory.seata.pojo.vo.SeataVO;
@@ -34,7 +35,6 @@ public class SeataServiceImpl implements SeataService {
 
     private static Long skuId = 1l; // SkuID
     private static Long memberId = 1l; // 会员ID
-    private static Long orderId = 1l; // 订单ID
 
     /**
      * 获取模拟数据
@@ -42,7 +42,7 @@ public class SeataServiceImpl implements SeataService {
      * @return
      */
     @Override
-    public SeataVO getData() {
+    public SeataVO getData(String orderSn) {
         SeataVO seataVO = new SeataVO();
 
         SkuInfoDTO skuInfoDTO = skuFeignClient.getSkuInfo(skuId).getData();
@@ -56,9 +56,11 @@ public class SeataServiceImpl implements SeataService {
         BeanUtil.copyProperties(memberInfoDTO, accountInfo);
         seataVO.setAccountInfo(accountInfo);
 
-        OrderInfoDTO orderInfoDTO = orderFeignClient.getOrderInfo(orderId).getData();
         SeataVO.OrderInfo orderInfo = new SeataVO.OrderInfo();
-        BeanUtil.copyProperties(orderInfoDTO, orderInfo);
+        if(StrUtil.isNotBlank(orderSn)){
+            OrderInfoDTO orderInfoDTO = orderFeignClient.getOrderInfo(orderSn).getData();
+            BeanUtil.copyProperties(orderInfoDTO, orderInfo);
+        }
         seataVO.setOrderInfo(orderInfo);
 
         return seataVO;
@@ -70,9 +72,12 @@ public class SeataServiceImpl implements SeataService {
      * @return
      */
     @Override
-    public boolean resetData() {
-        skuFeignClient.updateStock(skuId, 999); // 还原库存
-        orderFeignClient.updateOrderStatus(orderId, 101, false); // 待支付
+    public boolean resetData(String orderSn) {
+        skuFeignClient.resetStock(skuId); // 还原库存
+        memberFeignClient.resetBalance(memberId); // 还原余额
+        if (StrUtil.isNotBlank(orderSn)) {
+            orderFeignClient.deleteOrder(orderSn); // 删除订单
+        }
         return true;
 
     }

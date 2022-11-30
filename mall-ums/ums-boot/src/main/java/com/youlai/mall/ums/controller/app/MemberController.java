@@ -54,11 +54,10 @@ public class MemberController {
     }
 
     @ApiOperation(value = "扣减会员余额")
-    @PutMapping("/current/balances/_deduct")
-    public <T> Result<T> deductBalance(@RequestParam Long balances) {
-        Long memberId = SecurityUtils.getMemberId();
+    @PutMapping("/{memberId}/balances/_deduct")
+    public <T> Result<T> deductBalance(@PathVariable Long memberId, @RequestParam Long amount) {
         boolean result = memberService.update(new LambdaUpdateWrapper<UmsMember>()
-                .setSql("balance = balance - " + balances)
+                .setSql("balance = balance - " + amount)
                 .eq(UmsMember::getId, memberId));
         return Result.judge(result);
     }
@@ -74,13 +73,10 @@ public class MemberController {
     @ApiOperation(value = "获取浏览历史")
     @GetMapping("/view/history")
     public Result<Set<ProductHistoryVO>> getProductViewHistory() {
-        try {
-            Long memberId = SecurityUtils.getMemberId();
-            Set<ProductHistoryVO> historyList = memberService.getProductViewHistory(memberId);
-            return Result.success(historyList);
-        } catch (Exception e) {
-            return Result.success(Collections.emptySet());
-        }
+        Long memberId = SecurityUtils.getMemberId();
+        Set<ProductHistoryVO> historyList = memberService.getProductViewHistory(memberId);
+        return Result.success(historyList);
+
     }
 
     @ApiOperation(value = "根据 openid 获取会员认证信息")
@@ -100,7 +96,9 @@ public class MemberController {
      * @return
      */
     @GetMapping("/mobile/{mobile}")
-    public Result<MemberAuthDTO> getMemberByMobile(@ApiParam("手机号码") @PathVariable String mobile) {
+    public Result<MemberAuthDTO> getMemberByMobile(
+            @ApiParam("手机号码") @PathVariable String mobile
+    ) {
         MemberAuthDTO memberAuthInfo = memberService.getMemberByMobile(mobile);
         if (memberAuthInfo == null) {
             return Result.failed(ResultCode.USER_NOT_EXIST);
@@ -115,6 +113,16 @@ public class MemberController {
     ) {
         List<MemberAddressDTO> addresses = memberService.listMemberAddress(memberId);
         return Result.success(addresses);
+    }
+
+    @ApiOperation(value = "「实验室」重置会员余额", hidden = true)
+    @PutMapping("/{memberId}/balances/_reset")
+    public Result resetBalance(@PathVariable Long memberId) {
+        boolean result = memberService.update(
+                new LambdaUpdateWrapper<UmsMember>()
+                        .eq(UmsMember::getId, memberId)
+                        .set(UmsMember::getBalance, 10000000l));
+        return Result.judge(result);
     }
 
 }

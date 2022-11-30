@@ -14,14 +14,14 @@ public interface SeataService {
      *
      * @return
      */
-    SeataVO getData();
+    SeataVO getData(String orderSn);
 
     /**
      * 重置模拟数据
      *
      * @return
      */
-    boolean resetData();
+    boolean resetData(String orderSn);
 
     /**
      * 购买商品

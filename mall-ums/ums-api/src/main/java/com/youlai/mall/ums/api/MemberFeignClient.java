@@ -40,8 +40,8 @@ public interface MemberFeignClient {
     /**
      * 扣减会员余额
      */
-    @PutMapping("/app-api/v1/members/current/balances/_deduct")
-    <T> Result<T> deductBalance(@RequestParam Long balances);
+    @PutMapping("/app-api/v1/members/{memberId}/balances/_deduct")
+    <T> Result<T> deductBalance(@PathVariable Long memberId, @RequestParam Long amount);
 
     /**
      * 添加浏览记录
@@ -77,14 +77,13 @@ public interface MemberFeignClient {
     Result<List<MemberAddressDTO>> listMemberAddresses(@PathVariable Long memberId);
 
     /**
-     * 「实验室」扣减会员余额
+     * 「实验室」重置会员余额
      *
      * @param memberId
-     * @param amount   扣减金额(单位:分)
      * @return
      */
-    @PutMapping("/api/v1/members/{memberId}/balance/_deduct")
-    Result deductBalance(@PathVariable Long memberId, @RequestParam Long amount);
+    @PutMapping("/api/v1/members/{memberId}/balance/_reset")
+    Result resetBalance(@PathVariable Long memberId);
 
     /**
      * 「实验室」获取会员信息

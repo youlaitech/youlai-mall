@@ -14,27 +14,27 @@ public enum OrderStatusEnum implements IBaseEnum<Integer> {
     /**
      * 1. 订单创建阶段
      */
-    PENDING_PAYMENT(10, "待支付"),
-    USER_CANCEL(11, "用户取消"),
-    AUTO_CANCEL(12, "系统自动取消"),
+    PENDING_PAYMENT(1, "待支付"),
+    USER_CANCEL(2, "用户取消"),
+    SYSTEM_CANCEL(3, "系统自动取消"),
 
     /**
      * 2. 订单付款阶段
      */
-    PAYED(20, "已支付"),
-    APPLY_REFUND(21, "申请退款"),
-    REFUNDED(22, "已退款"),
+    PAYED(10, "已支付"),
+    APPLY_REFUND(11, "申请退款"),
+    REFUNDED(12, "已退款"),
 
     /**
      * 订单发货阶段
      */
-    DELIVERED(30, "已发货"),
+    DELIVERED(20, "已发货"),
 
     /**
      * 订单收货阶段
      */
-    USER_RECEIVE(40, "用户收货"),
-    AUTO_RECEIVE(41, "系统自动收货"),
+    USER_RECEIVE(30, "用户收货"),
+    AUTO_RECEIVE(31, "系统自动收货"),
 
     /**
      * 订单完结
