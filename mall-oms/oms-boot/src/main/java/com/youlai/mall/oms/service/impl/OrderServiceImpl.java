@@ -183,7 +183,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
             // 创建订单
             order = new OmsOrder().setOrderSn(orderToken) // 把orderToken赋值给订单编号
-                    .setStatus(OrderStatusEnum.PENDING_PAYMENT.getValue())
+                    .setStatus(OrderStatusEnum.WAIT_PAY.getValue())
                     .setSourceType(OrderSourceTypeEnum.APP.getCode())
                     .setMemberId(SecurityUtils.getMemberId())
                     .setRemark(orderSubmitForm.getRemark())
@@ -230,7 +230,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     public <T> T pay(Long orderId, String appId, PayTypeEnum payTypeEnum) {
         OmsOrder order = this.getById(orderId);
         Assert.isTrue(order != null, "订单不存在");
-        Assert.isTrue(OrderStatusEnum.PENDING_PAYMENT.getValue().equals(order.getStatus()), "订单不可支付，请检查订单状态");
+        Assert.isTrue(OrderStatusEnum.WAIT_PAY.getValue().equals(order.getStatus()), "订单不可支付，请检查订单状态");
 
         RLock lock = redissonClient.getLock(ORDER_SN_PREFIX + order.getOrderSn());
         try {
@@ -272,7 +272,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Assert.isTrue(Result.isSuccess(deductBalanceResult), "扣减账户余额失败");
 
         // 更新订单状态
-        order.setStatus(OrderStatusEnum.PAYED.getValue());
+        order.setStatus(OrderStatusEnum.WAIT_SHIPPING.getValue());
         order.setPayType(PayTypeEnum.BALANCE.getValue());
         order.setPayTime(new Date());
         this.updateById(order);
@@ -324,7 +324,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     public boolean closeOrder(String orderToken) {
         log.info("订单超时取消，orderToken:{}", orderToken);
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderToken));
-        if (order == null || !OrderStatusEnum.PENDING_PAYMENT.getValue().equals(order.getStatus())) {
+        if (order == null || !OrderStatusEnum.WAIT_PAY.getValue().equals(order.getStatus())) {
             return false;
         }
         // 如果已经有outTradeNo了就先进行关单
@@ -337,7 +337,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 throw new ApiException("微信关单异常");
             }
         }
-        order.setStatus(OrderStatusEnum.SYSTEM_CANCEL.getValue());
+        order.setStatus(OrderStatusEnum.CANCELED.getValue());
         return this.updateById(order);
     }
 
@@ -349,7 +349,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             throw new ApiException("订单不存在");
         }
 
-        if (!OrderStatusEnum.PENDING_PAYMENT.getValue().equals(order.getStatus())) {
+        if (!OrderStatusEnum.WAIT_PAY.getValue().equals(order.getStatus())) {
             throw new ApiException("取消失败，订单状态不支持取消"); // 通过自定义异常，将异常信息抛出由异常处理器捕获显示给前端页面
         }
         // 如果已经有outTradeNo了就先进行关单
@@ -362,7 +362,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 throw new ApiException("微信关单异常");
             }
         }
-        order.setStatus(OrderStatusEnum.USER_CANCEL.getValue());
+        order.setStatus(OrderStatusEnum.CANCELED.getValue());
         boolean result = this.updateById(order);
         if (result) {
             // 释放被锁定的库存
@@ -378,8 +378,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     public boolean deleteOrder(Long id) {
         log.info("=======================订单删除，订单ID：{}=======================", id);
         OmsOrder order = this.getById(id);
-        if (order != null && !OrderStatusEnum.SYSTEM_CANCEL.getValue().equals(order.getStatus())
-                && !OrderStatusEnum.USER_CANCEL.getValue().equals(order.getStatus())) {
+        if (order != null && !OrderStatusEnum.CANCELED.getValue().equals(order.getStatus())) {
             throw new ApiException("订单删除失败，订单不存在或订单状态不支持删除");
         }
         return this.removeById(id);
@@ -398,7 +397,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         );
         // 支付成功处理
         if (WxPayConstants.WxpayTradeStatus.SUCCESS.equals(result.getTradeState())) {
-            orderDO.setStatus(OrderStatusEnum.PAYED.getValue());
+            orderDO.setStatus(OrderStatusEnum.WAIT_SHIPPING.getValue());
             orderDO.setTransactionId(result.getTransactionId());
             orderDO.setPayTime(new Date());
             this.updateById(orderDO);
@@ -420,7 +419,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OmsOrder orderDO = this.getOne(wrapper);
         // 退款成功处理
         if (WxPayConstants.RefundStatus.SUCCESS.equals(result.getRefundStatus())) {
-            orderDO.setStatus(OrderStatusEnum.REFUNDED.getValue());
+            orderDO.setStatus(OrderStatusEnum.CLOSED.getValue());
             orderDO.setRefundId(result.getRefundId());
             this.updateById(orderDO);
         }
@@ -521,19 +520,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Long amount = orderDTO.getAmount();
         memberFeignClient.deductBalance(memberId, amount);
 
+        // 开启异常
+        if (openEx) {
+            int i = 1 / 0;
+        }
+
         // 生成订单
         String orderSn = businessSnGenerator.generateSerialNo();
         new OmsOrder().setOrderSn(orderSn)
-                .setStatus(OrderStatusEnum.COMPLETED.getValue())
+                .setStatus(OrderStatusEnum.FINISHED.getValue())
                 .setSourceType(OrderSourceTypeEnum.APP.getCode())
                 .setMemberId(memberId)
                 .setPayAmount(amount)
                 .setTotalQuantity(1)
                 .setTotalAmount(amount);
-        // 开启异常，制造运行时异常
-        if (openEx) {
-            int i = 1 / 0;
-        }
         return orderSn;
     }
 

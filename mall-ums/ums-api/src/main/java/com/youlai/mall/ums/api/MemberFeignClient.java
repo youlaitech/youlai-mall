@@ -82,7 +82,7 @@ public interface MemberFeignClient {
      * @param memberId
      * @return
      */
-    @PutMapping("/api/v1/members/{memberId}/balance/_reset")
+    @PutMapping("/app-api/v1/members/{memberId}/balance/_reset")
     Result resetBalance(@PathVariable Long memberId);
 
     /**

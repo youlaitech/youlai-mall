@@ -116,7 +116,7 @@ public class MemberController {
     }
 
     @ApiOperation(value = "「实验室」重置会员余额", hidden = true)
-    @PutMapping("/{memberId}/balances/_reset")
+    @PutMapping("/{memberId}/balance/_reset")
     public Result resetBalance(@PathVariable Long memberId) {
         boolean result = memberService.update(
                 new LambdaUpdateWrapper<UmsMember>()

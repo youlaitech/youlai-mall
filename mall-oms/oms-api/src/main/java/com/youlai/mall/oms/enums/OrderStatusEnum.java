@@ -12,34 +12,29 @@ import lombok.Getter;
 public enum OrderStatusEnum implements IBaseEnum<Integer> {
 
     /**
-     * 1. 订单创建阶段
+     * 待付款
      */
-    PENDING_PAYMENT(1, "待支付"),
-    USER_CANCEL(2, "用户取消"),
-    SYSTEM_CANCEL(3, "系统自动取消"),
-
+    WAIT_PAY(1, "待付款"),
     /**
-     * 2. 订单付款阶段
+     * 待发货
      */
-    PAYED(10, "已支付"),
-    APPLY_REFUND(11, "申请退款"),
-    REFUNDED(12, "已退款"),
-
+    WAIT_SHIPPING(2, "待发货"),
     /**
-     * 订单发货阶段
+     * 已发货
      */
-    DELIVERED(20, "已发货"),
-
+    SHIPPED(3, "已发货"),
     /**
-     * 订单收货阶段
+     * 已完成
      */
-    USER_RECEIVE(30, "用户收货"),
-    AUTO_RECEIVE(31, "系统自动收货"),
-
+    FINISHED(4, "已完成"),
     /**
-     * 订单完结
+     * 已关闭(退款完成)
      */
-    COMPLETED(99, "已完成");
+    CLOSED(5, "已关闭"),
+    /**
+     * 已取消
+     */
+    CANCELED(6, "已取消");
 
 
     OrderStatusEnum(int value, String label) {
