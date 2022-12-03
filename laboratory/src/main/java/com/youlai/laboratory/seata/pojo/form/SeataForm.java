@@ -12,16 +12,6 @@ import lombok.Data;
 public class SeataForm {
 
     /**
-     * 会员ID
-     */
-    private Long memberId;
-
-    /**
-     * 商品ID
-     */
-    private Long skuId;
-
-    /**
      * 订单金额
      */
     private Long amount;

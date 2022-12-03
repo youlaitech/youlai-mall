@@ -25,4 +25,7 @@ public class SeataOrderDTO {
     private Long amount;
 
 
+    private Boolean openEx;
+
+
 }

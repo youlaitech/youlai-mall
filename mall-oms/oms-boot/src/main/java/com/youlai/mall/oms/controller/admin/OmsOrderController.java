@@ -1,10 +1,13 @@
 package com.youlai.mall.oms.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
+import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.pojo.dto.OrderDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
@@ -18,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,37 +61,40 @@ public class OmsOrderController {
         List<OmsOrderItem> orderItems = orderItemService.list(
                 new LambdaQueryWrapper<OmsOrderItem>().eq(OmsOrderItem::getOrderId, orderId)
         );
-        orderItems = Optional.ofNullable(orderItems).orElse(new ArrayList<>());
+        orderItems = Optional.ofNullable(orderItems).orElse(Collections.EMPTY_LIST);
 
         orderDTO.setOrder(order).setOrderItems(orderItems);
         return Result.success(orderDTO);
     }
 
     @ApiOperation(value = "「实验室」获取订单信息", hidden = true)
-    @GetMapping("/orderSn/{orderSn}")
-    public Result<OmsOrder> getOrderInfo(
-            @ApiParam("订单ID") @PathVariable String orderSn
+    @GetMapping("/{orderId}/orderInfo")
+    public Result<OrderInfoDTO> getOrderInfo(
+            @ApiParam("订单ID") @PathVariable Long orderId
     ) {
-        OmsOrder orderInfo = orderService.getOne(new LambdaQueryWrapper<OmsOrder>()
-                .eq(OmsOrder::getOrderSn, orderSn)
-                .select(OmsOrder::getOrderSn, OmsOrder::getStatus)
-                .last("limit 1")
-        );
+        OrderInfoDTO orderInfo = new OrderInfoDTO();
+
+        OmsOrder order = orderService.getById(orderId);
+        if (order != null) {
+            orderInfo.setOrderSn(order.getOrderSn());
+            orderInfo.setStatus(order.getStatus());
+        }
         return Result.success(orderInfo);
     }
 
-    @ApiOperation(value = "「实验室」创建订单", hidden = true)
-    @PostMapping
-    public Result<String> createOrder(@RequestBody SeataOrderDTO orderDTO, @RequestParam Boolean openEx) {
-        String orderSn = orderService.createOrder(orderDTO, openEx);
-        return Result.success(orderSn);
+    @ApiOperation(value = "「实验室」订单支付", hidden = true)
+    @PutMapping("/{orderId}/_pay")
+    public Result payOrder(@PathVariable Long orderId, @RequestBody SeataOrderDTO orderDTO) {
+        Boolean result = orderService.payOrder(orderId, orderDTO);
+        return Result.judge(result);
     }
 
-    @ApiOperation(value = "「实验室」删除订单", hidden = true)
-    @DeleteMapping("/orderSn/{orderSn}")
-    public Result deleteOrder(@PathVariable String orderSn) {
-        boolean result = orderService.remove(new LambdaQueryWrapper<OmsOrder>()
-                .eq(OmsOrder::getOrderSn, orderSn)
+    @ApiOperation(value = "「实验室」订单重置", hidden = true)
+    @PutMapping("/{orderId}/_reset")
+    public Result resetOrder(@PathVariable Long orderId) {
+        boolean result = orderService.update(new LambdaUpdateWrapper<OmsOrder>()
+                .eq(OmsOrder::getId, orderId)
+                .set(OmsOrder::getStatus, OrderStatusEnum.WAIT_PAY.getValue())
         );
         return Result.judge(result);
     }

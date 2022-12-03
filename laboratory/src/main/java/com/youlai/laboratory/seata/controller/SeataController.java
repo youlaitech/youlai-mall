@@ -27,29 +27,29 @@ public class SeataController {
 
     @ApiOperation("获取模拟数据")
     @GetMapping("/data")
-    public Result getData(String orderSn) {
-        SeataVO result = seataService.getData(orderSn);
+    public Result getData() {
+        SeataVO result = seataService.getData();
         return Result.success(result);
     }
 
     @ApiOperation("重置模拟数据")
     @PutMapping("/data/_reset")
-    public Result resetData(String orderSn) {
-        boolean result = seataService.resetData(orderSn);
+    public Result resetData() {
+        boolean result = seataService.resetData();
         return Result.success(result);
     }
 
     @ApiOperation("购买商品")
     @PostMapping("/_purchase")
-    public Result purchaseGoods(@RequestBody SeataForm seataForm) {
+    public Result payOrder(@RequestBody SeataForm seataForm) {
         boolean openTx = seataForm.isOpenTx();
 
         String orderSn = null;
         if (openTx) {
             // 开启全局事务
-            orderSn = seataService.purchaseGoodsWithGlobalTx(seataForm);
+            orderSn = seataService.payOrderWithGlobalTx(seataForm);
         } else {
-            orderSn = seataService.purchaseGoods(seataForm);
+            orderSn = seataService.payOrder(seataForm);
         }
         return Result.success(orderSn);
     }

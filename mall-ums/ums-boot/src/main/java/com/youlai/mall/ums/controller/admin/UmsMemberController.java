@@ -37,15 +37,6 @@ public class UmsMemberController {
         return PageResult.success(result);
     }
 
-    @ApiOperation(value = "获取会员信息")
-    @GetMapping("/{memberId}/info")
-    public Result<MemberInfoDTO> getMemberInfo(
-            @ApiParam("会员ID") @PathVariable Long memberId
-    ) {
-        MemberInfoDTO memberInfoDTO = memberService.getMemberInfo(memberId);
-        return Result.success(memberInfoDTO);
-    }
-
     @ApiOperation(value = "修改会员")
     @PutMapping(value = "/{memberId}")
     public <T> Result<T> update(
@@ -80,5 +71,24 @@ public class UmsMemberController {
                 .set(UmsMember::getDeleted, GlobalConstants.STATUS_YES));
         return Result.judge(status);
     }
+
+    @ApiOperation(value = "「实验室」获取会员信息")
+    @GetMapping("/{memberId}/info")
+    public Result<MemberInfoDTO> getMemberInfo(
+            @ApiParam("会员ID") @PathVariable Long memberId
+    ) {
+        MemberInfoDTO memberInfoDTO = memberService.getMemberInfo(memberId);
+        return Result.success(memberInfoDTO);
+    }
+
+    @ApiOperation(value = "「实验室」扣减会员余额")
+    @PutMapping("/{memberId}/balances/_deduct")
+    public Result deductBalance(@PathVariable Long memberId, @RequestParam Long amount) {
+        boolean result = memberService.update(new LambdaUpdateWrapper<UmsMember>()
+                .setSql("balance = balance - " + amount)
+                .eq(UmsMember::getId, memberId));
+        return Result.judge(result);
+    }
+
 
 }

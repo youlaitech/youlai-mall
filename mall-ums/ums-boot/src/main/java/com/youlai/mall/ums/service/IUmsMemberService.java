@@ -94,6 +94,5 @@ public interface IUmsMemberService extends IService<UmsMember> {
      */
     MemberInfoDTO getMemberInfo(Long memberId);
 
-    
 
 }

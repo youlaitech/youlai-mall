@@ -39,11 +39,12 @@ public class OmsOrder extends BaseEntity {
 	 */
 	private Integer totalQuantity;
 	/**
-	 * 订单来源[0->PC订单；1->app订单]
+	 * 订单来源(0-PC订单；1-app订单)
 	 */
 	private Integer sourceType;
+
 	/**
-	 * 订单状态【101->待付款；102->用户取消；103->系统取消；201->已付款；202->申请退款；203->已退款；301->待发货；401->已发货；501->用户收货；502->系统收货；901->已完成】
+	 * 订单状态(1-待付款;2-待发货;3-已发货;4-已完成;5-已关闭;6-已取消;)
 	 */
 	private Integer status;
 	/**

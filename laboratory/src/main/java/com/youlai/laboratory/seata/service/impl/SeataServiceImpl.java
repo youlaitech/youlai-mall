@@ -1,7 +1,6 @@
 package com.youlai.laboratory.seata.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
 import com.youlai.common.result.Result;
 import com.youlai.laboratory.seata.pojo.form.SeataForm;
 import com.youlai.laboratory.seata.pojo.vo.SeataVO;
@@ -33,8 +32,11 @@ public class SeataServiceImpl implements SeataService {
     private final OrderFeignClient orderFeignClient;
     private final MemberFeignClient memberFeignClient;
 
+
     private static Long skuId = 1l; // SkuID
     private static Long memberId = 1l; // 会员ID
+    private static Long orderId = 1l;// 订单ID
+
 
     /**
      * 获取模拟数据
@@ -42,7 +44,9 @@ public class SeataServiceImpl implements SeataService {
      * @return
      */
     @Override
-    public SeataVO getData(String orderSn) {
+    public SeataVO getData() {
+
+
         SeataVO seataVO = new SeataVO();
 
         SkuInfoDTO skuInfoDTO = skuFeignClient.getSkuInfo(skuId).getData();
@@ -57,10 +61,8 @@ public class SeataServiceImpl implements SeataService {
         seataVO.setAccountInfo(accountInfo);
 
         SeataVO.OrderInfo orderInfo = new SeataVO.OrderInfo();
-        if(StrUtil.isNotBlank(orderSn)){
-            OrderInfoDTO orderInfoDTO = orderFeignClient.getOrderInfo(orderSn).getData();
-            BeanUtil.copyProperties(orderInfoDTO, orderInfo);
-        }
+        OrderInfoDTO orderInfoDTO = orderFeignClient.getOrderInfo(orderId).getData();
+        BeanUtil.copyProperties(orderInfoDTO, orderInfo);
         seataVO.setOrderInfo(orderInfo);
 
         return seataVO;
@@ -72,61 +74,55 @@ public class SeataServiceImpl implements SeataService {
      * @return
      */
     @Override
-    public boolean resetData(String orderSn) {
+    public boolean resetData() {
         skuFeignClient.resetStock(skuId); // 还原库存
         memberFeignClient.resetBalance(memberId); // 还原余额
-        if (StrUtil.isNotBlank(orderSn)) {
-            orderFeignClient.deleteOrder(orderSn); // 删除订单
-        }
+        orderFeignClient.resetOrder(orderId); // 删除订单
         return true;
 
     }
 
     /**
-     * 购买商品
-     *
-     * @return 订单号
+     * 订单支付
      */
     @Override
-    public String purchaseGoods(SeataForm seataForm) {
+    public String payOrder(SeataForm seataForm) {
         log.info("========扣减商品库存(全局事务)========");
-        skuFeignClient.deductStock(seataForm.getSkuId(), 1); // 扣减库存
+        skuFeignClient.deductStock(skuId, 1); // 扣减库存
 
         log.info("========创建订单(全局事务)========");
         SeataOrderDTO seataOrderDTO = new SeataOrderDTO(
-                seataForm.getMemberId(),
-                seataForm.getSkuId(),
-                seataForm.getAmount()
+                memberId,
+                skuId,
+                seataForm.getAmount(),
+                seataForm.isOpenEx()
         );
-        boolean openEx = seataForm.isOpenEx(); // 是否开启异常
-        Result<String> result = orderFeignClient.createOrder(seataOrderDTO, openEx);
+        Result<String> result = orderFeignClient.payOrder(orderId, seataOrderDTO);
         String orderSn = result.getData();
 
         return orderSn;
     }
 
     /**
-     * 购买商品(全局事务)
-     *
-     * @return 订单号
+     * 订单支付(全局事务)
      */
-    @GlobalTransactional
     @Override
-    public String purchaseGoodsWithGlobalTx(SeataForm seataForm) {
+    @GlobalTransactional
+    public boolean payOrderWithGlobalTx(SeataForm seataForm) {
 
-        log.info("========扣减商品库存(全局事务)========");
-        skuFeignClient.deductStock(seataForm.getSkuId(), 1); // 扣减库存
+        log.info("========扣减商品库存========");
+        skuFeignClient.deductStock(skuId, 1); // 扣减库存
 
-        log.info("========创建订单(全局事务)========");
+        log.info("========订单支付========");
         SeataOrderDTO seataOrderDTO = new SeataOrderDTO(
-                seataForm.getMemberId(),
-                seataForm.getSkuId(),
-                seataForm.getAmount()
+                memberId,
+                skuId,
+                seataForm.getAmount(),
+                seataForm.isOpenEx()
         );
-        boolean openEx = seataForm.isOpenEx(); // 是否开启异常
-        Result<String> result = orderFeignClient.createOrder(seataOrderDTO, openEx);
-        String orderSn = result.getData();
 
-        return orderSn;
+        orderFeignClient.payOrder(orderId, seataOrderDTO);
+
+        return true;
     }
 }

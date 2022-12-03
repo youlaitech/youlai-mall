@@ -15,8 +15,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @date 2021/11/29 0029 22:50
  */
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableFeignClients(basePackageClasses = {OrderFeignClient.class, SkuFeignClient.class, MemberFeignClient.class})
+@EnableDiscoveryClient
 public class LaboratoryApplication {
     public static void main(String[] args) {
         SpringApplication.run(LaboratoryApplication.class, args);

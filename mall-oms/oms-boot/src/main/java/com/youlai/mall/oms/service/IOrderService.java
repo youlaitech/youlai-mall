@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
@@ -86,15 +87,14 @@ public interface IOrderService extends IService<OmsOrder> {
 
 
     /**
-     * 「实验室」创建订单
+     * 「实验室」订单支付
      * <p>
      * 非商城业务
      *
      * @param orderDTO
-     * @param openEx
      * @return
      */
-    String createOrder(SeataOrderDTO orderDTO, Boolean openEx);
+    Boolean payOrder(Long orderId, SeataOrderDTO orderDTO);
 
 }
 

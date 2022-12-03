@@ -14,26 +14,26 @@ public interface SeataService {
      *
      * @return
      */
-    SeataVO getData(String orderSn);
+    SeataVO getData();
 
     /**
      * 重置模拟数据
      *
      * @return
      */
-    boolean resetData(String orderSn);
+    boolean resetData();
 
     /**
      * 购买商品
      *
      * @return 订单号
      */
-    String purchaseGoods(SeataForm seataForm);
+    String payOrder(SeataForm seataForm);
 
     /**
      * 购买商品(全局事务)
      *
      * @return 订单号
      */
-    String purchaseGoodsWithGlobalTx(SeataForm seataForm);
+    boolean payOrderWithGlobalTx(SeataForm seataForm);
 }

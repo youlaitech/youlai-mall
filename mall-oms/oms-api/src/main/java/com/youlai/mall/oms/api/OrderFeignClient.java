@@ -7,10 +7,10 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 订单Feign客户端
+ * 订单 Feign Client
  *
  * @author haoxr
- * @createTime 2021/3/13 11:59
+ * @date 2021/3/13
  */
 @FeignClient(value = "mall-oms", contextId = "order")
 public interface OrderFeignClient {
@@ -18,27 +18,25 @@ public interface OrderFeignClient {
     /**
      * 「实验室」获取订单信息
      *
-     * @param orderSn
+     * @param orderId
      * @return
      */
-    @GetMapping("/api/v1/orders/orderSn/{orderSn}")
-    Result<OrderInfoDTO> getOrderInfo(@PathVariable String orderSn);
+    @GetMapping("/api/v1/orders/{orderId}/orderInfo")
+    Result<OrderInfoDTO> getOrderInfo(@PathVariable Long orderId);
 
     /**
-     * 「实验室」创建订单
+     * 「实验室」订单支付
      *
      * @param orderDTO
-     * @param openEx 是否出现异常
      * @return
      */
-    @PostMapping("/api/v1/orders")
-    Result<String> createOrder(@RequestBody SeataOrderDTO orderDTO, @RequestParam boolean openEx);
-
+    @PutMapping("/api/v1/orders/{orderId}/_pay")
+    Result<String> payOrder(@PathVariable Long orderId, @RequestBody SeataOrderDTO orderDTO);
 
     /**
-     * 「实验室」删除订单
+     * 「实验室」订单重置
      */
-    @DeleteMapping("/api/v1/orders/orderSn/{orderSn}")
-    Result deleteOrder(@PathVariable String orderSn);
+    @PutMapping("/api/v1/orders/{orderId}/_reset")
+    Result resetOrder(@PathVariable Long orderId);
 
 }

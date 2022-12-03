@@ -14,7 +14,7 @@ public class RabbitMQTest {
     private RabbitTemplate rabbitTemplate;
 
     @Test
-    public void createOrderTest() {
+    public void payOrderTest() {
         rabbitTemplate.convertAndSend("order.exchange", "order.create.routing.key", "4acd475a-c6aa-4d9a-a3a5-40da7472cbee");
     }
 }

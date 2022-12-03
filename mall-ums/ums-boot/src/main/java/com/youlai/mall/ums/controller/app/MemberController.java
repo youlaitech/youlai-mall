@@ -55,7 +55,7 @@ public class MemberController {
 
     @ApiOperation(value = "扣减会员余额")
     @PutMapping("/{memberId}/balances/_deduct")
-    public <T> Result<T> deductBalance(@PathVariable Long memberId, @RequestParam Long amount) {
+    public Result deductBalance(@PathVariable Long memberId, @RequestParam Long amount) {
         boolean result = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .setSql("balance = balance - " + amount)
                 .eq(UmsMember::getId, memberId));
@@ -89,12 +89,7 @@ public class MemberController {
         return Result.success(memberAuthInfo);
     }
 
-    /**
-     * 根据手机号获取会员认证信息
-     *
-     * @param mobile 手机号码
-     * @return
-     */
+    @ApiOperation(value = "根据手机号获取会员认证信息",hidden = true)
     @GetMapping("/mobile/{mobile}")
     public Result<MemberAuthDTO> getMemberByMobile(
             @ApiParam("手机号码") @PathVariable String mobile

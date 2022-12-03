@@ -8,6 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -47,6 +48,7 @@ import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import com.youlai.mall.pms.pojo.dto.LockStockDTO;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
+import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -242,7 +244,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                     result = (T) wxJsapiPay(appId, order);
                     break;
                 default:
-                    result = (T)balancePay(order);
+                    result = (T) balancePay(order);
                     break;
             }
             // 扣减库存
@@ -268,7 +270,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 扣减余额
         Long memberId = SecurityUtils.getMemberId();
         Long amount = order.getPayAmount();
-        Result<?> deductBalanceResult = memberFeignClient.deductBalance(memberId,amount);
+        Result<?> deductBalanceResult = memberFeignClient.deductBalance(memberId, amount);
         Assert.isTrue(Result.isSuccess(deductBalanceResult), "扣减账户余额失败");
 
         // 更新订单状态
@@ -504,37 +506,38 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
 
     /**
-     * 「实验室」创建订单
+     * 「实验室」订单支付
      * <p>
      * 非商城业务
      *
      * @param orderDTO
-     * @param openEx
      * @return
      */
     @Override
-    public String createOrder(SeataOrderDTO orderDTO, Boolean openEx) {
+    public Boolean payOrder(Long orderId, SeataOrderDTO orderDTO) {
 
-        // 扣减账户越
         Long memberId = orderDTO.getMemberId();
         Long amount = orderDTO.getAmount();
+
+        // 扣减账户余额
         memberFeignClient.deductBalance(memberId, amount);
 
-        // 开启异常
+        // 是否开启异常
+        Boolean openEx = orderDTO.getOpenEx();
         if (openEx) {
             int i = 1 / 0;
         }
 
-        // 生成订单
+        // 修改订单【已支付】
         String orderSn = businessSnGenerator.generateSerialNo();
-        new OmsOrder().setOrderSn(orderSn)
-                .setStatus(OrderStatusEnum.FINISHED.getValue())
-                .setSourceType(OrderSourceTypeEnum.APP.getCode())
-                .setMemberId(memberId)
-                .setPayAmount(amount)
-                .setTotalQuantity(1)
-                .setTotalAmount(amount);
-        return orderSn;
+
+        boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>()
+                .eq(OmsOrder::getId, orderId)
+                .set(OmsOrder::getOrderSn, orderSn)
+                .set(OmsOrder::getStatus, OrderStatusEnum.WAIT_SHIPPING.getValue())
+        );
+
+        return result;
     }
 
 }
