@@ -39,18 +39,18 @@ public class SeataController {
         return Result.success(result);
     }
 
-    @ApiOperation("购买商品")
-    @PostMapping("/_purchase")
+    @ApiOperation("订单支付")
+    @PostMapping("/_pay")
     public Result payOrder(@RequestBody SeataForm seataForm) {
         boolean openTx = seataForm.isOpenTx();
 
-        String orderSn = null;
+        boolean result;
         if (openTx) {
             // 开启全局事务
-            orderSn = seataService.payOrderWithGlobalTx(seataForm);
+            result = seataService.payOrderWithGlobalTx(seataForm);
         } else {
-            orderSn = seataService.payOrder(seataForm);
+            result = seataService.payOrder(seataForm);
         }
-        return Result.success(orderSn);
+        return Result.success(result);
     }
 }

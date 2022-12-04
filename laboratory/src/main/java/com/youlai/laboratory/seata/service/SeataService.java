@@ -4,6 +4,8 @@ import com.youlai.laboratory.seata.pojo.form.SeataForm;
 import com.youlai.laboratory.seata.pojo.vo.SeataVO;
 
 /**
+ * Seata 实验室接口层
+ *
  * @author haoxr
  * @date 2022/4/16 20:49
  */
@@ -24,16 +26,12 @@ public interface SeataService {
     boolean resetData();
 
     /**
-     * 购买商品
-     *
-     * @return 订单号
+     * 订单支付
      */
-    String payOrder(SeataForm seataForm);
+    boolean payOrder(SeataForm seataForm);
 
     /**
-     * 购买商品(全局事务)
-     *
-     * @return 订单号
+     * 订单支付(全局事务)
      */
     boolean payOrderWithGlobalTx(SeataForm seataForm);
 }

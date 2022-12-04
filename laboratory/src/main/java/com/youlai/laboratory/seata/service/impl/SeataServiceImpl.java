@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * Seata实验室业务类接口
+ * Seata 实验室业务类接口
  *
  * @author haoxr
  * @date 2022/4/16 20:49
@@ -86,7 +86,7 @@ public class SeataServiceImpl implements SeataService {
      * 订单支付
      */
     @Override
-    public String payOrder(SeataForm seataForm) {
+    public boolean payOrder(SeataForm seataForm) {
         log.info("========扣减商品库存(全局事务)========");
         skuFeignClient.deductStock(skuId, 1); // 扣减库存
 
@@ -97,10 +97,9 @@ public class SeataServiceImpl implements SeataService {
                 seataForm.getAmount(),
                 seataForm.isOpenEx()
         );
-        Result<String> result = orderFeignClient.payOrder(orderId, seataOrderDTO);
-        String orderSn = result.getData();
+        orderFeignClient.payOrder(orderId, seataOrderDTO);
 
-        return orderSn;
+        return true;
     }
 
     /**
