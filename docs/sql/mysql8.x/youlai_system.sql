@@ -176,7 +176,7 @@ CREATE TABLE `sys_role`  (
   `sort` int(0) NULL DEFAULT NULL COMMENT '显示顺序',
   `status` tinyint(0) NULL DEFAULT 1 COMMENT '角色状态(1-正常；0-停用)',
   `deleted` tinyint(0) NOT NULL DEFAULT 0 COMMENT '逻辑删除标识(0-未删除；1-已删除)',
-  `data_scope` tinyint(0) NULL DEFAULT NULL,
+  `data_scope` tinyint DEFAULT NULL COMMENT '数据权限(0-所有数据；1-部门及子部门数据；2-本部门数据；3-本人数据)',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
