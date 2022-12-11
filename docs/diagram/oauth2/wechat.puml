@@ -19,7 +19,7 @@ WebSecurityConfigurerAdapter 内部类
 end note
 WechatTokenGranter-> AuthenticationManagerDelegator:this.authenticationManager.authenticate()
 AuthenticationManagerDelegator -> ProviderManager: this.delegate.authenticate()
-ProviderManager -> ProviderManager: 匹配支持\WechatAuthenticationToken\n的Provider
+ProviderManager -> ProviderManager: 匹配支持\nWechatAuthenticationToken\n的Provider
 
 activate ProviderManager
 participant WechatAuthenticationProvider #99FF99
