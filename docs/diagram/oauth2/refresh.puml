@@ -4,7 +4,7 @@
 skinparam backgroundColor #EEEBDC
 skinparam handwritten true
 
-header 有来 Spring Security OAuth2 刷新模式
+header @有来技术 Spring Security OAuth2 刷新模式
 
 actor 客户端
 
