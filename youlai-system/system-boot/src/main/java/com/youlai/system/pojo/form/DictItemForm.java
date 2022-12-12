@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class DictItemForm {
 
-    @ApiModelProperty("数据项ID")
+    @ApiModelProperty("数据项ID(新增不填)")
     private Long id;
 
     @ApiModelProperty("类型编码")

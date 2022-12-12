@@ -1,6 +1,7 @@
 package com.youlai.system.pojo.form;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -18,6 +19,7 @@ import java.util.List;
 @Data
 public class UserForm {
 
+    @ApiModelProperty("用户ID(新增不填)")
     private Long id;
 
     @NotBlank(message = "用户名不能为空")
