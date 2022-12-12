@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class DeptForm extends BaseEntity {
 
+    @ApiModelProperty("部门ID(新增不填)")
+    private Long id;
+
     @ApiModelProperty("部门名称")
     private String name;
 
