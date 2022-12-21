@@ -1,6 +1,7 @@
 package com.youlai.mall.sms.config;
 
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,11 +54,11 @@ public class SwaggerConfiguration {
         SecurityContext securityContext=new SecurityContext(Lists.newArrayList(securityReference),PathSelectors.ant("/**"));
         //schemas
         List<SecurityScheme> securitySchemes=Lists.newArrayList(oAuth);
-        //securyContext
+        //securityContext
         List<SecurityContext> securityContexts=Lists.newArrayList(securityContext);
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.youlai.mall.sms.controller"))
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
                 .build()
                 .securityContexts(securityContexts)
@@ -69,8 +70,8 @@ public class SwaggerConfiguration {
         return new ApiInfoBuilder().title("营销中心")
                 .description("<div style='font-size:14px;color:red;'>首页广告接口</div>")
                 .termsOfServiceUrl("https://www.youlai.tech")
-                .contact(new Contact("有来技术团队", "https://gitee.com/youlaiorg", "youlaitech@163.com"))
-                .license("Open Source")
+                .contact(new Contact("有来开源组织", "https://gitee.com/youlaiorg", "youlaitech@163.com"))
+                .license("Apache-2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .version("1.0.0")
                 .build();

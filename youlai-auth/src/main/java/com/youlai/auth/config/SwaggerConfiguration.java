@@ -51,7 +51,7 @@ public class SwaggerConfiguration {
         SecurityContext securityContext = new SecurityContext(Lists.newArrayList(securityReference), PathSelectors.ant("/**"));
         //schemas
         List<SecurityScheme> securitySchemes = Lists.newArrayList(oAuth);
-        //securyContext
+        //securityContext
         List<SecurityContext> securityContexts = Lists.newArrayList(securityContext);
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
@@ -67,8 +67,8 @@ public class SwaggerConfiguration {
         return new ApiInfoBuilder().title("OAuth2认证中心")
                 .description("<div style='font-size:14px;color:red;'>OAuth2认证、注销、获取验签公钥接口</div>")
                 .termsOfServiceUrl("https://www.youlai.tech")
-                .contact(new Contact("有来技术团队", "https://gitee.com/youlaiorg", "youlaitech@163.com"))
-                .license("Open Source")
+                .contact(new Contact("有来开源组织", "https://gitee.com/youlaiorg", "youlaitech@163.com"))
+                .license("Apache-2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .version("2.0.0")
                 .build();
