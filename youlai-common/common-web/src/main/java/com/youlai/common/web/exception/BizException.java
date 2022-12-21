@@ -10,24 +10,24 @@ import lombok.Getter;
  * @date 2022/7/31
  */
 @Getter
-public class ApiException extends RuntimeException {
+public class BizException extends RuntimeException {
 
     public IResultCode resultCode;
 
-    public ApiException(IResultCode errorCode) {
+    public BizException(IResultCode errorCode) {
         super(errorCode.getMsg());
         this.resultCode = errorCode;
     }
 
-    public ApiException(String message){
+    public BizException(String message){
         super(message);
     }
 
-    public ApiException(String message, Throwable cause){
+    public BizException(String message, Throwable cause){
         super(message, cause);
     }
 
-    public ApiException(Throwable cause){
+    public BizException(Throwable cause){
         super(cause);
     }
 
