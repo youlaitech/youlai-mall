@@ -1,6 +1,6 @@
 package com.youlai.common.redis;
 
-import com.youlai.common.constant.RedisConstants;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,22 +15,30 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class BusinessSnGenerator {
 
+
     private final RedisTemplate redisTemplate;
 
     /**
-     * @param digit        业务序号位数
+     * @param digit 业务序号位数
      * @return
      */
-    public String generateSerialNo(Integer digit) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
-        String key = RedisConstants.BUSINESS_NO_PREFIX +":" + date;
+    public String generateSerialNo(String businessType, Integer digit) {
+        if (StrUtil.isBlank(businessType)) {
+            businessType = "COMMON";
+        }
+        String date = LocalDateTime.now(ZoneOffset.of("+8"))
+                .format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String key = "SN:" + businessType + ":" + date;
         Long increment = redisTemplate.opsForValue().increment(key);
         return date + String.format("%0" + digit + "d", increment);
     }
 
-    public String generateSerialNo(){
-       return this.generateSerialNo(6);
+    public String generateSerialNo(Integer digit) {
+        return this.generateSerialNo(null,6);
+    }
+
+    public String generateSerialNo(String businessType) {
+        return this.generateSerialNo(businessType,6);
     }
 
 }
