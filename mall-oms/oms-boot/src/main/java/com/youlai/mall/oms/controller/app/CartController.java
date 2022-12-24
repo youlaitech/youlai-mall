@@ -3,7 +3,7 @@ package com.youlai.mall.oms.controller.app;
 import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
-import com.youlai.mall.oms.service.ICartService;
+import com.youlai.mall.oms.service.CartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -13,18 +13,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * 「移动端」购物车接口
+ *
  * @author huawei
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
 
-@Api(tags = "「移动端」购物车管理")
+@Api(tags = "「移动端」购物车接口")
 @RestController
 @RequestMapping("/app-api/v1/carts")
 @RequiredArgsConstructor
 public class CartController {
 
-    private final ICartService cartService;
+    private final CartService cartService;
 
     @ApiOperation(value = "查询购物车")
     @GetMapping

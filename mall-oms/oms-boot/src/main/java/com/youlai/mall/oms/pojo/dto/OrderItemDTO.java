@@ -3,7 +3,10 @@ package com.youlai.mall.oms.pojo.dto;
 import lombok.*;
 
 /**
- * 订单商品明细
+ * 订单商品
+ *
+ * @author haoxr
+ * @date 2022/12/21
  */
 @Data
 public class OrderItemDTO {

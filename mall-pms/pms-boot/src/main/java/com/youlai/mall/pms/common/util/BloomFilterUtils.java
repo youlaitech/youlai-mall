@@ -1,4 +1,4 @@
-package com.youlai.mall.pms.util;
+package com.youlai.mall.pms.common.util;
 
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Hashing;
@@ -6,10 +6,10 @@ import com.google.common.hash.Hashing;
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
+ * 布隆过滤器，摘录自Google-guava包
+ *
  * @author DaniR
- * @version 1.0
- * @description 布隆过滤器，摘录自Google-guava包
- * @createDate 2021/6/23 20:30
+ * @date 2021/6/23 20:30
  */
 public class BloomFilterUtils<T> {
     private final int numHashFunctions;

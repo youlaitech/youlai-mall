@@ -2,7 +2,7 @@ package com.youlai.mall.pms.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
-import com.youlai.mall.pms.service.IPmsCategoryService;
+import com.youlai.mall.pms.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 商品分类控制器
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
  * @date 2022/2/5
  */
 @Api(tags = "「移动端」商品分类")
@@ -25,13 +25,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    private final IPmsCategoryService iPmsCategoryService;
+    private final CategoryService categoryService;
 
     @ApiOperation(value = "分类列表")
     @GetMapping
     public Result list(
            @ApiParam("上级分类ID") Long parentId) {
-        List<CategoryVO> list = iPmsCategoryService.listCategory(parentId);
+        List<CategoryVO> list = categoryService.listCategory(parentId);
         return Result.success(list);
     }
 }

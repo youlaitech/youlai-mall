@@ -1,12 +1,13 @@
-package com.youlai.mall.oms.enums;
+package com.youlai.mall.oms.common.enums;
 
 
 import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
 
 /**
+ * 订单支付类型枚举
+ *
  * @author huawei
- * @desc 订单支付类型枚举
  * @email huawei_code@163.com
  * @date 2021/1/16
  */
