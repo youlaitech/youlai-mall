@@ -183,9 +183,9 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ApiException.class)
-    public <T> Result<T> handleBizException(ApiException e) {
-        log.error("API异常:{}", e.getMessage(), e);
+    @ExceptionHandler(BizException.class)
+    public <T> Result<T> handleBizException(BizException e) {
+        log.error("biz exception:{}", e.getMessage(), e);
         if (e.getResultCode() != null) {
             return Result.failed(e.getResultCode());
         }
@@ -195,7 +195,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public <T> Result<T> handleException(Exception e) {
-        log.error("未知异常:{}", e.getMessage());
+        log.error("unknown exception:{}", e.getMessage());
         return Result.failed(e.getMessage());
     }
 

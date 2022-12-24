@@ -4,12 +4,12 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.web.exception.ApiException;
-import com.youlai.mall.oms.constant.OmsConstants;
+import com.youlai.common.web.exception.BizException;
+import com.youlai.mall.oms.common.constant.OmsConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
-import com.youlai.mall.oms.service.ICartService;
+import com.youlai.mall.oms.service.CartService;
 import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * 购物车模块
  * <p>
- * 技术点：BoundHashOperations
+ * 核心技术：BoundHashOperations
  * 数据格式：
  * -- key <----> 购物车
  * -- hKey:value <----> 商品1
@@ -34,7 +34,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class CartServiceImpl implements ICartService {
+public class CartServiceImpl implements CartService {
 
     private RedisTemplate redisTemplate;
     private SkuFeignClient skuFeignService;
@@ -64,9 +64,9 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public boolean addCartItem(Long skuId) {
-        Long memberId=SecurityUtils.getMemberId();
-        if(memberId==null){
-            throw new ApiException(ResultCode.INVALID_TOKEN);
+        Long memberId = SecurityUtils.getMemberId();
+        if (memberId == null) {
+            throw new BizException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
@@ -83,7 +83,7 @@ public class CartServiceImpl implements ICartService {
         // 购物车不存在该商品，添加商品至购物车
         cartItem = new CartItemDTO();
         CompletableFuture<Void> cartItemCompletableFuture = CompletableFuture.runAsync(() -> {
-            SkuInfoDTO skuInfo = skuFeignService.getSkuInfo(skuId).getData();
+            SkuDTO skuInfo = skuFeignService.getSkuInfo(skuId).getData();
             if (skuInfo != null) {
                 BeanUtil.copyProperties(skuInfo, cartItem);
                 cartItem.setStock(skuInfo.getStockNum());
@@ -107,7 +107,7 @@ public class CartServiceImpl implements ICartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new ApiException(ResultCode.INVALID_TOKEN);
+            throw new BizException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
@@ -133,7 +133,7 @@ public class CartServiceImpl implements ICartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new ApiException(ResultCode.INVALID_TOKEN);
+            throw new BizException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
@@ -151,7 +151,7 @@ public class CartServiceImpl implements ICartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new ApiException(ResultCode.INVALID_TOKEN);
+            throw new BizException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
@@ -165,16 +165,14 @@ public class CartServiceImpl implements ICartService {
 
 
     /**
-     * 移除购物车选中的商品
-     * — 场景：支付后删除购物车的商品
+     * 移除购物车选中的商品，作用场景：
+     * 1.支付后删除购物车的商品
      */
     @Override
     public boolean removeCheckedItem() {
-        Long memberId;
-        try {
-            memberId = SecurityUtils.getMemberId();
-        } catch (Exception e) {
-            throw new ApiException(ResultCode.INVALID_TOKEN);
+        Long memberId = SecurityUtils.getMemberId();
+        if (memberId == null) {
+            throw new BizException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {

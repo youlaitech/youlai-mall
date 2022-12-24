@@ -1,34 +1,46 @@
 package com.youlai.mall.pms.pojo.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
 /**
- * 商品验价传输对象
+ * 订单商品验价传输对象
  *
  * @author haoxr
  * @date 2022/2/7
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class CheckPriceDTO {
 
     /**
-     * 订单商品总金额
+     * 订单编号
+     */
+    private String orderSn;
+
+    /**
+     * 订单总金额
      */
     private Long orderTotalAmount;
 
     /**
      * 订单商品明细
      */
-    private List<CheckSku> checkSkus;
-
+    private List<OrderSku> orderSkus;
 
     /**
-     * 订单商品明细
+     * 订单商品对象
      */
     @Data
-    public static class CheckSku {
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class OrderSku {
         /**
          * 商品ID
          */

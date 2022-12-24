@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.mapper.PmsCategoryAttributeMapper;
 import com.youlai.mall.pms.pojo.form.PmsCategoryAttributeForm;
 import com.youlai.mall.pms.pojo.entity.PmsCategoryAttribute;
-import com.youlai.mall.pms.service.IPmsAttributeService;
+import com.youlai.mall.pms.service.AttributeService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @date 2022/7/2
  */
 @Service
-public class PmsAttributeServiceImpl extends ServiceImpl<PmsCategoryAttributeMapper, PmsCategoryAttribute> implements IPmsAttributeService {
+public class AttributeServiceImpl extends ServiceImpl<PmsCategoryAttributeMapper, PmsCategoryAttribute> implements AttributeService {
 
     /**
      * 批量保存商品属性

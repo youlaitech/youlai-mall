@@ -15,7 +15,7 @@ import java.util.List;
  * @author haoxr
  * @date 2022/2/5
  */
-public interface IPmsSpuService extends IService<PmsSpu> {
+public interface SpuService extends IService<PmsSpu> {
 
 
     /**

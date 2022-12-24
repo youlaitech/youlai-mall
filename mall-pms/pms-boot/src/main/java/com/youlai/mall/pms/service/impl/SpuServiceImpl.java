@@ -10,8 +10,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.mall.pms.constant.PmsConstants;
-import com.youlai.mall.pms.enums.AttributeTypeEnum;
+import com.youlai.mall.pms.common.constant.ProductConstants;
+import com.youlai.mall.pms.common.enums.AttributeTypeEnum;
 import com.youlai.mall.pms.converter.SpuAttributeConverter;
 import com.youlai.mall.pms.converter.SpuConverter;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
@@ -22,9 +22,9 @@ import com.youlai.mall.pms.pojo.entity.PmsSpu;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttribute;
 import com.youlai.mall.pms.pojo.query.SpuPageQuery;
 import com.youlai.mall.pms.pojo.vo.*;
-import com.youlai.mall.pms.service.IPmsSkuService;
-import com.youlai.mall.pms.service.IPmsSpuAttributeService;
-import com.youlai.mall.pms.service.IPmsSpuService;
+import com.youlai.mall.pms.service.SkuService;
+import com.youlai.mall.pms.service.SpuAttributeService;
+import com.youlai.mall.pms.service.SpuService;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,10 +42,10 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements IPmsSpuService {
+public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements SpuService {
 
-    private final IPmsSkuService skuService;
-    private final IPmsSpuAttributeService spuAttributeService;
+    private final SkuService skuService;
+    private final SpuAttributeService spuAttributeService;
     private final MemberFeignClient memberFeignClient;
 
     private final SpuConverter spuConverter;
@@ -341,7 +341,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         List<PmsSku> pmsSkuList = skuList.stream().map(sku -> {
             // 临时规格ID转换
             String specIds = Arrays.stream(sku.getSpecIds().split("\\|"))
-                    .map(specId -> specId.startsWith(PmsConstants.SPEC_TEMP_ID_PREFIX) ? specTempIdIdMap.get(specId) + "" : specId)
+                    .map(specId -> specId.startsWith(ProductConstants.SPEC_TEMP_ID_PREFIX) ? specTempIdIdMap.get(specId) + "" : specId)
                     .collect(Collectors.joining("_"));
             sku.setSpecIds(specIds);
             sku.setSpuId(goodsId);
@@ -411,7 +411,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 1. 【删除】此次提交移除的商品规格
         // 1.1 此次提交保留的规格
         List<Long> retainSpuSpecIds = specList.stream()
-                .filter(item -> !item.getId().startsWith(PmsConstants.SPEC_TEMP_ID_PREFIX))
+                .filter(item -> !item.getId().startsWith(ProductConstants.SPEC_TEMP_ID_PREFIX))
                 .map(item -> Convert.toLong(item.getId()))
                 .collect(Collectors.toList());
 
@@ -436,7 +436,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
         // 临时规格ID和持久化数据库得到的规格ID的映射，用于替换SKU临时的规格ID
         Map<String, Long> tempWithNewSpecIdMap = new HashMap<>();
         List<PmsSpuAttributeForm> newSpecList = specList.stream()
-                .filter(item -> item.getId().startsWith(PmsConstants.SPEC_TEMP_ID_PREFIX))
+                .filter(item -> item.getId().startsWith(ProductConstants.SPEC_TEMP_ID_PREFIX))
                 .collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(newSpecList)) {
             newSpecList.forEach(item -> {
@@ -450,7 +450,7 @@ public class PmsSpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> impleme
 
         //  3. 【修改】此次提交的需要修改的商品规格
         List<PmsSpuAttribute> pmsSpuAttributeList = specList.stream()
-                .filter(item -> !item.getId().startsWith(PmsConstants.SPEC_TEMP_ID_PREFIX))
+                .filter(item -> !item.getId().startsWith(ProductConstants.SPEC_TEMP_ID_PREFIX))
                 .map(item -> {
                     PmsSpuAttribute entity = spuAttributeConverter.form2Entity(item);
                     entity.setId(Convert.toLong(item.getId()));

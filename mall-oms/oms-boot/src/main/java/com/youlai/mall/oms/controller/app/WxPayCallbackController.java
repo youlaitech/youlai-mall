@@ -4,7 +4,7 @@ import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.youlai.mall.oms.pojo.vo.WxPayResponseVO;
-import com.youlai.mall.oms.service.IOrderService;
+import com.youlai.mall.oms.service.OrderService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/callback-api/v1/wx-pay")
 public class WxPayCallbackController {
 
-    private final IOrderService orderService;
+    private final OrderService orderService;
 
     /**
      * 微信下单支付结果回调

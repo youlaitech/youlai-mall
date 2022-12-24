@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.oms.mapper.OrderLogMapper;
 import com.youlai.mall.oms.pojo.entity.OmsOrderLog;
-import com.youlai.mall.oms.service.IOrderLogService;
+import com.youlai.mall.oms.service.OrderLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class OrderLogServiceImpl extends ServiceImpl<OrderLogMapper, OmsOrderLog> implements IOrderLogService {
+public class OrderLogServiceImpl extends ServiceImpl<OrderLogMapper, OmsOrderLog> implements OrderLogService {
     @Override
     public void addOrderLogs(Long orderId, Integer orderStatus, String user, String detail) {
         log.info("添加订单操作日志，orderId={}，detail={}", orderId, detail);

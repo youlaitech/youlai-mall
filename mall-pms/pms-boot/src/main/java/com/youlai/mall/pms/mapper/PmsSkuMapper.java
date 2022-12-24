@@ -1,16 +1,10 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import org.apache.ibatis.annotations.Mapper;
 
-/**
- * 商品库存单元(SKU)持久层
- *
- * @author haoxr
- * @date 2022/2/6
- */
 @Mapper
 public interface PmsSkuMapper extends BaseMapper<PmsSku> {
 
@@ -20,5 +14,5 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
      * @param skuId
      * @return
      */
-    SkuInfoDTO getSkuInfo(Long skuId);
+    SkuDTO getSkuInfo(Long skuId);
 }

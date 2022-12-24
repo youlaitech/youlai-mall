@@ -7,7 +7,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
-import com.youlai.mall.pms.service.IPmsCategoryService;
+import com.youlai.mall.pms.service.CategoryService;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.util.Optional;
  * @author haoxr
  */
 @Service
-public class PmsCategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCategory> implements IPmsCategoryService {
+public class CategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCategory> implements CategoryService {
 
 
     /**

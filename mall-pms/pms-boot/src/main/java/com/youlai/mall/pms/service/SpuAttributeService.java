@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.entity.PmsSpuAttribute;
 
 
-public interface IPmsSpuAttributeService extends IService<PmsSpuAttribute> {
+public interface SpuAttributeService extends IService<PmsSpuAttribute> {
 
 
 }

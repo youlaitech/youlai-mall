@@ -5,13 +5,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.youlai.mall.oms.dto.SeataOrderDTO;
-import com.youlai.mall.oms.enums.PayTypeEnum;
+import com.youlai.mall.oms.common.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
-import com.youlai.mall.oms.pojo.vo.OrderSubmitVO;
+import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
 import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 
 /**
@@ -21,7 +19,7 @@ import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
  * @email huawei_code@163.com
  * @date 2020-12-30 22:31:10
  */
-public interface IOrderService extends IService<OmsOrder> {
+public interface OrderService extends IService<OmsOrder> {
 
     /**
      * 订单确认 → 进入创建订单页面
@@ -37,7 +35,7 @@ public interface IOrderService extends IService<OmsOrder> {
     /**
      * 订单提交
      */
-    OrderSubmitVO submitOrder(OrderSubmitForm orderSubmitForm);
+    OrderSubmitResultVO submitOrder(OrderSubmitForm orderSubmitForm);
 
     /**
      * 订单支付
@@ -48,11 +46,6 @@ public interface IOrderService extends IService<OmsOrder> {
      * 系统关闭订单
      */
     boolean closeOrder(String orderToken);
-
-    /**
-     * 取消订单接口
-     */
-    boolean cancelOrder(Long id);
 
     /**
      * 删除订单
@@ -84,17 +77,6 @@ public interface IOrderService extends IService<OmsOrder> {
      * @return
      */
     IPage<OmsOrder> listOrderPages(OrderPageQuery queryParams);
-
-
-    /**
-     * 「实验室」订单支付
-     * <p>
-     * 非商城业务
-     *
-     * @param orderDTO
-     * @return
-     */
-    Boolean payOrder(Long orderId, SeataOrderDTO orderDTO);
 
 }
 

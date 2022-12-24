@@ -10,7 +10,7 @@ import java.util.List;
  * @author haoxr
  * @date 2022/11/13
  */
-public interface ICartService {
+public interface CartService {
 
     List<CartItemDTO> listCartItems(Long memberId);
 

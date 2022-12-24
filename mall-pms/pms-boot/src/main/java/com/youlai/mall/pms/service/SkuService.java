@@ -2,7 +2,7 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
-import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
 import com.youlai.mall.pms.pojo.dto.LockStockDTO;
 
@@ -13,7 +13,7 @@ import com.youlai.mall.pms.pojo.dto.LockStockDTO;
  * @author haoxr
  * @date 2022/2/5 17:11
  */
-public interface IPmsSkuService extends IService<PmsSku> {
+public interface SkuService extends IService<PmsSku> {
 
     /**
      * 获取商品的库存数量
@@ -29,23 +29,23 @@ public interface IPmsSkuService extends IService<PmsSku> {
      * @param skuId
      * @return
      */
-    SkuInfoDTO getSkuInfo(Long skuId);
+    SkuDTO getSkuInfo(Long skuId);
 
 
     /**
-     * 锁定商品库存
+     * 锁定库存
      */
     boolean lockStock(LockStockDTO lockStockDTO);
 
     /**
      * 解锁库存
      */
-    boolean unlockStock(String orderToken);
+    boolean unlockStock(String orderSn);
 
     /**
      * 扣减库存
      */
-    boolean deductStock(String orderToken);
+    boolean deductStock(String orderSn);
 
 
     /**

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.form.PmsCategoryAttributeForm;
 import com.youlai.mall.pms.pojo.entity.PmsCategoryAttribute;
 
-public interface IPmsAttributeService extends IService<PmsCategoryAttribute> {
+public interface AttributeService extends IService<PmsCategoryAttribute> {
 
     /**
      * 批量保存商品属性

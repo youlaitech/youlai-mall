@@ -1,7 +1,6 @@
 package com.youlai.laboratory.seata.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.youlai.common.result.Result;
 import com.youlai.laboratory.seata.pojo.form.SeataForm;
 import com.youlai.laboratory.seata.pojo.vo.SeataVO;
 import com.youlai.laboratory.seata.service.SeataService;
@@ -9,7 +8,7 @@ import com.youlai.mall.oms.api.OrderFeignClient;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -49,10 +48,10 @@ public class SeataServiceImpl implements SeataService {
 
         SeataVO seataVO = new SeataVO();
 
-        SkuInfoDTO skuInfoDTO = skuFeignClient.getSkuInfo(skuId).getData();
+        SkuDTO skuDTO = skuFeignClient.getSkuInfo(skuId).getData();
         SeataVO.StockInfo stockInfo = new SeataVO.StockInfo();
-        BeanUtil.copyProperties(skuInfoDTO, stockInfo);
-        stockInfo.setName(skuInfoDTO.getSkuName());
+        BeanUtil.copyProperties(skuDTO, stockInfo);
+        stockInfo.setName(skuDTO.getSkuName());
         seataVO.setStockInfo(stockInfo);
 
         MemberInfoDTO memberInfoDTO = memberFeignClient.getMemberInfo(memberId).getData();
