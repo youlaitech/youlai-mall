@@ -3,23 +3,23 @@ package com.youlai.mall.pms.controller.admin;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.service.IPmsSkuService;
+import com.youlai.mall.pms.service.SkuService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 「管理端」SKU控制器
+ * 「管理端」商品SKU控制层
  *
  * @author haoxr
  * @date 2022/2/8
  */
-@Api(tags = "「管理端」SKU接口")
+@Api(tags = "「管理端」商品SKU接口")
 @RestController
 @RequestMapping("/api/v1/sku")
 @RequiredArgsConstructor
 public class PmsSkuController {
-    private final IPmsSkuService skuService;
+    private final SkuService skuService;
 
     @ApiOperation(value = "商品SKU详情")
     @GetMapping("/{skuId}")
@@ -47,7 +47,10 @@ public class PmsSkuController {
             @RequestParam Integer count
 
     ) {
-        boolean result = skuService.deductStock(skuId, count);
+        boolean result = skuService.update(new LambdaUpdateWrapper<PmsSku>()
+                .setSql("stock_num = stock_num - " + count)
+                .eq(PmsSku::getId, skuId)
+        );
         return Result.judge(result);
     }
 

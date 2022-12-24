@@ -2,7 +2,7 @@ package com.youlai.mall.pms.api;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
-import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.LockStockDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public interface SkuFeignClient {
      * 获取商品库存单元信息
      */
     @GetMapping("/app-api/v1/sku/{skuId}/info")
-    Result<SkuInfoDTO> getSkuInfo(@PathVariable Long skuId);
+    Result<SkuDTO> getSkuInfo(@PathVariable Long skuId);
 
     /**
      * 锁定商品库存

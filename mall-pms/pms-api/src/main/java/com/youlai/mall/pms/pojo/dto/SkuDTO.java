@@ -10,7 +10,7 @@ import lombok.Data;
  */
 
 @Data
-public class SkuInfoDTO {
+public class SkuDTO {
     /**
      * skuId
      */

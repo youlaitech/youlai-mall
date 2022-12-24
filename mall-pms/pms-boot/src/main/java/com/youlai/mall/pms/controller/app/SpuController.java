@@ -7,7 +7,7 @@ import com.youlai.mall.pms.pojo.query.SpuPageQuery;
 import com.youlai.mall.pms.pojo.vo.SeckillingSpuVO;
 import com.youlai.mall.pms.pojo.vo.SpuPageVO;
 import com.youlai.mall.pms.pojo.vo.SpuDetailVO;
-import com.youlai.mall.pms.service.IPmsSpuService;
+import com.youlai.mall.pms.service.SpuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpuController {
 
-    private final IPmsSpuService spuService;
+    private final SpuService spuService;
 
     @ApiOperation(value = "商品分页列表")
     @GetMapping("/pages")

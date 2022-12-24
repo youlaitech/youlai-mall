@@ -2,9 +2,9 @@ package com.youlai.mall.pms.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
-import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
+import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import com.youlai.mall.pms.pojo.dto.LockStockDTO;
-import com.youlai.mall.pms.service.IPmsSkuService;
+import com.youlai.mall.pms.service.SkuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -12,29 +12,32 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 商品库存单元控制器 (Stock Keeping Unit)
+ * SKU控制层
+ *
+ * @author haoxr
+ * @date 2022/12/21
  */
-@Api(tags = "「移动端」库存信息")
+@Api(tags = "「移动端」SKU接口")
 @RestController
 @RequestMapping("/app-api/v1/sku")
 @RequiredArgsConstructor
 public class SkuController {
 
-    private final IPmsSkuService skuService;
+    private final SkuService skuService;
 
     @ApiOperation(value = "获取商品库存信息")
     @GetMapping("/{skuId}/info")
-    public Result<SkuInfoDTO> getSkuInfo(
-            @ApiParam("SKU ID") @PathVariable Long skuId
+    public Result<SkuDTO> getSkuInfo(
+            @ApiParam("商品ID") @PathVariable Long skuId
     ) {
-        SkuInfoDTO skuInfo = skuService.getSkuInfo(skuId);
+        SkuDTO skuInfo = skuService.getSkuInfo(skuId);
         return Result.success(skuInfo);
     }
 
     @ApiOperation("获取商品库存数量")
     @GetMapping("/{skuId}/stock_num")
     public Result<Integer> getStockNum(
-            @ApiParam("商品库存单元ID") @PathVariable Long skuId
+            @ApiParam("商品ID") @PathVariable Long skuId
     ) {
         Integer stockNum = skuService.getStockNum(skuId);
         return Result.success(stockNum);

@@ -4,11 +4,12 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.pms.pojo.entity.PmsCategoryAttribute;
 import com.youlai.mall.pms.pojo.entity.PmsCategory;
 import com.youlai.mall.pms.pojo.vo.CategoryVO;
-import com.youlai.mall.pms.service.IPmsAttributeService;
-import com.youlai.mall.pms.service.IPmsCategoryService;
+import com.youlai.mall.pms.service.AttributeService;
+import com.youlai.mall.pms.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -32,20 +33,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PmsCategoryController {
 
-    private final IPmsCategoryService iPmsCategoryService;
-    private final IPmsAttributeService iPmsAttributeService;
+    private final CategoryService categoryService;
+    private final AttributeService attributeService;
 
     @ApiOperation(value = "商品分类列表")
     @GetMapping
     public Result<List<CategoryVO>> list() {
-        List<CategoryVO> list = iPmsCategoryService.listCategory(null);
+        List<CategoryVO> list = categoryService.listCategory(null);
         return Result.success(list);
     }
 
     @ApiOperation(value = "商品分类级联列表")
     @GetMapping("/options")
     public Result listCategoryOptions() {
-        List list = iPmsCategoryService.listCategoryOptions();
+        List<Option> list = categoryService.listCategoryOptions();
         return Result.success(list);
     }
 
@@ -54,14 +55,14 @@ public class PmsCategoryController {
     public Result detail(
             @ApiParam("商品分类ID") @PathVariable Long id
     ) {
-        PmsCategory category = iPmsCategoryService.getById(id);
+        PmsCategory category = categoryService.getById(id);
         return Result.success(category);
     }
 
     @ApiOperation(value = "新增商品分类")
     @PostMapping
     public Result addCategory(@RequestBody PmsCategory category) {
-        Long id = iPmsCategoryService.saveCategory(category);
+        Long id = categoryService.saveCategory(category);
         return Result.success(id);
     }
 
@@ -72,7 +73,7 @@ public class PmsCategoryController {
             @RequestBody PmsCategory category
     ) {
         category.setId(id);
-        id = iPmsCategoryService.saveCategory(category);
+        id = categoryService.saveCategory(category);
         return Result.success(id);
     }
 
@@ -82,9 +83,9 @@ public class PmsCategoryController {
     @CacheEvict(value = "pms", key = "'categoryList'")
     public Result delete(@PathVariable String ids) {
         List<String> categoryIds = Arrays.asList(ids.split(","));
-        iPmsAttributeService.remove(new LambdaQueryWrapper<PmsCategoryAttribute>().in(CollectionUtil.isNotEmpty(categoryIds),
+        attributeService.remove(new LambdaQueryWrapper<PmsCategoryAttribute>().in(CollectionUtil.isNotEmpty(categoryIds),
                 PmsCategoryAttribute::getCategoryId, categoryIds));
-        boolean result = iPmsCategoryService.removeByIds(categoryIds);
+        boolean result = categoryService.removeByIds(categoryIds);
         return Result.judge(result);
     }
 
@@ -92,9 +93,10 @@ public class PmsCategoryController {
     @PatchMapping(value = "/{id}")
     @CacheEvict(value = "pms", key = "'categoryList'")
     public Result patch(@PathVariable Long id, @RequestBody PmsCategory category) {
-        LambdaUpdateWrapper<PmsCategory> updateWrapper = new LambdaUpdateWrapper<PmsCategory>().eq(PmsCategory::getId, id);
+        LambdaUpdateWrapper<PmsCategory> updateWrapper = new LambdaUpdateWrapper<PmsCategory>()
+                .eq(PmsCategory::getId, id);
         updateWrapper.set(category.getVisible() != null, PmsCategory::getVisible, category.getVisible());
-        boolean result = iPmsCategoryService.update(updateWrapper);
+        boolean result = categoryService.update(updateWrapper);
         return Result.judge(result);
     }
 }
