@@ -54,7 +54,7 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public boolean deleteCart() {
-        String key = OmsConstants.CART_PREFIX + SecurityUtils.getMemberId();
+        String key = OmsConstants.MEMBER_CART_PREFIX + SecurityUtils.getMemberId();
         redisTemplate.delete(key);
         return true;
     }
@@ -188,7 +188,7 @@ public class CartServiceImpl implements CartService {
      * 获取第一层，即某个用户的购物车
      */
     private BoundHashOperations getCartHashOperations(Long memberId) {
-        String cartKey = OmsConstants.CART_PREFIX + memberId;
+        String cartKey = OmsConstants.MEMBER_CART_PREFIX + memberId;
         BoundHashOperations operations = redisTemplate.boundHashOps(cartKey);
         return operations;
     }
