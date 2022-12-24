@@ -1,5 +1,6 @@
 package com.youlai.mall.oms.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -82,6 +83,7 @@ public class OmsOrder extends BaseEntity {
 	/**
 	 * 商户订单号
 	 */
+	@TableField(updateStrategy = FieldStrategy.IGNORED)
 	private String outTradeNo;
 	/**
 	 * 微信支付订单号
