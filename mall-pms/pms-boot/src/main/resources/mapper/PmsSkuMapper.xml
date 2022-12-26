@@ -18,7 +18,7 @@
     </select>
 
     <!-- 获取商品库存单元信息 -->
-    <select id="getSkuInfo" resultType="com.youlai.mall.pms.pojo.dto.SkuInfoDTO">
+    <select id="getSkuInfo" resultType="com.youlai.mall.pms.pojo.dto.SkuDTO">
         select
                t1.id skuId,
                t1.sku_sn,
