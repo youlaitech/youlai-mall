@@ -7,26 +7,25 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
-import com.youlai.mall.oms.enums.OrderStatusEnum;
+import com.youlai.mall.oms.common.enums.OrderStatusEnum;
 import com.youlai.mall.oms.pojo.dto.OrderDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.service.IOrderItemService;
-import com.youlai.mall.oms.service.IOrderService;
+import com.youlai.mall.oms.service.OrderItemService;
+import com.youlai.mall.oms.service.admin.OmsOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * 订单控制层
+ * 「管理端」订单控制层
  *
  * @author huawei
  * @date 2020/12/30
@@ -37,9 +36,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OmsOrderController {
 
-    private final IOrderService orderService;
+    private final OmsOrderService orderService;
 
-    private final IOrderItemService orderItemService;
+    private final OrderItemService orderItemService;
 
     @ApiOperation("订单分页列表")
     @GetMapping
@@ -58,8 +57,8 @@ public class OmsOrderController {
         OmsOrder order = orderService.getById(orderId);
 
         // 订单明细
-        List<OmsOrderItem> orderItems = orderItemService.list(
-                new LambdaQueryWrapper<OmsOrderItem>().eq(OmsOrderItem::getOrderId, orderId)
+        List<OmsOrderItem> orderItems = orderItemService.list(new LambdaQueryWrapper<OmsOrderItem>()
+                .eq(OmsOrderItem::getOrderId, orderId)
         );
         orderItems = Optional.ofNullable(orderItems).orElse(Collections.EMPTY_LIST);
 
@@ -84,20 +83,24 @@ public class OmsOrderController {
 
     @ApiOperation(value = "「实验室」订单支付", hidden = true)
     @PutMapping("/{orderId}/_pay")
-    public Result payOrder(@PathVariable Long orderId, @RequestBody SeataOrderDTO orderDTO) {
+    public Result payOrder(
+            @ApiParam("订单ID") @PathVariable Long orderId,
+            @RequestBody SeataOrderDTO orderDTO
+    ) {
         Boolean result = orderService.payOrder(orderId, orderDTO);
         return Result.judge(result);
     }
 
     @ApiOperation(value = "「实验室」订单重置", hidden = true)
     @PutMapping("/{orderId}/_reset")
-    public Result resetOrder(@PathVariable Long orderId) {
+    public Result resetOrder(
+            @ApiParam("订单ID") @PathVariable Long orderId
+    ) {
         boolean result = orderService.update(new LambdaUpdateWrapper<OmsOrder>()
                 .eq(OmsOrder::getId, orderId)
-                .set(OmsOrder::getStatus, OrderStatusEnum.WAIT_PAY.getValue())
+                .set(OmsOrder::getStatus, OrderStatusEnum.UNPAID.getValue())
         );
         return Result.judge(result);
     }
-
 
 }
