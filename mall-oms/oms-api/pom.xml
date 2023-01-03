@@ -28,7 +28,6 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
 
-        <!-- 远程调用HTTP客户端 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -39,7 +38,7 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
-        <!-- Api文档 -->
+        <!-- api文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-micro-spring-boot-starter</artifactId>
