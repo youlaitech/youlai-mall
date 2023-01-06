@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 订单 Feign Client
+ * 订单Feign Client
  *
  * @author haoxr
  * @date 2021/3/13
