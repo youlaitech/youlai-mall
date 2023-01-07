@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.enums;
+package com.youlai.mall.oms.common.enums;
 
 import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
@@ -14,30 +14,30 @@ public enum OrderStatusEnum implements IBaseEnum<Integer> {
     /**
      * 待付款
      */
-    WAIT_PAY(1, "待付款"),
+    UNPAID(0, "待付款"),
     /**
-     * 待发货
+     * 已付款(待发货)
      */
-    WAIT_SHIPPING(2, "待发货"),
+    PAID(1, "已付款"),
     /**
      * 已发货
      */
-    SHIPPED(3, "已发货"),
+    SHIPPED(2, "已发货"),
     /**
      * 已完成
      */
-    FINISHED(4, "已完成"),
-    /**
-     * 已关闭(退款完成)
-     */
-    CLOSED(5, "已关闭"),
+    COMPLETE(3, "已完成"),
     /**
      * 已取消
      */
-    CANCELED(6, "已取消");
+    CANCELED(4, "已取消"),
+    /**
+     * 售后中
+     */
+    SERVICING(5, "售后中")
+    ;
 
-
-    OrderStatusEnum(int value, String label) {
+    OrderStatusEnum(Integer value, String label) {
         this.value = value;
         this.label = label;
     }
