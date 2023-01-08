@@ -7,7 +7,7 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.entity.PmsBrand;
 import com.youlai.mall.pms.pojo.query.BrandPageQuery;
-import com.youlai.mall.pms.service.IPmsBrandService;
+import com.youlai.mall.pms.service.BrandService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PmsBrandController {
 
-    private final IPmsBrandService brandService;
+    private final BrandService brandService;
 
     @ApiOperation(value = "品牌分页列表")
     @GetMapping("/pages")

@@ -27,13 +27,13 @@ public interface SkuFeignClient {
      * 解锁商品库存
      */
     @PutMapping("/app-api/v1/sku/_unlock")
-    Result unlockStock(@RequestParam String orderToken);
+    Result unlockStock(@RequestParam String orderSn);
 
     /**
      * 扣减订单商品库存
      */
     @PutMapping("/app-api/v1/sku/_deduct")
-    Result deductStock(@RequestParam String orderToken);
+    Result deductStock(@RequestParam String orderSn);
 
     /**
      * 订单商品验价

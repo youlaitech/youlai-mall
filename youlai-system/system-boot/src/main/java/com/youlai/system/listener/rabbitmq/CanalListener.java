@@ -23,7 +23,7 @@ public class CanalListener {
 
     private final SysMenuService menuService;
 
-    @RabbitListener(queues = "canal.queue")
+    //@RabbitListener(queues = "canal.queue")
     public void handleDataChange(@Payload CanalMessage message) {
         String tableName = message.getTable();
 

@@ -53,6 +53,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -146,7 +147,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             RequestContextHolder.setRequestAttributes(attributes);
             String orderToken = businessSnGenerator.generateSerialNo("ORDER");
             orderConfirmVO.setOrderToken(orderToken);
-            redisTemplate.opsForValue().set(ORDER_TOKEN_PREFIX + orderToken, orderToken);
+            redisTemplate.opsForValue().set(ORDER_RESUBMIT_LOCK_PREFIX + orderToken, orderToken);
         }, threadPoolExecutor);
 
         CompletableFuture.allOf(getOrderItemsFuture, getMemberAddressFuture, getOrderTokenFuture).join();
@@ -171,8 +172,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 new DefaultRedisScript<>(
                         "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end", Long.class
                 ),
-                Collections.singletonList(ORDER_TOKEN_PREFIX + orderSn),
-                orderSn);  // 释放锁成功则返回1
+                Collections.singletonList(ORDER_RESUBMIT_LOCK_PREFIX + orderSn),
+                orderSn
+        );  // 释放锁成功则返回1
         Assert.isTrue(releaseLockResult.equals(1l), "订单重复提交，请刷新页面后重试");
 
         // 订单验价
@@ -193,7 +195,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         LockStockDTO lockStockDTO = new LockStockDTO(orderSn, lockedSkus);
 
         Result lockStockResult = skuFeignClient.lockStock(lockStockDTO);
-        Assert.isTrue(Result.isSuccess(lockStockResult), "订单提交失败：订单商品库存数量不足！");
+        Assert.isTrue(Result.isSuccess(lockStockResult), "订单提交失败：锁定商品库存失败！");
 
         // 创建订单
         OmsOrder orderEntity = orderConverter.submitForm2Entity(orderSubmitForm);
@@ -203,11 +205,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 添加订单明细
         Long orderId = orderEntity.getId();
         if (result) {
-            List<OmsOrderItem> orderItemEntities = orderItemConverter.dto2Entity(orderId, orderItems);
-            result = orderItemService.saveBatch(orderItemEntities);
+            List<OmsOrderItem> itemEntities = orderItemConverter.dto2Entity(orderId, orderItems);
+            result = orderItemService.saveBatch(itemEntities);
             if (result) {
-                // 订单超时未支付取消延时队列(TTL + 死信队列实现)
-                rabbitTemplate.convertAndSend("order.create.exchange", "order.create.routing.key", orderSn);
+                // 订单超时未支付关单
+                rabbitTemplate.convertAndSend("order.exchange", "order.close.delay.routing.key", orderSn);
             }
         }
         Assert.isTrue(result, "订单提交失败");
@@ -222,29 +224,29 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     @Override
     @GlobalTransactional
-    public <T> T pay(Long orderId, String appId, PayTypeEnum payTypeEnum) {
+    public boolean payOrder(Long orderId) {
+
         OmsOrder order = this.getById(orderId);
         Assert.isTrue(order != null, "订单不存在");
 
         Assert.isTrue(OrderStatusEnum.UNPAID.getValue().equals(order.getStatus()), "订单不可支付，请检查订单状态");
 
-        RLock lock = redissonClient.getLock(ORDER_SN_PREFIX + order.getOrderSn());
+        RLock lock = redissonClient.getLock(ORDER_LOCK_PREFIX + order.getOrderSn());
         try {
 
             lock.lock();
-            T result;
-            switch (payTypeEnum) {
-                case WX_JSAPI:
-                    result = (T) wxJsapiPay(appId, order);
-                    break;
-                default:
-                    result = (T) balancePay(order);
-                    break;
-            }
+            // 扣减余额
+            memberFeignClient.deductBalance(SecurityUtils.getMemberId(), order.getPayAmount());
             // 扣减库存
-            Result<?> deductStockResult = skuFeignClient.deductStock(order.getOrderSn());
-            Assert.isTrue(Result.isSuccess(deductStockResult), "扣减商品库存失败");
-            return result;
+            skuFeignClient.deductStock(order.getOrderSn());
+            // 修改订单状态 → 【已支付】
+            order.setStatus(OrderStatusEnum.PAID.getValue());
+            order.setPayType(PayTypeEnum.BALANCE.getValue());
+            order.setPayTime(new Date());
+            this.updateById(order);
+            // 支付成功删除购物车已勾选的商品
+            cartService.removeCheckedItem();
+            return true;
         } finally {
             //释放锁
             if (lock.isLocked()) {
@@ -253,29 +255,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
     }
 
-
     /**
-     * 余额支付
+     * 微信支付
+     *
+     * @param appId
+     * @param order
+     * @return
      */
-    private Boolean balancePay(OmsOrder order) {
-        // 扣减余额
-        Long memberId = SecurityUtils.getMemberId();
-        Long amount = order.getPayAmount();
-        Result<?> deductBalanceResult = memberFeignClient.deductBalance(memberId, amount);
-        Assert.isTrue(Result.isSuccess(deductBalanceResult), "扣减账户余额失败");
-
-        // 更新订单状态
-        order.setStatus(OrderStatusEnum.PAID.getValue());
-        order.setPayType(PayTypeEnum.BALANCE.getValue());
-        order.setPayTime(new Date());
-        this.updateById(order);
-        // 支付成功删除购物车已勾选的商品
-        cartService.removeCheckedItem();
-
-        return true;
-    }
-
-
     private WxPayUnifiedOrderV3Result.JsapiResult wxJsapiPay(String appId, OmsOrder order) {
         Long memberId = SecurityUtils.getMemberId();
         Long payAmount = order.getPayAmount();
@@ -291,7 +277,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 用户id前补零保证五位，对超出五位的保留后五位
         String userIdFilledZero = String.format("%05d", memberId);
         String fiveDigitsUserId = userIdFilledZero.substring(userIdFilledZero.length() - 5);
-        // 在前面加上wxo（weixin order）等前缀是为了人工可以快速分辨订单号是下单还是退款、来自哪家支付机构等
+        // 在前面加上wxo（wx order）等前缀是为了人工可以快速分辨订单号是下单还是退款、来自哪家支付机构等
         // 将时间戳+3位随机数+五位id组成商户订单号，规则参考自<a href="https://tech.meituan.com/2016/11/18/dianping-order-db-sharding.html">大众点评</a>
         String outTradeNo = "wxo_" + System.currentTimeMillis() + RandomUtil.randomNumbers(3) + fiveDigitsUserId;
         log.info("商户订单号拼接完成：{}", outTradeNo);
@@ -330,7 +316,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         if (OrderStatusEnum.UNPAID.getValue().equals(order.getStatus())) {
             result = this.update(new LambdaUpdateWrapper<OmsOrder>()
                     .eq(OmsOrder::getId, order.getId())
-                    .set(OmsOrder::getStatus, OrderStatusEnum.CANCELED));
+                    .set(OmsOrder::getStatus, OrderStatusEnum.CANCELED.getValue()));
             // 关单成功释放锁定的商品库存
             rabbitTemplate.convertAndSend("stock.exchange", "stock.release.routing.key", orderSn);
         } else { // 订单非【待付款】状态无需关闭
@@ -359,7 +345,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         return this.removeById(orderId);
     }
-
 
     @Override
     public void handleWxPayOrderNotify(SignatureHeader signatureHeader, String notifyData) throws WxPayException {

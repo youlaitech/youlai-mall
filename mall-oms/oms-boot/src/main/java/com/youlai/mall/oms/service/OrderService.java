@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
-import com.youlai.mall.oms.common.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
 import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
@@ -40,12 +39,12 @@ public interface OrderService extends IService<OmsOrder> {
     /**
      * 订单支付
      */
-    <T> T pay(Long orderId, String appId, PayTypeEnum payTypeEnum);
+   boolean payOrder(Long orderId);
 
     /**
      * 系统关闭订单
      */
-    boolean closeOrder(String orderToken);
+    boolean closeOrder(String orderSn);
 
     /**
      * 删除订单

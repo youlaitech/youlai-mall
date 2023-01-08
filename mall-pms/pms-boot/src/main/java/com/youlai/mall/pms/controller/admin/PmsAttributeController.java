@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.form.PmsCategoryAttributeForm;
 import com.youlai.mall.pms.pojo.entity.PmsCategoryAttribute;
-import com.youlai.mall.pms.service.IPmsAttributeService;
+import com.youlai.mall.pms.service.AttributeService;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PmsAttributeController {
 
-    private IPmsAttributeService iPmsAttributeService;
+    private AttributeService attributeService;
 
     @ApiOperation(value = "属性列表")
     @GetMapping
@@ -33,7 +33,7 @@ public class PmsAttributeController {
             @ApiParam("商品分类ID") Long categoryId,
             @ApiParam("类型（1：规格；2：属性）") Integer type
     ) {
-        List<PmsCategoryAttribute> list = iPmsAttributeService.list(new LambdaQueryWrapper<PmsCategoryAttribute>()
+        List<PmsCategoryAttribute> list = attributeService.list(new LambdaQueryWrapper<PmsCategoryAttribute>()
                 .eq(categoryId != null, PmsCategoryAttribute::getCategoryId, categoryId)
                 .eq(type != null, PmsCategoryAttribute::getType, type)
         );
@@ -43,7 +43,7 @@ public class PmsAttributeController {
     @ApiOperation(value = "批量新增/修改")
     @PostMapping("/batch")
     public Result saveBatch(@RequestBody PmsCategoryAttributeForm pmsCategoryAttributeForm) {
-        boolean result = iPmsAttributeService.saveBatch(pmsCategoryAttributeForm);
+        boolean result = attributeService.saveBatch(pmsCategoryAttributeForm);
         return Result.judge(result);
     }
 }

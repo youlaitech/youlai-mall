@@ -17,64 +17,65 @@ import java.io.IOException;
  * @author haoxr
  * @date 2022/12/19
  */
-@Component
+//@Component
 @RequiredArgsConstructor
 @Slf4j
 public class OrderCloseListener {
     private final OrderService orderService;
 
-    // 普通队列(创建订单，超时未支付转发至关单(死信)队列)
-    private static final String ORDER_CREATE_QUEUE = "order.create.queue";
+    // 延迟队列
+    private static final String ORDER_CLOSE_DELAY_QUEUE = "order.close.delay.queue";
     private static final String ORDER_EXCHANGE = "order.exchange";
-    private static final String ORDER_CREATE_ROUTING_KEY = "order.create.routing.key";
+    private static final String ORDER_CLOSE_DELAY_ROUTING_KEY = "order.close.delay.routing.key";
 
-    // 死信队列(关单队列)
+    // 关单队列
     private static final String ORDER_ClOSE_QUEUE = "order.close.queue";
     private static final String ORDER_DLX_EXCHANGE = "order.dlx.exchange";
     private static final String ORDER_ClOSE_ROUTING_KEY = "order.close.routing.key";
 
     /**
-     * 普通队列(创建订单)消费处理
+     * 延迟队列·
      * <p>
-     * 超过 x-message-ttl 设定时间未被消费会转发到死信队列 ORDER_ClOSE_QUEUE
+     * 超过 x-message-ttl 设定时间未被消费转发到死信交换机
      */
-    @RabbitListener(bindings =
-    @QueueBinding(
-            value = @Queue(value = ORDER_CREATE_QUEUE,
-                    arguments =
-                            {
-                                    @Argument(name = "x-dead-letter-exchange", value = ORDER_DLX_EXCHANGE),
-                                    @Argument(name = "x-dead-letter-routing-key", value = ORDER_ClOSE_ROUTING_KEY),
-                                    @Argument(name = "x-message-ttl", value = "10000", type = "java.lang.Long") // 单位毫秒
-                            }),
-            exchange = @Exchange(value = ORDER_EXCHANGE),
-            key = {ORDER_CREATE_ROUTING_KEY}
+   @RabbitListener(bindings =
+            {
+                    @QueueBinding(
+                            value = @Queue(value = ORDER_CLOSE_DELAY_QUEUE,
+                                    arguments =
+                                            {
+                                                    @Argument(name = "x-dead-letter-exchange", value = ORDER_DLX_EXCHANGE),
+                                                    @Argument(name = "x-dead-letter-routing-key", value = ORDER_ClOSE_ROUTING_KEY),
+                                                    @Argument(name = "x-message-ttl", value = "5000", type = "java.lang.Long") // 超时10s
+                                            }),
+                            exchange = @Exchange(value = ORDER_EXCHANGE),
+                            key = {ORDER_CLOSE_DELAY_ROUTING_KEY}
+                    )
+            }, ackMode = "MANUAL" // 手动ACK
     )
-    )
-    @RabbitHandler
-    public void handleOrderCreate(Message message, Channel channel) throws Exception {
+    public void handleOrderCloseDelay(String orderSn, Message message, Channel channel) throws IOException {
+        log.info("订单【{}】延时队列，10s内如果未支付将路由到关单队列", orderSn);
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
         /**
-         * @param 参数1
+         * @param deliveryTag 消息序号
          * @param multiple 是否批量处理（true:批量拒绝所有小于deliveryTag的消息；false:只处理当前消息）
          * @param requeue 拒绝是否重新入队列 （true:消息重新入队；false:禁止消息重新入队）
          */
-        long deliveryTag = message.getMessageProperties().getDeliveryTag();
-        channel.basicNack(deliveryTag, false, false);  // 等于 channel.basicReject(deliveryTag, false);
-
+        //channel.basicReject(deliveryTag, false);  // 等于 channel.basicReject(deliveryTag, false);
     }
 
     /**
-     * 死信队列(关单)消费处理
+     * 关单队列
      */
-    @RabbitListener(bindings =
-    @QueueBinding(
-            value = @Queue(value = ORDER_ClOSE_QUEUE, durable = "true"),
-            exchange = @Exchange(value = ORDER_DLX_EXCHANGE),
-            key = {ORDER_ClOSE_ROUTING_KEY}
-    ),
-            ackMode = "MANUAL" // 手动ACK
+    @RabbitListener(bindings = {
+            @QueueBinding(
+                    value = @Queue(value = ORDER_ClOSE_QUEUE, durable = "true"),
+                    exchange = @Exchange(value = ORDER_DLX_EXCHANGE),
+                    key = {ORDER_ClOSE_ROUTING_KEY}
+            )
+    }, ackMode = "MANUAL" // 手动ACK
     )
-    @RabbitHandler
+    @RabbitListener(queues = "order.close.queue")
     public void handleOrderClose(String orderSn, Message message, Channel channel) throws IOException {
 
         long deliveryTag = message.getMessageProperties().getDeliveryTag(); // 消息序号
@@ -84,7 +85,9 @@ public class OrderCloseListener {
             orderService.closeOrder(orderSn);
             channel.basicAck(deliveryTag, false);
         } catch (Exception e) {
-            channel.basicReject(deliveryTag, true);
+
+            // TODO 关单失败，入定时任务表
+            channel.basicReject(deliveryTag, false);
         }
     }
 }
