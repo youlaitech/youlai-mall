@@ -8,8 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 订单商品明细表
  *
  * @author huawei
- * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @date 2020-12-30
  */
 @Mapper
 public interface OrderItemMapper extends BaseMapper<OmsOrderItem> {
