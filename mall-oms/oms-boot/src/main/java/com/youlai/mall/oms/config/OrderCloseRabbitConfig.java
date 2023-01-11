@@ -22,16 +22,15 @@ import java.util.Map;
 @Slf4j
 public class OrderCloseRabbitConfig {
 
-    // 延迟队列
+    // 普通延迟队列
     private static final String ORDER_CLOSE_DELAY_QUEUE = "order.close.delay.queue";
     private static final String ORDER_EXCHANGE = "order.exchange";
     private static final String ORDER_CLOSE_DELAY_ROUTING_KEY = "order.close.delay.routing.key";
 
-    // 死信队列
+    // 死信关单队列
     private static final String ORDER_ClOSE_QUEUE = "order.close.queue";
     private static final String ORDER_DLX_EXCHANGE = "order.dlx.exchange";
     private static final String ORDER_ClOSE_ROUTING_KEY = "order.close.routing.key";
-
 
     /**
      * 定义交换机
@@ -41,6 +40,9 @@ public class OrderCloseRabbitConfig {
         return new DirectExchange(ORDER_EXCHANGE, true, false);
     }
 
+    /**
+     * 死信交换机
+     */
     @Bean
     public Exchange orderDlxExchange() {
         return new DirectExchange(ORDER_DLX_EXCHANGE, true, false);
@@ -55,7 +57,7 @@ public class OrderCloseRabbitConfig {
         Map<String, Object> args = new HashMap<>();
         args.put("x-dead-letter-exchange", ORDER_DLX_EXCHANGE);
         args.put("x-dead-letter-routing-key", ORDER_ClOSE_ROUTING_KEY); // 死信路由Key
-        args.put("x-message-ttl", 5 * 1000L); // 5s
+        args.put("x-message-ttl", 5 * 1000L); // 单位毫秒，5s用于测试
         return new Queue(ORDER_CLOSE_DELAY_QUEUE, true, false, false, args);
     }
 
@@ -71,7 +73,7 @@ public class OrderCloseRabbitConfig {
 
 
     /**
-     * 死信队列
+     * 关单队列
      */
     @Bean
     public Queue orderCloseQueue() {
@@ -80,7 +82,7 @@ public class OrderCloseRabbitConfig {
     }
 
     /**
-     * 死信队列绑定交换机
+     * 关单队列绑定死信交换机
      */
     @Bean
     public Binding orderCloseQueueBinding() {
