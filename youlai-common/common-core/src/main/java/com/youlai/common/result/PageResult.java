@@ -17,7 +17,7 @@ public class PageResult<T> implements Serializable {
 
     private String code;
 
-    private Data data;
+    private Data<T> data;
 
     private String msg;
 
