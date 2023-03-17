@@ -6,15 +6,13 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * Redis缓存配置
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/8/19
+ * @author haoxr
  */
 @EnableConfigurationProperties(CacheProperties.class)
 @Configuration
@@ -26,8 +24,8 @@ public class RedisCacheConfig {
 
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
 
-        config = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
-        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+        config = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()));
+        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json()));
 
         CacheProperties.Redis redisProperties = cacheProperties.getRedis();
 
