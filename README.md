@@ -155,7 +155,7 @@ youlai-mall
 
    - 进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
 
-   - 进入 `youlai-system`  → `system-boot` 模块的启动类 AdminApplication 启动系统服务；
+   - 进入 `youlai-system`  → `system-boot` 模块的启动类 SystemApplication 启动系统服务；
 
    - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-system` 一致;
 
