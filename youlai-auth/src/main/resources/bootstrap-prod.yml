@@ -9,7 +9,7 @@ spring:
     nacos:
       # 注册中心
       discovery:
-        server-addr: http://c.youlai.tech:8848
+        server-addr: http://81.69.45.188:8848
         namespace: prod-namespace-id
       # 配置中心
       config:
