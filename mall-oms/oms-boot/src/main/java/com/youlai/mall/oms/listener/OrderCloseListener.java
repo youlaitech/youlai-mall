@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.*;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -34,7 +33,7 @@ public class OrderCloseListener {
     private static final String ORDER_ClOSE_ROUTING_KEY = "order.close.routing.key";
 
     /**
-     * 延迟队列·
+     * 延迟队列
      * <p>
      * 超过 x-message-ttl 设定时间未被消费转发到死信交换机
      */
