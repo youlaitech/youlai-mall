@@ -10,7 +10,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://81.69.45.188:8848
+        server-addr: http://f.youlai.tech:8848
         namespace: prod-namespace-id
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
