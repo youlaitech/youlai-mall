@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.common.result.ResultCode;
 import com.youlai.system.dto.UserAuthInfo;
 import com.youlai.system.pojo.dto.UserImportDTO;
 import com.youlai.system.pojo.entity.SysUser;
@@ -21,6 +22,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.simpleframework.xml.core.Validate;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StopWatch;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +51,11 @@ public class SysUserController {
     @ApiOperation(value = "用户分页列表")
     @GetMapping("/pages")
     public PageResult<UserVO> listUserPages(UserPageQuery queryParams) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         IPage<UserVO> result = userService.listUserPages(queryParams);
+        stopWatch.stop();
+        System.out.println("耗时：" + stopWatch.getTotalTimeMillis());
         return PageResult.success(result);
     }
 
@@ -164,6 +170,10 @@ public class SysUserController {
             @ApiParam("用户名") @PathVariable String username
     ) {
         UserAuthInfo user = userService.getUserAuthInfo(username);
-        return Result.success(user);
+        if(user==null){
+            return Result.failed(ResultCode.USER_NOT_EXIST);
+        }else{
+            return Result.success(user);
+        }
     }
 }
