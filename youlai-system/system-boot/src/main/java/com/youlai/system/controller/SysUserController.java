@@ -22,7 +22,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.simpleframework.xml.core.Validate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StopWatch;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,11 +50,7 @@ public class SysUserController {
     @ApiOperation(value = "用户分页列表")
     @GetMapping("/pages")
     public PageResult<UserVO> listUserPages(UserPageQuery queryParams) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         IPage<UserVO> result = userService.listUserPages(queryParams);
-        stopWatch.stop();
-        System.out.println("耗时：" + stopWatch.getTotalTimeMillis());
         return PageResult.success(result);
     }
 
