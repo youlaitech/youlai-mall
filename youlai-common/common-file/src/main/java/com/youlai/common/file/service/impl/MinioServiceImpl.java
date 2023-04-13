@@ -7,6 +7,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.common.file.service.FileService;
 import com.youlai.common.file.vo.FileInfo;
+import com.youlai.common.web.exception.BizException;
 import io.minio.*;
 import io.minio.http.Method;
 import lombok.Setter;
@@ -21,6 +22,12 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 
 
+/**
+ * MinIO 文件服务类
+ *
+ * @author haoxr
+ * @date 2023/4/13
+ */
 @Component
 @ConfigurationProperties(prefix = "minio")
 @Slf4j
@@ -80,7 +87,6 @@ public class MinioServiceImpl implements FileService, InitializingBean {
      * @return
      */
     @Override
-    @SneakyThrows
     public FileInfo uploadFile(MultipartFile file) {
         // 存储桶不存在则创建
         createBucketIfAbsent(bucketName);
@@ -89,36 +95,38 @@ public class MinioServiceImpl implements FileService, InitializingBean {
         String suffix = FileUtil.getSuffix(file.getOriginalFilename());
         String uuid = IdUtil.simpleUUID();
         String fileName = DateUtil.format(LocalDateTime.now(), "yyyy/MM/dd") + "/" + uuid + "." + suffix;
-
-        InputStream inputStream = file.getInputStream();
-
-        // 文件上传
-        PutObjectArgs putObjectArgs = PutObjectArgs.builder()
-                .bucket(bucketName)
-                .object(fileName)
-                .contentType(file.getContentType())
-                .stream(inputStream, inputStream.available(), -1)
-                .build();
-        minioClient.putObject(putObjectArgs);
-
-        // 返回文件路径
-        String fileUrl;
-        if (StrUtil.isBlank(customDomain)) { // 未配置自定义域名
-            GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
-                    .bucket(bucketName).object(fileName)
-                    .method(Method.GET)
+        //  try-with-resource 语法糖自动释放流
+        try (InputStream inputStream = file.getInputStream()) {
+            // 文件上传
+            PutObjectArgs putObjectArgs = PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(fileName)
+                    .contentType(file.getContentType())
+                    .stream(inputStream, inputStream.available(), -1)
                     .build();
+            minioClient.putObject(putObjectArgs);
 
-            fileUrl = minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
-            fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
-        } else { // 配置自定义文件路径域名
-            fileUrl = customDomain + '/' + bucketName + "/" + fileName;
+            // 返回文件路径
+            String fileUrl;
+            if (StrUtil.isBlank(customDomain)) { // 未配置自定义域名
+                GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
+                        .bucket(bucketName).object(fileName)
+                        .method(Method.GET)
+                        .build();
+
+                fileUrl = minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
+                fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
+            } else { // 配置自定义文件路径域名
+                fileUrl = customDomain + '/' + bucketName + "/" + fileName;
+            }
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.setName(fileName);
+            fileInfo.setUrl(fileUrl);
+            return fileInfo;
+        } catch (Exception e) {
+            throw new BizException("文件上传失败");
         }
-
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setName(fileName);
-        fileInfo.setUrl(fileUrl);
-        return fileInfo;
     }
 
     /**
