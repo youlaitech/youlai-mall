@@ -144,9 +144,6 @@ public class GlobalExceptionHandler {
         return Result.failed(errorMessage);
     }
 
-    /**
-     * TypeMismatchException
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(TypeMismatchException.class)
     public <T> Result<T> processException(TypeMismatchException e) {
@@ -160,7 +157,7 @@ public class GlobalExceptionHandler {
         String errorMsg = e.getMessage();
         log.error(errorMsg);
         if (StrUtil.isNotBlank(errorMsg) && errorMsg.contains("denied to user")) {
-            return Result.failed("数据库用户无操作权限，建议本地搭建数据库环境");
+            return Result.failed(ResultCode.FORBIDDEN_OPERATION);
         } else {
             return Result.failed(e.getMessage());
         }
@@ -195,8 +192,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public <T> Result<T> handleException(Exception e) {
-        log.error("unknown exception:{}", e.getMessage());
-        return Result.failed(e.getMessage());
+        String errorMsg = e.getMessage();
+        if (StrUtil.isNotBlank(errorMsg) && errorMsg.contains("denied to user")) {
+            return Result.failed(ResultCode.FORBIDDEN_OPERATION);
+        }else{
+            log.error("unknown exception:{}", e.getMessage());
+            return Result.failed(e.getMessage());
+        }
     }
 
     /**

@@ -30,7 +30,7 @@ public enum ResultCode implements IResultCode, Serializable {
 
     AUTHORIZED_ERROR("A0300", "访问权限异常"),
     ACCESS_UNAUTHORIZED("A0301", "访问未授权"),
-    FORBIDDEN_OPERATION("A0302", "演示环境禁止修改、删除重要数据，请本地部署后测试"),
+    FORBIDDEN_OPERATION("A0302", "演示环境禁止新增、修改和删除重要数据，请本地部署后测试"),
 
 
     PARAM_ERROR("A0400", "用户请求参数错误"),
