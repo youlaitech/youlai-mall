@@ -50,9 +50,9 @@
 | 商城管理端 | [mall-admin](https://gitee.com/youlaiorg/mall-admin)   | [mall-admin](https://github.com/youlaitech/mall-admin)   | -       |
 | 移动应用端 | [mall-app](https://gitee.com/youlaiorg/mall-app)       | [mall-app](https://github.com/youlaitech/mall-app)       | -       |
 
-##  🗂目录结构
+##  🗂项目结构
 
-``` cassandra
+```
 youlai-mall
 ├── docs  
     ├── nacos      -- Nacos配置
