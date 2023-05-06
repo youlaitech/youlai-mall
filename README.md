@@ -191,7 +191,7 @@ youlai-mall
 
 | 交流群                                                                             | 开发者                                             | 开发者                                               |
 |---------------------------------------------------------------------------------|-------------------------------------------------|---------------------------------------------------|
-| ![](https://s2.loli.net/2023/04/29/uDTzirOC1EZLK8A.png) | ![](https://www.youlai.tech/files/blog/rui.jpg) | ![](https://www.youlai.tech/files/blog/chuan.jpg) |
+| ![](https://s2.loli.net/2023/05/06/7OJ96qfybNznMaP.png) | ![](https://www.youlai.tech/files/blog/rui.jpg) | ![](https://www.youlai.tech/files/blog/chuan.jpg) |
 
 
 
