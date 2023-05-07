@@ -54,21 +54,21 @@
 
 ## 🗂项目目录
 
-``` properties
+``` text
 youlai-mall
 ├── docs  
-    ├── nacos      # Nacos配置
-    ├── sql        # SQL脚本
-├── laboratory     # 实验室
-├── mall-oms       # 订单服务
-├── mall-pms       # 商品服务
-├── mall-sms       # 营销服务
-├── mall-ums       # 会员服务
-├── middleware     # 中间件(nacos/seata)
-├── youlai-auth    # OAuth2认证授权中心
-├── youlai-common  # 公共依赖
-├── youlai-gateway # 网关
-├── youlai-system  # 系统服务
+    ├── nacos           # Nacos配置
+    ├── sql             # SQL脚本
+├── laboratory          # 实验室
+├── mall-oms            # 订单服务
+├── mall-pms            # 商品服务
+├── mall-sms            # 营销服务
+├── mall-ums            # 会员服务
+├── middleware          # 中间件(nacos/seata)
+├── youlai-auth         # OAuth2认证授权中心
+├── youlai-common       # 公共依赖
+├── youlai-gateway      # 网关
+├── youlai-system       # 系统服务
 └── end
 ```
 
