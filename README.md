@@ -54,7 +54,7 @@
 
 ## 🗂项目目录
 
-``` bash
+``` properties
 youlai-mall
 ├── docs  
     ├── nacos      # Nacos配置
