@@ -1,4 +1,4 @@
-<p style="text-align:center">
+<p align="center">
     <img alt="有来技术" src="https://img.shields.io/badge/SpringBoot-2.7.8-brightgreen.svg"/>
     <img alt="有来技术" src="https://img.shields.io/badge/SpringCloud & Alibaba -2021-green.svg"/>
      <a href="https://gitee.com/youlaitech/youlai-mall" target="_blank">
@@ -14,7 +14,7 @@
     </a>
 </p>
 
-<p style="text-align:center">
+<p align="center">
    <a target="_blank" href="https://www.youlai.tech">官方文档</a> |
    <a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> 团队博客</a> 
 </p>
