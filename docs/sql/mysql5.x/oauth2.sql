@@ -13,6 +13,7 @@
 
  Date: 06/11/2022 22:10:58
 */
+use oauth2;
 
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;

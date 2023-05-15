@@ -14,6 +14,8 @@
  Date: 06/11/2022 22:12:28
 */
 
+use youlai_system;
+
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
