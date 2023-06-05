@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * 密码编码器
  *
  * @author haoxr
- * @date 2022/10/21
+ * @since 2022/10/21
  */
 @Configuration
 public class PasswordEncoderConfig {

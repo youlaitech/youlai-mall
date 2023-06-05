@@ -1,17 +1,17 @@
 package com.youlai.mall.sms.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.sms.pojo.entity.SmsCoupon;
+import com.youlai.mall.sms.model.entity.SmsCoupon;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.sms.pojo.form.CouponForm;
-import com.youlai.mall.sms.pojo.query.CouponPageQuery;
-import com.youlai.mall.sms.pojo.vo.CouponPageVO;
+import com.youlai.mall.sms.model.form.CouponForm;
+import com.youlai.mall.sms.model.query.CouponPageQuery;
+import com.youlai.mall.sms.model.vo.CouponPageVO;
 
 /**
  * 优惠券业务接口
  *
  * @author haoxr
- * @date  2022/5/29
+ * @since  2022/5/29
  */
 public interface SmsCouponService extends IService<SmsCoupon> {
 

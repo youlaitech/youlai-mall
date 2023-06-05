@@ -4,7 +4,7 @@ package com.youlai.mall.pms.common.constant;
  * 商品模块常量
  *
  * @author haoxr
- * @date 2021/02/28
+ * @since 2021/02/28
  */
 public interface ProductConstants {
 

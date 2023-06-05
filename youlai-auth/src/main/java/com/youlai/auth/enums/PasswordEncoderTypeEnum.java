@@ -6,7 +6,7 @@ import lombok.Getter;
  * 密码编码类型枚举
  *
  * @author haoxr
- * @createTime 2021/6/5 17:57
+ * @since  2021/6/5 17:57
  */
 
 public enum PasswordEncoderTypeEnum {

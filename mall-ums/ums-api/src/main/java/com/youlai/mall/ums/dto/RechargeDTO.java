@@ -1,34 +1,33 @@
 package com.youlai.mall.ums.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
-@ApiModel
+@Schema 
 @Data
 public class RechargeDTO {
 
-    @ApiModelProperty(value = "充值金额")
+    @Schema(description = "充值金额")
     private String price;
 
-    @ApiModelProperty(value = "充值说明")
+    @Schema(description = "充值说明")
     private String name;
 
-    @ApiModelProperty(value = "用来通知指定地址")
+    @Schema(description = "用来通知指定地址")
     private String callbackurl;
 
-    @ApiModelProperty(value = "跳转地址")
+    @Schema(description = "跳转地址")
     private String reurl;
 
-    @ApiModelProperty(value = "用户存放您的用户ID")
+    @Schema(description = "用户存放您的用户ID")
     private String thirduid;
 
-    @ApiModelProperty(value = "备注")
+    @Schema(description = "备注")
     private String remarks;
 
-    @ApiModelProperty(value = "其他信息")
+    @Schema(description = "其他信息")
     private String other;
 
 

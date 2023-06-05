@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.mall.sms.converter.AdvertConverter;
-import com.youlai.mall.sms.pojo.entity.SmsAdvert;
+import com.youlai.mall.sms.model.entity.SmsAdvert;
 import com.youlai.mall.sms.mapper.SmsAdvertMapper;
-import com.youlai.mall.sms.pojo.query.AdvertPageQuery;
-import com.youlai.mall.sms.pojo.vo.AdBannerVO;
-import com.youlai.mall.sms.pojo.vo.AdvertPageVO;
+import com.youlai.mall.sms.model.query.AdvertPageQuery;
+import com.youlai.mall.sms.model.vo.AdBannerVO;
+import com.youlai.mall.sms.model.vo.AdvertPageVO;
 import com.youlai.mall.sms.service.SmsAdvertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.List;
  * 广告业务实现类
  *
  * @author haoxr
- * @date 2022/5/28
+ * @since 2022/5/28
  */
 @Service
 @RequiredArgsConstructor

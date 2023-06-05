@@ -8,8 +8,8 @@ import com.youlai.common.redis.BusinessSnGenerator;
 import com.youlai.mall.oms.common.enums.OrderStatusEnum;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.oms.mapper.OrderMapper;
-import com.youlai.mall.oms.pojo.entity.OmsOrder;
-import com.youlai.mall.oms.pojo.query.OrderPageQuery;
+import com.youlai.mall.oms.model.entity.OmsOrder;
+import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.service.admin.OmsOrderService;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.List;
  * 「管理端」订单业务实现类
  *
  * @author haoxr
- * @date 2022/2/12
+ * @since 2022/2/12
  */
 @Service
 @RequiredArgsConstructor

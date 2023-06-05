@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 实验室启动类
  *
  * @author <a href="mailto:2256222053@qq.com">zc</a>
- * @date 2021/11/29 0029 22:50
+ * @since 2021/11/29 0029 22:50
  */
 @SpringBootApplication
 @EnableFeignClients(basePackageClasses = {OrderFeignClient.class, SkuFeignClient.class, MemberFeignClient.class})

@@ -1,11 +1,11 @@
 package com.youlai.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.system.model.entity.SysDept;
+import com.youlai.system.model.form.DeptForm;
+import com.youlai.system.model.query.DeptQuery;
+import com.youlai.system.model.vo.DeptVO;
 import com.youlai.common.web.model.Option;
-import com.youlai.system.pojo.entity.SysDept;
-import com.youlai.system.pojo.form.DeptForm;
-import com.youlai.system.pojo.query.DeptQuery;
-import com.youlai.system.pojo.vo.dept.DeptVO;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * 部门业务接口
  *
  * @author haoxr
- * @date 2021/8/22
+ * @since 2021/8/22
  */
 public interface SysDeptService extends IService<SysDept> {
     /**

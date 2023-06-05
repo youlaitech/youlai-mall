@@ -7,7 +7,7 @@ import lombok.Getter;
  * 订单状态枚举
  *
  * @author haoxr
- * @date 2022/11/28
+ * @since 2022/11/28
  */
 public enum OrderStatusEnum implements IBaseEnum<Integer> {
 

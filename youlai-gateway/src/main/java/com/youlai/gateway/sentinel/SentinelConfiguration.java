@@ -9,13 +9,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 /**
  * 自定义网关流控异常
  *
  * @author haoxr
- * @date 2022/7/24
+ * @since 2022/7/24
  */
 @Configuration
 public class SentinelConfiguration {

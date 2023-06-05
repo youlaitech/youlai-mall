@@ -31,21 +31,21 @@ import com.youlai.mall.oms.common.enums.PayTypeEnum;
 import com.youlai.mall.oms.converter.OrderConverter;
 import com.youlai.mall.oms.converter.OrderItemConverter;
 import com.youlai.mall.oms.mapper.OrderMapper;
-import com.youlai.mall.oms.pojo.dto.CartItemDTO;
-import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
-import com.youlai.mall.oms.pojo.entity.OmsOrder;
-import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
-import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
-import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
-import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
+import com.youlai.mall.oms.model.dto.CartItemDTO;
+import com.youlai.mall.oms.model.dto.OrderItemDTO;
+import com.youlai.mall.oms.model.entity.OmsOrder;
+import com.youlai.mall.oms.model.entity.OmsOrderItem;
+import com.youlai.mall.oms.model.form.OrderSubmitForm;
+import com.youlai.mall.oms.model.query.OrderPageQuery;
+import com.youlai.mall.oms.model.vo.OrderConfirmVO;
+import com.youlai.mall.oms.model.vo.OrderSubmitResultVO;
 import com.youlai.mall.oms.service.CartService;
 import com.youlai.mall.oms.service.OrderItemService;
 import com.youlai.mall.oms.service.OrderService;
 import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.LockStockDTO;
+import com.youlai.mall.pms.model.dto.CheckPriceDTO;
+import com.youlai.mall.pms.model.dto.SkuDTO;
+import com.youlai.mall.pms.model.dto.LockStockDTO;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -53,7 +53,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -75,7 +74,7 @@ import static com.youlai.mall.oms.common.constant.OmsConstants.*;
  * 订单业务实现类
  *
  * @author haoxr
- * @date 2022/2/12
+ * @since 2022/2/12
  */
 @Service
 @RequiredArgsConstructor

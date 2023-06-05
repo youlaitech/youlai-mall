@@ -4,7 +4,7 @@ package com.youlai.mall.oms.common.constant;
  * 订单常量
  *
  * @author haoxr
- * @date 2021/03/16
+ * @since 2021/03/16
  */
 public interface OmsConstants {
 

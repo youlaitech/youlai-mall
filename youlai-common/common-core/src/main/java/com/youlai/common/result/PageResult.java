@@ -10,7 +10,7 @@ import java.util.List;
  * 分页响应结构体
  *
  * @author haoxr
- * @date 2022/2/18 23:29
+ * @since 2022/2/18 23:29
  */
 @Data
 public class PageResult<T> implements Serializable {

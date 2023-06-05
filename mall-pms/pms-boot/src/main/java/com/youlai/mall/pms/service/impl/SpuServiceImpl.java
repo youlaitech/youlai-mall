@@ -15,13 +15,13 @@ import com.youlai.mall.pms.common.enums.AttributeTypeEnum;
 import com.youlai.mall.pms.converter.SpuAttributeConverter;
 import com.youlai.mall.pms.converter.SpuConverter;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
-import com.youlai.mall.pms.pojo.form.PmsSpuAttributeForm;
-import com.youlai.mall.pms.pojo.form.PmsSpuForm;
-import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.entity.PmsSpu;
-import com.youlai.mall.pms.pojo.entity.PmsSpuAttribute;
-import com.youlai.mall.pms.pojo.query.SpuPageQuery;
-import com.youlai.mall.pms.pojo.vo.*;
+import com.youlai.mall.pms.model.form.PmsSpuAttributeForm;
+import com.youlai.mall.pms.model.form.PmsSpuForm;
+import com.youlai.mall.pms.model.entity.PmsSku;
+import com.youlai.mall.pms.model.entity.PmsSpu;
+import com.youlai.mall.pms.model.entity.PmsSpuAttribute;
+import com.youlai.mall.pms.model.query.SpuPageQuery;
+import com.youlai.mall.pms.model.vo.*;
 import com.youlai.mall.pms.service.SkuService;
 import com.youlai.mall.pms.service.SpuAttributeService;
 import com.youlai.mall.pms.service.SpuService;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * 商品业务实现类
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/8/8
+ * @since 2021/8/8
  */
 @Service
 @RequiredArgsConstructor

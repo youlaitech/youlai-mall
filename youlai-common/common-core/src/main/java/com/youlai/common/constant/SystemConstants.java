@@ -4,7 +4,7 @@ package com.youlai.common.constant;
  * 系统常量
  *
  * @author haoxr
- * @date 2021/10/30 9:32
+ * @since 2021/10/30 9:32
  */
 public interface SystemConstants {
 
@@ -17,7 +17,7 @@ public interface SystemConstants {
     /**
      * 系统默认密码
      */
-    String DEFAULT_USER_PASSWORD = "123456";
+    String DEFAULT_PASSWORD = "123456";
 
     /**
      * 超级管理员角色编码

@@ -4,7 +4,7 @@ package com.youlai.common.constant;
  * 全局常量
  *
  * @author haoxr
- * @date 2021/10/30 9:32
+ * @since 2021/10/30 9:32
  */
 public interface GlobalConstants {
 

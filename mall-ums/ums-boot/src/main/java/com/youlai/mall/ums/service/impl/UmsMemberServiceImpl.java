@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
+import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
 import com.youlai.mall.ums.convert.AddressConvert;
 import com.youlai.mall.ums.convert.MemberConvert;
@@ -17,9 +17,9 @@ import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
-import com.youlai.mall.ums.pojo.entity.UmsAddress;
-import com.youlai.mall.ums.pojo.entity.UmsMember;
-import com.youlai.mall.ums.pojo.vo.MemberVO;
+import com.youlai.mall.ums.model.entity.UmsAddress;
+import com.youlai.mall.ums.model.entity.UmsMember;
+import com.youlai.mall.ums.model.vo.MemberVO;
 import com.youlai.mall.ums.service.IUmsAddressService;
 import com.youlai.mall.ums.service.IUmsMemberService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ import java.util.Set;
  * 会员业务实现类
  *
  * @author haoxr
- * @date 2022/2/12
+ * @since 2022/2/12
  */
 @Service
 @RequiredArgsConstructor

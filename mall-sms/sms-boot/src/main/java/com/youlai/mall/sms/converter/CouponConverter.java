@@ -1,9 +1,9 @@
 package com.youlai.mall.sms.converter;
 
 
-import com.youlai.mall.sms.pojo.entity.SmsCoupon;
-import com.youlai.mall.sms.pojo.form.CouponForm;
-import com.youlai.mall.sms.pojo.vo.CouponPageVO;
+import com.youlai.mall.sms.model.entity.SmsCoupon;
+import com.youlai.mall.sms.model.form.CouponForm;
+import com.youlai.mall.sms.model.vo.CouponPageVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -14,7 +14,7 @@ import java.util.List;
  * 优惠券对象转换器
  *
  * @author haoxr
- * @date 2022/5/29
+ * @since 2022/5/29
  */
 @Mapper(componentModel = "spring")
 public interface CouponConverter {

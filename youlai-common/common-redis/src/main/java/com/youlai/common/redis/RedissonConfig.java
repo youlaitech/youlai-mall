@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author huawei
  * @email huawei_code@163.com
- * @date 2021/2/22
+ * @since 2021/2/22
  */
 @ConditionalOnProperty(prefix = "redisson",name = "address")
 @ConfigurationProperties(prefix = "redisson")

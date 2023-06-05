@@ -8,7 +8,7 @@ import lombok.Getter;
  * 菜单类型枚举
  *
  * @author haoxr
- * @date 2022/4/23
+ * @since 2022/4/23
  */
 
 public enum MenuTypeEnum implements IBaseEnum<Integer> {

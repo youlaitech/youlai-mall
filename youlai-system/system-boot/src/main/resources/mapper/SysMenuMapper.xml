@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.system.mapper.SysMenuMapper">
 
     <!-- 菜单路由映射 -->
-    <resultMap id="RouteMap" type="com.youlai.system.pojo.bo.RouteBO">
+    <resultMap id="RouteMap" type="com.youlai.system.model.bo.RouteBO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="parentId" column="parent_id" jdbcType="BIGINT"/>

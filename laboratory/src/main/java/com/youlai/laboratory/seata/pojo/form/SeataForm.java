@@ -6,7 +6,7 @@ import lombok.Data;
  * Seata 表单数据
  *
  * @author haoxr
- * @date 2022/4/21 23:16
+ * @since 2022/4/21 23:16
  */
 @Data
 public class SeataForm {

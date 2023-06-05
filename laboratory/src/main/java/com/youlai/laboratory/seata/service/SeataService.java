@@ -7,7 +7,7 @@ import com.youlai.laboratory.seata.pojo.vo.SeataVO;
  * Seata 实验室接口层
  *
  * @author haoxr
- * @date 2022/4/16 20:49
+ * @since 2022/4/16 20:49
  */
 public interface SeataService {
 

@@ -6,7 +6,7 @@
     <parent>
         <artifactId>youlai-mall</artifactId>
         <groupId>com.youlai</groupId>
-        <version>2.2.0</version>
+        <version>3.0.0</version>
     </parent>
 
     <artifactId>youlai-gateway</artifactId>
@@ -71,7 +71,7 @@
         <!-- Api文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- 配置读取 -->

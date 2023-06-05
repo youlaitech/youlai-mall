@@ -1,16 +1,16 @@
 package com.youlai.system.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.system.pojo.entity.SysDictType;
-import com.youlai.system.pojo.form.DictTypeForm;
-import com.youlai.system.pojo.vo.dict.DictTypePageVO;
+import com.youlai.system.model.entity.SysDictType;
+import com.youlai.system.model.form.DictTypeForm;
+import com.youlai.system.model.vo.DictTypePageVO;
 import org.mapstruct.Mapper;
 
 /**
  * 字典类型对象转换器
  *
  * @author haoxr
- * @date 2022/6/8
+ * @since 2022/6/8
  */
 @Mapper(componentModel = "spring")
 public interface DictTypeConverter {

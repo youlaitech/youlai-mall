@@ -6,7 +6,7 @@ import lombok.Data;
  * 会员地址传输层对象
  *
  * @author haoxr
- * @date 2022/2/12 15:57
+ * @since 2022/2/12 15:57
  */
 @Data
 public class MemberAddressDTO {

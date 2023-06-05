@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.common.constant.ProductConstants;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
-import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.LockStockDTO;
-import com.youlai.mall.pms.pojo.entity.PmsSku;
+import com.youlai.mall.pms.model.dto.CheckPriceDTO;
+import com.youlai.mall.pms.model.dto.SkuDTO;
+import com.youlai.mall.pms.model.dto.LockStockDTO;
+import com.youlai.mall.pms.model.entity.PmsSku;
 import com.youlai.mall.pms.service.SkuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * 商品SKU业务实现类
  *
  * @author haoxr
- * @date 2022/12/21
+ * @since 2022/12/21
  */
 @Service
 @Slf4j

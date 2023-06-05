@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.mapper.PmsCategoryAttributeMapper;
-import com.youlai.mall.pms.pojo.form.PmsCategoryAttributeForm;
-import com.youlai.mall.pms.pojo.entity.PmsCategoryAttribute;
+import com.youlai.mall.pms.model.form.PmsCategoryAttributeForm;
+import com.youlai.mall.pms.model.entity.PmsCategoryAttribute;
 import com.youlai.mall.pms.service.AttributeService;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * 商品属性业务实现类
  *
  * @author haoxr
- * @date 2022/7/2
+ * @since 2022/7/2
  */
 @Service
 public class AttributeServiceImpl extends ServiceImpl<PmsCategoryAttributeMapper, PmsCategoryAttribute> implements AttributeService {

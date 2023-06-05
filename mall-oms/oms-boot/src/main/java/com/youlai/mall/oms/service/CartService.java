@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.service;
 
-import com.youlai.mall.oms.pojo.dto.CartItemDTO;
+import com.youlai.mall.oms.model.dto.CartItemDTO;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * 购物车业务接口
  *
  * @author haoxr
- * @date 2022/11/13
+ * @since 2022/11/13
  */
 public interface CartService {
 

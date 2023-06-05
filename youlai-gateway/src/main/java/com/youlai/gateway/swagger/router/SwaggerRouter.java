@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
  * Swagger路由
  *
  * @author haoxr
- * @date 2022/5/16 16:34
+ * @since 2022/5/16 16:34
  */
 @Configuration
 @RequiredArgsConstructor

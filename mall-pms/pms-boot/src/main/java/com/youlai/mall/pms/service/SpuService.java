@@ -2,10 +2,10 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.pojo.form.PmsSpuForm;
-import com.youlai.mall.pms.pojo.entity.PmsSpu;
-import com.youlai.mall.pms.pojo.query.SpuPageQuery;
-import com.youlai.mall.pms.pojo.vo.*;
+import com.youlai.mall.pms.model.form.PmsSpuForm;
+import com.youlai.mall.pms.model.entity.PmsSpu;
+import com.youlai.mall.pms.model.query.SpuPageQuery;
+import com.youlai.mall.pms.model.vo.*;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * 商品业务接口
  *
  * @author haoxr
- * @date 2022/2/5
+ * @since 2022/2/5
  */
 public interface SpuService extends IService<PmsSpu> {
 

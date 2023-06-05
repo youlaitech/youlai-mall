@@ -10,7 +10,7 @@ import java.util.Objects;
  * 枚举通用接口
  *
  * @author haoxr
- * @date 2022/3/27 12:06
+ * @since 2022/3/27 12:06
  */
 public interface IBaseEnum<T> {
 

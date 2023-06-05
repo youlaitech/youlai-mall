@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * 订单Feign Client
  *
  * @author haoxr
- * @date 2021/3/13
+ * @since 2021/3/13
  */
 @FeignClient(value = "mall-oms", contextId = "order")
 public interface OrderFeignClient {

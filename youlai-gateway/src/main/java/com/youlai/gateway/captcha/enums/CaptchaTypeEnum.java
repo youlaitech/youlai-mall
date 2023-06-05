@@ -4,7 +4,7 @@ package com.youlai.gateway.captcha.enums;
  * 验证码类型枚举
  *
  * @author haoxr
- * @date 2022/5/18 12:14
+ * @since 2022/5/18 12:14
  */
 public enum CaptchaTypeEnum {
 

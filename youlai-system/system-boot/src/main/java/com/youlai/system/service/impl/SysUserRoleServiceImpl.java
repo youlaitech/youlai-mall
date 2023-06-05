@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.system.mapper.SysUserRoleMapper;
-import com.youlai.system.pojo.entity.SysUserRole;
+import com.youlai.system.model.entity.SysUserRole;
 import com.youlai.system.service.SysUserRoleService;
 import org.springframework.stereotype.Service;
 
@@ -57,12 +57,12 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                     .filter(roleId -> !roleIds.contains(roleId))
                     .collect(Collectors.toList());
 
-           if(CollectionUtil.isNotEmpty(removeRoleIds)){
-               this.remove(new LambdaQueryWrapper<SysUserRole>()
-                       .eq(SysUserRole::getUserId, userId)
-                       .in(SysUserRole::getRoleId, removeRoleIds)
-               );
-           }
+            if (CollectionUtil.isNotEmpty(removeRoleIds)) {
+                this.remove(new LambdaQueryWrapper<SysUserRole>()
+                        .eq(SysUserRole::getUserId, userId)
+                        .in(SysUserRole::getRoleId, removeRoleIds)
+                );
+            }
         }
         return true;
 

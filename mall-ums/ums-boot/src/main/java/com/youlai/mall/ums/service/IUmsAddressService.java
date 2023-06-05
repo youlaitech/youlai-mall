@@ -3,8 +3,8 @@ package com.youlai.mall.ums.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
-import com.youlai.mall.ums.pojo.entity.UmsAddress;
-import com.youlai.mall.ums.pojo.form.AddressForm;
+import com.youlai.mall.ums.model.entity.UmsAddress;
+import com.youlai.mall.ums.model.form.AddressForm;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * 会员地址业务接口
  *
  * @author haoxr
- * @date 2022/2/12
+ * @since 2022/2/12
  */
 public interface IUmsAddressService extends IService<UmsAddress> {
 

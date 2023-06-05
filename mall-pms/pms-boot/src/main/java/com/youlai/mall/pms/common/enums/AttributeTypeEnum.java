@@ -6,7 +6,7 @@ import lombok.Getter;
  * 商品属性类型枚举
  *
  * @author haoxr
- * @date 2022/12/20
+ * @since 2022/12/20
  */
 public enum AttributeTypeEnum {
 

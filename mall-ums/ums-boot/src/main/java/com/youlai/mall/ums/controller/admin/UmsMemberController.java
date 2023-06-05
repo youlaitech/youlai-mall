@@ -7,18 +7,18 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
-import com.youlai.mall.ums.pojo.entity.UmsMember;
+import com.youlai.mall.ums.model.entity.UmsMember;
 import com.youlai.mall.ums.service.IUmsMemberService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
 
-@Api(tags = "「管理端」会员管理")
+@Tag(name = "「管理端」会员管理")
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
@@ -26,31 +26,31 @@ public class UmsMemberController {
 
     private final IUmsMemberService memberService;
 
-    @ApiOperation(value = "会员分页列表")
+    @Operation(summary= "会员分页列表")
     @GetMapping
     public PageResult<UmsMember> listPageMembers(
-            @ApiParam("页码") Long pageNum,
-            @ApiParam("每页数量") Long pageSize,
-            @ApiParam("会员昵称") String nickName
+            @Parameter(name = "页码") Long pageNum,
+            @Parameter(name = "每页数量") Long pageSize,
+            @Parameter(name = "会员昵称") String nickName
     ) {
         IPage<UmsMember> result = memberService.list(new Page<>(pageNum, pageSize), nickName);
         return PageResult.success(result);
     }
 
-    @ApiOperation(value = "修改会员")
+    @Operation(summary= "修改会员")
     @PutMapping(value = "/{memberId}")
     public <T> Result<T> update(
-            @ApiParam("会员ID") @PathVariable Long memberId,
+            @Parameter(name = "会员ID") @PathVariable Long memberId,
             @RequestBody UmsMember member
     ) {
         boolean status = memberService.updateById(member);
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "修改会员状态")
+    @Operation(summary= "修改会员状态")
     @PatchMapping("/{memberId}/status")
     public <T> Result<T> updateMemberStatus(
-            @ApiParam("会员ID") @PathVariable Long memberId,
+            @Parameter(name = "会员ID") @PathVariable Long memberId,
             @RequestBody UmsMember member
     ) {
         boolean status = memberService.update(
@@ -61,10 +61,10 @@ public class UmsMemberController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "删除会员")
+    @Operation(summary= "删除会员")
     @DeleteMapping("/{ids}")
     public <T> Result<T> delete(
-            @ApiParam("会员ID，多个以英文逗号(,)拼接") @PathVariable String ids
+            @Parameter(name = "会员ID，多个以英文逗号(,)拼接") @PathVariable String ids
     ) {
         boolean status = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .in(UmsMember::getId, Arrays.asList(ids.split(",")))
@@ -72,16 +72,16 @@ public class UmsMemberController {
         return Result.judge(status);
     }
 
-    @ApiOperation(value = "「实验室」获取会员信息")
+    @Operation(summary= "「实验室」获取会员信息")
     @GetMapping("/{memberId}/info")
     public Result<MemberInfoDTO> getMemberInfo(
-            @ApiParam("会员ID") @PathVariable Long memberId
+            @Parameter(name = "会员ID") @PathVariable Long memberId
     ) {
         MemberInfoDTO memberInfoDTO = memberService.getMemberInfo(memberId);
         return Result.success(memberInfoDTO);
     }
 
-    @ApiOperation(value = "「实验室」扣减会员余额")
+    @Operation(summary= "「实验室」扣减会员余额")
     @PutMapping("/{memberId}/balances/_deduct")
     public Result deductBalance(@PathVariable Long memberId, @RequestParam Long amount) {
         boolean result = memberService.update(new LambdaUpdateWrapper<UmsMember>()

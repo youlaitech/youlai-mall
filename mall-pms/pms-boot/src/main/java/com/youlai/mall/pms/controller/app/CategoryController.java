@@ -1,11 +1,11 @@
 package com.youlai.mall.pms.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.vo.CategoryVO;
+import com.youlai.mall.pms.model.vo.CategoryVO;
 import com.youlai.mall.pms.service.CategoryService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +17,9 @@ import java.util.List;
  * 商品分类控制器
  *
  * @author haoxr
- * @date 2022/2/5
+ * @since 2022/2/5
  */
-@Api(tags = "「移动端」商品分类")
+@Tag(name = "「移动端」商品分类")
 @RestController("appCategoryController")
 @RequestMapping("/app-api/v1/categories")
 @RequiredArgsConstructor
@@ -27,10 +27,10 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @ApiOperation(value = "分类列表")
+    @Operation(summary= "分类列表")
     @GetMapping
     public Result list(
-           @ApiParam("上级分类ID") Long parentId) {
+           @Parameter(name = "上级分类ID") Long parentId) {
         List<CategoryVO> list = categoryService.listCategory(parentId);
         return Result.success(list);
     }

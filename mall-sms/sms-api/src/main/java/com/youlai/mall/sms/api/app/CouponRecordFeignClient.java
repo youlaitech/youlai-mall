@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author huawei
  * @desc 优惠券领券记录APP端Feign接口
  * @email huawei_code@163.com
- * @date 2021/3/17
+ * @since 2021/3/17
  */
 @FeignClient(value = "mall-sms")
 public interface CouponRecordFeignClient {

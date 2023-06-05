@@ -1,7 +1,7 @@
 package com.youlai.mall.oms.converter;
 
-import com.youlai.mall.oms.pojo.entity.OmsOrder;
-import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
+import com.youlai.mall.oms.model.entity.OmsOrder;
+import com.youlai.mall.oms.model.form.OrderSubmitForm;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -11,7 +11,7 @@ import org.mapstruct.Mappings;
  * 订单转化器
  *
  * @author haoxr
- * @date 2022/12/21
+ * @since 2022/12/21
  */
 @Mapper(componentModel = "spring")
 public interface OrderConverter {

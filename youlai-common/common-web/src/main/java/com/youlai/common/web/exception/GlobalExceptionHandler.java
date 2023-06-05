@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.servlet.ServletException;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.servlet.ServletException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLSyntaxErrorException;
 import java.util.concurrent.CompletionException;
 import java.util.regex.Matcher;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * 调整异常处理的HTTP状态码，丰富异常处理类型
  *
  * @author Gadfly
- * @date 2020-02-25 13:54
+ * @since 2020-02-25 13:54
  **/
 @RestControllerAdvice
 @Slf4j

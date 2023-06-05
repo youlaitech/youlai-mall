@@ -2,10 +2,10 @@ package com.youlai.mall.sms.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.sms.pojo.entity.SmsAdvert;
-import com.youlai.mall.sms.pojo.query.AdvertPageQuery;
-import com.youlai.mall.sms.pojo.vo.AdBannerVO;
-import com.youlai.mall.sms.pojo.vo.AdvertPageVO;
+import com.youlai.mall.sms.model.entity.SmsAdvert;
+import com.youlai.mall.sms.model.query.AdvertPageQuery;
+import com.youlai.mall.sms.model.vo.AdBannerVO;
+import com.youlai.mall.sms.model.vo.AdvertPageVO;
 
 import java.util.List;
 

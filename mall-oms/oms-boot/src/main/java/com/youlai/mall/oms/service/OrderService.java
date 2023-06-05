@@ -5,18 +5,18 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
-import com.youlai.mall.oms.pojo.entity.OmsOrder;
-import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
-import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
-import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
+import com.youlai.mall.oms.model.entity.OmsOrder;
+import com.youlai.mall.oms.model.query.OrderPageQuery;
+import com.youlai.mall.oms.model.vo.OrderConfirmVO;
+import com.youlai.mall.oms.model.vo.OrderSubmitResultVO;
+import com.youlai.mall.oms.model.form.OrderSubmitForm;
 
 /**
  * 订单业务接口
  *
  * @author huawei
  * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @since 2020-12-30 22:31:10
  */
 public interface OrderService extends IService<OmsOrder> {
 

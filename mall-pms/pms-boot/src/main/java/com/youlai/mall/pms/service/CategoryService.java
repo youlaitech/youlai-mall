@@ -2,8 +2,8 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.web.model.Option;
-import com.youlai.mall.pms.pojo.entity.PmsCategory;
-import com.youlai.mall.pms.pojo.vo.CategoryVO;
+import com.youlai.mall.pms.model.entity.PmsCategory;
+import com.youlai.mall.pms.model.vo.CategoryVO;
 
 import java.util.List;
 

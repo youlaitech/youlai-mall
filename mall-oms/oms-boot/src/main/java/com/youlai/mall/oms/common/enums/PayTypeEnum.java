@@ -9,7 +9,7 @@ import lombok.Getter;
  *
  * @author huawei
  * @email huawei_code@163.com
- * @date 2021/1/16
+ * @since 2021/1/16
  */
 public enum PayTypeEnum implements IBaseEnum<Integer> {
 

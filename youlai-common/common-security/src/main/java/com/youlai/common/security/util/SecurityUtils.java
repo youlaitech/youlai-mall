@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * 获取登录用户信息(用户名、角色、部门)
  *
  * @author haoxr
- * @date 2022/10/29
+ * @since 2022/10/29
  */
 public class SecurityUtils {
 
@@ -98,6 +98,10 @@ public class SecurityUtils {
     public static Integer getDataScope() {
         Integer dataScope = Convert.toInt(getTokenAttributes().get("dataScope"));
         return dataScope;
+    }
+
+    public static String getJti() {
+        return String.valueOf(getTokenAttributes().get("jti"));
     }
 
     /**

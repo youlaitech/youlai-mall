@@ -3,94 +3,101 @@ package com.youlai.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.common.web.resubmit.Resubmit;
 import com.youlai.common.web.model.Option;
-import com.youlai.system.pojo.entity.SysRole;
-import com.youlai.system.pojo.form.RoleForm;
-import com.youlai.system.pojo.query.RolePageQuery;
-import com.youlai.system.service.SysRoleService;
-import com.youlai.system.pojo.vo.role.RolePageVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.youlai.system.model.vo.RolePageVO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "角色接口")
+@Tag(name = "03.角色接口")
 @RestController
 @RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor
 public class SysRoleController {
+
     private final SysRoleService roleService;
 
-    @ApiOperation(value = "角色分页列表")
-    @GetMapping("/pages")
-    public PageResult<RolePageVO> listRolePages(RolePageQuery queryParams) {
-        Page<RolePageVO> result = roleService.listRolePages(queryParams);
+    @Operation(summary = "角色分页列表",security = {@SecurityRequirement(name = "Authorization")} )
+    @GetMapping("/page")
+    public PageResult<RolePageVO> getRolePage(
+            @ParameterObject RolePageQuery queryParams
+    ) {
+        Page<RolePageVO> result = roleService.getRolePage(queryParams);
         return PageResult.success(result);
     }
 
-    @ApiOperation(value = "角色下拉列表")
+    @Operation(summary = "角色下拉列表",security = {@SecurityRequirement(name = "Authorization")})
     @GetMapping("/options")
     public Result<List<Option>> listRoleOptions() {
         List<Option> list = roleService.listRoleOptions();
         return Result.success(list);
     }
-
-    @ApiOperation(value = "角色详情")
-    @GetMapping("/{roleId}")
-    public Result getRoleDetail(
-            @ApiParam("角色ID") @PathVariable Long roleId
-    ) {
-        SysRole role = roleService.getById(roleId);
-        return Result.success(role);
-    }
-
-    @ApiOperation(value = "新增角色")
+ 
+    @Operation(summary = "新增角色",security = {@SecurityRequirement(name = "Authorization")})
     @PostMapping
+    @PreAuthorize("@ss.hasPerm('sys:role:add')")
+    @PreventDuplicateResubmit
     public Result addRole(@Valid @RequestBody RoleForm roleForm) {
         boolean result = roleService.saveRole(roleForm);
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改角色")
+    @Operation(summary = "角色表单数据",security = {@SecurityRequirement(name = "Authorization")})
+    @GetMapping("/{roleId}/form")
+    public Result<RoleForm> getRoleForm(
+            @Parameter(description ="角色ID") @PathVariable Long roleId
+    ) {
+        RoleForm roleForm = roleService.getRoleForm(roleId);
+        return Result.success(roleForm);
+    }
+
+    @Operation(summary = "修改角色",security = {@SecurityRequirement(name = "Authorization")})
     @PutMapping(value = "/{id}")
+    @PreAuthorize("@ss.hasPerm('sys:role:edit')")
     public Result updateRole(@Valid @RequestBody RoleForm roleForm) {
         boolean result = roleService.saveRole(roleForm);
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "删除角色")
+    @Operation(summary = "删除角色",security = {@SecurityRequirement(name = "Authorization")})
     @DeleteMapping("/{ids}")
+    @PreAuthorize("@ss.hasPerm('sys:role:delete')")
     public Result deleteRoles(
-            @ApiParam("删除角色，多个以英文逗号(,)分割") @PathVariable String ids
+            @Parameter(description ="删除角色，多个以英文逗号(,)分割") @PathVariable String ids
     ) {
         boolean result = roleService.deleteRoles(ids);
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "修改角色状态")
+    @Operation(summary = "修改角色状态",security = {@SecurityRequirement(name = "Authorization")})
     @PutMapping(value = "/{roleId}/status")
     public Result updateRoleStatus(
-            @ApiParam("角色ID") @PathVariable Long roleId,
-            @ApiParam("角色状态:1-启用；0-禁用") @RequestParam Integer status
+            @Parameter(description ="角色ID") @PathVariable Long roleId,
+            @Parameter(description ="状态(1:启用;0:禁用)") @RequestParam Integer status
     ) {
         boolean result = roleService.updateRoleStatus(roleId, status);
         return Result.judge(result);
     }
 
-    @ApiOperation(value = "获取角色的菜单ID集合")
+    @Operation(summary = "获取角色的菜单ID集合",security = {@SecurityRequirement(name = "Authorization")})
     @GetMapping("/{roleId}/menuIds")
     public Result<List<Long>> getRoleMenuIds(
-            @ApiParam("角色ID") @PathVariable Long roleId
+            @Parameter(description ="角色ID") @PathVariable Long roleId
     ) {
-        List<Long> resourceIds = roleService.getRoleMenuIds(roleId);
-        return Result.success(resourceIds);
+        List<Long> menuIds = roleService.getRoleMenuIds(roleId);
+        return Result.success(menuIds);
     }
 
-    @ApiOperation(value = "分配角色的资源权限")
+    @Operation(summary = "分配菜单权限给角色",security = {@SecurityRequirement(name = "Authorization")})
     @PutMapping("/{roleId}/menus")
     public Result updateRoleMenus(
             @PathVariable Long roleId,

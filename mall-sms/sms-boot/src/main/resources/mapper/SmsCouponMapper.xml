@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.mall.sms.mapper.SmsCouponMapper">
 
     <!-- 优惠券分页列表 -->
-    <select id="listCouponPages" resultType="com.youlai.mall.sms.pojo.entity.SmsCoupon">
+    <select id="listCouponPages" resultType="com.youlai.mall.sms.model.entity.SmsCoupon">
         SELECT
             *
         FROM

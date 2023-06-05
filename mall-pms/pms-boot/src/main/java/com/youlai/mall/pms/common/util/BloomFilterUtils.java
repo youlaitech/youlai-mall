@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * 布隆过滤器，摘录自Google-guava包
  *
  * @author DaniR
- * @date 2021/6/23 20:30
+ * @since 2021/6/23 20:30
  */
 public class BloomFilterUtils<T> {
     private final int numHashFunctions;

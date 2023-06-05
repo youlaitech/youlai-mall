@@ -1,6 +1,6 @@
 package com.youlai.mall.sms.service;
 
-import com.youlai.mall.sms.pojo.entity.SmsCouponHistory;
+import com.youlai.mall.sms.model.entity.SmsCouponHistory;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

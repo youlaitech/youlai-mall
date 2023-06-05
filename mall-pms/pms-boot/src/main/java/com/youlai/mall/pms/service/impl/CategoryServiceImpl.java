@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.model.Option;
-import com.youlai.mall.pms.pojo.entity.PmsCategory;
+import com.youlai.mall.pms.model.entity.PmsCategory;
 import com.youlai.mall.pms.mapper.PmsCategoryMapper;
 import com.youlai.mall.pms.service.CategoryService;
-import com.youlai.mall.pms.pojo.vo.CategoryVO;
+import com.youlai.mall.pms.model.vo.CategoryVO;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 

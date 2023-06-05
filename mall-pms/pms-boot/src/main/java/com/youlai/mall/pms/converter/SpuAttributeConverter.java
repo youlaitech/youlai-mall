@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.converter;
 
-import com.youlai.mall.pms.pojo.entity.PmsSpuAttribute;
-import com.youlai.mall.pms.pojo.form.PmsSpuAttributeForm;
+import com.youlai.mall.pms.model.entity.PmsSpuAttribute;
+import com.youlai.mall.pms.model.form.PmsSpuAttributeForm;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
  * 商品属性对象转换器
  *
  * @author haoxr
- * @date 2022/6/11
+ * @since 2022/6/11
  */
 @Mapper(componentModel = "spring")
 public interface SpuAttributeConverter {

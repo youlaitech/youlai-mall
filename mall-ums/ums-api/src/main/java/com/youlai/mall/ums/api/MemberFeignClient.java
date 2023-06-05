@@ -1,7 +1,7 @@
 package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
+import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
@@ -15,7 +15,7 @@ import java.util.List;
  * 会员Feign客户端
  *
  * @author haoxr
- * @date 2022/11/29
+ * @since 2022/11/29
  */
 @FeignClient(name = "mall-ums", contextId = "member")
 public interface MemberFeignClient {

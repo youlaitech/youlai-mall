@@ -2,10 +2,10 @@ package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.pms.pojo.entity.PmsSpu;
-import com.youlai.mall.pms.pojo.query.SpuPageQuery;
-import com.youlai.mall.pms.pojo.vo.PmsSpuPageVO;
-import com.youlai.mall.pms.pojo.vo.SpuPageVO;
+import com.youlai.mall.pms.model.entity.PmsSpu;
+import com.youlai.mall.pms.model.query.SpuPageQuery;
+import com.youlai.mall.pms.model.vo.PmsSpuPageVO;
+import com.youlai.mall.pms.model.vo.SpuPageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

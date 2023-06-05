@@ -1,7 +1,7 @@
 package com.youlai.system.handler;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.youlai.system.pojo.vo.user.UserLoginVO;
+import com.youlai.system.model.vo.user.UserLoginVO;
 import com.youlai.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
 

@@ -7,7 +7,7 @@ import lombok.Getter;
  * 数据权限枚举
  *
  * @author haoxr
- * @date 2022/10/14
+ * @since 2022/10/14
  */
 public enum DataScopeEnum implements IBaseEnum<Integer> {
 

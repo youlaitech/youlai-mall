@@ -3,9 +3,9 @@ package com.youlai.mall.oms.controller.app;
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
-import com.youlai.mall.oms.pojo.vo.WxPayResponseVO;
+import com.youlai.mall.oms.model.vo.WxPayResponseVO;
 import com.youlai.mall.oms.service.OrderService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Gadfly
  * @since 2021-05-27 14:24
  */
-@Api(tags = "「移动端」微信支付回调接口")
+@Tag(name = "「移动端」微信支付回调接口")
 @Slf4j
 @Validated
 @RestController

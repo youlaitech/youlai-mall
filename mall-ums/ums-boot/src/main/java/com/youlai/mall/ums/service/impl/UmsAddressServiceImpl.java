@@ -8,8 +8,8 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.mapper.UmsAddressMapper;
-import com.youlai.mall.ums.pojo.entity.UmsAddress;
-import com.youlai.mall.ums.pojo.form.AddressForm;
+import com.youlai.mall.ums.model.entity.UmsAddress;
+import com.youlai.mall.ums.model.form.AddressForm;
 import com.youlai.mall.ums.service.IUmsAddressService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * 会员地址业务实现类
  *
  * @author haoxr
- * @date 2022/2/12
+ * @since 2022/2/12
  */
 @Service
 public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddress> implements IUmsAddressService {

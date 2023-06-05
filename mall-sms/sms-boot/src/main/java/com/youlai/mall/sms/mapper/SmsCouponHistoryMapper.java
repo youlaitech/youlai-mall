@@ -1,6 +1,6 @@
 package com.youlai.mall.sms.mapper;
 
-import com.youlai.mall.sms.pojo.entity.SmsCouponHistory;
+import com.youlai.mall.sms.model.entity.SmsCouponHistory;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

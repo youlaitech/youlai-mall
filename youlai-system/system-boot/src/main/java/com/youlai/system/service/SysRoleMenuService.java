@@ -2,7 +2,7 @@ package com.youlai.system.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.system.pojo.entity.SysRoleMenu;
+import com.youlai.system.model.entity.SysRoleMenu;
 
 import java.util.List;
 

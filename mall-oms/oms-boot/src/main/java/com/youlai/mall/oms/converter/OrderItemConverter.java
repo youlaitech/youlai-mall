@@ -2,8 +2,8 @@
 package com.youlai.mall.oms.converter;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
-import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
+import com.youlai.mall.oms.model.dto.OrderItemDTO;
+import com.youlai.mall.oms.model.entity.OmsOrderItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * 订单对象转化器
  *
  * @author haoxr
- * @date 2022/12/21
+ * @since 2022/12/21
  */
 @Mapper(componentModel = "spring")
 public interface OrderItemConverter {

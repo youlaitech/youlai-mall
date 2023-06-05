@@ -8,7 +8,7 @@ import com.youlai.mall.oms.api.OrderFeignClient;
 import com.youlai.mall.oms.dto.OrderInfoDTO;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.model.dto.SkuDTO;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * Seata 实验室业务类接口
  *
  * @author haoxr
- * @date 2022/4/16 20:49
+ * @since 2022/4/16 20:49
  */
 @Service
 @Slf4j

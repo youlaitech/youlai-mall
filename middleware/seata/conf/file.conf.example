@@ -51,7 +51,7 @@ store {
 
   ## database store property
   db {
-    ## the implement of javax.sql.DataSource, such as DruidDataSource(druid)/BasicDataSource(dbcp) etc.
+    ## the implement of jakarta.sql.DataSource, such as DruidDataSource(druid)/BasicDataSource(dbcp) etc.
     datasource = "druid"
     ## mysql/oracle/postgresql/h2/oceanbase etc.
     dbType = "mysql"

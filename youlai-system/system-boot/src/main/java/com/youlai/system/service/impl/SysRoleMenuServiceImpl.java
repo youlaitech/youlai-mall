@@ -2,7 +2,7 @@ package com.youlai.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.system.mapper.SysRoleMenuMapper;
-import com.youlai.system.pojo.entity.SysRoleMenu;
+import com.youlai.system.model.entity.SysRoleMenu;
 import com.youlai.system.service.SysRoleMenuService;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      */
     @Override
     public List<Long> listMenuIdsByRoleId(Long roleId) {
-        List<Long> menuIds = this.baseMapper.listMenuIdsByRoleId(roleId);
-        return menuIds;
+        return this.baseMapper.listMenuIdsByRoleId(roleId);
     }
 
 }

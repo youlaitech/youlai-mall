@@ -6,7 +6,7 @@
 
     <groupId>com.youlai</groupId>
     <artifactId>youlai-mall</artifactId>
-    <version>2.2.0</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -29,57 +29,52 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.11</version>
+        <version>3.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
-        <spring-boot.version>2.7.11</spring-boot.version>
+        <spring-boot.version>3.1.0</spring-boot.version>
 
-        <!-- config -->
-        <docker.image.prefix>youlai</docker.image.prefix>
-
-        <!-- spring cloud -->
-        <spring-cloud.version>2021.0.5</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <!-- spring cloud & alibaba -->
+        <spring-cloud.version>2022.0.2</spring-cloud.version>
+        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
+        <!-- -->
+        <authorization-server.version>1.1.0</authorization-server.version>
+        <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
 
         <!-- db && orm -->
-        <mysql.version>8.0.19</mysql.version>
-        <druid.version>1.2.4</druid.version>
-        <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <mysql.version>8.0.28</mysql.version>
+        <druid.version>1.2.16</druid.version>
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
 
         <!-- api doc -->
-        <knife4j.version>2.0.9</knife4j.version>
-        <swagger.version>1.6.2</swagger.version>
+        <knife4j.version>4.1.0</knife4j.version>
+        <swagger.version>2.1.0</swagger.version>
 
         <!-- tools -->
-        <lombok.version>1.18.24</lombok.version>
-        <hutool.version>5.8.5</hutool.version>
-        <mapstruct.version>1.5.0.RC1</mapstruct.version>
+        <hutool.version>5.8.15</hutool.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
         <easyexcel.version>3.0.5</easyexcel.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
-
-        <!-- elastic stack -->
-        <elasticsearch.version>7.10.1</elasticsearch.version>
-        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+        <thumbnailator.version>0.4.17</thumbnailator.version>
 
         <!-- distributed -->
         <seata.version>1.5.2</seata.version>
-        <redisson.version>3.16.8</redisson.version>
+        <redisson.version>3.21.0</redisson.version>
 
         <!-- 阿里云短信 -->
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
 
         <!-- minio -->
-        <minio.version>8.3.7</minio.version>
+        <minio.version>8.5.3</minio.version>
         <okhttp3.version>4.8.1</okhttp3.version>
     </properties>
 
@@ -99,7 +94,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--Spring Cloud 相关依赖-->
+            <!--Spring Cloud  & Alibaba  -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -107,8 +102,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!--Spring Cloud & Alibaba 相关依赖-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -116,6 +109,17 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+
+            <!-- API 接口文档 -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-dependencies</artifactId>
+                <version>${knife4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
 
             <dependency>
                 <groupId>mysql</groupId>
@@ -160,48 +164,6 @@
                 <version>${seata.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-ui</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-
-            <!-- ELK -->
-            <dependency>
-                <groupId>net.logstash.logback</groupId>
-                <artifactId>logstash-logback-encoder</artifactId>
-                <version>${logstash-logback-encoder.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>${elasticsearch.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-client</artifactId>
-                <version>${elasticsearch.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.elasticsearch</groupId>
-                <artifactId>elasticsearch</artifactId>
-                <version>${elasticsearch.version}</version>
-            </dependency>
 
             <!-- 分布式锁 -->
             <dependency>
@@ -210,21 +172,11 @@
                 <version>${redisson.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
+
 
             <dependency>
                 <groupId>com.youlai</groupId>
                 <artifactId>common-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.youlai</groupId>
-                <artifactId>common-elasticsearch</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -337,6 +289,12 @@
             </dependency>
 
             <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
@@ -353,6 +311,18 @@
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>${nimbus-jose-jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${authorization-server.version}</version>
             </dependency>
 
         </dependencies>

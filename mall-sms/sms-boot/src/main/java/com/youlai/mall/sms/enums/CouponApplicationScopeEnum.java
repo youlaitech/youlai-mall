@@ -9,7 +9,7 @@ import lombok.Getter;
  * 优惠券适用类型枚举
  *
  * @author haoxr
- * @date 2022/7/13
+ * @since 2022/7/13
  */
 @Getter
 public enum CouponApplicationScopeEnum implements IBaseEnum<Integer> {

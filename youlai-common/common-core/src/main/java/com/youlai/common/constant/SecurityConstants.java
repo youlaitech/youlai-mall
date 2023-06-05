@@ -37,4 +37,11 @@ public interface SecurityConstants {
      */
     String WEAPP_CLIENT_ID = "mall-weapp";
 
+
+    /**
+     * 用户权限集合缓存前缀
+     */
+    String USER_PERMS_CACHE_PREFIX = "AUTH:USER_PERMS:";
+
+
 }

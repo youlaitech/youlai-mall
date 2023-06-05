@@ -1,8 +1,8 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.entity.PmsSku;
+import com.youlai.mall.pms.model.dto.SkuDTO;
+import com.youlai.mall.pms.model.entity.PmsSku;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

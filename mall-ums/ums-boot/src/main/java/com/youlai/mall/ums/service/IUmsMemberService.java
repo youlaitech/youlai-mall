@@ -4,13 +4,13 @@ package com.youlai.mall.ums.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
+import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
-import com.youlai.mall.ums.pojo.entity.UmsMember;
-import com.youlai.mall.ums.pojo.vo.MemberVO;
+import com.youlai.mall.ums.model.entity.UmsMember;
+import com.youlai.mall.ums.model.vo.MemberVO;
 
 import java.util.List;
 import java.util.Set;
@@ -19,7 +19,7 @@ import java.util.Set;
  * 会员业务接口
  *
  * @author haoxr
- * @date 2022/2/12
+ * @since 2022/2/12
  */
 public interface IUmsMemberService extends IService<UmsMember> {
 

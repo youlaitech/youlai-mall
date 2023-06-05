@@ -22,7 +22,7 @@ import java.util.List;
  * OAuth Client Security 配置
  *
  * @author haoxr
- * @date 2022/8/28
+ * @since 2022/8/28
  */
 @ConfigurationProperties(prefix = "security")
 @EnableWebFluxSecurity

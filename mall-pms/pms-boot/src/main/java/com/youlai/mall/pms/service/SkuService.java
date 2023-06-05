@@ -1,17 +1,17 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.entity.PmsSku;
-import com.youlai.mall.pms.pojo.dto.LockStockDTO;
+import com.youlai.mall.pms.model.dto.CheckPriceDTO;
+import com.youlai.mall.pms.model.dto.SkuDTO;
+import com.youlai.mall.pms.model.entity.PmsSku;
+import com.youlai.mall.pms.model.dto.LockStockDTO;
 
 
 /**
  * 商品库存单元接口
  *
  * @author haoxr
- * @date 2022/2/5 17:11
+ * @since 2022/2/5 17:11
  */
 public interface SkuService extends IService<PmsSku> {
 

@@ -10,12 +10,12 @@ import com.youlai.common.base.IBaseEnum;
 import com.youlai.mall.sms.enums.CouponApplicationScopeEnum;
 import com.youlai.mall.sms.converter.CouponConverter;
 import com.youlai.mall.sms.mapper.SmsCouponMapper;
-import com.youlai.mall.sms.pojo.entity.SmsCoupon;
-import com.youlai.mall.sms.pojo.entity.SmsCouponSpu;
-import com.youlai.mall.sms.pojo.entity.SmsCouponSpuCategory;
-import com.youlai.mall.sms.pojo.form.CouponForm;
-import com.youlai.mall.sms.pojo.query.CouponPageQuery;
-import com.youlai.mall.sms.pojo.vo.CouponPageVO;
+import com.youlai.mall.sms.model.entity.SmsCoupon;
+import com.youlai.mall.sms.model.entity.SmsCouponSpu;
+import com.youlai.mall.sms.model.entity.SmsCouponSpuCategory;
+import com.youlai.mall.sms.model.form.CouponForm;
+import com.youlai.mall.sms.model.query.CouponPageQuery;
+import com.youlai.mall.sms.model.vo.CouponPageVO;
 import com.youlai.mall.sms.service.SmsCouponService;
 import com.youlai.mall.sms.service.SmsCouponSpuCategoryService;
 import com.youlai.mall.sms.service.SmsCouponSpuService;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * 优惠券业务实现类
  *
  * @author haoxr
- * @date 2022/5/29
+ * @since 2022/5/29
  */
 @Service
 @RequiredArgsConstructor

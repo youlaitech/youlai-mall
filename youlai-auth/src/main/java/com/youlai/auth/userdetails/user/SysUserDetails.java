@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * 系统用户认证信息
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/9/27
+ * @since 2021/9/27
  */
 @Data
 public class SysUserDetails implements UserDetails {

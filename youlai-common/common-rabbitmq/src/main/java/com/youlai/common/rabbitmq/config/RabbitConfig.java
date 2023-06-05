@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author huawei
  * @email huawei_code@163.com
- * @date 2021/1/17
+ * @since 2021/1/17
  */
 @Configuration
 @Slf4j
