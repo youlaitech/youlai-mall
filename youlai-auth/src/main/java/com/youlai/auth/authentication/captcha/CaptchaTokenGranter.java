@@ -6,11 +6,6 @@ import com.youlai.common.constant.SecurityConstants;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
-import org.springframework.security.oauth2.provider.*;
-import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 

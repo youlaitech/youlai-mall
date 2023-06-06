@@ -3,7 +3,6 @@ package com.youlai.auth.userdetails.user;
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.dto.UserAuthInfo;
-import com.youlai.auth.enums.PasswordEncoderTypeEnum;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -56,7 +55,7 @@ public class SysUserDetails implements UserDetails {
         this.setUsername(user.getUsername());
         this.setDeptId(user.getDeptId());
         this.setDataScope(user.getDataScope());
-        this.setPassword(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword());
+        this.setPassword("{bcrypt}" + user.getPassword());
         this.setEnabled(StatusEnum.ENABLE.getValue().equals(user.getStatus()));
         if (CollectionUtil.isNotEmpty(user.getRoles())) {
             authorities = user.getRoles().stream()

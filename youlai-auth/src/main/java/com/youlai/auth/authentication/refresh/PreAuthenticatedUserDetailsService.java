@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.AuthenticationUserDetailsSe
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.util.Assert;
 
 import java.util.Map;
@@ -27,8 +26,6 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
 
     /**
      * 客户端ID和用户服务 UserDetailService 的映射
-     *
-     * @see AuthorizationServerConfig#tokenServices(AuthorizationServerEndpointsConfigurer)
      */
     private Map<String, UserDetailsService> userDetailsServiceMap;
 
@@ -54,19 +51,21 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
         String clientId = RequestUtils.getClientId();
         // 获取认证身份标识，默认是用户名:username
         UserDetailsService userDetailsService = userDetailsServiceMap.get(clientId);
-        if (clientId.equals(SecurityConstants.APP_CLIENT_ID)) {
-            // 移动端的用户体系是会员，认证方式是通过手机号 mobile 认证
-            MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
-            return memberUserDetailsService.loadUserByUsername(authentication.getName());
-        } else if (clientId.equals(SecurityConstants.WEAPP_CLIENT_ID)) {
-            // 小程序的用户体系是会员，认证方式是通过微信三方标识 openid 认证
-            MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
-            return memberUserDetailsService.loadUserByOpenId(authentication.getName());
-        } else if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
+        switch (clientId) {
+            case SecurityConstants.APP_CLIENT_ID -> {
+                // 移动端的用户体系是会员，认证方式是通过手机号 mobile 认证
+                MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
+                return memberUserDetailsService.loadUserByUsername(authentication.getName());
+            }
+            case SecurityConstants.WEAPP_CLIENT_ID -> {
+                // 小程序的用户体系是会员，认证方式是通过微信三方标识 openid 认证
+                MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
+                return memberUserDetailsService.loadUserByOpenId(authentication.getName());
+            }
             // 管理系统的用户体系是系统用户，认证方式通过用户名 username 认证
-            return userDetailsService.loadUserByUsername(authentication.getName());
-        } else {
-            return userDetailsService.loadUserByUsername(authentication.getName());
+            default -> {
+                return userDetailsService.loadUserByUsername(authentication.getName());
+            }
         }
     }
 }
