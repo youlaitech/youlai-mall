@@ -98,7 +98,7 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
         }
 
        // 生成 access_token
-// @formatter:off
+       // @formatter:off
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
                 .principal(usernamePasswordAuthentication)

@@ -1,64 +1,51 @@
 package com.youlai.auth.authentication.wechat;
 
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationGrantAuthenticationToken;
+import org.springframework.security.oauth2.server.authorization.util.SpringAuthorizationServerVersion;
 import org.springframework.util.Assert;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @since 2021/9/25
+ * 微信授权登录
+ *
+ * @author haoxr
+ * @since 3.0.0
  */
-public class WechatAuthenticationToken extends AbstractAuthenticationToken {
-    private static final long serialVersionUID = 550L;
-    private final Object principal;
-    @Getter
-    private String encryptedData;
-    @Getter
-    private String iv;
-    /**
-     * 账号校验之前的token构建
-     *
-     * @param principal
-     */
-    public WechatAuthenticationToken(Object principal, String encryptedData,String iv) {
-        super(null);
-        this.principal = principal;
-        this.encryptedData = encryptedData;
-        this.iv=iv;
-        setAuthenticated(false);
-    }
+public class WechatAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
+
+    private final Set<String> scopes;
 
     /**
-     * 账号校验成功之后的token构建
+     * {@link  org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken}
      *
-     * @param principal
-     * @param authorities
+     * @param clientPrincipal
+     * @param additionalParameters
      */
-    public WechatAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
-        this.principal = principal;
-        super.setAuthenticated(true);
+    public WechatAuthenticationToken(
+            Authentication clientPrincipal,
+            @Nullable Set<String> scopes,
+            Map<String, Object> additionalParameters
+    ) {
+        super(AuthorizationGrantType.PASSWORD, clientPrincipal, additionalParameters);
+        this.scopes = Collections.unmodifiableSet(scopes != null ? new HashSet<>(scopes) : Collections.emptySet());
+
+    }
+
+    public Set<String> getScopes() {
+        return this.scopes;
     }
 
     @Override
     public Object getCredentials() {
-        return null;
+        return this.getAdditionalParameters().get(OAuth2ParameterNames.PASSWORD);
     }
 
-    @Override
-    public Object getPrincipal() {
-        return this.principal;
-    }
-
-    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        Assert.isTrue(!isAuthenticated, "Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
-        super.setAuthenticated(false);
-    }
-
-    public void eraseCredentials() {
-        super.eraseCredentials();
-    }
 }

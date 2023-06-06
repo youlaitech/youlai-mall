@@ -18,7 +18,7 @@ public class ResourceOwnerPasswordAuthenticationToken extends OAuth2Authorizatio
      * @param clientPrincipal
      * @param additionalParameters
      */
-    protected ResourceOwnerPasswordAuthenticationToken(
+    public ResourceOwnerPasswordAuthenticationToken(
             Authentication clientPrincipal,
             @Nullable Set<String> scopes,
             Map<String, Object> additionalParameters
