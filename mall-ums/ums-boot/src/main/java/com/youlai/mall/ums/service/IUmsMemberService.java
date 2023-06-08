@@ -7,8 +7,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
+import com.youlai.mall.ums.dto.MemberRegisterDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.vo.MemberVO;
 
@@ -51,7 +51,7 @@ public interface IUmsMemberService extends IService<UmsMember> {
      * @param member
      * @return
      */
-    Long addMember(MemberDTO member);
+    Long addMember(MemberRegisterDTO member);
 
     /**
      * 获取登录会员信息

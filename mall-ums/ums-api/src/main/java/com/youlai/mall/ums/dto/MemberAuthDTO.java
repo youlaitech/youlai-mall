@@ -1,16 +1,19 @@
 package com.youlai.mall.ums.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
  * 会员认证传输层对象
  *
  * @author haoxr
- * @date 2022/2/12
+ * @since 2022/2/12
  */
 @Data
-@Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberAuthDTO {
 
     /**

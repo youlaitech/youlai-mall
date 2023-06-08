@@ -1,15 +1,8 @@
 package com.youlai.auth.extension.wechat;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import cn.hutool.core.bean.BeanUtil;
 import com.youlai.auth.userdetails.member.MemberUserDetailsServiceImpl;
-import com.youlai.common.result.Result;
-import com.youlai.common.result.ResultCode;
 import com.youlai.mall.ums.api.MemberFeignClient;
-import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberDTO;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -18,13 +11,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.HashSet;
+import java.util.Collections;
 
 /**
  * 微信认证提供者
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/9/25
+ * @author haoxr
+ * @since 2021/9/25
  */
 @Data
 public class WechatAuthenticationProvider implements AuthenticationProvider {
@@ -45,26 +38,11 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         WechatAuthenticationToken authenticationToken = (WechatAuthenticationToken) authentication;
         String code = (String) authenticationToken.getPrincipal();
+        String encryptedData = authenticationToken.getEncryptedData();
+        String iv = authenticationToken.getIv();
 
-        WxMaJscode2SessionResult sessionInfo =  wxMaService.getUserService().getSessionInfo(code);
-        String openid = sessionInfo.getOpenid();
-        Result<MemberAuthDTO> memberAuthResult = memberFeignClient.loadUserByOpenId(openid);
-        // 微信用户不存在，注册成为新会员
-        if (memberAuthResult != null && ResultCode.USER_NOT_EXIST.getCode().equals(memberAuthResult.getCode())) {
-
-            String sessionKey = sessionInfo.getSessionKey();
-            String encryptedData = authenticationToken.getEncryptedData();
-            String iv = authenticationToken.getIv();
-            // 解密 encryptedData 获取用户信息
-            WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
-
-            MemberDTO memberDTO = new MemberDTO();
-            BeanUtil.copyProperties(userInfo, memberDTO);
-            memberDTO.setOpenid(openid);
-            memberFeignClient.addMember(memberDTO);
-        }
-        UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByOpenId(openid);
-        WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails, new HashSet<>());
+        UserDetails userDetails = ((MemberUserDetailsServiceImpl) userDetailsService).loadUserByWechatCode(code,encryptedData,iv);
+        WechatAuthenticationToken result = new WechatAuthenticationToken(userDetails, Collections.EMPTY_SET);
         result.setDetails(authentication.getDetails());
         return result;
     }

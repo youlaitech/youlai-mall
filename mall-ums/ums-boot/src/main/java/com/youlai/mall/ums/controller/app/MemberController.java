@@ -8,7 +8,7 @@ import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberRegisterDTO;
 import com.youlai.mall.ums.pojo.entity.UmsMember;
 import com.youlai.mall.ums.pojo.vo.MemberVO;
 import com.youlai.mall.ums.service.IUmsMemberService;
@@ -18,7 +18,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +40,7 @@ public class MemberController {
 
     @ApiOperation(value = "新增会员")
     @PostMapping
-    public Result<Long> addMember(@RequestBody MemberDTO member) {
+    public Result<Long> addMember(@RequestBody MemberRegisterDTO member) {
         Long memberId = memberService.addMember(member);
         return Result.success(memberId);
     }

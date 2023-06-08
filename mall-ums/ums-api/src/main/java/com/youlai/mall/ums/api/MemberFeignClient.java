@@ -4,8 +4,8 @@ import com.youlai.common.result.Result;
 import com.youlai.mall.pms.pojo.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberDTO;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
+import com.youlai.mall.ums.dto.MemberRegisterDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ public interface MemberFeignClient {
      * @return
      */
     @PostMapping("/app-api/v1/members")
-    Result<Long> addMember(@RequestBody MemberDTO member);
+    Result<Long> registerMember(@RequestBody MemberRegisterDTO member);
 
     /**
      * 获取会员的 openid

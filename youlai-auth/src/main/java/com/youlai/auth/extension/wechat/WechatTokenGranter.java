@@ -11,10 +11,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *  微信授权者
+ * 微信授权者
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/9/25
+ * @author haoxr
+ * @since 2021/9/25
  */
 public class WechatTokenGranter extends AbstractTokenGranter {
 
@@ -47,7 +47,7 @@ public class WechatTokenGranter extends AbstractTokenGranter {
         parameters.remove("encryptedData");
         parameters.remove("iv");
 
-        Authentication userAuth = new WechatAuthenticationToken(code, encryptedData,iv); // 未认证状态
+        Authentication userAuth = new WechatAuthenticationToken(code, encryptedData, iv); // 未认证状态
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
         try {

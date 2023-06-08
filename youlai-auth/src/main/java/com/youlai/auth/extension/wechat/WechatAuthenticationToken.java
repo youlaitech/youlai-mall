@@ -8,8 +8,10 @@ import org.springframework.util.Assert;
 import java.util.Collection;
 
 /**
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/9/25
+ * 微信认证令牌
+ *
+ * @author haoxr
+ * @since  2021/9/25
  */
 public class WechatAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 550L;
