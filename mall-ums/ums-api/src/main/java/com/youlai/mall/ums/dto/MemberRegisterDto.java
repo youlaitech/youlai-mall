@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @since 2022/2/12
  */
 @Data
-public class MemberDTO {
+public class MemberRegisterDto {
 
     private Integer gender;
 

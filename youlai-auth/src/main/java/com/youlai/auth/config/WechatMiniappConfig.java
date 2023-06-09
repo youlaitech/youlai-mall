@@ -4,20 +4,24 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * 微信小程序配置
+ *
+ * @author haoxr
+ * @since 3.0.0
  */
+@ConfigurationProperties(prefix = "miniapp.wechat")
 @Configuration
-public class WechatWeappConfig {
+public class WechatMiniappConfig {
 
-    @Value("${wechat.weapp.appid}")
+    @Setter
     private String appid;
-
-    @Value("${wechat.weapp.secret}")
+    @Setter
     private String secret;
 
     @Bean

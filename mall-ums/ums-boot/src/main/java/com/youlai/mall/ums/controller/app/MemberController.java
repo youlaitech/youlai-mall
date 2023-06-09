@@ -8,7 +8,7 @@ import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberRegisterDto;
 import com.youlai.mall.ums.model.entity.UmsMember;
 import com.youlai.mall.ums.model.vo.MemberVO;
 import com.youlai.mall.ums.service.IUmsMemberService;
@@ -40,7 +40,7 @@ public class MemberController {
 
     @Operation(summary= "新增会员")
     @PostMapping
-    public Result<Long> addMember(@RequestBody MemberDTO member) {
+    public Result<Long> addMember(@RequestBody MemberRegisterDto member) {
         Long memberId = memberService.addMember(member);
         return Result.success(memberId);
     }

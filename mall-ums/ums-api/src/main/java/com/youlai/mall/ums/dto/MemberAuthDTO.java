@@ -1,6 +1,8 @@
 package com.youlai.mall.ums.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -10,7 +12,8 @@ import lombok.experimental.Accessors;
  * @since 2022/2/12
  */
 @Data
-@Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberAuthDTO {
 
     /**

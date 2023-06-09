@@ -14,7 +14,7 @@ import com.youlai.mall.ums.convert.AddressConvert;
 import com.youlai.mall.ums.convert.MemberConvert;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberRegisterDto;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
 import com.youlai.mall.ums.model.entity.UmsAddress;
@@ -114,12 +114,12 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     /**
      * 新增会员
      *
-     * @param memberDTO
+     * @param memberRegisterDTO
      * @return
      */
     @Override
-    public Long addMember(MemberDTO memberDTO) {
-        UmsMember umsMember = memberConvert.dto2Entity(memberDTO);
+    public Long addMember(MemberRegisterDto memberRegisterDTO) {
+        UmsMember umsMember = memberConvert.dto2Entity(memberRegisterDTO);
         boolean result = this.save(umsMember);
         Assert.isTrue(result, "新增会员失败");
         return umsMember.getId();

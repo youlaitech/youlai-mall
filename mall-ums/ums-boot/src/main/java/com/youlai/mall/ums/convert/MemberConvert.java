@@ -1,7 +1,7 @@
 package com.youlai.mall.ums.convert;
 
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberRegisterDto;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.model.entity.UmsMember;
 import org.mapstruct.Mapper;
@@ -30,5 +30,5 @@ public interface MemberConvert {
 
     MemberInfoDTO entity2MemberInfoDTO(UmsMember entity);
 
-    UmsMember dto2Entity(MemberDTO memberDTO);
+    UmsMember dto2Entity(MemberRegisterDto memberRegisterDTO);
 }

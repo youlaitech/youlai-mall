@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service("sysUserDetailsService")
 @Slf4j
 @RequiredArgsConstructor
-public class SysUserDetailsServiceImpl implements UserDetailsService {
+public class SysUserDetailsService implements UserDetailsService {
 
     private final UserFeignClient userFeignClient;
 

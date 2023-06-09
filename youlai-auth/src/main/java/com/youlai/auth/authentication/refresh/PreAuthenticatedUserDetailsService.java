@@ -1,7 +1,6 @@
 package com.youlai.auth.authentication.refresh;
 
-import com.youlai.auth.config.AuthorizationServerConfig;
-import com.youlai.auth.userdetails.member.MemberUserDetailsServiceImpl;
+import com.youlai.auth.userdetails.member.MmsUserDetailsService;
 import com.youlai.auth.util.RequestUtils;
 import com.youlai.common.constant.SecurityConstants;
 import lombok.NoArgsConstructor;
@@ -54,13 +53,13 @@ public class PreAuthenticatedUserDetailsService<T extends Authentication> implem
         switch (clientId) {
             case SecurityConstants.APP_CLIENT_ID -> {
                 // 移动端的用户体系是会员，认证方式是通过手机号 mobile 认证
-                MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
-                return memberUserDetailsService.loadUserByUsername(authentication.getName());
+                MmsUserDetailsService mmsUserDetailsService = (MmsUserDetailsService) userDetailsService;
+                return mmsUserDetailsService.loadUserByUsername(authentication.getName());
             }
             case SecurityConstants.WEAPP_CLIENT_ID -> {
                 // 小程序的用户体系是会员，认证方式是通过微信三方标识 openid 认证
-                MemberUserDetailsServiceImpl memberUserDetailsService = (MemberUserDetailsServiceImpl) userDetailsService;
-                return memberUserDetailsService.loadUserByOpenId(authentication.getName());
+                MmsUserDetailsService mmsUserDetailsService = (MmsUserDetailsService) userDetailsService;
+                return mmsUserDetailsService.loadUserByOpenId(authentication.getName());
             }
             // 管理系统的用户体系是系统用户，认证方式通过用户名 username 认证
             default -> {

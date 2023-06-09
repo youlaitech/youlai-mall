@@ -41,15 +41,15 @@
         <spring-boot.version>3.1.0</spring-boot.version>
 
         <!-- spring cloud & alibaba -->
-        <spring-cloud.version>2022.0.2</spring-cloud.version>
+        <spring-cloud.version>2022.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
-        <!-- -->
+        <!-- spring authorization server -->
         <authorization-server.version>1.1.0</authorization-server.version>
         <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
 
         <!-- db && orm -->
         <mysql.version>8.0.28</mysql.version>
-        <druid.version>1.2.16</druid.version>
+        <druid.version>1.2.18</druid.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
 
         <!-- api doc -->
@@ -66,7 +66,6 @@
         <thumbnailator.version>0.4.17</thumbnailator.version>
 
         <!-- distributed -->
-        <seata.version>1.5.2</seata.version>
         <redisson.version>3.21.0</redisson.version>
 
         <!-- 阿里云短信 -->
@@ -158,21 +157,12 @@
                 <version>${weixin-java.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-spring-boot-starter</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
-
-
             <!-- 分布式锁 -->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
-
-
 
             <dependency>
                 <groupId>com.youlai</groupId>

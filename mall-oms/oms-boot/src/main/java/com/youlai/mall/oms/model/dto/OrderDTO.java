@@ -2,7 +2,7 @@ package com.youlai.mall.oms.model.dto;
 
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.entity.OmsOrderItem;
-import com.youlai.mall.ums.dto.MemberDTO;
+import com.youlai.mall.ums.dto.MemberRegisterDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -22,6 +22,6 @@ public class OrderDTO {
 
     private List<OmsOrderItem> orderItems;
 
-    private MemberDTO member;
+    private MemberRegisterDto member;
 
 }
