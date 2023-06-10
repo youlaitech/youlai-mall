@@ -1,13 +1,15 @@
-package com.youlai.auth.authentication.wechat;
+package com.youlai.auth.authentication.miniapp;
 
 import cn.hutool.core.lang.Assert;
 import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationToken;
-import com.youlai.auth.userdetails.member.MmsUserDetailsService;
+import com.youlai.auth.userdetails.member.MemberUserDetailsService;
+import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -22,84 +24,87 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
- * 微信认证提供者
+ * 微信认证 Provider
  *
  * @author haoxr
  * @since 3.0.0
  */
 @Slf4j
-public class WechatMiniProgramAuthenticationProvider implements AuthenticationProvider {
+public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
 
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
-    private final MmsUserDetailsService mmsUserDetailsService;
+    private final MemberUserDetailsService memberUserDetailsService;
+
 
 
     /**
      * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using the provided parameters.
      *
-     * @param authenticationManager the authentication manager
      * @param authorizationService  the authorization service
      * @param tokenGenerator        the token generator
      * @since 0.2.3
      */
-    public WechatMiniProgramAuthenticationProvider(
+    public WxMiniAppAuthenticationProvider(
             OAuth2AuthorizationService authorizationService,
             OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
-            MmsUserDetailsService mmsUserDetailsService
+            MemberUserDetailsService memberUserDetailsService
     ) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
-        this.mmsUserDetailsService = mmsUserDetailsService;
+        this.memberUserDetailsService = memberUserDetailsService;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        WeChatMiniProgramAuthenticationToken authenticationToken = (WeChatMiniProgramAuthenticationToken) authentication;
+        WxMiniAppAuthenticationToken authenticationToken = (WxMiniAppAuthenticationToken) authentication;
 
-        authenticationToken.getIv()
-
+        // 参数
+        String code = authenticationToken.getCode();
+        String encryptedData = authenticationToken.getEncryptedData();
+        String iv = authenticationToken.getIv();
+        Map<String, Object> additionalParameters = authenticationToken.getAdditionalParameters();
 
 
         // 验证客户端是否已认证
-        OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
+        OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
+                .getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
-
-        // 验证客户端是否支持(grant_type=password)授权模式
-        if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
-            throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
+        if (registeredClient == null) {
+            OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "注册客户不能为空", null);
+            throw new OAuth2AuthenticationException(error);
         }
 
-        // 密码验证
-        Map<String, Object> additionalParameters = authenticationToken.getAdditionalParameters();
-        String code = (String) additionalParameters.get("code");
-        String encryptedData = (String) additionalParameters.get("encryptedData");
-        String iv = (String) additionalParameters.get("iv");
-
-        UserDetails userDetails = mmsUserDetailsService.loadUserByWechatCode(code, encryptedData, iv);
+        UserDetails userDetails = memberUserDetailsService.loadUserByWechatCode(code, encryptedData, iv);
 
         UsernamePasswordAuthenticationToken principal = UsernamePasswordAuthenticationToken.authenticated(userDetails, null,
                 userDetails.getAuthorities());
 
-        WeChatMiniProgramAuthenticationToken weChatMiniProgramAuthenticationToken =new WeChatMiniProgramAuthenticationToken()
 
-        Authentication usernamePasswordAuthentication =new WeChatMiniProgramAuthenticationToken();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+
+        WxMiniAppAuthenticationToken wxMiniAppAuthenticationToken = new WxMiniAppAuthenticationToken(authorities,
+                clientPrincipal, principal, user, additionalParameters, details, appid, code, openid);
+
+
 
 
         // 生成 access_token
         // @formatter:off
             DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                     .registeredClient(registeredClient)
-                    .principal(userDetails.getUsername())
                     .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                     .authorizationGrantType(AuthorizationGrantType.PASSWORD);
             // @formatter:on

@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.wechat;
+package com.youlai.auth.authentication.miniapp;
 
 /**
  * 微信小程序参数名称
@@ -6,7 +6,7 @@ package com.youlai.auth.authentication.wechat;
  * @author haoxr
  * @since 3.0.0
  */
-public interface WechatMiniProgramParameterNames {
+public interface WxMiniAppParameterNames {
 
 
     String CODE = "code";

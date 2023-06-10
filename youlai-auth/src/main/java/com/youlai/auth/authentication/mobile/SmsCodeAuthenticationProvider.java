@@ -1,7 +1,7 @@
 package com.youlai.auth.authentication.mobile;
 
 import cn.hutool.core.util.StrUtil;
-import com.youlai.auth.userdetails.member.MmsUserDetailsService;
+import com.youlai.auth.userdetails.member.MemberUserDetailsService;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.ums.api.MemberFeignClient;
@@ -44,7 +44,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
             // 比对成功删除缓存的验证码
             redisTemplate.delete(codeKey);
         }
-        UserDetails userDetails = ((MmsUserDetailsService) userDetailsService).loadUserByMobile(mobile);
+        UserDetails userDetails = ((MemberUserDetailsService) userDetailsService).loadUserByMobile(mobile);
         SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(userDetails, authentication.getCredentials(), new HashSet<>());
         result.setDetails(authentication.getDetails());
         return result;

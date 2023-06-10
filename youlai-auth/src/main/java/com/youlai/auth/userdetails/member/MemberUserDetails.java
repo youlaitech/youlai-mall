@@ -17,7 +17,7 @@ import java.util.HashSet;
  * @since 2021/9/27
  */
 @Data
-public class MmsUserDetails implements UserDetails {
+public class MemberUserDetails implements UserDetails {
 
     private Long memberId;
     private String username;
@@ -34,7 +34,7 @@ public class MmsUserDetails implements UserDetails {
      *
      * @param member 小程序会员用户认证信息
      */
-    public MmsUserDetails(MemberAuthDTO member) {
+    public MemberUserDetails(MemberAuthDTO member) {
         this.setMemberId(member.getMemberId());
         this.setUsername(member.getUsername());
         this.setEnabled(GlobalConstants.STATUS_YES.equals(member.getStatus()));

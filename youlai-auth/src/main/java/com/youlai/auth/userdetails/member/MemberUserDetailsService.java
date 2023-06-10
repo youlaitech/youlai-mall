@@ -24,11 +24,12 @@ import org.springframework.stereotype.Service;
 /**
  * 商城会员用户认证服务
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author haoxr
+ * @since 3.0.0
  */
 @Service("memberUserDetailsService")
 @RequiredArgsConstructor
-public class MmsUserDetailsService implements UserDetailsService {
+public class MemberUserDetailsService implements UserDetailsService {
 
     private final MemberFeignClient memberFeignClient;
     private final WxMaService wxMaService;
@@ -46,12 +47,12 @@ public class MmsUserDetailsService implements UserDetailsService {
      * @return
      */
     public UserDetails loadUserByMobile(String mobile) {
-        MmsUserDetails userDetails = null;
+        MemberUserDetails userDetails = null;
         Result<MemberAuthDTO> result = memberFeignClient.loadUserByMobile(mobile);
         if (Result.isSuccess(result)) {
             MemberAuthDTO member = result.getData();
             if (null != member) {
-                userDetails = new MmsUserDetails(member);
+                userDetails = new MemberUserDetails(member);
             }
         }
         if (userDetails == null) {
@@ -103,7 +104,7 @@ public class MmsUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
         }
 
-        UserDetails userDetails = new MmsUserDetails(memberAuthInfo);
+        UserDetails userDetails = new MemberUserDetails(memberAuthInfo);
         if (!userDetails.isEnabled()) {
             throw new DisabledException("该账户已被禁用!");
         } else if (!userDetails.isAccountNonLocked()) {
