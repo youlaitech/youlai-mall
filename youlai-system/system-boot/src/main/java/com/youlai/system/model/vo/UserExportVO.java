@@ -37,7 +37,7 @@ public class UserExportVO {
     private String email;
 
     @ExcelProperty(value = "创建时间")
-    @sinceTimeFormat("yyyy/MM/dd HH:mm:ss")
+    @DateTimeFormat("yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createTime;
 
 

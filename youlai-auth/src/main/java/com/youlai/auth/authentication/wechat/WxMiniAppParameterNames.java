@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.miniapp;
+package com.youlai.auth.authentication.wechat;
 
 /**
  * 微信小程序参数名称
@@ -14,6 +14,5 @@ public interface WxMiniAppParameterNames {
     String IV = "iv";
 
     String ENCRYPTED_DATA = "encryptedData";
-
 
 }

@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.miniapp;
+package com.youlai.auth.authentication.wechat;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2EndpointUtils;

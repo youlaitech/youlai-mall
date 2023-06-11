@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.miniapp;
+package com.youlai.auth.authentication.wechat;
 
 import lombok.Getter;
 import org.springframework.security.core.Authentication;
@@ -12,7 +12,8 @@ import java.util.Map;
  * 微信小程序
  *
  * @author haoxr
- * @see OAuth2AuthorizationCodeAuthenticationToken
+ * @see org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+ * @see OAuth2AuthorizationGrantAuthenticationToken
  * @since 3.0.0
  */
 public class WxMiniAppAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
@@ -33,10 +34,12 @@ public class WxMiniAppAuthenticationToken extends OAuth2AuthorizationGrantAuthen
 
 
     /**
-     * Sub-class constructor.
      *
-     * @param clientPrincipal      the authenticated client principal
-     * @param additionalParameters the additional parameters
+     * @param clientPrincipal
+     * @param additionalParameters
+     * @param code
+     * @param encryptedData
+     * @param iv
      */
     protected WxMiniAppAuthenticationToken(
             Authentication clientPrincipal,
@@ -49,5 +52,9 @@ public class WxMiniAppAuthenticationToken extends OAuth2AuthorizationGrantAuthen
         this.code = code;
         this.encryptedData = encryptedData;
         this.iv = iv;
+        super.setAuthenticated(false);
     }
+
+
+
 }

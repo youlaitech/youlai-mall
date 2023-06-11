@@ -11,7 +11,7 @@ import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberRegisterDto;
 import com.youlai.mall.ums.model.entity.UmsMember;
 import com.youlai.mall.ums.model.vo.MemberVO;
-import com.youlai.mall.ums.service.IUmsMemberService;
+import com.youlai.mall.ums.service.UmsMemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,7 +26,7 @@ import java.util.Set;
 @RequestMapping("/app-api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
-    private final IUmsMemberService memberService;
+    private final UmsMemberService memberService;
 
     @Operation(summary= "根据会员ID获取openid")
     @GetMapping("/{memberId}/openid")

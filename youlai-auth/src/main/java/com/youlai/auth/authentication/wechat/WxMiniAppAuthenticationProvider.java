@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.miniapp;
+package com.youlai.auth.authentication.wechat;
 
 import cn.hutool.core.lang.Assert;
 import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationToken;
@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -24,8 +23,6 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,12 +42,11 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
     private final MemberUserDetailsService memberUserDetailsService;
 
 
-
     /**
      * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using the provided parameters.
      *
-     * @param authorizationService  the authorization service
-     * @param tokenGenerator        the token generator
+     * @param authorizationService the authorization service
+     * @param tokenGenerator       the token generator
      * @since 0.2.3
      */
     public WxMiniAppAuthenticationProvider(
@@ -87,27 +83,15 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
         }
 
         UserDetails userDetails = memberUserDetailsService.loadUserByWechatCode(code, encryptedData, iv);
-
-        UsernamePasswordAuthenticationToken principal = UsernamePasswordAuthenticationToken.authenticated(userDetails, null,
+        UsernamePasswordAuthenticationToken usernamePasswordAuthentication = UsernamePasswordAuthenticationToken.authenticated(userDetails, null,
                 userDetails.getAuthorities());
 
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-
-        WxMiniAppAuthenticationToken wxMiniAppAuthenticationToken = new WxMiniAppAuthenticationToken(authorities,
-                clientPrincipal, principal, user, additionalParameters, details, appid, code, openid);
-
-
-
-
-        // 生成 access_token
-        // @formatter:off
-            DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
-                    .registeredClient(registeredClient)
-                    .authorizationServerContext(AuthorizationServerContextHolder.getContext())
-                    .authorizationGrantType(AuthorizationGrantType.PASSWORD);
-            // @formatter:on
+        DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
+                .registeredClient(registeredClient)
+                .principal(usernamePasswordAuthentication)
+                .authorizationServerContext(AuthorizationServerContextHolder.getContext())
+                .authorizationGrantType(WxMiniAppAuthenticationToken.WX_MINI_APP)
+                .authorizationGrant(authenticationToken);
 
         // ----- Access token -----
         OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
@@ -123,11 +107,13 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 
         // @formatter:off
-            OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-                    .principalName(usernamePasswordAuthentication.getName())
-                    .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                    .attribute(Principal.class.getName(), usernamePasswordAuthentication);
-            // @formatter:on
+        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
+                .principalName(usernamePasswordAuthentication.getName())
+                .authorizationGrantType(WxMiniAppAuthenticationToken.WX_MINI_APP)
+                .attribute(Principal.class.getName(), usernamePasswordAuthentication);
+        // @formatter:on
+
+
         if (generatedAccessToken instanceof ClaimAccessor) {
             authorizationBuilder.token(accessToken, (metadata) ->
                     metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()));

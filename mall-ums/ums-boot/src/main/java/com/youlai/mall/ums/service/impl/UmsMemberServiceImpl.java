@@ -20,8 +20,8 @@ import com.youlai.mall.ums.mapper.UmsMemberMapper;
 import com.youlai.mall.ums.model.entity.UmsAddress;
 import com.youlai.mall.ums.model.entity.UmsMember;
 import com.youlai.mall.ums.model.vo.MemberVO;
-import com.youlai.mall.ums.service.IUmsAddressService;
-import com.youlai.mall.ums.service.IUmsMemberService;
+import com.youlai.mall.ums.service.UmsAddressService;
+import com.youlai.mall.ums.service.UmsMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -40,13 +40,13 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember> implements IUmsMemberService {
+public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember> implements UmsMemberService {
 
     private final RedisTemplate redisTemplate;
     private final MemberConvert memberConvert;
 
     private final AddressConvert addressConvert;
-    private final IUmsAddressService addressService;
+    private final UmsAddressService addressService;
 
     @Override
     public IPage<UmsMember> list(Page<UmsMember> page, String nickname) {

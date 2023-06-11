@@ -27,17 +27,12 @@ import org.springframework.stereotype.Service;
  * @author haoxr
  * @since 3.0.0
  */
-@Service("memberUserDetailsService")
+@Service
 @RequiredArgsConstructor
-public class MemberUserDetailsService implements UserDetailsService {
+public class MemberUserDetailsService {
 
     private final MemberFeignClient memberFeignClient;
     private final WxMaService wxMaService;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        return null;
-    }
 
 
     /**
@@ -97,6 +92,9 @@ public class MemberUserDetailsService implements UserDetailsService {
             }
         } else {
             Assert.isTrue((memberAuthInfo = getMemberAuthInfoResult.getData()) != null, "获取会员认证信息失败");
+
+
+
         }
 
         // 用户不存在

@@ -20,12 +20,12 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
+            <artifactId>common-redis</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-redis</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>

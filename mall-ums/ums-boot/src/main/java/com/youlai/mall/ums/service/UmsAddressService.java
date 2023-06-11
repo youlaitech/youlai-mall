@@ -14,7 +14,7 @@ import java.util.List;
  * @author haoxr
  * @since 2022/2/12
  */
-public interface IUmsAddressService extends IService<UmsAddress> {
+public interface UmsAddressService extends IService<UmsAddress> {
 
     /**
      * 新增地址

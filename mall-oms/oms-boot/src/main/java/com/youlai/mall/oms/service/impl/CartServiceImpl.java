@@ -69,7 +69,7 @@ public class CartServiceImpl implements CartService {
             throw new BizException(ResultCode.INVALID_TOKEN);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
-        String hKey = skuId + "";
+        String hKey = String.valueOf(skuId);
 
         CartItemDTO cartItem;
         // 购物车已存在该商品，更新商品数量

@@ -24,12 +24,8 @@ public class NamedThreadFactory implements ThreadFactory {
     public final String namePrefix;
 
     public NamedThreadFactory(String name) {
-        SecurityManager securityManager = System.getSecurityManager();
-        if (securityManager != null) {
-            this.threadGroup = securityManager.getThreadGroup();
-        } else {
-            this.threadGroup = Thread.currentThread().getThreadGroup();
-        }
+
+        this.threadGroup = Thread.currentThread().getThreadGroup();
 
         if (StrUtil.isBlank(name)) {
             name = "pool";

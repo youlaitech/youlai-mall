@@ -21,7 +21,7 @@ import java.util.Set;
  * @author haoxr
  * @since 2022/2/12
  */
-public interface IUmsMemberService extends IService<UmsMember> {
+public interface UmsMemberService extends IService<UmsMember> {
 
     IPage<UmsMember> list(Page<UmsMember> page, String nickname);
 

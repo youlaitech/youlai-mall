@@ -88,8 +88,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         );
 
         // 实体转换
-        List<Option> list = roleConverter.entities2Options(roleList);
-        return list;
+        return roleConverter.entities2Options(roleList);
     }
 
     /**
@@ -114,8 +113,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         // 实体转换
         SysRole role = roleConverter.form2Entity(roleForm);
 
-        boolean result = this.saveOrUpdate(role);
-        return result;
+        return this.saveOrUpdate(role);
     }
 
     /**
@@ -164,8 +162,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 });
 
 
-        boolean result = this.removeByIds(roleIds);
-        return result;
+        return this.removeByIds(roleIds);
     }
 
     /**
@@ -176,8 +173,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Override
     public List<Long> getRoleMenuIds(Long roleId) {
-        List<Long> menuIds = sysRoleMenuService.listMenuIdsByRoleId(roleId);
-        return menuIds;
+        return sysRoleMenuService.listMenuIdsByRoleId(roleId);
     }
 
     /**

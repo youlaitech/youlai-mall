@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Configuration;
  * @author haoxr
  * @since 3.0.0
  */
-@ConfigurationProperties(prefix = "miniapp.wechat")
+@ConfigurationProperties(prefix = "wx.miniapp")
 @Configuration
-public class WechatMiniappConfig {
+public class WxMiniAppConfig {
 
     @Setter
     private String appid;

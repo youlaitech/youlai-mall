@@ -56,7 +56,6 @@ public class PmsBrandController {
     }
 
     @Operation(summary= "品牌详情")
-    @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long")
     @GetMapping("/{id}")
     public Result getBrandList(@PathVariable Integer id) {
         PmsBrand brand = brandService.getById(id);
@@ -71,10 +70,6 @@ public class PmsBrandController {
     }
 
     @Operation(summary= "修改品牌")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "品牌id", required = true, paramType = "path", dataType = "Long"),
-            @ApiImplicitParam(name = "brand", value = "实体JSON对象", required = true, paramType = "body", dataType = "PmsBrand")
-    })
     @PutMapping(value = "/{id}")
     public Result updateBrand(
             @PathVariable Long id,

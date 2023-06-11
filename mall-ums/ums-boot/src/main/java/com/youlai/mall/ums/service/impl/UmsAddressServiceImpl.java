@@ -10,7 +10,7 @@ import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.mapper.UmsAddressMapper;
 import com.youlai.mall.ums.model.entity.UmsAddress;
 import com.youlai.mall.ums.model.form.AddressForm;
-import com.youlai.mall.ums.service.IUmsAddressService;
+import com.youlai.mall.ums.service.UmsAddressService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @since 2022/2/12
  */
 @Service
-public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddress> implements IUmsAddressService {
+public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddress> implements UmsAddressService {
 
     /**
      * 新增地址

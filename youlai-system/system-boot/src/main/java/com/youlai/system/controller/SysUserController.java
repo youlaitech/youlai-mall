@@ -180,8 +180,7 @@ public class SysUserController {
 
     public static <T> String importExcel(InputStream is, Class clazz, MyAnalysisEventListener<T> listener) {
         EasyExcel.read(is, clazz, listener).sheet().doRead();
-        String msg = listener.getMsg();
-        return msg;
+        return listener.getMsg();
     }
 
 }

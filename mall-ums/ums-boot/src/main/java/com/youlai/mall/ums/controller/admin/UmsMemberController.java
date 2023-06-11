@@ -8,7 +8,7 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.model.entity.UmsMember;
-import com.youlai.mall.ums.service.IUmsMemberService;
+import com.youlai.mall.ums.service.UmsMemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +24,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class UmsMemberController {
 
-    private final IUmsMemberService memberService;
+    private final UmsMemberService memberService;
 
     @Operation(summary= "会员分页列表")
     @GetMapping

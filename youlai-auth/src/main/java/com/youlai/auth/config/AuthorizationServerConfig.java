@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationConverter;
 import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationProvider;
+import com.youlai.auth.authentication.wechat.WxMiniAppAuthenticationToken;
 import com.youlai.auth.userdetails.user.SysUserDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -144,32 +145,20 @@ public class AuthorizationServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-        String messagingClientId = "messaging-client";
+        String messagingClientId = "mall-app";
         RegisteredClient messagingClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId(messagingClientId)
                 .clientSecret("{noop}secret")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .authorizationGrantType(WxMiniAppAuthenticationToken.WX_MINI_APP)
                 .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
-                .scope(OidcScopes.OPENID)
-                .scope(OidcScopes.PROFILE)
                 .scope("message.read")
                 .scope("message.write")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-                .build();
-
-        String deviceClientId = "device-messaging-client";
-        RegisteredClient deviceClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId(deviceClientId)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-                .authorizationGrantType(AuthorizationGrantType.DEVICE_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .scope("message.read")
-                .scope("message.write")
                 .build();
 
         // Save registered client's in db as if in-memory
@@ -180,14 +169,8 @@ public class AuthorizationServerConfig {
             registeredClientRepository.save(messagingClient);
         }
 
-        RegisteredClient registeredDeviceClient = registeredClientRepository.findByClientId(deviceClientId);
-        if (registeredDeviceClient == null) {
-            registeredClientRepository.save(deviceClient);
-        }
-
         return registeredClientRepository;
     }
-    // @formatter:on
 
     @Bean
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,

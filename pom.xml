@@ -65,9 +65,6 @@
         <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
         <thumbnailator.version>0.4.17</thumbnailator.version>
 
-        <!-- distributed -->
-        <redisson.version>3.21.0</redisson.version>
-
         <!-- 阿里云短信 -->
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
@@ -75,6 +72,11 @@
         <!-- minio -->
         <minio.version>8.5.3</minio.version>
         <okhttp3.version>4.8.1</okhttp3.version>
+
+        <aliyun-sdk-oss.version>3.16.3</aliyun-sdk-oss.version>
+
+        <!-- redisson 分布式锁 -->
+        <redisson.version>3.21.0</redisson.version>
     </properties>
 
     <dependencies>
@@ -157,10 +159,10 @@
                 <version>${weixin-java.version}</version>
             </dependency>
 
-            <!-- 分布式锁 -->
+            <!-- redisson 分布式锁 -->
             <dependency>
                 <groupId>org.redisson</groupId>
-                <artifactId>redisson</artifactId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
 
@@ -313,6 +315,12 @@
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
                 <version>${authorization-server.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
             </dependency>
 
         </dependencies>

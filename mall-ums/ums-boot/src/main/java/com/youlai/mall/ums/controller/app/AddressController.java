@@ -4,7 +4,7 @@ import com.youlai.common.result.Result;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.model.entity.UmsAddress;
 import com.youlai.mall.ums.model.form.AddressForm;
-import com.youlai.mall.ums.service.IUmsAddressService;
+import com.youlai.mall.ums.service.UmsAddressService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AddressController {
 
-    private final IUmsAddressService addressService;
+    private final UmsAddressService addressService;
 
     @Operation(summary= "获取当前会员地址列表")
     @GetMapping
