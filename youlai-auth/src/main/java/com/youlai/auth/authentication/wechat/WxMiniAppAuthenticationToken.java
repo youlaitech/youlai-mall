@@ -21,7 +21,7 @@ public class WxMiniAppAuthenticationToken extends OAuth2AuthorizationGrantAuthen
     /**
      * 授权类型：微信小程序
      */
-    public static final AuthorizationGrantType WX_MINI_APP = new AuthorizationGrantType("wx_mini_app");
+    public static final AuthorizationGrantType WX_MINI_APP = new AuthorizationGrantType("wx_miniapp");
 
     @Getter
     private final String code;

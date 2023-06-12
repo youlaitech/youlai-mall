@@ -75,7 +75,11 @@ public class AuthorizationServerConfig {
                                 .accessTokenRequestConverters( // <1>
                                         authenticationConverters ->
                                                 authenticationConverters.addAll(
-                                                        List.of(new ResourceOwnerPasswordAuthenticationConverter())
+                                                        List.of(
+                                                                new ResourceOwnerPasswordAuthenticationConverter()
+
+
+                                                        )
                                                 )
                                 )
                                 .authenticationProviders( // <2>
@@ -145,31 +149,8 @@ public class AuthorizationServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-        String messagingClientId = "mall-app";
-        RegisteredClient messagingClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId(messagingClientId)
-                .clientSecret("{noop}secret")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .authorizationGrantType(WxMiniAppAuthenticationToken.WX_MINI_APP)
-                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
-                .redirectUri("http://127.0.0.1:8080/authorized")
-                .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
-                .scope("message.read")
-                .scope("message.write")
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-                .build();
-
         // Save registered client's in db as if in-memory
-        JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-
-        RegisteredClient registeredMessagingClient = registeredClientRepository.findByClientId(messagingClientId);
-        if (registeredMessagingClient == null) {
-            registeredClientRepository.save(messagingClient);
-        }
-
-        return registeredClientRepository;
+        return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
 
     @Bean
