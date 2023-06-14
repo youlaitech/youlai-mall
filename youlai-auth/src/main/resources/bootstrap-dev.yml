@@ -22,21 +22,3 @@ spring:
         username: nacos
         password: nacos
 
-  security:
-    oauth2:
-      client:
-        registration:
-          mall-app:
-            provider: mall-app
-            client-id: mall-app
-            client-secret: 123456
-            authorization-grant-type: wx-miniapp
-            client-name: mall-app
-        provider:
-          mall-app:
-            authorization-uri: http://127.0.0.1:9000/oauth2/authorize
-            token-uri: http://127.0.0.1:9000/oauth2/token
-            user-info-uri: http://127.0.0.1:8800/users/me
-            user-name-attribute: username
-            jwk-set-uri: http://127.0.0.1:9000/oauth2/jwks
-

@@ -1,2 +1,3 @@
-com.youlai.common.file.service.impl.MinioServiceImpl
+com.youlai.common.file.service.impl.MinioOssService
+com.youlai.common.file.service.impl.AliyunOssService
 com.youlai.common.file.controller.FileController

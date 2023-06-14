@@ -4,25 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.system.mapper.SysRoleMapper">
 
-	<!-- 获取最大范围的数据权限 -->
-	<select id="getMaximumDataScope" resultType="java.lang.Integer">
-		SELECT
-		    min(data_scope)
-		FROM
-		    sys_role
-		<where>
-			<choose>
-				<when test="roles!=null and roles.size>0">
-					AND code IN
-					<foreach collection="roles" item="role" separator="," open="(" close=")">
-						#{role}
-					</foreach>
-				</when>
-				<otherwise>
-					id = -1
-				</otherwise>
-			</choose>
-		</where>
-
-	</select>
+    <!-- 获取最大范围的数据权限 -->
+    <select id="getMaximumDataScope" resultType="java.lang.Integer">
+        SELECT
+            min(data_scope)
+        FROM
+            sys_role
+        <where>
+            <choose>
+                <when test="roles!=null and roles.size>0">
+                    AND code IN
+                    <foreach collection="roles" item="role" separator="," open="(" close=")">
+                        #{role}
+                    </foreach>
+                </when>
+                <otherwise>
+                    id = -1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
 </mapper>

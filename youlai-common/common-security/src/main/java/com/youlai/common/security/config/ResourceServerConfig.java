@@ -35,13 +35,7 @@ public class ResourceServerConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         if (CollectionUtil.isEmpty(ignoreUrls)) {
-            ignoreUrls = Arrays.asList(
-                    "/webjars/**",
-                    "/doc.html",
-                    "/swagger-resources/**",
-                    "/v3/api-docs/**",
-                    "/swagger-ui/**"
-                    );
+            ignoreUrls = Arrays.asList("/webjars/**", "/doc.html", "/swagger-resources/**", "/v2/api-docs");
         }
 
         log.info("whitelist path:{}", JSONUtil.toJsonStr(ignoreUrls));

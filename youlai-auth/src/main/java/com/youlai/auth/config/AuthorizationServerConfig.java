@@ -149,7 +149,6 @@ public class AuthorizationServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-        // Save registered client's in db as if in-memory
         return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
 

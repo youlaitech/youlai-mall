@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.system.mapper.SysUserMapper">
 
     <!-- 用户分页列表 -->
-    <select id="listUserPages" resultType="com.youlai.system.model.bo.UserBO">
+    <select id="getUserPage" resultType="com.youlai.system.model.bo.UserBO">
         SELECT
             u.id,
             u.username,
@@ -19,9 +19,9 @@
             u.create_time
         FROM
             sys_user u
-            LEFT JOIN sys_dept d ON u.dept_id = d.id
-            LEFT JOIN sys_user_role ur ON u.id = ur.user_id
-            LEFT JOIN sys_role r ON ur.role_id = r.id
+                LEFT JOIN sys_dept d ON u.dept_id = d.id
+                LEFT JOIN sys_user_role sur ON u.id = sur.user_id
+                LEFT JOIN sys_role r ON sur.role_id = r.id
         <where>
             u.deleted = 0 AND u.username != 'root'
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
@@ -82,9 +82,9 @@
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>
-        <result property="deptId" column="deptId" jdbcType="BIGINT"></result>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"></result>
         <collection property="roles" ofType="string" javaType="java.util.Set">
-            <result column="roleCode"></result>
+            <result column="code"></result>
         </collection>
     </resultMap>
 
@@ -96,18 +96,18 @@
             t1.nickname,
             t1.PASSWORD,
             t1.STATUS,
-            t1.dept_id deptId,
-            t3.CODE roleCode
+            t1.dept_id ,
+            t3.CODE
         FROM
             sys_user t1
                 LEFT JOIN sys_user_role t2 ON t2.user_id = t1.id
                 LEFT JOIN sys_role t3 ON t3.id = t2.role_id
         WHERE
-            t1.username = #{username} and t1.deleted=0
+            t1.username = #{username} AND t1.deleted=0
     </select>
 
     <!-- 获取用户导出列表 -->
-    <select id="listExportUsers" resultType="com.youlai.system.model.vo.user.UserExportVO">
+    <select id="listExportUsers" resultType="com.youlai.system.model.vo.UserExportVO">
         SELECT
             u.username,
             u.nickname,
@@ -121,9 +121,9 @@
             u.create_time
         FROM
             sys_user u
-            LEFT JOIN sys_dept d ON u.dept_id = d.id
+                LEFT JOIN sys_dept d ON u.dept_id = d.id
         <where>
-            u.deleted = 0
+            u.deleted = 0 AND u.username != 'root'
             <if test='keywords!=null and keywords.trim() neq ""'>
                 AND (u.username LIKE CONCAT('%',#{keywords},'%')
                 OR u.nickname LIKE CONCAT('%',#{keywords},'%')

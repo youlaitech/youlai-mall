@@ -102,7 +102,7 @@
             <artifactId>common-rabbitmq</artifactId>
         </dependency>
 
-        <dependency>
+       <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-file</artifactId>
         </dependency>
