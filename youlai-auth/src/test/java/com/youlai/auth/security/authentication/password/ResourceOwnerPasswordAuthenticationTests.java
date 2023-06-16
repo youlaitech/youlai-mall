@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.password;
+package com.youlai.auth.security.authentication.password;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -86,6 +87,7 @@ public class ResourceOwnerPasswordAuthenticationTests {
                         .param(OAuth2ParameterNames.USERNAME, "admin")
                         .param(OAuth2ParameterNames.PASSWORD, "123456")
                         .headers(headers))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.access_token").isNotEmpty());
         // @formatter:on

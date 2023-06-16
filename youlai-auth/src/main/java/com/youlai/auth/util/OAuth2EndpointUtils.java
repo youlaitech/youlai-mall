@@ -20,7 +20,11 @@ import java.util.Map;
  * @since 2023/6/8
  */
 public class OAuth2EndpointUtils {
-    static final String ACCESS_TOKEN_REQUEST_ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
+
+
+    public static final String ACCESS_TOKEN_REQUEST_ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
+
+
 
     public OAuth2EndpointUtils() {
     }

@@ -1,8 +1,8 @@
-package com.youlai.auth.authentication.wechat;
+package com.youlai.auth.security.authentication.wechat;
 
 import cn.hutool.core.lang.Assert;
-import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationToken;
-import com.youlai.auth.userdetails.member.MemberUserDetailsService;
+import com.youlai.auth.security.authentication.password.ResourceOwnerPasswordAuthenticationToken;
+import com.youlai.auth.security.userdetails.member.MemberUserDetailsService;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.*;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -32,7 +33,7 @@ import java.util.Map;
  * @since 3.0.0
  */
 @Slf4j
-public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
+public class WechatMiniAppAuthenticationProvider implements AuthenticationProvider {
 
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 
@@ -49,13 +50,14 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
      * @param tokenGenerator       the token generator
      * @since 0.2.3
      */
-    public WxMiniAppAuthenticationProvider(
+    public WechatMiniAppAuthenticationProvider(
             OAuth2AuthorizationService authorizationService,
             OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
             MemberUserDetailsService memberUserDetailsService
     ) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
+        Assert.notNull(memberUserDetailsService, "memberUserDetailsService cannot be null");
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
         this.memberUserDetailsService = memberUserDetailsService;
@@ -64,36 +66,34 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        WxMiniAppAuthenticationToken authenticationToken = (WxMiniAppAuthenticationToken) authentication;
+        WechatMiniAppAuthenticationToken wechatMiniAppAuthenticationToken = (WechatMiniAppAuthenticationToken) authentication;
 
-        // 参数
-        String code = authenticationToken.getCode();
-        String encryptedData = authenticationToken.getEncryptedData();
-        String iv = authenticationToken.getIv();
-        Map<String, Object> additionalParameters = authenticationToken.getAdditionalParameters();
-
-
-        // 验证客户端是否已认证
         OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
-                .getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
+                .getAuthenticatedClientElseThrowInvalidClient(wechatMiniAppAuthenticationToken);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
-        if (registeredClient == null) {
-            OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "注册客户不能为空", null);
-            throw new OAuth2AuthenticationException(error);
+
+        // 验证客户端是否支持授权类型(grant_type=wechat_mini_app)
+        if (!registeredClient.getAuthorizationGrantTypes().contains(WechatMiniAppAuthenticationToken.WECHAT_MINI_APP)) {
+            throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
-        UserDetails userDetails = memberUserDetailsService.loadUserByWechatCode(code, encryptedData, iv);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthentication = UsernamePasswordAuthenticationToken.authenticated(userDetails, null,
-                userDetails.getAuthorities());
+        // 参数
+        Map<String, Object> additionalParameters = wechatMiniAppAuthenticationToken.getAdditionalParameters();
+        String code = (String) additionalParameters.get(OAuth2ParameterNames.CODE);
 
+        UserDetails userDetails = memberUserDetailsService.loadUserByCode(code);
+
+        Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword());
+
+        // 访问令牌(Access Token) 构造器
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
                 .principal(usernamePasswordAuthentication)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
-                .authorizationGrantType(WxMiniAppAuthenticationToken.WX_MINI_APP)
-                .authorizationGrant(authenticationToken);
+                .authorizationGrantType(WechatMiniAppAuthenticationToken.WECHAT_MINI_APP)
+                .authorizationGrant(wechatMiniAppAuthenticationToken);
 
-        // ----- Access token -----
+        // 生成访问令牌(Access Token)
         OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
         OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
         if (generatedAccessToken == null) {
@@ -105,15 +105,10 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
         OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
-
-        // @formatter:off
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-                .principalName(usernamePasswordAuthentication.getName())
-                .authorizationGrantType(WxMiniAppAuthenticationToken.WX_MINI_APP)
+                .principalName(userDetails.getUsername())
+                .authorizationGrantType(WechatMiniAppAuthenticationToken.WECHAT_MINI_APP)
                 .attribute(Principal.class.getName(), usernamePasswordAuthentication);
-        // @formatter:on
-
-
         if (generatedAccessToken instanceof ClaimAccessor) {
             authorizationBuilder.token(accessToken, (metadata) ->
                     metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()));
@@ -121,7 +116,7 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
             authorizationBuilder.accessToken(accessToken);
         }
 
-        // ----- Refresh token -----
+        // 生成刷新令牌(Refresh token)
         OAuth2RefreshToken refreshToken = null;
         if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
                 // Do not issue refresh token to public client
@@ -147,18 +142,7 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return ResourceOwnerPasswordAuthenticationToken.class.isAssignableFrom(authentication);
-    }
-
-    private static OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(Authentication authentication) {
-        OAuth2ClientAuthenticationToken clientPrincipal = null;
-        if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
-            clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
-        }
-        if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-            return clientPrincipal;
-        }
-        throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
+        return WechatMiniAppAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
 }

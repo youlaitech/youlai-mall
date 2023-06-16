@@ -1,4 +1,4 @@
-package com.youlai.auth.userdetails.user;
+package com.youlai.auth.security.userdetails.user;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.common.enums.StatusEnum;

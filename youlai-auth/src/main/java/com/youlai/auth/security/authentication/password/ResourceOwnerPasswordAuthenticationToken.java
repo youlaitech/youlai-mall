@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.password;
+package com.youlai.auth.security.authentication.password;
 
 import jakarta.annotation.Nullable;
 import org.springframework.security.core.Authentication;
@@ -8,33 +8,48 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 
 import java.util.*;
 
+/**
+ * 密码授权模式身份验证令牌
+ * <p>
+ * 封装用户提供的用户名和密码信息
+ *
+ * @author haoxr
+ * @see org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken
+ * @since 3.0.0
+ */
 public class ResourceOwnerPasswordAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
+    /**
+     * 令牌申请访问范围
+     */
     private final Set<String> scopes;
 
     /**
-     * {@link  org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken}
+     * 密码模式身份验证令牌
      *
-     * @param clientPrincipal
-     * @param additionalParameters
+     * @param clientPrincipal      客户端信息
+     * @param scopes               令牌申请访问范围
+     * @param additionalParameters 自定义额外参数(用户名和密码)
      */
     public ResourceOwnerPasswordAuthenticationToken(
             Authentication clientPrincipal,
-            @Nullable Set<String> scopes,
-            Map<String, Object> additionalParameters
+            Set<String> scopes,
+            @Nullable Map<String, Object> additionalParameters
     ) {
         super(AuthorizationGrantType.PASSWORD, clientPrincipal, additionalParameters);
         this.scopes = Collections.unmodifiableSet(scopes != null ? new HashSet<>(scopes) : Collections.emptySet());
 
     }
 
-    public Set<String> getScopes() {
-        return this.scopes;
-    }
-
+    /**
+     * 用户凭证(密码)
+     */
     @Override
     public Object getCredentials() {
         return this.getAdditionalParameters().get(OAuth2ParameterNames.PASSWORD);
     }
 
+    public Set<String> getScopes() {
+        return scopes;
+    }
 }

@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(value = "youlai-system", fallback = UserFeignFallbackClient.class)
 public interface UserFeignClient {
 
-    @GetMapping("/api/v1/users/{username}/authinfo")
+    @GetMapping("/api/v1/users/{username}/authInfo")
     Result<UserAuthInfo> getUserAuthInfo(@PathVariable String username);
 }

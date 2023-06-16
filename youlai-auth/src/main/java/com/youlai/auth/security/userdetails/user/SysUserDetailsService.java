@@ -1,4 +1,4 @@
-package com.youlai.auth.userdetails.user;
+package com.youlai.auth.security.userdetails.user;
 
 import cn.hutool.core.lang.Assert;
 import com.youlai.common.enums.StatusEnum;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 /**
  * 系统用户体系业务类
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author <a href="mailto:xianrui0365@163.com"></a>
  */
 @Service("sysUserDetailsService")
 @Slf4j

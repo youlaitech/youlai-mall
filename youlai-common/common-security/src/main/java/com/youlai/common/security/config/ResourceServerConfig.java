@@ -12,6 +12,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -34,15 +35,14 @@ public class ResourceServerConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        if (CollectionUtil.isEmpty(ignoreUrls)) {
-            ignoreUrls = Arrays.asList("/webjars/**", "/doc.html", "/swagger-resources/**", "/v2/api-docs");
-        }
-
         log.info("whitelist path:{}", JSONUtil.toJsonStr(ignoreUrls));
-
         http.authorizeHttpRequests(requestMatcherRegistry ->
-                        requestMatcherRegistry.requestMatchers(Convert.toStrArray(ignoreUrls)).permitAll()
-                                .anyRequest().authenticated()
+                        {
+                            if (CollectionUtil.isNotEmpty(ignoreUrls)) {
+                                requestMatcherRegistry.requestMatchers(Convert.toStrArray(ignoreUrls)).permitAll();
+                            }
+                            requestMatcherRegistry.anyRequest().authenticated();
+                        }
                 )
                 .csrf(AbstractHttpConfigurer::disable)
         ;
@@ -55,6 +55,22 @@ public class ResourceServerConfig {
         ;
         return http.build();
     }
+
+    /**
+     * 不走过滤器链的放行配置
+     */
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .requestMatchers(
+                        "/webjars/**",
+                        "/doc.html",
+                        "/swagger-resources/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**"
+                );
+    }
+
 
     /**
      * 自定义JWT Converter

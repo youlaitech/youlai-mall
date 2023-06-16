@@ -2,6 +2,8 @@ server:
   port: 9999
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   cloud:
     nacos:
       # 注册中心

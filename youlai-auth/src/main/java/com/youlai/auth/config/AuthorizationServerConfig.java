@@ -6,10 +6,13 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationConverter;
-import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationProvider;
-import com.youlai.auth.authentication.wechat.WxMiniAppAuthenticationToken;
-import com.youlai.auth.userdetails.user.SysUserDetails;
+import com.youlai.auth.security.authentication.password.ResourceOwnerPasswordAuthenticationConverter;
+import com.youlai.auth.security.authentication.password.ResourceOwnerPasswordAuthenticationProvider;
+import com.youlai.auth.security.authentication.wechat.WechatMiniAppAuthenticationConverter;
+import com.youlai.auth.security.authentication.wechat.WechatMiniAppAuthenticationProvider;
+import com.youlai.auth.security.userdetails.member.MemberUserDetailsService;
+import com.youlai.auth.security.userdetails.user.SysUserDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -21,20 +24,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -48,14 +46,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Configuration
+@RequiredArgsConstructor
 public class AuthorizationServerConfig {
+
+    private final MemberUserDetailsService memberUserDetailsService;
 
     /**
      * 授权配置
-     *
-     * @param http
-     * @return
-     * @throws Exception
      */
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -76,16 +73,19 @@ public class AuthorizationServerConfig {
                                         authenticationConverters ->
                                                 authenticationConverters.addAll(
                                                         List.of(
-                                                                new ResourceOwnerPasswordAuthenticationConverter()
-
-
+                                                                new ResourceOwnerPasswordAuthenticationConverter(),
+                                                                new WechatMiniAppAuthenticationConverter()
                                                         )
                                                 )
                                 )
                                 .authenticationProviders( // <2>
                                         authenticationProviders ->
                                                 authenticationProviders.addAll(
-                                                        List.of(new ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator))
+                                                        List.of(
+                                                                new ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
+                                                                new WechatMiniAppAuthenticationProvider(authorizationService, tokenGenerator,memberUserDetailsService)
+
+                                                        )
                                                 )
                                 )
                 );

@@ -1,4 +1,4 @@
-package com.youlai.auth.userdetails.member;
+package com.youlai.auth.security.userdetails.member;
 
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.mall.ums.dto.MemberAuthDTO;

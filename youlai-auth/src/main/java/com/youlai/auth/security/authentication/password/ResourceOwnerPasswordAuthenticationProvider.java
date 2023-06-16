@@ -1,6 +1,7 @@
-package com.youlai.auth.authentication.password;
+package com.youlai.auth.security.authentication.password;
 
 import cn.hutool.core.lang.Assert;
+import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -31,6 +32,12 @@ import java.util.stream.Collectors;
 
 /**
  * 密码模式身份验证提供者
+ * <p>
+ * 处理基于用户名和密码的身份验证
+ *
+ * @author haoxr
+ * @see org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeAuthenticationProvider
+ * @since 3.0.0
  */
 @Slf4j
 public class ResourceOwnerPasswordAuthenticationProvider implements AuthenticationProvider {
@@ -65,28 +72,27 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        ResourceOwnerPasswordAuthenticationToken authenticationToken = (ResourceOwnerPasswordAuthenticationToken) authentication;
-
-        // 验证客户端是否已认证
-        OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
+        ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthentication = (ResourceOwnerPasswordAuthenticationToken) authentication;
+        OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
+                .getAuthenticatedClientElseThrowInvalidClient(resourceOwnerPasswordAuthentication);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
-        // 验证客户端是否支持(grant_type=password)授权模式
+        // 验证客户端是否支持授权类型(grant_type=password)
         if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
-        // 密码验证
-        Map<String, Object> additionalParameters = authenticationToken.getAdditionalParameters();
+        // 生成用户名密码身份验证令牌
+        Map<String, Object> additionalParameters = resourceOwnerPasswordAuthentication.getAdditionalParameters();
         String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
         String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
-        UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        log.debug("got usernamePasswordAuthenticationToken=" + passwordAuthenticationToken);
-        Authentication usernamePasswordAuthentication = authenticationManager.authenticate(passwordAuthenticationToken);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        // 用户名密码身份验证，成功后返回带有权限的认证信息
+        Authentication usernamePasswordAuthentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-        // 验证成功开始授权，客户端是否支持用户所需的权限Scope
-        Set<String> authorizedScopes = registeredClient.getScopes();        // Default to configured scopes
-        Set<String> requestedScopes = authenticationToken.getScopes();
+        // 验证申请访问范围(Scope)
+        Set<String> authorizedScopes = registeredClient.getScopes();
+        Set<String> requestedScopes = resourceOwnerPasswordAuthentication.getScopes();
         if (!CollectionUtils.isEmpty(requestedScopes)) {
             Set<String> unauthorizedScopes = requestedScopes.stream()
                     .filter(requestedScope -> !registeredClient.getScopes().contains(requestedScope))
@@ -97,19 +103,18 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
             authorizedScopes = new LinkedHashSet<>(requestedScopes);
         }
 
-       // 生成 access_token
-       // @formatter:off
+        // 访问令牌(Access Token) 构造器
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
-                .principal(usernamePasswordAuthentication)
+                .principal(usernamePasswordAuthentication) // 身份验证成功的认证信息(用户名、权限等信息)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(authorizedScopes)
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                .authorizationGrant(passwordAuthenticationToken);
-        // @formatter:on
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD) // 授权方式
+                .authorizationGrant(resourceOwnerPasswordAuthentication) // 授权具体对象
+                ;
 
-        // ----- Access token -----
-        OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
+        // 生成访问令牌(Access Token)
+        OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType((OAuth2TokenType.ACCESS_TOKEN)).build();
         OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
         if (generatedAccessToken == null) {
             OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
@@ -121,13 +126,11 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 
-        // @formatter:off
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 .authorizedScopes(authorizedScopes)
                 .attribute(Principal.class.getName(), usernamePasswordAuthentication);
-        // @formatter:on
         if (generatedAccessToken instanceof ClaimAccessor) {
             authorizationBuilder.token(accessToken, (metadata) ->
                     metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()));
@@ -135,7 +138,7 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
             authorizationBuilder.accessToken(accessToken);
         }
 
-        // ----- Refresh token -----
+        // 生成刷新令牌(Refresh token)
         OAuth2RefreshToken refreshToken = null;
         if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
                 // Do not issue refresh token to public client
@@ -149,12 +152,11 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
                 throw new OAuth2AuthenticationException(error);
             }
 
-
             refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
             authorizationBuilder.refreshToken(refreshToken);
         }
 
-        // ----- ID token -----
+        // 生成 ID token
         OidcIdToken idToken;
         if (requestedScopes.contains(OidcScopes.OPENID)) {
             // @formatter:off
@@ -193,17 +195,6 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
     @Override
     public boolean supports(Class<?> authentication) {
         return ResourceOwnerPasswordAuthenticationToken.class.isAssignableFrom(authentication);
-    }
-
-    private static OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(Authentication authentication) {
-        OAuth2ClientAuthenticationToken clientPrincipal = null;
-        if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
-            clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
-        }
-        if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-            return clientPrincipal;
-        }
-        throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
     }
 
 }
