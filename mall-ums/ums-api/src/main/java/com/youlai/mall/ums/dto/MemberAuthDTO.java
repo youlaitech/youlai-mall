@@ -3,10 +3,9 @@ package com.youlai.mall.ums.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 /**
- * 会员认证传输层对象
+ * 会员信息
  *
  * @author haoxr
  * @since 2022/2/12
@@ -19,7 +18,7 @@ public class MemberAuthDTO {
     /**
      * 会员ID
      */
-    private Long memberId;
+    private Long id;
 
     /**
      * 会员名(openId、mobile)

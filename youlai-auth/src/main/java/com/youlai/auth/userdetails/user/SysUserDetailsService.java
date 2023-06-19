@@ -1,4 +1,4 @@
-package com.youlai.auth.security.userdetails.user;
+package com.youlai.auth.userdetails.user;
 
 import cn.hutool.core.lang.Assert;
 import com.youlai.common.enums.StatusEnum;
@@ -7,23 +7,33 @@ import com.youlai.system.api.UserFeignClient;
 import com.youlai.system.dto.UserAuthInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 /**
- * 系统用户体系业务类
+ * 系统用户信息加载实现类
  *
- * @author <a href="mailto:xianrui0365@163.com"></a>
+ * @author haoxr
+ * @since 3.0.0
  */
-@Service("sysUserDetailsService")
-@Slf4j
+@Primary // UserDetailsService 默认的实现，其他需要显式声明
+@Service
 @RequiredArgsConstructor
 public class SysUserDetailsService implements UserDetailsService {
 
     private final UserFeignClient userFeignClient;
 
+    /**
+     * 根据用户名获取用户信息(用户名、密码和角色权限)
+     * <p>
+     * 用户名、密码用于后续认证，认证成功之后将权限授予用户
+     *
+     * @param username 前端登录表单的用户名
+     * @return {@link  SysUserDetails}
+     */
     @Override
     public UserDetails loadUserByUsername(String username) {
         Result<UserAuthInfo> result = userFeignClient.getUserAuthInfo(username);
@@ -32,12 +42,11 @@ public class SysUserDetailsService implements UserDetailsService {
         Assert.isTrue(Result.isSuccess(result) && (userAuthInfo = result.getData()) != null,
                 "用户不存在");
 
-       if (!StatusEnum.ENABLE.getValue().equals(userAuthInfo.getStatus()) ) {
+        if (!StatusEnum.ENABLE.getValue().equals(userAuthInfo.getStatus())) {
             throw new DisabledException("该账户已被禁用!");
         }
 
-        SysUserDetails userDetails = new SysUserDetails(userAuthInfo);
-        return userDetails;
+        return new SysUserDetails(userAuthInfo);
     }
 
 }

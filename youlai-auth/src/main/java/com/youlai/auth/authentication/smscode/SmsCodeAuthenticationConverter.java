@@ -1,4 +1,4 @@
-package com.youlai.auth.security.authentication.wechat;
+package com.youlai.auth.authentication.smscode;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2EndpointUtils;
@@ -18,23 +18,21 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 微信小程序认证参数解析器
+ * 短信验证码认证参数解析器
  * <p>
- * 解析请求参数中的用户名和密码，并构建相应的身份验证(Authentication)对象
+ * 解析请求参数中的手机号和验证码，并构建相应的身份验证(Authentication)对象
  *
  * @author haoxr
  * @see org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter
  * @since 3.0.0
  */
-public class WechatMiniAppAuthenticationConverter implements AuthenticationConverter {
-
-    public static final String ACCESS_TOKEN_REQUEST_ERROR_URI = "https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html";
+public class SmsCodeAuthenticationConverter implements AuthenticationConverter {
 
     @Override
     public Authentication convert(HttpServletRequest request) {
         // 授权类型 (必需)
         String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-        if (!WechatMiniAppAuthenticationToken.WECHAT_MINI_APP.getValue().equals(grantType)) {
+        if (!SmsCodeAuthenticationToken.SMS_CODE.getValue().equals(grantType)) {
             return null;
         }
 
@@ -64,7 +62,7 @@ public class WechatMiniAppAuthenticationConverter implements AuthenticationConve
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
                     OAuth2ParameterNames.CODE,
-                    ACCESS_TOKEN_REQUEST_ERROR_URI);
+                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
         }
         // 附加参数(微信小程序 Code)
         Map<String, Object> additionalParameters = parameters
@@ -76,7 +74,7 @@ public class WechatMiniAppAuthenticationConverter implements AuthenticationConve
                 )
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
-        return new WechatMiniAppAuthenticationToken(
+        return new SmsCodeAuthenticationToken(
                 clientPrincipal,
                 requestedScopes,
                 additionalParameters

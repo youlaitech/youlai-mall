@@ -1,4 +1,4 @@
-package com.youlai.auth.security.authentication.password;
+package com.youlai.auth.authentication.password;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2EndpointUtils;

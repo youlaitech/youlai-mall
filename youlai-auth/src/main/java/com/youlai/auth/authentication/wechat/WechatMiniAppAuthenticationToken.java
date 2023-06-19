@@ -1,4 +1,4 @@
-package com.youlai.auth.security.authentication.wechat;
+package com.youlai.auth.authentication.wechat;
 
 import jakarta.annotation.Nullable;
 import org.springframework.security.core.Authentication;
@@ -13,8 +13,6 @@ import java.util.Set;
 
 /**
  * 微信小程序授权模式身份验证令牌
- * <p>
- * 封装小程序 code
  *
  * @author haoxr
  * @see org.springframework.security.authentication.UsernamePasswordAuthenticationToken

@@ -87,8 +87,8 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                         UmsMember::getStatus
                 )
         );
-        MemberAuthDTO memberAuthDTO = memberConvert.entity2OpenidAuthDTO(entity);
-        return memberAuthDTO;
+        MemberAuthDTO memberAuthDto = memberConvert.entity2OpenidAuthDTO(entity);
+        return memberAuthDto;
     }
 
     /**
@@ -107,8 +107,8 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                 )
         );
 
-        MemberAuthDTO memberAuthDTO = memberConvert.entity2MobileAuthDTO(entity);
-        return memberAuthDTO;
+        MemberAuthDTO memberAuthDto = memberConvert.entity2MobileAuthDTO(entity);
+        return memberAuthDto;
     }
 
     /**

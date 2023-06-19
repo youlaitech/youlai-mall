@@ -1,4 +1,4 @@
-package com.youlai.auth.security.userdetails.user;
+package com.youlai.auth.userdetails.user;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.common.enums.StatusEnum;
@@ -14,10 +14,14 @@ import java.util.stream.Collectors;
 
 
 /**
- * 系统用户认证信息
+ * 系统用户信息
+ * <p>
+ * 包含用户名、密码和权限
+ * <p>
+ * 用户名和密码用于认证，认证成功之后授予权限
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @since 2021/9/27
+ * @author haoxr
+ * @since 3.0.0
  */
 @Data
 public class SysUserDetails implements UserDetails {

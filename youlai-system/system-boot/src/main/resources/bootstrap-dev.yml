@@ -23,8 +23,3 @@ spring:
           refresh: true
         username: nacos
         password: nacos
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://127.0.0.1:9000/oauth2/jwks

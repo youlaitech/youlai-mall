@@ -22,13 +22,13 @@ public class WxMiniAppConfig {
     @Setter
     private String appid;
     @Setter
-    private String secret;
+    private String appSecret;
 
     @Bean
     public WxMaConfig wxMaConfig() {
         WxMaDefaultConfigImpl config = new WxMaDefaultConfigImpl();
         config.setAppid(appid);
-        config.setSecret(secret);
+        config.setSecret(appSecret);
         return config;
     }
 

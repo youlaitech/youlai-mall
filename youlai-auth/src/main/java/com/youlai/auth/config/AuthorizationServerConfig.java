@@ -1,17 +1,21 @@
 
 package com.youlai.auth.config;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.youlai.auth.security.authentication.password.ResourceOwnerPasswordAuthenticationConverter;
-import com.youlai.auth.security.authentication.password.ResourceOwnerPasswordAuthenticationProvider;
-import com.youlai.auth.security.authentication.wechat.WechatMiniAppAuthenticationConverter;
-import com.youlai.auth.security.authentication.wechat.WechatMiniAppAuthenticationProvider;
-import com.youlai.auth.security.userdetails.member.MemberUserDetailsService;
-import com.youlai.auth.security.userdetails.user.SysUserDetails;
+import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationConverter;
+import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationProvider;
+import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationConverter;
+import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationProvider;
+import com.youlai.auth.authentication.wechat.WechatMiniAppAuthenticationConverter;
+import com.youlai.auth.authentication.wechat.WechatMiniAppAuthenticationProvider;
+import com.youlai.auth.userdetails.member.MobileUserDetailsService;
+import com.youlai.auth.userdetails.member.OpenidUserDetailsService;
+import com.youlai.auth.userdetails.user.SysUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,7 +53,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
-    private final MemberUserDetailsService memberUserDetailsService;
+    private final WxMaService wxMaService;
+    private final MobileUserDetailsService mobileUserDetailsService;
+    private final OpenidUserDetailsService openidUserDetailsService;
+
 
     /**
      * 授权配置
@@ -74,19 +81,20 @@ public class AuthorizationServerConfig {
                                                 authenticationConverters.addAll(
                                                         List.of(
                                                                 new ResourceOwnerPasswordAuthenticationConverter(),
-                                                                new WechatMiniAppAuthenticationConverter()
+                                                                new WechatMiniAppAuthenticationConverter(),
+                                                                new SmsCodeAuthenticationConverter()
                                                         )
                                                 )
                                 )
                                 .authenticationProviders( // <2>
-                                        authenticationProviders ->
-                                                authenticationProviders.addAll(
-                                                        List.of(
-                                                                new ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
-                                                                new WechatMiniAppAuthenticationProvider(authorizationService, tokenGenerator,memberUserDetailsService)
-
-                                                        )
+                                    authenticationProviders ->
+                                            authenticationProviders.addAll(
+                                                List.of(
+                                                    new ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
+                                                    new WechatMiniAppAuthenticationProvider(authorizationService, tokenGenerator, openidUserDetailsService,wxMaService),
+                                                    new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, mobileUserDetailsService)
                                                 )
+                                            )
                                 )
                 );
 

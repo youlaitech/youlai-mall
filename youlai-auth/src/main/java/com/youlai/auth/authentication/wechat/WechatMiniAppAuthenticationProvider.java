@@ -1,10 +1,13 @@
-package com.youlai.auth.security.authentication.wechat;
+package com.youlai.auth.authentication.wechat;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.hutool.core.lang.Assert;
-import com.youlai.auth.security.authentication.password.ResourceOwnerPasswordAuthenticationToken;
-import com.youlai.auth.security.userdetails.member.MemberUserDetailsService;
+import com.youlai.auth.userdetails.member.MobileUserDetailsService;
+import com.youlai.auth.userdetails.member.OpenidUserDetailsService;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,7 +30,7 @@ import java.security.Principal;
 import java.util.Map;
 
 /**
- * 微信认证 Provider
+ * 微信授权认证 Provider
  *
  * @author haoxr
  * @since 3.0.0
@@ -40,7 +43,9 @@ public class WechatMiniAppAuthenticationProvider implements AuthenticationProvid
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
-    private final MemberUserDetailsService memberUserDetailsService;
+    private final OpenidUserDetailsService openidUserDetailsService;
+
+    private final WxMaService wxMaService;
 
 
     /**
@@ -53,14 +58,18 @@ public class WechatMiniAppAuthenticationProvider implements AuthenticationProvid
     public WechatMiniAppAuthenticationProvider(
             OAuth2AuthorizationService authorizationService,
             OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
-            MemberUserDetailsService memberUserDetailsService
+            OpenidUserDetailsService openidUserDetailsService,
+            WxMaService wxMaService
+
     ) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
-        Assert.notNull(memberUserDetailsService, "memberUserDetailsService cannot be null");
+        Assert.notNull(openidUserDetailsService, "userDetailsService cannot be null");
+        Assert.notNull(wxMaService, "wxMaService cannot be null");
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
-        this.memberUserDetailsService = memberUserDetailsService;
+        this.openidUserDetailsService = openidUserDetailsService;
+        this.wxMaService = wxMaService;
     }
 
     @Override
@@ -77,11 +86,19 @@ public class WechatMiniAppAuthenticationProvider implements AuthenticationProvid
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
-        // 参数
+        // 微信 code 获取 openid
         Map<String, Object> additionalParameters = wechatMiniAppAuthenticationToken.getAdditionalParameters();
         String code = (String) additionalParameters.get(OAuth2ParameterNames.CODE);
-
-        UserDetails userDetails = memberUserDetailsService.loadUserByCode(code);
+        WxMaJscode2SessionResult sessionInfo;
+        try {
+            sessionInfo = wxMaService.getUserService().getSessionInfo(code);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            throw new OAuth2AuthenticationException(e.getMessage());
+        }
+        String openid = sessionInfo.getOpenid();
+        // 根据 openid 获取会员信息
+        UserDetails userDetails = openidUserDetailsService.loadUserByUsername(openid);
 
         Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword());
 
