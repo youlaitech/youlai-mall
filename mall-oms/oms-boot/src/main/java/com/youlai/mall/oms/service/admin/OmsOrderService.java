@@ -22,15 +22,5 @@ public interface OmsOrderService extends IService<OmsOrder> {
     IPage<OmsOrder> listOrderPages(OrderPageQuery queryParams);
 
 
-    /**
-     * 「实验室」订单支付
-     * <p>
-     * 非商城业务
-     *
-     * @param orderDTO
-     * @return
-     */
-    Boolean payOrder(Long orderId, SeataOrderDTO orderDTO);
-
 }
 

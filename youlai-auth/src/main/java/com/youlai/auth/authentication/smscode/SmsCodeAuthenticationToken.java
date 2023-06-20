@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 手机短信验证码模式身份验证令牌
+ * 短信验证码身份验证令牌
  *
  * @author haoxr
  * @since 3.0.0

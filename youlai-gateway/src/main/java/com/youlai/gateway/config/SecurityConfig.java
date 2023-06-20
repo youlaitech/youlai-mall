@@ -29,7 +29,7 @@ public class SecurityConfig {
     private List<String> forbiddenURIs;
 
     @Bean
-    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity  http) throws Exception {
+    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity  http) {
         http
                 .authorizeExchange(exchangeSpec ->
                         exchangeSpec

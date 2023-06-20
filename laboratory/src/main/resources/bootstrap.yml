@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: laboratory
-  profiles:
-    active: dev

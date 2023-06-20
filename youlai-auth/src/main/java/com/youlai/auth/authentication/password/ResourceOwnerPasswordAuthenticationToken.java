@@ -9,9 +9,7 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import java.util.*;
 
 /**
- * 密码授权模式身份验证令牌
- * <p>
- * 封装用户提供的用户名和密码信息
+ * 密码授权模式身份验证令牌(包含用户名和密码等)
  *
  * @author haoxr
  * @see org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken

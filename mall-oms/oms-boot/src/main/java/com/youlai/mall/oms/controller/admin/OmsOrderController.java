@@ -66,41 +66,4 @@ public class OmsOrderController {
         return Result.success(orderDTO);
     }
 
-    @Operation(summary= "「实验室」获取订单信息", hidden = true)
-    @GetMapping("/{orderId}/orderInfo")
-    public Result<OrderInfoDTO> getOrderInfo(
-            @Parameter(name = "订单ID") @PathVariable Long orderId
-    ) {
-        OrderInfoDTO orderInfo = new OrderInfoDTO();
-
-        OmsOrder order = orderService.getById(orderId);
-        if (order != null) {
-            orderInfo.setOrderSn(order.getOrderSn());
-            orderInfo.setStatus(order.getStatus());
-        }
-        return Result.success(orderInfo);
-    }
-
-    @Operation(summary= "「实验室」订单支付", hidden = true)
-    @PutMapping("/{orderId}/_pay")
-    public Result payOrder(
-            @Parameter(name = "订单ID") @PathVariable Long orderId,
-            @RequestBody SeataOrderDTO orderDTO
-    ) {
-        Boolean result = orderService.payOrder(orderId, orderDTO);
-        return Result.judge(result);
-    }
-
-    @Operation(summary= "「实验室」订单重置", hidden = true)
-    @PutMapping("/{orderId}/_reset")
-    public Result resetOrder(
-            @Parameter(name = "订单ID") @PathVariable Long orderId
-    ) {
-        boolean result = orderService.update(new LambdaUpdateWrapper<OmsOrder>()
-                .eq(OmsOrder::getId, orderId)
-                .set(OmsOrder::getStatus, OrderStatusEnum.UNPAID.getValue())
-        );
-        return Result.judge(result);
-    }
-
 }

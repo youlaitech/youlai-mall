@@ -80,11 +80,8 @@ public class MemberController {
 
     @Operation(summary= "根据 openid 获取会员认证信息")
     @GetMapping("/openid/{openid}")
-    public Result<MemberAuthDTO> getByOpenid(@Parameter(name = "微信身份标识") @PathVariable String openid) {
-        MemberAuthDTO memberAuthInfo = memberService.getByOpenid(openid);
-        if (memberAuthInfo == null) {
-            return Result.failed(ResultCode.USER_NOT_EXIST);
-        }
+    public Result<MemberAuthDTO> getMemberByOpenid(@Parameter(name = "微信唯一身份标识") @PathVariable String openid) {
+        MemberAuthDTO memberAuthInfo = memberService.getMemberByOpenid(openid);
         return Result.success(memberAuthInfo);
     }
 
@@ -94,9 +91,6 @@ public class MemberController {
             @Parameter(name = "手机号码") @PathVariable String mobile
     ) {
         MemberAuthDTO memberAuthInfo = memberService.getMemberByMobile(mobile);
-        if (memberAuthInfo == null) {
-            return Result.failed(ResultCode.USER_NOT_EXIST);
-        }
         return Result.success(memberAuthInfo);
     }
 
@@ -109,14 +103,5 @@ public class MemberController {
         return Result.success(addresses);
     }
 
-    @Operation(summary= "「实验室」重置会员余额", hidden = true)
-    @PutMapping("/{memberId}/balance/_reset")
-    public Result resetBalance(@PathVariable Long memberId) {
-        boolean result = memberService.update(
-                new LambdaUpdateWrapper<UmsMember>()
-                        .eq(UmsMember::getId, memberId)
-                        .set(UmsMember::getBalance, 10000000l));
-        return Result.judge(result);
-    }
 
 }

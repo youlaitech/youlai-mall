@@ -35,7 +35,7 @@ public interface UmsMemberService extends IService<UmsMember> {
      * @param openid
      * @return
      */
-    MemberAuthDTO getByOpenid(String openid);
+    MemberAuthDTO getMemberByOpenid(String openid);
 
     /**
      * 根据手机号获取会员认证信息
@@ -67,32 +67,6 @@ public interface UmsMemberService extends IService<UmsMember> {
      * @return
      */
     List<MemberAddressDTO> listMemberAddress(Long memberId);
-    
-    /**
-     * 「实验室」修改会员余额
-     *
-     * @param memberId
-     * @param balance  会员余额
-     * @return
-     */
-    boolean updateBalance(Long memberId, Long balance);
-
-    /**
-     * 「实验室」扣减账户余额
-     *
-     * @param memberId
-     * @param amount   扣减金额
-     * @return
-     */
-    boolean deductBalance(Long memberId, Long amount);
-
-    /**
-     * 「实验室」获取会员信息
-     *
-     * @param memberId
-     * @return
-     */
-    MemberInfoDTO getMemberInfo(Long memberId);
 
 
 }

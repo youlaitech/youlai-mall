@@ -15,7 +15,6 @@ import java.util.Set;
  * 微信小程序授权模式身份验证令牌
  *
  * @author haoxr
- * @see org.springframework.security.authentication.UsernamePasswordAuthenticationToken
  * @see OAuth2AuthorizationGrantAuthenticationToken
  * @since 3.0.0
  */

@@ -56,22 +56,4 @@ public interface SkuService extends IService<PmsSku> {
      */
     boolean checkPrice(CheckPriceDTO checkPriceDTO);
 
-
-    /**
-     * 「实验室」修改商品库存数量
-     *
-     * @param skuId
-     * @param stockNum 商品库存数量
-     * @return
-     */
-    boolean updateStockNum(Long skuId, Integer stockNum);
-
-    /**
-     * 「实验室」扣减商品库存
-     *
-     * @param skuId
-     * @param num 商品库存数量
-     * @return
-     */
-    boolean deductStock(Long skuId, Integer num);
 }

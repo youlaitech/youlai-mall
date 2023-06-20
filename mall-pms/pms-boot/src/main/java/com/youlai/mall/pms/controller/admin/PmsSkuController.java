@@ -41,31 +41,4 @@ public class PmsSkuController {
         boolean result = skuService.updateById(sku);
         return Result.judge(result);
     }
-
-    @Operation(summary = "「实验室」扣减库存数量", hidden = true)
-    @PutMapping(value = "/{skuId}/stock/_deduct")
-    public Result deductStock(
-            @PathVariable Long skuId,
-            @RequestParam Integer count
-
-    ) {
-        boolean result = skuService.update(new LambdaUpdateWrapper<PmsSku>()
-                .setSql("stock_num = stock_num - " + count)
-                .eq(PmsSku::getId, skuId)
-        );
-        return Result.judge(result);
-    }
-
-    @Operation(summary = "「实验室」重置库存数量", hidden = true)
-    @PutMapping(value = "/{skuId}/stock/_reset")
-    public Result resetStock(
-            @PathVariable Long skuId
-    ) {
-        boolean result = skuService.update(new LambdaUpdateWrapper<PmsSku>()
-                .eq(PmsSku::getId, skuId)
-                .set(PmsSku::getStockNum, 999)
-        );
-        return Result.judge(result);
-    }
-
 }

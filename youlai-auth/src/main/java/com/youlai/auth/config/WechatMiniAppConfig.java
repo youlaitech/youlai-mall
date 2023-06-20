@@ -15,19 +15,20 @@ import org.springframework.context.annotation.Configuration;
  * @author haoxr
  * @since 3.0.0
  */
-@ConfigurationProperties(prefix = "wx.miniapp")
+@ConfigurationProperties(prefix = "wechat.miniapp")
 @Configuration
-public class WxMiniAppConfig {
+public class WechatMiniAppConfig {
 
     @Setter
-    private String appid;
+    private String appId;
+
     @Setter
     private String appSecret;
 
     @Bean
     public WxMaConfig wxMaConfig() {
         WxMaDefaultConfigImpl config = new WxMaDefaultConfigImpl();
-        config.setAppid(appid);
+        config.setAppid(appId);
         config.setSecret(appSecret);
         return config;
     }

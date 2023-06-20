@@ -28,7 +28,7 @@ import java.security.Principal;
 import java.util.Map;
 
 /**
- * 短信验证码认证授权 Provider
+ * 短信验证码认证授权提供者
  *
  * @author haoxr
  * @since 3.0.0
@@ -62,6 +62,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
         Assert.notNull(mobileUserDetailsService, "userDetailsService cannot be null");
+        Assert.notNull(redisTemplate, "redisTemplate cannot be null");
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
         this.mobileUserDetailsService = mobileUserDetailsService;
@@ -99,7 +100,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         // 根据手机号获取会员信息
         UserDetails userDetails = mobileUserDetailsService.loadUserByUsername(mobile);
 
-        Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null);
+        Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails, null);
 
         // 访问令牌(Access Token) 构造器
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()

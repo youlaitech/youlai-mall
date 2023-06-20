@@ -3,7 +3,6 @@ package com.youlai.auth.authentication.wechat;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.hutool.core.lang.Assert;
-import com.youlai.auth.userdetails.member.MobileUserDetailsService;
 import com.youlai.auth.userdetails.member.OpenidUserDetailsService;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -100,7 +99,7 @@ public class WechatMiniAppAuthenticationProvider implements AuthenticationProvid
         // 根据 openid 获取会员信息
         UserDetails userDetails = openidUserDetailsService.loadUserByUsername(openid);
 
-        Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword());
+        Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword());
 
         // 访问令牌(Access Token) 构造器
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()

@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.result.Result;
+import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
+import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.constant.UmsConstants;
 import com.youlai.mall.ums.convert.AddressConvert;
@@ -75,11 +78,11 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     /**
      * 根据 openid 获取会员认证信息
      *
-     * @param openid
+     * @param openid 微信唯一身份标识
      * @return
      */
     @Override
-    public MemberAuthDTO getByOpenid(String openid) {
+    public MemberAuthDTO getMemberByOpenid(String openid) {
         UmsMember entity = this.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getOpenid, openid)
                 .select(UmsMember::getId,
@@ -87,8 +90,11 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                         UmsMember::getStatus
                 )
         );
-        MemberAuthDTO memberAuthDto = memberConvert.entity2OpenidAuthDTO(entity);
-        return memberAuthDto;
+        
+        if (entity == null) {
+            throw new BizException(ResultCode.USER_NOT_EXIST);
+        }
+        return memberConvert.entity2OpenidAuthDTO(entity);
     }
 
     /**
@@ -107,8 +113,10 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                 )
         );
 
-        MemberAuthDTO memberAuthDto = memberConvert.entity2MobileAuthDTO(entity);
-        return memberAuthDto;
+        if (entity == null) {
+            throw new BizException(ResultCode.USER_NOT_EXIST);
+        }
+        return memberConvert.entity2MobileAuthDTO(entity);
     }
 
     /**
@@ -163,52 +171,5 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 
         List<MemberAddressDTO> list = addressConvert.entity2Dto(entities);
         return list;
-    }
-
-
-    /**
-     * 「实验室」修改会员余额
-     *
-     * @param memberId
-     * @param balance  会员余额
-     * @return
-     */
-    @Override
-    public boolean updateBalance(Long memberId, Long balance) {
-        boolean result = this.update(new LambdaUpdateWrapper<UmsMember>()
-                .eq(UmsMember::getId, memberId)
-                .set(UmsMember::getBalance, balance)
-        );
-        return result;
-    }
-
-    /**
-     * 「实验室」扣减账户余额
-     *
-     * @param memberId
-     * @param amount   扣减金额
-     * @return
-     */
-    @Override
-    @Transactional
-    public boolean deductBalance(Long memberId, Long amount) {
-        boolean result = this.update(new LambdaUpdateWrapper<UmsMember>()
-                .setSql("balance = balance - " + amount)
-                .eq(UmsMember::getId, memberId)
-        );
-        return result;
-    }
-
-    /**
-     * 「实验室」获取会员信息
-     *
-     * @param memberId
-     * @return
-     */
-    @Override
-    public MemberInfoDTO getMemberInfo(Long memberId) {
-        UmsMember entity = this.getById(memberId);
-        MemberInfoDTO memberInfoDTO = memberConvert.entity2MemberInfoDTO(entity);
-        return memberInfoDTO;
     }
 }

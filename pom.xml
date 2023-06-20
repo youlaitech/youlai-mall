@@ -21,9 +21,6 @@
         <module>mall-ums</module>
         <module>mall-pms</module>
         <module>mall-oms</module>
-
-        <!-- 实验室 -->
-        <module>laboratory</module>
     </modules>
 
     <parent>

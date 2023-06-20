@@ -36,14 +36,14 @@ public class MobileUserDetailsService implements UserDetailsService {
      * 手机号码认证方式
      *
      * @param mobile 手机号
-     * @return
+     * @return 用户信息
      */
     @Override
     public UserDetails loadUserByUsername(String mobile) {
         Result<MemberAuthDTO> result = memberFeignClient.loadUserByMobile(mobile);
 
-        MemberAuthDTO memberAuthInfo = null;
-        if (!(Result.isSuccess(result) || (memberAuthInfo = result.getData()) != null)) {
+        MemberAuthDTO memberAuthInfo;
+        if (!(Result.isSuccess(result) && (memberAuthInfo = result.getData()) != null)) {
             throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
         }
         MemberUserDetails userDetails = new MemberUserDetails(memberAuthInfo);

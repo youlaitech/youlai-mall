@@ -18,9 +18,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 短信验证码认证参数解析器
+ * 短信验证码认证参数转换器
  * <p>
- * 解析请求参数中的手机号和验证码，并构建相应的身份验证(Authentication)对象
+ * 解析请求参数中的手机号和验证码，并转换成相应的身份验证(Authentication)对象
  *
  * @author haoxr
  * @see org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter
@@ -56,15 +56,26 @@ public class SmsCodeAuthenticationConverter implements AuthenticationConverter {
             requestedScopes = new HashSet<>(Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
         }
 
-        // 微信小程序 Code (必需)
-        String code = parameters.getFirst(OAuth2ParameterNames.CODE);
-        if (StrUtil.isBlank(code)) {
+        // 手机号(必需)
+        String mobile = parameters.getFirst("mobile");
+        if (StrUtil.isBlank(mobile)) {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
-                    OAuth2ParameterNames.CODE,
+                   "mobile",
                     OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
         }
-        // 附加参数(微信小程序 Code)
+
+        // 验证码(必需)
+        String verifyCode = parameters.getFirst("verifyCode");
+        if (StrUtil.isBlank(verifyCode)) {
+            OAuth2EndpointUtils.throwError(
+                    OAuth2ErrorCodes.INVALID_REQUEST,
+                    "verifyCode",
+                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+        }
+
+
+        // 附加参数(手机号码、验证码)
         Map<String, Object> additionalParameters = parameters
                 .entrySet()
                 .stream()

@@ -236,40 +236,8 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
      */
     @Override
     public SkuDTO getSkuInfo(Long skuId) {
-        SkuDTO skuInfo = this.baseMapper.getSkuInfo(skuId);
-        return skuInfo;
+        return this.baseMapper.getSkuInfo(skuId);
     }
 
-    /**
-     * 「实验室」修改商品库存数量
-     *
-     * @param skuId
-     * @param stockNum 商品库存数量
-     * @return
-     */
-    @Override
-    @Transactional
-    public boolean updateStockNum(Long skuId, Integer stockNum) {
-        boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
-                .eq(PmsSku::getId, skuId)
-                .set(PmsSku::getStockNum, stockNum)
-        );
-        return result;
-    }
 
-    /**
-     * 「实验室」扣减商品库存
-     *
-     * @param skuId
-     * @param num   商品库存数量
-     * @return
-     */
-    @Override
-    public boolean deductStock(Long skuId, Integer num) {
-        boolean result = this.update(new LambdaUpdateWrapper<PmsSku>()
-                .setSql("stock_num = stock_num - " + num)
-                .eq(PmsSku::getId, skuId)
-        );
-        return result;
-    }
 }

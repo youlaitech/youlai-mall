@@ -22,7 +22,7 @@ public class CaptchaRouter {
     public RouterFunction<ServerResponse> captchaRouterFunction(CaptchaHandler captchaHandler) {
         return RouterFunctions
                 .route(RequestPredicates.GET("/captcha")
-                        .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), captchaHandler::handle);
+                        .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), captchaHandler);
     }
 
 }

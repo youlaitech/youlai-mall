@@ -43,24 +43,6 @@ public interface SkuFeignClient {
     @PostMapping("/app-api/v1/sku/price/_check")
     Result<Boolean> checkPrice(@RequestBody CheckPriceDTO checkPriceDTO);
 
-    /**
-     * 「实验室」重置商品库存
-     *
-     * @param skuId
-     * @return
-     */
-    @PutMapping("/api/v1/sku/{skuId}/stock/_reset")
-    Result resetStock(@PathVariable Long skuId);
 
-
-    /**
-     * 「实验室」扣减商品库存
-     *
-     * @param skuId
-     * @param count   扣减数量
-     * @return
-     */
-    @PutMapping("/api/v1/sku/{skuId}/stock/_deduct")
-    Result deductStock(@PathVariable Long skuId, @RequestParam Integer count);
 
 }

@@ -10,10 +10,6 @@ import java.util.List;
 
 /**
  * 订单详情表
- *
- * @author huawei
- * @email huawei_code@163.com
- * @since 2020-12-30 22:31:10
  */
 @Mapper
 public interface OrderMapper extends BaseMapper<OmsOrder> {

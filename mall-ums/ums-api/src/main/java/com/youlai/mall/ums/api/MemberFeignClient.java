@@ -61,8 +61,8 @@ public interface MemberFeignClient {
     /**
      * 根据手机号获取会员认证信息
      *
-     * @param mobile
-     * @return
+     * @param mobile 手机号
+     * @return 会员认证信息
      */
     @GetMapping("/app-api/v1/members/mobile/{mobile}")
     Result<MemberAuthDTO> loadUserByMobile(@PathVariable String mobile);
@@ -75,24 +75,6 @@ public interface MemberFeignClient {
      */
     @GetMapping("/app-api/v1/members/{memberId}/addresses")
     Result<List<MemberAddressDTO>> listMemberAddresses(@PathVariable Long memberId);
-
-    /**
-     * 「实验室」重置会员余额
-     *
-     * @param memberId
-     * @return
-     */
-    @PutMapping("/app-api/v1/members/{memberId}/balance/_reset")
-    Result resetBalance(@PathVariable Long memberId);
-
-    /**
-     * 「实验室」获取会员信息
-     *
-     * @param memberId
-     * @return
-     */
-    @GetMapping("/api/v1/members/{memberId}/info")
-    Result<MemberInfoDTO> getMemberInfo(@PathVariable Long memberId);
 
 }
 

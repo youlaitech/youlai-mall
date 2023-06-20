@@ -13,6 +13,7 @@ import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationConverter;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationProvider;
 import com.youlai.auth.authentication.wechat.WechatMiniAppAuthenticationConverter;
 import com.youlai.auth.authentication.wechat.WechatMiniAppAuthenticationProvider;
+import com.youlai.auth.userdetails.member.MemberUserDetails;
 import com.youlai.auth.userdetails.member.MobileUserDetailsService;
 import com.youlai.auth.userdetails.member.OpenidUserDetailsService;
 import com.youlai.auth.userdetails.user.SysUserDetails;
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +31,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.*;
@@ -56,6 +59,7 @@ public class AuthorizationServerConfig {
     private final WxMaService wxMaService;
     private final MobileUserDetailsService mobileUserDetailsService;
     private final OpenidUserDetailsService openidUserDetailsService;
+    private final RedisTemplate redisTemplate;
 
 
     /**
@@ -92,7 +96,7 @@ public class AuthorizationServerConfig {
                                                 List.of(
                                                     new ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
                                                     new WechatMiniAppAuthenticationProvider(authorizationService, tokenGenerator, openidUserDetailsService,wxMaService),
-                                                    new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, mobileUserDetailsService)
+                                                    new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, mobileUserDetailsService,redisTemplate)
                                                 )
                                             )
                                 )
@@ -193,8 +197,11 @@ public class AuthorizationServerConfig {
             if (OAuth2TokenType.ACCESS_TOKEN .equals(context.getTokenType()) && context.getPrincipal() instanceof UsernamePasswordAuthenticationToken) {
                 // Customize headers/claims for access_token
                 Optional.ofNullable(context.getPrincipal().getPrincipal()).ifPresent(principal -> {
+                    JwtClaimsSet.Builder claims = context.getClaims();
                     if (principal instanceof SysUserDetails userDetails) {
-                        context.getClaims().claim("user_id", String.valueOf(userDetails.getUserId()));
+                        claims.claim("user_id", String.valueOf(userDetails.getUserId()));
+                    } else if (principal instanceof MemberUserDetails userDetails) {
+                        claims.claim("member_id", String.valueOf(userDetails.getId()));
                     }
                 });
             } else if (context.getTokenType().getValue().equals(OidcParameterNames.ID_TOKEN)) {

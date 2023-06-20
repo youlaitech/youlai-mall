@@ -1,14 +1,14 @@
 package com.youlai.auth.userdetails.user;
 
 import cn.hutool.core.lang.Assert;
-import com.youlai.common.enums.StatusEnum;
 import com.youlai.common.result.Result;
 import com.youlai.system.api.UserFeignClient;
 import com.youlai.system.dto.UserAuthInfo;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -42,11 +42,15 @@ public class SysUserDetailsService implements UserDetailsService {
         Assert.isTrue(Result.isSuccess(result) && (userAuthInfo = result.getData()) != null,
                 "用户不存在");
 
-        if (!StatusEnum.ENABLE.getValue().equals(userAuthInfo.getStatus())) {
+        SysUserDetails userDetails = new SysUserDetails(userAuthInfo);
+        if (!userDetails.isEnabled()) {
             throw new DisabledException("该账户已被禁用!");
+        } else if (!userDetails.isAccountNonLocked()) {
+            throw new LockedException("该账号已被锁定!");
+        } else if (!userDetails.isAccountNonExpired()) {
+            throw new AccountExpiredException("该账号已过期!");
         }
-
-        return new SysUserDetails(userAuthInfo);
+        return userDetails;
     }
 
 }

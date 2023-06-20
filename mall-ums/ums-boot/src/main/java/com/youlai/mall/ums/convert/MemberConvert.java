@@ -17,13 +17,11 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface MemberConvert {
     @Mappings({
-            @Mapping(target = "memberId", source = "id"),
             @Mapping(target = "username", source = "openid")
     })
     MemberAuthDTO entity2OpenidAuthDTO(UmsMember entity);
 
     @Mappings({
-            @Mapping(target = "memberId", source = "id"),
             @Mapping(target = "username", source = "mobile")
     })
     MemberAuthDTO entity2MobileAuthDTO(UmsMember entity);

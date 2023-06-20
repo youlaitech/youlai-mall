@@ -72,23 +72,5 @@ public class UmsMemberController {
         return Result.judge(status);
     }
 
-    @Operation(summary= "「实验室」获取会员信息")
-    @GetMapping("/{memberId}/info")
-    public Result<MemberInfoDTO> getMemberInfo(
-            @Parameter(name = "会员ID") @PathVariable Long memberId
-    ) {
-        MemberInfoDTO memberInfoDTO = memberService.getMemberInfo(memberId);
-        return Result.success(memberInfoDTO);
-    }
-
-    @Operation(summary= "「实验室」扣减会员余额")
-    @PutMapping("/{memberId}/balances/_deduct")
-    public Result deductBalance(@PathVariable Long memberId, @RequestParam Long amount) {
-        boolean result = memberService.update(new LambdaUpdateWrapper<UmsMember>()
-                .setSql("balance = balance - " + amount)
-                .eq(UmsMember::getId, memberId));
-        return Result.judge(result);
-    }
-
 
 }
