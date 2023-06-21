@@ -183,20 +183,22 @@ youlai-mall
 
 [![Star History Chart](https://api.star-history.com/svg?repos=youlaitech/youlai-mall&type=Timeline)](https://star-history.com/#youlaitech/youlai-mall&Timeline)
 
-## 💻贡献者们
+## 💻贡献者
 
 <a href="https://github.com/youlaitech/youlai-mall/graphs/contributors"><img src="https://opencollective.com/youlai-mall/contributors.svg?width=890" /></a>
 
-## 💥加交流群
+## 🚀交流群
 
-> 群二维码失效添加开发者，备注“有来”进群即可
+> 关注「有来技术」公众号，获取交流群二维码。
+>
+> 如果交流群的二维码过期，加我微信，备注「前端」、「后端」或「全栈」即可。
+>
+> 为了避免营销广告人群混入，此举无奈，望理解！
 
-| 交流群                                                     | 开发者                                             | 开发者                                               |
-|---------------------------------------------------------|-------------------------------------------------|---------------------------------------------------|
-| ![](https://oss.youlai.tech/youlai-boot/2023/05/13/d085a0b01c914daebe9b4e0f251b9fc4.png) | ![](https://www.youlai.tech/files/blog/rui.jpg) | ![](https://www.youlai.tech/files/blog/chuan.jpg) |
 
-| ![](https://s2.loli.net/2022/11/19/OGjum9wr8f6idLX.png) |
-|---------------------------------------------------------|
+|公众号|交流群|
+|-|-|
+|<img src="https://s2.loli.net/2023/05/28/JaG4L8ZHmkIgRQC.png" height="180px"/>|<img src="https://s2.loli.net/2023/06/21/oikXZGOEDJMHpn5.png" height="180px"/>|
 
 ## 📰开源协议
 
