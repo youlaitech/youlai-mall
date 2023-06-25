@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.model.form;
 
-import com.youlai.mall.oms.common.enums.OrderSourceTypeEnum;
+import com.youlai.mall.oms.enums.OrderSourceTypeEnum;
 import com.youlai.mall.oms.model.dto.OrderItemDTO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import io.swagger.v3.oas.annotations.media.Schema;

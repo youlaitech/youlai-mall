@@ -11,8 +11,8 @@ import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticati
 import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationProvider;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationConverter;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationProvider;
-import com.youlai.auth.authentication.wechat.WechatMiniAppAuthenticationConverter;
-import com.youlai.auth.authentication.wechat.WechatMiniAppAuthenticationProvider;
+import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationConverter;
+import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationProvider;
 import com.youlai.auth.userdetails.member.MemberUserDetails;
 import com.youlai.auth.userdetails.member.MobileUserDetailsService;
 import com.youlai.auth.userdetails.member.OpenidUserDetailsService;
@@ -85,7 +85,7 @@ public class AuthorizationServerConfig {
                                                 authenticationConverters.addAll(
                                                         List.of(
                                                                 new ResourceOwnerPasswordAuthenticationConverter(),
-                                                                new WechatMiniAppAuthenticationConverter(),
+                                                                new WxMiniAppAuthenticationConverter(),
                                                                 new SmsCodeAuthenticationConverter()
                                                         )
                                                 )
@@ -95,7 +95,7 @@ public class AuthorizationServerConfig {
                                             authenticationProviders.addAll(
                                                 List.of(
                                                     new ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
-                                                    new WechatMiniAppAuthenticationProvider(authorizationService, tokenGenerator, openidUserDetailsService,wxMaService),
+                                                    new WxMiniAppAuthenticationProvider(authorizationService, tokenGenerator, openidUserDetailsService,wxMaService),
                                                     new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, mobileUserDetailsService,redisTemplate)
                                                 )
                                             )

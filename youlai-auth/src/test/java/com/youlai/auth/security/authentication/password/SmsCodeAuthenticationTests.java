@@ -2,7 +2,7 @@ package com.youlai.auth.security.authentication.password;
 
 
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationToken;
-import com.youlai.auth.authentication.wechat.WechatMiniAppAuthenticationToken;
+import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationToken;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ public class SmsCodeAuthenticationTests {
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                .authorizationGrantType(WechatMiniAppAuthenticationToken.WECHAT_MINI_APP)
+                .authorizationGrantType(WxMiniAppAuthenticationToken.WECHAT_MINI_APP)
                 .authorizationGrantType(SmsCodeAuthenticationToken.SMS_CODE)
                 .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
                 .redirectUri("http://127.0.0.1:8080/authorized")

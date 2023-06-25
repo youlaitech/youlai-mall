@@ -12,13 +12,17 @@ spring:
       # 注册中心
       discovery:
         server-addr: http://localhost:8848
+        username: nacos
+        password: nacos
       # 配置中心
       config:
         # 本地启动
         ## server-addr: ${spring.cloud.nacos.discovery.server-addr}
         # 极速启动
-        server-addr: http://f.youlai.tech:8848
+        server-addr: http://localhost:8848
         file-extension: yaml
         shared-configs[0]:
           data-id: youlai-common.yaml
           refresh: true
+        username: nacos
+        password: nacos

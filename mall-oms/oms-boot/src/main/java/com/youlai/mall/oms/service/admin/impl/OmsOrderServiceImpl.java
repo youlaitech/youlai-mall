@@ -1,19 +1,13 @@
 package com.youlai.mall.oms.service.admin.impl;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.redis.BusinessSnGenerator;
-import com.youlai.mall.oms.common.enums.OrderStatusEnum;
-import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.service.admin.OmsOrderService;
-import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -3,22 +3,19 @@ package com.youlai.mall.ums.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.pms.model.vo.ProductHistoryVO;
-import com.youlai.mall.ums.constant.UmsConstants;
+import com.youlai.common.constant.MemberConstants;
 import com.youlai.mall.ums.convert.AddressConvert;
 import com.youlai.mall.ums.convert.MemberConvert;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberRegisterDto;
-import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
 import com.youlai.mall.ums.model.entity.UmsAddress;
 import com.youlai.mall.ums.model.entity.UmsMember;
@@ -29,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -61,7 +57,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     @Override
     public void addProductViewHistory(ProductHistoryVO product, Long userId) {
         if (userId != null) {
-            String key = UmsConstants.USER_PRODUCT_HISTORY + userId;
+            String key = MemberConstants.USER_PRODUCT_HISTORY + userId;
             redisTemplate.opsForZSet().add(key, product, System.currentTimeMillis());
             Long size = redisTemplate.opsForZSet().size(key);
             if (size > 10) {
@@ -72,7 +68,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
 
     @Override
     public Set<ProductHistoryVO> getProductViewHistory(Long userId) {
-        return redisTemplate.opsForZSet().reverseRange(UmsConstants.USER_PRODUCT_HISTORY + userId, 0, 9);
+        return redisTemplate.opsForZSet().reverseRange(MemberConstants.USER_PRODUCT_HISTORY + userId, 0, 9);
     }
 
     /**

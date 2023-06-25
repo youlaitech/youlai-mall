@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 /**
- * 订单详情表
+ * 订单表
  */
 @Mapper
 public interface OrderMapper extends BaseMapper<OmsOrder> {

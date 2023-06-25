@@ -24,10 +24,9 @@ import java.util.Objects;
  * 数组类型转换 json
  * <p>
  * 主要是用于对象数据 基础类型包装对象不建议用
- * <a href="https://www.jianshu.com/p/ab832f3fe81c">https://www.jianshu.com/p/ab832f3fe81c</a>
  *
  * @author Gadfly
- * @since 2021-06-30 15:20
+ * @since 1.0.0
  */
 @Slf4j
 @MappedJdbcTypes(value = {JdbcType.OTHER}, includeNullJdbcType = true)

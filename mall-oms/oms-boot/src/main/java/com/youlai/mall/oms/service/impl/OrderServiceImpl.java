@@ -26,8 +26,8 @@ import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.config.WxPayProperties;
-import com.youlai.mall.oms.common.enums.OrderStatusEnum;
-import com.youlai.mall.oms.common.enums.PayTypeEnum;
+import com.youlai.mall.oms.enums.OrderStatusEnum;
+import com.youlai.mall.oms.enums.PayTypeEnum;
 import com.youlai.mall.oms.converter.OrderConverter;
 import com.youlai.mall.oms.converter.OrderItemConverter;
 import com.youlai.mall.oms.mapper.OrderMapper;
@@ -68,7 +68,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
-import static com.youlai.mall.oms.common.constant.OmsConstants.*;
+import static com.youlai.common.constant.OrderConstants.*;
 
 /**
  * 订单业务实现类

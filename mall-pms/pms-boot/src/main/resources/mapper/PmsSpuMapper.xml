@@ -13,7 +13,7 @@
         <result property="price" column="price" jdbcType="BIGINT"/>
         <result property="sales" column="sales" jdbcType="INTEGER"/>
         <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
-        <result property="album" column="album" jdbcType="OTHER"/>
+        <result property="album" column="album" typeHandler="com.youlai.common.mybatis.handler.StringArrayJsonTypeHandler"/>
         <result property="unit" column="unit" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="detail" column="detail" jdbcType="VARCHAR"/>

@@ -52,24 +52,36 @@
 | 商城管理端 | [mall-admin](https://gitee.com/youlaiorg/mall-admin)   | [mall-admin](https://github.com/youlaitech/mall-admin)   | -       |
 | 移动应用端 | [mall-app](https://gitee.com/youlaiorg/mall-app)       | [mall-app](https://github.com/youlaitech/mall-app)       | -       |
 
-## 🗂项目目录
+## 🗂目录结构
 
 ``` text
 youlai-mall
 ├── docs  
-    ├── nacos           # Nacos配置
-    ├── sql             # SQL脚本
-├── laboratory          # 实验室
-├── mall-oms            # 订单服务
-├── mall-pms            # 商品服务
-├── mall-sms            # 营销服务
-├── mall-ums            # 会员服务
-├── middleware          # 中间件(nacos/seata)
-├── youlai-auth         # OAuth2认证授权中心
-├── youlai-common       # 公共依赖
-├── youlai-gateway      # 网关
-├── youlai-system       # 系统服务
-└── end
+    ├── nacos                       # Nacos配置
+    ├── sql                         # SQL脚本
+        ├── mysql5                  # 接口请求
+        ├── mysql8                  # 接口请求
+├── mall-oms                        # 订单服务
+├── mall-pms                        # 商品服务
+├── mall-sms                        # 营销服务
+├── mall-ums                        # 会员服务
+├── youlai-auth                     # OAuth2认证授权中心
+├── youlai-common                   # 公共模块
+    ├── common-core                 # 核心依赖
+    ├── common-file                 # 文件接口
+    ├── common-log                  # 日志公共配置
+    ├── common-mybatis              # mybatis 公共依赖配置
+    ├── common-rabbitmq             # rabbitmq 公共依赖配置
+    ├── common-redis                # redis 公共依赖配置
+    ├── common-seata                # seata 公共依赖配置
+    ├── common-security             # 订单应用
+    ├── common-sms                  # 订单应用
+    ├── common-web                  # 订单应用
+├── youlai-gateway                  # 网关
+├── youlai-system                   # 系统服务
+    ├── oms-api                     # 订单Feign接口
+    ├── oms-boot                    # 订单应用
+└── end       
 ```
 
 ## 🥇极速启动
@@ -184,6 +196,7 @@ youlai-mall
 [![Star History Chart](https://api.star-history.com/svg?repos=youlaitech/youlai-mall&type=Timeline)](https://star-history.com/#youlaitech/youlai-mall&Timeline)
 
 ## 💻贡献者们
+
 
 <a href="https://github.com/youlaitech/youlai-mall/graphs/contributors"><img src="https://opencollective.com/youlai-mall/contributors.svg?width=890" /></a>
 

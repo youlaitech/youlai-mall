@@ -12,6 +12,7 @@
     <artifactId>pms-api</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
@@ -23,12 +24,10 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 远程调用HTTP客户端 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-
 
     </dependencies>
 
