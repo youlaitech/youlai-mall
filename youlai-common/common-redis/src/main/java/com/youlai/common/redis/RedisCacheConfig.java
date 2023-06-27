@@ -16,6 +16,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * Redis缓存配置
  *
  * @author haoxr
+ * @since 1.0.0
  */
 @EnableConfigurationProperties(CacheProperties.class)
 @Configuration
@@ -23,7 +24,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 public class RedisCacheConfig {
 
     @Bean
-    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, CacheProperties cacheProperties){
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, CacheProperties cacheProperties) {
         return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
                 .cacheDefaults(redisCacheConfiguration(cacheProperties))
                 .build();
