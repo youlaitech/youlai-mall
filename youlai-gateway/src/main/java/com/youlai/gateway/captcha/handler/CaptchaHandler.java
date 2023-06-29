@@ -65,7 +65,7 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
         String captchaBase64 = captcha.toBase64();
         Map<String, String> result = new HashMap<>(2);
         result.put("verifyCodeKey", uuid);
-        result.put("verifyCodeImg", captchaBase64);
+        result.put("verifyCodeBase64", captchaBase64);
 
         return ServerResponse.ok().body(BodyInserters.fromValue(Result.success(result)));
     }

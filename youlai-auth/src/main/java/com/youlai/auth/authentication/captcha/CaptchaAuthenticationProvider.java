@@ -1,8 +1,12 @@
-package com.youlai.auth.authentication.password;
+package com.youlai.auth.authentication.captcha;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+import com.youlai.auth.authentication.smscode.SmsCodeParameterNames;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
+import com.youlai.common.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +35,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 密码模式身份验证提供者
+ * 验证码模式身份验证提供者
  * <p>
  * 处理基于用户名和密码的身份验证
  *
@@ -40,7 +44,7 @@ import java.util.stream.Collectors;
  * @since 3.0.0
  */
 @Slf4j
-public class ResourceOwnerPasswordAuthenticationProvider implements AuthenticationProvider {
+public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 
 
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
@@ -49,6 +53,7 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
     private final AuthenticationManager authenticationManager;
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+    private final RedisTemplate redisTemplate;
 
     /**
      * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using the provided parameters.
@@ -58,32 +63,43 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
      * @param tokenGenerator        the token generator
      * @since 0.2.3
      */
-    public ResourceOwnerPasswordAuthenticationProvider(AuthenticationManager authenticationManager,
-                                                       OAuth2AuthorizationService authorizationService,
-                                                       OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator
+    public CaptchaAuthenticationProvider(AuthenticationManager authenticationManager,
+                                         OAuth2AuthorizationService authorizationService,
+                                         OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+                                         RedisTemplate redisTemplate
     ) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
         this.authenticationManager = authenticationManager;
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthentication = (ResourceOwnerPasswordAuthenticationToken) authentication;
+        CaptchaAuthenticationToken captchaAuthenticationToken = (CaptchaAuthenticationToken) authentication;
         OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
-                .getAuthenticatedClientElseThrowInvalidClient(resourceOwnerPasswordAuthentication);
+                .getAuthenticatedClientElseThrowInvalidClient(captchaAuthenticationToken);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
         // 验证客户端是否支持授权类型(grant_type=password)
-        if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
+        if (!registeredClient.getAuthorizationGrantTypes().contains(CaptchaAuthenticationToken.CAPTCHA)) {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
+        // 证码校验
+        Map<String, Object> additionalParameters = captchaAuthenticationToken.getAdditionalParameters();
+        String verifyCode = (String) additionalParameters.get(CaptchaParameterNames.VERIFY_CODE);
+        String verifyCodeKey = (String) additionalParameters.get(CaptchaParameterNames.VERIFY_CODE_KEY);
+
+        String cacheCode = (String) redisTemplate.opsForValue().get(verifyCodeKey);
+        if (!StrUtil.equals(verifyCode, cacheCode)) {
+            throw new OAuth2AuthenticationException("验证码错误");
+        }
+
         // 生成用户名密码身份验证令牌
-        Map<String, Object> additionalParameters = resourceOwnerPasswordAuthentication.getAdditionalParameters();
         String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
         String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
@@ -92,7 +108,7 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
 
         // 验证申请访问范围(Scope)
         Set<String> authorizedScopes = registeredClient.getScopes();
-        Set<String> requestedScopes = resourceOwnerPasswordAuthentication.getScopes();
+        Set<String> requestedScopes = captchaAuthenticationToken.getScopes();
         if (!CollectionUtils.isEmpty(requestedScopes)) {
             Set<String> unauthorizedScopes = requestedScopes.stream()
                     .filter(requestedScope -> !registeredClient.getScopes().contains(requestedScope))
@@ -109,8 +125,8 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
                 .principal(usernamePasswordAuthentication) // 身份验证成功的认证信息(用户名、权限等信息)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(authorizedScopes)
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD) // 授权方式
-                .authorizationGrant(resourceOwnerPasswordAuthentication) // 授权具体对象
+                .authorizationGrantType(CaptchaAuthenticationToken.CAPTCHA) // 授权方式
+                .authorizationGrant(captchaAuthenticationToken) // 授权具体对象
                 ;
 
         // 生成访问令牌(Access Token)
@@ -128,7 +144,7 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
 
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .authorizationGrantType(CaptchaAuthenticationToken.CAPTCHA)
                 .authorizedScopes(authorizedScopes)
                 .attribute(Principal.class.getName(), usernamePasswordAuthentication);
         if (generatedAccessToken instanceof ClaimAccessor) {
@@ -138,7 +154,7 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
             authorizationBuilder.accessToken(accessToken);
         }
 
-        // 生成刷新令牌(Refresh token)
+        // 生成刷新令牌(Refresh Token)
         OAuth2RefreshToken refreshToken = null;
         if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
                 // Do not issue refresh token to public client
@@ -194,7 +210,7 @@ public class ResourceOwnerPasswordAuthenticationProvider implements Authenticati
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return ResourceOwnerPasswordAuthenticationToken.class.isAssignableFrom(authentication);
+        return CaptchaAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
 }

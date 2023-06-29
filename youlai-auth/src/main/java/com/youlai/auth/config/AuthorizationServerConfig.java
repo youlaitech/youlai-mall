@@ -7,15 +7,19 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationConverter;
-import com.youlai.auth.authentication.password.ResourceOwnerPasswordAuthenticationProvider;
+import com.youlai.auth.authentication.captcha.CaptchaAuthenticationConverter;
+import com.youlai.auth.authentication.captcha.CaptchaAuthenticationProvider;
+import com.youlai.auth.authentication.captcha.CaptchaAuthenticationToken;
+import com.youlai.auth.authentication.password.PasswordAuthenticationConverter;
+import com.youlai.auth.authentication.password.PasswordAuthenticationProvider;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationConverter;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationProvider;
+import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationToken;
 import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationConverter;
 import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationProvider;
-import com.youlai.auth.userdetails.member.MemberUserDetails;
-import com.youlai.auth.userdetails.member.MobileUserDetailsService;
-import com.youlai.auth.userdetails.member.OpenidUserDetailsService;
+import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationToken;
+import com.youlai.auth.userdetails.member.MemberDetails;
+import com.youlai.auth.userdetails.member.MemberDetailsService;
 import com.youlai.auth.userdetails.user.SysUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,16 +34,21 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -52,14 +61,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * 授权服务器配置
+ *
+ * @author haoxr
+ * @since 3.0.0
+ */
 @Configuration
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
     private final WxMaService wxMaService;
-    private final MobileUserDetailsService mobileUserDetailsService;
-    private final OpenidUserDetailsService openidUserDetailsService;
     private final RedisTemplate redisTemplate;
+    private final MemberDetailsService memberDetailsService;
 
 
     /**
@@ -80,25 +94,25 @@ public class AuthorizationServerConfig {
         authorizationServerConfigurer
                 .tokenEndpoint(tokenEndpoint ->
                         tokenEndpoint
-                                .accessTokenRequestConverters( // <1>
-                                        authenticationConverters ->
-                                                authenticationConverters.addAll(
-                                                        List.of(
-                                                                new ResourceOwnerPasswordAuthenticationConverter(),
-                                                                new WxMiniAppAuthenticationConverter(),
-                                                                new SmsCodeAuthenticationConverter()
-                                                        )
-                                                )
-                                )
-                                .authenticationProviders( // <2>
-                                    authenticationProviders ->
-                                            authenticationProviders.addAll(
+                                .accessTokenRequestConverters(authenticationConverters ->// <1>
+                                        authenticationConverters.addAll(
                                                 List.of(
-                                                    new ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
-                                                    new WxMiniAppAuthenticationProvider(authorizationService, tokenGenerator, openidUserDetailsService,wxMaService),
-                                                    new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, mobileUserDetailsService,redisTemplate)
+                                                        new PasswordAuthenticationConverter(),
+                                                        new CaptchaAuthenticationConverter(),
+                                                        new WxMiniAppAuthenticationConverter(),
+                                                        new SmsCodeAuthenticationConverter()
                                                 )
-                                            )
+                                        )
+                                )
+                                .authenticationProviders(authenticationProviders ->// <2>
+                                        authenticationProviders.addAll(
+                                                List.of(
+                                                        new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
+                                                        new CaptchaAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator, redisTemplate),
+                                                        new WxMiniAppAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, wxMaService),
+                                                        new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, redisTemplate)
+                                                )
+                                        )
                                 )
                 );
 
@@ -161,8 +175,15 @@ public class AuthorizationServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-        return new JdbcRegisteredClientRepository(jdbcTemplate);
+        JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
+
+        // 初始化 OAuth2 客户端
+        initMallAppClient(registeredClientRepository);
+        initMallAdminClient(registeredClientRepository);
+
+        return registeredClientRepository;
     }
+
 
     @Bean
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
@@ -176,7 +197,6 @@ public class AuthorizationServerConfig {
         // Will be used by the ConsentController
         return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
     }
-
 
 
     @Bean
@@ -194,13 +214,13 @@ public class AuthorizationServerConfig {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
         return context -> {
-            if (OAuth2TokenType.ACCESS_TOKEN .equals(context.getTokenType()) && context.getPrincipal() instanceof UsernamePasswordAuthenticationToken) {
+            if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType()) && context.getPrincipal() instanceof UsernamePasswordAuthenticationToken) {
                 // Customize headers/claims for access_token
                 Optional.ofNullable(context.getPrincipal().getPrincipal()).ifPresent(principal -> {
                     JwtClaimsSet.Builder claims = context.getClaims();
                     if (principal instanceof SysUserDetails userDetails) {
                         claims.claim("user_id", String.valueOf(userDetails.getUserId()));
-                    } else if (principal instanceof MemberUserDetails userDetails) {
+                    } else if (principal instanceof MemberDetails userDetails) {
                         claims.claim("member_id", String.valueOf(userDetails.getId()));
                     }
                 });
@@ -211,9 +231,84 @@ public class AuthorizationServerConfig {
         };
     }
 
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+    /**
+     * 初始化创建商城管理客户端
+     *
+     * @param registeredClientRepository
+     */
+    private void initMallAdminClient(JdbcRegisteredClientRepository registeredClientRepository) {
+
+        String clientId = "mall-admin";
+        String clientSecret = "123456";
+        String clientName = "商城管理客户端";
+
+        // 如果使用明文，在客户端认证的时候会自动升级加密方式（修改密码）， 直接使用 bcrypt 加密避免不必要的麻烦
+        // 不开玩笑，官方ISSUE： https://github.com/spring-projects/spring-authorization-server/issues/1099
+        String encodeSecret = passwordEncoder().encode(clientSecret);
+
+        RegisteredClient registeredMallAdminClient = registeredClientRepository.findByClientId(clientId);
+        String id = registeredMallAdminClient != null ? registeredMallAdminClient.getId() : UUID.randomUUID().toString();
+
+        RegisteredClient mallAppClient = RegisteredClient.withId(id)
+                .clientId(clientId)
+                .clientSecret(encodeSecret)
+                .clientName(clientName)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD) // 密码模式
+                .authorizationGrantType(CaptchaAuthenticationToken.CAPTCHA) // 验证码模式
+                .redirectUri("http://127.0.0.1:8080/authorized")
+                .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+                .build();
+        registeredClientRepository.save(mallAppClient);
+    }
+
+    /**
+     * 初始化创建商城APP客户端
+     *
+     * @param registeredClientRepository
+     */
+    private void initMallAppClient(JdbcRegisteredClientRepository registeredClientRepository) {
+
+        String clientId = "mall-app";
+        String clientSecret = "123456";
+        String clientName = "商城APP客户端";
+
+        // 如果使用明文，在客户端认证的时候会自动升级加密方式，直接使用 bcrypt 加密避免不必要的麻烦
+        String encodeSecret = passwordEncoder().encode(clientSecret);
+
+        RegisteredClient registeredMallAppClient = registeredClientRepository.findByClientId(clientId);
+        String id = registeredMallAppClient != null ? registeredMallAppClient.getId() : UUID.randomUUID().toString();
+
+        RegisteredClient mallAppClient = RegisteredClient.withId(id)
+                .clientId(clientId)
+                .clientSecret(encodeSecret)
+                .clientName(clientName)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .authorizationGrantType(WxMiniAppAuthenticationToken.WECHAT_MINI_APP) // 微信小程序模式
+                .authorizationGrantType(SmsCodeAuthenticationToken.SMS_CODE) // 短信验证码模式
+                .redirectUri("http://127.0.0.1:8080/authorized")
+                .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+                .build();
+        registeredClientRepository.save(mallAppClient);
+    }
+
 
 }

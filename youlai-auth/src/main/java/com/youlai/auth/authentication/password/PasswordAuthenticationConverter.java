@@ -20,7 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 密码认证参数解析器
+ * 密码模式参数解析器
  * <p>
  * 解析请求参数中的用户名和密码，并构建相应的身份验证(Authentication)对象
  *
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * @see org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter
  * @since 3.0.0
  */
-public class ResourceOwnerPasswordAuthenticationConverter implements AuthenticationConverter {
+public class PasswordAuthenticationConverter implements AuthenticationConverter {
 
     @Override
     public Authentication convert(HttpServletRequest request) {
@@ -78,7 +78,7 @@ public class ResourceOwnerPasswordAuthenticationConverter implements Authenticat
             );
         }
 
-        // 附加参数(保存用户名/密码传递给 ResourceOwnerPasswordAuthenticationProvider 用于身份认证)
+        // 附加参数(保存用户名/密码传递给 PasswordAuthenticationProvider 用于身份认证)
         Map<String, Object> additionalParameters = parameters
                 .entrySet()
                 .stream()
@@ -86,7 +86,7 @@ public class ResourceOwnerPasswordAuthenticationConverter implements Authenticat
                         !e.getKey().equals(OAuth2ParameterNames.SCOPE)
                 ).collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
-        return new ResourceOwnerPasswordAuthenticationToken(
+        return new PasswordAuthenticationToken(
                 clientPrincipal,
                 requestedScopes,
                 additionalParameters

@@ -35,14 +35,14 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <spring-boot.version>3.1.0</spring-boot.version>
+        <spring-boot.version>3.1.1</spring-boot.version>
 
         <!-- spring cloud & alibaba -->
-        <spring-cloud.version>2022.0.3</spring-cloud.version>
+        <spring-cloud.version>2022.0.2</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
         <!-- spring authorization server -->
-        <authorization-server.version>1.1.0</authorization-server.version>
-        <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
+        <spring-authorization-server.version>1.1.0</spring-authorization-server.version>
+        <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
 
         <!-- db && orm -->
         <mysql.version>8.0.28</mysql.version>
@@ -60,7 +60,7 @@
         <easyexcel.version>3.0.5</easyexcel.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
-        <thumbnailator.version>0.4.17</thumbnailator.version>
+        <thumbnailator.version>0.4.19</thumbnailator.version>
 
         <!-- 阿里云短信 -->
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
@@ -69,7 +69,7 @@
         <!-- minio -->
         <minio.version>8.5.3</minio.version>
         <okhttp3.version>4.8.1</okhttp3.version>
-
+        <!-- aliyun oss sdk -->
         <aliyun-sdk-oss.version>3.16.3</aliyun-sdk-oss.version>
 
         <!-- redisson 分布式锁 -->
@@ -303,15 +303,9 @@
             </dependency>
 
             <dependency>
-                <groupId>net.coobird</groupId>
-                <artifactId>thumbnailator</artifactId>
-                <version>${thumbnailator.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
-                <version>${authorization-server.version}</version>
+                <version>${spring-authorization-server.version}</version>
             </dependency>
 
             <dependency>

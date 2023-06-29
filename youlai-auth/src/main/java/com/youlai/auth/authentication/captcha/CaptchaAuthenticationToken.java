@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.password;
+package com.youlai.auth.authentication.captcha;
 
 import jakarta.annotation.Nullable;
 import org.springframework.security.core.Authentication;
@@ -6,16 +6,19 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationGrantAuthenticationToken;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * 密码授权模式身份验证令牌(包含用户名和密码等)
+ * 验证码模式身份验证令牌(包含用户名、密码、验证码)
  *
  * @author haoxr
  * @see org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken
  * @since 3.0.0
  */
-public class ResourceOwnerPasswordAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
+public class CaptchaAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
     /**
      * 令牌申请访问范围
@@ -23,18 +26,24 @@ public class ResourceOwnerPasswordAuthenticationToken extends OAuth2Authorizatio
     private final Set<String> scopes;
 
     /**
-     * 密码模式身份验证令牌
+     * 授权类型(验证码: captcha)
+     */
+    public static final AuthorizationGrantType CAPTCHA = new AuthorizationGrantType("captcha");
+
+
+    /**
+     * 验证码模式身份验证令牌
      *
      * @param clientPrincipal      客户端信息
      * @param scopes               令牌申请访问范围
-     * @param additionalParameters 自定义额外参数(用户名和密码)
+     * @param additionalParameters 自定义额外参数(用户名、密码、验证码)
      */
-    public ResourceOwnerPasswordAuthenticationToken(
+    public CaptchaAuthenticationToken(
             Authentication clientPrincipal,
             Set<String> scopes,
             @Nullable Map<String, Object> additionalParameters
     ) {
-        super(AuthorizationGrantType.PASSWORD, clientPrincipal, additionalParameters);
+        super(CAPTCHA, clientPrincipal, additionalParameters);
         this.scopes = Collections.unmodifiableSet(scopes != null ? new HashSet<>(scopes) : Collections.emptySet());
 
     }

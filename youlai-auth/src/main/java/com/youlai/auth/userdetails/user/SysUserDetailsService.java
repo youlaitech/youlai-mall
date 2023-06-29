@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
  * @author haoxr
  * @since 3.0.0
  */
-@Primary // UserDetailsService 默认的实现，其他需要显式声明
 @Service
 @RequiredArgsConstructor
 public class SysUserDetailsService implements UserDetailsService {

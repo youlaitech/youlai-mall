@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.smscode;
+package com.youlai.auth.authentication.captcha;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2EndpointUtils;
@@ -18,21 +18,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 短信验证码认证参数转换器
+ * 密码认证参数解析器
  * <p>
- * 解析请求参数中的手机号和验证码，并转换成相应的身份验证(Authentication)对象
+ * 解析请求参数中的用户名和密码，并构建相应的身份验证(Authentication)对象
  *
  * @author haoxr
- * @see org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter
  * @since 3.0.0
  */
-public class SmsCodeAuthenticationConverter implements AuthenticationConverter {
+public class CaptchaAuthenticationConverter implements AuthenticationConverter {
 
     @Override
     public Authentication convert(HttpServletRequest request) {
         // 授权类型 (必需)
         String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-        if (!SmsCodeAuthenticationToken.SMS_CODE.getValue().equals(grantType)) {
+        if (!CaptchaAuthenticationToken.CAPTCHA.getValue().equals(grantType)) {
             return null;
         }
 
@@ -56,36 +55,56 @@ public class SmsCodeAuthenticationConverter implements AuthenticationConverter {
             requestedScopes = new HashSet<>(Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
         }
 
-        // 手机号(必需)
-        String mobile = parameters.getFirst(SmsCodeParameterNames.MOBILE);
-        if (StrUtil.isBlank(mobile)) {
+        // 用户名验证(必需)
+        String username = parameters.getFirst(OAuth2ParameterNames.USERNAME);
+        if (StrUtil.isBlank(username)) {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
-                    SmsCodeParameterNames.MOBILE,
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+                    OAuth2ParameterNames.USERNAME,
+                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI
+            );
+        }
+
+        // 密码验证(必需)
+        String password = parameters.getFirst(OAuth2ParameterNames.PASSWORD);
+        if (StrUtil.isBlank(password)) {
+            OAuth2EndpointUtils.throwError(
+                    OAuth2ErrorCodes.INVALID_REQUEST,
+                    OAuth2ParameterNames.PASSWORD,
+                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI
+            );
         }
 
         // 验证码(必需)
-        String verifyCode = parameters.getFirst(SmsCodeParameterNames.VERIFY_CODE);
+        String verifyCode = parameters.getFirst(CaptchaParameterNames.VERIFY_CODE);
         if (StrUtil.isBlank(verifyCode)) {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
-                    SmsCodeParameterNames.VERIFY_CODE,
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+                    CaptchaParameterNames.VERIFY_CODE,
+                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI
+            );
+        }
+
+        // 验证码缓存Key(必需)
+        String verifyCodeKey = parameters.getFirst(CaptchaParameterNames.VERIFY_CODE_KEY);
+        if (StrUtil.isBlank(verifyCodeKey)) {
+            OAuth2EndpointUtils.throwError(
+                    OAuth2ErrorCodes.INVALID_REQUEST,
+                    CaptchaParameterNames.VERIFY_CODE_KEY,
+                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI
+            );
         }
 
 
-        // 附加参数(手机号码、验证码)
+        // 附加参数(保存用户名/密码传递给 CaptchaAuthenticationProvider 用于身份认证)
         Map<String, Object> additionalParameters = parameters
                 .entrySet()
                 .stream()
-                .filter(e ->
-                        !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
-                                && !e.getKey().equals(OAuth2ParameterNames.SCOPE)
-                )
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
+                .filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE) &&
+                        !e.getKey().equals(OAuth2ParameterNames.SCOPE)
+                ).collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
-        return new SmsCodeAuthenticationToken(
+        return new CaptchaAuthenticationToken(
                 clientPrincipal,
                 requestedScopes,
                 additionalParameters

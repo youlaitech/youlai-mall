@@ -21,7 +21,6 @@ import com.youlai.system.model.query.UserPageQuery;
 import com.youlai.system.model.vo.UserExportVO;
 import com.youlai.system.model.vo.UserInfoVO;
 import com.youlai.system.model.vo.UserPageVO;
-import com.youlai.system.service.SysMenuService;
 import com.youlai.system.service.SysRoleService;
 import com.youlai.system.service.SysUserRoleService;
 import com.youlai.system.service.SysUserService;
@@ -49,8 +48,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final PasswordEncoder passwordEncoder;
 
     private final SysUserRoleService userRoleService;
-
-    private final SysMenuService menuService;
 
     private final SysRoleService roleService;
 

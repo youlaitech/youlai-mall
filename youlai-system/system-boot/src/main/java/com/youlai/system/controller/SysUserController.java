@@ -162,7 +162,8 @@ public class SysUserController {
     @PostMapping("/_import")
     public Result importUsers(@Parameter(description = "部门ID") Long deptId, MultipartFile file) throws IOException {
         UserImportListener listener = new UserImportListener(deptId);
-        String msg = importExcel(file.getInputStream(), UserImportVO.class, listener);
+        EasyExcel.read(file.getInputStream(), UserImportVO.class, listener).sheet().doRead();
+        String msg = listener.getMsg();
         return Result.success(msg);
     }
 
@@ -177,10 +178,4 @@ public class SysUserController {
         EasyExcel.write(response.getOutputStream(), UserExportVO.class).sheet("用户列表")
                 .doWrite(exportUserList);
     }
-
-    public static <T> String importExcel(InputStream is, Class clazz, MyAnalysisEventListener<T> listener) {
-        EasyExcel.read(is, clazz, listener).sheet().doRead();
-        return listener.getMsg();
-    }
-
 }

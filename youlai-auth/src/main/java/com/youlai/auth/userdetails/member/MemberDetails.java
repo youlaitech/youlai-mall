@@ -1,6 +1,5 @@
 package com.youlai.auth.userdetails.member;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import lombok.Data;
@@ -9,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 
 
 /**
@@ -19,7 +17,7 @@ import java.util.HashSet;
  * @since 3.0.0
  */
 @Data
-public class MemberUserDetails implements UserDetails {
+public class MemberDetails implements UserDetails {
 
     /**
      * 会员ID
@@ -47,7 +45,7 @@ public class MemberUserDetails implements UserDetails {
      *
      * @param memAuthInfo 会员认证信息
      */
-    public MemberUserDetails(MemberAuthDTO memAuthInfo) {
+    public MemberDetails(MemberAuthDTO memAuthInfo) {
         this.setId(memAuthInfo.getId());
         this.setUsername(memAuthInfo.getUsername());
         this.setEnabled(GlobalConstants.STATUS_YES.equals(memAuthInfo.getStatus()));

@@ -2,6 +2,9 @@ server:
   port: 9000
 
 spring:
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
   cloud:
     nacos:
       # 注册中心
@@ -18,4 +21,3 @@ spring:
           refresh: true
         username: nacos
         password: nacos
-

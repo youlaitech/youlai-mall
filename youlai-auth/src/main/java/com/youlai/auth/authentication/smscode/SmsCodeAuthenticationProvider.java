@@ -2,7 +2,7 @@ package com.youlai.auth.authentication.smscode;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.auth.userdetails.member.MobileUserDetailsService;
+import com.youlai.auth.userdetails.member.MemberDetailsService;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import com.youlai.common.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
-    private final MobileUserDetailsService mobileUserDetailsService;
+    private final MemberDetailsService memberDetailsService;
 
     private final RedisTemplate redisTemplate;
 
@@ -55,17 +55,17 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     public SmsCodeAuthenticationProvider(
             OAuth2AuthorizationService authorizationService,
             OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
-            MobileUserDetailsService mobileUserDetailsService,
+            MemberDetailsService memberDetailsService,
             RedisTemplate redisTemplate
 
     ) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
-        Assert.notNull(mobileUserDetailsService, "userDetailsService cannot be null");
+        Assert.notNull(memberDetailsService, "userDetailsService cannot be null");
         Assert.notNull(redisTemplate, "redisTemplate cannot be null");
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
-        this.mobileUserDetailsService = mobileUserDetailsService;
+        this.memberDetailsService = memberDetailsService;
         this.redisTemplate = redisTemplate;
     }
 
@@ -83,10 +83,10 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
-        // 微信 code 获取 openid
+        // 短信验证码校验
         Map<String, Object> additionalParameters = smsCodeAuthenticationToken.getAdditionalParameters();
-        String mobile = (String) additionalParameters.get("mobile");
-        String verifyCode = (String) additionalParameters.get("verifyCode");
+        String mobile = (String) additionalParameters.get(SmsCodeParameterNames.MOBILE);
+        String verifyCode = (String) additionalParameters.get(SmsCodeParameterNames.VERIFY_CODE);
 
         if (!verifyCode.equals("666666")) { // 666666 是后门，因为短信收费，正式环境删除这个if
             String codeKey = SecurityConstants.SMS_CODE_PREFIX + mobile;
@@ -98,7 +98,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         }
 
         // 根据手机号获取会员信息
-        UserDetails userDetails = mobileUserDetailsService.loadUserByUsername(mobile);
+        UserDetails userDetails = memberDetailsService.loadUserByMobile(mobile);
 
         Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails, null);
 
