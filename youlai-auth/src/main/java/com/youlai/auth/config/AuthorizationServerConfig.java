@@ -2,11 +2,13 @@
 package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationConverter;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationProvider;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationToken;
@@ -18,15 +20,20 @@ import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationToken;
 import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationConverter;
 import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationProvider;
 import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationToken;
+import com.youlai.auth.handler.MyAuthenticationSuccessHandler;
 import com.youlai.auth.userdetails.member.MemberDetails;
 import com.youlai.auth.userdetails.member.MemberDetailsService;
 import com.youlai.auth.userdetails.user.SysUserDetails;
+import com.youlai.common.result.Result;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,6 +49,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.*;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -52,7 +60,12 @@ import org.springframework.security.oauth2.server.authorization.settings.ClientS
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.util.ContentCachingResponseWrapper;
+import org.springframework.web.util.WebUtils;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
@@ -69,10 +82,11 @@ import java.util.UUID;
  */
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class AuthorizationServerConfig {
 
     private final WxMaService wxMaService;
-    private final RedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
     private final MemberDetailsService memberDetailsService;
 
 
@@ -114,6 +128,7 @@ public class AuthorizationServerConfig {
                                                 )
                                         )
                                 )
+                                .accessTokenResponseHandler(new MyAuthenticationSuccessHandler())
                 );
 
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
@@ -170,7 +185,7 @@ public class AuthorizationServerConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return  PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
@@ -309,6 +324,5 @@ public class AuthorizationServerConfig {
                 .build();
         registeredClientRepository.save(mallAppClient);
     }
-
 
 }

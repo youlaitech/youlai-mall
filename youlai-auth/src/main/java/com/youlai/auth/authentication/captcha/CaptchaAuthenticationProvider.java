@@ -2,11 +2,10 @@ package com.youlai.auth.authentication.captcha;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.auth.authentication.smscode.SmsCodeParameterNames;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import com.youlai.common.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,7 +52,7 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
     private final AuthenticationManager authenticationManager;
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
-    private final RedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
     /**
      * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using the provided parameters.
@@ -66,7 +65,7 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
     public CaptchaAuthenticationProvider(AuthenticationManager authenticationManager,
                                          OAuth2AuthorizationService authorizationService,
                                          OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
-                                         RedisTemplate redisTemplate
+                                         StringRedisTemplate redisTemplate
     ) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
@@ -94,7 +93,7 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
         String verifyCode = (String) additionalParameters.get(CaptchaParameterNames.VERIFY_CODE);
         String verifyCodeKey = (String) additionalParameters.get(CaptchaParameterNames.VERIFY_CODE_KEY);
 
-        String cacheCode = (String) redisTemplate.opsForValue().get(verifyCodeKey);
+        String cacheCode =  redisTemplate.opsForValue().get(SecurityConstants.VERIFY_CODE_KEY_PREFIX +verifyCodeKey);
         if (!StrUtil.equals(verifyCode, cacheCode)) {
             throw new OAuth2AuthenticationException("验证码错误");
         }
