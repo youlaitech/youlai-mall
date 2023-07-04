@@ -2,13 +2,13 @@
 package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.nimbusds.jose.shaded.json.JSONObject;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationConverter;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationProvider;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationToken;
@@ -21,57 +21,52 @@ import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationConverter
 import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationProvider;
 import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationToken;
 import com.youlai.auth.handler.MyAuthenticationSuccessHandler;
-import com.youlai.auth.userdetails.member.MemberDetails;
 import com.youlai.auth.userdetails.member.MemberDetailsService;
 import com.youlai.auth.userdetails.user.SysUserDetails;
-import com.youlai.common.result.Result;
-import jakarta.servlet.http.HttpServletResponse;
+import com.youlai.auth.userdetails.user.jackson.SysUseMixin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.oauth2.server.authorization.*;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.util.ContentCachingResponseWrapper;
-import org.springframework.web.util.WebUtils;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -88,7 +83,7 @@ public class AuthorizationServerConfig {
     private final WxMaService wxMaService;
     private final StringRedisTemplate redisTemplate;
     private final MemberDetailsService memberDetailsService;
-
+    private final OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer;
 
     /**
      * 授权配置
@@ -203,7 +198,22 @@ public class AuthorizationServerConfig {
     @Bean
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
                                                            RegisteredClientRepository registeredClientRepository) {
-        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+
+        JdbcOAuth2AuthorizationService service = new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+        JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper rowMapper = new JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper(registeredClientRepository);
+        rowMapper.setLobHandler(new DefaultLobHandler());
+        ObjectMapper objectMapper = new ObjectMapper();
+        ClassLoader classLoader = JdbcOAuth2AuthorizationService.class.getClassLoader();
+        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
+        objectMapper.registerModules(securityModules);
+        objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        // You will need to write the Mixin for your class so Jackson can marshall it.
+        objectMapper.addMixIn(SysUserDetails.class, SysUseMixin.class);
+        objectMapper.addMixIn(Long.class, Object.class);
+        rowMapper.setObjectMapper(objectMapper);
+        service.setAuthorizationRowMapper(rowMapper);
+
+        return service;
     }
 
     @Bean
@@ -217,7 +227,7 @@ public class AuthorizationServerConfig {
     @Bean
     OAuth2TokenGenerator<?> tokenGenerator(JWKSource<SecurityContext> jwkSource) {
         JwtGenerator jwtGenerator = new JwtGenerator(new NimbusJwtEncoder(jwkSource));
-        jwtGenerator.setJwtCustomizer(jwtCustomizer());
+        jwtGenerator.setJwtCustomizer(jwtCustomizer);
 
         OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
         OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
@@ -226,25 +236,7 @@ public class AuthorizationServerConfig {
     }
 
 
-    @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
-        return context -> {
-            if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType()) && context.getPrincipal() instanceof UsernamePasswordAuthenticationToken) {
-                // Customize headers/claims for access_token
-                Optional.ofNullable(context.getPrincipal().getPrincipal()).ifPresent(principal -> {
-                    JwtClaimsSet.Builder claims = context.getClaims();
-                    if (principal instanceof SysUserDetails userDetails) {
-                        claims.claim("user_id", String.valueOf(userDetails.getUserId()));
-                    } else if (principal instanceof MemberDetails userDetails) {
-                        claims.claim("member_id", String.valueOf(userDetails.getId()));
-                    }
-                });
-            } else if (context.getTokenType().getValue().equals(OidcParameterNames.ID_TOKEN)) {
-                // Customize headers/claims for id_token
 
-            }
-        };
-    }
 
 
     @Bean
@@ -284,6 +276,7 @@ public class AuthorizationServerConfig {
                 .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
+                .tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofDays(1)).build())
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
         registeredClientRepository.save(mallAppClient);
@@ -320,6 +313,7 @@ public class AuthorizationServerConfig {
                 .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
+                .tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofDays(1)).build())
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
         registeredClientRepository.save(mallAppClient);

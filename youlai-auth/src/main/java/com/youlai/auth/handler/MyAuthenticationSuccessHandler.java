@@ -52,8 +52,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         OAuth2AccessTokenResponse.Builder builder =
                 OAuth2AccessTokenResponse.withToken(accessToken.getTokenValue())
-                        .tokenType(accessToken.getTokenType())
-                        .scopes(accessToken.getScopes());
+                        .tokenType(accessToken.getTokenType());
         if (accessToken.getIssuedAt() != null && accessToken.getExpiresAt() != null) {
             builder.expiresIn(ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt()));
         }
@@ -68,6 +67,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         Map<String, Object> tokenResponseParameters = this.accessTokenResponseParametersConverter
                 .convert(accessTokenResponse);
 
+        response.setCharacterEncoding("UTF-8");
         response.getWriter().write(JSONUtil.toJsonStr(Result.success(tokenResponseParameters)));
 
 

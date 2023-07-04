@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.system.mapper.SysRoleMapper">
 
     <!-- 获取最大范围的数据权限 -->
-    <select id="getMaximumDataScope" resultType="java.lang.Integer">
+    <select id="getMaxDataRangeDataScope" resultType="java.lang.Integer">
         SELECT
             min(data_scope)
         FROM

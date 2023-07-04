@@ -15,12 +15,7 @@ public interface SecurityConstants {
     /**
      * 短信验证码key前缀
      */
-    String SMS_CODE_PREFIX = "SMS_CODE:";
-
-    /**
-     * 接口文档 Knife4j 测试客户端ID
-     */
-    String TEST_CLIENT_ID = "client";
+    String SMS_CODE_PREFIX = "AUTH:SMS_CODE:";
 
     /**
      * 系统管理 web 客户端ID
@@ -33,15 +28,13 @@ public interface SecurityConstants {
     String APP_CLIENT_ID = "mall-app";
 
     /**
-     * 微信小程序客户端ID
-     */
-    String WEAPP_CLIENT_ID = "mall-weapp";
-
-
-    /**
      * 用户权限集合缓存前缀
      */
     String USER_PERMS_CACHE_PREFIX = "AUTH:USER_PERMS:";
 
+    /**
+     * 授权信息中的权限或角色的key
+     */
+    String AUTHORITIES_CLAIM_NAME_KEY="authorities";
 
 }

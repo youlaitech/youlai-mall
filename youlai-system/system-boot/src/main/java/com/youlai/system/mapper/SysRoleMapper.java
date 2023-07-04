@@ -16,5 +16,5 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param roles
      * @return
      */
-    Integer getMaximumDataScope(Set<String> roles);
+    Integer getMaxDataRangeDataScope(Set<String> roles);
 }

@@ -1,10 +1,9 @@
 package com.youlai.common.security.util;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.StrUtil;
 import com.youlai.common.constant.GlobalConstants;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
@@ -13,6 +12,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Spring Security 工具类
+ */
 public class SecurityUtils {
 
     public static Long getUserId() {
@@ -34,15 +36,10 @@ public class SecurityUtils {
 
     public static Set<String> getRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        var roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities())
+                .stream()
+                .collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet));
 
-        Set roles;
-        if (CollectionUtil.isNotEmpty(authentication.getAuthorities())) {
-            roles = authentication.getAuthorities()
-                    .stream()
-                    .map(item -> StrUtil.removePrefix(item.getAuthority(), "ROLE_")).collect(Collectors.toSet());
-        } else {
-            roles = Collections.EMPTY_SET;
-        }
         return roles;
     }
 

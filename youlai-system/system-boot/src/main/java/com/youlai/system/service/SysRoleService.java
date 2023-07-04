@@ -93,7 +93,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param roles
      * @return
      */
-    Integer getMaximumDataScope(Set<String> roles);
+    Integer getMaxDataRangeDataScope(Set<String> roles);
 
 
 }

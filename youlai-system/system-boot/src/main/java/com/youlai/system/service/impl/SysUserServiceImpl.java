@@ -1,5 +1,6 @@
 package com.youlai.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -21,6 +22,7 @@ import com.youlai.system.model.query.UserPageQuery;
 import com.youlai.system.model.vo.UserExportVO;
 import com.youlai.system.model.vo.UserInfoVO;
 import com.youlai.system.model.vo.UserPageVO;
+import com.youlai.system.service.SysMenuService;
 import com.youlai.system.service.SysRoleService;
 import com.youlai.system.service.SysUserRoleService;
 import com.youlai.system.service.SysUserService;
@@ -54,6 +56,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final UserConverter userConverter;
 
     private final RedisTemplate redisTemplate;
+
+    private final SysMenuService menuService;
 
     /**
      * 获取用户分页列表
@@ -198,9 +202,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         UserAuthInfo userAuthInfo = this.baseMapper.getUserAuthInfo(username);
         if (userAuthInfo != null) {
             Set<String> roles = userAuthInfo.getRoles();
-            // 获取最大范围的数据权限
-            Integer dataScope = roleService.getMaximumDataScope(roles);
-            userAuthInfo.setDataScope(dataScope);
+            if (CollectionUtil.isNotEmpty(roles)) {
+                // 根据角色编码集合获取权限标识集合
+                Set<String> perms = menuService.listRolePerms(roles);
+                userAuthInfo.setPerms(perms);
+
+                // 获取最大范围的数据权限(目前设定DataScope越小，拥有的数据权限范围越大，所以获取得到角色列表中最小的DataScope)
+                Integer dataScope = roleService.getMaxDataRangeDataScope(roles);
+                userAuthInfo.setDataScope(dataScope);
+            }
         }
         return userAuthInfo;
     }
