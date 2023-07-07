@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.wxminiapp;
+package com.youlai.auth.authentication.miniapp;
 
 import jakarta.annotation.Nullable;
 import org.springframework.security.core.Authentication;

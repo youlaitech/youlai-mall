@@ -4,11 +4,14 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.dto.UserAuthInfo;
 import lombok.Data;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
  * @since 3.0.0
  */
 @Data
-public class SysUserDetails implements UserDetails {
+public class SysUserDetails implements UserDetails, CredentialsContainer {
 
     /**
      * 扩展字段：用户ID
@@ -45,7 +48,13 @@ public class SysUserDetails implements UserDetails {
     private String username;
     private String password;
     private Boolean enabled;
-    private Collection<SimpleGrantedAuthority> authorities;
+    private Collection<GrantedAuthority> authorities;
+
+    private boolean accountNonExpired;
+
+    private boolean accountNonLocked;
+
+    private boolean credentialsNonExpired;
 
     private Set<String> perms;
 
@@ -65,6 +74,28 @@ public class SysUserDetails implements UserDetails {
                     .collect(Collectors.toSet());
         }
         this.setPerms(user.getPerms());
+    }
+
+    public SysUserDetails(
+            Long userId,
+            String username,
+            String password,
+            boolean enabled,
+            boolean accountNonExpired,
+            boolean credentialsNonExpired,
+            boolean accountNonLocked,
+            Set<? extends GrantedAuthority> authorities
+    ) {
+        Assert.isTrue(username != null && !"".equals(username) && password != null,
+                "Cannot pass null or empty values to constructor");
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.accountNonExpired = accountNonExpired;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.authorities = Collections.unmodifiableSet(authorities);
     }
 
     @Override
@@ -100,5 +131,11 @@ public class SysUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
     }
 }

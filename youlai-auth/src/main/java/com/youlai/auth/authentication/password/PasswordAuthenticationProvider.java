@@ -2,13 +2,15 @@ package com.youlai.auth.authentication.password;
 
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ReflectUtil;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -35,7 +37,6 @@ import java.util.stream.Collectors;
  * 密码模式身份验证提供者
  * <p>
  * 处理基于用户名和密码的身份验证
- *
  * @author haoxr
  * @since 3.0.0
  */
@@ -86,7 +87,12 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
         Map<String, Object> additionalParameters = resourceOwnerPasswordAuthentication.getAdditionalParameters();
         String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
         String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+
+        // 这种
+        // https://github.com/Basit-Mahmood/spring-authorization-server-password-grant-type-support/blob/master/SpringAuthorizationServer/src/main/java/pk/training/basit/oauth2/authentication/OAuth2ResourceOwnerPasswordAuthenticationProvider.java
+         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+
+
         // 用户名密码身份验证，成功后返回带有权限的认证信息
         Authentication usernamePasswordAuthentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
@@ -126,11 +132,15 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 
+
+        ReflectUtil.setFieldValue(usernamePasswordAuthentication.getPrincipal(), "perms", null);
+
+        // 持久化令牌发放记录到数据库
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 .authorizedScopes(authorizedScopes)
-                .attribute(Principal.class.getName(), usernamePasswordAuthentication);
+                .attribute(Principal.class.getName(), usernamePasswordAuthentication); // attribute 字段
         if (generatedAccessToken instanceof ClaimAccessor) {
             authorizationBuilder.token(accessToken, (metadata) ->
                     metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()));
@@ -196,5 +206,7 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return PasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
+
+
 
 }

@@ -1,16 +1,13 @@
 package com.youlai.auth.userdetails.user;
 
-import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
 import com.youlai.common.result.Result;
 import com.youlai.system.api.UserFeignClient;
 import com.youlai.system.dto.UserAuthInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,26 +27,16 @@ public class SysUserDetailsService implements UserDetailsService {
      * <p>
      * 用户名、密码用于后续认证，认证成功之后将权限授予用户
      *
-     * @param username 前端登录表单的用户名
+     * @param username 用户名
      * @return {@link  SysUserDetails}
      */
     @Override
     public UserDetails loadUserByUsername(String username) {
         Result<UserAuthInfo> result = userFeignClient.getUserAuthInfo(username);
-
-        UserAuthInfo userAuthInfo = null;
-        Assert.isTrue(Result.isSuccess(result) && (userAuthInfo = result.getData()) != null,
-                "用户不存在");
-
-        SysUserDetails userDetails = new SysUserDetails(userAuthInfo);
-        if (!userDetails.isEnabled()) {
-            throw new DisabledException("该账户已被禁用!");
-        } else if (!userDetails.isAccountNonLocked()) {
-            throw new LockedException("该账号已被锁定!");
-        } else if (!userDetails.isAccountNonExpired()) {
-            throw new AccountExpiredException("该账号已过期!");
+        if (!Result.isSuccess(result) || result.getData() == null) {
+            throw new UsernameNotFoundException(StrUtil.format("用户{}不存在",username));
         }
-        return userDetails;
+        return new SysUserDetails(result.getData());
     }
 
 }

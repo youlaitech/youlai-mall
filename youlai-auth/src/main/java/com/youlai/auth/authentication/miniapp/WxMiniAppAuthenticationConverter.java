@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.wxminiapp;
+package com.youlai.auth.authentication.miniapp;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2EndpointUtils;

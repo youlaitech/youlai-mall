@@ -2,6 +2,8 @@
 package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -17,14 +19,16 @@ import com.youlai.auth.authentication.password.PasswordAuthenticationProvider;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationConverter;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationProvider;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationToken;
-import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationConverter;
-import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationProvider;
-import com.youlai.auth.authentication.wxminiapp.WxMiniAppAuthenticationToken;
+import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationConverter;
+import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationProvider;
+import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationToken;
+import com.youlai.auth.handler.MyAuthenticationFailureHandler;
 import com.youlai.auth.handler.MyAuthenticationSuccessHandler;
 import com.youlai.auth.userdetails.member.MemberDetailsService;
 import com.youlai.auth.userdetails.user.SysUserDetails;
-import com.youlai.auth.userdetails.user.jackson.SysUseMixin;
+import com.youlai.auth.userdetails.user.jackson.SysUserMixin;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +38,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
@@ -98,22 +104,23 @@ public class AuthorizationServerConfig {
 
     ) throws Exception {
 
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
-                new OAuth2AuthorizationServerConfigurer();
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+
         authorizationServerConfigurer
                 .tokenEndpoint(tokenEndpoint ->
                         tokenEndpoint
-                                .accessTokenRequestConverters(authenticationConverters ->// <1>
-                                        authenticationConverters.addAll(
-                                                List.of(
-                                                        new PasswordAuthenticationConverter(),
-                                                        new CaptchaAuthenticationConverter(),
-                                                        new WxMiniAppAuthenticationConverter(),
-                                                        new SmsCodeAuthenticationConverter()
+                                .accessTokenRequestConverters(
+                                        authenticationConverters ->// <1>
+                                                authenticationConverters.addAll(
+                                                        List.of(
+                                                                new PasswordAuthenticationConverter(),
+                                                                new CaptchaAuthenticationConverter(),
+                                                                new WxMiniAppAuthenticationConverter(),
+                                                                new SmsCodeAuthenticationConverter()
+                                                        )
                                                 )
-                                        )
                                 )
-                                .authenticationProviders(authenticationProviders ->// <2>
+                                /*.authenticationProviders(authenticationProviders ->// <2>
                                         authenticationProviders.addAll(
                                                 List.of(
                                                         new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
@@ -122,23 +129,35 @@ public class AuthorizationServerConfig {
                                                         new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, redisTemplate)
                                                 )
                                         )
-                                )
-                                .accessTokenResponseHandler(new MyAuthenticationSuccessHandler())
+                                )*/
+                                .accessTokenResponseHandler(new MyAuthenticationSuccessHandler()) // 自定义成功响应
+                                .errorResponseHandler(new MyAuthenticationFailureHandler()) // 自定义异常响应
                 );
 
-        RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
-        http
-                .securityMatcher(endpointsMatcher)
-                .authorizeHttpRequests(authorize ->
-                        authorize
-                                .anyRequest().authenticated()
-                )
+        RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
+        http.securityMatcher(endpointsMatcher)
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 .apply(authorizationServerConfigurer);
 
+
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.parentAuthenticationManager(null);
+        authenticationManagerBuilder.authenticationProvider(new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator));
+
+
         return http.build();
     }
+
+
+  /*  @Bean
+    public AuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setHideUserNotFoundExceptions(false) ; // 抛出用户不存在异常
+        return daoAuthenticationProvider ;
+    }*/
 
 
     @Bean // <5>
@@ -208,7 +227,7 @@ public class AuthorizationServerConfig {
         objectMapper.registerModules(securityModules);
         objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
         // You will need to write the Mixin for your class so Jackson can marshall it.
-        objectMapper.addMixIn(SysUserDetails.class, SysUseMixin.class);
+        objectMapper.addMixIn(SysUserDetails.class, SysUserMixin.class);
         objectMapper.addMixIn(Long.class, Object.class);
         rowMapper.setObjectMapper(objectMapper);
         service.setAuthorizationRowMapper(rowMapper);
@@ -236,11 +255,9 @@ public class AuthorizationServerConfig {
     }
 
 
-
-
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+
         return authenticationConfiguration.getAuthenticationManager();
     }
 

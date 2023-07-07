@@ -1,4 +1,4 @@
-package com.youlai.auth.authentication.wxminiapp;
+package com.youlai.auth.authentication.miniapp;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;

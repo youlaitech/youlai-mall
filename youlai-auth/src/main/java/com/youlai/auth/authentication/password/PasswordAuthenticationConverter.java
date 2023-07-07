@@ -2,6 +2,7 @@ package com.youlai.auth.authentication.password;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2EndpointUtils;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -32,6 +33,7 @@ public class PasswordAuthenticationConverter implements AuthenticationConverter 
 
     @Override
     public Authentication convert(HttpServletRequest request) {
+
         // 授权类型 (必需)
         String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
         if (!AuthorizationGrantType.PASSWORD.getValue().equals(grantType)) {
