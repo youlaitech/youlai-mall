@@ -20,6 +20,9 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 public class DefaultSecurityConfig {
 
+    /**
+     * 读取 配置中的白名单
+     */
     @Setter
     private List<String> ignoreUrls;
     /**
@@ -35,7 +38,6 @@ public class DefaultSecurityConfig {
                 .authorizeHttpRequests(requestMatcherRegistry ->
                         {
                             if (CollectionUtil.isNotEmpty(ignoreUrls)) {
-                                // 白名单①：走 springSecurityFilterChain 过滤器链(场景：验证码登录走验证码过滤器)
                                 requestMatcherRegistry.requestMatchers(Convert.toStrArray(ignoreUrls)).permitAll();
                             }
                             requestMatcherRegistry.anyRequest().authenticated();

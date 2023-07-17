@@ -1,6 +1,5 @@
 package com.youlai.auth.authentication;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * OAuth2 密码模式单元测试
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
@@ -23,13 +25,14 @@ public class PasswordAuthenticationTests {
     @Autowired
     private MockMvc mvc;
 
-
+    /**
+     * 测试密码模式登录
+     */
     @Test
     void testPasswordAuthentication() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("mall-admin", "123456");
 
-        // @formatter:off
         this.mvc.perform(post("/oauth2/token")
                         .param(OAuth2ParameterNames.GRANT_TYPE, "password")
                         .param(OAuth2ParameterNames.USERNAME, "admin")
@@ -38,7 +41,6 @@ public class PasswordAuthenticationTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.access_token").isNotEmpty());
-        // @formatter:on
     }
 
 

@@ -5,12 +5,11 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.*;
-import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -37,16 +36,14 @@ import java.util.stream.Collectors;
  * 密码模式身份验证提供者
  * <p>
  * 处理基于用户名和密码的身份验证
+ *
  * @author haoxr
  * @since 3.0.0
  */
 @Slf4j
 public class PasswordAuthenticationProvider implements AuthenticationProvider {
 
-
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
-
-    private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
     private final AuthenticationManager authenticationManager;
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
@@ -88,13 +85,16 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
         String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
         String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
 
-        // 这种
-        // https://github.com/Basit-Mahmood/spring-authorization-server-password-grant-type-support/blob/master/SpringAuthorizationServer/src/main/java/pk/training/basit/oauth2/authentication/OAuth2ResourceOwnerPasswordAuthenticationProvider.java
-         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 
         // 用户名密码身份验证，成功后返回带有权限的认证信息
-        Authentication usernamePasswordAuthentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        Authentication usernamePasswordAuthentication;
+        try {
+            usernamePasswordAuthentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        } catch (Exception e) {
+            // 需要将其他类型的异常转换为 OAuth2AuthenticationException 才能被自定义异常捕获处理，逻辑源码 OAuth2TokenEndpointFilter#doFilterInternal
+            throw new OAuth2AuthenticationException(e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
+        }
 
         // 验证申请访问范围(Scope)
         Set<String> authorizedScopes = registeredClient.getScopes();
@@ -166,47 +166,24 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
             authorizationBuilder.refreshToken(refreshToken);
         }
 
-        // 生成 ID token
-        OidcIdToken idToken;
-        if (requestedScopes.contains(OidcScopes.OPENID)) {
-            // @formatter:off
-            tokenContext = tokenContextBuilder
-                    .tokenType(ID_TOKEN_TOKEN_TYPE)
-                    .authorization(authorizationBuilder.build())	// ID token customizer may need access to the access token and/or refresh token
-                    .build();
-            // @formatter:on
-            OAuth2Token generatedIdToken = this.tokenGenerator.generate(tokenContext);
-            if (!(generatedIdToken instanceof Jwt)) {
-                OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-                        "The token generator failed to generate the ID token.", ERROR_URI);
-                throw new OAuth2AuthenticationException(error);
-            }
-
-            idToken = new OidcIdToken(generatedIdToken.getTokenValue(), generatedIdToken.getIssuedAt(),
-                    generatedIdToken.getExpiresAt(), ((Jwt) generatedIdToken).getClaims());
-            authorizationBuilder.token(idToken, (metadata) ->
-                    metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, idToken.getClaims()));
-        } else {
-            idToken = null;
-        }
 
         OAuth2Authorization authorization = authorizationBuilder.build();
-
         this.authorizationService.save(authorization);
-
         additionalParameters = Collections.emptyMap();
-        if (idToken != null) {
-            additionalParameters = new HashMap<>();
-            additionalParameters.put(OidcParameterNames.ID_TOKEN, idToken.getTokenValue());
-        }
         return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
     }
 
+    /**
+     * 判断传入的 authentication 类型是否与当前认证提供者(AuthenticationProvider)相匹配--模板方法
+     * <p>
+     * ProviderManager#authenticate 遍历 providers 找到支持对应认证请求的 provider-迭代器模式
+     *
+     * @param authentication
+     * @return
+     */
     @Override
     public boolean supports(Class<?> authentication) {
         return PasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
-
-
 
 }

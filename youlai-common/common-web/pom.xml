@@ -53,11 +53,6 @@
             <artifactId>swagger-annotations</artifactId>
         </dependency>
 
-        <!-- JWT工具 -->
-        <dependency>
-            <groupId>com.nimbusds</groupId>
-            <artifactId>nimbus-jose-jwt</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.mapstruct</groupId>

@@ -2,8 +2,6 @@
 package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.convert.Convert;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -14,21 +12,20 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationConverter;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationProvider;
 import com.youlai.auth.authentication.captcha.CaptchaAuthenticationToken;
+import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationConverter;
+import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationProvider;
+import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationToken;
 import com.youlai.auth.authentication.password.PasswordAuthenticationConverter;
 import com.youlai.auth.authentication.password.PasswordAuthenticationProvider;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationConverter;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationProvider;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationToken;
-import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationConverter;
-import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationProvider;
-import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationToken;
 import com.youlai.auth.handler.MyAuthenticationFailureHandler;
 import com.youlai.auth.handler.MyAuthenticationSuccessHandler;
 import com.youlai.auth.userdetails.member.MemberDetailsService;
 import com.youlai.auth.userdetails.user.SysUserDetails;
 import com.youlai.auth.userdetails.user.jackson.SysUserMixin;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,10 +35,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
@@ -120,7 +115,7 @@ public class AuthorizationServerConfig {
                                                         )
                                                 )
                                 )
-                                /*.authenticationProviders(authenticationProviders ->// <2>
+                               .authenticationProviders(authenticationProviders ->// <2>
                                         authenticationProviders.addAll(
                                                 List.of(
                                                         new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
@@ -129,7 +124,7 @@ public class AuthorizationServerConfig {
                                                         new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, redisTemplate)
                                                 )
                                         )
-                                )*/
+                                )
                                 .accessTokenResponseHandler(new MyAuthenticationSuccessHandler()) // 自定义成功响应
                                 .errorResponseHandler(new MyAuthenticationFailureHandler()) // 自定义异常响应
                 );
@@ -140,12 +135,6 @@ public class AuthorizationServerConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 .apply(authorizationServerConfigurer);
-
-
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.parentAuthenticationManager(null);
-        authenticationManagerBuilder.authenticationProvider(new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator));
-
 
         return http.build();
     }

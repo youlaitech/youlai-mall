@@ -35,8 +35,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
 
         OAuth2Error error = ((OAuth2AuthenticationException) exception).getError();
         ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
-        httpResponse.setStatusCode(HttpStatus.OK);
-        Result result = Result.failed(error.getDescription());
+        Result result = Result.failed(error.getErrorCode());
         accessTokenHttpResponseConverter.write(result, null, httpResponse);
     }
 }

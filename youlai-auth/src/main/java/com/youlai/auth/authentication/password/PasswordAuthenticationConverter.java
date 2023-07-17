@@ -2,7 +2,7 @@ package com.youlai.auth.authentication.password;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2EndpointUtils;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -11,8 +11,6 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Arrays;
 import java.util.HashSet;
