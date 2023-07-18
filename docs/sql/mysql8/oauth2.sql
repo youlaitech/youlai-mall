@@ -1,129 +1,74 @@
-/*
- Navicat Premium Data Transfer
 
- Source Server         : www.youlai.tech
- Source Server Type    : MySQL
- Source Server Version : 80029
- Source Host           : www.youlai.tech:3306
- Source Schema         : oauth2
-
- Target Server Type    : MySQL
- Target Server Version : 80029
- File Encoding         : 65001
-
- Date: 06/11/2022 22:10:58
-*/
-
-use oauth2;
+use oauth2_server;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+-- ----------------------------
+-- 1 oauth2_authorization 令牌发放记录表
+-- ----------------------------
+CREATE TABLE oauth2_authorization (
+    id varchar(100) NOT NULL,
+    registered_client_id varchar(100) NOT NULL,
+    principal_name varchar(200) NOT NULL,
+    authorization_grant_type varchar(100) NOT NULL,
+    authorized_scopes varchar(1000) DEFAULT NULL,
+    attributes blob DEFAULT NULL,
+    state varchar(500) DEFAULT NULL,
+    authorization_code_value blob DEFAULT NULL,
+    authorization_code_issued_at timestamp DEFAULT NULL,
+    authorization_code_expires_at timestamp DEFAULT NULL,
+    authorization_code_metadata blob DEFAULT NULL,
+    access_token_value blob DEFAULT NULL,
+    access_token_issued_at timestamp DEFAULT NULL,
+    access_token_expires_at timestamp DEFAULT NULL,
+    access_token_metadata blob DEFAULT NULL,
+    access_token_type varchar(100) DEFAULT NULL,
+    access_token_scopes varchar(1000) DEFAULT NULL,
+    oidc_id_token_value blob DEFAULT NULL,
+    oidc_id_token_issued_at timestamp DEFAULT NULL,
+    oidc_id_token_expires_at timestamp DEFAULT NULL,
+    oidc_id_token_metadata blob DEFAULT NULL,
+    refresh_token_value blob DEFAULT NULL,
+    refresh_token_issued_at timestamp DEFAULT NULL,
+    refresh_token_expires_at timestamp DEFAULT NULL,
+    refresh_token_metadata blob DEFAULT NULL,
+    user_code_value blob DEFAULT NULL,
+    user_code_issued_at timestamp DEFAULT NULL,
+    user_code_expires_at timestamp DEFAULT NULL,
+    user_code_metadata blob DEFAULT NULL,
+    device_code_value blob DEFAULT NULL,
+    device_code_issued_at timestamp DEFAULT NULL,
+    device_code_expires_at timestamp DEFAULT NULL,
+    device_code_metadata blob DEFAULT NULL,
+    PRIMARY KEY (id)
+);
 
 -- ----------------------------
--- Table structure for oauth_access_token
+-- 2 oauth2_authorization_consent 授权记录表
 -- ----------------------------
-DROP TABLE IF EXISTS `oauth_access_token`;
-CREATE TABLE `oauth_access_token`  (
-  `token_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `token` longblob NULL,
-  `authentication_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `user_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `client_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `authentication` longblob NULL,
-  `refresh_token` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`authentication_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+CREATE TABLE oauth2_authorization_consent (
+    registered_client_id varchar(100) NOT NULL,
+    principal_name varchar(200) NOT NULL,
+    authorities varchar(1000) NOT NULL,
+    PRIMARY KEY (registered_client_id, principal_name)
+);
 
 -- ----------------------------
--- Records of oauth_access_token
+-- 3 oauth2-registered-client OAuth2 客户端信息表
 -- ----------------------------
-
--- ----------------------------
--- Table structure for oauth_approvals
--- ----------------------------
-DROP TABLE IF EXISTS `oauth_approvals`;
-CREATE TABLE `oauth_approvals`  (
-  `userId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `clientId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `scope` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `expiresAt` timestamp(0) NULL DEFAULT NULL,
-  `lastModifiedAt` timestamp(0) NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of oauth_approvals
--- ----------------------------
-
--- ----------------------------
--- Table structure for oauth_client_details
--- ----------------------------
-DROP TABLE IF EXISTS `oauth_client_details`;
-CREATE TABLE `oauth_client_details`  (
-  `client_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `resource_ids` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `client_secret` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `scope` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `authorized_grant_types` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `web_server_redirect_uri` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `authorities` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `access_token_validity` int(0) NULL DEFAULT NULL,
-  `refresh_token_validity` int(0) NULL DEFAULT NULL,
-  `additional_information` varchar(4096) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `autoapprove` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`client_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of oauth_client_details
--- ----------------------------
-INSERT INTO `oauth_client_details` VALUES ('client', '', '{noop}123456', 'all', 'password,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `oauth_client_details` VALUES ('mall-admin', '', '{noop}123456', 'all', 'password,refresh_token,captcha', NULL, '', 3600, 7200, NULL, 'true');
-INSERT INTO `oauth_client_details` VALUES ('mall-app', '', '{noop}123456', 'all', 'sms_code,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
-INSERT INTO `oauth_client_details` VALUES ('mall-weapp', '', '{noop}123456', 'all', 'wechat,refresh_token', NULL, NULL, 3600, 7200, NULL, 'true');
-
--- ----------------------------
--- Table structure for oauth_client_token
--- ----------------------------
-DROP TABLE IF EXISTS `oauth_client_token`;
-CREATE TABLE `oauth_client_token`  (
-  `token_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `token` longblob NULL,
-  `authentication_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `user_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `client_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`authentication_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of oauth_client_token
--- ----------------------------
-
--- ----------------------------
--- Table structure for oauth_code
--- ----------------------------
-DROP TABLE IF EXISTS `oauth_code`;
-CREATE TABLE `oauth_code`  (
-  `code` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `authentication` longblob NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of oauth_code
--- ----------------------------
-
--- ----------------------------
--- Table structure for oauth_refresh_token
--- ----------------------------
-DROP TABLE IF EXISTS `oauth_refresh_token`;
-CREATE TABLE `oauth_refresh_token`  (
-  `token_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `token` longblob NULL,
-  `authentication` longblob NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of oauth_refresh_token
--- ----------------------------
-
-SET FOREIGN_KEY_CHECKS = 1;
+CREATE TABLE oauth2_registered_client (
+    id varchar(100) NOT NULL,
+    client_id varchar(100) NOT NULL,
+    client_id_issued_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    client_secret varchar(200) DEFAULT NULL,
+    client_secret_expires_at timestamp DEFAULT NULL,
+    client_name varchar(200) NOT NULL,
+    client_authentication_methods varchar(1000) NOT NULL,
+    authorization_grant_types varchar(1000) NOT NULL,
+    redirect_uris varchar(1000) DEFAULT NULL,
+    post_logout_redirect_uris varchar(1000) DEFAULT NULL,
+    scopes varchar(1000) NOT NULL,
+    client_settings varchar(2000) NOT NULL,
+    token_settings varchar(2000) NOT NULL,
+    PRIMARY KEY (id)
+);
