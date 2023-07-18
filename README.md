@@ -84,6 +84,14 @@ youlai-mall
 └── end       
 ```
 
+## ✨环境准备
+
+- JDK 17
+- IDEA 2023
+- Nacos 2.2.2 + [Windows 安装 Nacos 2.2.2](https://youlai.blog.csdn.net/article/details/130864925)
+- Seata 1.6.1 + [Windows 安装 Seata 1.6.1](https://juejin.cn/post/7250361765053087781)
+
+
 ## 🥇极速启动
 
 > `极速启动`
