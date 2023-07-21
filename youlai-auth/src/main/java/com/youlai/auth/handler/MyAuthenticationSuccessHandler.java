@@ -25,21 +25,26 @@ import java.util.Map;
  * 认证成功处理器
  *
  * @author haoxr
- * @since 2023/7/3
+ * @since 3.0.0
  */
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    /**
+     * MappingJackson2HttpMessageConverter 是 Spring 框架提供的一个 HTTP 消息转换器，用于将 HTTP 请求和响应的 JSON 数据与 Java 对象之间进行转换
+     */
     private final HttpMessageConverter<Object> accessTokenHttpResponseConverter = new MappingJackson2HttpMessageConverter();
     private Converter<OAuth2AccessTokenResponse, Map<String, Object>> accessTokenResponseParametersConverter = new DefaultOAuth2AccessTokenResponseMapConverter();
 
+
     /**
-     * @param request        the request which caused the successful authentication
-     * @param response       the response
+     * 自定义认证成功响应数据结构
+     *
+     * @param request the request which caused the successful authentication
+     * @param response the response
      * @param authentication the <tt>Authentication</tt> object which was created during
-     *                       the authentication process.
+     * the authentication process.
      * @throws IOException
      * @throws ServletException
-     * @see org.springframework.security.oauth2.server.authorization.web.OAuth2TokenEndpointFilter#sendAccessTokenResponse
      */
 
     @Override
@@ -68,7 +73,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         Map<String, Object> tokenResponseParameters = this.accessTokenResponseParametersConverter
                 .convert(accessTokenResponse);
         ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
-        // 自定义认证成功响应数据结构
+
         this.accessTokenHttpResponseConverter.write(Result.success(tokenResponseParameters), null, httpResponse);
     }
 }

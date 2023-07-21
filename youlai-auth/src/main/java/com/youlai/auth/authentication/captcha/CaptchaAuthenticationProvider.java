@@ -1,6 +1,7 @@
 package com.youlai.auth.authentication.captcha;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import com.youlai.common.constant.SecurityConstants;
@@ -120,6 +121,9 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 
 
+        // 权限数据比较多通过反射移除不持久化至数据库
+        ReflectUtil.setFieldValue(usernamePasswordAuthentication.getPrincipal(), "perms", null);
+
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
                 .authorizationGrantType(CaptchaAuthenticationToken.CAPTCHA)
@@ -150,6 +154,7 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
         }
 
         OAuth2Authorization authorization = authorizationBuilder.build();
+        // 持久化令牌发放记录到数据库
         this.authorizationService.save(authorization);
         additionalParameters = Collections.EMPTY_MAP;
         return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);

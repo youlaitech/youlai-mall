@@ -128,14 +128,14 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
             throw new OAuth2AuthenticationException(error);
         }
 
+
         OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 
-
+        // 权限数据(perms)比较多通过反射移除，不随令牌一起持久化至数据库
         ReflectUtil.setFieldValue(usernamePasswordAuthentication.getPrincipal(), "perms", null);
 
-        // 持久化令牌发放记录到数据库
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
@@ -166,10 +166,12 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
             authorizationBuilder.refreshToken(refreshToken);
         }
 
-
         OAuth2Authorization authorization = authorizationBuilder.build();
+
+        // 持久化令牌发放记录到数据库
         this.authorizationService.save(authorization);
         additionalParameters = Collections.emptyMap();
+
         return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
     }
 

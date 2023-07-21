@@ -87,7 +87,7 @@ public class AuthorizationServerConfig {
     private final OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer;
 
     /**
-     * 授权配置
+     * 授权服务器端点配置
      */
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -106,6 +106,7 @@ public class AuthorizationServerConfig {
                         tokenEndpoint
                                 .accessTokenRequestConverters(
                                         authenticationConverters ->// <1>
+                                                // 自定义授权模式转换器(Converter)
                                                 authenticationConverters.addAll(
                                                         List.of(
                                                                 new PasswordAuthenticationConverter(),
@@ -115,7 +116,8 @@ public class AuthorizationServerConfig {
                                                         )
                                                 )
                                 )
-                               .authenticationProviders(authenticationProviders ->// <2>
+                                .authenticationProviders(authenticationProviders ->// <2>
+                                        // 自定义授权模式提供者(Provider)
                                         authenticationProviders.addAll(
                                                 List.of(
                                                         new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
@@ -126,7 +128,7 @@ public class AuthorizationServerConfig {
                                         )
                                 )
                                 .accessTokenResponseHandler(new MyAuthenticationSuccessHandler()) // 自定义成功响应
-                                .errorResponseHandler(new MyAuthenticationFailureHandler()) // 自定义异常响应
+                                .errorResponseHandler(new MyAuthenticationFailureHandler()) // 自定义失败响应
                 );
 
 
@@ -138,15 +140,6 @@ public class AuthorizationServerConfig {
 
         return http.build();
     }
-
-
-  /*  @Bean
-    public AuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setHideUserNotFoundExceptions(false) ; // 抛出用户不存在异常
-        return daoAuthenticationProvider ;
-    }*/
 
 
     @Bean // <5>
@@ -261,8 +254,11 @@ public class AuthorizationServerConfig {
         String clientSecret = "123456";
         String clientName = "商城管理客户端";
 
-        // 如果使用明文，在客户端认证的时候会自动升级加密方式（修改密码）， 直接使用 bcrypt 加密避免不必要的麻烦
-        // 不开玩笑，官方ISSUE： https://github.com/spring-projects/spring-authorization-server/issues/1099
+
+        /*
+          如果使用明文，客户端认证时会自动升级加密方式，换句话说直接修改客户端密码，所以直接使用 bcrypt 加密避免不必要的麻烦
+          官方ISSUE： https://github.com/spring-projects/spring-authorization-server/issues/1099
+         */
         String encodeSecret = passwordEncoder().encode(clientSecret);
 
         RegisteredClient registeredMallAdminClient = registeredClientRepository.findByClientId(clientId);

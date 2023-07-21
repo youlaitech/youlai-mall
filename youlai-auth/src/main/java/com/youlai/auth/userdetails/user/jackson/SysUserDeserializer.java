@@ -38,11 +38,10 @@ class SysUserDeserializer extends JsonDeserializer<SysUserDetails> {
      * @param jp   the JsonParser
      * @param ctxt the DeserializationContext
      * @return the user
-     * @throws IOException             if a exception during IO occurs
-     * @throws JsonProcessingException if an error during JSON processing occurs
+     * @throws IOException if a exception during IO occurs
      */
     @Override
-    public SysUserDetails deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public SysUserDetails deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode jsonNode = mapper.readTree(jp);
         Set<? extends GrantedAuthority> authorities = mapper.convertValue(jsonNode.get("authorities"),
