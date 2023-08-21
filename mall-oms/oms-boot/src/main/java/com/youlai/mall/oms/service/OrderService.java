@@ -5,10 +5,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
+import com.youlai.mall.oms.common.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
-import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
+import com.youlai.mall.oms.pojo.dto.OrderConfirmResult;
+import com.youlai.mall.oms.pojo.dto.OrderSubmitResult;
 import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 
 /**
@@ -29,17 +30,17 @@ public interface OrderService extends IService<OmsOrder> {
      * @param skuId 直接购买必填，购物车结算不填
      * @return
      */
-    OrderConfirmVO confirmOrder(Long skuId);
+    OrderConfirmResult confirmOrder(Long skuId);
 
     /**
      * 订单提交
      */
-    OrderSubmitResultVO submitOrder(OrderSubmitForm orderSubmitForm);
+    OrderSubmitResult submitOrder(OrderSubmitForm orderSubmitForm);
 
     /**
      * 订单支付
      */
-   boolean payOrder(Long orderId);
+    <T> T payOrder(Long orderId, String appId, PayTypeEnum payTypeEnum);
 
     /**
      * 系统关闭订单
@@ -75,7 +76,7 @@ public interface OrderService extends IService<OmsOrder> {
      * @param queryParams
      * @return
      */
-    IPage<OmsOrder> listOrderPages(OrderPageQuery queryParams);
+    IPage<OmsOrder> getOrderPage(OrderPageQuery queryParams);
 
 }
 

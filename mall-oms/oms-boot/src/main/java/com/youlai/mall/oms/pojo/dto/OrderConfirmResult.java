@@ -1,7 +1,5 @@
-package com.youlai.mall.oms.pojo.vo;
+package com.youlai.mall.oms.pojo.dto;
 
-import com.youlai.common.base.BaseVO;
-import com.youlai.mall.oms.pojo.dto.OrderItemDTO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,10 +10,10 @@ import java.util.List;
 
 @ApiModel("订单确认视图层对象")
 @Data
-public class OrderConfirmVO {
+public class OrderConfirmResult {
 
-    @ApiModelProperty("订单token")
-    private String orderToken;
+    @ApiModelProperty("订单防重复提交令牌")
+    private String orderPreventDuplicateToken;
 
     @ApiModelProperty("订单明细")
     private List<OrderItemDTO> orderItems;

@@ -19,7 +19,7 @@ public interface OmsOrderService extends IService<OmsOrder> {
      * @param queryParams
      * @return
      */
-    IPage<OmsOrder> listOrderPages(OrderPageQuery queryParams);
+    IPage<OmsOrder> getOrderPage(OrderPageQuery queryParams);
 
 
     /**

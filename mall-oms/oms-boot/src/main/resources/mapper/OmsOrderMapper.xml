@@ -32,7 +32,7 @@
 
 
     <!-- 订单分页列表 -->
-    <select id="listOrderPages" resultMap="OrderPageMap">
+    <select id="getOrderPage" resultMap="OrderPageMap">
 
         SELECT
                id,

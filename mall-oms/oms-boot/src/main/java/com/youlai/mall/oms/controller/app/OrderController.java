@@ -3,11 +3,12 @@ package com.youlai.mall.oms.controller.app;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.mall.oms.common.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
-import com.youlai.mall.oms.pojo.vo.OrderSubmitResultVO;
+import com.youlai.mall.oms.pojo.dto.OrderConfirmResult;
+import com.youlai.mall.oms.pojo.dto.OrderSubmitResult;
 import com.youlai.mall.oms.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,10 +30,10 @@ public class OrderController {
 
     final OrderService orderService;
 
-    @ApiOperation("分页列表")
+    @ApiOperation("订单分页列表")
     @GetMapping
-    public PageResult listOrderPages(OrderPageQuery queryParams) {
-        IPage<OmsOrder> result = orderService.listOrderPages(queryParams);
+    public PageResult<OmsOrder> getOrderPage(OrderPageQuery queryParams) {
+        IPage<OmsOrder> result = orderService.getOrderPage(queryParams);
         return PageResult.success(result);
     }
 
@@ -43,34 +44,36 @@ public class OrderController {
      * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
      *
      * @param skuId 直接购买必填，购物车结算不填
-     * @return
+     * @return {@link  OrderConfirmResult}
      */
     @ApiOperation("订单确认")
-    @PostMapping("/_confirm")
-    public Result<OrderConfirmVO> confirmOrder(@RequestParam(required = false) Long skuId) {
-        OrderConfirmVO result = orderService.confirmOrder(skuId);
+    @PostMapping("/confirm")
+    public Result<OrderConfirmResult> confirmOrder(@RequestParam(required = false) Long skuId) {
+        OrderConfirmResult result = orderService.confirmOrder(skuId);
         return Result.success(result);
     }
 
     @ApiOperation("订单提交")
-    @PostMapping("/_submit")
-    public Result submitOrder(@RequestBody @Validated OrderSubmitForm orderSubmitForm) {
-        OrderSubmitResultVO result = orderService.submitOrder(orderSubmitForm);
+    @PostMapping("/submit")
+    public Result<OrderSubmitResult> submitOrder(@RequestBody @Validated OrderSubmitForm submitForm) {
+        OrderSubmitResult result = orderService.submitOrder(submitForm);
         return Result.success(result);
     }
 
     @ApiOperation("订单支付")
-    @PostMapping("/{orderId}/_pay")
-    public Result payOrder(@PathVariable Long orderId) {
-        boolean result = orderService.payOrder(orderId);
+    @PostMapping("/{orderId}/payment")
+    public Result<Boolean> payOrder(@PathVariable Long orderId,
+                                    @RequestParam(required = false) String appId,
+                                    @RequestParam PayTypeEnum payTypeEnum) {
+        boolean result = orderService.payOrder(orderId,appId,payTypeEnum);
         return Result.judge(result);
     }
 
     @ApiOperation("订单删除")
     @DeleteMapping("/{orderId}")
-    public Result deleteOrder(@PathVariable Long orderId) {
-        boolean result = orderService.deleteOrder(orderId);
-        return Result.judge(result);
+    public Result<Boolean> deleteOrder(@PathVariable Long orderId) {
+        boolean deleted = orderService.deleteOrder(orderId);
+        return Result.judge(deleted);
     }
 
 }

@@ -5,7 +5,7 @@ import cn.hutool.core.lang.Assert;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.oms.common.constant.OmsConstants;
+import com.youlai.mall.oms.common.constant.OrderConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 import com.youlai.mall.oms.service.CartService;
 import com.youlai.mall.pms.api.SkuFeignClient;
@@ -54,7 +54,7 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public boolean deleteCart() {
-        String key = OmsConstants.MEMBER_CART_PREFIX + SecurityUtils.getMemberId();
+        String key = OrderConstants.MEMBER_CART_PREFIX + SecurityUtils.getMemberId();
         redisTemplate.delete(key);
         return true;
     }
@@ -189,7 +189,7 @@ public class CartServiceImpl implements CartService {
      * 获取第一层，即某个用户的购物车
      */
     private BoundHashOperations getCartHashOperations(Long memberId) {
-        String cartKey = OmsConstants.MEMBER_CART_PREFIX + memberId;
+        String cartKey = OrderConstants.MEMBER_CART_PREFIX + memberId;
         BoundHashOperations operations = redisTemplate.boundHashOps(cartKey);
         return operations;
     }

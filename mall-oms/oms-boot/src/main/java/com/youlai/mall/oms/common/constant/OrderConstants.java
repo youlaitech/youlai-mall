@@ -4,9 +4,9 @@ package com.youlai.mall.oms.common.constant;
  * 订单常量
  *
  * @author haoxr
- * @date 2021/03/16
+ * @since 2.0.0
  */
-public interface OmsConstants {
+public interface OrderConstants {
 
     /**
      * 会员购物车缓存KEY前缀
@@ -16,12 +16,11 @@ public interface OmsConstants {
     /**
      * 订单防重提交锁KEY前缀
      */
-    String ORDER_RESUBMIT_LOCK_PREFIX = "ORDER:RESUBMIT_LOCK:";
+    String ORDER_PREVENT_DUPLICATE_SUBMIT_LOCK_PREFIX  = "ORDER:PREVENT_DUPLICATE_SUBMIT_LOCK:";
 
 
     /**
      * 订单锁前缀
-     *
      */
     String ORDER_LOCK_PREFIX = "ORDER:LOCK:";
 

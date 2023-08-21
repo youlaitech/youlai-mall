@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.redis.BusinessSnGenerator;
 import com.youlai.mall.oms.common.enums.OrderStatusEnum;
 import com.youlai.mall.oms.dto.SeataOrderDTO;
 import com.youlai.mall.oms.mapper.OrderMapper;
@@ -30,7 +29,6 @@ import java.util.List;
 public class OmsOrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements OmsOrderService {
 
     private final MemberFeignClient memberFeignClient;
-    private final BusinessSnGenerator businessSnGenerator;
 
     /**
      * 订单分页列表
@@ -39,9 +37,9 @@ public class OmsOrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impl
      * @return
      */
     @Override
-    public IPage<OmsOrder> listOrderPages(OrderPageQuery queryParams) {
+    public IPage<OmsOrder> getOrderPage(OrderPageQuery queryParams) {
         Page<OmsOrder> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<OmsOrder> list = this.baseMapper.listOrderPages(page, queryParams);
+        List<OmsOrder> list = this.baseMapper.getOrderPage(page, queryParams);
         page.setRecords(list);
         return page;
     }
@@ -68,12 +66,8 @@ public class OmsOrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impl
             int i = 1 / 0;
         }
 
-        // 修改订单【已支付】
-        String orderSn = businessSnGenerator.generateSerialNo("ORDER");
-
         boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>()
                 .eq(OmsOrder::getId, orderId)
-                .set(OmsOrder::getOrderSn, orderSn)
                 .set(OmsOrder::getStatus, OrderStatusEnum.PAID.getValue())
         );
 

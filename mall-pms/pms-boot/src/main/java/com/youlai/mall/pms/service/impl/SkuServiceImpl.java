@@ -194,27 +194,37 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
      */
     @Override
     public boolean checkPrice(CheckPriceDTO checkPrice) {
-        log.info("订单【{}】商品验价：{}", checkPrice);
+        log.info("订单商品验价：{}", checkPrice);
         // 订单总金额
-        Long orderTotalAmount = checkPrice.getOrderTotalAmount();
+        Long orderTotalAmount = checkPrice.getTotalAmount();
         // 计算商品总金额
-        List<CheckPriceDTO.OrderSku> orderSkus = checkPrice.getOrderSkus();
+        List<CheckPriceDTO.OrderSku> orderSkus = checkPrice.getSkus();
         if (orderTotalAmount == null || CollectionUtil.isEmpty(orderSkus)) {
-            log.warn("订单【{}】验价失败：订单总金额或订单商品为空，无法进行验价！");
+            log.warn("订单验价失败：订单总金额或订单商品为空，无法进行验价！");
             return false;
         }
         // 订单商品ID集合
-        List<Long> orderSkuIds = orderSkus.stream().map(orderItem -> orderItem.getSkuId())
+        List<Long> orderSkuIds = orderSkus
+                .stream()
+                .map(CheckPriceDTO.OrderSku::getSkuId)
                 .collect(Collectors.toList());
+
         // 获取商品的实时价格
-        List<PmsSku> skuList = this.list(new LambdaQueryWrapper<PmsSku>().in(PmsSku::getId, orderSkuIds)
+        List<PmsSku> skuList = this.list(new LambdaQueryWrapper<PmsSku>()
+                .in(PmsSku::getId, orderSkuIds)
                 .select(PmsSku::getId, PmsSku::getPrice)
         );
+
         if (CollectionUtil.isEmpty(skuList)) {
-            log.warn("订单【{}】验价失败：订单商品库存不存在或已下架！");
+            log.warn("订单验价失败：订单商品库存不存在或已下架！");
             return false;
         }
+
         // 计算商品实时总价
+
+
+
+
         Long skuTotalAmount = skuList.stream().map(sku -> {
             // 获取订单中该商品数量
             CheckPriceDTO.OrderSku matchOrderSku = orderSkus.stream()
@@ -224,8 +234,7 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
             return matchOrderSku != null ? sku.getPrice() * matchOrderSku.getCount() : 0L;
         }).reduce(0L, Long::sum);
         // 比较订单总价和商品实时总价
-        boolean checkPriceResult = orderTotalAmount.compareTo(skuTotalAmount) == 0;
-        return checkPriceResult;
+        return orderTotalAmount.compareTo(skuTotalAmount) == 0;
     }
 
     /**
