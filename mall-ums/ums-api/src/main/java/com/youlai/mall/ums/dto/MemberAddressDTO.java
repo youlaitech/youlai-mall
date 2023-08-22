@@ -1,5 +1,6 @@
 package com.youlai.mall.ums.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -27,6 +28,7 @@ public class MemberAddressDTO {
 
     private String detailAddress;
 
+    @ApiModelProperty("是否默认(1:是;0:否)")
     private Integer defaulted;
 
 }

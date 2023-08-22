@@ -12,10 +12,10 @@ import java.util.List;
 @Data
 public class OrderConfirmResult {
 
-    @ApiModelProperty("订单防重复提交令牌")
-    private String orderPreventDuplicateToken;
+    @ApiModelProperty("订单防重提交令牌")
+    private String orderToken;
 
-    @ApiModelProperty("订单明细")
+    @ApiModelProperty("订单桑普")
     private List<OrderItemDTO> orderItems;
 
     @ApiModelProperty("会员收获地址列表")
