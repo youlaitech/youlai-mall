@@ -7,9 +7,8 @@ import com.youlai.mall.oms.common.enums.PayTypeEnum;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.pojo.dto.OrderConfirmResult;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitResult;
-import com.youlai.mall.oms.service.OrderService;
+import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
+import com.youlai.mall.oms.service.app.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -44,20 +43,20 @@ public class OrderController {
      * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
      *
      * @param skuId 直接购买必填，购物车结算不填
-     * @return {@link  OrderConfirmResult}
+     * @return {@link  OrderConfirmVO}
      */
     @ApiOperation("订单确认")
     @PostMapping("/confirm")
-    public Result<OrderConfirmResult> confirmOrder(@RequestParam(required = false) Long skuId) {
-        OrderConfirmResult result = orderService.confirmOrder(skuId);
+    public Result<OrderConfirmVO> confirmOrder(@RequestParam(required = false) Long skuId) {
+        OrderConfirmVO result = orderService.confirmOrder(skuId);
         return Result.success(result);
     }
 
     @ApiOperation("订单提交")
     @PostMapping("/submit")
-    public Result<OrderSubmitResult> submitOrder(@RequestBody @Validated OrderSubmitForm submitForm) {
-        OrderSubmitResult result = orderService.submitOrder(submitForm);
-        return Result.success(result);
+    public Result<String> submitOrder(@RequestBody @Validated OrderSubmitForm submitForm) {
+        String orderSn = orderService.submitOrder(submitForm);
+        return Result.success(orderSn);
     }
 
     @ApiOperation("订单支付")

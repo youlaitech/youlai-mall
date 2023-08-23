@@ -3,7 +3,7 @@ package com.youlai.mall.oms.controller.app;
 import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
-import com.youlai.mall.oms.service.CartService;
+import com.youlai.mall.oms.service.app.CartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

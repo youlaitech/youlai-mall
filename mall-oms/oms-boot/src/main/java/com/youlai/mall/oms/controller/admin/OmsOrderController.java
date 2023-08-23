@@ -12,7 +12,7 @@ import com.youlai.mall.oms.pojo.dto.OrderDTO;
 import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.service.OrderItemService;
+import com.youlai.mall.oms.service.app.OrderItemService;
 import com.youlai.mall.oms.service.admin.OmsOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

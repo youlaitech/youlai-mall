@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * 订单对象转化器
+ * 订单商品对象转化器
  *
  * @author haoxr
  * @date 2022/12/21

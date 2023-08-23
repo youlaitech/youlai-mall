@@ -3,10 +3,10 @@ package com.youlai.mall.pms.pojo.dto;
 import lombok.Data;
 
 /**
- * SKU信息传输对象
+ * 商品库存
  *
  * @author haoxr
- * @date 2022/2/5 23:09
+ * @since 2.0.0
  */
 
 @Data

@@ -18,11 +18,11 @@ public interface OrderConstants {
     /**
      * 订单防重提交令牌缓存键前缀
      */
-    String ORDER_TOKEN_PREFIX = "order:token:";
+    String ORDER_TOKEN_KEY_PREFIX = "order:token:";
 
     /**
      * 订单锁缓存键前缀
      */
-    String ORDER_LOCK_PREFIX = "order:lock";
+    String ORDER_LOCK_KEY_PREFIX = "order:lock";
 
 }

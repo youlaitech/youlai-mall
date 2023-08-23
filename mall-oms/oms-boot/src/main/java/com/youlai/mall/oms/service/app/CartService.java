@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.service;
+package com.youlai.mall.oms.service.app;
 
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
 

@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.service.impl;
+package com.youlai.mall.oms.service.app.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
@@ -7,7 +7,7 @@ import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.common.constant.OrderConstants;
 import com.youlai.mall.oms.pojo.dto.CartItemDTO;
-import com.youlai.mall.oms.service.CartService;
+import com.youlai.mall.oms.service.app.CartService;
 import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
 import lombok.AllArgsConstructor;

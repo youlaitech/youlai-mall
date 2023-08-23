@@ -1,9 +1,9 @@
-package com.youlai.mall.oms.service.impl;
+package com.youlai.mall.oms.service.app.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.oms.mapper.OrderDeliveryMapper;
 import com.youlai.mall.oms.pojo.entity.OmsOrderDelivery;
-import com.youlai.mall.oms.service.OrderDeliveryService;
+import com.youlai.mall.oms.service.app.OrderDeliveryService;
 import org.springframework.stereotype.Service;
 
 @Service("orderDeliveryService")

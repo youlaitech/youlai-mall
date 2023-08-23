@@ -1,9 +1,7 @@
-package com.youlai.mall.oms.service.impl;
+package com.youlai.mall.oms.service.app.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -38,11 +36,10 @@ import com.youlai.mall.oms.pojo.entity.OmsOrder;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
 import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
 import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.pojo.dto.OrderConfirmResult;
-import com.youlai.mall.oms.pojo.dto.OrderSubmitResult;
-import com.youlai.mall.oms.service.CartService;
-import com.youlai.mall.oms.service.OrderItemService;
-import com.youlai.mall.oms.service.OrderService;
+import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
+import com.youlai.mall.oms.service.app.CartService;
+import com.youlai.mall.oms.service.app.OrderItemService;
+import com.youlai.mall.oms.service.app.OrderService;
 import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
 import com.youlai.mall.pms.pojo.dto.SkuDTO;
@@ -67,7 +64,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -90,8 +86,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private final ThreadPoolExecutor threadPoolExecutor;
     private final MemberFeignClient memberFeignClient;
     private final SkuFeignClient skuFeignClient;
-    private final RedissonClient redissonClient;
     private final WxPayService wxPayService;
+    private final RedissonClient redissonClient;
     private final OrderConverter orderConverter;
     private final OrderItemConverter orderItemConverter;
 
@@ -113,10 +109,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
      *
      * @param skuId 商品ID(直接购买传值)
-     * @return 订单确认响应 {@link OrderConfirmResult}
+     * @return 订单确认响应 {@link OrderConfirmVO}
      */
     @Override
-    public OrderConfirmResult confirmOrder(Long skuId) {
+    public OrderConfirmVO confirmOrder(Long skuId) {
 
         Long memberId = SecurityUtils.getMemberId();
 
@@ -147,50 +143,56 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 生成唯一令牌,防止重复提交(原理：提交会消耗令牌，令牌被消耗无法再次提交)
         CompletableFuture<String> generateOrderTokenFuture = CompletableFuture.supplyAsync(() -> {
             String orderToken = this.generateTradeNo(memberId);
-            redisTemplate.opsForValue().set(OrderConstants.ORDER_TOKEN_PREFIX + orderToken, orderToken);
+            redisTemplate.opsForValue().set(OrderConstants.ORDER_TOKEN_KEY_PREFIX + orderToken, orderToken);
             return orderToken;
         }, threadPoolExecutor).exceptionally(ex -> {
             log.error("Failed to generate order token .");
             return null;
         });
 
-        CompletableFuture.allOf(getOrderItemsFuture, getMemberAddressFuture,generateOrderTokenFuture).join();
-        OrderConfirmResult orderConfirmResult = new OrderConfirmResult();
-        orderConfirmResult.setOrderItems(getOrderItemsFuture.join());
-        orderConfirmResult.setAddresses(getMemberAddressFuture.join());
-        orderConfirmResult.setOrderToken(generateOrderTokenFuture.join());
+        CompletableFuture.allOf(getOrderItemsFuture, getMemberAddressFuture, generateOrderTokenFuture).join();
+        OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
+        orderConfirmVO.setOrderItems(getOrderItemsFuture.join());
+        orderConfirmVO.setAddresses(getMemberAddressFuture.join());
+        orderConfirmVO.setOrderToken(generateOrderTokenFuture.join());
 
-        log.info("Order confirm response for skuId {}: {}", skuId, orderConfirmResult);
-        return orderConfirmResult;
+        log.info("Order confirm response for skuId {}: {}", skuId, orderConfirmVO);
+        return orderConfirmVO;
     }
 
     /**
      * 订单提交
+     *
+     * @param submitForm {@link OrderSubmitForm}
+     * @return 订单编号
      */
     @Override
     @GlobalTransactional
-    public OrderSubmitResult submitOrder(OrderSubmitForm submitForm) {
-        log.info("订单提交数据:{}", JSONUtil.toJsonStr(submitForm));
-        // 订单基础信息校验
-        List<OrderItemDTO> orderItems = submitForm.getOrderItems();
-        Assert.isTrue(CollectionUtil.isNotEmpty(orderItems), "订单没有商品");
+    public String submitOrder(OrderSubmitForm submitForm) {
+        log.info("订单提交参数:{}", JSONUtil.toJsonStr(submitForm));
+        String orderToken = submitForm.getOrderToken();
 
-        // 订单重复提交校验
-        String orderPreventDuplicateToken = submitForm.getOrderPreventDuplicateToken();
-        Long releaseLockResult = this.redisTemplate.execute(
-                new DefaultRedisScript<>(
-                        "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end", Long.class
-                ),
-                Collections.singletonList(OrderConstants.ORDER_TOKEN_PREFIX + orderPreventDuplicateToken),
-                orderPreventDuplicateToken
-        );  // 释放锁成功则返回1
-        Assert.isTrue(releaseLockResult.equals(1l), "订单重复提交，请刷新页面后重试");
+        // 1. 判断订单是否重复提交（LUA脚本保证获取和删除的原子性，成功返回1，否则返回0）
+        String lockAcquireScript = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        String orderTokenKey = OrderConstants.ORDER_TOKEN_KEY_PREFIX + orderToken;
+        Long lockAcquired = this.redisTemplate.execute(
+                new DefaultRedisScript<>(lockAcquireScript, Long.class),
+                Collections.singletonList(orderTokenKey),
+                orderToken
+        );
+        Assert.isTrue(lockAcquired != null && lockAcquired.equals(1L), "订单重复提交，请刷新页面后重试");
 
-        // 生成商户订单编号
-        Long memberId = SecurityUtils.getMemberId();
-        String tradeNo = this.generateTradeNo(memberId);
 
-        // 订单验价
+        // 2. 订单商品校验(价格是否变动、是否已下架)
+        List<OrderSubmitForm.OrderItem> orderItems = submitForm.getOrderItems();
+        List<Long> skuIds = orderItems.stream()
+                .map(OrderSubmitForm.OrderItem::getSkuId)
+                .collect(Collectors.toList());
+
+        skuFeignClient.getSkuInfoList(skuIds);
+
+
+
         List<CheckPriceDTO.OrderSku> orderSkus = orderItems.stream()
                 .map(orderItem -> new CheckPriceDTO.OrderSku(orderItem.getSkuId(), orderItem.getCount())
                 ).collect(Collectors.toList());
@@ -230,7 +232,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Assert.isTrue(result, "订单提交失败");
 
         // 成功响应返回值构建
-        return new OrderSubmitResult(orderId, tradeNo);
+        return new OrderSubmitVO(orderId, tradeNo);
     }
 
 

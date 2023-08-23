@@ -2,7 +2,7 @@ package com.youlai.mall.oms.listener;
 
 
 import com.rabbitmq.client.Channel;
-import com.youlai.mall.oms.service.OrderService;
+import com.youlai.mall.oms.service.app.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;

@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.service;
+package com.youlai.mall.oms.service.app;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.oms.pojo.entity.OmsOrderItem;
