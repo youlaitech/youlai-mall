@@ -5,11 +5,11 @@ import cn.hutool.core.lang.Assert;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.oms.common.constant.OrderConstants;
-import com.youlai.mall.oms.pojo.dto.CartItemDTO;
+import com.youlai.mall.oms.constant.OrderConstants;
+import com.youlai.mall.oms.model.dto.CartItemDTO;
 import com.youlai.mall.oms.service.app.CartService;
 import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -83,7 +83,7 @@ public class CartServiceImpl implements CartService {
         // 购物车不存在该商品，添加商品至购物车
         cartItem = new CartItemDTO();
         CompletableFuture<Void> cartItemCompletableFuture = CompletableFuture.runAsync(() -> {
-            SkuDTO skuInfo = skuFeignService.getSkuInfo(skuId).getData();
+            SkuInfoDTO skuInfo = skuFeignService.getSkuInfo(skuId);
             if (skuInfo != null) {
                 BeanUtil.copyProperties(skuInfo, cartItem);
                 cartItem.setStock(skuInfo.getStockNum());

@@ -3,11 +3,11 @@ package com.youlai.mall.oms.controller.app;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.oms.common.enums.PayTypeEnum;
-import com.youlai.mall.oms.pojo.entity.OmsOrder;
-import com.youlai.mall.oms.pojo.form.OrderSubmitForm;
-import com.youlai.mall.oms.pojo.query.OrderPageQuery;
-import com.youlai.mall.oms.pojo.vo.OrderConfirmVO;
+import com.youlai.mall.oms.enums.PaymentTypeEnum;
+import com.youlai.mall.oms.model.entity.OmsOrder;
+import com.youlai.mall.oms.model.form.OrderSubmitForm;
+import com.youlai.mall.oms.model.query.OrderPageQuery;
+import com.youlai.mall.oms.model.vo.OrderConfirmVO;
 import com.youlai.mall.oms.service.app.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,17 +54,17 @@ public class OrderController {
 
     @ApiOperation("订单提交")
     @PostMapping("/submit")
-    public Result<String> submitOrder(@RequestBody @Validated OrderSubmitForm submitForm) {
-        String orderSn = orderService.submitOrder(submitForm);
-        return Result.success(orderSn);
+    public Result<Boolean> submitOrder(@RequestBody @Validated OrderSubmitForm submitForm) {
+        boolean result = orderService.submitOrder(submitForm);
+        return Result.judge(result);
     }
 
     @ApiOperation("订单支付")
     @PostMapping("/{orderId}/payment")
     public Result<Boolean> payOrder(@PathVariable Long orderId,
                                     @RequestParam(required = false) String appId,
-                                    @RequestParam PayTypeEnum payTypeEnum) {
-        boolean result = orderService.payOrder(orderId,appId,payTypeEnum);
+                                    @RequestParam PaymentTypeEnum paymentTypeEnum) {
+        boolean result = orderService.payOrder(orderId, appId, paymentTypeEnum);
         return Result.judge(result);
     }
 

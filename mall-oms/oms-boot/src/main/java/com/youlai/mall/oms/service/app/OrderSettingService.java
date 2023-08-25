@@ -2,7 +2,7 @@ package com.youlai.mall.oms.service.app;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import com.youlai.mall.oms.pojo.entity.OmsOrderSetting;
+import com.youlai.mall.oms.model.entity.OmsOrderSetting;
 
 /**
  * 订单配置信息

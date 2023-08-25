@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
 import feign.FeignException;
+import feign.codec.DecodeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -180,6 +181,11 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DecodeException.class)
+    public <T> Result<T> handleDecodeException(DecodeException e) {
+        return Result.failed(e.getMessage());
+    }
+   @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BizException.class)
     public <T> Result<T> handleBizException(BizException e) {
         log.error("biz exception:{}", e.getMessage(), e);

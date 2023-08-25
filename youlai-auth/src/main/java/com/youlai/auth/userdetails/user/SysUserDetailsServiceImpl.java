@@ -26,10 +26,9 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        Result<UserAuthInfo> result = userFeignClient.getUserAuthInfo(username);
+        UserAuthInfo userAuthInfo = userFeignClient.getUserAuthInfo(username);
 
-        UserAuthInfo userAuthInfo = null;
-        Assert.isTrue(Result.isSuccess(result) && (userAuthInfo = result.getData()) != null,
+        Assert.isTrue(userAuthInfo!= null,
                 "用户不存在");
 
        if (!StatusEnum.ENABLE.getValue().equals(userAuthInfo.getStatus()) ) {

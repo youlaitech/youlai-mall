@@ -7,7 +7,7 @@ import lombok.Getter;
  * 自定义业务异常
  *
  * @author haoxr
- * @date 2022/7/31
+ * @since  0.0.1
  */
 @Getter
 public class BizException extends RuntimeException {

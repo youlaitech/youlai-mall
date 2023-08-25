@@ -3,7 +3,7 @@ package com.youlai.mall.oms.service.app.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.oms.mapper.OrderLogMapper;
-import com.youlai.mall.oms.pojo.entity.OmsOrderLog;
+import com.youlai.mall.oms.model.entity.OmsOrderLog;
 import com.youlai.mall.oms.service.app.OrderLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

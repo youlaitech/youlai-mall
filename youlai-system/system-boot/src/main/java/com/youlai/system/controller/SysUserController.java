@@ -160,7 +160,7 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "根据用户名获取认证信息", hidden = true)
-    @GetMapping("/{username}/authinfo")
+    @GetMapping("/{username}/authInfo")
     public Result<UserAuthInfo> getUserAuthInfo(
             @ApiParam("用户名") @PathVariable String username
     ) {

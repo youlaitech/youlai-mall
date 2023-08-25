@@ -3,7 +3,7 @@ package com.youlai.mall.oms.controller.app;
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
-import com.youlai.mall.oms.pojo.vo.WxPayResponseVO;
+import com.youlai.mall.oms.model.vo.WxPayResponseVO;
 import com.youlai.mall.oms.service.app.OrderService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;

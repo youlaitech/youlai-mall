@@ -1,6 +1,6 @@
 package com.youlai.mall.oms.service.app;
 
-import com.youlai.mall.oms.pojo.dto.CartItemDTO;
+import com.youlai.mall.oms.model.dto.CartItemDTO;
 
 import java.util.List;
 

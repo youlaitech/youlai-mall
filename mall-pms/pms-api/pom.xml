@@ -12,9 +12,16 @@
     <artifactId>pms-api</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-web</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>

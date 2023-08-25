@@ -31,7 +31,7 @@ public class FeignConfig {
      */
     @Bean
     public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration(DispatcherServlet servlet) {
-        servlet.setThreadContextInheritable(true);
+        servlet.setThreadContextInheritable(true); // 子线程可以继承父线程上下文信息
         return new ServletRegistrationBean<>(servlet, "/**");
     }
 
