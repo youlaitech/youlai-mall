@@ -7,8 +7,7 @@ import lombok.Getter;
  * 订单来源类型枚举
  *
  * @author huawei
- * @email huawei_code@163.com
- * @date 2021/1/16
+ * @since 2021/1/16
  */
 
 public enum OrderSourceTypeEnum implements IBaseEnum<Integer> {

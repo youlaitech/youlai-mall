@@ -33,10 +33,6 @@ public class OrderSubmitForm {
     @NotEmpty(message = "订单商品不能为空")
     private List<OrderItem> orderItems;
 
-    @ApiModelProperty("订单总金额-用于验价(单位：分)")
-    @NotNull(message = "订单总金额不能为空")
-    private Long totalAmount;
-
     @ApiModelProperty("支付金额(单位：分)")
     @NotNull(message = "支付金额不能为空")
     private Long paymentAmount;
@@ -74,7 +70,7 @@ public class OrderSubmitForm {
 
     @ApiModel("订单商品")
     @Data
-    public class OrderItem {
+    public static class OrderItem {
 
         @ApiModelProperty(value = "SKU ID")
         private Long skuId;

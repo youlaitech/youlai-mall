@@ -20,11 +20,10 @@ import java.util.List;
 public interface OrderItemConverter {
 
     @Mappings({
-            @Mapping(target = "totalAmount", expression = "java(dto.getPrice() * dto.getCount())"),
-            @Mapping(target = "orderId", source = "orderId"),
+            @Mapping(target = "totalAmount", expression = "java(item.getPrice() * item.getCount())"),
     })
-    OmsOrderItem item2Entity(Long orderId, OrderSubmitForm.OrderItem item);
+    OmsOrderItem item2Entity(OrderSubmitForm.OrderItem item);
 
-    List<OmsOrderItem> item2Entity(Long orderId, List<OrderSubmitForm.OrderItem> list);
+    List<OmsOrderItem> item2Entity(List<OrderSubmitForm.OrderItem> list);
 
 }

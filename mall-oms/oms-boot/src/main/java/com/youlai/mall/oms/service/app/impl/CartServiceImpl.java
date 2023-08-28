@@ -6,11 +6,13 @@ import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.constant.OrderConstants;
+import com.youlai.mall.oms.converter.CartConverter;
 import com.youlai.mall.oms.model.dto.CartItemDTO;
 import com.youlai.mall.oms.service.app.CartService;
 import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,18 +28,19 @@ import java.util.concurrent.CompletableFuture;
  * <p>
  * 核心技术：BoundHashOperations
  * 数据格式：
- * -- key <----> 购物车
- * -- hKey:value <----> 商品1
- * -- hKey:value <----> 商品2
- * -- hKey:value <----> 商品3
+ * -- key <--> 商品列表
+ * ---- hKey:value <--> skuId 商品1
+ * ---- hKey:value <--> 商品2
+ * ---- hKey:value <--> 商品3
  */
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
-    private RedisTemplate redisTemplate;
-    private SkuFeignClient skuFeignService;
+    private final RedisTemplate redisTemplate;
+    private final SkuFeignClient skuFeignService;
+    private final CartConverter cartConverter;
 
     @Override
     public List<CartItemDTO> listCartItems(Long memberId) {
@@ -65,35 +68,24 @@ public class CartServiceImpl implements CartService {
     @Override
     public boolean addCartItem(Long skuId) {
         Long memberId = SecurityUtils.getMemberId();
-        if (memberId == null) {
-            throw new BizException(ResultCode.INVALID_TOKEN);
-        }
-        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
-        String hKey = skuId + "";
+        BoundHashOperations<String, String, CartItemDTO> cartHashOperations = getCartHashOperations(memberId);
+        String hKey = String.valueOf(skuId);
 
-        CartItemDTO cartItem;
-        // 购物车已存在该商品，更新商品数量
-        if (cartHashOperations.get(hKey) != null) {
-            cartItem = (CartItemDTO) cartHashOperations.get(hKey);
+        CartItemDTO cartItem = cartHashOperations.get(hKey);
+
+        if (cartItem != null) {
+            // 购物车已存在该商品，更新商品数量
             cartItem.setCount(cartItem.getCount() + 1); // 点击一次“加入购物车”，数量+1
             cartItem.setChecked(true);
-            cartHashOperations.put(hKey, cartItem);
-            return true;
-        }
-        // 购物车不存在该商品，添加商品至购物车
-        cartItem = new CartItemDTO();
-        CompletableFuture<Void> cartItemCompletableFuture = CompletableFuture.runAsync(() -> {
+        } else {
+            // 购物车中不存在该商品，新增商品到购物车
             SkuInfoDTO skuInfo = skuFeignService.getSkuInfo(skuId);
             if (skuInfo != null) {
-                BeanUtil.copyProperties(skuInfo, cartItem);
-                cartItem.setStock(skuInfo.getStockNum());
+                cartItem = cartConverter.sku2CartItem(skuInfo);
                 cartItem.setCount(1);
                 cartItem.setChecked(true);
             }
-        });
-        CompletableFuture.allOf(cartItemCompletableFuture).join();
-
-        Assert.isTrue(cartItem.getSkuId() != null, "商品不存在");
+        }
         cartHashOperations.put(hKey, cartItem);
         return true;
     }

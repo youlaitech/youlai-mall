@@ -16,8 +16,7 @@ import java.util.List;
  * 「移动端」购物车接口
  *
  * @author huawei
- * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @since 2020-12-30 22:31:10
  */
 
 @Api(tags = "「移动端」购物车接口")

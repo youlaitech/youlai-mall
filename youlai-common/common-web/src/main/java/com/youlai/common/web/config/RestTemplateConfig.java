@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.config;
+package com.youlai.common.web.config;
 
 
 import org.springframework.context.annotation.Bean;

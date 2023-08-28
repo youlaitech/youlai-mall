@@ -26,7 +26,7 @@ import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.constant.OrderConstants;
 import com.youlai.mall.oms.config.WxPayProperties;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
-import com.youlai.mall.oms.enums.PaymentTypeEnum;
+import com.youlai.mall.oms.enums.PaymentMethodEnum;
 import com.youlai.mall.oms.converter.OrderConverter;
 import com.youlai.mall.oms.converter.OrderItemConverter;
 import com.youlai.mall.oms.mapper.OrderMapper;
@@ -224,9 +224,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         Long orderId = order.getId();
         if (result) {
+
             // 保存订单明细
-            List<OmsOrderItem> itemEntities = orderItemConverter.item2Entity(orderId, submitForm.getOrderItems());
-            orderItemService.saveBatch(itemEntities);
+            List<OmsOrderItem> orderItemEntities = orderItemConverter.item2Entity(submitForm.getOrderItems());
+            orderItemEntities.forEach(item -> item.setOrderId(orderId));
+
+            orderItemService.saveBatch(orderItemEntities);
 
             // 订单超时未支付取消
             rabbitTemplate.convertAndSend("order.exchange", "order.close.delay.routing.key", submitForm.getOrderToken());
@@ -243,7 +246,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     @Override
     @GlobalTransactional
-    public <T> T payOrder(Long orderId, String appId, PaymentTypeEnum paymentTypeEnum) {
+    public <T> T payOrder(Long orderId, String appId, PaymentMethodEnum paymentMethodEnum) {
 
         OmsOrder order = this.getById(orderId);
         Assert.isTrue(order != null, "订单不存在");
@@ -254,7 +257,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         try {
             lock.lock();
             T result;
-            switch (paymentTypeEnum) {
+            switch (paymentMethodEnum) {
                 case WX_JSAPI:
                     result = (T) wxJsapiPay(appId, order.getOrderSn(), order.getPayAmount());
                     break;
@@ -290,7 +293,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 更新订单状态
         order.setStatus(OrderStatusEnum.PAID.getValue());
-        order.setPayType(PaymentTypeEnum.BALANCE.getValue());
+        order.setPayType(PaymentMethodEnum.BALANCE.getValue());
         order.setPayTime(new Date());
         this.updateById(order);
         // 支付成功删除购物车已勾选的商品
@@ -321,7 +324,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 更新订单状态
         boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>()
-                .set(OmsOrder::getPayType, PaymentTypeEnum.WX_JSAPI.getValue())
+                .set(OmsOrder::getPayType, PaymentMethodEnum.WX_JSAPI.getValue())
                 .eq(OmsOrder::getOrderSn, orderSn)
         );
 
@@ -459,11 +462,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderItems.add(orderItemDTO);
         } else { // 购物车结算
             List<CartItemDTO> cartItems = cartService.listCartItems(memberId);
-            orderItems = cartItems.stream().filter(CartItemDTO::getChecked).map(cartItem -> {
-                OrderItemDTO orderItemDTO = new OrderItemDTO();
-                BeanUtil.copyProperties(cartItem, orderItemDTO);
-                return orderItemDTO;
-            }).collect(Collectors.toList());
+            orderItems = cartItems.stream()
+                    .filter(CartItemDTO::getChecked)
+                    .map(cartItem -> {
+                        OrderItemDTO orderItemDTO = new OrderItemDTO();
+                        BeanUtil.copyProperties(cartItem, orderItemDTO);
+                        return orderItemDTO;
+                    }).collect(Collectors.toList());
         }
         return orderItems;
     }
@@ -480,7 +485,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         String fiveDigitsUserId = userIdFilledZero.substring(userIdFilledZero.length() - 5);
         // 在前面加上wxo（wx order）等前缀是为了人工可以快速分辨订单号是下单还是退款、来自哪家支付机构等
         // 将时间戳+3位随机数+五位id组成商户订单号，规则参考自<a href="https://tech.meituan.com/2016/11/18/dianping-order-db-sharding.html">大众点评</a>
-        return "wxo_" + System.currentTimeMillis() + RandomUtil.randomNumbers(3) + fiveDigitsUserId;
+        return System.currentTimeMillis() + RandomUtil.randomNumbers(3) + fiveDigitsUserId;
     }
 
 }

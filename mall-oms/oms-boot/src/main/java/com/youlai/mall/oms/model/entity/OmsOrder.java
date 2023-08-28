@@ -15,11 +15,9 @@ import java.util.List;
  * 订单详情表
  *
  * @author huawei
- * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @since 2.0.0
  */
 @Data
-@Accessors(chain = true)
 public class OmsOrder extends BaseEntity {
 
 	/**
@@ -71,15 +69,15 @@ public class OmsOrder extends BaseEntity {
 	/**
 	 * 应付总额（分）
 	 */
-	private Long payAmount;
+	private Long paymentAmount;
 	/**
 	 * 支付时间
 	 */
-	private Date payTime;
+	private Date paymentTime;
 	/**
-	 * 支付方式【1->微信jsapi；2->支付宝；3->余额； 4->微信app；】
+	 * 支付方式【1->微信jsapi；2->支付宝；3->余额；4->微信app；】
 	 */
-	private Integer payType;
+	private Integer paymentMethod;
 	/**
 	 * 商户订单号
 	 */

@@ -3,7 +3,7 @@ package com.youlai.mall.oms.controller.app;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.oms.enums.PaymentTypeEnum;
+import com.youlai.mall.oms.enums.PaymentMethodEnum;
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * 「移动端」订单控制层
  *
  * @author huawei
- * @date 2020/12/30
+ * @since 2020/12/30
  */
 @Api(tags = "「移动端」订单接口")
 @RestController
@@ -63,8 +63,8 @@ public class OrderController {
     @PostMapping("/{orderId}/payment")
     public Result<Boolean> payOrder(@PathVariable Long orderId,
                                     @RequestParam(required = false) String appId,
-                                    @RequestParam PaymentTypeEnum paymentTypeEnum) {
-        boolean result = orderService.payOrder(orderId, appId, paymentTypeEnum);
+                                    @RequestParam PaymentMethodEnum paymentMethodEnum) {
+        boolean result = orderService.payOrder(orderId, appId, paymentMethodEnum);
         return Result.judge(result);
     }
 

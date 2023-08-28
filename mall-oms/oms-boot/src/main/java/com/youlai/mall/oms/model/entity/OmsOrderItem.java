@@ -4,17 +4,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
- * 订单明细表
+ * 订单商品明细
  *
  * @author huawei
- * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @since 2020-12-30
  */
 @Data
-@Accessors(chain = true)
 public class OmsOrderItem extends BaseEntity {
 
     @TableId(type = IdType.AUTO)

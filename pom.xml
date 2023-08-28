@@ -69,7 +69,7 @@
 
         <!-- distributed -->
         <seata.version>1.5.2</seata.version>
-        <redisson.version>3.16.8</redisson.version>
+        <redisson.version>3.23.3</redisson.version>
 
         <!-- 阿里云短信 -->
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
