@@ -2,24 +2,20 @@ package com.youlai.mall.oms.controller;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.youlai.common.result.Result;
 import com.youlai.mall.oms.enums.OrderSourceTypeEnum;
+import com.youlai.mall.oms.enums.PaymentMethodEnum;
+import com.youlai.mall.oms.model.form.OrderPaymentForm;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
-import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
-import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.*;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -32,20 +28,18 @@ import java.util.Arrays;
 import java.util.Base64;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * 订单单元测试
  *
  * @author haoxr
- * @since 2023/8/25
+ * @since 2.3.0
  */
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class OrderTests {
+public class OrderControllerTests {
 
 
     @Autowired
@@ -57,35 +51,76 @@ public class OrderTests {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private SkuFeignClient skuFeignClient;
-
-
-    private MemberFeignClient memberFeignClient;
-
     private final Long skuId = 1L;// 购买商品ID
 
     /**
-     * 购买商品流程测试
-     *
-     * @throws Exception
+     * 购买商品-正常流程测试
      */
     @Test
-    void testPurchaseFlow() throws Exception {
+    void testPurchaseFlow_Normal() throws Exception {
 
         // 会员登录
         String accessToken = getAccessToken();
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
-        // 添加购物车
 
+        // 添加购物车
+        this.addToCard(skuId, headers);
+
+        // 订单确认
+        String orderToken = this.confirmOrder(headers);
+
+        // 订单提交
+        String orderSn = this.submitOrder(orderToken, headers);
+
+        // 订单支付
+        this.payOrder(orderSn, headers);
+    }
+
+    /**
+     * 购买商品-超时未支付流程测试
+     */
+    @Test
+    void testPurchaseFlow_PaymentTimeout() throws Exception {
+
+        // 会员登录
+        String accessToken = getAccessToken();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+
+        // 添加购物车
+        this.addToCard(skuId, headers);
+
+        // 订单确认
+        String orderToken = this.confirmOrder(headers);
+
+        // 订单提交
+        String orderSn = this.submitOrder(orderToken, headers);
+
+        // 模拟等待超过支付超时时间
+        Thread.sleep(30 * 1000); // OrderRabbitConfig#orderDelayQueue#x-message-ttl 设置10s未支付取消
+
+        // 订单支付
+        this.payOrder(orderSn, headers); // 此处支付会异常，因为超时未支付，订单已被系统自动取消，无法再进行支付
+    }
+
+
+    /**
+     * 添加商品至购物车
+     */
+    private void addToCard(Long skuId, HttpHeaders headers) throws Exception {
         mockMvc.perform(post("/app-api/v1/carts")
                         .param("skuId", String.valueOf(skuId))
                         .headers(headers))
                 .andExpect(status().isOk())
                 .andReturn();
+    }
 
-        // 订单确认
+
+    /**
+     * 订单确认
+     */
+    private String confirmOrder(HttpHeaders headers) throws Exception {
         MvcResult confirmResult = mockMvc.perform(post("/app-api/v1/orders/confirm")
                         .headers(headers))
                 .andExpect(status().isOk())
@@ -93,44 +128,79 @@ public class OrderTests {
         String confirmJsonResponse = confirmResult.getResponse().getContentAsString();
         JsonNode confirmJsonNode = objectMapper.readTree(confirmJsonResponse);
         String orderToken = confirmJsonNode.path("data").path("orderToken").asText();
-
-        // 订单提交
-        this.submitOrder(orderToken);
-
-        // 订单支付
-
+        return orderToken;
     }
 
 
-    private void submitOrder(String orderToken) throws Exception {
+    /**
+     * 订单提交
+     */
+    private String submitOrder(String orderToken, HttpHeaders headers) throws Exception {
         // 构造请求体
         OrderSubmitForm submitForm = new OrderSubmitForm();
-        // 设置 submitForm 的属性
-        submitForm.setOrderToken(orderToken);
-        submitForm.setSourceType(OrderSourceTypeEnum.APP.getValue());
-        submitForm.setRemark("（单元测试）订单备注");
+
         // submitForm - 商品列表
         OrderSubmitForm.OrderItem orderItem = new OrderSubmitForm.OrderItem();
-        SkuInfoDTO skuInfo = skuFeignClient.getSkuInfo(skuId);
-        BeanUtils.copyProperties(skuInfo, orderItem);
+        orderItem.setSkuId(skuId);
+        orderItem.setCount(1);
+        orderItem.setSkuName("REDMI K60 16G+1T");
+        orderItem.setSkuSn("sn001");
+        orderItem.setSpuName("REDMI K60");
+        orderItem.setPrice(399900L);
+        orderItem.setPicUrl("https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png");
         submitForm.setOrderItems(Arrays.asList(orderItem));
-        // submitForm - 地址
+        // submitForm - 收货地址
         OrderSubmitForm.ShippingAddress shippingAddress = new OrderSubmitForm.ShippingAddress();
+        shippingAddress.setProvince("上海");
+        shippingAddress.setCity("上海市");
+        shippingAddress.setDistrict("浦东新区");
+        shippingAddress.setConsigneeName("法外张三");
+        shippingAddress.setConsigneeMobile("18866668888");
+        shippingAddress.setDetailAddress("东方明珠");
+        submitForm.setShippingAddress(shippingAddress);
 
+        // submitForm - 订单信息
+        submitForm.setOrderToken(orderToken);
+        submitForm.setPaymentAmount(orderItem.getPrice() * 1);
+        submitForm.setSourceType(OrderSourceTypeEnum.APP.getValue());
+        submitForm.setRemark("单元测试生成订单");
 
         // 发起 POST 请求
         MockHttpServletRequestBuilder requestBuilder = post("/app-api/v1/orders/submit")
+                .headers(headers)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(submitForm));
 
         // 执行请求并断言结果
-        mockMvc.perform(requestBuilder)
+        MvcResult submitResult = mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").value(true))
+                .andReturn();
+        String confirmJsonResponse = submitResult.getResponse().getContentAsString();
+        JsonNode confirmJsonNode = objectMapper.readTree(confirmJsonResponse);
+        String orderSn = confirmJsonNode.path("data").asText();
+
+        return orderSn;
+    }
+
+    /**
+     * 订单支付
+     */
+    private void payOrder(String orderSn, HttpHeaders headers) throws Exception {
+
+        OrderPaymentForm paymentForm = new OrderPaymentForm();
+        paymentForm.setOrderSn(orderSn);
+        paymentForm.setPaymentMethodEnum(PaymentMethodEnum.BALANCE);
+        mockMvc.perform(post("/app-api/v1/orders/payment")
+                        .headers(headers)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(paymentForm))
+                ).andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
-
+    /**
+     * 获取访问令牌
+     */
     private String getAccessToken() {
         String clientId = "mall-app";
         String clientSecret = "123456";

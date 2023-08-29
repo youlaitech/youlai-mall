@@ -15,22 +15,22 @@ import java.util.Map;
  * 订单超时关单延时队列
  *
  * @author haoxr
- * @date 2022/2/4 23:21
+ * @since 2.0.0
  */
 
 @Component
 @Slf4j
-public class OrderCloseRabbitConfig {
+public class OrderRabbitConfig {
 
     // 普通延迟队列
     private static final String ORDER_CLOSE_DELAY_QUEUE = "order.close.delay.queue";
     private static final String ORDER_EXCHANGE = "order.exchange";
-    private static final String ORDER_CLOSE_DELAY_ROUTING_KEY = "order.close.delay.routing.key";
+    private static final String ORDER_CLOSE_DELAY_ROUTING_KEY = "order.close.delay";
 
     // 死信关单队列
     private static final String ORDER_ClOSE_QUEUE = "order.close.queue";
     private static final String ORDER_DLX_EXCHANGE = "order.dlx.exchange";
-    private static final String ORDER_ClOSE_ROUTING_KEY = "order.close.routing.key";
+    private static final String ORDER_ClOSE_ROUTING_KEY = "order.close";
 
     /**
      * 定义交换机
@@ -57,7 +57,7 @@ public class OrderCloseRabbitConfig {
         Map<String, Object> args = new HashMap<>();
         args.put("x-dead-letter-exchange", ORDER_DLX_EXCHANGE);
         args.put("x-dead-letter-routing-key", ORDER_ClOSE_ROUTING_KEY); // 死信路由Key
-        args.put("x-message-ttl", 5 * 1000L); // 单位毫秒，5s用于测试
+        args.put("x-message-ttl", 10 * 1000L); // 单位毫秒，5s用于测试
         return new Queue(ORDER_CLOSE_DELAY_QUEUE, true, false, false, args);
     }
 

@@ -34,6 +34,7 @@ import com.youlai.mall.oms.model.dto.CartItemDTO;
 import com.youlai.mall.oms.model.dto.OrderItemDTO;
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.entity.OmsOrderItem;
+import com.youlai.mall.oms.model.form.OrderPaymentForm;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.model.vo.OrderConfirmVO;
@@ -167,7 +168,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     @Override
     @GlobalTransactional
-    public boolean submitOrder(OrderSubmitForm submitForm) {
+    public String submitOrder(OrderSubmitForm submitForm) {
         log.info("订单提交参数:{}", JSONUtil.toJsonStr(submitForm));
         String orderToken = submitForm.getOrderToken();
 
@@ -203,17 +204,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         boolean lockStockResult = skuFeignClient.lockStock(orderToken, lockedSkuList);
         Assert.isTrue(lockStockResult, "订单提交失败：锁定商品库存失败！");
 
-        // 4. 创建订单
+        // 4. 生成订单
         boolean result = this.saveOrder(submitForm);
         log.info("order ({}) create result:{}", orderToken, result);
-        return result;
+        return orderToken;
     }
 
 
     /**
      * 创建订单
      *
-     * @param submitForm
+     * @param submitForm 订单提交表单对象
      * @return
      */
     private boolean saveOrder(OrderSubmitForm submitForm) {
@@ -232,7 +233,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderItemService.saveBatch(orderItemEntities);
 
             // 订单超时未支付取消
-            rabbitTemplate.convertAndSend("order.exchange", "order.close.delay.routing.key", submitForm.getOrderToken());
+            rabbitTemplate.convertAndSend("order.exchange", "order.close.delay", submitForm.getOrderToken());
         }
         return result;
     }
@@ -246,9 +247,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     @Override
     @GlobalTransactional
-    public <T> T payOrder(Long orderId, String appId, PaymentMethodEnum paymentMethodEnum) {
-
-        OmsOrder order = this.getById(orderId);
+    public <T> T payOrder(OrderPaymentForm paymentForm) {
+        String orderSn = paymentForm.getOrderSn();
+        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSn));
         Assert.isTrue(order != null, "订单不存在");
 
         Assert.isTrue(OrderStatusEnum.UNPAID.getValue().equals(order.getStatus()), "订单不可支付，请检查订单状态");
@@ -257,9 +258,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         try {
             lock.lock();
             T result;
-            switch (paymentMethodEnum) {
+            switch (paymentForm.getPaymentMethodEnum()) {
                 case WX_JSAPI:
-                    result = (T) wxJsapiPay(appId, order.getOrderSn(), order.getPayAmount());
+                    result = (T) wxJsapiPay(paymentForm.getAppId(), order.getOrderSn(), order.getPaymentAmount());
                     break;
                 default:
                     result = (T) balancePay(order);
@@ -284,7 +285,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private Boolean balancePay(OmsOrder order) {
         // 扣减余额
         Long memberId = order.getMemberId();
-        Long payAmount = order.getPayAmount();
+        Long payAmount = order.getPaymentAmount();
         Result<?> deductBalanceResult = memberFeignClient.deductBalance(memberId, payAmount);
         Assert.isTrue(Result.isSuccess(deductBalanceResult), "扣减账户余额失败");
 
@@ -293,8 +294,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 更新订单状态
         order.setStatus(OrderStatusEnum.PAID.getValue());
-        order.setPayType(PaymentMethodEnum.BALANCE.getValue());
-        order.setPayTime(new Date());
+        order.setPaymentMethod(PaymentMethodEnum.BALANCE.getValue());
+        order.setPaymentTime(new Date());
         this.updateById(order);
         // 支付成功删除购物车已勾选的商品
         cartService.removeCheckedItem();
@@ -324,7 +325,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 更新订单状态
         boolean result = this.update(new LambdaUpdateWrapper<OmsOrder>()
-                .set(OmsOrder::getPayType, PaymentMethodEnum.WX_JSAPI.getValue())
+                .set(OmsOrder::getPaymentMethod, PaymentMethodEnum.WX_JSAPI.getValue())
                 .eq(OmsOrder::getOrderSn, orderSn)
         );
 
@@ -354,29 +355,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     }
 
     /**
-     * 关闭订单(超时未支付)
+     * 关闭订单
      *
      * @param orderSn 订单编号
      * @return 是否成功 true|false
      */
     @Override
     public boolean closeOrder(String orderSn) {
-        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
-                .eq(OmsOrder::getOrderSn, orderSn)
-                .select(OmsOrder::getId, OmsOrder::getStatus)
+
+        return this.update(new LambdaUpdateWrapper<OmsOrder>()
+                .eq(OmsOrder::getOrderSn,orderSn)
+                        .eq(OmsOrder::getStatus,OrderStatusEnum.UNPAID.getValue())
+                .set(OmsOrder::getStatus, OrderStatusEnum.CANCELED.getValue())
         );
-        Assert.isTrue(order != null, "订单不存在");
-        boolean result;
-        if (OrderStatusEnum.UNPAID.getValue().equals(order.getStatus())) {
-            result = this.update(new LambdaUpdateWrapper<OmsOrder>()
-                    .eq(OmsOrder::getId, order.getId())
-                    .set(OmsOrder::getStatus, OrderStatusEnum.CANCELED.getValue()));
-            // 关单成功释放锁定的商品库存
-            rabbitTemplate.convertAndSend("stock.exchange", "stock.release.routing.key", orderSn);
-        } else { // 订单非【待付款】状态无需关闭
-            result = true;
-        }
-        return result;
     }
 
     /**
@@ -414,7 +405,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         if (WxPayConstants.WxpayTradeStatus.SUCCESS.equals(result.getTradeState())) {
             orderDO.setStatus(OrderStatusEnum.PAID.getValue());
             orderDO.setTransactionId(result.getTransactionId());
-            orderDO.setPayTime(new Date());
+            orderDO.setPaymentTime(new Date());
             this.updateById(orderDO);
         }
         log.info("账单更新成功");

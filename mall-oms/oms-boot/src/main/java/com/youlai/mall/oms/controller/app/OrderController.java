@@ -5,12 +5,14 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.oms.enums.PaymentMethodEnum;
 import com.youlai.mall.oms.model.entity.OmsOrder;
+import com.youlai.mall.oms.model.form.OrderPaymentForm;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.model.vo.OrderConfirmVO;
 import com.youlai.mall.oms.service.app.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,35 +38,26 @@ public class OrderController {
         return PageResult.success(result);
     }
 
-    /**
-     * 订单确认 → 进入创建订单页面
-     * <p>
-     * 获取购买商品明细、用户默认收货地址、防重提交唯一token
-     * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
-     *
-     * @param skuId 直接购买必填，购物车结算不填
-     * @return {@link  OrderConfirmVO}
-     */
-    @ApiOperation("订单确认")
+    @ApiOperation(value = "订单确认", notes = "进入订单确认页面有两个入口，1：立即购买；2：购物车结算")
     @PostMapping("/confirm")
-    public Result<OrderConfirmVO> confirmOrder(@RequestParam(required = false) Long skuId) {
+    public Result<OrderConfirmVO> confirmOrder(
+            @ApiParam("立即购买必填，购物车结算不填") @RequestParam(required = false) Long skuId
+    ) {
         OrderConfirmVO result = orderService.confirmOrder(skuId);
         return Result.success(result);
     }
 
     @ApiOperation("订单提交")
     @PostMapping("/submit")
-    public Result<Boolean> submitOrder(@RequestBody @Validated OrderSubmitForm submitForm) {
-        boolean result = orderService.submitOrder(submitForm);
-        return Result.judge(result);
+    public Result<String> submitOrder(@Validated @RequestBody OrderSubmitForm submitForm) {
+        String orderSn = orderService.submitOrder(submitForm);
+        return Result.success(orderSn);
     }
 
     @ApiOperation("订单支付")
-    @PostMapping("/{orderId}/payment")
-    public Result<Boolean> payOrder(@PathVariable Long orderId,
-                                    @RequestParam(required = false) String appId,
-                                    @RequestParam PaymentMethodEnum paymentMethodEnum) {
-        boolean result = orderService.payOrder(orderId, appId, paymentMethodEnum);
+    @PostMapping("/payment")
+    public  Result payOrder(@Validated @RequestBody OrderPaymentForm paymentForm) {
+        boolean result = orderService.payOrder(paymentForm);
         return Result.judge(result);
     }
 

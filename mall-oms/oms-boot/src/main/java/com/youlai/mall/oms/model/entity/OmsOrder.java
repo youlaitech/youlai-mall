@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.List;

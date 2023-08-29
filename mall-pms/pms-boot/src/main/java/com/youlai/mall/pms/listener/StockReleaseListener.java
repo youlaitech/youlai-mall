@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * 商品库存释放监听器
+ * 商品库存
  *
  * @author haoxr
- * @date 2022/12/20
+ * @since 2022/12/20
  */
 @Component
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class StockReleaseListener {
 
     private static final String STOCK_RELEASE_QUEUE = "stock.release.queue";
     private static final String STOCK_EXCHANGE = "stock.exchange";
-    private static final String STOCK_RELEASE_ROUTING_KEY = "stock.release.routing.key";
+    private static final String STOCK_RELEASE_ROUTING_KEY = "stock.release";
 
     @RabbitListener(bindings =
     @QueueBinding(
@@ -36,14 +36,20 @@ public class StockReleaseListener {
             ackMode = "MANUAL" // 手动ACK
     )
     @RabbitHandler
-    public void handleStockRelease(String orderSn, Message message, Channel channel) throws IOException {
-        log.info("订单【{}】取消释放库存消息监听", orderSn);
+    public void handleStockRelease(String orderSn, Message message, Channel channel) {
+        log.info("订单({})取消释放库存", orderSn);
         long deliveryTag = message.getMessageProperties().getDeliveryTag(); // 消息序号
         try {
             skuService.unlockStock(orderSn);
-            channel.basicAck(deliveryTag, false);
+            // 手动ACK确认消息并从队列移除消息
+            channel.basicAck(deliveryTag, false); // false: 不批量确认，仅确认当前单个消息
         } catch (Exception e) {
-            channel.basicReject(deliveryTag, true);
+            // 库存释放异常：拒绝消息并重新入队
+            try {
+                channel.basicReject(deliveryTag, true); // true: 重新放回队列
+            } catch (IOException ex) {
+                log.error("订单({})关闭失败，原因：{}", orderSn, ex.getMessage());
+            }
         }
     }
 }

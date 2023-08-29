@@ -7,6 +7,7 @@ import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.youlai.mall.oms.enums.PaymentMethodEnum;
 import com.youlai.mall.oms.model.entity.OmsOrder;
+import com.youlai.mall.oms.model.form.OrderPaymentForm;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.model.vo.OrderConfirmVO;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
@@ -37,12 +38,12 @@ public interface OrderService extends IService<OmsOrder> {
      * @param orderSubmitForm {@link OrderSubmitForm}
      * @return 订单编号
      */
-    boolean submitOrder(OrderSubmitForm orderSubmitForm);
+    String submitOrder(OrderSubmitForm orderSubmitForm);
 
     /**
      * 订单支付
      */
-    <T> T payOrder(Long orderId, String appId, PaymentMethodEnum paymentMethodEnum);
+    <T> T payOrder(OrderPaymentForm paymentForm);
 
     /**
      * 系统关闭订单

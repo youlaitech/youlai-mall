@@ -33,8 +33,8 @@ public class OrderSubmitForm {
     @NotEmpty(message = "订单商品不能为空")
     private List<OrderItem> orderItems;
 
-    @ApiModelProperty("支付金额(单位：分)")
-    @NotNull(message = "支付金额不能为空")
+    @ApiModelProperty("应付金额(单位：分)")
+    @NotNull(message = "应付金额不能为空")
     private Long paymentAmount;
 
     @ApiModelProperty("收获地址")
@@ -62,7 +62,7 @@ public class OrderSubmitForm {
         private String city;
 
         @ApiModelProperty("区域")
-        private String area;
+        private String district;
 
         @ApiModelProperty("详细地址")
         private String detailAddress;
@@ -84,7 +84,7 @@ public class OrderSubmitForm {
         @ApiModelProperty(value = "商品图片URL")
         private String picUrl;
 
-        @ApiModelProperty(value = "商品价格")
+        @ApiModelProperty(value = "商品价格(单位:分)")
         private Long price;
 
         @ApiModelProperty(value = "商品名称")

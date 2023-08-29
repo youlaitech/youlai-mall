@@ -85,12 +85,12 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
                 // 库存足够
                 boolean lockResult = this.update(new LambdaUpdateWrapper<PmsSku>()
                         .setSql("locked_stock = locked_stock + " + quantity) // 修改锁定商品数
-                        .eq(PmsSku::getId, lockedSku)
+                        .eq(PmsSku::getId, lockedSku.getSkuId())
                         .apply("stock - locked_stock >= {0}", quantity) // 剩余商品数 ≥ 订单商品数
                 );
                 Assert.isTrue(lockResult, "商品({})库存不足", lockedSku.getSkuSn());
             } finally {
-                if(lock.isLocked()){
+                if (lock.isLocked()) {
                     lock.unlock();
                 }
             }
@@ -112,26 +112,30 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
     @Override
     public boolean unlockStock(String orderSn) {
         List<LockedSkuDTO> lockedSkus = (List<LockedSkuDTO>) redisTemplate.opsForValue().get(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
-        log.info("订单({})超时取消释放锁定的商品库存:{}", orderSn, JSONUtil.toJsonStr(lockedSkus));
-        // 遍历解锁商品
-        if (CollectionUtil.isNotEmpty(lockedSkus)) {
-            for (LockedSkuDTO lockedSku : lockedSkus) {
-                RLock lock = redissonClient.getLock(ProductConstants.SKU_LOCK_PREFIX + lockedSku.getSkuId());  // 获取商品分布式锁
-                try {
-                    lock.lock();
-                    this.update(new LambdaUpdateWrapper<PmsSku>()
-                            .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
-                            .eq(PmsSku::getId, lockedSku.getSkuId())
-                    );
-                } finally {
-                    if(lock.isLocked()){
-                        lock.unlock();
-                    }
+        log.info("释放订单({})锁定的商品库存:{}", orderSn, JSONUtil.toJsonStr(lockedSkus));
+
+        // 库存已释放
+        if (CollectionUtil.isEmpty(lockedSkus)) {
+            return true;
+        }
+
+        // 遍历恢复锁定的商品库存
+        for (LockedSkuDTO lockedSku : lockedSkus) {
+            RLock lock = redissonClient.getLock(ProductConstants.SKU_LOCK_PREFIX + lockedSku.getSkuId());  // 获取商品分布式锁
+            try {
+                lock.lock();
+                this.update(new LambdaUpdateWrapper<PmsSku>()
+                        .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
+                        .eq(PmsSku::getId, lockedSku.getSkuId())
+                );
+            } finally {
+                if (lock.isLocked()) {
+                    lock.unlock();
                 }
             }
-            // 移除订单锁定的商品
-            redisTemplate.delete(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
         }
+        // 移除 redis 订单锁定的商品
+        redisTemplate.delete(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
         return true;
     }
 
@@ -158,9 +162,9 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
             try {
                 lock.lock();
                 this.update(new LambdaUpdateWrapper<PmsSku>()
-                        .eq(PmsSku::getId, lockedSku.getSkuId())
                         .setSql("stock = stock - " + lockedSku.getQuantity())
                         .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
+                        .eq(PmsSku::getId, lockedSku.getSkuId())
                 );
             } finally {
                 if (lock.isLocked()) {

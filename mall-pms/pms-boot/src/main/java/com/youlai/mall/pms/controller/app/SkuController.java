@@ -62,9 +62,9 @@ public class SkuController {
     }
 
     @ApiOperation(value = "扣减库存")
-    @PutMapping("/_deduct")
-    public Result<?> deductStock(String orderToken) {
-        boolean result = skuService.deductStock(orderToken);
+    @PutMapping("/deduct")
+    public Result<?> deductStock(String orderSn) {
+        boolean result = skuService.deductStock(orderSn);
         return Result.judge(result);
     }
 }
