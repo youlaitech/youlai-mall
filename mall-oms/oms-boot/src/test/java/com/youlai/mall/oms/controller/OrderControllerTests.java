@@ -1,6 +1,5 @@
 package com.youlai.mall.oms.controller;
 
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,6 +51,8 @@ public class OrderControllerTests {
     private RestTemplate restTemplate;
 
     private final Long skuId = 1L;// 购买商品ID
+    private final String mobile = "18866668888";// 商城会员手机号
+    private final String verifyCode = "666666";// 短信验证码，666666是免校验验证码
 
     /**
      * 购买商品-正常流程测试
@@ -60,7 +61,8 @@ public class OrderControllerTests {
     void testPurchaseFlow_Normal() throws Exception {
 
         // 会员登录
-        String accessToken = getAccessToken();
+        String accessToken = acquireTokenByLogin(mobile, verifyCode); // 获取 accessToken，填充请求头用于身份认证
+
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
 
@@ -68,13 +70,13 @@ public class OrderControllerTests {
         this.addToCard(skuId, headers);
 
         // 订单确认
-        String orderToken = this.confirmOrder(headers);
+        String orderToken = this.confirmOrder(headers); // 返回订单提交令牌，用于订单提交
 
         // 订单提交
-        String orderSn = this.submitOrder(orderToken, headers);
+        String orderSn = this.submitOrder(orderToken, headers); // 返回订单编号，用于订单支付
 
         // 订单支付
-        this.payOrder(orderSn, headers);
+        this.payOrder(orderSn, headers); // 支付成功，商品库存扣减，账户余额扣减，订单状态改变(待支付 → 待发货)
     }
 
     /**
@@ -84,7 +86,8 @@ public class OrderControllerTests {
     void testPurchaseFlow_PaymentTimeout() throws Exception {
 
         // 会员登录
-        String accessToken = getAccessToken();
+        String accessToken = acquireTokenByLogin(mobile, verifyCode); // 获取 accessToken，填充请求头用于身份认证
+
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
 
@@ -92,10 +95,10 @@ public class OrderControllerTests {
         this.addToCard(skuId, headers);
 
         // 订单确认
-        String orderToken = this.confirmOrder(headers);
+        String orderToken = this.confirmOrder(headers); // 返回订单提交令牌，用于订单提交
 
         // 订单提交
-        String orderSn = this.submitOrder(orderToken, headers);
+        String orderSn = this.submitOrder(orderToken, headers); // 返回订单编号，用于订单支付
 
         // 模拟等待超过支付超时时间
         Thread.sleep(30 * 1000); // OrderRabbitConfig#orderDelayQueue#x-message-ttl 设置10s未支付取消
@@ -116,21 +119,20 @@ public class OrderControllerTests {
                 .andReturn();
     }
 
-
     /**
      * 订单确认
      */
     private String confirmOrder(HttpHeaders headers) throws Exception {
-        MvcResult confirmResult = mockMvc.perform(post("/app-api/v1/orders/confirm")
-                        .headers(headers))
-                .andExpect(status().isOk())
+        MvcResult confirmResult = mockMvc.perform(
+                        post("/app-api/v1/orders/confirm")
+                                .headers(headers)
+                ).andExpect(status().isOk())
                 .andReturn();
         String confirmJsonResponse = confirmResult.getResponse().getContentAsString();
+        log.info("订单确认响应：{}", confirmJsonResponse);
         JsonNode confirmJsonNode = objectMapper.readTree(confirmJsonResponse);
-        String orderToken = confirmJsonNode.path("data").path("orderToken").asText();
-        return orderToken;
+        return confirmJsonNode.path("data").path("orderToken").asText();
     }
-
 
     /**
      * 订单提交
@@ -156,7 +158,7 @@ public class OrderControllerTests {
         shippingAddress.setDistrict("浦东新区");
         shippingAddress.setConsigneeName("法外张三");
         shippingAddress.setConsigneeMobile("18866668888");
-        shippingAddress.setDetailAddress("东方明珠");
+        shippingAddress.setDetailAddress("世纪公园");
         submitForm.setShippingAddress(shippingAddress);
 
         // submitForm - 订单信息
@@ -177,9 +179,8 @@ public class OrderControllerTests {
                 .andReturn();
         String confirmJsonResponse = submitResult.getResponse().getContentAsString();
         JsonNode confirmJsonNode = objectMapper.readTree(confirmJsonResponse);
-        String orderSn = confirmJsonNode.path("data").asText();
 
-        return orderSn;
+        return confirmJsonNode.path("data").asText();
     }
 
     /**
@@ -198,14 +199,17 @@ public class OrderControllerTests {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+
     /**
-     * 获取访问令牌
+     * 登录获取访问令牌
+     *
+     * @param mobile     手机号
+     * @param verifyCode 短信验证码
+     * @return
      */
-    private String getAccessToken() {
+    private String acquireTokenByLogin(String mobile, String verifyCode) {
         String clientId = "mall-app";
         String clientSecret = "123456";
-        String mobile = "18866668888";
-        String code = "666666";
         String tokenUrl = "http://localhost:9000/oauth/token";
 
         // 构建请求头
@@ -218,7 +222,7 @@ public class OrderControllerTests {
         requestBody.add("client_id", clientId);
         requestBody.add("client_secret", clientSecret);
         requestBody.add("mobile", mobile);
-        requestBody.add("code", code);
+        requestBody.add("code", verifyCode);
 
         // 创建 Basic Auth 头部
         String authHeader = clientId + ":" + clientSecret;
@@ -231,11 +235,7 @@ public class OrderControllerTests {
         // 发送请求
         String jsonStr = restTemplate.postForEntity(tokenUrl, requestEntity, String.class).getBody();
 
-        JSONObject jsonObject = JSONUtil.parseObj(jsonStr);
-        JSONObject data = jsonObject.getJSONObject("data");
-
-        String accessToken = data.getStr("access_token");
-        return accessToken;
+        return JSONUtil.parseObj(jsonStr).getJSONObject("data").getStr("access_token");
     }
 
 

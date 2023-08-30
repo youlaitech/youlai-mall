@@ -23,20 +23,20 @@ public class StockReleaseListener {
 
     private final SkuService skuService;
 
-    private static final String STOCK_RELEASE_QUEUE = "stock.release.queue";
+    private static final String STOCK_UNLOCK_QUEUE = "stock.unlock.queue";
     private static final String STOCK_EXCHANGE = "stock.exchange";
-    private static final String STOCK_RELEASE_ROUTING_KEY = "stock.release";
+    private static final String STOCK_UNLOCK_ROUTING_KEY = "stock.unlock";
 
     @RabbitListener(bindings =
     @QueueBinding(
-            value = @Queue(value = STOCK_RELEASE_QUEUE, durable = "true"),
+            value = @Queue(value = STOCK_UNLOCK_QUEUE, durable = "true"),
             exchange = @Exchange(value = STOCK_EXCHANGE),
-            key = {STOCK_RELEASE_ROUTING_KEY}
+            key = {STOCK_UNLOCK_ROUTING_KEY}
     ),
             ackMode = "MANUAL" // 手动ACK
     )
     @RabbitHandler
-    public void handleStockRelease(String orderSn, Message message, Channel channel) {
+    public void unlockStock(String orderSn, Message message, Channel channel) {
         log.info("订单({})取消释放库存", orderSn);
         long deliveryTag = message.getMessageProperties().getDeliveryTag(); // 消息序号
         try {

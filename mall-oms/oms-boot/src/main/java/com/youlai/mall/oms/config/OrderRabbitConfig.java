@@ -17,7 +17,6 @@ import java.util.Map;
  * @author haoxr
  * @since 2.0.0
  */
-
 @Component
 @Slf4j
 public class OrderRabbitConfig {
