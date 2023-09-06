@@ -1,34 +1,34 @@
 package com.youlai.mall.oms.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.oms.dto.OrderInfoDTO;
-import com.youlai.mall.oms.dto.SeataOrderDTO;
-import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.model.dto.OrderDTO;
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.entity.OmsOrderItem;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
-import com.youlai.mall.oms.service.app.OrderItemService;
+import com.youlai.mall.oms.model.vo.OmsOrderPageVO;
 import com.youlai.mall.oms.service.admin.OmsOrderService;
+import com.youlai.mall.oms.service.app.OrderItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * 「管理端」订单控制层
+ * 管理端-订单控制层
  *
  * @author huawei
- * @date 2020/12/30
+ * @since 2.3.0
  */
 @Api(tags = "「管理端」订单管理")
 @RestController
@@ -42,9 +42,9 @@ public class OmsOrderController {
 
     @ApiOperation("订单分页列表")
     @GetMapping
-    public PageResult getOrderPage(OrderPageQuery queryParams) {
-        IPage<OmsOrder> result = orderService.getOrderPage(queryParams);
-        return PageResult.success(result);
+    public PageResult<OmsOrderPageVO> getOrderPage(OrderPageQuery queryParams) {
+        IPage<OmsOrderPageVO> page = orderService.getOrderPage(queryParams);
+        return PageResult.success(page);
     }
 
     @ApiOperation(value = "订单详情")
@@ -65,42 +65,4 @@ public class OmsOrderController {
         orderDTO.setOrder(order).setOrderItems(orderItems);
         return Result.success(orderDTO);
     }
-
-    @ApiOperation(value = "「实验室」获取订单信息", hidden = true)
-    @GetMapping("/{orderId}/orderInfo")
-    public Result<OrderInfoDTO> getOrderInfo(
-            @ApiParam("订单ID") @PathVariable Long orderId
-    ) {
-        OrderInfoDTO orderInfo = new OrderInfoDTO();
-
-        OmsOrder order = orderService.getById(orderId);
-        if (order != null) {
-            orderInfo.setOrderSn(order.getOrderSn());
-            orderInfo.setStatus(order.getStatus());
-        }
-        return Result.success(orderInfo);
-    }
-
-    @ApiOperation(value = "「实验室」订单支付", hidden = true)
-    @PutMapping("/{orderId}/_pay")
-    public Result payOrder(
-            @ApiParam("订单ID") @PathVariable Long orderId,
-            @RequestBody SeataOrderDTO orderDTO
-    ) {
-        Boolean result = orderService.payOrder(orderId, orderDTO);
-        return Result.judge(result);
-    }
-
-    @ApiOperation(value = "「实验室」订单重置", hidden = true)
-    @PutMapping("/{orderId}/_reset")
-    public Result resetOrder(
-            @ApiParam("订单ID") @PathVariable Long orderId
-    ) {
-        boolean result = orderService.update(new LambdaUpdateWrapper<OmsOrder>()
-                .eq(OmsOrder::getId, orderId)
-                .set(OmsOrder::getStatus, OrderStatusEnum.UNPAID.getValue())
-        );
-        return Result.judge(result);
-    }
-
 }

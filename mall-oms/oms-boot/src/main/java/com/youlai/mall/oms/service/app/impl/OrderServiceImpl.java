@@ -97,8 +97,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     @Override
     public IPage<OmsOrder> getOrderPage(OrderPageQuery queryParams) {
         Page<OmsOrder> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<OmsOrder> list = this.baseMapper.getOrderPage(page, queryParams);
-        page.setRecords(list);
+        //List<OmsOrder> list = this.baseMapper.getOrderPage(page, queryParams);
+        page.setRecords(null);
         return page;
     }
 
@@ -364,8 +364,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     public boolean closeOrder(String orderSn) {
 
         return this.update(new LambdaUpdateWrapper<OmsOrder>()
-                .eq(OmsOrder::getOrderSn,orderSn)
-                        .eq(OmsOrder::getStatus,OrderStatusEnum.UNPAID.getValue())
+                .eq(OmsOrder::getOrderSn, orderSn)
+                .eq(OmsOrder::getStatus, OrderStatusEnum.UNPAID.getValue())
                 .set(OmsOrder::getStatus, OrderStatusEnum.CANCELED.getValue())
         );
     }

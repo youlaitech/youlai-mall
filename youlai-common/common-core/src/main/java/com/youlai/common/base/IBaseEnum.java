@@ -45,7 +45,10 @@ public interface IBaseEnum<T> {
      * @return
      */
     static <E extends Enum<E> & IBaseEnum> String getLabelByValue(Object value, Class<E> clazz) {
-        Objects.requireNonNull(value);
+        if (value == null) {
+            return null;
+        }
+
         EnumSet<E> allEnums = EnumSet.allOf(clazz); // 获取类型下的所有枚举
         E matchEnum = allEnums.stream()
                 .filter(e -> ObjectUtil.equal(e.getValue(), value))

@@ -9,7 +9,7 @@ import java.util.List;
  * 订单分页视图对象
  *
  * @author haoxr
- * @date 2022/2/1 20:58
+ * @since 2.3.0
  */
 @Data
 public class OrderPageVO {

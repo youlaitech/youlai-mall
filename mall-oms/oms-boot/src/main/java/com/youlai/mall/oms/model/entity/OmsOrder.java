@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
@@ -16,12 +17,11 @@ import java.util.List;
  * @author huawei
  * @since 2.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class OmsOrder extends BaseEntity {
 
-	/**
-	 * id
-	 */
+
 	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**

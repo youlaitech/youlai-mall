@@ -2,6 +2,7 @@ package com.youlai.mall.oms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.mall.oms.model.bo.OrderBO;
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import org.apache.ibatis.annotations.*;
@@ -9,11 +10,10 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 /**
- * 订单详情表
+ * 订单数据访问层
  *
  * @author huawei
- * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @since 2020-12-30 22:31:10
  */
 @Mapper
 public interface OrderMapper extends BaseMapper<OmsOrder> {
@@ -25,5 +25,5 @@ public interface OrderMapper extends BaseMapper<OmsOrder> {
      * @param queryParams
      * @return
      */
-    List<OmsOrder> getOrderPage(Page<OmsOrder> page, OrderPageQuery queryParams);
+    Page<OrderBO> getOrderPage(Page<OrderBO> page, OrderPageQuery queryParams);
 }

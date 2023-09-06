@@ -3,7 +3,7 @@ package com.youlai.mall.oms.controller;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.youlai.mall.oms.enums.OrderSourceTypeEnum;
+import com.youlai.mall.oms.enums.OrderSourceEnum;
 import com.youlai.mall.oms.enums.PaymentMethodEnum;
 import com.youlai.mall.oms.model.form.OrderPaymentForm;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
@@ -49,10 +49,10 @@ public class OrderControllerTests {
 
     @Autowired
     private RestTemplate restTemplate;
-
-    private final Long skuId = 1L;// 购买商品ID
     private final String mobile = "18866668888";// 商城会员手机号
     private final String verifyCode = "666666";// 短信验证码，666666是免校验验证码
+
+    private final Long skuId = 1L;// 购买商品ID
 
     /**
      * 购买商品-正常流程测试
@@ -164,7 +164,7 @@ public class OrderControllerTests {
         // submitForm - 订单信息
         submitForm.setOrderToken(orderToken);
         submitForm.setPaymentAmount(orderItem.getPrice() * 1);
-        submitForm.setSourceType(OrderSourceTypeEnum.APP.getValue());
+        submitForm.setSourceType(OrderSourceEnum.APP.getValue());
         submitForm.setRemark("单元测试生成订单");
 
         // 发起 POST 请求

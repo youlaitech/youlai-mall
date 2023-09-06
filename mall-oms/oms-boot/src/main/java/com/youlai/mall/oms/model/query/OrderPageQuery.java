@@ -4,29 +4,46 @@ import com.youlai.common.base.BasePageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 
 /**
+ * 订单分页查询对象
+ *
  * @author haoxr
- * @date 2022/2/1 19:14
+ * @since 2.3.0
  */
-@Data
+@EqualsAndHashCode(callSuper = true)
 @ApiModel("订单分页查询对象")
+@Data
 public class OrderPageQuery extends BasePageQuery {
 
+    /**
+     * 关键字(订单编号/商品名称/会员姓名/会员手机号)
+     */
+    @ApiModelProperty("关键字(订单编号/商品名称/会员姓名/会员手机号)")
+    private String keywords;
+
+    /**
+     * 订单状态
+     */
     @ApiModelProperty("订单状态")
     private Integer status;
 
-    @ApiModelProperty("会员ID")
-    private Long memberId;
+    /**
+     * 开始时间
+     */
+    @ApiModelProperty(value = "开始时间(yyyy-MM-dd)",example = "2023-10-01")
+    @DateTimeFormat(pattern = "yyyy-MM-dd 00:00:00") // DateTimeFormat 用于将查询参数或表单参数转换为日期类型
+    private Date beginDate;
 
-    @ApiModelProperty("订单编号")
-    private String orderSn;
-
-    @ApiModelProperty(value = "开始时间(格式：yyyy-MM-dd)")
-    private String beginDate;
-
-    @ApiModelProperty(value = "截止时间(格式：yyyy-MM-dd)")
-    private String endDate;
+    /**
+     * 截止时间
+     */
+    @ApiModelProperty(value = "截止时间(yyyy-MM-dd)",example = "2025-10-01")
+    @DateTimeFormat(pattern = "yyyy-MM-dd 23:59:59")
+    private Date endDate;
 
 }
