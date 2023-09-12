@@ -144,7 +144,7 @@ public class OrderControllerTests {
         // submitForm - 商品列表
         OrderSubmitForm.OrderItem orderItem = new OrderSubmitForm.OrderItem();
         orderItem.setSkuId(skuId);
-        orderItem.setCount(1);
+        orderItem.setQuantity(1);
         orderItem.setSkuName("REDMI K60 16G+1T");
         orderItem.setSkuSn("sn001");
         orderItem.setSpuName("REDMI K60");
@@ -164,7 +164,7 @@ public class OrderControllerTests {
         // submitForm - 订单信息
         submitForm.setOrderToken(orderToken);
         submitForm.setPaymentAmount(orderItem.getPrice() * 1);
-        submitForm.setSourceType(OrderSourceEnum.APP.getValue());
+        submitForm.setOrderSource(OrderSourceEnum.APP);
         submitForm.setRemark("单元测试生成订单");
 
         // 发起 POST 请求
@@ -190,7 +190,7 @@ public class OrderControllerTests {
 
         OrderPaymentForm paymentForm = new OrderPaymentForm();
         paymentForm.setOrderSn(orderSn);
-        paymentForm.setPaymentMethodEnum(PaymentMethodEnum.BALANCE);
+        paymentForm.setPaymentMethod(PaymentMethodEnum.BALANCE);
         mockMvc.perform(post("/app-api/v1/orders/payment")
                         .headers(headers)
                         .contentType(MediaType.APPLICATION_JSON)
