@@ -1,66 +1,54 @@
 package com.youlai.mall.pms.api;
 
-import com.youlai.common.result.Result;
-import com.youlai.mall.pms.pojo.dto.CheckPriceDTO;
-import com.youlai.mall.pms.pojo.dto.SkuDTO;
-import com.youlai.mall.pms.pojo.dto.LockStockDTO;
+import com.youlai.common.web.config.FeignConfig;
+import com.youlai.common.web.config.FeignDecoderConfig;
+import com.youlai.mall.pms.pojo.dto.SkuInfoDTO;
+import com.youlai.mall.pms.pojo.dto.LockedSkuDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-@FeignClient(value = "mall-pms", contextId = "sku")
+
+@FeignClient(value = "mall-pms", contextId = "sku", configuration = {FeignDecoderConfig.class})
 public interface SkuFeignClient {
 
     /**
-     * 获取商品库存单元信息
+     * 获取商品库存信息
      */
-    @GetMapping("/app-api/v1/sku/{skuId}/info")
-    Result<SkuDTO> getSkuInfo(@PathVariable Long skuId);
+    @GetMapping("/app-api/v1/skus/{skuId}")
+    SkuInfoDTO getSkuInfo(@PathVariable Long skuId);
+
+    /**
+     * 获取商品库存信息列表
+     *
+     * @param skuIds SKU ID 列表
+     * @return 商品库存信息列表
+     */
+    @GetMapping("/app-api/v1/skus")
+    List<SkuInfoDTO> getSkuInfoList(@RequestParam List<Long> skuIds);
 
     /**
      * 锁定商品库存
      */
-    @PutMapping("/app-api/v1/sku/_lock")
-    Result lockStock(@RequestBody LockStockDTO lockStockDTO);
+    @PutMapping("/app-api/v1/skus/lock")
+    boolean lockStock(@RequestParam String orderToken, @RequestBody List<LockedSkuDTO> lockedSkuList);
 
     /**
      * 解锁商品库存
      */
-    @PutMapping("/app-api/v1/sku/_unlock")
-    Result unlockStock(@RequestParam String orderSn);
+    @PutMapping("/app-api/v1/skus/unlock")
+    boolean unlockStock(@RequestParam String orderSn);
 
     /**
      * 扣减订单商品库存
-     */
-    @PutMapping("/app-api/v1/sku/_deduct")
-    Result deductStock(@RequestParam String orderSn);
-
-    /**
-     * 订单商品验价
+     * <p>
+     * 扣减指定订单商品的库存数量。
      *
-     * @param checkPriceDTO
+     * @param orderSn 订单编号
+     * @return 扣减库存结果
      */
-    @PostMapping("/app-api/v1/sku/price/_check")
-    Result<Boolean> checkPrice(@RequestBody CheckPriceDTO checkPriceDTO);
-
-    /**
-     * 「实验室」重置商品库存
-     *
-     * @param skuId
-     * @return
-     */
-    @PutMapping("/api/v1/sku/{skuId}/stock/_reset")
-    Result resetStock(@PathVariable Long skuId);
-
-
-    /**
-     * 「实验室」扣减商品库存
-     *
-     * @param skuId
-     * @param count   扣减数量
-     * @return
-     */
-    @PutMapping("/api/v1/sku/{skuId}/stock/_deduct")
-    Result deductStock(@PathVariable Long skuId, @RequestParam Integer count);
+    @PutMapping("/app-api/v1/skus/deduct")
+    boolean deductStock(@RequestParam String orderSn);
 
 }

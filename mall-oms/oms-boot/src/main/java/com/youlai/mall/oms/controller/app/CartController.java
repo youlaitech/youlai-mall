@@ -2,8 +2,8 @@ package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.mall.oms.pojo.dto.CartItemDTO;
-import com.youlai.mall.oms.service.CartService;
+import com.youlai.mall.oms.model.dto.CartItemDTO;
+import com.youlai.mall.oms.service.app.CartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,8 +16,7 @@ import java.util.List;
  * 「移动端」购物车接口
  *
  * @author huawei
- * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @since 2020-12-30 22:31:10
  */
 
 @Api(tags = "「移动端」购物车接口")

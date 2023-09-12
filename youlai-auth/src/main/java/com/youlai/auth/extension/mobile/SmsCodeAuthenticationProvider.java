@@ -1,5 +1,6 @@
 package com.youlai.auth.extension.mobile;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.userdetails.member.MemberUserDetailsServiceImpl;
 import com.youlai.common.constant.SecurityConstants;
@@ -19,7 +20,7 @@ import java.util.HashSet;
  * 短信验证码认证授权提供者
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/9/25
+ * @since 2.0.0
  */
 @Data
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
@@ -33,6 +34,8 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
         String mobile = (String) authenticationToken.getPrincipal();
         String code = (String) authenticationToken.getCredentials();
+
+        Assert.notNull("短信验证码不能为空");
 
         if (!code.equals("666666")) { // 666666 是后门，因为短信收费，正式环境删除这个if分支
             String codeKey = SecurityConstants.SMS_CODE_PREFIX + mobile;

@@ -18,7 +18,7 @@ import java.util.Enumeration;
  * Feign相关配置类
  *
  * @author Gadfly
- * @since 2021-08-06 9:47
+ * @since 2021/08/06
  */
 
 @Configuration
@@ -31,7 +31,7 @@ public class FeignConfig {
      */
     @Bean
     public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration(DispatcherServlet servlet) {
-        servlet.setThreadContextInheritable(true);
+        servlet.setThreadContextInheritable(true); // 子线程可以继承父线程上下文信息
         return new ServletRegistrationBean<>(servlet, "/**");
     }
 

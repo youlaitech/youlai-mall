@@ -4,16 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.oms.mapper.OrderItemMapper">
 
-    <!-- 根据订单ID获取订单明细 -->
-    <select id="listOrderItemsByOrderId" resultType="com.youlai.mall.oms.pojo.vo.OrderPageVO$OrderItem">
+    <!-- 根据订单ID获取订单商品列表 -->
+    <select id="getOrderItemsByOrderId" resultType="com.youlai.mall.oms.model.bo.OrderBO$OrderItem">
         SELECT
             id,
             order_id,
             sku_id,
+            sku_sn,
             sku_name,
             pic_url,
             price,
-            count,
+            quantity,
             total_amount
         FROM
             oms_order_item

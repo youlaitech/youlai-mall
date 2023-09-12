@@ -74,10 +74,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public IPage<UserVO> listUserPages(UserPageQuery queryParams) {
+    public IPage<UserVO> getUserPage(UserPageQuery queryParams) {
 
         // 查询数据
-        Page<UserBO> userBoPage = this.baseMapper.listUserPages(
+        Page<UserBO> userBoPage = this.baseMapper.getUserPage(
                 new Page<>(queryParams.getPageNum(),
                         queryParams.getPageSize()),
                 queryParams

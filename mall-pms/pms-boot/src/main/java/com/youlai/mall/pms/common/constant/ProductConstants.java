@@ -1,22 +1,22 @@
 package com.youlai.mall.pms.common.constant;
 
 /**
- * 商品模块常量
+ * 商品常量
  *
  * @author haoxr
- * @date 2021/02/28
+ * @since 2.0.0
  */
 public interface ProductConstants {
 
     /**
-     * 订单锁定的商品列表key前缀
+     * 锁定的商品列表缓存键前缀
      */
-    String ORDER_LOCKED_SKUS_PREFIX = "order:locked:skus:";
+    String LOCKED_SKUS_PREFIX = "product:locked_skus:";
 
     /**
-     * 商品分布式锁key前缀
+     * 商品分布式锁缓存键前缀
      */
-    String SKU_LOCK_PREFIX = "product:sku:lock:";
+    String SKU_LOCK_PREFIX = "product:sku_lock:";
 
     /**
      * 临时规格ID前缀

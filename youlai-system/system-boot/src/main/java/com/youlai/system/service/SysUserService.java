@@ -28,7 +28,7 @@ public interface SysUserService extends IService<SysUser> {
      *
      * @return
      */
-    IPage<UserVO> listUserPages(UserPageQuery queryParams);
+    IPage<UserVO> getUserPage(UserPageQuery queryParams);
 
 
     /**
