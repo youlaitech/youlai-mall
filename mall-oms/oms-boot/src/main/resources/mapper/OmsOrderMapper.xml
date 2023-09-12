@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.oms.mapper.OrderMapper">
 
-
     <resultMap id="OrderMap" type="com.youlai.mall.oms.model.bo.OrderBO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="orderSn" column="order_sn" jdbcType="VARCHAR"/>
@@ -13,7 +12,6 @@
                     select="com.youlai.mall.oms.mapper.OrderItemMapper.getOrderItemsByOrderId">
         </collection>
     </resultMap>
-
 
     <!-- 订单分页列表 -->
     <select id="getOrderPage" resultMap="OrderMap">
@@ -29,7 +27,7 @@
            t1.total_quantity,
            t1.create_time,
            t1.member_id,
-           t1.source_type,
+           t1.source,
            t1.remark
         FROM
             oms_order t1
