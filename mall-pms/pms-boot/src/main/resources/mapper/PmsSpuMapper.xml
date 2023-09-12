@@ -27,8 +27,8 @@
             <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
             <result property="specIds" column="spec_ids" jdbcType="VARCHAR"/>
             <result property="price" column="price" jdbcType="BIGINT"/>
-            <result property="stockNum" column="stock_num" jdbcType="INTEGER"/>
-            <result property="lockedStockNum" column="locked_stock_num" jdbcType="INTEGER"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
         </collection>
     </resultMap>
 

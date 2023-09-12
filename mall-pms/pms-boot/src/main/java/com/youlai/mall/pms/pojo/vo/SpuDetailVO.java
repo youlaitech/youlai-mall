@@ -103,7 +103,7 @@ public class SpuDetailVO {
         private Long price;
 
         @ApiModelProperty("库存")
-        private Integer stockNum;
+        private Integer stock;
 
         @ApiModelProperty("商品图片URL")
         private String picUrl;

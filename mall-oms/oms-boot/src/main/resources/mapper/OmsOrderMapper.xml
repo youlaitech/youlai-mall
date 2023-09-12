@@ -11,8 +11,6 @@
         <collection property="orderItems"
                     column="{orderId=id}"
                     select="com.youlai.mall.oms.mapper.OrderItemMapper.getOrderItemsByOrderId">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="orderId" column="order_id" jdbcType="BIGINT"/>
         </collection>
     </resultMap>
 

@@ -96,20 +96,6 @@ CREATE TABLE `pms_category_brand`  (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for pms_catetgory_brand
--- ----------------------------
-DROP TABLE IF EXISTS `pms_catetgory_brand`;
-CREATE TABLE `pms_catetgory_brand`  (
-                                        `category_id` bigint NOT NULL,
-                                        `brand_id` bigint NOT NULL,
-                                        PRIMARY KEY (`category_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_catetgory_brand
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_sku
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_sku`;
@@ -120,8 +106,8 @@ CREATE TABLE `pms_sku`  (
                             `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品名称',
                             `spec_ids` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品规格值，以英文逗号(,)分割',
                             `price` bigint NULL DEFAULT NULL COMMENT '商品价格(单位：分)',
-                            `stock_num` int NULL DEFAULT 0 COMMENT '库存数量',
-                            `locked_stock_num` int NULL DEFAULT 0 COMMENT '锁定库存数量',
+                            `stock` int UNSIGNED NULL DEFAULT NULL COMMENT '库存数量',
+                            `locked_stock` int NULL DEFAULT NULL COMMENT '库存锁定数量',
                             `pic_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品图片地址',
                             `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
                             `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
@@ -132,23 +118,23 @@ CREATE TABLE `pms_sku`  (
 -- ----------------------------
 -- Records of pms_sku
 -- ----------------------------
-INSERT INTO `pms_sku` VALUES (1, 'sn001', 1, '黑 6+128g', '1_3', 399900, 999, 65, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', '2021-08-08 00:43:26', '2022-07-03 14:16:16');
-INSERT INTO `pms_sku` VALUES (2, 'sn002', 1, '黑 8+256g', '1_4', 499900, 9998, 0, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', '2021-08-08 00:43:26', '2022-07-03 14:16:16');
-INSERT INTO `pms_sku` VALUES (3, 'sn003', 1, '蓝 6+128g', '216_3', 399900, 9998, 0, 'https://www.youlai.tech/files/default/835d73a337964b9b97e5c7c90acc8cb2.png', '2022-03-05 09:25:53', '2022-07-03 14:16:16');
-INSERT INTO `pms_sku` VALUES (4, 'sn004', 1, '蓝 8+256g', '216_4', 499900, 9988, 0, 'https://www.youlai.tech/files/default/835d73a337964b9b97e5c7c90acc8cb2.png', '2022-03-05 09:25:53', '2022-07-03 14:16:16');
-INSERT INTO `pms_sku` VALUES (5, '10000001', 2, '魔幻青 RTX3060/i7-12700H/165Hz 2.5K屏', '256_258', 1025000, 9816, 184, 'http://a.youlai.tech:9000/default/8815c9a46fcc4b1ea952623406750da5.jpg', '2022-03-11 14:39:21', '2022-07-08 00:29:56');
-INSERT INTO `pms_sku` VALUES (6, '10000002', 2, '魔幻青 RTX3050tTi/12代i5/144Hz高色域屏', '256_259', 925000, 10000, 0, 'http://a.youlai.tech:9000/default/8815c9a46fcc4b1ea952623406750da5.jpg', '2022-03-11 14:39:21', '2022-07-08 00:29:56');
-INSERT INTO `pms_sku` VALUES (7, '10000003', 2, '日蚀灰 RTX3060/i7-12700H/165Hz 2.5K屏', '257_258', 1025000, 10000, 0, 'http://a.youlai.tech:9000/default/3210cd1ffb6c4346b743a10855d3cb37.jpg', '2022-03-11 14:39:21', '2022-07-08 00:29:56');
-INSERT INTO `pms_sku` VALUES (8, '10000004', 2, '日蚀灰 RTX3050tTi/12代i5/144Hz高色域屏', '257_259', 925000, 10000, 1, 'http://a.youlai.tech:9000/default/3210cd1ffb6c4346b743a10855d3cb37.jpg', '2022-03-11 14:39:21', '2022-07-08 00:29:56');
-INSERT INTO `pms_sku` VALUES (9, '111', 3, '16g 512g 【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', '841_843_845', 589900, 9991, 117, 'https://oss.youlai.tech/youlai-boot/2023/06/08/78b8efecb753426f81e5dcfcd175495f.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
-INSERT INTO `pms_sku` VALUES (10, '112', 3, '16g 512g 【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', '841_843_846', 629900, 9999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/93cbc9dc6fe144f5a59793a6248479a0.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
-INSERT INTO `pms_sku` VALUES (11, '113', 3, '16g 1t 【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', '841_844_845', 639900, 9999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/78b8efecb753426f81e5dcfcd175495f.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
-INSERT INTO `pms_sku` VALUES (12, '114', 3, '16g 1t 【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', '841_844_846', 639900, 9999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/93cbc9dc6fe144f5a59793a6248479a0.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
-INSERT INTO `pms_sku` VALUES (13, '115', 3, '32g 512g 【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', '842_843_845', 589900, 9999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/78b8efecb753426f81e5dcfcd175495f.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
-INSERT INTO `pms_sku` VALUES (14, '116', 3, '32g 512g 【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', '842_843_846', 629900, 9999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/93cbc9dc6fe144f5a59793a6248479a0.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
-INSERT INTO `pms_sku` VALUES (15, '117', 3, '32g 1t 【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', '842_844_845', 639900, 9999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/78b8efecb753426f81e5dcfcd175495f.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
-INSERT INTO `pms_sku` VALUES (16, '118', 3, '32g 1t 【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', '842_844_846', 639900, 9999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/93cbc9dc6fe144f5a59793a6248479a0.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
-INSERT INTO `pms_sku` VALUES (17, 'sn001', 4, '黑 6+128g', '1_3', 399900, 999, 65, 'https://oss.youlai.tech/youlai-boot/2023/06/08/6b83dd33eaa248ed8e11cff0003287ee.jpg', '2021-08-08 00:43:26', '2022-07-03 14:16:16');
+INSERT INTO `pms_sku` VALUES (1, 'sn001', 1, '黑 6+128g', '1_3', 399900, 996, 0, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', '2021-08-08 00:43:26', '2022-07-03 14:16:16');
+INSERT INTO `pms_sku` VALUES (2, 'sn002', 1, '黑 8+256g', '1_4', 499900, 999, 0, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', '2021-08-08 00:43:26', '2022-07-03 14:16:16');
+INSERT INTO `pms_sku` VALUES (3, 'sn003', 1, '蓝 6+128g', '216_3', 399900, 999, 0, 'https://www.youlai.tech/files/default/835d73a337964b9b97e5c7c90acc8cb2.png', '2022-03-05 09:25:53', '2022-07-03 14:16:16');
+INSERT INTO `pms_sku` VALUES (4, 'sn004', 1, '蓝 8+256g', '216_4', 499900, 999, 0, 'https://www.youlai.tech/files/default/835d73a337964b9b97e5c7c90acc8cb2.png', '2022-03-05 09:25:53', '2022-07-03 14:16:16');
+INSERT INTO `pms_sku` VALUES (5, '10000001', 2, '魔幻青 RTX3060/i7-12700H/165Hz 2.5K屏', '256_258', 1025000, 999, 0, 'http://a.youlai.tech:9000/default/8815c9a46fcc4b1ea952623406750da5.jpg', '2022-03-11 14:39:21', '2022-07-08 00:29:56');
+INSERT INTO `pms_sku` VALUES (6, '10000002', 2, '魔幻青 RTX3050tTi/12代i5/144Hz高色域屏', '256_259', 925000, 999, 0, 'http://a.youlai.tech:9000/default/8815c9a46fcc4b1ea952623406750da5.jpg', '2022-03-11 14:39:21', '2022-07-08 00:29:56');
+INSERT INTO `pms_sku` VALUES (7, '10000003', 2, '日蚀灰 RTX3060/i7-12700H/165Hz 2.5K屏', '257_258', 1025000, 999, 0, 'http://a.youlai.tech:9000/default/3210cd1ffb6c4346b743a10855d3cb37.jpg', '2022-03-11 14:39:21', '2022-07-08 00:29:56');
+INSERT INTO `pms_sku` VALUES (8, '10000004', 2, '日蚀灰 RTX3050tTi/12代i5/144Hz高色域屏', '257_259', 925000, 999, 0, 'http://a.youlai.tech:9000/default/3210cd1ffb6c4346b743a10855d3cb37.jpg', '2022-03-11 14:39:21', '2022-07-08 00:29:56');
+INSERT INTO `pms_sku` VALUES (9, '111', 3, '16g 512g 【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', '841_843_845', 589900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/78b8efecb753426f81e5dcfcd175495f.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
+INSERT INTO `pms_sku` VALUES (10, '112', 3, '16g 512g 【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', '841_843_846', 629900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/93cbc9dc6fe144f5a59793a6248479a0.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
+INSERT INTO `pms_sku` VALUES (11, '113', 3, '16g 1t 【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', '841_844_845', 639900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/78b8efecb753426f81e5dcfcd175495f.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
+INSERT INTO `pms_sku` VALUES (12, '114', 3, '16g 1t 【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', '841_844_846', 639900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/93cbc9dc6fe144f5a59793a6248479a0.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
+INSERT INTO `pms_sku` VALUES (13, '115', 3, '32g 512g 【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', '842_843_845', 589900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/78b8efecb753426f81e5dcfcd175495f.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
+INSERT INTO `pms_sku` VALUES (14, '116', 3, '32g 512g 【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', '842_843_846', 629900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/93cbc9dc6fe144f5a59793a6248479a0.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
+INSERT INTO `pms_sku` VALUES (15, '117', 3, '32g 1t 【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', '842_844_845', 639900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/78b8efecb753426f81e5dcfcd175495f.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
+INSERT INTO `pms_sku` VALUES (16, '118', 3, '32g 1t 【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', '842_844_846', 639900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/93cbc9dc6fe144f5a59793a6248479a0.jpg', '2022-07-07 00:22:13', '2022-07-08 00:29:41');
+INSERT INTO `pms_sku` VALUES (17, 'sn001', 4, '黑 6+128g', '1_3', 399900, 999, 0, 'https://oss.youlai.tech/youlai-boot/2023/06/08/6b83dd33eaa248ed8e11cff0003287ee.jpg', '2021-08-08 00:43:26', '2022-07-03 14:16:16');
 
 -- ----------------------------
 -- Table structure for pms_spu

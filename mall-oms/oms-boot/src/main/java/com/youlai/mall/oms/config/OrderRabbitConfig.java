@@ -56,7 +56,7 @@ public class OrderRabbitConfig {
         Map<String, Object> args = new HashMap<>();
         args.put("x-dead-letter-exchange", ORDER_DLX_EXCHANGE);
         args.put("x-dead-letter-routing-key", ORDER_ClOSE_ROUTING_KEY); // 死信路由Key
-        args.put("x-message-ttl", 10 * 1000L); // 单位毫秒，5s用于测试
+        args.put("x-message-ttl", 10 * 1000L); // 单位毫秒，10s用于测试
         return new Queue(ORDER_CLOSE_DELAY_QUEUE, true, false, false, args);
     }
 

@@ -1,5 +1,6 @@
 package com.youlai.mall.oms.model.form;
 
+import com.youlai.mall.oms.enums.OrderSourceEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,7 +28,7 @@ public class OrderSubmitForm {
 
     @ApiModelProperty("订单来源")
     @NotNull(message = "订单来源不能为空")
-    private Integer sourceType;
+    private OrderSourceEnum orderSource;
 
     @ApiModelProperty("订单商品明细")
     @NotEmpty(message = "订单商品不能为空")
@@ -91,7 +92,7 @@ public class OrderSubmitForm {
         private String spuName;
 
         @ApiModelProperty(value = "商品数量")
-        private Integer count;
+        private Integer quantity;
     }
 
 

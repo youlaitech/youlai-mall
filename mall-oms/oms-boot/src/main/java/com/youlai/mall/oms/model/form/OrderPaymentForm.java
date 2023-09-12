@@ -31,6 +31,6 @@ public class OrderPaymentForm {
     String appId;
 
     @ApiModelProperty("支付方式")
-    private PaymentMethodEnum paymentMethodEnum;
+    private PaymentMethodEnum paymentMethod;
 
 }

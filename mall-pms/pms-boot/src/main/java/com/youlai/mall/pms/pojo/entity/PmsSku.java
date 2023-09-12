@@ -45,12 +45,12 @@ public class PmsSku extends BaseEntity {
     /**
      * 库存数量
      */
-    private Integer stockNum;
+    private Integer stock;
 
     /**
      * 锁定库存数量
      */
-    private Integer lockedStockNum;
+    private Integer lockedStock;
 
     /**
      * 商品图片地址
