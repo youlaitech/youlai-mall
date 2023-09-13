@@ -6,13 +6,9 @@
 
 
     <resultMap id="OrderMap" type="com.youlai.mall.oms.model.bo.OrderBO">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="orderSn" column="order_sn" jdbcType="VARCHAR"/>
         <collection property="orderItems"
                     column="{orderId=id}"
                     select="com.youlai.mall.oms.mapper.OrderItemMapper.getOrderItemsByOrderId">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="orderId" column="order_id" jdbcType="BIGINT"/>
         </collection>
     </resultMap>
 
@@ -31,7 +27,7 @@
            t1.total_quantity,
            t1.create_time,
            t1.member_id,
-           t1.source_type,
+           t1.source,
            t1.remark
         FROM
             oms_order t1

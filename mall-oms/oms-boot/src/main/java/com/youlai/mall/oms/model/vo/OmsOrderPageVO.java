@@ -15,7 +15,7 @@ import java.util.List;
  * @author haoxr
  * @since 2.3.0
  */
-@ApiModel("管理端-订单分页视图对象")
+@ApiModel("Admin-订单分页视图对象")
 @Data
 public class OmsOrderPageVO {
 

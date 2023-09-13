@@ -13,7 +13,6 @@ import com.youlai.mall.oms.service.admin.OmsOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 /**
  * Admin-订单业务实现类
  *
@@ -31,7 +30,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impl
      * Admin-订单分页列表
      *
      * @param queryParams {@link OrderPageQuery}
-     * @return
+     * @return {@link OmsOrderPageVO}
      */
     @Override
     public IPage<OmsOrderPageVO> getOrderPage(OrderPageQuery queryParams) {

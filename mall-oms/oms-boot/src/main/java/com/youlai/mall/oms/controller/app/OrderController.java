@@ -3,12 +3,11 @@ package com.youlai.mall.oms.controller.app;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.oms.enums.PaymentMethodEnum;
-import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.form.OrderPaymentForm;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.model.vo.OrderConfirmVO;
+import com.youlai.mall.oms.model.vo.OrderPageVO;
 import com.youlai.mall.oms.service.app.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,23 +17,23 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 「移动端」订单控制层
+ * APP-订单控制层
  *
  * @author huawei
  * @since 2020/12/30
  */
-@Api(tags = "「移动端」订单接口")
+@Api(tags = "APP-订单接口")
 @RestController
 @RequestMapping("/app-api/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
 
-    final OrderService orderService;
+    private final OrderService orderService;
 
     @ApiOperation("订单分页列表")
     @GetMapping
-    public PageResult<OmsOrder> getOrderPage(OrderPageQuery queryParams) {
-        IPage<OmsOrder> result = orderService.getOrderPage(queryParams);
+    public PageResult<OrderPageVO> getOrderPage(OrderPageQuery queryParams) {
+        IPage<OrderPageVO> result = orderService.getOrderPage(queryParams);
         return PageResult.success(result);
     }
 
@@ -56,14 +55,14 @@ public class OrderController {
 
     @ApiOperation("订单支付")
     @PostMapping("/payment")
-    public  Result payOrder(@Validated @RequestBody OrderPaymentForm paymentForm) {
+    public Result payOrder(@Validated @RequestBody OrderPaymentForm paymentForm) {
         boolean result = orderService.payOrder(paymentForm);
         return Result.judge(result);
     }
 
     @ApiOperation("订单删除")
     @DeleteMapping("/{orderId}")
-    public Result<Boolean> deleteOrder(@PathVariable Long orderId) {
+    public Result deleteOrder(@PathVariable Long orderId) {
         boolean deleted = orderService.deleteOrder(orderId);
         return Result.judge(deleted);
     }

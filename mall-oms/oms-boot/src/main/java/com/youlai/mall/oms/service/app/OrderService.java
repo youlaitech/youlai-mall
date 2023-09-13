@@ -11,13 +11,13 @@ import com.youlai.mall.oms.model.form.OrderPaymentForm;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.model.vo.OrderConfirmVO;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
+import com.youlai.mall.oms.model.vo.OrderPageVO;
 
 /**
  * 订单业务接口
  *
  * @author huawei
- * @email huawei_code@163.com
- * @date 2020-12-30 22:31:10
+ * @since 2020-12-30 22:31:10
  */
 public interface OrderService extends IService<OmsOrder> {
 
@@ -28,7 +28,7 @@ public interface OrderService extends IService<OmsOrder> {
      * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
      *
      * @param skuId 直接购买必填，购物车结算不填
-     * @return
+     * @return {@link OrderConfirmVO}
      */
     OrderConfirmVO confirmOrder(Long skuId);
 
@@ -76,10 +76,10 @@ public interface OrderService extends IService<OmsOrder> {
     /**
      * 订单分页列表
      *
-     * @param queryParams
-     * @return
+     * @param queryParams 订单分页查询参数
+     * @return {@link OrderPageVO}
      */
-    IPage<OmsOrder> getOrderPage(OrderPageQuery queryParams);
+    IPage<OrderPageVO> getOrderPage(OrderPageQuery queryParams);
 
 }
 

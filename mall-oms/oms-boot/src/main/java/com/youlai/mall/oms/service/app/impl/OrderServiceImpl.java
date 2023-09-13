@@ -30,6 +30,7 @@ import com.youlai.mall.oms.enums.PaymentMethodEnum;
 import com.youlai.mall.oms.converter.OrderConverter;
 import com.youlai.mall.oms.converter.OrderItemConverter;
 import com.youlai.mall.oms.mapper.OrderMapper;
+import com.youlai.mall.oms.model.bo.OrderBO;
 import com.youlai.mall.oms.model.dto.CartItemDTO;
 import com.youlai.mall.oms.model.dto.OrderItemDTO;
 import com.youlai.mall.oms.model.entity.OmsOrder;
@@ -38,6 +39,7 @@ import com.youlai.mall.oms.model.form.OrderPaymentForm;
 import com.youlai.mall.oms.model.form.OrderSubmitForm;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.model.vo.OrderConfirmVO;
+import com.youlai.mall.oms.model.vo.OrderPageVO;
 import com.youlai.mall.oms.service.app.CartService;
 import com.youlai.mall.oms.service.app.OrderItemService;
 import com.youlai.mall.oms.service.app.OrderService;
@@ -95,11 +97,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * 订单分页列表
      */
     @Override
-    public IPage<OmsOrder> getOrderPage(OrderPageQuery queryParams) {
-        Page<OmsOrder> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        //List<OmsOrder> list = this.baseMapper.getOrderPage(page, queryParams);
-        page.setRecords(null);
-        return page;
+    public IPage<OrderPageVO> getOrderPage(OrderPageQuery queryParams) {
+        Page<OrderBO> boPage = this.baseMapper.getOrderPage(
+                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+                queryParams);
+        return orderConverter.toVoPageForApp(boPage);
     }
 
     /**
@@ -109,7 +111,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * 进入订单创建页面有两个入口，1：立即购买；2：购物车结算
      *
      * @param skuId 商品ID(直接购买传值)
-     * @return 订单确认响应 {@link OrderConfirmVO}
+     * @return {@link OrderConfirmVO}
      */
     @Override
     public OrderConfirmVO confirmOrder(Long skuId) {
