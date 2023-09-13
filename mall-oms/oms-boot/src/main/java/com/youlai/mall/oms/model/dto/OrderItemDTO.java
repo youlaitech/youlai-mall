@@ -44,5 +44,5 @@ public class OrderItemDTO {
     /**
      * 订单商品数量
      */
-    private Integer count;
+    private Integer quantity;
 }

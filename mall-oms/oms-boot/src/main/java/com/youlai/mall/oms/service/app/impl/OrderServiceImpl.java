@@ -200,7 +200,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 3. 校验库存并锁定库存
         List<LockedSkuDTO> lockedSkuList = orderItems.stream()
-                .map(item -> new LockedSkuDTO(item.getSkuId(), item.getCount(), item.getSkuSn()))
+                .map(item -> new LockedSkuDTO(item.getSkuId(), item.getQuantity(), item.getSkuSn()))
                 .collect(Collectors.toList());
 
         boolean lockStockResult = skuFeignClient.lockStock(orderToken, lockedSkuList);
@@ -223,6 +223,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OmsOrder order = orderConverter.form2Entity(submitForm);
         order.setStatus(OrderStatusEnum.UNPAID.getValue());
         order.setMemberId(SecurityUtils.getMemberId());
+        order.setSource(submitForm.getOrderSource().getValue());
         boolean result = this.save(order);
 
         Long orderId = order.getId();
@@ -260,7 +261,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         try {
             lock.lock();
             T result;
-            switch (paymentForm.getPaymentMethodEnum()) {
+            switch (paymentForm.getPaymentMethod()) {
                 case WX_JSAPI:
                     result = (T) wxJsapiPay(paymentForm.getAppId(), order.getOrderSn(), order.getPaymentAmount());
                     break;
@@ -450,8 +451,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             SkuInfoDTO skuInfoDTO = skuFeignClient.getSkuInfo(skuId);
             OrderItemDTO orderItemDTO = new OrderItemDTO();
             BeanUtil.copyProperties(skuInfoDTO, orderItemDTO);
-
-            orderItemDTO.setCount(1); // 直接购买商品的数量为1
+            orderItemDTO.setSkuId(skuInfoDTO.getId());
+            orderItemDTO.setQuantity(1); // 直接购买商品的数量为1
             orderItems.add(orderItemDTO);
         } else { // 购物车结算
             List<CartItemDTO> cartItems = cartService.listCartItems(memberId);

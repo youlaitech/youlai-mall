@@ -20,7 +20,7 @@ import java.util.List;
 public interface OrderItemConverter {
 
     @Mappings({
-            @Mapping(target = "totalAmount", expression = "java(item.getPrice() * item.getCount())"),
+            @Mapping(target = "totalAmount", expression = "java(item.getPrice() * item.getQuantity())"),
     })
     OmsOrderItem item2Entity(OrderSubmitForm.OrderItem item);
 

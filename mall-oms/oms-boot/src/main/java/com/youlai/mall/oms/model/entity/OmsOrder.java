@@ -39,7 +39,7 @@ public class OmsOrder extends BaseEntity {
 	/**
 	 * 订单来源(0-PC订单；1-app订单)
 	 */
-	private Integer sourceType;
+	private Integer source;
 
 	/**
 	 * 订单状态(1-待付款;2-待发货;3-已发货;4-已完成;5-已关闭;6-已取消;)

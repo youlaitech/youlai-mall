@@ -4,14 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.oms.mapper.OrderMapper">
 
-
     <resultMap id="OrderMap" type="com.youlai.mall.oms.model.bo.OrderBO">
         <collection property="orderItems"
                     column="{orderId=id}"
                     select="com.youlai.mall.oms.mapper.OrderItemMapper.getOrderItemsByOrderId">
         </collection>
     </resultMap>
-
 
     <!-- 订单分页列表 -->
     <select id="getOrderPage" resultMap="OrderMap">
