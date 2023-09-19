@@ -25,11 +25,11 @@ public class ThreadPoolConfig {
         int cpuCoreSize = Runtime.getRuntime().availableProcessors();
         log.info("当前CPU核心数:{}", cpuCoreSize);
 
-        /**
+        /*
          * 计算密集型: 核心线程数=CPU核心 +1   √
          * I/O密集型: 核心线程数=2*CPU核心 +1
          */
-        Integer corePoolSize = cpuCoreSize + 1;
+        int corePoolSize = cpuCoreSize + 1;
 
         return new ThreadPoolExecutor(
                 corePoolSize,
