@@ -1,4 +1,4 @@
-package com.youlai.gateway.swagger.config;
+package com.youlai.gateway.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

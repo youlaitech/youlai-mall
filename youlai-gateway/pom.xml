@@ -96,11 +96,6 @@
             <artifactId>common-redis</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
