@@ -3,7 +3,6 @@ package com.youlai.mall.ums.controller.app;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.youlai.common.result.Result;
-import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
