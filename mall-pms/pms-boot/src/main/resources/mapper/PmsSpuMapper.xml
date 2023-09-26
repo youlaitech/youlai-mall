@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.pms.mapper.PmsSpuMapper">
 
-    <resultMap id="BaseResultMap" type="com.youlai.mall.pms.pojo.vo.PmsSpuPageVO">
+    <resultMap id="SpuPageMap" type="com.youlai.mall.pms.pojo.vo.PmsSpuPageVO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
@@ -33,7 +33,7 @@
     </resultMap>
 
     <!--「管理端」商品分页列表-->
-    <select id="listPmsSpuPages" resultMap="BaseResultMap">
+    <select id="getSpuPage" resultMap="SpuPageMap">
         SELECT
             t1.id,
             t1.name,
@@ -65,7 +65,7 @@
 
 
     <!--「应用端」商品分页列表-->
-    <select id="listSpuPages" resultType="com.youlai.mall.pms.pojo.vo.SpuPageVO">
+    <select id="getSpuPageForApp" resultType="com.youlai.mall.pms.pojo.vo.SpuPageVO">
         SELECT
             id,
             NAME,

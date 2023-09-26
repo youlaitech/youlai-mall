@@ -20,7 +20,7 @@ public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
      * @param queryParams
      * @return
      */
-    List<PmsSpuPageVO> listPmsSpuPages(Page<PmsSpuPageVO> page, SpuPageQuery queryParams);
+    List<PmsSpuPageVO> getSpuPage(Page<PmsSpuPageVO> page, SpuPageQuery queryParams);
 
     /**
      * 「应用端」商品分页列表
@@ -29,7 +29,7 @@ public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
      * @param queryParams
      * @return
      */
-    List<SpuPageVO> listSpuPages(Page<SpuPageVO> page, SpuPageQuery queryParams);
+    List<SpuPageVO> getSpuPageForApp(Page<SpuPageVO> page, SpuPageQuery queryParams);
 
 
 }
