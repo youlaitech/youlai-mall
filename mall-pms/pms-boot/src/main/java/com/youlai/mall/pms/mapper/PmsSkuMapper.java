@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.pms.model.dto.SkuDTO;
+import com.youlai.mall.pms.model.dto.SkuInfoDTO;
 import com.youlai.mall.pms.model.entity.PmsSku;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +14,5 @@ public interface PmsSkuMapper extends BaseMapper<PmsSku> {
      * @param skuId
      * @return
      */
-    SkuDTO getSkuInfo(Long skuId);
+    SkuInfoDTO getSkuInfo(Long skuId);
 }

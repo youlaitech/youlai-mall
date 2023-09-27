@@ -4,68 +4,50 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.oms.mapper.OrderMapper">
 
-
-    <resultMap id="OrderPageMap" type="com.youlai.mall.oms.model.vo.OrderPageVO">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="orderSn" column="order_sn" jdbcType="VARCHAR"/>
-        <result property="totalAmount" column="total_amount" jdbcType="BIGINT"/>
-        <result property="payAmount" column="pay_amount" jdbcType="BIGINT"/>
-        <result property="payType" column="pay_type" jdbcType="TINYINT"/>
-        <result property="status" column="status" jdbcType="TINYINT"/>
-        <result property="totalQuantity" column="total_quantity" jdbcType="TINYINT"/>
-        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
-        <result property="memberId" column="member_id" jdbcType="BIGINT"/>
-        <result property="sourceType" column="source_type" jdbcType="TINYINT"/>
+    <resultMap id="OrderMap" type="com.youlai.mall.oms.model.bo.OrderBO">
         <collection property="orderItems"
-                    column="id" select="com.youlai.mall.oms.mapper.OrderItemMapper.listOrderItemsByOrderId">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="orderId" column="order_id" jdbcType="BIGINT"/>
-            <result property="skuId" column="sku_id" jdbcType="BIGINT"/>
-            <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
-            <result property="picUrl" column="sku_pic" jdbcType="VARCHAR"/>
-            <result property="price" column="sku_price" jdbcType="BIGINT"/>
-            <result property="count" column="sku_quantity" jdbcType="INTEGER"/>
-            <result property="totalAmount" column="sku_total_price" jdbcType="BIGINT"/>
-            <result property="spuName" column="spu_name" jdbcType="VARCHAR"/>
+                    column="{orderId=id}"
+                    select="com.youlai.mall.oms.mapper.OrderItemMapper.getOrderItemsByOrderId">
         </collection>
     </resultMap>
 
-
     <!-- 订单分页列表 -->
-    <select id="listOrderPages" resultMap="OrderPageMap">
+    <select id="getOrderPage" resultMap="OrderMap">
 
         SELECT
-               id,
-               order_sn,
-               total_amount,
-               pay_amount,
-               pay_type,
-               status,
-               total_amount,
-               total_quantity,
-               create_time,
-               member_id,
-               source_type
-        FROM oms_order
+           t1.id,
+           t1.order_sn,
+           t1.total_amount,
+           t1.payment_amount,
+           t1.payment_method,
+           t1.status,
+           t1.total_amount,
+           t1.total_quantity,
+           t1.create_time,
+           t1.member_id,
+           t1.source,
+           t1.remark
+        FROM
+            oms_order t1
         <where>
+            <if test ='queryParams.keywords !=null and queryParams.keywords.trim() neq ""' >
+                AND
+                (
+                t1.order_sn like  concat('%',#{queryParams.keywords},'%')
+                )
+            </if>
             <if test ='queryParams.status !=null ' >
-                AND status= #{queryParams.status}
+                AND t1.status= #{queryParams.status}
             </if>
-            <if test ='queryParams.memberId !=null ' >
-                AND member_id= #{queryParams.memberId}
-            </if>
-            <if test ='queryParams.orderSn !=null  and queryParams.orderSn.trim() neq ""' >
-                AND order_sn like  concat('%',#{queryParams.orderSn},'%')
+            <if test ='queryParams.beginDate !=null' >
+                AND t1.create_time &gt;= #{queryParams.beginDate}
             </if>
 
-            <if test ='queryParams.beginDate !=null and  queryParams.beginDate.trim() neq ""' >
-                AND date_format (create_time,'%Y-%m-%d') &gt;= date_format(#{queryParams.beginDate},'%Y-%m-%d')
-            </if>
-
-            <if test ='queryParams.endDate !=null and  queryParams.endDate.trim() neq ""' >
-                AND date_format (create_time,'%Y-%m-%d') &lt;= date_format(#{queryParams.endDate},'%Y-%m-%d')
+            <if test ='queryParams.endDate !=null' >
+                AND t1.create_time &lt;= #{queryParams.endDate}
             </if>
         </where>
-        ORDER BY create_time DESC
+        ORDER BY
+            t1.create_time DESC
     </select>
 </mapper>

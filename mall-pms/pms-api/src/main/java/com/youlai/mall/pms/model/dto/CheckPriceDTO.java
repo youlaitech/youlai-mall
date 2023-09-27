@@ -11,7 +11,7 @@ import java.util.List;
  * 订单商品验价传输对象
  *
  * @author haoxr
- * @since 2022/2/7
+ * @date 2022/2/7
  */
 @Data
 @NoArgsConstructor
@@ -20,19 +20,14 @@ import java.util.List;
 public class CheckPriceDTO {
 
     /**
-     * 订单编号
-     */
-    private String orderSn;
-
-    /**
      * 订单总金额
      */
-    private Long orderTotalAmount;
+    private Long totalAmount;
 
     /**
      * 订单商品明细
      */
-    private List<OrderSku> orderSkus;
+    private List<OrderSku> skus;
 
     /**
      * 订单商品对象

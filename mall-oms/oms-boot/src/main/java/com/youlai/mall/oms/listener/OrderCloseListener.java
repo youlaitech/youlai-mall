@@ -1,92 +1,54 @@
 package com.youlai.mall.oms.listener;
 
-
 import com.rabbitmq.client.Channel;
-import com.youlai.mall.oms.service.OrderService;
+import com.youlai.mall.oms.service.app.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 /**
- * 订单超时未支付取消
+ * 订单超时未支付系统自动取消监听器
  *
  * @author haoxr
  * @since 2022/12/19
  */
-//@Component
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class OrderCloseListener {
     private final OrderService orderService;
+    private final RabbitTemplate rabbitTemplate;
 
-    // 延迟队列
-    private static final String ORDER_CLOSE_DELAY_QUEUE = "order.close.delay.queue";
-    private static final String ORDER_EXCHANGE = "order.exchange";
-    private static final String ORDER_CLOSE_DELAY_ROUTING_KEY = "order.close.delay.routing.key";
-
-    // 关单队列
-    private static final String ORDER_ClOSE_QUEUE = "order.close.queue";
-    private static final String ORDER_DLX_EXCHANGE = "order.dlx.exchange";
-    private static final String ORDER_ClOSE_ROUTING_KEY = "order.close.routing.key";
-
-    /**
-     * 延迟队列
-     * <p>
-     * 超过 x-message-ttl 设定时间未被消费转发到死信交换机
-     */
-   @RabbitListener(bindings =
-            {
-                    @QueueBinding(
-                            value = @Queue(value = ORDER_CLOSE_DELAY_QUEUE,
-                                    arguments =
-                                            {
-                                                    @Argument(name = "x-dead-letter-exchange", value = ORDER_DLX_EXCHANGE),
-                                                    @Argument(name = "x-dead-letter-routing-key", value = ORDER_ClOSE_ROUTING_KEY),
-                                                    @Argument(name = "x-message-ttl", value = "5000", type = "java.lang.Long") // 超时10s
-                                            }),
-                            exchange = @Exchange(value = ORDER_EXCHANGE),
-                            key = {ORDER_CLOSE_DELAY_ROUTING_KEY}
-                    )
-            }, ackMode = "MANUAL" // 手动ACK
-    )
-    public void handleOrderCloseDelay(String orderSn, Message message, Channel channel) throws IOException {
-        log.info("订单【{}】延时队列，10s内如果未支付将路由到关单队列", orderSn);
-        long deliveryTag = message.getMessageProperties().getDeliveryTag();
-        /**
-         * @param deliveryTag 消息序号
-         * @param multiple 是否批量处理（true:批量拒绝所有小于deliveryTag的消息；false:只处理当前消息）
-         * @param requeue 拒绝是否重新入队列 （true:消息重新入队；false:禁止消息重新入队）
-         */
-        //channel.basicReject(deliveryTag, false);  // 等于 channel.basicReject(deliveryTag, false);
-    }
-
-    /**
-     * 关单队列
-     */
-    @RabbitListener(bindings = {
-            @QueueBinding(
-                    value = @Queue(value = ORDER_ClOSE_QUEUE, durable = "true"),
-                    exchange = @Exchange(value = ORDER_DLX_EXCHANGE),
-                    key = {ORDER_ClOSE_ROUTING_KEY}
-            )
-    }, ackMode = "MANUAL" // 手动ACK
-    )
     @RabbitListener(queues = "order.close.queue")
-    public void handleOrderClose(String orderSn, Message message, Channel channel) throws IOException {
+    public void closeOrder(String orderSn, Message message, Channel channel) {
 
-        long deliveryTag = message.getMessageProperties().getDeliveryTag(); // 消息序号
+        long deliveryTag = message.getMessageProperties().getDeliveryTag(); // 消息序号（消息队列中的位置）
 
-        log.info("订单 【{}】 超时未支付，系统自动关闭订单", orderSn);
+        log.info("订单({})超时未支付，系统自动关闭订单", orderSn);
         try {
-            orderService.closeOrder(orderSn);
-            channel.basicAck(deliveryTag, false);
+            boolean closeOrderResult = orderService.closeOrder(orderSn);
+            log.info("关单结果：{}", closeOrderResult);
+            if (closeOrderResult) {
+                // 关单成功：释放库存
+                rabbitTemplate.convertAndSend("stock.exchange", "stock.unlock", orderSn);
+            } else {
+                // 关单失败：订单已被关闭，手动ACK确认并从队列移除消息
+                channel.basicAck(deliveryTag, false); // false: 不批量确认，仅确认当前单个消息
+            }
         } catch (Exception e) {
+            // 关单异常：拒绝消息并重新入队
+            try {
+                channel.basicReject(deliveryTag, true); //  true: 重新放回队列
+                // channel.basicReject(deliveryTag, false); // false: 直接丢弃消息 (TODO 定时任务补偿)
+            } catch (IOException ex) {
+                log.error("订单({})关闭失败，原因：{}", orderSn, ex.getMessage());
+            }
 
-            // TODO 关单失败，入定时任务表
-            channel.basicReject(deliveryTag, false);
         }
     }
 }

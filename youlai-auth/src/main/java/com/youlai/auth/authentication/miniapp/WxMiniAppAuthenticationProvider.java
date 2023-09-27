@@ -3,7 +3,7 @@ package com.youlai.auth.authentication.miniapp;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.hutool.core.lang.Assert;
-import com.youlai.auth.userdetails.member.MemberDetailsService;
+import com.youlai.auth.service.MemberDetailsService;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;

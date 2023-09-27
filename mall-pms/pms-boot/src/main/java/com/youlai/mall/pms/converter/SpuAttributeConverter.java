@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
  * 商品属性对象转换器
  *
  * @author haoxr
- * @since 2022/6/11
+ * @date 2022/6/11
  */
 @Mapper(componentModel = "spring")
 public interface SpuAttributeConverter {

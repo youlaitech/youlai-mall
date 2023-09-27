@@ -19,6 +19,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <optional>true</optional>

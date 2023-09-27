@@ -192,12 +192,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public <T> Result<T> handleException(Exception e) {
+        e.printStackTrace();
         String errorMsg = e.getMessage();
         if (StrUtil.isNotBlank(errorMsg) && errorMsg.contains("denied to user")) {
             return Result.failed(ResultCode.FORBIDDEN_OPERATION);
         }else{
-            log.error("unknown exception:{}", e.getMessage());
-            return Result.failed(e.getMessage());
+            log.error("unknown exception");
+            errorMsg=e.getCause().getMessage();
+            return Result.failed(errorMsg);
         }
     }
 

@@ -10,16 +10,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.constant.ProductConstants;
-import com.youlai.mall.pms.enums.AttributeTypeEnum;
+import com.youlai.mall.pms.common.constant.ProductConstants;
+import com.youlai.mall.pms.common.enums.AttributeTypeEnum;
 import com.youlai.mall.pms.converter.SpuAttributeConverter;
 import com.youlai.mall.pms.converter.SpuConverter;
 import com.youlai.mall.pms.mapper.PmsSpuMapper;
-import com.youlai.mall.pms.model.form.PmsSpuAttributeForm;
-import com.youlai.mall.pms.model.form.PmsSpuForm;
 import com.youlai.mall.pms.model.entity.PmsSku;
 import com.youlai.mall.pms.model.entity.PmsSpu;
 import com.youlai.mall.pms.model.entity.PmsSpuAttribute;
+import com.youlai.mall.pms.model.form.PmsSpuAttributeForm;
+import com.youlai.mall.pms.model.form.PmsSpuForm;
 import com.youlai.mall.pms.model.query.SpuPageQuery;
 import com.youlai.mall.pms.model.vo.*;
 import com.youlai.mall.pms.service.SkuService;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * 商品业务实现类
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @since 2021/8/8
+ * @date 2021/8/8
  */
 @Service
 @RequiredArgsConstructor
@@ -59,9 +59,9 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      * @return
      */
     @Override
-    public IPage<PmsSpuPageVO> listPmsSpuPages(SpuPageQuery queryParams) {
+    public IPage<PmsSpuPageVO> getSpuPage(SpuPageQuery queryParams) {
         Page<PmsSpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<PmsSpuPageVO> list = this.baseMapper.listPmsSpuPages(page, queryParams);
+        List<PmsSpuPageVO> list = this.baseMapper.getSpuPage(page, queryParams);
         page.setRecords(list);
         return page;
     }
@@ -73,9 +73,9 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      * @return
      */
     @Override
-    public IPage<SpuPageVO> listSpuPages(SpuPageQuery queryParams) {
+    public IPage<SpuPageVO> getSpuPageForApp(SpuPageQuery queryParams) {
         Page<SpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<SpuPageVO> list = this.baseMapper.listSpuPages(page, queryParams);
+        List<SpuPageVO> list = this.baseMapper.getSpuPageForApp(page, queryParams);
         page.setRecords(list);
         return page;
     }

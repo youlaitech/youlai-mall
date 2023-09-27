@@ -4,17 +4,16 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.EqualsAndHashCode;
 
 /**
- * 订单明细表
+ * 订单商品明细
  *
  * @author huawei
- * @email huawei_code@163.com
- * @since 2020-12-30 22:31:10
+ * @since 2020-12-30
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Accessors(chain = true)
 public class OmsOrderItem extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
@@ -36,7 +35,7 @@ public class OmsOrderItem extends BaseEntity {
     private Long skuId;
 
     /**
-     * SKU编号
+     * SKU 编号
      */
     private String skuSn;
 
@@ -58,7 +57,7 @@ public class OmsOrderItem extends BaseEntity {
     /**
      * 商品数量
      */
-    private Integer count;
+    private Integer quantity;
 
     /**
      * 商品总金额(单位：分)

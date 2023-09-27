@@ -2,8 +2,8 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.model.form.PmsSpuForm;
 import com.youlai.mall.pms.model.entity.PmsSpu;
+import com.youlai.mall.pms.model.form.PmsSpuForm;
 import com.youlai.mall.pms.model.query.SpuPageQuery;
 import com.youlai.mall.pms.model.vo.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * 商品业务接口
  *
  * @author haoxr
- * @since 2022/2/5
+ * @date 2022/2/5
  */
 public interface SpuService extends IService<PmsSpu> {
 
@@ -24,7 +24,7 @@ public interface SpuService extends IService<PmsSpu> {
      * @param queryParams
      * @return
      */
-    IPage<PmsSpuPageVO> listPmsSpuPages(SpuPageQuery queryParams);
+    IPage<PmsSpuPageVO> getSpuPage(SpuPageQuery queryParams);
 
     /**
      * 「应用端」商品分页列表
@@ -32,7 +32,7 @@ public interface SpuService extends IService<PmsSpu> {
      * @param queryParams
      * @return
      */
-    IPage<SpuPageVO> listSpuPages(SpuPageQuery queryParams);
+    IPage<SpuPageVO> getSpuPageForApp(SpuPageQuery queryParams);
 
 
     /**

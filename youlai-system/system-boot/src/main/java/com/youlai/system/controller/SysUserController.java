@@ -142,6 +142,14 @@ public class SysUserController {
         return Result.success(userInfoVO);
     }
 
+    @Operation(summary = "注销登出", security = {@SecurityRequirement(name = "Authorization")})
+    @DeleteMapping("/logout")
+    public Result logout() {
+        boolean result = userService.logout();
+        return Result.judge(result);
+    }
+
+
     @Operation(summary = "用户导入模板下载", security = {@SecurityRequirement(name = "Authorization")})
     @GetMapping("/template")
     public void downloadTemplate(HttpServletResponse response) throws IOException {

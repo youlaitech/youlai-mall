@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
@@ -15,16 +15,13 @@ import java.util.List;
  * 订单详情表
  *
  * @author huawei
- * @email huawei_code@163.com
- * @since 2020-12-30 22:31:10
+ * @since 2.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Accessors(chain = true)
 public class OmsOrder extends BaseEntity {
 
-	/**
-	 * id
-	 */
+
 	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
@@ -42,7 +39,7 @@ public class OmsOrder extends BaseEntity {
 	/**
 	 * 订单来源(0-PC订单；1-app订单)
 	 */
-	private Integer sourceType;
+	private Integer source;
 
 	/**
 	 * 订单状态(1-待付款;2-待发货;3-已发货;4-已完成;5-已关闭;6-已取消;)
@@ -71,15 +68,15 @@ public class OmsOrder extends BaseEntity {
 	/**
 	 * 应付总额（分）
 	 */
-	private Long payAmount;
+	private Long paymentAmount;
 	/**
 	 * 支付时间
 	 */
-	private Date payTime;
+	private Date paymentTime;
 	/**
-	 * 支付方式【1->微信jsapi；2->支付宝；3->余额； 4->微信app；】
+	 * 支付方式【1->微信jsapi；2->支付宝；3->余额；4->微信app；】
 	 */
-	private Integer payType;
+	private Integer paymentMethod;
 	/**
 	 * 商户订单号
 	 */

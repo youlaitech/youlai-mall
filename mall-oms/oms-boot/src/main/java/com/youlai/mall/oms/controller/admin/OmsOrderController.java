@@ -8,11 +8,12 @@ import com.youlai.mall.oms.model.dto.OrderDTO;
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.entity.OmsOrderItem;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
-import com.youlai.mall.oms.service.OrderItemService;
+import com.youlai.mall.oms.model.vo.OmsOrderPageVO;
 import com.youlai.mall.oms.service.admin.OmsOrderService;
+import com.youlai.mall.oms.service.app.OrderItemService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,12 +25,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 「管理端」订单控制层
+ * 管理端-订单控制层
  *
  * @author huawei
- * @since 2020/12/30
+ * @since 2.3.0
  */
-@Tag(name = "「管理端」订单管理")
+@Tag(name  = "「管理端」订单管理")
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
@@ -41,15 +42,15 @@ public class OmsOrderController {
 
     @Operation(summary ="订单分页列表")
     @GetMapping
-    public PageResult listOrderPages(OrderPageQuery queryParams) {
-        IPage<OmsOrder> result = orderService.listOrderPages(queryParams);
-        return PageResult.success(result);
+    public PageResult<OmsOrderPageVO> getOrderPage(OrderPageQuery queryParams) {
+        IPage<OmsOrderPageVO> page = orderService.getOrderPage(queryParams);
+        return PageResult.success(page);
     }
 
-    @Operation(summary= "订单详情")
+    @Operation(summary = "订单详情")
     @GetMapping("/{orderId}")
     public Result getOrderDetail(
-            @Parameter(name = "订单ID") @PathVariable Long orderId
+            @Parameter(name ="订单ID") @PathVariable Long orderId
     ) {
         OrderDTO orderDTO = new OrderDTO();
         // 订单
@@ -64,5 +65,4 @@ public class OmsOrderController {
         orderDTO.setOrder(order).setOrderItems(orderItems);
         return Result.success(orderDTO);
     }
-
 }

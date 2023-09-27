@@ -4,7 +4,7 @@ import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.youlai.mall.oms.model.vo.WxPayResponseVO;
-import com.youlai.mall.oms.service.OrderService;
+import com.youlai.mall.oms.service.app.OrderService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

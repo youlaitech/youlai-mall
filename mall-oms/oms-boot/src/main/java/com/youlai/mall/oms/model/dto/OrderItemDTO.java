@@ -1,12 +1,12 @@
 package com.youlai.mall.oms.model.dto;
 
-import lombok.*;
+import lombok.Data;
 
 /**
  * 订单商品
  *
  * @author haoxr
- * @since 2022/12/21
+ * @since 2.0.0
  */
 @Data
 public class OrderItemDTO {
@@ -44,5 +44,5 @@ public class OrderItemDTO {
     /**
      * 订单商品数量
      */
-    private Integer count;
+    private Integer quantity;
 }

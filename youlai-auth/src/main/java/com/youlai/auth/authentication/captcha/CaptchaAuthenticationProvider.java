@@ -1,5 +1,6 @@
 package com.youlai.auth.authentication.captcha;
 
+import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -81,13 +82,16 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
-        // 证码校验
+        // 验证码校验
         Map<String, Object> additionalParameters = captchaAuthenticationToken.getAdditionalParameters();
         String verifyCode = (String) additionalParameters.get(CaptchaParameterNames.VERIFY_CODE);
         String verifyCodeKey = (String) additionalParameters.get(CaptchaParameterNames.VERIFY_CODE_KEY);
 
-        String cacheCode = redisTemplate.opsForValue().get(SecurityConstants.VERIFY_CODE_KEY_PREFIX + verifyCodeKey);
-        if (!StrUtil.equals(verifyCode, cacheCode)) {
+        String cacheCode = redisTemplate.opsForValue().get(SecurityConstants.VERIFY_CODE_CACHE_KEY_PREFIX + verifyCodeKey);
+
+        // 验证码比对
+        MathGenerator mathGenerator = new MathGenerator();
+        if (!mathGenerator.verify(cacheCode, verifyCode)) {
             throw new OAuth2AuthenticationException("验证码错误");
         }
 

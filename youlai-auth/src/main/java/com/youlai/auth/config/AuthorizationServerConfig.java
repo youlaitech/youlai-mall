@@ -22,9 +22,9 @@ import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationProvider;
 import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationToken;
 import com.youlai.auth.handler.MyAuthenticationFailureHandler;
 import com.youlai.auth.handler.MyAuthenticationSuccessHandler;
-import com.youlai.auth.userdetails.member.MemberDetailsService;
-import com.youlai.auth.userdetails.user.SysUserDetails;
-import com.youlai.auth.userdetails.user.jackson.SysUserMixin;
+import com.youlai.auth.service.MemberDetailsService;
+import com.youlai.auth.model.SysUserDetails;
+import com.youlai.auth.jackson.SysUserMixin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -245,15 +245,12 @@ public class AuthorizationServerConfig {
 
     /**
      * 初始化创建商城管理客户端
-     *
-     * @param registeredClientRepository
      */
     private void initMallAdminClient(JdbcRegisteredClientRepository registeredClientRepository) {
 
         String clientId = "mall-admin";
         String clientSecret = "123456";
         String clientName = "商城管理客户端";
-
 
         /*
           如果使用明文，客户端认证时会自动升级加密方式，换句话说直接修改客户端密码，所以直接使用 bcrypt 加密避免不必要的麻烦
@@ -286,8 +283,6 @@ public class AuthorizationServerConfig {
 
     /**
      * 初始化创建商城APP客户端
-     *
-     * @param registeredClientRepository
      */
     private void initMallAppClient(JdbcRegisteredClientRepository registeredClientRepository) {
 

@@ -2,7 +2,7 @@ package com.youlai.auth.authentication.smscode;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.auth.userdetails.member.MemberDetailsService;
+import com.youlai.auth.service.MemberDetailsService;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import com.youlai.common.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;

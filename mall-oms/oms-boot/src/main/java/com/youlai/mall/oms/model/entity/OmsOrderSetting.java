@@ -10,7 +10,7 @@ import lombok.Data;
  *
  * @author huawei
  * @email huawei_code@163.com
- * @since 2020-12-30 22:31:10
+ * @date 2020-12-30 22:31:10
  */
 @Data
 public class OmsOrderSetting extends BaseEntity {

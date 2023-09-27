@@ -1,8 +1,8 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.model.form.PmsCategoryAttributeForm;
 import com.youlai.mall.pms.model.entity.PmsCategoryAttribute;
+import com.youlai.mall.pms.model.form.PmsCategoryAttributeForm;
 
 public interface AttributeService extends IService<PmsCategoryAttribute> {
 

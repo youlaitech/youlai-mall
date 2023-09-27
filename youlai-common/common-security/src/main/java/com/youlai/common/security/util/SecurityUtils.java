@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 public class SecurityUtils {
 
     public static Long getUserId() {
-        Long userId = Convert.toLong(getTokenAttributes().get("userId"));
-        return userId;
+        return Convert.toLong(getTokenAttributes().get("userId"));
     }
 
     public static String getUsername() {
@@ -34,13 +33,15 @@ public class SecurityUtils {
     }
 
 
+    /**
+     * 获取用户角色集合
+     */
     public static Set<String> getRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        var roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities())
+
+        return AuthorityUtils.authorityListToSet(authentication.getAuthorities())
                 .stream()
                 .collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet));
-
-        return roles;
     }
 
     /**

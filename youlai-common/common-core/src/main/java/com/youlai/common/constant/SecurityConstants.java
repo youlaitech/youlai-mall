@@ -10,31 +10,38 @@ public interface SecurityConstants {
     /**
      * 验证码key前缀
      */
-    String VERIFY_CODE_KEY_PREFIX = "AUTH:VERIFY_CODE:";
+    String VERIFY_CODE_CACHE_KEY_PREFIX = "AUTH:VERIFY_CODE:";
 
     /**
      * 短信验证码key前缀
      */
     String SMS_CODE_PREFIX = "AUTH:SMS_CODE:";
 
-    /**
-     * 系统管理 web 客户端ID
-     */
-    String ADMIN_CLIENT_ID = "mall-admin";
-
-    /**
-     * 移动端（H5/Android/IOS）客户端ID
-     */
-    String APP_CLIENT_ID = "mall-app";
 
     /**
      * 用户权限集合缓存前缀
      */
-    String USER_PERMS_CACHE_PREFIX = "AUTH:USER_PERMS:";
+    String USER_PERMS_CACHE_KEY_PREFIX = "AUTH:USER_PERMS:";
 
     /**
      * 授权信息中的权限或角色的key
      */
-    String AUTHORITIES_CLAIM_NAME_KEY="authorities";
+    String AUTHORITIES_CLAIM_NAME_KEY = "authorities";
+
+
+    /**
+     * 商城管理端客户端ID
+     */
+    String MALL_ADMIN_CLIENT_ID = "mall-admin";
+
+    /**
+     * 商城移动端客户端ID
+     */
+    String MALL_APP_CLIENT_ID = "mall-app";
+
+    /**
+     * Knife4j测试客户端ID（Knife4j自动填充的 access_token 须原生返回，不能被包装成业务码数据格式）
+     */
+    String KNIFE4J_TEST_CLIENT_ID = "client";
 
 }
