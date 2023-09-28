@@ -7,18 +7,15 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.Scopes;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * Swagger 配置
- * <p>
- * Spring Doc FAQ: https://springdoc.org/#faq
  *
  * @author haoxr
- * @since 2023/2/17
+ * @since 3.0.0
  */
 @Configuration
 public class SwaggerConfig {

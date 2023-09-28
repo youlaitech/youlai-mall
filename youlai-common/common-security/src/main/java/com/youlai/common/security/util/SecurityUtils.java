@@ -59,12 +59,15 @@ public class SecurityUtils {
         return String.valueOf(getTokenAttributes().get("jti"));
     }
 
+    public static Long getExp() {
+        return Convert.toLong(getTokenAttributes().get("jti"));
+    }
+
     public static Integer getDataScope() {
         return Convert.toInt(getTokenAttributes().get("dataScope"));
     }
 
     public static Long getMemberId() {
-
         return Convert.toLong(getTokenAttributes().get("memberId"));
     }
 }
