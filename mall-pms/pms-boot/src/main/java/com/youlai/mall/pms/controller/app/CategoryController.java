@@ -19,7 +19,7 @@ import java.util.List;
  * @author haoxr
  * @since 2022/2/5
  */
-@Tag(name = "「移动端」商品分类")
+@Tag(name = "App-商品分类")
 @RestController("appCategoryController")
 @RequestMapping("/app-api/v1/categories")
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class CategoryController {
     @Operation(summary = "分类列表")
     @GetMapping
     public Result list(@Parameter(name = "上级分类ID") Long parentId) {
-        List<CategoryVO> list = categoryService.listCategory(parentId);
+        List<CategoryVO> list = categoryService.getCategoryList(parentId);
         return Result.success(list);
     }
 }

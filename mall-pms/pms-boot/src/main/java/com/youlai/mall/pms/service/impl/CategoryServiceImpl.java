@@ -34,7 +34,7 @@ public class CategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCateg
      */
     // @Cacheable(value = "pms", key = "'categoryList'")
     @Override
-    public List<CategoryVO> listCategory(Long parentId) {
+    public List<CategoryVO> getCategoryList(Long parentId) {
         List<PmsCategory> categoryList = this.list(
                 new LambdaQueryWrapper<PmsCategory>()
                         .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)
@@ -68,7 +68,7 @@ public class CategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCateg
      * @return
      */
     @Override
-    public List<Option> listCategoryOptions() {
+    public List<Option> getCategoryOptions() {
         List<PmsCategory> categoryList = this.list(
                 new LambdaQueryWrapper<PmsCategory>()
                         .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)

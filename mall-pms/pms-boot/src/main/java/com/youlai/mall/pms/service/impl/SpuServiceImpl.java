@@ -53,7 +53,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     private final SpuAttributeConverter spuAttributeConverter;
 
     /**
-     * 「管理端」商品分页列表
+     * Admin-商品分页列表
      *
      * @param queryParams
      * @return
@@ -81,13 +81,13 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     }
 
     /**
-     * 「移动端」获取商品详情
+     * App-获取商品详情
      *
      * @param spuId 商品ID
      * @return
      */
     @Override
-    public SpuDetailVO getSpuDetail(Long spuId) {
+    public SpuDetailVO getSpuDetailForApp(Long spuId) {
         PmsSpu pmsSpu = this.getById(spuId);
         Assert.isTrue(pmsSpu != null, "商品不存在");
 
@@ -181,7 +181,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      * @return
      */
     @Override
-    public PmsSpuDetailVO getPmsSpuDetail(Long spuId) {
+    public PmsSpuDetailVO getSpuDetail(Long spuId) {
         PmsSpuDetailVO pmsSpuDetailVO = new PmsSpuDetailVO();
 
         PmsSpu entity = this.getById(spuId);

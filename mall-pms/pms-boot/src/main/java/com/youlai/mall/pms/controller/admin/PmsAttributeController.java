@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 「管理端」商品属性控制器
+ * Admin-商品属性控制器
  *
  * @author haoxr
  * @since 2022/1/1
  */
-@Tag(name = "「管理端」商品属性")
+@Tag(name = "Admin-商品属性")
 @RestController
 @RequestMapping("/api/v1/attributes")
 @Slf4j
@@ -31,7 +31,7 @@ public class PmsAttributeController {
 
     @Operation(summary= "属性列表")
     @GetMapping
-    public Result listAttributes(
+    public Result getAttributeList(
             @Parameter(name = "商品分类ID") Long categoryId,
             @Parameter(name = "类型（1：规格；2：属性）") Integer type
     ) {

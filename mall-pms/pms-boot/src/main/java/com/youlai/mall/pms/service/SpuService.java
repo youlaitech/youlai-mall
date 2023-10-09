@@ -19,7 +19,7 @@ public interface SpuService extends IService<PmsSpu> {
 
 
     /**
-     * 「管理端」商品分页列表
+     * Admin-商品分页列表
      *
      * @param queryParams
      * @return
@@ -36,12 +36,12 @@ public interface SpuService extends IService<PmsSpu> {
 
 
     /**
-     * 「管理端」获取商品详情
+     * Admin-获取商品详情
      *
      * @param id
      * @return
      */
-    PmsSpuDetailVO getPmsSpuDetail(Long id);
+    PmsSpuDetailVO getSpuDetail(Long id);
 
     /**
      * 「应用端」获取商品详情
@@ -49,7 +49,7 @@ public interface SpuService extends IService<PmsSpu> {
      * @param spuId
      * @return
      */
-    SpuDetailVO getSpuDetail(Long spuId);
+    SpuDetailVO getSpuDetailForApp(Long spuId);
 
 
     /**

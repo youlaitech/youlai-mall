@@ -16,5 +16,5 @@ public interface SmsAdvertMapper extends BaseMapper<SmsAdvert> {
      * @param queryParams
      * @return
      */
-    Page<SmsAdvert> listAdvertPages(Page<SmsAdvert> page, AdvertPageQuery queryParams);
+    Page<SmsAdvert> getAdvertPage(Page<SmsAdvert> page, AdvertPageQuery queryParams);
 }

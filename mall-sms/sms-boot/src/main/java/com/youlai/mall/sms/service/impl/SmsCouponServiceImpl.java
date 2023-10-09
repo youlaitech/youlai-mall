@@ -49,10 +49,10 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      * @return
      */
     @Override
-    public Page<CouponPageVO> listCouponPages(CouponPageQuery queryParams) {
+    public Page<CouponPageVO> getCouponPage(CouponPageQuery queryParams) {
         Page<CouponPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
         // 查询数据
-        List<SmsCoupon> couponList = this.baseMapper.listCouponPages(page, queryParams);
+        List<SmsCoupon> couponList = this.baseMapper.getCouponPage(page, queryParams);
         // 实体转换
         List<CouponPageVO> records = couponConverter.entity2PageVO(couponList);
         page.setRecords(records);

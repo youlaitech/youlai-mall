@@ -17,7 +17,7 @@ public interface SmsAdvertService extends IService<SmsAdvert> {
      * @param queryParams
      * @return
      */
-    Page<AdvertPageVO> listAdvertPages(AdvertPageQuery queryParams);
+    Page<AdvertPageVO> getAdvertPage(AdvertPageQuery queryParams);
 
     List<AdBannerVO> listAdBanners();
 }

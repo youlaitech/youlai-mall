@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper
 public interface SmsCouponMapper extends BaseMapper<SmsCoupon> {
 
-    List<SmsCoupon> listCouponPages(Page<CouponPageVO> page, CouponPageQuery queryParams);
+    List<SmsCoupon> getCouponPage(Page<CouponPageVO> page, CouponPageQuery queryParams);
 }
 
 

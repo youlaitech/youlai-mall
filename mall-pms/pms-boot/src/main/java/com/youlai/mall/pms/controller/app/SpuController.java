@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name  = "「移动端」商品接口")
+@Tag(name  = "App-商品接口")
 @RestController
 @RequestMapping("/app-api/v1/spu")
 @RequiredArgsConstructor
@@ -39,7 +39,7 @@ public class SpuController {
     public Result<SpuDetailVO> getSpuDetail(
             @Parameter(name ="商品ID") @PathVariable Long spuId
     ) {
-        SpuDetailVO spuDetailVO = spuService.getSpuDetail(spuId);
+        SpuDetailVO spuDetailVO = spuService.getSpuDetailForApp(spuId);
         return Result.success(spuDetailVO);
     }
 

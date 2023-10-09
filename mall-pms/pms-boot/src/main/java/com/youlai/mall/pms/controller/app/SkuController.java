@@ -18,7 +18,7 @@ import java.util.List;
  * @author haoxr
  * @since 2.0.0
  */
-@Tag(name  = "「移动端」商品库存接口")
+@Tag(name  = "App-商品库存接口")
 @RestController
 @RequestMapping("/app-api/v1/skus")
 @RequiredArgsConstructor

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
-@Tag(name = "「管理端」营销广告")
+@Tag(name = "Admin-营销广告")
 @RestController
 @RequestMapping("/api/v1/adverts")
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class SmsAdvertController {
 
     @Operation(summary= "广告分页列表")
     @GetMapping("/pages")
-    public PageResult listAdvertPages(AdvertPageQuery queryParams) {
+    public PageResult getAdvertPage(AdvertPageQuery queryParams) {
 
         // 查询参数
         int pageNum = queryParams.getPageNum();

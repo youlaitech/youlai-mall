@@ -14,7 +14,7 @@ import java.util.List;
 public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
 
     /**
-     * 「管理端」 商品分页列表
+     * Admin- 商品分页列表
      *
      * @param page
      * @param queryParams

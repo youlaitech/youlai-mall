@@ -21,12 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 「管理端」商品分类控制器
+ * Admin-商品分类控制器
  *
  * @author haoxr
  * @since 2022/01/01
  */
-@Tag(name = "「管理端」商品分类")
+@Tag(name = "Admin-商品分类")
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
@@ -37,15 +37,15 @@ public class PmsCategoryController {
 
     @Operation(summary = "商品分类列表")
     @GetMapping
-    public Result<List<CategoryVO>> list() {
-        List<CategoryVO> list = categoryService.listCategory(null);
+    public Result<List<CategoryVO>> getCategoryList() {
+        List<CategoryVO> list = categoryService.getCategoryList(null);
         return Result.success(list);
     }
 
     @Operation(summary = "商品分类级联列表")
     @GetMapping("/options")
-    public Result listCategoryOptions() {
-        List<Option> list = categoryService.listCategoryOptions();
+    public Result getCategoryOptions() {
+        List<Option> list = categoryService.getCategoryOptions();
         return Result.success(list);
     }
 

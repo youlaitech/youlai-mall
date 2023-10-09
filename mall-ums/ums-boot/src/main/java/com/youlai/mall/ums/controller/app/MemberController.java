@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
-@Tag(name = "「移动端」会员管理")
+@Tag(name = "App-会员管理")
 @RestController
 @RequestMapping("/app-api/v1/members")
 @RequiredArgsConstructor

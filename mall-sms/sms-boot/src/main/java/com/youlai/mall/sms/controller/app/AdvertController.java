@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "「移动端」营销广告")
+@Tag(name = "App-营销广告")
 @RestController
 @RequestMapping("/app-api/v1/adverts")
 @Slf4j

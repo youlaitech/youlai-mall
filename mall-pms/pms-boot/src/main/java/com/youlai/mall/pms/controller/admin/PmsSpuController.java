@@ -15,37 +15,37 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * ADMIN-商品控制层
+ * Admin-商品控制层
  *
  * @author haoxr
  * @since 2021/1/4
  **/
-@Tag(name = "「管理端」商品SPU接口")
+@Tag(name = "Admin-商品SPU接口")
 @RestController
 @RequestMapping("/api/v1/spu")
 @AllArgsConstructor
 public class PmsSpuController {
 
-    private SpuService spuServiced;
+    private SpuService spuService;
 
     @Operation(summary = "商品分页列表")
-    @GetMapping("/pages")
-    public PageResult listPmsSpuPages(SpuPageQuery queryParams) {
-        IPage<PmsSpuPageVO> result = spuServiced.getSpuPage(queryParams);
+    @GetMapping("/page")
+    public PageResult getSpuPage(SpuPageQuery queryParams) {
+        IPage<PmsSpuPageVO> result = spuService.getSpuPage(queryParams);
         return PageResult.success(result);
     }
 
     @Operation(summary = "商品详情")
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/detail")
     public Result detail(@Parameter(name = "商品ID") @PathVariable Long id) {
-        PmsSpuDetailVO pmsSpuDetailVO = spuServiced.getPmsSpuDetail(id);
+        PmsSpuDetailVO pmsSpuDetailVO = spuService.getSpuDetail(id);
         return Result.success(pmsSpuDetailVO);
     }
 
     @Operation(summary = "新增商品")
     @PostMapping
     public Result addSpu(@RequestBody PmsSpuForm formData) {
-        boolean result = spuServiced.addSpu(formData);
+        boolean result = spuService.addSpu(formData);
         return Result.judge(result);
     }
 
@@ -55,14 +55,16 @@ public class PmsSpuController {
             @Parameter(name = "商品ID") @PathVariable Long id,
             @RequestBody PmsSpuForm formData
     ) {
-        boolean result = spuServiced.updateSpuById(id, formData);
+        boolean result = spuService.updateSpuById(id, formData);
         return Result.judge(result);
     }
 
     @Operation(summary = "删除商品")
     @DeleteMapping("/{ids}")
-    public Result delete(@Parameter(name = "商品ID,多个以英文逗号(,)分隔") @PathVariable String ids) {
-        boolean result = spuServiced.removeBySpuIds(ids);
+    public Result delete(
+            @Parameter(name = "商品ID,多个以英文逗号(,)分隔") @PathVariable String ids
+    ) {
+        boolean result = spuService.removeBySpuIds(ids);
         return Result.judge(result);
     }
 

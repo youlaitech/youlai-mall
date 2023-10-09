@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 管理端-订单控制层
+ * Admin-订单控制层
  *
  * @author huawei
  * @since 2.3.0
  */
-@Tag(name  = "「管理端」订单管理")
+@Tag(name  = "Admin-订单管理")
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor

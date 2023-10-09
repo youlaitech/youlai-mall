@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Gadfly
  * @since 2021-05-27 14:24
  */
-@Tag(name = "「移动端」微信支付回调接口")
+@Tag(name = "App-微信支付回调接口")
 @Slf4j
 @Validated
 @RestController

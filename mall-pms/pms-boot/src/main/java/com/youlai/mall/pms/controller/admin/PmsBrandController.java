@@ -9,7 +9,7 @@ import com.youlai.mall.pms.model.entity.PmsBrand;
 import com.youlai.mall.pms.model.query.BrandPageQuery;
 import com.youlai.mall.pms.service.BrandService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Operation;  
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.List;
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  * @since 2022/7/2
  */
-@Tag(name = "「管理端」品牌接口")
+@Tag(name = "Admin-品牌接口")
 @RestController
 @RequestMapping("/api/v1/brands")
 @RequiredArgsConstructor
@@ -31,9 +31,9 @@ public class PmsBrandController {
 
     private final BrandService brandService;
 
-    @Operation(summary= "品牌分页列表")
+    @Operation(summary = "品牌分页列表")
     @GetMapping("/pages")
-    public PageResult listBrandPages(BrandPageQuery queryParams ) {
+    public PageResult getBrandPage(BrandPageQuery queryParams) {
 
         // 查询参数
         int pageNum = queryParams.getPageNum();
@@ -41,13 +41,13 @@ public class PmsBrandController {
         String keywords = queryParams.getKeywords();
 
         // 分页查询
-        Page<PmsBrand> result = brandService.page(new Page<>(pageNum, pageSize), new LambdaQueryWrapper<PmsBrand>()
-                .like(StrUtil.isNotBlank(keywords), PmsBrand::getName, keywords)
-                .orderByDesc(PmsBrand::getCreateTime));
-        return PageResult.success(result);
+        Page<PmsBrand> page = brandService.page(new Page<>(pageNum, pageSize),
+                new LambdaQueryWrapper<PmsBrand>().like(StrUtil.isNotBlank(keywords), PmsBrand::getName, keywords)
+                        .orderByDesc(PmsBrand::getCreateTime));
+        return PageResult.success(page);
     }
 
-    @Operation(summary= "品牌列表")
+    @Operation(summary = "品牌列表")
     @GetMapping
     public Result getBrandList() {
         List<PmsBrand> list = brandService.list(new LambdaQueryWrapper<PmsBrand>()
@@ -55,21 +55,21 @@ public class PmsBrandController {
         return Result.success(list);
     }
 
-    @Operation(summary= "品牌详情")
+    @Operation(summary = "品牌详情")
     @GetMapping("/{id}")
     public Result getBrandList(@PathVariable Integer id) {
         PmsBrand brand = brandService.getById(id);
         return Result.success(brand);
     }
 
-    @Operation(summary= "新增品牌")
+    @Operation(summary = "新增品牌")
     @PostMapping
     public Result addBrand(@RequestBody PmsBrand brand) {
         boolean status = brandService.save(brand);
         return Result.judge(status);
     }
 
-    @Operation(summary= "修改品牌")
+    @Operation(summary = "修改品牌")
     @PutMapping(value = "/{id}")
     public Result updateBrand(
             @PathVariable Long id,
@@ -78,9 +78,9 @@ public class PmsBrandController {
         return Result.judge(status);
     }
 
-    @Operation(summary= "删除品牌")
+    @Operation(summary = "删除品牌")
     @DeleteMapping("/{ids}")
-    public Result deleteBrands(@Parameter(name = "品牌ID，多个以英文逗号(,)分割")  @PathVariable("ids") String ids) {
+    public Result deleteBrands(@Parameter(name = "品牌ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids) {
         boolean status = brandService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }

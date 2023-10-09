@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 「管理端」商品SKU控制层
+ * Admin-商品SKU控制层
  *
  * @author haoxr
  * @since 2022/2/8
  */
-@Tag(name = "「管理端」商品SKU接口")
+@Tag(name = "Admin-商品SKU接口")
 @RestController
 @RequestMapping("/api/v1/sku")
 @RequiredArgsConstructor

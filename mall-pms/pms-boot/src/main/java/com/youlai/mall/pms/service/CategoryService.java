@@ -22,13 +22,13 @@ public interface CategoryService extends IService<PmsCategory> {
      * @param parentId
      * @return
      */
-    List<CategoryVO> listCategory(Long parentId);
+    List<CategoryVO> getCategoryList(Long parentId);
 
     /**
      * 分类列表（级联）
      * @return
      */
-    List<Option> listCategoryOptions();
+    List<Option> getCategoryOptions();
 
 
     /**

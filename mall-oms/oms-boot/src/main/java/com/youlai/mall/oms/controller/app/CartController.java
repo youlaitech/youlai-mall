@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 「移动端」购物车接口
+ * App-购物车接口
  *
  * @author huawei
  * @since 2020-12-30 22:31:10
  */
 
-@Tag(name  = "「移动端」购物车接口")
+@Tag(name  = "App-购物车接口")
 @RestController
 @RequestMapping("/app-api/v1/carts")
 @RequiredArgsConstructor

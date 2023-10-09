@@ -21,7 +21,7 @@ public interface SmsCouponService extends IService<SmsCoupon> {
      * @param queryParams
      * @return
      */
-    Page<CouponPageVO> listCouponPages(CouponPageQuery queryParams);
+    Page<CouponPageVO> getCouponPage(CouponPageQuery queryParams);
 
     /**
      * 新增优惠券

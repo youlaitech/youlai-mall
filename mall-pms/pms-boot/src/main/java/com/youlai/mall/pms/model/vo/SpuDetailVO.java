@@ -102,7 +102,7 @@ public class SpuDetailVO {
         private Long price;
 
         @Schema(description="库存")
-        private Integer stockNum;
+        private Integer stock;
 
         @Schema(description="商品图片URL")
         private String picUrl;

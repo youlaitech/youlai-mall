@@ -35,8 +35,8 @@ public class SmsAdvertServiceImpl extends ServiceImpl<SmsAdvertMapper, SmsAdvert
      * @return
      */
     @Override
-    public Page<AdvertPageVO> listAdvertPages(AdvertPageQuery queryParams) {
-        Page<SmsAdvert> entities = this.baseMapper.listAdvertPages(new Page<>(queryParams.getPageNum(),
+    public Page<AdvertPageVO> getAdvertPage(AdvertPageQuery queryParams) {
+        Page<SmsAdvert> entities = this.baseMapper.getAdvertPage(new Page<>(queryParams.getPageNum(),
                         queryParams.getPageSize()),
                 queryParams);
 
