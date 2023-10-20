@@ -53,7 +53,7 @@ public class ResourceServerConfig {
                 .csrf(AbstractHttpConfigurer::disable)
         ;
         http.oauth2ResourceServer(resourceServerConfigurer ->
-                resourceServerConfigurer.jwt(jwtConfigurer -> jwtAuthenticationConverter())
+                resourceServerConfigurer.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter()))
         )
                 /*.and()
                 .authenticationEntryPoint(authenticationEntryPoint)
