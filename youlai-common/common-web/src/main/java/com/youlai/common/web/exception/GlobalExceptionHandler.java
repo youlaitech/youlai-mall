@@ -11,6 +11,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -178,6 +179,14 @@ public class GlobalExceptionHandler {
         log.info("微服务feign调用异常:{}", e.getMessage());
         return Result.failed(e.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public <T> Result<T> processException(HttpRequestMethodNotSupportedException e) {
+        log.info("请求资源不存在:{}", e.getMessage());
+        return Result.failed(ResultCode.RESOURCE_NOT_FOUND);
+    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BizException.class)
