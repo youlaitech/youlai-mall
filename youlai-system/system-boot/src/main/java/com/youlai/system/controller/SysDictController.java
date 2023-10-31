@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "06.字典接口")
+@Tag(name = "05.字典接口")
 @RestController
 @RequestMapping("/api/v1/dict")
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class SysDictController {
 
     private final SysDictTypeService dictTypeService;
 
-    @Operation(summary = "字典分页列表", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "字典分页列表")
     @GetMapping("/page")
     public PageResult<DictPageVO> getDictPage(
             @ParameterObject DictPageQuery queryParams
@@ -43,7 +43,7 @@ public class SysDictController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "字典数据表单数据", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "字典数据表单数据")
     @GetMapping("/{id}/form")
     public Result<DictForm> getDictForm(
             @Parameter(description ="字典ID") @PathVariable Long id
@@ -52,7 +52,7 @@ public class SysDictController {
         return Result.success(formData);
     }
 
-    @Operation(summary = "新增字典", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "新增字典")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:dict:add')")
     @PreventDuplicateResubmit
@@ -63,7 +63,7 @@ public class SysDictController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改字典", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "修改字典")
     @PutMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('sys:dict:edit')")
     public Result updateDict(
@@ -74,7 +74,7 @@ public class SysDictController {
         return Result.judge(status);
     }
 
-    @Operation(summary = "删除字典", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "删除字典")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:dict:delete')")
     public Result deleteDict(
@@ -85,7 +85,7 @@ public class SysDictController {
     }
 
 
-    @Operation(summary = "字典下拉列表", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "字典下拉列表")
     @GetMapping("/options")
     public Result<List<Option>> listDictOptions(
             @Parameter(description ="字典类型编码") @RequestParam String typeCode
@@ -96,7 +96,7 @@ public class SysDictController {
 
 
     /*----------------------------------------------------*/
-    @Operation(summary = "字典类型分页列表", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "字典类型分页列表")
     @GetMapping("/types/page")
     public PageResult<DictTypePageVO> getDictTypePage(
             @ParameterObject DictTypePageQuery queryParams
@@ -105,7 +105,7 @@ public class SysDictController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "字典类型表单数据", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "字典类型表单数据")
     @GetMapping("/types/{id}/form")
     public Result<DictTypeForm> getDictTypeForm(
             @Parameter(description ="字典ID") @PathVariable Long id
@@ -114,7 +114,7 @@ public class SysDictController {
         return Result.success(dictTypeForm);
     }
 
-    @Operation(summary = "新增字典类型", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "新增字典类型")
     @PostMapping("/types")
     @PreAuthorize("@ss.hasPerm('sys:dict_type:add')")
     @PreventDuplicateResubmit
@@ -123,7 +123,7 @@ public class SysDictController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改字典类型", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "修改字典类型")
     @PutMapping("/types/{id}")
     @PreAuthorize("@ss.hasPerm('sys:dict_type:edit')")
     public Result updateDictType(@PathVariable Long id, @RequestBody DictTypeForm dictTypeForm) {
@@ -131,7 +131,7 @@ public class SysDictController {
         return Result.judge(status);
     }
 
-    @Operation(summary = "删除字典类型", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "删除字典类型")
     @DeleteMapping("/types/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:dict_type:delete')")
     public Result deleteDictTypes(

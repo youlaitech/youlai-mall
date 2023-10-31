@@ -9,7 +9,6 @@ import com.youlai.common.web.model.Option;
 import com.youlai.system.service.SysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +24,13 @@ import java.util.List;
  * @author haoxr
  * @since 2020/11/6
  */
-@Tag(name = "05.部门接口")
+@Tag(name = "04.部门接口")
 @RestController
 @RequestMapping("/api/v1/dept")
 @RequiredArgsConstructor
 public class SysDeptController {
     private final SysDeptService deptService;
-    @Operation(summary = "获取部门列表", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "获取部门列表")
     @GetMapping
     public Result<List<DeptVO>> listDepartments(
             @ParameterObject DeptQuery queryParams
@@ -40,14 +39,14 @@ public class SysDeptController {
         return Result.success(list);
     }
 
-    @Operation(summary = "获取部门下拉选项", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "获取部门下拉选项")
     @GetMapping("/options")
     public Result<List<Option>> listDeptOptions() {
         List<Option> list = deptService.listDeptOptions();
         return Result.success(list);
     }
 
-    @Operation(summary = "获取部门表单数据", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "获取部门表单数据")
     @GetMapping("/{deptId}/form")
     public Result<DeptForm> getDeptForm(
             @Parameter(description ="部门ID") @PathVariable Long deptId
@@ -56,7 +55,7 @@ public class SysDeptController {
         return Result.success(deptForm);
     }
 
-    @Operation(summary = "新增部门", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "新增部门")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:dept:add')")
     @PreventDuplicateResubmit
@@ -67,7 +66,7 @@ public class SysDeptController {
         return Result.success(id);
     }
 
-    @Operation(summary = "修改部门", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "修改部门")
     @PutMapping(value = "/{deptId}")
     @PreAuthorize("@ss.hasPerm('sys:dept:edit')")
     public Result updateDept(
@@ -78,7 +77,7 @@ public class SysDeptController {
         return Result.success(deptId);
     }
 
-    @Operation(summary = "删除部门", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "删除部门")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:dept:delete')")
     public Result deleteDepartments(

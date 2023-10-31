@@ -9,7 +9,6 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.annotation.PreventDuplicateResubmit;
 import com.youlai.system.dto.UserAuthInfo;
-import com.youlai.system.listener.excel.MyAnalysisEventListener;
 import com.youlai.system.listener.excel.UserImportListener;
 import com.youlai.system.model.entity.SysUser;
 import com.youlai.system.model.form.UserForm;
@@ -21,7 +20,6 @@ import com.youlai.system.model.vo.UserPageVO;
 import com.youlai.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,7 +43,7 @@ import java.util.List;
  * @author haoxr
  * @since 2022/10/16
  */
-@Tag(name = "02.用户接口")
+@Tag(name = "01.用户接口")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -53,7 +51,7 @@ public class SysUserController {
 
     private final SysUserService userService;
 
-    @Operation(summary = "用户分页列表", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "用户分页列表")
     @GetMapping("/page")
     public PageResult<UserPageVO> getUserPage(
             @ParameterObject UserPageQuery queryParams
@@ -62,7 +60,7 @@ public class SysUserController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "新增用户", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "新增用户")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:user:add')")
     @PreventDuplicateResubmit
@@ -73,7 +71,7 @@ public class SysUserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "用户表单数据", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "用户表单数据")
     @GetMapping("/{userId}/form")
     public Result<UserForm> getUserForm(
             @Parameter(description = "用户ID") @PathVariable Long userId
@@ -82,7 +80,7 @@ public class SysUserController {
         return Result.success(formData);
     }
 
-    @Operation(summary = "修改用户", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "修改用户")
     @PutMapping(value = "/{userId}")
     @PreAuthorize("@ss.hasPerm('sys:user:edit')")
     public Result updateUser(
@@ -92,7 +90,7 @@ public class SysUserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "删除用户", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "删除用户")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:user:delete')")
     public Result deleteUsers(
@@ -102,7 +100,7 @@ public class SysUserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改用户密码", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "修改用户密码")
     @PatchMapping(value = "/{userId}/password")
     @PreAuthorize("@ss.hasPerm('sys:user:reset_pwd')")
     public Result updatePassword(
@@ -113,7 +111,7 @@ public class SysUserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改用户状态", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "修改用户状态")
     @PatchMapping(value = "/{userId}/status")
     public Result updateUserStatus(
             @Parameter(description = "用户ID") @PathVariable Long userId,
@@ -135,14 +133,14 @@ public class SysUserController {
         return Result.success(userAUthInfo);
     }
 
-    @Operation(summary = "获取当前登录用户信息", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "获取登录用户信息")
     @GetMapping("/me")
     public Result<UserInfoVO> getUserLoginInfo() {
         UserInfoVO userInfoVO = userService.getUserLoginInfo();
         return Result.success(userInfoVO);
     }
 
-    @Operation(summary = "注销登出", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "用户注销")
     @DeleteMapping("/logout")
     public Result logout() {
         boolean result = userService.logout();
@@ -150,7 +148,7 @@ public class SysUserController {
     }
 
 
-    @Operation(summary = "用户导入模板下载", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "用户导入模板下载")
     @GetMapping("/template")
     public void downloadTemplate(HttpServletResponse response) throws IOException {
         String fileName = "用户导入模板.xlsx";
@@ -166,7 +164,7 @@ public class SysUserController {
         excelWriter.finish();
     }
 
-    @Operation(summary = "导入用户", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "导入用户")
     @PostMapping("/_import")
     public Result importUsers(@Parameter(description = "部门ID") Long deptId, MultipartFile file) throws IOException {
         UserImportListener listener = new UserImportListener(deptId);
@@ -175,7 +173,7 @@ public class SysUserController {
         return Result.success(msg);
     }
 
-    @Operation(summary = "导出用户", security = {@SecurityRequirement(name = "Authorization")})
+    @Operation(summary = "导出用户")
     @GetMapping("/_export")
     public void exportUsers(UserPageQuery queryParams, HttpServletResponse response) throws IOException {
         String fileName = "用户列表.xlsx";

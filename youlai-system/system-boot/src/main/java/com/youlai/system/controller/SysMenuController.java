@@ -27,7 +27,7 @@ import java.util.List;
  * @author haoxr
  * @since  2020/11/06
  */
-@Tag(name = "04.菜单接口")
+@Tag(name = "03.菜单接口")
 @RestController
 @RequestMapping("/api/v1/menus")
 @RequiredArgsConstructor

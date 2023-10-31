@@ -2,6 +2,7 @@ package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -80,7 +81,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         MenuTypeEnum menuType = menuForm.getType();  // 菜单类型
         switch (menuType) {
             case CATALOG -> { // 目录
-                if (NumberUtil.equals(menuForm.getParentId(), 0) && !path.startsWith("/")) {
+                if (ObjectUtil.equal(menuForm.getParentId(), 0) && !path.startsWith("/")) {
                     menuForm.setPath("/" + path); // 一级目录需以 / 开头
                 }
                 menuForm.setComponent("Layout");

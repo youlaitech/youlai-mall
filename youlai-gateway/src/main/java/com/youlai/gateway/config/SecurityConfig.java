@@ -1,5 +1,6 @@
 package com.youlai.gateway.config;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +17,8 @@ import org.springframework.web.util.pattern.PathPatternParser;
 
 import java.util.List;
 
-
 /**
- * OAuth Client Security 配置
+ * Spring Security 配置
  *
  * @author haoxr
  * @since 2022/8/28
@@ -30,23 +30,31 @@ import java.util.List;
 public class SecurityConfig {
 
     /**
-     * 禁止访问的URI集合(黑名单)
+     * 黑名单请求路径列表
      */
     @Setter
-    private List<String> forbiddenURIs;
+    private List<String> blacklistPaths;
 
     @Bean
-    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity  http) {
+    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
         http
-                .authorizeExchange(exchangeSpec ->
-                        exchangeSpec
-                                .pathMatchers(Convert.toStrArray(forbiddenURIs)).denyAll()
-                                .anyExchange().permitAll()
+                .authorizeExchange(exchange ->
+                        {
+                            if (CollectionUtil.isNotEmpty(blacklistPaths)) {
+                                exchange.pathMatchers(Convert.toStrArray(blacklistPaths)).authenticated();
+                            }
+                            exchange.anyExchange().permitAll();
+                        }
                 )
                 .csrf(ServerHttpSecurity.CsrfSpec::disable);
         return http.build();
     }
 
+    /**
+     * 跨域共享配置
+     *
+     * @return CorsConfigurationSource
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
