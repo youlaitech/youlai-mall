@@ -79,13 +79,13 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-security</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-security</artifactId>
+            <artifactId>common-apidoc</artifactId>
         </dependency>
 
     </dependencies>

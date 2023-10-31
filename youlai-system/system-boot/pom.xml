@@ -112,6 +112,11 @@
             <artifactId>common-security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-apidoc</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

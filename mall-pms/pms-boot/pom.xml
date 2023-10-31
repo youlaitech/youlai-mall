@@ -92,6 +92,11 @@
             <artifactId>common-seata</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-apidoc</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

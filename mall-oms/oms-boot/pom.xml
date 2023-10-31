@@ -48,7 +48,10 @@
             <scope>test</scope>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
@@ -86,13 +89,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-pay</artifactId>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-seata</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-seata</artifactId>
+            <artifactId>common-apidoc</artifactId>
         </dependency>
 
     </dependencies>
