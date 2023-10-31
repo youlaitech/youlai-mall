@@ -35,8 +35,8 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
     @Override
     public Mono<ServerResponse> handle(ServerRequest request) {
 
-        MathGenerator mathGenerator=new MathGenerator(1);
-        CircleCaptcha circleCaptcha =new CircleCaptcha(150,25,4,3);
+        MathGenerator mathGenerator = new MathGenerator(1);
+        CircleCaptcha circleCaptcha = new CircleCaptcha(150, 25, 4, 3);
         circleCaptcha.setGenerator(mathGenerator);
         String captchaCode = circleCaptcha.getCode(); // 验证码
         String captchaBase64 = circleCaptcha.getImageBase64Data(); // 验证码图片Base64

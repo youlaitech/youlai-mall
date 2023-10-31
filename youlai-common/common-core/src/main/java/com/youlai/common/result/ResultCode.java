@@ -1,12 +1,13 @@
 package com.youlai.common.result;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
+ * 自定义响应码
+ *
  * @author haoxr
  * @since 2020-06-23
  **/

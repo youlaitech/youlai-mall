@@ -4,11 +4,18 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * 基础实体类
+ */
 @Data
 public class BaseEntity implements Serializable {
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @TableField(fill = FieldFill.INSERT)
