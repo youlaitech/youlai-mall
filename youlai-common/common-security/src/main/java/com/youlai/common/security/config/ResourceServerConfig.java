@@ -1,9 +1,9 @@
 package com.youlai.common.security.config;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.json.JSONUtil;
 import com.youlai.common.constant.SecurityConstants;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -20,41 +20,64 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 资源服务器配置
+ *
+ * @author haoxr
+ * @since 3.0.0
+ */
 @ConfigurationProperties(prefix = "security")
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @Slf4j
 public class ResourceServerConfig {
 
+    private final AccessDeniedHandler accessDeniedHandler;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+
+
+
+    /**
+     * 白名单路径列表
+     */
     @Setter
-    private List<String> ignoreUrls;
+    private List<String> whitelistPaths;
+
+
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
 
-        log.info("whitelist path:{}", JSONUtil.toJsonStr(ignoreUrls));
-        http.authorizeHttpRequests(requestMatcherRegistry ->
+        MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
+
+        log.info("whitelist path:{}", JSONUtil.toJsonStr(whitelistPaths));
+        http.authorizeHttpRequests((requests) ->
                         {
-                            if (CollectionUtil.isNotEmpty(ignoreUrls)) {
-                                requestMatcherRegistry.requestMatchers(Convert.toStrArray(ignoreUrls)).permitAll();
+                            for (String whitelistPath : whitelistPaths) {
+                                requests.requestMatchers(mvcMatcherBuilder.pattern(whitelistPath)).permitAll();
                             }
-                            requestMatcherRegistry.anyRequest().authenticated();
+                            requests.anyRequest().authenticated();
                         }
                 )
                 .csrf(AbstractHttpConfigurer::disable)
         ;
         http.oauth2ResourceServer(resourceServerConfigurer ->
-                resourceServerConfigurer.jwt(jwtConfigurer -> jwtAuthenticationConverter())
-        )
-                /*.and()
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler)*/
-        ;
+                resourceServerConfigurer
+                        .jwt(jwtConfigurer -> jwtAuthenticationConverter())
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+        );
         return http.build();
     }
 
@@ -63,16 +86,39 @@ public class ResourceServerConfig {
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-                .requestMatchers(
-                        "/webjars/**",
-                        "/doc.html",
-                        "/swagger-resources/**",
-                        "/v3/api-docs/**",
-                        "/swagger-ui/**"
-                );
+        return (web) -> web.ignoring().requestMatchers(
+                convertToAntPathRequestMatchers(Arrays.asList(
+                                "/webjars/**",
+                                "/doc.html",
+                                "/swagger-resources/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**"
+                        )
+                )
+        );
     }
 
+    /**
+     * 路径转换为AntPathRequestMatcher
+     *
+     * @param paths 路径列表
+     * @return AntPathRequestMatcher[]
+     */
+    public static AntPathRequestMatcher[] convertToAntPathRequestMatchers(List<String> paths) {
+        if (CollectionUtil.isEmpty(paths)) {
+            return new AntPathRequestMatcher[0];
+        }
+
+        return paths.stream()
+                .map(AntPathRequestMatcher::new)
+                .toArray(AntPathRequestMatcher[]::new);
+    }
+
+
+    @Bean
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
+    }
 
     /**
      * 自定义JWT Converter
