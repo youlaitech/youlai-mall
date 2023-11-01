@@ -8,10 +8,10 @@ spring:
     nacos:
       # 注册中心
       discovery:
-        server-addr: http://192.168.179.21:8848
+        server-addr: http://localhost:8848
       # 配置中心
       config:
-        server-addr: http://192.168.179.21:8848
+        server-addr: http://localhost:8848
         file-extension: yaml
         shared-configs[0]:
           data-id: youlai-common.yaml
