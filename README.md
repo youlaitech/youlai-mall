@@ -18,7 +18,7 @@
    <a target="_blank" href="https://www.youlai.tech">有来技术官网</a> |
    <a target="_blank" href="https://youlai.blog.csdn.net">有来技术博客</a>|
    <a target="_blank" href="https://gitee.com/haoxr">Gitee</a>|
-   <a target="_blank" href="https://youlai.blog.csdn.net/">Github</a> 
+   <a target="_blank" href="https://github.com/haoxianrui">Github</a> 
 </p>
 
 ## 🚀项目简介
@@ -32,6 +32,14 @@
 - Spring Authorization Server 、 JWT 常用 OAuth2 授权模式扩展；
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、K8s、Docker实现微服务持续集成与交付(CI/CD)。
+
+## 🌱分支说明
+|                   | 说明                                                    | 适配管理前端分支               | 适配移动端分支             |
+|-------------------|-------------------------------------------------------|------------------------|---------------------|
+| ✅master            | Java 17 + Spring Boot 3 + Spring Authorization Server | [mall-admin:develop](https://gitee.com/youlaiorg/mall-admin/tree/develop/) | [mall-app:master](https://gitee.com/youlaiorg/mall-app) |
+| java8 | Java 8 + Spring Boot 2 + Spring Security OAuth2       |       [mall-admin:develop](https://gitee.com/youlaiorg/mall-admin/tree/master/)  |[mall-app:master](https://gitee.com/youlaiorg/mall-app)|
+
+
 
 ## 🌈在线预览
 
@@ -50,7 +58,7 @@
 | 管理前端 | [mall-admin](https://gitee.com/youlaiorg/mall-admin)   | [mall-admin](https://github.com/youlaitech/mall-admin)   | -       |
 | 移动端  | [mall-app](https://gitee.com/youlaiorg/mall-app)       | [mall-app](https://github.com/youlaitech/mall-app)       | -       |
 
-## 📁目录结构 
+## 📁目录结构
 
 ``` text
 youlai-mall
@@ -89,7 +97,6 @@ youlai-mall
 - JDK 17
 - MySQL 8 或 MySQL 5.7
 - Nacos 2.2+
-- Seata 1.6+
 
 ### 安装中间件
 
@@ -101,7 +108,7 @@ youlai-mall
 | Seata    | [Windows 安装 Seata 1.6](https://youlai.blog.csdn.net/article/details/133295970) | [Linux 安装 Seata 1.7](https://youlai.blog.csdn.net/article/details/133376131) | 否           |
 | RabbitMQ | /                                                            | [Linux 安装 RabbitMQ](https://blog.csdn.net/u013737132/article/details/130439122) | 否           |
 
-💡默认情况下，线上 MySQL 数据是只读的，如果需要进行修改或删除操作，建议安装 MySQL。
+💡默认中间件使用有来线上的环境，其中线上 MySQL 数据是只读的，如果需要进行修改或删除操作，建议自己安装 MySQL。
 
 ### 初始化数据库
 
@@ -130,15 +137,15 @@ youlai-mall
 
 ### 启动服务
 
- - 进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
+- 进入 `youlai-gateway` 模块的启动类 GatewayApplication 启动网关；
 
- - 进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
+- 进入 `youlai-auth` 模块的启动类 AuthApplication 启动认证授权中心；
 
- - 进入 `youlai-system`  → `system-boot` 模块的启动类 SystemApplication 启动系统服务；
+- 进入 `youlai-system`  → `system-boot` 模块的启动类 SystemApplication 启动系统服务；
 
- - 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-system` 一致;
+- 至此完成基础服务的启动，商城服务按需启动，启动方式和 `youlai-system` 一致;
 
- - 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
+- 访问接口文档地址测试:  [http://localhost:9999/doc.html](http://localhost:9999/doc.html)
 
 
 ## 📝开发文档
