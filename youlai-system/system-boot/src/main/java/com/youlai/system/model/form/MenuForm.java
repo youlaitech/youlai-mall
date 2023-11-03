@@ -41,4 +41,10 @@ public class MenuForm {
     @Schema(description = "跳转路径")
     private String redirect;
 
+    @Schema(description = "【菜单】是否开启页面缓存", example = "1")
+    private Integer keepAlive;
+
+    @Schema(description = "【目录】只有一个子路由是否始终显示", example = "1")
+    private Integer alwaysShow;
+
 }

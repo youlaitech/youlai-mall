@@ -42,14 +42,19 @@ public class RouteVO {
         @Schema(description = "ICON")
         private String icon;
 
-        @Schema(description = "是否隐藏", example = "true")
+        @Schema(description = "是否隐藏(true-是 false-否)", example = "true")
         private Boolean hidden;
 
         @Schema(description = "拥有路由权限的角色编码", example = "['ADMIN','ROOT']")
         private List<String> roles;
 
-        @Schema(description = "是否开启缓存", example = "true")
+        @Schema(description = "【菜单】是否开启页面缓存", example = "true")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private Boolean keepAlive;
+
+        @Schema(description = "【目录】只有一个子路由是否始终显示", example = "true")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private Boolean alwaysShow;
     }
 
     @Schema(description = "子路由列表")

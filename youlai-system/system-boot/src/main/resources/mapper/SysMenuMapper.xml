@@ -11,7 +11,7 @@
         <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
         <result property="path" column="path" jdbcType="VARCHAR"/>
         <result property="component" column="component" jdbcType="VARCHAR"/>
-        <result property="redirectUrl" column="redirect_url" jdbcType="VARCHAR"/>
+        <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
         <result property="icon" column="icon" jdbcType="VARCHAR"/>
         <result property="sort" column="sort" jdbcType="INTEGER"/>
         <result property="visible" column="visible" jdbcType="BOOLEAN"/>
@@ -32,9 +32,11 @@
            t1.icon,
            t1.sort,
            t1.visible,
-           t1.redirect_url,
+           t1.redirect,
            t1.type,
-           t3.code
+           t3.code,
+           t1.always_show,
+           t1.keep_alive
         FROM
             sys_menu t1
                  LEFT JOIN sys_role_menu t2 ON t1.id = t2.menu_id

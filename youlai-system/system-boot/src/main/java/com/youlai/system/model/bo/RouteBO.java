@@ -64,13 +64,23 @@ public class RouteBO {
     private String icon;
 
     /**
-     * 外链路径
+     * 跳转路径
      */
-    private String redirectUrl;
+    private String redirect;
 
     /**
      * 拥有路由的权限
      */
     private List<String> roles;
+
+    /**
+     * 【目录】只有一个子路由是否始终显示(1:是 0:否)
+     */
+    private Integer alwaysShow;
+
+    /**
+     * 【菜单】是否开启页面缓存(1:是 0:否)
+     */
+    private Integer keepAlive;
 
 }

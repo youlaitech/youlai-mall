@@ -77,4 +77,14 @@ public class SysMenu extends BaseEntity {
      */
     private String treePath;
 
+    /**
+     * 【菜单】是否开启页面缓存(1:开启;0:关闭)
+     */
+    private Integer keepAlive;
+
+    /**
+     * 【目录】只有一个子路由是否始终显示(1:是 0:否)
+     */
+    private Integer alwaysShow;
+
 }
