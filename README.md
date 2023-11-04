@@ -22,6 +22,13 @@
    <a target="_blank" href="https://github.com/haoxianrui">Github</a> 
 </p>
 
+## 🌱分支说明
+|                   | 说明                                                    | 适配管理前端分支                                                                  | 适配移动端分支             |
+|-------------------|-------------------------------------------------------|---------------------------------------------------------------------------|---------------------|
+| ✅master            | Java 17 + Spring Boot 3 + Spring Authorization Server | [mall-admin:master](https://gitee.com/youlaiorg/mall-admin/tree/master/)  | [mall-app:master](https://gitee.com/youlaiorg/mall-app) |
+| java8 | Java 8 + Spring Boot 2 + Spring Security OAuth2       | [mall-admin:master](https://gitee.com/youlaiorg/mall-admin/tree/master/) |[mall-app:master](https://gitee.com/youlaiorg/mall-app)|
+
+
 ## 🚀项目简介
 
 [youlai-mall](https://gitee.com/haoxr) 是基于Spring Boot 3 、Spring Cloud & Alibaba
@@ -33,14 +40,6 @@
 - Spring Authorization Server 、 JWT 常用 OAuth2 授权模式扩展；
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、K8s、Docker实现微服务持续集成与交付(CI/CD)。
-
-## 🌱分支说明
-|                   | 说明                                                    | 适配管理前端分支               | 适配移动端分支             |
-|-------------------|-------------------------------------------------------|------------------------|---------------------|
-| ✅master            | Java 17 + Spring Boot 3 + Spring Authorization Server | [mall-admin:develop](https://gitee.com/youlaiorg/mall-admin/tree/master/) | [mall-app:master](https://gitee.com/youlaiorg/mall-app) |
-| java8 | Java 8 + Spring Boot 2 + Spring Security OAuth2       |       [mall-admin:develop](https://gitee.com/youlaiorg/mall-admin/tree/master/)  |[mall-app:master](https://gitee.com/youlaiorg/mall-app)|
-
-
 
 ## 🌈在线预览
 
