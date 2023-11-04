@@ -1,6 +1,7 @@
 <p align="center">
-    <img alt="有来技术" src="https://img.shields.io/badge/SpringBoot-2.7.8-brightgreen.svg"/>
-    <img alt="有来技术" src="https://img.shields.io/badge/SpringCloud & Alibaba -2021-green.svg"/>
+    <img alt="有来技术" src="https://img.shields.io/badge/Java-8-brightgreen.svg"/>
+    <img alt="有来技术" src="https://img.shields.io/badge/Spring Boot-2.7.17-green.svg"/>
+    <img alt="有来技术" src="https://img.shields.io/badge/Spring Cloud & Alibaba -2021-yellowgreen.svg"/>
      <a href="https://gitee.com/youlaitech/youlai-mall" target="_blank">
         <img alt="有来技术" src="https://gitee.com/youlaitech/youlai-mall/badge/star.svg"/>
     </a>     
@@ -13,44 +14,48 @@
         <img alt="有来技术" src="https://img.shields.io/badge/Author-有来开源组织-orange.svg"/>
     </a>
 </p>
-
 <p align="center">
-   <a target="_blank" href="https://www.youlai.tech">官方文档</a> |
-   <a target="_blank" href="https://www.cnblogs.com/haoxianrui/"> 团队博客</a> 
+   <a target="_blank" href="https://www.youlai.tech">有来技术官网</a> |
+   <a target="_blank" href="https://youlai.blog.csdn.net">有来技术博客</a>|
+   <a target="_blank" href="https://gitee.com/haoxr">Gitee</a>|
+   <a target="_blank" href="https://github.com/haoxianrui">Github</a> 
 </p>
 
-## 🈶项目简介
+## 🚀项目简介
 
-[youlai-mall](https://gitee.com/haoxr) 是基于Spring Boot 2.7、Spring Cloud 2021 & Alibaba
-2021、Vue3、Element-Plus、uni-app等全栈主流技术栈构建的开源商城项目，涉及 [后端微服务](https://gitee.com/youlaitech/youlai-mall)、 [前端管理](https://gitee.com/youlaitech/youlai-mall-admin)、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp)
+[youlai-mall](https://gitee.com/haoxr) 是基于 Java 8 + Spring Boot 2 、Spring Cloud & Alibaba
+2021、Vue3、Element-Plus、uni-app等全栈主流技术栈构建的开源商城项目，涉及 [微服务接口](https://gitee.com/youlaitech/youlai-mall)、 [管理前端](https://gitee.com/youlaitech/youlai-mall-admin)、 [微信小程序](https://gitee.com/youlaitech/youlai-mall-weapp)
 和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp)等多端的开发。
 
-## ✨项目特色
-
 - 项目使用皆是当前主流前后端技术栈(持续更新...)，无过度自定义封装，易理解学习和二次扩展；
-- 极速启动模式，无条件提供线上环境，1分钟之内拥有微服务环境；
-- SpringBoot 2.7、SpringCloud 2021 & Alibaba 2021 一站式微服务开箱即用的解决方案；
+- Spring Boot 2 、Spring Cloud & Alibaba 2021 一站式微服务开箱即用的解决方案；
 - Spring Security OAuth2 、 Spring Cloud Gateway 、 JWT 统一认证鉴权和常用 OAuth2 授权模式扩展；
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、K8s、Docker实现微服务持续集成与交付(CI/CD)。
 
-## 💎在线演示
+## 🌱分支说明
+|                   | 说明                                                    | 适配管理前端分支                                                                   | 适配移动端分支             |
+|-------------------|-------------------------------------------------------|----------------------------------------------------------------------------|---------------------|
+| ✅java8 | Java 8 + Spring Boot 2 + Spring Security OAuth2       | [mall-admin:master](https://gitee.com/youlaiorg/mall-admin/tree/master/)   |[mall-app:master](https://gitee.com/youlaiorg/mall-app)|
+| master            | Java 17 + Spring Boot 3 + Spring Authorization Server | [mall-admin:master](https://gitee.com/youlaiorg/mall-admin/tree/master/) | [mall-app:master](https://gitee.com/youlaiorg/mall-app) |
 
-| 项目    | 演示地址                                       | 备用地址                                     |
-|-------|--------------------------------------------|------------------------------------------|
-| 商城管理端 | https://admin.youlai.tech                  | http://vue3.youlai.tech                  |
-| 移动应用端 | http://app.youlai.tech                     |                                          |
-| 接口文档  | https://api.youlai.tech/doc.html           |                                          |
-| 官网地址  | https://www.youlai.tech                    | https://doc.youlai.tech                  |
-| 官方博客  | [博客园](https://www.cnblogs.com/haoxianrui/) | [CSDN](https://blog.csdn.net/u013737132) |
 
-## 💫源码地址
+## 🌈在线预览
 
-| 项目    | Gitee                                                  | Github                                                   | GitCode |
-|-------|--------------------------------------------------------|----------------------------------------------------------|---------|
-| 微服务后端 | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall) | [youlai-mall](https://github.com/youlaitech/youlai-mall) | -       |
-| 商城管理端 | [mall-admin](https://gitee.com/youlaiorg/mall-admin)   | [mall-admin](https://github.com/youlaitech/mall-admin)   | -       |
-| 移动应用端 | [mall-app](https://gitee.com/youlaiorg/mall-app)       | [mall-app](https://github.com/youlaitech/mall-app)       | -       |
+| 项目      | 地址                        | 用户名/密码             |
+|---------|---------------------------|--------------------|
+| 管理端     | https://admin.youlai.tech | admin/123456       |
+| 移动端(H5) | http://app.youlai.tech    | 18866668888/666666 |
+| 微信小程序  | 关注【有来技术】公众号| 获取体验码申请体验              |
+
+
+## 🍀源码地址
+
+|      | Gitee                                                  | Github                                                   | GitCode |
+|------|--------------------------------------------------------|----------------------------------------------------------|---------|
+| 后端接口 | [youlai-mall](https://gitee.com/youlaiorg/youlai-mall) | [youlai-mall](https://github.com/youlaitech/youlai-mall) | -       |
+| 管理前端 | [mall-admin](https://gitee.com/youlaiorg/mall-admin)   | [mall-admin](https://github.com/youlaitech/mall-admin)   | -       |
+| 移动端  | [mall-app](https://gitee.com/youlaiorg/mall-app)       | [mall-app](https://github.com/youlaitech/mall-app)       | -       |
 
 ## 🗂项目目录
 
@@ -102,11 +107,11 @@ youlai-mall
 
    > 为了避免数据和线上环境冲突，MySQL 和 Redis 必装，其他不安装可默认使用有来线上环境(🔴必装 ⚪可选)
 
-    - 🔴 MySQL &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/vjoqc/)
-    - 🔴 Redis &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/k2a20/)
-    - ⚪ RabbitMQ &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/pages/8znee/)
-    - ⚪ Seata &nbsp;&nbsp;[本地启动](https://www.youlai.tech/pages/0bzvi/) &nbsp;
-      |&nbsp;[Linux部署](https://www.youlai.tech/pages/4vjq5/)
+    - 🔴 MySQL &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/page/vjoqc/)
+    - 🔴 Redis &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/page/k2a20/)
+    - ⚪ RabbitMQ &nbsp;&nbsp;[Linux部署](https://www.youlai.tech/page/8znee/)
+    - ⚪ Seata &nbsp;&nbsp;[本地启动](https://www.youlai.tech/page/0bzvi/) &nbsp;
+      |&nbsp;[Linux部署](https://www.youlai.tech/page/4vjq5/)
     - ⚪ Sentinel &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
     - ⚪ Canal &nbsp;&nbsp;[本地启动]() &nbsp; | &nbsp;[Linux部署]()
 
