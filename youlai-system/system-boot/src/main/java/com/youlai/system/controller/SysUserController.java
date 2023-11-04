@@ -48,7 +48,7 @@ public class SysUserController {
     private final SysUserService userService;
 
     @ApiOperation(value = "用户分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult<UserVO> getUserPage(UserPageQuery queryParams) {
         IPage<UserVO> result = userService.getUserPage(queryParams);
         return PageResult.success(result);
@@ -121,6 +121,13 @@ public class SysUserController {
     public Result<UserLoginVO> getLoginUserInfo() {
         UserLoginVO userLoginVO = userService.getLoginUserInfo();
         return Result.success(userLoginVO);
+    }
+
+    @ApiOperation(value = "用户注销")
+    @DeleteMapping("/logout")
+    public Result logout() {
+        boolean result = userService.logout();
+        return Result.judge(result);
     }
 
     @ApiOperation("用户导入模板下载")

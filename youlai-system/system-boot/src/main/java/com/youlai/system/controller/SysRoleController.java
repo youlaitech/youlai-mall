@@ -26,7 +26,7 @@ public class SysRoleController {
     private final SysRoleService roleService;
 
     @ApiOperation(value = "角色分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult<RolePageVO> listRolePages(RolePageQuery queryParams) {
         Page<RolePageVO> result = roleService.listRolePages(queryParams);
         return PageResult.success(result);

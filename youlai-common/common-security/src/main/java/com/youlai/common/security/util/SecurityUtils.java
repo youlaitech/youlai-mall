@@ -109,6 +109,16 @@ public class SecurityUtils {
         return getRoles().contains(GlobalConstants.ROOT_ROLE_CODE);
     }
 
+
+    public static String getJti() {
+        return String.valueOf(getTokenAttributes().get("jti"));
+    }
+
+
+    public static Long getExp() {
+        return Convert.toLong(getTokenAttributes().get("exp"));
+    }
+
     public static Map<String, Object> getTokenAttributes() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {

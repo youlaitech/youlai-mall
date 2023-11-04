@@ -30,7 +30,7 @@ public class PmsBrandController {
     private final BrandService brandService;
 
     @ApiOperation(value = "品牌分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult listBrandPages(BrandPageQuery queryParams ) {
 
         // 查询参数

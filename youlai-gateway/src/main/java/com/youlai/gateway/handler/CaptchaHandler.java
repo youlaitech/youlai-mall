@@ -36,7 +36,7 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
         // 获取验证码
         GifCaptcha captcha = CaptchaUtil.createGifCaptcha(120, 40, 4); // 宽、高、位数
         String captchaCode = captcha.getCode(); // 验证码
-        String captchaBase64 = captcha.getImageBase64Data(); // 验证码图片Base64
+        String captchaImgBase64 = captcha.getImageBase64Data(); // 验证码图片Base64
 
         // 验证码文本缓存至Redis，用于登录校验
         String verifyCodeKey = IdUtil.fastSimpleUUID();
@@ -45,7 +45,7 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
 
         Map<String, String> result = new HashMap<>(2);
         result.put("verifyCodeKey", verifyCodeKey);
-        result.put("verifyCodeImg", captchaBase64);
+        result.put("captchaImgBase64", captchaImgBase64);
 
         return ServerResponse.ok().body(BodyInserters.fromValue(Result.success(result)));
     }

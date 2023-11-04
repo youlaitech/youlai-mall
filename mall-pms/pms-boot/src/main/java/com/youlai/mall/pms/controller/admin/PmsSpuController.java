@@ -29,7 +29,7 @@ public class PmsSpuController {
     private SpuService spuServiced;
 
     @ApiOperation(value = "商品分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult getSpuPage(SpuPageQuery queryParams) {
         IPage<PmsSpuPageVO> result = spuServiced.getSpuPage(queryParams);
         return PageResult.success(result);

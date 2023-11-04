@@ -22,7 +22,7 @@ public class SysDictItemController {
     private final SysDictItemService dictItemService;
 
     @ApiOperation(value = "字典数据分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult<DictItemPageVO> listDictItemPages(
             DictItemPageQuery queryParams
     ) {

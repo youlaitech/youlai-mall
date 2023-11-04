@@ -25,7 +25,7 @@ public class SysDictTypeController {
     private final SysDictTypeService dictTypeService;
 
     @ApiOperation(value = "字典类型分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult<DictTypePageVO> listDictTypePages(DictTypePageQuery queryParams) {
         Page<DictTypePageVO> result = dictTypeService.listDictTypePages(queryParams);
         return PageResult.success(result);

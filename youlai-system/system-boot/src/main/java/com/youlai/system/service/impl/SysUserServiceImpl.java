@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.system.converter.UserConverter;
 import com.youlai.system.dto.UserAuthInfo;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -358,5 +360,26 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return userLoginVO;
     }
 
+    /**
+     * 注销登出
+     *
+     * @return
+     */
+    @Override
+    public boolean logout() {
+        String jti = SecurityUtils.getJti();
+
+        Long expireTime = SecurityUtils.getExp(); // token 过期时间戳(秒)
+
+        long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
+        if (expireTime != null) {
+            if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
+                redisTemplate.opsForValue().set(SecurityConstants.BLACKLIST_TOKEN_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
+            }
+        } else { // token 永不过期则永久加入黑名单（一般不会有）
+            redisTemplate.opsForValue().set(SecurityConstants.BLACKLIST_TOKEN_PREFIX + jti, null);
+        }
+        return true;
+    }
 
 }

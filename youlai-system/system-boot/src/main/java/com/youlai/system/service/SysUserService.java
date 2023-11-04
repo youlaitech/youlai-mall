@@ -107,4 +107,11 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     UserLoginVO getLoginUserInfo();
+
+    /**
+     * 用户注销
+     *
+     * @return
+     */
+    boolean logout();
 }

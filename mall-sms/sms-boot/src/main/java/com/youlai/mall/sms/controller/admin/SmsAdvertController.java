@@ -25,7 +25,7 @@ public class SmsAdvertController {
     private final SmsAdvertService smsAdvertService;
 
     @ApiOperation(value = "广告分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult listAdvertPages(AdvertPageQuery queryParams) {
 
         // 查询参数
