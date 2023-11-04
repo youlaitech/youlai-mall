@@ -153,17 +153,16 @@ INSERT INTO `sys_menu` VALUES (17, 11, 1, '品牌管理', 'brand', 'pms/brand/in
 INSERT INTO `sys_menu` VALUES (18, 11, 1, '商品分类', 'category', 'pms/category/index', NULL, 'menu', 3, 1, NULL, NULL, NULL, 1, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (19, 11, 1, '商品上架', 'goods-detail', 'pms/goods/detail', NULL, 'publish', 2, 1, NULL, NULL, NULL, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (20, 0, 2, '多级菜单', '/multi-level', 'Layout', NULL, 'nested', 7, 1, '/nested/level1/level2', NULL, NULL, NULL, '2022-02-16 23:11:00', '2022-02-16 23:11:00');
-INSERT INTO `sys_menu` VALUES (21, 20, 1, '菜单一级', 'level1', 'nested/level1/index', NULL, '', 1, 1, '/nested/level1/level2', NULL, NULL, NULL, '2022-02-16 23:13:38', '2022-02-16 23:13:38');
-INSERT INTO `sys_menu` VALUES (22, 21, 1, '菜单二级', 'level2', 'nested/level1/level2/index', NULL, '', 1, 1, '/nested/level1/level2/level3', NULL, NULL, NULL, '2022-02-16 23:14:23', '2022-02-16 23:14:23');
-INSERT INTO `sys_menu` VALUES (23, 22, 1, '菜单三级-1', 'level3-1', 'nested/level1/level2/level3/index1', NULL, '', 1, 1, '', NULL, NULL, NULL, '2022-02-16 23:14:51', '2022-02-16 23:14:51');
-INSERT INTO `sys_menu` VALUES (24, 22, 1, '菜单三级-2', 'level3-2', 'nested/level1/level2/level3/index2', NULL, '', 2, 1, '', NULL, NULL, NULL, '2022-02-16 23:15:08', '2022-02-16 23:15:08');
-INSERT INTO `sys_menu` VALUES (26, 0, 1, '外部链接', '/external-link', 'Layout', NULL, 'link', 9, 1, 'noredirect', NULL, 1, NULL, '2022-02-17 22:51:20', '2022-02-17 22:51:20');
-INSERT INTO `sys_menu` VALUES (30, 26, 3, 'document', 'https://www.cnblogs.com/haoxianrui/', '', NULL, 'link', 1, 1, '', NULL, NULL, NULL, '2022-02-18 00:01:40', '2022-02-18 00:01:40');
-INSERT INTO `sys_menu` VALUES (37, 9, 1, '优惠券列表', 'coupon', 'sms/coupon/index', NULL, 'input', 2, 1, '', NULL, NULL, NULL, '2022-05-29 00:24:07', '2022-05-29 00:24:07');
+INSERT INTO `sys_menu` VALUES (21, 20, 1, '菜单一级', 'level1', 'demo/multi-level/level1', NULL, '', 1, 1, '/nested/level1/level2', NULL, NULL, NULL, '2022-02-16 23:13:38', '2022-02-16 23:13:38');
+INSERT INTO `sys_menu` VALUES (22, 21, 1, '菜单二级', 'level2', 'demo/multi-level/children/level2', NULL, '', 1, 1, '/nested/level1/level2/level3', NULL, NULL, NULL, '2022-02-16 23:14:23', '2022-02-16 23:14:23');
+INSERT INTO `sys_menu` VALUES (23, 22, 1, '菜单三级-1', 'level3-1', 'demo/multi-level/children/children/level3-1', NULL, '', 1, 1, '', NULL, NULL, NULL, '2022-02-16 23:14:51', '2022-02-16 23:14:51');
+INSERT INTO `sys_menu` VALUES (24, 22, 1, '菜单三级-2', 'level3-2', 'demo/multi-level/children/children/level3-2', NULL, '', 2, 1, '', NULL, NULL, NULL, '2022-02-16 23:15:08', '2022-02-16 23:15:08');
+INSERT INTO `sys_menu` VALUES (26, 0, 1, '外部链接', '/external-link', 'Layout', NULL, 'link', 9, 1, 'noredirect', NULL, NULL, NULL, '2022-02-17 22:51:20', '2022-02-17 22:51:20');
+INSERT INTO `sys_menu` VALUES (30, 26, 3, '项目文档', 'https://juejin.cn/post/7228990409909108793', '', NULL, 'link', 1, 1, '', NULL, NULL, NULL, '2022-02-18 00:01:40', '2022-02-18 00:01:40');
+INSERT INTO `sys_menu` VALUES (37, 9, 1, '优惠券列表', 'coupon', 'sms/coupon/index', NULL, 'menu', 2, 1, '', NULL, NULL, NULL, '2022-05-29 00:24:07', '2022-05-29 00:24:07');
 INSERT INTO `sys_menu` VALUES (40, 2, 4, '新增用户', '', NULL, 'sys:user:add', '', 1, 1, '', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (41, 2, 4, '修改用户', '', NULL, 'sys:user:edit', '', 2, 1, '', NULL, NULL, NULL, '2022-11-05 01:26:44', '2022-11-05 01:26:44');
 INSERT INTO `sys_menu` VALUES (42, 2, 4, '删除用户', '', NULL, 'sys:user:del', '', 3, 1, '', NULL, NULL, NULL, '2022-11-05 01:27:13', '2022-11-05 01:27:13');
-
 -- ----------------------------
 -- Table structure for sys_role
 -- ----------------------------
