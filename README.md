@@ -1,6 +1,7 @@
 <p align="center">
-    <img alt="有来技术" src="https://img.shields.io/badge/SpringBoot-3.1.5-brightgreen.svg"/>
-    <img alt="有来技术" src="https://img.shields.io/badge/SpringCloud & Alibaba -2022-green.svg"/>
+    <img alt="有来技术" src="https://img.shields.io/badge/Java-17-brightgreen.svg"/>
+    <img alt="有来技术" src="https://img.shields.io/badge/SpringBoot-3.1.5-green.svg"/>
+    <img alt="有来技术" src="https://img.shields.io/badge/SpringCloud & Alibaba-2022-yellowgreen.svg"/>
      <a href="https://gitee.com/youlaitech/youlai-mall" target="_blank">
         <img alt="有来技术" src="https://gitee.com/youlaitech/youlai-mall/badge/star.svg"/>
     </a>     
@@ -28,7 +29,7 @@
 和 [APP应用](https://gitee.com/youlaitech/youlai-mall-weapp)等多端的开发。
 
 - 项目使用皆是当前主流前后端技术栈(持续更新...)，无过度自定义封装，易理解学习和二次扩展；
-- SpringBoot 3 、SpringCloud & Alibaba 2022 一站式微服务开箱即用的解决方案；
+- Spring Boot 3 、SpringCloud & Alibaba 2022 一站式微服务开箱即用的解决方案；
 - Spring Authorization Server 、 JWT 常用 OAuth2 授权模式扩展；
 - 移动端采用终极跨平台解决方案 uni-app， 一套代码编译iOS、Android、H5和小程序等多个平台；
 - Jenkins、K8s、Docker实现微服务持续集成与交付(CI/CD)。
@@ -36,7 +37,7 @@
 ## 🌱分支说明
 |                   | 说明                                                    | 适配管理前端分支               | 适配移动端分支             |
 |-------------------|-------------------------------------------------------|------------------------|---------------------|
-| ✅master            | Java 17 + Spring Boot 3 + Spring Authorization Server | [mall-admin:develop](https://gitee.com/youlaiorg/mall-admin/tree/develop/) | [mall-app:master](https://gitee.com/youlaiorg/mall-app) |
+| ✅master            | Java 17 + Spring Boot 3 + Spring Authorization Server | [mall-admin:develop](https://gitee.com/youlaiorg/mall-admin/tree/master/) | [mall-app:master](https://gitee.com/youlaiorg/mall-app) |
 | java8 | Java 8 + Spring Boot 2 + Spring Security OAuth2       |       [mall-admin:develop](https://gitee.com/youlaiorg/mall-admin/tree/master/)  |[mall-app:master](https://gitee.com/youlaiorg/mall-app)|
 
 
