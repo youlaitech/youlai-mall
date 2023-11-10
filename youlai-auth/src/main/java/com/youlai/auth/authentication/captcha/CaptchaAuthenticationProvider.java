@@ -99,8 +99,15 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
         String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
         String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        // 用户名密码身份验证，成功后返回 带有权限的认证信息
-        Authentication usernamePasswordAuthentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        // 用户名密码身份验证，成功后返回带有权限的认证信息
+        Authentication usernamePasswordAuthentication;
+        try {
+            usernamePasswordAuthentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        } catch (Exception e) {
+            // 需要将其他类型的异常转换为 OAuth2AuthenticationException 才能被自定义异常捕获处理，逻辑源码 OAuth2TokenEndpointFilter#doFilterInternal
+            throw new OAuth2AuthenticationException(e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
+        }
 
         // 访问令牌(Access Token) 构造器
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
