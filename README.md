@@ -23,10 +23,10 @@
 </p>
 
 ## 🌱分支说明
-|                   | 说明                                                    | 适配管理前端分支                                                                  | 适配移动端分支             |
-|-------------------|-------------------------------------------------------|---------------------------------------------------------------------------|---------------------|
-| ✅master            | Java 17 + Spring Boot 3 + Spring Authorization Server | [mall-admin:master](https://gitee.com/youlaiorg/mall-admin/tree/master/)  | [mall-app:master](https://gitee.com/youlaiorg/mall-app) |
-| java8 | Java 8 + Spring Boot 2 + Spring Security OAuth2       | [mall-admin:master](https://gitee.com/youlaiorg/mall-admin/tree/master/) |[mall-app:master](https://gitee.com/youlaiorg/mall-app)|
+|                   | 说明                                                    | 适配管理前端分支                                                               | 适配移动端分支                                                            |
+|-------------------|-------------------------------------------------------|------------------------------------------------------------------------|--------------------------------------------------------------------|
+| ✅master            | Java 17 + Spring Boot 3 + Spring Authorization Server | [mall-admin:master](https://gitee.com/youlaiorg/mall-admin)            | [mall-app:master](https://gitee.com/youlaiorg/mall-app)            |
+| java8 | Java 8 + Spring Boot 2 + Spring Security OAuth2       | [mall-admin:java8](https://gitee.com/youlaiorg/mall-admin/tree/java8/) | [mall-app:java8](https://gitee.com/youlaiorg/mall-app/tree/java8/) |
 
 
 ## 🚀项目简介
