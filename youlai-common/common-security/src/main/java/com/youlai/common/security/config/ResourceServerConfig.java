@@ -10,6 +10,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +26,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.Arrays;
@@ -47,13 +49,11 @@ public class ResourceServerConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
 
 
-
     /**
      * 白名单路径列表
      */
     @Setter
     private List<String> whitelistPaths;
-
 
 
     @Bean
@@ -87,33 +87,13 @@ public class ResourceServerConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
-                convertToAntPathRequestMatchers(Arrays.asList(
-                                "/webjars/**",
-                                "/doc.html",
-                                "/swagger-resources/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**"
-                        )
-                )
+                AntPathRequestMatcher.antMatcher("/webjars/**"),
+                AntPathRequestMatcher.antMatcher("/doc.html"),
+                AntPathRequestMatcher.antMatcher("/swagger-resources/**"),
+                AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
+                AntPathRequestMatcher.antMatcher("/swagger-ui/**")
         );
     }
-
-    /**
-     * 路径转换为AntPathRequestMatcher
-     *
-     * @param paths 路径列表
-     * @return AntPathRequestMatcher[]
-     */
-    public static AntPathRequestMatcher[] convertToAntPathRequestMatchers(List<String> paths) {
-        if (CollectionUtil.isEmpty(paths)) {
-            return new AntPathRequestMatcher[0];
-        }
-
-        return paths.stream()
-                .map(AntPathRequestMatcher::new)
-                .toArray(AntPathRequestMatcher[]::new);
-    }
-
 
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
