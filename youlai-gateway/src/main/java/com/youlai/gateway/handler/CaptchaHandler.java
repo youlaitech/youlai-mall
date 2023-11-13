@@ -48,7 +48,7 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
 
         Map<String, String> result = new HashMap<>(2);
         result.put("verifyCodeKey", verifyCodeKey);
-        result.put("verifyCodeBase64", captchaBase64);
+        result.put("captchaImgBase64", captchaBase64);
 
         return ServerResponse.ok().body(BodyInserters.fromValue(Result.success(result)));
     }
