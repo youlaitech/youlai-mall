@@ -8,14 +8,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 角色菜单业务实现类
+ */
 @Service
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements SysRoleMenuService {
 
     /**
      * 获取角色拥有的菜单ID集合
      *
-     * @param roleId
-     * @return
+     * @param roleId 角色ID
+     * @return 菜单ID集合
      */
     @Override
     public List<Long> listMenuIdsByRoleId(Long roleId) {
