@@ -64,8 +64,10 @@ public class ResourceServerConfig {
         log.info("whitelist path:{}", JSONUtil.toJsonStr(whitelistPaths));
         http.authorizeHttpRequests((requests) ->
                         {
-                            for (String whitelistPath : whitelistPaths) {
-                                requests.requestMatchers(mvcMatcherBuilder.pattern(whitelistPath)).permitAll();
+                            if (CollectionUtil.isNotEmpty(whitelistPaths)) {
+                                for (String whitelistPath : whitelistPaths) {
+                                    requests.requestMatchers(mvcMatcherBuilder.pattern(whitelistPath)).permitAll();
+                                }
                             }
                             requests.anyRequest().authenticated();
                         }
