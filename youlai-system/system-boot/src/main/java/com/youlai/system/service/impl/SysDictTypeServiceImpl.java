@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 数据字典类型业务实现类
+ * 字典类型业务实现类
  *
  * @author haoxr
  * @since 2022/10/12
