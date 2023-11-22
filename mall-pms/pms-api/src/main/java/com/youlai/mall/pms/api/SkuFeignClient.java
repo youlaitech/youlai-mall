@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.api;
 
 import com.youlai.common.web.config.FeignDecoderConfig;
-import com.youlai.mall.pms.model.dto.LockedSkuDTO;
+import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,7 @@ public interface SkuFeignClient {
      * 锁定商品库存
      */
     @PutMapping("/app-api/v1/skus/lock")
-    boolean lockStock(@RequestParam String orderToken, @RequestBody List<LockedSkuDTO> lockedSkuList);
+    boolean lockStock(@RequestParam String orderToken, @RequestBody List<LockSkuDTO> lockSkuList);
 
     /**
      * 解锁商品库存

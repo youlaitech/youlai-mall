@@ -9,14 +9,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.constant.ProductConstants;
 import com.youlai.mall.pms.converter.SkuConverter;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
-import com.youlai.mall.pms.model.dto.LockedSkuDTO;
+import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDTO;
 import com.youlai.mall.pms.model.entity.PmsSku;
 import com.youlai.mall.pms.service.SkuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +33,6 @@ import java.util.List;
 public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements SkuService {
 
     private final RedisTemplate redisTemplate;
-    private final RedissonClient redissonClient;
     private final SkuConverter skuConverter;
 
 
@@ -65,39 +62,30 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
     /**
      * 校验并锁定库存
      *
-     * @param orderToken    订单临时编号 (此时订单未创建)
-     * @param lockedSkuList 锁定商品库存信息列表
+     * @param orderToken  订单临时编号 (此时订单未创建)
+     * @param lockSkuList 锁定商品库存列表
      * @return true/false
      */
     @Override
     @Transactional
-    public boolean lockStock(String orderToken, List<LockedSkuDTO> lockedSkuList) {
-        Assert.isTrue(CollectionUtil.isNotEmpty(lockedSkuList), "订单({})未包含任何商品", orderToken);
+    public boolean lockStock(String orderToken, List<LockSkuDTO> lockSkuList) {
+        log.info("订单({})锁定商品库存：{}", orderToken, JSONUtil.toJsonStr(lockSkuList));
+        Assert.isTrue(CollectionUtil.isNotEmpty(lockSkuList), "订单({})未包含任何商品", orderToken);
 
         // 校验库存数量是否足够以及锁定库存
-        for (LockedSkuDTO lockedSku : lockedSkuList) {
-            Long skuId = lockedSku.getSkuId();
-            RLock lock = redissonClient.getLock(ProductConstants.SKU_LOCK_PREFIX + skuId);  // 构建商品锁对象
-            try {
-                lock.lock();
-
-                Integer quantity = lockedSku.getQuantity(); // 订单的商品数量
-                // 库存足够
-                boolean lockResult = this.update(new LambdaUpdateWrapper<PmsSku>()
-                        .setSql("locked_stock = locked_stock + " + quantity) // 修改锁定商品数
-                        .eq(PmsSku::getId, lockedSku.getSkuId())
-                        .apply("stock - locked_stock >= {0}", quantity) // 剩余商品数 ≥ 订单商品数
-                );
-                Assert.isTrue(lockResult, "商品({})库存不足", lockedSku.getSkuSn());
-            } finally {
-                if (lock.isLocked()) {
-                    lock.unlock();
-                }
-            }
+        for (LockSkuDTO lockedSku : lockSkuList) {
+            Integer quantity = lockedSku.getQuantity(); // 订单的商品数量
+            // 库存足够
+            boolean lockResult = this.update(new LambdaUpdateWrapper<PmsSku>()
+                    .setSql("locked_stock = locked_stock + " + quantity) // 修改锁定商品数
+                    .eq(PmsSku::getId, lockedSku.getSkuId())
+                    .apply("stock - locked_stock >= {0}", quantity) // 剩余商品数 ≥ 订单商品数
+            );
+            Assert.isTrue(lockResult, "商品库存不足");
         }
 
         // 锁定的商品缓存至 Redis (后续使用：1.取消订单解锁库存；2：支付订单扣减库存)
-        redisTemplate.opsForValue().set(ProductConstants.LOCKED_SKUS_PREFIX + orderToken, lockedSkuList);
+        redisTemplate.opsForValue().set(ProductConstants.LOCKED_SKUS_PREFIX + orderToken, lockSkuList);
         return true;
     }
 
@@ -110,8 +98,9 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
      * @return true/false
      */
     @Override
+    @Transactional
     public boolean unlockStock(String orderSn) {
-        List<LockedSkuDTO> lockedSkus = (List<LockedSkuDTO>) redisTemplate.opsForValue().get(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
+        List<LockSkuDTO> lockedSkus = (List<LockSkuDTO>) redisTemplate.opsForValue().get(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
         log.info("释放订单({})锁定的商品库存:{}", orderSn, JSONUtil.toJsonStr(lockedSkus));
 
         // 库存已释放
@@ -119,20 +108,13 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
             return true;
         }
 
-        // 遍历恢复锁定的商品库存
-        for (LockedSkuDTO lockedSku : lockedSkus) {
-            RLock lock = redissonClient.getLock(ProductConstants.SKU_LOCK_PREFIX + lockedSku.getSkuId());  // 获取商品分布式锁
-            try {
-                lock.lock();
-                this.update(new LambdaUpdateWrapper<PmsSku>()
-                        .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
-                        .eq(PmsSku::getId, lockedSku.getSkuId())
-                );
-            } finally {
-                if (lock.isLocked()) {
-                    lock.unlock();
-                }
-            }
+        // 解锁商品库存
+        for (LockSkuDTO lockedSku : lockedSkus) {
+            boolean unlockResult = this.update(new LambdaUpdateWrapper<PmsSku>()
+                    .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
+                    .eq(PmsSku::getId, lockedSku.getSkuId())
+            );
+            Assert.isTrue(unlockResult, "解锁商品库存失败");
         }
         // 移除 redis 订单锁定的商品
         redisTemplate.delete(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
@@ -148,29 +130,21 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
      * @return ture/false
      */
     @Override
+    @Transactional
     public boolean deductStock(String orderSn) {
         // 获取订单提交时锁定的商品
-        List<LockedSkuDTO> lockedSkus = (List<LockedSkuDTO>) redisTemplate.opsForValue().get(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
+        List<LockSkuDTO> lockedSkus = (List<LockSkuDTO>) redisTemplate.opsForValue().get(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
         log.info("订单({})支付成功，扣减订单商品库存：{}", orderSn, JSONUtil.toJsonStr(lockedSkus));
 
         Assert.isTrue(CollectionUtil.isNotEmpty(lockedSkus), "扣减商品库存失败：订单({})未包含商品");
 
-        for (LockedSkuDTO lockedSku : lockedSkus) {
-
-            RLock lock = redissonClient.getLock(ProductConstants.SKU_LOCK_PREFIX + lockedSku.getSkuId());    // 获取商品分布式锁
-
-            try {
-                lock.lock();
-                this.update(new LambdaUpdateWrapper<PmsSku>()
-                        .setSql("stock = stock - " + lockedSku.getQuantity())
-                        .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
-                        .eq(PmsSku::getId, lockedSku.getSkuId())
-                );
-            } finally {
-                if (lock.isLocked()) {
-                    lock.unlock();
-                }
-            }
+        for (LockSkuDTO lockedSku : lockedSkus) {
+            boolean deductResult = this.update(new LambdaUpdateWrapper<PmsSku>()
+                    .setSql("stock = stock - " + lockedSku.getQuantity())
+                    .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
+                    .eq(PmsSku::getId, lockedSku.getSkuId())
+            );
+            Assert.isTrue(deductResult, "扣减商品库存失败");
         }
 
         // 移除订单锁定的商品

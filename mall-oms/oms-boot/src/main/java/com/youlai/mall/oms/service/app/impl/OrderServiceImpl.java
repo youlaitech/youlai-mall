@@ -44,7 +44,7 @@ import com.youlai.mall.oms.service.app.CartService;
 import com.youlai.mall.oms.service.app.OrderItemService;
 import com.youlai.mall.oms.service.app.OrderService;
 import com.youlai.mall.pms.api.SkuFeignClient;
-import com.youlai.mall.pms.model.dto.LockedSkuDTO;
+import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDTO;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
@@ -199,11 +199,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         }
 
         // 3. 校验库存并锁定库存
-        List<LockedSkuDTO> lockedSkuList = orderItems.stream()
-                .map(item -> new LockedSkuDTO(item.getSkuId(), item.getQuantity(), item.getSkuSn()))
+        List<LockSkuDTO> lockSkuList = orderItems.stream()
+                .map(item -> new LockSkuDTO(item.getSkuId(), item.getQuantity()))
                 .collect(Collectors.toList());
 
-        boolean lockStockResult = skuFeignClient.lockStock(orderToken, lockedSkuList);
+        boolean lockStockResult = skuFeignClient.lockStock(orderToken, lockSkuList);
         Assert.isTrue(lockStockResult, "订单提交失败：锁定商品库存失败！");
 
         // 4. 生成订单

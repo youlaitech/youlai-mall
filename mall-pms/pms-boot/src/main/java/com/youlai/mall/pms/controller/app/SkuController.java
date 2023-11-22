@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.model.dto.LockedSkuDTO;
+import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDTO;
 import com.youlai.mall.pms.service.SkuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,9 +48,9 @@ public class SkuController {
     @PutMapping("/lock")
     public Result<?> lockStock(
             @RequestParam String orderToken,
-            @RequestBody List<LockedSkuDTO> lockedSkuList
+            @RequestBody List<LockSkuDTO> lockSkuList
     ) {
-        boolean lockStockResult = skuService.lockStock(orderToken,lockedSkuList);
+        boolean lockStockResult = skuService.lockStock(orderToken,lockSkuList);
         return Result.success(lockStockResult);
     }
 

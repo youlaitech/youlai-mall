@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.model.dto.LockedSkuDTO;
+import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDTO;
 import com.youlai.mall.pms.model.entity.PmsSku;
 
@@ -36,10 +36,10 @@ public interface SkuService extends IService<PmsSku> {
      * 校验并锁定库存
      *
      * @param orderToken 订单临时编号 (此时订单未创建)
-     * @param lockedSkuList 锁定商品库存信息列表
+     * @param lockSkuList 锁定商品库存信息列表
      * @return true/false
      */
-    boolean lockStock(String orderToken,List<LockedSkuDTO> lockedSkuList);
+    boolean lockStock(String orderToken,List<LockSkuDTO> lockSkuList);
 
     /**
      * 解锁库存

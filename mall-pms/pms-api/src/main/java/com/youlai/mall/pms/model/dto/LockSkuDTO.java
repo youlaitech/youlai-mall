@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LockedSkuDTO {
+public class LockSkuDTO {
 
     /**
      * 商品ID
@@ -25,13 +25,6 @@ public class LockedSkuDTO {
      * 商品数量
      */
     private Integer quantity;
-
-
-    /**
-     * 商品编码
-     */
-    private String skuSn;
-
 
 
 }
