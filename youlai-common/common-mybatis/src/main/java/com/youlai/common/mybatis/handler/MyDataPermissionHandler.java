@@ -28,15 +28,20 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
     @Override
     @SneakyThrows
     public Expression getSqlSegment(Expression where, String mappedStatementId) {
-        // 超级管理员不受数据权限控制
-        if (SecurityUtils.isRoot()) {
-            return where;
-        }
+
         Class<?> clazz = Class.forName(mappedStatementId.substring(0, mappedStatementId.lastIndexOf(StringPool.DOT)));
         String methodName = mappedStatementId.substring(mappedStatementId.lastIndexOf(StringPool.DOT) + 1);
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
             DataPermission annotation = method.getAnnotation(DataPermission.class);
+            // 没有注解，不进行数据权限过滤
+            if (annotation == null) {
+                return where;
+            }
+            // 超级管理员不受数据权限控制
+            if (SecurityUtils.isRoot()) {
+                return where;
+            }
             if (ObjectUtils.isNotEmpty(annotation)
                     && (method.getName().equals(methodName) || (method.getName() + "_COUNT").equals(methodName))) {
                 return dataScopeFilter(annotation.deptAlias(), annotation.deptIdColumnName(), annotation.userAlias(), annotation.userIdColumnName(), where);
@@ -55,7 +60,7 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
     public static Expression dataScopeFilter(String deptAlias, String deptIdColumnName, String userAlias, String userIdColumnName, Expression where) {
 
 
-        String deptColumnName = StrUtil.isNotBlank(deptAlias) ? (deptAlias +StringPool.DOT+ deptIdColumnName) : deptIdColumnName;
+        String deptColumnName = StrUtil.isNotBlank(deptAlias) ? (deptAlias + StringPool.DOT + deptIdColumnName) : deptIdColumnName;
         String userColumnName = StrUtil.isNotBlank(userAlias) ? (userAlias + StringPool.DOT + userIdColumnName) : userIdColumnName;
 
         // 获取当前用户的数据权限
@@ -88,9 +93,9 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
             return where;
         }
 
-        Expression appendExpression =CCJSqlParserUtil.parseCondExpression(appendSqlStr);
+        Expression appendExpression = CCJSqlParserUtil.parseCondExpression(appendSqlStr);
 
-        if(where==null){
+        if (where == null) {
             return appendExpression;
         }
 
