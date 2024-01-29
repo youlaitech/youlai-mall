@@ -2,6 +2,7 @@
 package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -25,7 +26,9 @@ import com.youlai.auth.handler.MyAuthenticationSuccessHandler;
 import com.youlai.auth.service.MemberDetailsService;
 import com.youlai.auth.model.SysUserDetails;
 import com.youlai.auth.jackson.SysUserMixin;
+import com.youlai.common.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -142,21 +145,44 @@ public class AuthorizationServerConfig {
     }
 
 
+    /**
+     * JWK（JWT密钥对）源
+     */
     @Bean // <5>
+    @SneakyThrows
     public JWKSource<SecurityContext> jwkSource() {
-        KeyPair keyPair = generateRsaKey();
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        // @formatter:off
-        RSAKey rsaKey = new RSAKey.Builder(publicKey)
-                .privateKey(privateKey)
-                .keyID(UUID.randomUUID().toString())
-                .build();
-        // @formatter:on
-        JWKSet jwkSet = new JWKSet(rsaKey);
-        return new ImmutableJWKSet<>(jwkSet);
+
+        // 尝试从Redis中获取JWKSet(JWT密钥对，包含非对称加密的公钥和私钥)
+        String jwkSetStr = redisTemplate.opsForValue().get(SecurityConstants.JWK_SET_KEY);
+        if (StrUtil.isNotBlank(jwkSetStr)) {
+            // 如果存在，解析JWKSet并返回
+            JWKSet jwkSet = JWKSet.parse(jwkSetStr);
+            return new ImmutableJWKSet<>(jwkSet);
+        } else {
+            // 如果Redis中不存在JWKSet，生成新的JWKSet
+            KeyPair keyPair = generateRsaKey();
+            RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+            RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+
+            // 构建RSAKey
+            RSAKey rsaKey = new RSAKey.Builder(publicKey)
+                    .privateKey(privateKey)
+                    .keyID(UUID.randomUUID().toString())
+                    .build();
+
+            // 构建JWKSet
+            JWKSet jwkSet = new JWKSet(rsaKey);
+
+            // 将JWKSet存储在Redis中
+            redisTemplate.opsForValue().set(SecurityConstants.JWK_SET_KEY, jwkSet.toString(Boolean.FALSE));
+            return new ImmutableJWKSet<>(jwkSet);
+        }
+
     }
 
+    /**
+     * 生成RSA密钥对
+     */
     private static KeyPair generateRsaKey() { // <6>
         KeyPair keyPair;
         try {
@@ -199,8 +225,10 @@ public class AuthorizationServerConfig {
     @Bean
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
                                                            RegisteredClientRepository registeredClientRepository) {
-
+        // 创建基于JDBC的OAuth2授权服务。这个服务使用JdbcTemplate和客户端仓库来存储和检索OAuth2授权数据。
         JdbcOAuth2AuthorizationService service = new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+
+        // 创建并配置用于处理数据库中OAuth2授权数据的行映射器。
         JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper rowMapper = new JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper(registeredClientRepository);
         rowMapper.setLobHandler(new DefaultLobHandler());
         ObjectMapper objectMapper = new ObjectMapper();
@@ -209,9 +237,16 @@ public class AuthorizationServerConfig {
         objectMapper.registerModules(securityModules);
         objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
         // You will need to write the Mixin for your class so Jackson can marshall it.
+
+        // 添加自定义Mixin，用于序列化/反序列化特定的类。
+        // Mixin类需要自行实现，以便Jackson可以处理这些类的序列化。
         objectMapper.addMixIn(SysUserDetails.class, SysUserMixin.class);
         objectMapper.addMixIn(Long.class, Object.class);
+
+        // 将配置好的ObjectMapper设置到行映射器中。
         rowMapper.setObjectMapper(objectMapper);
+
+        // 将自定义的行映射器设置到授权服务中。
         service.setAuthorizationRowMapper(rowMapper);
 
         return service;
