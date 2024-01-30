@@ -76,21 +76,21 @@ public class CaptchaAuthenticationConverter implements AuthenticationConverter {
         }
 
         // 验证码(必需)
-        String verifyCode = parameters.getFirst(CaptchaParameterNames.VERIFY_CODE);
+        String verifyCode = parameters.getFirst(CaptchaParameterNames.CODE);
         if (StrUtil.isBlank(verifyCode)) {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
-                    CaptchaParameterNames.VERIFY_CODE,
+                    CaptchaParameterNames.CODE,
                     OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI
             );
         }
 
         // 验证码缓存Key(必需)
-        String verifyCodeKey = parameters.getFirst(CaptchaParameterNames.VERIFY_CODE_KEY);
-        if (StrUtil.isBlank(verifyCodeKey)) {
+        String verifyKey = parameters.getFirst(CaptchaParameterNames.KEY);
+        if (StrUtil.isBlank(verifyKey)) {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
-                    CaptchaParameterNames.VERIFY_CODE_KEY,
+                    CaptchaParameterNames.KEY,
                     OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI
             );
         }

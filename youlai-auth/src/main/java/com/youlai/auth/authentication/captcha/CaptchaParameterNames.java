@@ -9,15 +9,19 @@ package com.youlai.auth.authentication.captcha;
  * @since 3.0.0
  */
 public final class CaptchaParameterNames {
-    /**
-     * 验证码
-     */
-    public static final String VERIFY_CODE = "verifyCode";
 
     /**
-     * 验证码缓存Key
+     * 验证码缓存Key (唯一标识) 用于从Redis获取验证码Code
      */
-    public static final String VERIFY_CODE_KEY = "verifyCodeKey";
+    public static final String KEY = "captchaKey";
+
+
+    /**
+     * 验证码 Code
+     */
+    public static final String CODE = "captchaCode";
+
+
 
 
     private CaptchaParameterNames() {

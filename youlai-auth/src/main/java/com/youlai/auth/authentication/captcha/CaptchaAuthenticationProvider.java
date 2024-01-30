@@ -2,8 +2,6 @@ package com.youlai.auth.authentication.captcha;
 
 import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import com.youlai.common.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -25,10 +27,14 @@ import org.springframework.security.oauth2.server.authorization.context.Authoriz
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
+import org.springframework.util.CollectionUtils;
 
 import java.security.Principal;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 验证码模式身份验证提供者
@@ -43,6 +49,7 @@ import java.util.Map;
 public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
+    private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
     private final AuthenticationManager authenticationManager;
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
@@ -84,10 +91,10 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 
         // 验证码校验
         Map<String, Object> additionalParameters = captchaAuthenticationToken.getAdditionalParameters();
-        String verifyCode = (String) additionalParameters.get(CaptchaParameterNames.VERIFY_CODE);
-        String verifyCodeKey = (String) additionalParameters.get(CaptchaParameterNames.VERIFY_CODE_KEY);
+        String verifyCode = (String) additionalParameters.get(CaptchaParameterNames.CODE);
+        String verifyCodeKey = (String) additionalParameters.get(CaptchaParameterNames.KEY);
 
-        String cacheCode = redisTemplate.opsForValue().get(SecurityConstants.VERIFY_CODE_CACHE_KEY_PREFIX + verifyCodeKey);
+        String cacheCode = redisTemplate.opsForValue().get(SecurityConstants.CAPTCHA_CODE_PREFIX + verifyCodeKey);
 
         // 验证码比对
         MathGenerator mathGenerator = new MathGenerator();
@@ -108,6 +115,20 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
             // 需要将其他类型的异常转换为 OAuth2AuthenticationException 才能被自定义异常捕获处理，逻辑源码 OAuth2TokenEndpointFilter#doFilterInternal
             throw new OAuth2AuthenticationException(e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
         }
+
+        // 验证申请访问范围(Scope)
+        Set<String> authorizedScopes = registeredClient.getScopes();
+        Set<String> requestedScopes = captchaAuthenticationToken.getScopes();
+        if (!CollectionUtils.isEmpty(requestedScopes)) {
+            Set<String> unauthorizedScopes = requestedScopes.stream()
+                    .filter(requestedScope -> !registeredClient.getScopes().contains(requestedScope))
+                    .collect(Collectors.toSet());
+            if (!CollectionUtils.isEmpty(unauthorizedScopes)) {
+                throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
+            }
+            authorizedScopes = new LinkedHashSet<>(requestedScopes);
+        }
+
 
         // 访问令牌(Access Token) 构造器
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
@@ -130,10 +151,6 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
         OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
-
-
-        // 权限数据比较多通过反射移除不持久化至数据库
-        ReflectUtil.setFieldValue(usernamePasswordAuthentication.getPrincipal(), "perms", null);
 
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
@@ -164,10 +181,42 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
             authorizationBuilder.refreshToken(refreshToken);
         }
 
-        OAuth2Authorization authorization = authorizationBuilder.build();
+        // ----- ID token -----
+        OidcIdToken idToken;
+        if (requestedScopes.contains(OidcScopes.OPENID)) {
+            // @formatter:off
+            tokenContext = tokenContextBuilder
+                    .tokenType(ID_TOKEN_TOKEN_TYPE)
+                    .authorization(authorizationBuilder.build())	// ID token customizer may need access to the access token and/or refresh token
+                    .build();
+            // @formatter:on
+            OAuth2Token generatedIdToken = this.tokenGenerator.generate(tokenContext);
+            if (!(generatedIdToken instanceof Jwt)) {
+                OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+                        "The token generator failed to generate the ID token.", ERROR_URI);
+                throw new OAuth2AuthenticationException(error);
+            }
+
+            if (log.isTraceEnabled()) {
+                log.trace("Generated id token");
+            }
+
+            idToken = new OidcIdToken(generatedIdToken.getTokenValue(), generatedIdToken.getIssuedAt(),
+                    generatedIdToken.getExpiresAt(), ((Jwt) generatedIdToken).getClaims());
+            authorizationBuilder.token(idToken, (metadata) ->
+                    metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, idToken.getClaims()));
+        } else {
+            idToken = null;
+        }
+
         // 持久化令牌发放记录到数据库
+        OAuth2Authorization authorization = authorizationBuilder.build();
         this.authorizationService.save(authorization);
-        additionalParameters = Collections.EMPTY_MAP;
+
+        additionalParameters = (idToken != null)
+                ? Collections.singletonMap(OidcParameterNames.ID_TOKEN, idToken.getTokenValue())
+                : Collections.emptyMap();
+
         return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
     }
 
