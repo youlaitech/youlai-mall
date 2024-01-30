@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.SecurityConstants;
 import com.youlai.common.constant.SystemConstants;
+import com.youlai.common.security.service.PermissionService;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.system.converter.UserConverter;
 import com.youlai.system.dto.UserAuthInfo;
@@ -56,15 +57,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final UserConverter userConverter;
 
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String,Object> redisTemplate;
 
     private final SysMenuService menuService;
+
+    private final PermissionService permissionService;
 
     /**
      * 获取用户分页列表
      *
-     * @param queryParams
-     * @return
+     * @param queryParams 查询参数
+     * @return {@link UserPageVO}
      */
     @Override
     public IPage<UserPageVO> getUserPage(UserPageQuery queryParams) {
@@ -86,8 +89,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 获取用户详情
      *
-     * @param userId
-     * @return
+     * @param userId 用户ID
+     * @return {@link UserForm}
      */
     @Override
     public UserForm getUserFormData(Long userId) {
@@ -101,7 +104,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 新增用户
      *
      * @param userForm 用户表单对象
-     * @return
+     * @return true|false
      */
     @Override
     public boolean saveUser(UserForm userForm) {
@@ -220,8 +223,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 获取导出用户列表
      *
-     * @param queryParams
-     * @return
+     * @param queryParams 查询参数
+     * @return {@link UserExportVO}
      */
     @Override
     public List<UserExportVO> listExportUsers(UserPageQuery queryParams) {
@@ -232,10 +235,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 获取登录用户信息
      *
-     * @return
+     * @return {@link UserInfoVO}   用户信息
      */
     @Override
-    public UserInfoVO getUserLoginInfo() {
+    public UserInfoVO getCurrentUserInfo() {
         // 登录用户entity
         SysUser user = this.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, SecurityUtils.getUsername())
@@ -253,8 +256,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userInfoVO.setRoles(roles);
 
         // 用户权限集合
-        Set<String> perms = (Set<String>) redisTemplate.opsForValue().get(SecurityConstants.USER_PERMS_CACHE_KEY_PREFIX + user.getId());
-        userInfoVO.setPerms(perms);
+        if (CollectionUtil.isNotEmpty(roles)) {
+            Set<String> perms = permissionService.getRolePermsFormCache(roles);
+            userInfoVO.setPerms(perms);
+        }
 
         return userInfoVO;
     }
@@ -262,7 +267,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 注销登出
      *
-     * @return
+     * @return true|false
      */
     @Override
     public boolean logout() {
@@ -272,11 +277,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
         if (expireTime != null) {
-            if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
-                redisTemplate.opsForValue().set(SecurityConstants.BLACKLIST_TOKEN_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
+            if (expireTime > currentTime) {
+                // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
+                redisTemplate.opsForValue().set(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
             }
-        } else { // token 永不过期则永久加入黑名单（一般不会有）
-            redisTemplate.opsForValue().set(SecurityConstants.BLACKLIST_TOKEN_PREFIX + jti, null);
+        } else {
+            // token 永不过期则永久加入黑名单
+            redisTemplate.opsForValue().set(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti, null);
         }
         return true;
     }

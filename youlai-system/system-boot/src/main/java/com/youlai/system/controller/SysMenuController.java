@@ -70,7 +70,7 @@ public class SysMenuController {
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:menu:add')")
     @PreventDuplicateResubmit
-    @CacheEvict(cacheNames = "system", key = "'routes'")
+    @CacheEvict(cacheNames = "menu", key = "'routes'")
     public Result addMenu(@RequestBody MenuForm menuForm) {
         boolean result = menuService.saveMenu(menuForm);
         return Result.judge(result);
@@ -79,7 +79,7 @@ public class SysMenuController {
     @Operation(summary = "修改菜单",security = {@SecurityRequirement(name = "Authorization")})
     @PutMapping(value = "/{id}")
     @PreAuthorize("@ss.hasPerm('sys:menu:edit')")
-    @CacheEvict(cacheNames = "system", key = "'routes'")
+    @CacheEvict(cacheNames = "menu", key = "'routes'")
     public Result updateMenu(
             @RequestBody MenuForm menuForm
     ) {
@@ -90,7 +90,7 @@ public class SysMenuController {
     @Operation(summary = "删除菜单",security = {@SecurityRequirement(name = "Authorization")})
     @DeleteMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('sys:menu:delete')")
-    @CacheEvict(cacheNames = "system", key = "'routes'")
+    @CacheEvict(cacheNames = "menu", key = "'routes'")
     public Result deleteMenu(
             @Parameter(description ="菜单ID，多个以英文(,)分割") @PathVariable("id") Long id
     ) {

@@ -23,8 +23,8 @@ public interface SysRoleService extends IService<SysRole> {
     /**
      * 角色分页列表
      *
-     * @param queryParams
-     * @return
+     * @param queryParams 角色查询参数
+     * @return {@link Page<RolePageVO>} – 角色分页列表
      */
     Page<RolePageVO> getRolePage(RolePageQuery queryParams);
 
@@ -32,14 +32,15 @@ public interface SysRoleService extends IService<SysRole> {
     /**
      * 角色下拉列表
      *
-     * @return
+     * @return {@link List<Option>} – 角色下拉列表
      */
     List<Option> listRoleOptions();
 
     /**
+     * 保存角色
      *
-     * @param roleForm
-     * @return
+     * @param roleForm 角色表单数据
+     * @return {@link Boolean}
      */
     boolean saveRole(RoleForm roleForm);
 
@@ -64,10 +65,9 @@ public interface SysRoleService extends IService<SysRole> {
      * 批量删除角色
      *
      * @param ids 角色ID，多个使用英文逗号(,)分割
-     * @return
+     * @return {@link Boolean}
      */
     boolean deleteRoles(String ids);
-
 
     /**
      * 获取角色的菜单ID集合
@@ -77,21 +77,20 @@ public interface SysRoleService extends IService<SysRole> {
      */
     List<Long> getRoleMenuIds(Long roleId);
 
-
     /**
-     * 修改角色的资源权限
+     * 分配角色资源权限
      *
-     * @param roleId
-     * @param menuIds
-     * @return
+     * @param roleId 角色ID
+     * @param menuIds 菜单ID集合
+     * @return {@link Boolean}
      */
-    boolean updateRoleMenus(Long roleId, List<Long> menuIds);
+    boolean assignMenusToRole(Long roleId, List<Long> menuIds);
 
     /**
      * 获取最大范围的数据权限
      *
-     * @param roles
-     * @return
+     * @param roles 角色编码集合
+     * @return {@link Integer} – 最大范围的数据权限
      */
     Integer getMaxDataRangeDataScope(Set<String> roles);
 

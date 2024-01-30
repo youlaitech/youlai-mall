@@ -1,7 +1,6 @@
 package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -20,6 +19,7 @@ import com.youlai.system.model.vo.MenuVO;
 import com.youlai.common.web.model.Option;
 import com.youlai.system.model.vo.RouteVO;
 import com.youlai.system.service.SysMenuService;
+import com.youlai.system.service.SysRoleMenuService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.Cacheable;
@@ -39,7 +39,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
+
     private final MenuConverter menuConverter;
+    private final SysRoleMenuService roleMenuService;
 
     /**
      * 菜单列表
@@ -66,11 +68,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .toList();
 
         // 使用递归函数来构建菜单树
-        List<MenuVO> menuList = rootIds.stream()
+
+        return rootIds.stream()
                 .flatMap(rootId -> buildMenuTree(rootId, menus).stream())
                 .collect(Collectors.toList());
-
-        return menuList;
     }
 
     /**
@@ -129,7 +130,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 路由列表
      */
     @Override
-    @Cacheable(cacheNames = "system", key = "'routes'")
+    @Cacheable(cacheNames = "menu", key = "'routes'")
     public List<RouteVO> listRoutes() {
         List<RouteBO> menuList = this.baseMapper.listRoutes();
         return buildRoutes(SystemConstants.ROOT_NODE_ID, menuList);
@@ -214,7 +215,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         String treePath = generateMenuTreePath(menuForm.getParentId());
         entity.setTreePath(treePath);
 
-        return this.saveOrUpdate(entity);
+        boolean result = this.saveOrUpdate(entity);
+        if (result) {
+            // 编辑刷新角色权限缓存
+            if (menuForm.getId() != null) {
+                roleMenuService.refreshRolePermsCache();
+            }
+        }
+        return result;
     }
 
     /**
@@ -238,7 +246,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      *
      * @param menuId  菜单ID
      * @param visible 是否显示(1->显示；2->隐藏)
-     * @return
+     * @return 是否成功
      */
     @Override
     public boolean updateMenuVisible(Long menuId, Integer visible) {
@@ -251,43 +259,44 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     /**
      * 获取角色权限集合
      *
-     * @param roles
-     * @return
+     * @param roles 角色编码集合
+     * @return 权限标识集合
      */
     @Override
     public Set<String> listRolePerms(Set<String> roles) {
-        Set<String> perms = this.baseMapper.listRolePerms(roles);
-        return perms;
+        return this.baseMapper.listRolePerms(roles);
     }
 
     /**
      * 获取菜单表单数据
      *
      * @param id 菜单ID
-     * @return
+     * @return {@link MenuForm}
      */
     @Override
     public MenuForm getMenuForm(Long id) {
         SysMenu entity = this.getById(id);
-        MenuForm menuForm = menuConverter.entity2Form(entity);
-        return menuForm;
+        return menuConverter.entity2Form(entity);
     }
 
     /**
      * 删除菜单
      *
      * @param id 菜单ID
-     * @return
+     * @return 是否成功
      */
     @Override
     public boolean deleteMenu(Long id) {
-        if (id != null) {
-            this.remove(new LambdaQueryWrapper<SysMenu>()
-                    .eq(SysMenu::getId, id)
-                    .or()
-                    .apply("CONCAT (',',tree_path,',') LIKE CONCAT('%,',{0},',%')", id));
+        boolean result = this.remove(new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getId, id)
+                .or()
+                .apply("CONCAT (',',tree_path,',') LIKE CONCAT('%,',{0},',%')", id));
+
+        // 刷新角色权限缓存
+        if (result) {
+            roleMenuService.refreshRolePermsCache();
         }
-        return true;
+        return result;
     }
 
 

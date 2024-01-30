@@ -102,11 +102,11 @@ public class SysRoleController {
 
     @Operation(summary = "分配菜单权限给角色",security = {@SecurityRequirement(name = "Authorization")})
     @PutMapping("/{roleId}/menus")
-    public Result updateRoleMenus(
+    public Result assignMenusToRole(
             @PathVariable Long roleId,
             @RequestBody List<Long> menuIds
     ) {
-        boolean result = roleService.updateRoleMenus(roleId,menuIds);
+        boolean result = roleService.assignMenusToRole(roleId,menuIds);
         return Result.judge(result);
     }
 }

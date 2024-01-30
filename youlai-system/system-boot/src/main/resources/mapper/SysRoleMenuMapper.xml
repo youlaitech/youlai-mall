@@ -14,4 +14,28 @@
         WHERE
             rm.role_id = #{roleId}
     </select>
+
+    <!-- 权限和拥有权限的角色集合的Map -->
+    <resultMap id="PremRolesMap" type="com.youlai.system.model.bo.RolePermsBO">
+        <result property="roleCode" column="role_code"/>
+        <collection property="perms" ofType="string" javaType="java.util.Set">
+            <result column="perm"/>
+        </collection>
+    </resultMap>
+
+    <!-- 获取权限和拥有权限的角色列表 -->
+    <select id="getRolePermsList" resultMap="PremRolesMap">
+        SELECT
+            t2.`code` role_code,
+            t3.perm
+        FROM
+            `sys_role_menu` t1
+            INNER JOIN sys_role t2 ON t1.role_id = t2.id AND t2.deleted = 0 AND t2.`status` = 1
+            INNER JOIN sys_menu t3 ON t1.menu_id = t3.id
+        WHERE
+            type = '${@com.youlai.system.common.enums.MenuTypeEnum@BUTTON.getValue()}'
+            <if test="roleCode!=null and roleCode.trim() neq ''">
+                AND t2.`code` = #{roleCode}
+            </if>
+    </select>
 </mapper>

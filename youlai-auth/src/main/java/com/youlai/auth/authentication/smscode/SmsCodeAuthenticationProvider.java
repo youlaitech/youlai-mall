@@ -43,7 +43,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private final MemberDetailsService memberDetailsService;
 
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String,Object> redisTemplate;
 
     /**
      * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using the provided parameters.

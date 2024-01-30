@@ -135,8 +135,8 @@ public class SysUserController {
 
     @Operation(summary = "获取登录用户信息")
     @GetMapping("/me")
-    public Result<UserInfoVO> getUserLoginInfo() {
-        UserInfoVO userInfoVO = userService.getUserLoginInfo();
+    public Result<UserInfoVO> getCurrentUserInfo() {
+        UserInfoVO userInfoVO = userService.getCurrentUserInfo();
         return Result.success(userInfoVO);
     }
 
