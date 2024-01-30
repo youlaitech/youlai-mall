@@ -2,6 +2,7 @@ package com.youlai.auth.config;
 
 import com.youlai.auth.model.MemberDetails;
 import com.youlai.auth.model.SysUserDetails;
+import com.youlai.common.constant.JwtClaimConstants;
 import com.youlai.common.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,10 +29,7 @@ import java.util.stream.Collectors;
  * @since 3.0.0
  */
 @Configuration
-@RequiredArgsConstructor
 public class JwtTokenClaimsConfig {
-
-    private final RedisTemplate redisTemplate;
 
     /**
      * JWT 自定义字段
@@ -45,28 +43,19 @@ public class JwtTokenClaimsConfig {
                     JwtClaimsSet.Builder claims = context.getClaims();
                     if (principal instanceof SysUserDetails userDetails) { // 系统用户添加自定义字段
 
-                        Long userId = userDetails.getUserId();
-                        claims.claim("userId", userDetails.getUserId());
-                        claims.claim("username", userDetails.getUsername());
-                        claims.claim("deptId", userDetails.getDeptId());
-                        claims.claim("dataScope", userDetails.getDataScope());
-
-                        Set<String> roles = userDetails.getAuthorities().stream()
-                                .map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-                        claims.claim("authorities", roles);
+                        claims.claim(JwtClaimConstants.USER_ID, userDetails.getUserId());
+                        claims.claim(JwtClaimConstants.USERNAME, userDetails.getUsername());
+                        claims.claim(JwtClaimConstants.DEPT_ID, userDetails.getDeptId());
+                        claims.claim(JwtClaimConstants.DATA_SCOPE, userDetails.getDataScope());
 
                         // 这里存入角色至JWT，解析JWT的角色用于鉴权的位置: ResourceServerConfig#jwtAuthenticationConverter
                         var authorities = AuthorityUtils.authorityListToSet(context.getPrincipal().getAuthorities())
                                 .stream()
                                 .collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet));
-                        claims.claim(SecurityConstants.AUTHORITIES_CLAIM_NAME_KEY, authorities);
-
-                        // 权限数据比较多，缓存至redis
-                        Set<String> perms = userDetails.getPerms();
-                        redisTemplate.opsForValue().set(SecurityConstants.USER_PERMS_CACHE_KEY_PREFIX + userId, perms);
+                        claims.claim(JwtClaimConstants.AUTHORITIES, authorities);
 
                     } else if (principal instanceof MemberDetails userDetails) { // 商城会员添加自定义字段
-                        claims.claim("member_id", String.valueOf(userDetails.getId()));
+                        claims.claim(JwtClaimConstants.MEMBER_ID, String.valueOf(userDetails.getId()));
                     }
                 });
             }

@@ -2,7 +2,6 @@ package com.youlai.auth.authentication.password;
 
 
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ReflectUtil;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +28,10 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.util.CollectionUtils;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +46,7 @@ import java.util.stream.Collectors;
 public class PasswordAuthenticationProvider implements AuthenticationProvider {
 
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
+    private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
     private final AuthenticationManager authenticationManager;
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
@@ -133,9 +136,6 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 
-        // 权限数据(perms)比较多通过反射移除，不随令牌一起持久化至数据库
-        ReflectUtil.setFieldValue(usernamePasswordAuthentication.getPrincipal(), "perms", null);
-
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
@@ -166,11 +166,41 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
             authorizationBuilder.refreshToken(refreshToken);
         }
 
-        OAuth2Authorization authorization = authorizationBuilder.build();
+        // ----- ID token -----
+        OidcIdToken idToken;
+        if (requestedScopes.contains(OidcScopes.OPENID)) {
+            // @formatter:off
+            tokenContext = tokenContextBuilder
+                    .tokenType(ID_TOKEN_TOKEN_TYPE)
+                    .authorization(authorizationBuilder.build())	// ID token customizer may need access to the access token and/or refresh token
+                    .build();
+            // @formatter:on
+            OAuth2Token generatedIdToken = this.tokenGenerator.generate(tokenContext);
+            if (!(generatedIdToken instanceof Jwt)) {
+                OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+                        "The token generator failed to generate the ID token.", ERROR_URI);
+                throw new OAuth2AuthenticationException(error);
+            }
+
+            if (log.isTraceEnabled()) {
+                log.trace("Generated id token");
+            }
+
+            idToken = new OidcIdToken(generatedIdToken.getTokenValue(), generatedIdToken.getIssuedAt(),
+                    generatedIdToken.getExpiresAt(), ((Jwt) generatedIdToken).getClaims());
+            authorizationBuilder.token(idToken, (metadata) ->
+                    metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, idToken.getClaims()));
+        } else {
+            idToken = null;
+        }
 
         // 持久化令牌发放记录到数据库
+        OAuth2Authorization authorization = authorizationBuilder.build();
         this.authorizationService.save(authorization);
-        additionalParameters = Collections.emptyMap();
+
+        additionalParameters = (idToken != null)
+                ? Collections.singletonMap(OidcParameterNames.ID_TOKEN, idToken.getTokenValue())
+                : Collections.emptyMap();
 
         return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
     }

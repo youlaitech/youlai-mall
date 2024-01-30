@@ -2,6 +2,7 @@ package com.youlai.common.security.config;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONUtil;
+import com.youlai.common.constant.JwtClaimConstants;
 import com.youlai.common.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -112,7 +113,7 @@ public class ResourceServerConfig {
     public Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthorityPrefix(Strings.EMPTY);
-        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(SecurityConstants.AUTHORITIES_CLAIM_NAME_KEY);
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(JwtClaimConstants.AUTHORITIES);
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
