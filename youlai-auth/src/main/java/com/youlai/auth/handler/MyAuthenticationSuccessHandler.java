@@ -74,7 +74,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
 
         String clientId = accessTokenAuthentication.getRegisteredClient().getClientId();
-        if (SecurityConstants.KNIFE4J_TEST_CLIENT_ID.equals(clientId)) {
+        if (SecurityConstants.TEST_OAUTH2_CLIENT_ID.equals(clientId)) {
             //  Knife4j测试客户端ID（Knife4j自动填充的 access_token 须原生返回，不能被包装成业务码数据格式）
             this.accessTokenHttpResponseConverter.write(tokenResponseParameters, null, httpResponse);
         } else {

@@ -1,4 +1,4 @@
-package com.youlai.common.apidoc.config;
+package com.youlai.common.apidoc;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

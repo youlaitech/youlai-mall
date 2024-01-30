@@ -27,7 +27,7 @@ import java.util.List;
 @Configuration
 @EnableWebFluxSecurity
 @Slf4j
-public class SecurityConfig {
+public class OAuth2ClientConfig {
 
     /**
      * 黑名单请求路径列表

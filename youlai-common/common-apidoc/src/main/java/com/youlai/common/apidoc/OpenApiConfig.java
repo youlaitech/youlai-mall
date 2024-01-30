@@ -1,4 +1,4 @@
-package com.youlai.common.apidoc.config;
+package com.youlai.common.apidoc;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
