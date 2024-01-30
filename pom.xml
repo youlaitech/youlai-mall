@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.2.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -46,7 +46,7 @@
         <!-- db && orm -->
         <mysql.version>8.0.28</mysql.version>
         <druid.version>1.2.20</druid.version>
-        <mybatis-plus.version>3.5.4</mybatis-plus.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
 
         <!-- api doc -->
         <knife4j.version>4.3.0</knife4j.version>
@@ -130,7 +130,7 @@
 
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
@@ -210,7 +210,7 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-security</artifactId>
+                <artifactId>common-resourceserver</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

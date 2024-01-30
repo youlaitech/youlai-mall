@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common-security</artifactId>
+    <artifactId>common-resourceserver</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,6 +17,11 @@
     </properties>
 
     <dependencies>
+        <!-- OAuth2 Resource Server -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
@@ -37,12 +42,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <!-- OAuth2 Resource Server -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
     </dependencies>

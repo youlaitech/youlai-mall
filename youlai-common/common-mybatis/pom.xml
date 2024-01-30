@@ -34,7 +34,7 @@
 
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -45,7 +45,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-security</artifactId>
+            <artifactId>common-resourceserver</artifactId>
             <optional>true</optional>
         </dependency>
 
