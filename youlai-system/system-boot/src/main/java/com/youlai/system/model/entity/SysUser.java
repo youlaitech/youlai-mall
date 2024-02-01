@@ -52,7 +52,7 @@ public class SysUser extends BaseEntity {
     private String mobile;
 
     /**
-     * 用户状态((1:正常;0:禁用))
+     * 用户状态(1:正常;0:禁用)
      */
     private Integer status;
 

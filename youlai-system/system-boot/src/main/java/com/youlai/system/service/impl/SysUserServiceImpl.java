@@ -2,40 +2,46 @@ package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.constant.SecurityConstants;
+import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.security.service.PermissionService;
 import com.youlai.common.security.util.SecurityUtils;
+import com.youlai.system.config.AliyunSmsProperties;
 import com.youlai.system.converter.UserConverter;
 import com.youlai.system.dto.UserAuthInfo;
 import com.youlai.system.mapper.SysUserMapper;
 import com.youlai.system.model.bo.UserBO;
 import com.youlai.system.model.bo.UserFormBO;
+import com.youlai.system.model.bo.UserProfileBO;
 import com.youlai.system.model.entity.SysUser;
 import com.youlai.system.model.form.UserForm;
+import com.youlai.system.model.form.UserRegisterForm;
 import com.youlai.system.model.query.UserPageQuery;
 import com.youlai.system.model.vo.UserExportVO;
 import com.youlai.system.model.vo.UserInfoVO;
 import com.youlai.system.model.vo.UserPageVO;
-import com.youlai.system.service.SysMenuService;
+import com.youlai.system.model.vo.UserProfileVO;
+import com.youlai.system.service.SmsService;
 import com.youlai.system.service.SysRoleService;
 import com.youlai.system.service.SysUserRoleService;
 import com.youlai.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -47,6 +53,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final PasswordEncoder passwordEncoder;
@@ -57,11 +64,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final UserConverter userConverter;
 
-    private final RedisTemplate<String,Object> redisTemplate;
-
-    private final SysMenuService menuService;
-
     private final PermissionService permissionService;
+
+    private final SmsService smsService;
+
+    private final AliyunSmsProperties aliyunSmsProperties;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 获取用户分页列表
@@ -81,9 +90,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<UserBO> userBoPage = this.baseMapper.getUserPage(page, queryParams);
 
         // 实体转换
-        Page<UserPageVO> userVoPage = userConverter.bo2Vo(userBoPage);
-
-        return userVoPage;
+        return userConverter.bo2Vo(userBoPage);
     }
 
     /**
@@ -96,8 +103,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserForm getUserFormData(Long userId) {
         UserFormBO userFormBO = this.baseMapper.getUserDetail(userId);
         // 实体转换po->form
-        UserForm userForm = userConverter.bo2Form(userFormBO);
-        return userForm;
+        return userConverter.bo2Form(userFormBO);
     }
 
     /**
@@ -136,7 +142,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      *
      * @param userId   用户ID
      * @param userForm 用户表单对象
-     * @return
+     * @return true|false 是否更新成功
      */
     @Override
     @Transactional
@@ -167,12 +173,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 删除用户
      *
      * @param idsStr 用户ID，多个以英文逗号(,)分割
-     * @return 删除结果 true/false
+     * @return true/false 是否删除成功
      */
     @Override
     public boolean deleteUsers(String idsStr) {
-        Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的用户数据为空");
-        // 逻辑删除
         List<Long> ids = Arrays.stream(idsStr.split(","))
                 .map(Long::parseLong).
                 collect(Collectors.toList());
@@ -207,10 +211,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (userAuthInfo != null) {
             Set<String> roles = userAuthInfo.getRoles();
             if (CollectionUtil.isNotEmpty(roles)) {
-                // 根据角色编码集合获取权限标识集合
-                Set<String> perms = menuService.listRolePerms(roles);
-                userAuthInfo.setPerms(perms);
-
                 // 获取最大范围的数据权限(目前设定DataScope越小，拥有的数据权限范围越大，所以获取得到角色列表中最小的DataScope)
                 Integer dataScope = roleService.getMaxDataRangeDataScope(roles);
                 userAuthInfo.setDataScope(dataScope);
@@ -228,8 +228,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public List<UserExportVO> listExportUsers(UserPageQuery queryParams) {
-        List<UserExportVO> list = this.baseMapper.listExportUsers(queryParams);
-        return list;
+        return this.baseMapper.listExportUsers(queryParams);
     }
 
     /**
@@ -251,11 +250,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // entity->VO
         UserInfoVO userInfoVO = userConverter.entity2UserInfoVo(user);
 
-        // 用户角色集合
+        // 获取用户角色集合
         Set<String> roles = SecurityUtils.getRoles();
         userInfoVO.setRoles(roles);
 
-        // 用户权限集合
+        // 获取用户权限集合
         if (CollectionUtil.isNotEmpty(roles)) {
             Set<String> perms = permissionService.getRolePermsFormCache(roles);
             userInfoVO.setPerms(perms);
@@ -272,19 +271,133 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public boolean logout() {
         String jti = SecurityUtils.getJti();
+        Optional<Long> expireTimeOpt = Optional.ofNullable(SecurityUtils.getExp()); // 使用Optional处理可能的null值
 
-        Long expireTime = SecurityUtils.getExp(); // token 过期时间戳(秒)
+        long currentTimeInSeconds = System.currentTimeMillis() / 1000; // 当前时间（单位：秒）
 
-        long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
-        if (expireTime != null) {
-            if (expireTime > currentTime) {
-                // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
-                redisTemplate.opsForValue().set(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
+        expireTimeOpt.ifPresent(expireTime -> {
+            if (expireTime > currentTimeInSeconds) {
+                // token未过期，添加至缓存作为黑名单，缓存时间为token剩余的有效时间
+                long remainingTimeInSeconds = expireTime - currentTimeInSeconds;
+                redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "", remainingTimeInSeconds, TimeUnit.SECONDS);
             }
-        } else {
+        });
+
+        if (!expireTimeOpt.isPresent()) {
             // token 永不过期则永久加入黑名单
-            redisTemplate.opsForValue().set(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti, null);
+            redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "");
         }
+
         return true;
+    }
+
+    /**
+     * 注册用户
+     *
+     * @param userRegisterForm 用户注册表单对象
+     * @return true|false 是否注册成功
+     */
+    @Override
+    public boolean registerUser(UserRegisterForm userRegisterForm) {
+
+        String mobile = userRegisterForm.getMobile();
+        String code = userRegisterForm.getCode();
+        // 校验验证码
+        String cacheCode = (String) redisTemplate.opsForValue().get(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile);
+        if (!StrUtil.equals(code, cacheCode)) {
+            log.warn("验证码不匹配或不存在: {}", mobile);
+            return false; // 验证码不匹配或不存在时返回false
+        }
+        // 校验通过，删除验证码
+        redisTemplate.delete(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile);
+
+        // 校验手机号是否已注册
+        long count = this.count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getMobile, mobile)
+                .or()
+                .eq(SysUser::getUsername, mobile)
+        );
+        Assert.isTrue(count == 0, "手机号已注册");
+
+        SysUser entity = new SysUser();
+        entity.setUsername(mobile);
+        entity.setMobile(mobile);
+        entity.setStatus(GlobalConstants.STATUS_YES);
+
+        // 设置默认加密密码
+        String defaultEncryptPwd = passwordEncoder.encode(SystemConstants.DEFAULT_PASSWORD);
+        entity.setPassword(defaultEncryptPwd);
+
+        // 新增用户，并直接返回结果
+        return this.save(entity);
+    }
+
+    /**
+     * 发送注册短信验证码
+     *
+     * @param mobile 手机号
+     * @return true|false 是否发送成功
+     */
+    @Override
+    public boolean sendRegisterSmsCode(String mobile) {
+        // 获取短信模板代码
+        String templateCode = aliyunSmsProperties.getTemplateCodes().get("register");
+
+        // 生成随机4位数验证码
+        String code = RandomUtil.randomNumbers(4);
+
+        // 短信模板: 您的验证码：${code}，该验证码5分钟内有效，请勿泄漏于他人。
+        // 其中 ${code} 是模板参数，使用时需要替换为实际值。
+        String templateParams = JSONUtil.toJsonStr(Collections.singletonMap("code", code));
+
+        boolean result = smsService.sendSms(mobile, templateCode, templateParams);
+        if (result) {
+            // 将验证码存入redis，有效期5分钟
+            redisTemplate.opsForValue().set(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile, code, 5, TimeUnit.MINUTES);
+
+            // TODO 考虑记录每次发送短信的详情，如发送时间、手机号和短信内容等，以便后续审核或分析短信发送效果。
+        }
+        return result;
+    }
+
+    /**
+     * 发送登录短信验证码
+     *
+     * @param mobile 手机号
+     * @return true|false 是否发送成功
+     */
+    @Override
+    public boolean sendLoginSmsCode(String mobile) {
+        // 获取短信模板代码
+        String templateCode = aliyunSmsProperties.getTemplateCodes().get("login");
+
+        // 生成随机4位数验证码
+        String code = RandomUtil.randomNumbers(4);
+
+        // 短信模板: 您的验证码：${code}，该验证码5分钟内有效，请勿泄漏于他人。
+        // 其中 ${code} 是模板参数，使用时需要替换为实际值。
+        String templateParams = JSONUtil.toJsonStr(Collections.singletonMap("code", code));
+
+        boolean result = smsService.sendSms(mobile, templateCode, templateParams);
+        if (result) {
+            // 将验证码存入redis，有效期5分钟
+            redisTemplate.opsForValue().set(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile, code, 5, TimeUnit.MINUTES);
+
+            // TODO 考虑记录每次发送短信的详情，如发送时间、手机号和短信内容等，以便后续审核或分析短信发送效果。
+        }
+        return result;
+    }
+
+    /**
+     * 获取用户个人中心信息
+     *
+     * @return {@link UserProfileVO}
+     */
+    @Override
+    public UserProfileVO getUserProfile() {
+        Long userId = SecurityUtils.getUserId();
+        // 获取用户个人中心信息
+        UserProfileBO userProfileBO = this.baseMapper.getUserProfile(userId);
+        return userConverter.userProfileBo2Vo(userProfileBO);
     }
 }

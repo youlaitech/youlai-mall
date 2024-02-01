@@ -4,7 +4,6 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youlai.common.constant.ExcelConstants;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.annotation.PreventDuplicateResubmit;
@@ -12,11 +11,9 @@ import com.youlai.system.dto.UserAuthInfo;
 import com.youlai.system.listener.excel.UserImportListener;
 import com.youlai.system.model.entity.SysUser;
 import com.youlai.system.model.form.UserForm;
+import com.youlai.system.model.form.UserRegisterForm;
 import com.youlai.system.model.query.UserPageQuery;
-import com.youlai.system.model.vo.UserExportVO;
-import com.youlai.system.model.vo.UserImportVO;
-import com.youlai.system.model.vo.UserInfoVO;
-import com.youlai.system.model.vo.UserPageVO;
+import com.youlai.system.model.vo.*;
 import com.youlai.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -124,7 +121,7 @@ public class SysUserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "根据用户名获取认证信息", hidden = true)
+    @Operation(summary = "获取用户认证信息", hidden = true)
     @GetMapping("/{username}/authInfo")
     public Result<UserAuthInfo> getUserAuthInfo(
             @Parameter(description = "用户名") @PathVariable String username
@@ -140,13 +137,12 @@ public class SysUserController {
         return Result.success(userInfoVO);
     }
 
-    @Operation(summary = "用户注销")
+    @Operation(summary = "注销登出")
     @DeleteMapping("/logout")
     public Result logout() {
         boolean result = userService.logout();
         return Result.judge(result);
     }
-
 
     @Operation(summary = "用户导入模板下载")
     @GetMapping("/template")
@@ -155,7 +151,7 @@ public class SysUserController {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
-        String fileClassPath = ExcelConstants.EXCEL_TEMPLATE_DIR + File.separator + fileName;
+        String fileClassPath = "excel-templates" + File.separator + fileName;
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileClassPath);
 
         ServletOutputStream outputStream = response.getOutputStream();
@@ -165,7 +161,7 @@ public class SysUserController {
     }
 
     @Operation(summary = "导入用户")
-    @PostMapping("/_import")
+    @PostMapping("/import")
     public Result importUsers(@Parameter(description = "部门ID") Long deptId, MultipartFile file) throws IOException {
         UserImportListener listener = new UserImportListener(deptId);
         EasyExcel.read(file.getInputStream(), UserImportVO.class, listener).sheet().doRead();
@@ -174,7 +170,7 @@ public class SysUserController {
     }
 
     @Operation(summary = "导出用户")
-    @GetMapping("/_export")
+    @GetMapping("/export")
     public void exportUsers(UserPageQuery queryParams, HttpServletResponse response) throws IOException {
         String fileName = "用户列表.xlsx";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -184,4 +180,39 @@ public class SysUserController {
         EasyExcel.write(response.getOutputStream(), UserExportVO.class).sheet("用户列表")
                 .doWrite(exportUserList);
     }
+
+    @Operation(summary = "注册用户")
+    @PostMapping("/register")
+    public Result registerUser(
+            @RequestBody @Valid UserRegisterForm userRegisterForm
+    ) {
+        boolean result = userService.registerUser(userRegisterForm);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "发送注册短信验证码")
+    @PostMapping("/register/sms_code")
+    public Result sendRegisterSmsCode(
+            @Parameter(description = "手机号") @RequestParam String mobile
+    ) {
+        boolean result = userService.sendRegisterSmsCode(mobile);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "发送登录短信验证码")
+    @PostMapping("/login/sms_code")
+    public Result sendLoginSmsCode(
+            @Parameter(description = "手机号") @RequestParam String mobile
+    ) {
+        boolean result = userService.sendLoginSmsCode(mobile);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "获取用户个人中心信息")
+    @GetMapping("/profile")
+    public Result getUserProfile() {
+        UserProfileVO userProfile = userService.getUserProfile();
+        return Result.success(userProfile);
+    }
+
 }

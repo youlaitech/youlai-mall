@@ -59,14 +59,6 @@ public interface SysMenuService extends IService<SysMenu> {
     boolean updateMenuVisible(Long menuId, Integer visible);
 
     /**
-     * 获取角色权限集合
-     *
-     * @param roles
-     * @return
-     */
-    Set<String> listRolePerms(Set<String> roles);
-
-    /**
      * 获取菜单表单数据
      *
      * @param id 菜单ID

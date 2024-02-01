@@ -1,6 +1,6 @@
-package com.youlai.common.file.service;
+package com.youlai.system.service;
 
-import com.youlai.common.file.model.FileInfo;
+import com.youlai.system.model.vo.FileInfoVO;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -16,7 +16,7 @@ public interface OssService {
      * @param file 表单文件对象
      * @return 文件信息
      */
-    FileInfo uploadFile(MultipartFile file);
+    FileInfoVO uploadFile(MultipartFile file);
 
     /**
      * 删除文件

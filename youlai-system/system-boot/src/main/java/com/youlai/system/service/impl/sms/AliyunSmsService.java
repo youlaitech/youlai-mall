@@ -1,7 +1,5 @@
-package com.youlai.common.sms.service;
+package com.youlai.system.service.impl.sms;
 
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.json.JSONUtil;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
@@ -10,39 +8,35 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
-import com.youlai.common.constant.SecurityConstants;
-import com.youlai.common.sms.config.AliyunSmsProperties;
+import com.youlai.system.config.AliyunSmsProperties;
+import com.youlai.system.service.SmsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 阿里云短信业务类
  * 
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @since 2021/10/13 23:04
+ * @author haoxr
+ * @since  3.1.0
  */
 @Service
 @RequiredArgsConstructor
-public class AliyunSmsService {
+public class AliyunSmsService implements SmsService {
 
     private final AliyunSmsProperties aliyunSmsProperties;
 
-    private final StringRedisTemplate stringRedisTemplate;
 
     /**
-     * 发送短信
+     * 发送短信验证码
      *
-     * @param phoneNumber 手机号
-     * @return
+     * @param mobile   手机号 13388886666
+     * @param templateCode  短信模板 SMS_194640010
+     * @param templateParam 模板参数 "[{"code":"123456"}]"
+     *
+     * @return  boolean 是否发送成功
      */
-    public boolean sendSmsCode(String phoneNumber) {
-        String code = RandomUtil.randomNumbers(6); // 随机生成6位的验证码
-        stringRedisTemplate.opsForValue().set(SecurityConstants.SMS_CODE_PREFIX + phoneNumber, code, 600, TimeUnit.SECONDS);
+    @Override
+    public boolean sendSms(String mobile,String templateCode,String templateParam) {
 
         DefaultProfile profile = DefaultProfile.getProfile(aliyunSmsProperties.getRegionId(),
                 aliyunSmsProperties.getAccessKeyId(), aliyunSmsProperties.getAccessKeySecret());
@@ -52,26 +46,22 @@ public class AliyunSmsService {
         CommonRequest request = new CommonRequest();
         // 指定请求方式
         request.setSysMethod(MethodType.POST);
-        // 短信api的请求地址  固定
+        // 短信api的请求地址(固定)
         request.setSysDomain(aliyunSmsProperties.getDomain());
-        // 签名算法版本  固定
+        // 签名算法版(固定)
         request.setSysVersion("2017-05-25");
-        // 请求 API 的名称
+        // 请求 API 的名称(固定)
         request.setSysAction("SendSms");
         // 指定地域名称
         request.putQueryParameter("RegionId", aliyunSmsProperties.getRegionId());
         // 要给哪个手机号发送短信  指定手机号
-        request.putQueryParameter("PhoneNumbers", phoneNumber);
+        request.putQueryParameter("PhoneNumbers", mobile);
         // 您的申请签名
         request.putQueryParameter("SignName", aliyunSmsProperties.getSignName());
         // 您申请的模板 code
-        request.putQueryParameter("TemplateCode", aliyunSmsProperties.getTemplateCode());
+        request.putQueryParameter("TemplateCode", templateCode);
 
-        Map<String, Object> params = new HashMap<>();
-        // 这里的key就是短信模板中的 ${xxxx}
-        params.put("code", code);
-
-        request.putQueryParameter("TemplateParam", JSONUtil.toJsonStr(params));
+        request.putQueryParameter("TemplateParam", templateParam);
 
         try {
             CommonResponse response = client.getCommonResponse(request);
@@ -82,7 +72,6 @@ public class AliyunSmsService {
             e.printStackTrace();
         }
         return false;
-
     }
 
 

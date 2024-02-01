@@ -33,7 +33,7 @@
             INNER JOIN sys_role t2 ON t1.role_id = t2.id AND t2.deleted = 0 AND t2.`status` = 1
             INNER JOIN sys_menu t3 ON t1.menu_id = t3.id
         WHERE
-            type = '${@com.youlai.system.common.enums.MenuTypeEnum@BUTTON.getValue()}'
+            type = '${@com.youlai.system.enums.MenuTypeEnum@BUTTON.getValue()}'
             <if test="roleCode!=null and roleCode.trim() neq ''">
                 AND t2.`code` = #{roleCode}
             </if>

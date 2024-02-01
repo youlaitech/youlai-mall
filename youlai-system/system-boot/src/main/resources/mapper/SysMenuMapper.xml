@@ -46,27 +46,4 @@
         ORDER BY t1.sort asc
     </select>
 
-    <!-- 获取角色拥有的权限集合 -->
-    <select id="listRolePerms" resultType="java.lang.String">
-        SELECT
-            DISTINCT t1.perm
-        FROM
-            sys_menu t1
-                INNER JOIN sys_role_menu t2
-                INNER JOIN sys_role t3
-        WHERE
-            t1.type = '${@com.youlai.common.enums.MenuTypeEnum@BUTTON.getValue()}'
-          AND t1.perm IS NOT NULL
-          <choose>
-            <when test="roles!=null and roles.size()>0">
-                AND t3.CODE IN
-                <foreach collection="roles" item="role" separator="," open="(" close=")">
-                    #{role}
-                </foreach>
-            </when>
-            <otherwise>
-                AND t1.id = -1
-            </otherwise>
-          </choose>
-    </select>
 </mapper>

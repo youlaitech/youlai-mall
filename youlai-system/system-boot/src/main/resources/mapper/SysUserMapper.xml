@@ -23,7 +23,7 @@
                 LEFT JOIN sys_user_role sur ON u.id = sur.user_id
                 LEFT JOIN sys_role r ON sur.role_id = r.id
         <where>
-            u.deleted = 0 AND u.username != 'root'
+            u.deleted = 0 AND u.username != ${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
                     u.username LIKE CONCAT('%',#{queryParams.keywords},'%')
@@ -51,7 +51,7 @@
         <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>
-        <result property="deptId" column="dept_id" jdbcType="BIGINT"></result>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
         <collection
                 property="roleIds"
                 column="id"
@@ -62,16 +62,18 @@
 
     <!-- 根据用户ID获取用户详情 -->
     <select id="getUserDetail" resultMap="UserFormMap">
-        SELECT id,
-               username,
-               nickname,
-               mobile,
-               gender,
-               avatar,
-               email,
-               STATUS,
-               dept_id
-        FROM sys_user
+        SELECT
+            id,
+            username,
+            nickname,
+            mobile,
+            gender,
+            avatar,
+            email,
+            STATUS,
+            dept_id
+        FROM
+            sys_user
         WHERE id = #{userId}
           AND deleted = 0
     </select>
@@ -82,9 +84,9 @@
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>
-        <result property="deptId" column="dept_id" jdbcType="BIGINT"></result>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
         <collection property="roles" ofType="string" javaType="java.util.Set">
-            <result column="code"></result>
+            <result column="code"/>
         </collection>
     </resultMap>
 
@@ -103,7 +105,8 @@
                 LEFT JOIN sys_user_role t2 ON t2.user_id = t1.id
                 LEFT JOIN sys_role t3 ON t3.id = t2.role_id
         WHERE
-            t1.username = #{username} AND t1.deleted=0
+            t1.username = #{username}
+            AND t1.deleted=0
     </select>
 
     <!-- 获取用户导出列表 -->
@@ -137,6 +140,29 @@
             </if>
         </where>
         GROUP BY u.id
+    </select>
+
+    <!-- 获取用户个人中心信息 -->
+    <select id="getUserProfile" resultType="com.youlai.system.model.bo.UserProfileBO">
+        SELECT
+            u.id,
+            u.username,
+            u.nickname,
+            u.mobile,
+            u.gender,
+            u.avatar,
+            u.STATUS,
+            d.NAME AS dept_name,
+            GROUP_CONCAT( r.NAME ) AS roleNames,
+            u.create_time
+        FROM
+            sys_user u
+                LEFT JOIN sys_dept d ON u.dept_id = d.id
+                LEFT JOIN sys_user_role sur ON u.id = sur.user_id
+                LEFT JOIN sys_role r ON sur.role_id = r.id
+        WHERE
+            u.id = #{userId}
+            AND u.deleted = 0
     </select>
 
 </mapper>

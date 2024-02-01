@@ -19,12 +19,4 @@ import java.util.Set;
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     List<RouteBO> listRoutes();
-
-    /**
-     * 获取角色权限集合
-     *
-     * @param roles
-     * @return
-     */
-    Set<String> listRolePerms(Set<String> roles);
 }

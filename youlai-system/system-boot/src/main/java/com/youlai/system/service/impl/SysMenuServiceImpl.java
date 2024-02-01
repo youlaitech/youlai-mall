@@ -257,17 +257,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     /**
-     * 获取角色权限集合
-     *
-     * @param roles 角色编码集合
-     * @return 权限标识集合
-     */
-    @Override
-    public Set<String> listRolePerms(Set<String> roles) {
-        return this.baseMapper.listRolePerms(roles);
-    }
-
-    /**
      * 获取菜单表单数据
      *
      * @param id 菜单ID
