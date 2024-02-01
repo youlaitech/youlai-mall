@@ -15,15 +15,13 @@
 
     <modules>
         <module>common-apidoc</module>
-        <module>common-core</module>
+        <module>common-base</module>
         <module>common-redis</module>
         <module>common-web</module>
         <module>common-mybatis</module>
         <module>common-rabbitmq</module>
         <module>common-log</module>
-        <module>common-sms</module>
-        <module>common-file</module>
-        <module>common-resourceserver</module>
+        <module>common-security</module>
         <module>common-seata</module>
     </modules>
 </project>

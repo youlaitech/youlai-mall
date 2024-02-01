@@ -45,7 +45,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-resourceserver</artifactId>
+            <artifactId>common-security</artifactId>
             <optional>true</optional>
         </dependency>
 

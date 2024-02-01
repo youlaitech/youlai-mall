@@ -1,6 +1,6 @@
 package com.youlai.common.constant;
 
-public interface SecurityConstants {
+public interface RedisConstants {
 
     /**
      * 黑名单TOKEN Key前缀
@@ -13,20 +13,25 @@ public interface SecurityConstants {
     String CAPTCHA_CODE_PREFIX = "captcha_code:";
 
     /**
-     * 短信验证码key前缀
+     * 登录短信验证码key前缀
      */
-    String SMS_CODE_PREFIX = "sms_code:";
+    String LOGIN_SMS_CODE_PREFIX = "sms_code:login";
 
     /**
-     * Knife4j测试客户端ID（Knife4j自动填充的 access_token 须原生返回，不能被包装成业务码数据格式）
+     * 注册短信验证码key前缀
      */
-    String TEST_OAUTH2_CLIENT_ID = "client";
+    String REGISTER_SMS_CODE_PREFIX = "sms_code:register";
 
-    String JWK_SET_KEY = "jwk_set";
 
     /**
      * 角色和权限缓存前缀
      */
     String ROLE_PERMS_PREFIX = "role_perms:";
+
+
+    /**
+     * JWT 密钥对(包含公钥和私钥)
+     */
+    String JWK_SET_KEY = "jwk_set";
 
 }
