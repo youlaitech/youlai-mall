@@ -1,16 +1,17 @@
-package com.youlai.gateway.config;
+package com.youlai.common.captcha.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
  * 验证码配置
  *
  * @author haoxr
- * @since 2023/11/24
+ * @since 3.1.0
  */
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "captcha")
 @Data
 public class CaptchaProperties {
