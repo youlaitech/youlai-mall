@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-base</artifactId>
+            <artifactId>common-core</artifactId>
         </dependency>
 
         <dependency>

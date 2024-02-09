@@ -15,7 +15,7 @@
 
     <modules>
         <module>common-apidoc</module>
-        <module>common-base</module>
+        <module>common-core</module>
         <module>common-redis</module>
         <module>common-web</module>
         <module>common-mybatis</module>
@@ -23,5 +23,6 @@
         <module>common-log</module>
         <module>common-security</module>
         <module>common-seata</module>
+        <module>common-captcha</module>
     </modules>
 </project>

@@ -22,6 +22,6 @@ public class CategoryVO {
 
     private Integer visible;
 
-    private List<CategoryVO> children=new ArrayList<>();
+    private List<CategoryVO> children = new ArrayList<>();
 
 }
