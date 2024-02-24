@@ -1,5 +1,6 @@
 package com.youlai.auth.oauth2;
 
+import com.youlai.common.constant.OAuth2Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class PasswordAuthenticationTests {
                         .param(OAuth2ParameterNames.GRANT_TYPE, "password") // 密码模式
                         .param(OAuth2ParameterNames.USERNAME, "admin") // 用户名
                         .param(OAuth2ParameterNames.PASSWORD, "123456") // 密码
+                        .param(  OAuth2Constants.CAPTCHA_ID, "******") // 密码
+                        .param(OAuth2Constants.CAPTCHA_CODE, "******") // 密码
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
