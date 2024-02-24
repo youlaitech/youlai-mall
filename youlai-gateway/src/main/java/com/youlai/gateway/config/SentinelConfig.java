@@ -1,6 +1,5 @@
 package com.youlai.gateway.config;
 
-import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.BlockRequestHandler;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.youlai.common.result.ResultCode;
 import jakarta.annotation.PostConstruct;

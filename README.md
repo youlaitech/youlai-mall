@@ -64,25 +64,24 @@
 youlai-mall
 ├── docs  
     ├── nacos                       # Nacos配置
+        ├── nacos_config.zip        # Nacos脚本   
     ├── sql                         # SQL脚本
-        ├── mysql5                  # MySQL5 脚本
-        ├── mysql8                  # MySQL8 脚本
+        ├── mysql5                  # MySQL5脚本
+        ├── mysql8                  # MySQL8脚本
 ├── mall-oms                        # 订单服务
 ├── mall-pms                        # 商品服务
 ├── mall-sms                        # 营销服务
 ├── mall-ums                        # 会员服务
-├── youlai-auth                     # OAuth2认证授权中心
+├── youlai-auth                     # 认证授权中心
 ├── youlai-common                   # 公共模块
-    ├── common-core                 # 核心依赖
-    ├── common-file                 # 文件公共模块
+    ├── common-core                 # 基础依赖
     ├── common-log                  # 日志公共模块
-    ├── common-mybatis              # mybatis 公共模块
-    ├── common-rabbitmq             # rabbitmq 公共模块
-    ├── common-redis                # redis 公共模块
-    ├── common-seata                # seata 公共模块
+    ├── common-mybatis              # Mybatis 公共模块
+    ├── common-rabbitmq             # RabbitMQ 公共模块
+    ├── common-redis                # Redis 公共模块
+    ├── common-seata                # Seata 公共模块
     ├── common-security             # 资源服务器安全公共模块
-    ├── common-sms                  # 短信公共模块
-    ├── common-web                  # web 公共模块
+    ├── common-web                  # Web 公共模块
 ├── youlai-gateway                  # 网关
 ├── youlai-system                   # 系统服务
     ├── system-api                  # 系统Feign接口

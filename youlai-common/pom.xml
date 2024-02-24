@@ -23,6 +23,5 @@
         <module>common-log</module>
         <module>common-security</module>
         <module>common-seata</module>
-        <module>common-captcha</module>
     </modules>
 </project>

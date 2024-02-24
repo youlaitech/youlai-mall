@@ -2,6 +2,7 @@
 package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,23 +11,20 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.youlai.auth.authentication.captcha.CaptchaAuthenticationConverter;
-import com.youlai.auth.authentication.captcha.CaptchaAuthenticationProvider;
-import com.youlai.auth.authentication.captcha.CaptchaAuthenticationToken;
-import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationConverter;
-import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationProvider;
-import com.youlai.auth.authentication.miniapp.WxMiniAppAuthenticationToken;
-import com.youlai.auth.authentication.password.PasswordAuthenticationConverter;
-import com.youlai.auth.authentication.password.PasswordAuthenticationProvider;
-import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationConverter;
-import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationProvider;
-import com.youlai.auth.authentication.smscode.SmsCodeAuthenticationToken;
-import com.youlai.auth.handler.MyAuthenticationFailureHandler;
-import com.youlai.auth.handler.MyAuthenticationSuccessHandler;
-import com.youlai.auth.service.MemberDetailsService;
 import com.youlai.auth.model.SysUserDetails;
-import com.youlai.auth.jackson.SysUserMixin;
-import com.youlai.common.constant.SecurityConstants;
+import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationConverter;
+import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationProvider;
+import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationToken;
+import com.youlai.auth.oauth2.extension.password.PasswordAuthenticationConverter;
+import com.youlai.auth.oauth2.extension.password.PasswordAuthenticationProvider;
+import com.youlai.auth.oauth2.extension.sms.SmsAuthenticationConverter;
+import com.youlai.auth.oauth2.extension.sms.SmsAuthenticationProvider;
+import com.youlai.auth.oauth2.extension.sms.SmsAuthenticationToken;
+import com.youlai.auth.oauth2.handler.MyAuthenticationFailureHandler;
+import com.youlai.auth.oauth2.handler.MyAuthenticationSuccessHandler;
+import com.youlai.auth.oauth2.jackson.SysUserMixin;
+import com.youlai.auth.service.MemberDetailsService;
+import com.youlai.common.constant.RedisConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +32,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,7 +64,8 @@ import org.springframework.security.oauth2.server.authorization.settings.ClientS
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -78,6 +79,7 @@ import java.util.UUID;
  * 授权服务器配置
  *
  * @author haoxr
+ * @see <a href="https://github.com/spring-projects/spring-authorization-server/blob/49b199c5b41b5f9279d9758fc2f5d24ed1fe4afa/samples/demo-authorizationserver/src/main/java/sample/config/AuthorizationServerConfig.java#L112">AuthorizationServerConfig</a>
  * @since 3.0.0
  */
 @Configuration
@@ -86,9 +88,13 @@ import java.util.UUID;
 public class AuthorizationServerConfig {
 
     private final WxMaService wxMaService;
-    private final StringRedisTemplate redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
     private final MemberDetailsService memberDetailsService;
     private final OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer;
+    private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent"; // 自定义授权页
+    private static final String CUSTOM_LOGIN_PAGE_URI = "/login"; // 自定义登录页
+
+    private final CodeGenerator codeGenerator;
 
     /**
      * 授权服务器端点配置
@@ -102,46 +108,52 @@ public class AuthorizationServerConfig {
             OAuth2TokenGenerator<?> tokenGenerator
 
     ) throws Exception {
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI)) // 自定义授权页
+                .oidc(Customizer.withDefaults())    // Enable OpenID Connect 1.0
 
-        authorizationServerConfigurer
-                .oidc(Customizer.withDefaults())
-                .tokenEndpoint(tokenEndpoint ->
-                        tokenEndpoint
-                                .accessTokenRequestConverters(
-                                        authenticationConverters ->// <1>
-                                                // 自定义授权模式转换器(Converter)
-                                                authenticationConverters.addAll(
-                                                        List.of(
-                                                                new PasswordAuthenticationConverter(),
-                                                                new CaptchaAuthenticationConverter(),
-                                                                new WxMiniAppAuthenticationConverter(),
-                                                                new SmsCodeAuthenticationConverter()
-                                                        )
+                // 自定义授权模式转换器(Converter)
+                .tokenEndpoint(tokenEndpoint -> tokenEndpoint
+                        .accessTokenRequestConverters(
+                                authenticationConverters ->// <1>
+                                        // 自定义授权模式转换器(Converter)
+                                        authenticationConverters.addAll(
+                                                List.of(
+                                                        new PasswordAuthenticationConverter(),
+                                                        new WxMiniAppAuthenticationConverter(),
+                                                        new SmsAuthenticationConverter()
                                                 )
-                                )
-                                .authenticationProviders(authenticationProviders ->// <2>
+                                        )
+                        )
+                        .authenticationProviders(
+                                authenticationProviders ->// <2>
                                         // 自定义授权模式提供者(Provider)
                                         authenticationProviders.addAll(
                                                 List.of(
-                                                        new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
-                                                        new CaptchaAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator, redisTemplate),
+                                                        new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator, redisTemplate, codeGenerator),
                                                         new WxMiniAppAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, wxMaService),
-                                                        new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, redisTemplate)
+                                                        new SmsAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, redisTemplate)
                                                 )
                                         )
-                                )
-                                .accessTokenResponseHandler(new MyAuthenticationSuccessHandler()) // 自定义成功响应
-                                .errorResponseHandler(new MyAuthenticationFailureHandler()) // 自定义失败响应
+                        )
+                        .accessTokenResponseHandler(new MyAuthenticationSuccessHandler()) // 自定义成功响应
+                        .errorResponseHandler(new MyAuthenticationFailureHandler()) // 自定义失败响应
                 );
 
 
-        RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
-        http.securityMatcher(endpointsMatcher)
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
-                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
-                .apply(authorizationServerConfigurer);
+        http
+                // 当用户未登录且尝试访问需要认证的端点时，重定向至登录页面
+                .exceptionHandling((exceptions) -> exceptions
+                        .defaultAuthenticationEntryPointFor(
+                                new LoginUrlAuthenticationEntryPoint(CUSTOM_LOGIN_PAGE_URI),
+                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+                        )
+                )
+                // 处理 OIDC 获取用户信息端点
+                .oauth2ResourceServer(oauth2ResourceServer ->
+                        oauth2ResourceServer.jwt(Customizer.withDefaults()));
 
         return http.build();
     }
@@ -155,7 +167,7 @@ public class AuthorizationServerConfig {
     public JWKSource<SecurityContext> jwkSource() {
 
         // 尝试从Redis中获取JWKSet(JWT密钥对，包含非对称加密的公钥和私钥)
-        String jwkSetStr = redisTemplate.opsForValue().get(SecurityConstants.JWK_SET_KEY);
+        String jwkSetStr = redisTemplate.opsForValue().get(RedisConstants.JWK_SET_KEY);
         if (StrUtil.isNotBlank(jwkSetStr)) {
             // 如果存在，解析JWKSet并返回
             JWKSet jwkSet = JWKSet.parse(jwkSetStr);
@@ -176,7 +188,7 @@ public class AuthorizationServerConfig {
             JWKSet jwkSet = new JWKSet(rsaKey);
 
             // 将JWKSet存储在Redis中
-            redisTemplate.opsForValue().set(SecurityConstants.JWK_SET_KEY, jwkSet.toString(Boolean.FALSE));
+            redisTemplate.opsForValue().set(RedisConstants.JWK_SET_KEY, jwkSet.toString(Boolean.FALSE));
             return new ImmutableJWKSet<>(jwkSet);
         }
 
@@ -282,7 +294,6 @@ public class AuthorizationServerConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -313,7 +324,6 @@ public class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD) // 密码模式
-                .authorizationGrantType(CaptchaAuthenticationToken.CAPTCHA) // 验证码模式
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
                 .scope(OidcScopes.OPENID)
@@ -348,7 +358,7 @@ public class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .authorizationGrantType(WxMiniAppAuthenticationToken.WECHAT_MINI_APP) // 微信小程序模式
-                .authorizationGrantType(SmsCodeAuthenticationToken.SMS_CODE) // 短信验证码模式
+                .authorizationGrantType(SmsAuthenticationToken.SMS_CODE) // 短信验证码模式
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
                 .scope(OidcScopes.OPENID)

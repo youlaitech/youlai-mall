@@ -53,7 +53,7 @@
         <swagger.version>2.1.0</swagger.version>
 
         <!-- 工具 -->
-        <hutool.version>5.8.25</hutool.version>
+        <hutool.version>5.8.26</hutool.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
         <easyexcel.version>3.3.2</easyexcel.version>
@@ -211,12 +211,6 @@
             <dependency>
                 <groupId>com.youlai</groupId>
                 <artifactId>common-apidoc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.youlai</groupId>
-                <artifactId>common-captcha</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

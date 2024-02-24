@@ -95,7 +95,7 @@ public class CartServiceImpl implements CartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new BizException(ResultCode.INVALID_TOKEN);
+            throw new BizException(ResultCode.TOKEN_INVALID);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
@@ -121,7 +121,7 @@ public class CartServiceImpl implements CartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new BizException(ResultCode.INVALID_TOKEN);
+            throw new BizException(ResultCode.TOKEN_INVALID);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = skuId + "";
@@ -139,7 +139,7 @@ public class CartServiceImpl implements CartService {
         try {
             memberId = SecurityUtils.getMemberId();
         } catch (Exception e) {
-            throw new BizException(ResultCode.INVALID_TOKEN);
+            throw new BizException(ResultCode.TOKEN_INVALID);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
@@ -161,7 +161,7 @@ public class CartServiceImpl implements CartService {
     public boolean removeCheckedItem() {
         Long memberId = SecurityUtils.getMemberId();
         if (memberId == null) {
-            throw new BizException(ResultCode.INVALID_TOKEN);
+            throw new BizException(ResultCode.TOKEN_INVALID);
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {

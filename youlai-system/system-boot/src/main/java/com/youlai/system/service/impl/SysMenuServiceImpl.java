@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.SystemConstants;
-import com.youlai.common.enums.MenuTypeEnum;
+import com.youlai.system.enums.MenuTypeEnum;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.converter.MenuConverter;
 import com.youlai.system.mapper.SysMenuMapper;

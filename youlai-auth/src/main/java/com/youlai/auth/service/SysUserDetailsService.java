@@ -1,6 +1,7 @@
 package com.youlai.auth.service;
 
 import cn.hutool.core.lang.Assert;
+import com.youlai.auth.model.LoginUserInfo;
 import com.youlai.auth.model.SysUserDetails;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.api.UserFeignClient;
@@ -44,4 +45,10 @@ public class SysUserDetailsService implements UserDetailsService {
         return new SysUserDetails(userAuthInfo);
     }
 
+
+    public LoginUserInfo getLoginUserInfo() {
+        LoginUserInfo loginUserInfo = new LoginUserInfo();
+        loginUserInfo.setId(123L);
+        return loginUserInfo;
+    }
 }

@@ -2,7 +2,7 @@ package com.youlai.system.model.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.youlai.common.enums.MenuTypeEnum;
+import com.youlai.system.enums.MenuTypeEnum;
 import lombok.Data;
 
 import java.util.List;

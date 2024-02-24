@@ -1,6 +1,6 @@
 package com.youlai.system.model.form;
 
-import com.youlai.common.enums.MenuTypeEnum;
+import com.youlai.system.enums.MenuTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 import com.youlai.common.base.IBaseEnum;
-import com.youlai.common.enums.DataScopeEnum;
+import com.youlai.common.mybatis.enums.DataScopeEnum;
 import com.youlai.common.mybatis.annotation.DataPermission;
 import com.youlai.common.security.util.SecurityUtils;
 import lombok.SneakyThrows;
