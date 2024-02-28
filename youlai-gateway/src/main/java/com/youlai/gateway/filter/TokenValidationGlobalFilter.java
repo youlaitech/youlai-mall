@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWTPayload;
 import com.nimbusds.jose.JWSObject;
+import com.nimbusds.jose.Payload;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.result.ResultCode;
 import com.youlai.gateway.util.WebFluxUtils;
@@ -21,6 +22,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.text.ParseException;
+import java.util.Map;
 
 /**
  * Token 验证全局过滤器
@@ -52,7 +54,7 @@ public class TokenValidationGlobalFilter implements GlobalFilter, Ordered {
         try {
             String token = authorization.substring(BEARER_PREFIX.length());
             JWSObject jwsObject = JWSObject.parse(token);
-            String jti = JSONUtil.parseObj(jwsObject.getPayload()).get(JWTPayload.JWT_ID, String.class);
+            String jti = (String) jwsObject.getPayload().toJSONObject().get(JWTPayload.JWT_ID);
             Boolean isBlackToken = redisTemplate.hasKey(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti);
             if (Boolean.TRUE.equals(isBlackToken)) {
                 return WebFluxUtils.writeErrorResponse(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
