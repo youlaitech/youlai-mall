@@ -1,4 +1,4 @@
-package com.youlai.system.service.impl.sms;
+package com.youlai.common.sms.service.impl;
 
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -8,8 +8,8 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
-import com.youlai.system.config.AliyunSmsProperties;
-import com.youlai.system.service.SmsService;
+import com.youlai.common.sms.property.AliyunSmsProperties;
+import com.youlai.common.sms.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
