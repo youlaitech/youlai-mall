@@ -47,18 +47,22 @@ public class FeignConfig {
             if (requestAttributes != null) {
                 ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
                 HttpServletRequest request = attributes.getRequest();
-                //获取请求头
+                // 获取请求头
                 Enumeration<String> headerNames = request.getHeaderNames();
                 if (headerNames != null) {
                     while (headerNames.hasMoreElements()) {
                         String name = headerNames.nextElement();
-                        String values = request.getHeader(name);
-                        //将请求头保存到模板中
-                        template.header(name, values);
+                        // 忽略content-length。因为在复制请求头到新请求时，原始的content-length可能不再准确。
+                        if (!"content-length".equalsIgnoreCase(name)) {
+                            String values = request.getHeader(name);
+                            // 将请求头保存到模板中，除了 Content-Length
+                            template.header(name, values);
+                        }
                     }
                 }
             }
         };
     }
+
 }
 
