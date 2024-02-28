@@ -2,6 +2,7 @@ package com.youlai.auth.config;
 
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,9 +10,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.List;
@@ -55,5 +58,21 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
+    /**
+     * 不走过滤器链的放行配置
+     */
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(
+                AntPathRequestMatcher.antMatcher("/webjars/**"),
+                AntPathRequestMatcher.antMatcher("/doc.html"),
+                AntPathRequestMatcher.antMatcher("/swagger-resources/**"),
+                AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
+                AntPathRequestMatcher.antMatcher("/swagger-ui/**")
+        );
+    }
+
 
 }

@@ -1,5 +1,5 @@
 
-package com.youlai.auth.config;
+package com.youlai.auth.oauth2.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.hutool.captcha.generator.CodeGenerator;
@@ -12,6 +12,8 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.youlai.auth.model.SysUserDetails;
+import com.youlai.auth.oauth2.extension.captcha.CaptchaAuthenticationConverter;
+import com.youlai.auth.oauth2.extension.captcha.CaptchaAuthenticationProvider;
 import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationConverter;
 import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationProvider;
 import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationToken;
@@ -23,6 +25,9 @@ import com.youlai.auth.oauth2.extension.sms.SmsAuthenticationToken;
 import com.youlai.auth.oauth2.handler.MyAuthenticationFailureHandler;
 import com.youlai.auth.oauth2.handler.MyAuthenticationSuccessHandler;
 import com.youlai.auth.oauth2.jackson.SysUserMixin;
+import com.youlai.auth.oauth2.oidc.CustomOidcAuthenticationConverter;
+import com.youlai.auth.oauth2.oidc.CustomOidcAuthenticationProvider;
+import com.youlai.auth.oauth2.oidc.CustomOidcUserInfoService;
 import com.youlai.auth.service.MemberDetailsService;
 import com.youlai.common.constant.RedisConstants;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +37,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -78,7 +82,7 @@ import java.util.UUID;
 /**
  * 授权服务器配置
  *
- * @author haoxr
+ * @author Ray Hao
  * @see <a href="https://github.com/spring-projects/spring-authorization-server/blob/49b199c5b41b5f9279d9758fc2f5d24ed1fe4afa/samples/demo-authorizationserver/src/main/java/sample/config/AuthorizationServerConfig.java#L112">AuthorizationServerConfig</a>
  * @since 3.0.0
  */
@@ -88,13 +92,17 @@ import java.util.UUID;
 public class AuthorizationServerConfig {
 
     private final WxMaService wxMaService;
-    private final RedisTemplate<String, String> redisTemplate;
     private final MemberDetailsService memberDetailsService;
+    private final CustomOidcUserInfoService customOidcUserInfoService;
+
     private final OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer;
     private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent"; // 自定义授权页
-    private static final String CUSTOM_LOGIN_PAGE_URI = "/login"; // 自定义登录页
+    private static final String CUSTOM_LOGIN_PAGE_URI = "/sso-login"; // 自定义登录页
+
+    private final StringRedisTemplate redisTemplate;
 
     private final CodeGenerator codeGenerator;
+
 
     /**
      * 授权服务器端点配置
@@ -112,27 +120,28 @@ public class AuthorizationServerConfig {
 
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI)) // 自定义授权页
-                .oidc(Customizer.withDefaults())    // Enable OpenID Connect 1.0
 
                 // 自定义授权模式转换器(Converter)
                 .tokenEndpoint(tokenEndpoint -> tokenEndpoint
                         .accessTokenRequestConverters(
-                                authenticationConverters ->// <1>
+                                authenticationConverters -> // <1>
                                         // 自定义授权模式转换器(Converter)
                                         authenticationConverters.addAll(
                                                 List.of(
                                                         new PasswordAuthenticationConverter(),
+                                                        new CaptchaAuthenticationConverter(),
                                                         new WxMiniAppAuthenticationConverter(),
                                                         new SmsAuthenticationConverter()
                                                 )
                                         )
                         )
                         .authenticationProviders(
-                                authenticationProviders ->// <2>
+                                authenticationProviders -> // <2>
                                         // 自定义授权模式提供者(Provider)
                                         authenticationProviders.addAll(
                                                 List.of(
-                                                        new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator, redisTemplate, codeGenerator),
+                                                        new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
+                                                        new CaptchaAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator, redisTemplate, codeGenerator),
                                                         new WxMiniAppAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, wxMaService),
                                                         new SmsAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, redisTemplate)
                                                 )
@@ -140,8 +149,16 @@ public class AuthorizationServerConfig {
                         )
                         .accessTokenResponseHandler(new MyAuthenticationSuccessHandler()) // 自定义成功响应
                         .errorResponseHandler(new MyAuthenticationFailureHandler()) // 自定义失败响应
+                )
+                // Enable OpenID Connect 1.0 自定义
+                .oidc(oidcCustomizer ->
+                        oidcCustomizer.userInfoEndpoint(userInfoEndpointCustomizer ->
+                                {
+                                    userInfoEndpointCustomizer.userInfoRequestConverter(new CustomOidcAuthenticationConverter(customOidcUserInfoService));
+                                    userInfoEndpointCustomizer.authenticationProvider(new CustomOidcAuthenticationProvider(authorizationService));
+                                }
+                        )
                 );
-
 
         http
                 // 当用户未登录且尝试访问需要认证的端点时，重定向至登录页面
@@ -151,7 +168,7 @@ public class AuthorizationServerConfig {
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 )
-                // 处理 OIDC 获取用户信息端点
+                // Accept access tokens for User Info and/or Client Registration
                 .oauth2ResourceServer(oauth2ResourceServer ->
                         oauth2ResourceServer.jwt(Customizer.withDefaults()));
 

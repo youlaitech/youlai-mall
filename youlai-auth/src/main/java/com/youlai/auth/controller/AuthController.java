@@ -4,11 +4,9 @@ import com.youlai.auth.model.CaptchaResult;
 import com.youlai.auth.service.AuthService;
 import com.youlai.common.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 认证控制器
@@ -26,7 +24,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-
     @Operation(summary = "获取验证码")
     @GetMapping("/captcha")
     public Result<CaptchaResult> getCaptcha() {
@@ -34,12 +31,15 @@ public class AuthController {
         return Result.success(captchaResult);
     }
 
-    @Operation(summary = "注销登出")
-    @DeleteMapping("/logout")
-    public Result logout() {
-        boolean result = authService.logout();
+    @Operation(summary = "发送手机短信验证码")
+    @PostMapping("/sms_code")
+    public Result sendLoginSmsCode(
+            @Parameter(description = "手机号") @RequestParam String mobile
+    ) {
+        boolean result = authService.sendLoginSmsCode(mobile);
         return Result.judge(result);
     }
+
 
 
 }

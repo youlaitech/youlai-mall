@@ -1,4 +1,4 @@
-package com.youlai.auth.oauth2.extension.password;
+package com.youlai.auth.oauth2.extension.captcha;
 
 
 import cn.hutool.captcha.generator.CodeGenerator;
@@ -6,7 +6,7 @@ import cn.hutool.core.lang.Assert;
 import com.youlai.auth.util.OAuth2AuthenticationProviderUtils;
 import com.youlai.common.constant.RedisConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,7 +38,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 密码模式身份验证提供者
+ * 验证码模式身份验证提供者
  * <p>
  * 处理基于用户名和密码的身份验证
  *
@@ -46,13 +46,15 @@ import java.util.stream.Collectors;
  * @since 3.0.0
  */
 @Slf4j
-public class PasswordAuthenticationProvider implements AuthenticationProvider {
+public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
     private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
     private final AuthenticationManager authenticationManager;
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+    private final StringRedisTemplate redisTemplate;
+    private final CodeGenerator codeGenerator;
 
     /**
      * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using the provided parameters.
@@ -62,32 +64,46 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
      * @param tokenGenerator        the token generator
      * @since 0.2.3
      */
-    public PasswordAuthenticationProvider(AuthenticationManager authenticationManager,
-                                          OAuth2AuthorizationService authorizationService,
-                                          OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator
+    public CaptchaAuthenticationProvider(AuthenticationManager authenticationManager,
+                                         OAuth2AuthorizationService authorizationService,
+                                         OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+                                         StringRedisTemplate redisTemplate,
+                                         CodeGenerator codeGenerator
     ) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
         this.authenticationManager = authenticationManager;
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
+        this.redisTemplate = redisTemplate;
+        this.codeGenerator = codeGenerator;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        PasswordAuthenticationToken passwordAuthenticationToken = (PasswordAuthenticationToken) authentication;
+        CaptchaAuthenticationToken passwordAuthenticationToken = (CaptchaAuthenticationToken) authentication;
         OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
                 .getAuthenticatedClientElseThrowInvalidClient(passwordAuthenticationToken);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
-        // 验证客户端是否支持授权类型(grant_type=password)
-        if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
+        // 验证客户端是否支持授权类型(grant_type=captcha)
+        if (!registeredClient.getAuthorizationGrantTypes().contains(CaptchaAuthenticationToken.CAPTCHA)) {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
         Map<String, Object> additionalParameters = passwordAuthenticationToken.getAdditionalParameters();
 
+        // 验证码校验
+        String captchaId = (String) additionalParameters.get(CaptchaParameterNames.CAPTCHA_ID);
+        String captchaCode = (String) additionalParameters.get(CaptchaParameterNames.CAPTCHA_CODE);
+
+        String cacheCaptchaCode = redisTemplate.opsForValue().get(RedisConstants.CAPTCHA_CODE_PREFIX + captchaId);
+
+        // 验证码比对
+        if (!codeGenerator.verify(cacheCaptchaCode, captchaCode)) {
+            throw new OAuth2AuthenticationException("验证码错误");
+        }
 
         // 生成用户名密码身份验证令牌
 
@@ -124,7 +140,7 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
                 .principal(usernamePasswordAuthentication) // 身份验证成功的认证信息(用户名、权限等信息)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(authorizedScopes)
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD) // 授权方式
+                .authorizationGrantType(CaptchaAuthenticationToken.CAPTCHA) // 授权方式
                 .authorizationGrant(passwordAuthenticationToken) // 授权具体对象
                 ;
 
@@ -137,14 +153,13 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
             throw new OAuth2AuthenticationException(error);
         }
 
-
         OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .authorizationGrantType(CaptchaAuthenticationToken.CAPTCHA)
                 .authorizedScopes(authorizedScopes)
                 .attribute(Principal.class.getName(), usernamePasswordAuthentication); // attribute 字段
         if (generatedAccessToken instanceof ClaimAccessor) {
@@ -216,12 +231,12 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
      * <p>
      * ProviderManager#authenticate 遍历 providers 找到支持对应认证请求的 provider-迭代器模式
      *
-     * @param authentication
-     * @return
+     * @param authentication 认证请求
+     * @return boolean
      */
     @Override
     public boolean supports(Class<?> authentication) {
-        return PasswordAuthenticationToken.class.isAssignableFrom(authentication);
+        return CaptchaAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
 }
