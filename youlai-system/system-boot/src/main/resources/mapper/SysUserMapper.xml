@@ -23,7 +23,7 @@
                 LEFT JOIN sys_user_role sur ON u.id = sur.user_id
                 LEFT JOIN sys_role r ON sur.role_id = r.id
         <where>
-            u.deleted = 0 AND u.username != ${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}
+            u.deleted = 0 AND u.username != '${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}'
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
                     u.username LIKE CONCAT('%',#{queryParams.keywords},'%')
@@ -74,17 +74,21 @@
             dept_id
         FROM
             sys_user
-        WHERE id = #{userId}
-          AND deleted = 0
+        WHERE
+            id = #{userId} AND deleted = 0
     </select>
 
     <!-- 用户认证信息映射 -->
     <resultMap id="UserAuthMap" type="com.youlai.system.dto.UserAuthInfo">
-        <id property="userId" column="userId" jdbcType="BIGINT"/>
-        <result property="username" column="username" jdbcType="VARCHAR"/>
-        <result property="password" column="password" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="BOOLEAN"/>
-        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
+        <id property="userId" column="id" jdbcType="BIGINT"/>
+        <result property="username" column="username"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="status" column="STATUS"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="mobile" column="mobile"/>
+        <result property="email" column="email"/>
+        <result property="avatar" column="avatar"/>
         <collection property="roles" ofType="string" javaType="java.util.Set">
             <result column="code"/>
         </collection>
@@ -93,13 +97,16 @@
     <!-- 根据用户名获取认证信息 -->
     <select id="getUserAuthInfo" resultMap="UserAuthMap">
         SELECT
-            t1.id userId,
+            t1.id,
             t1.username,
             t1.nickname,
             t1.PASSWORD,
             t1.STATUS,
-            t1.dept_id ,
-            t3.CODE
+            t1.dept_id,
+            t3.CODE,
+            t1.avatar,
+            t1.mobile,
+            t1.email
         FROM
             sys_user t1
                 LEFT JOIN sys_user_role t2 ON t2.user_id = t1.id

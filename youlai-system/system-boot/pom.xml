@@ -105,6 +105,11 @@
             <artifactId>common-apidoc</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-sms</artifactId>
+        </dependency>
+
         <!-- 单元测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -124,15 +124,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param mobile 手机号
      * @return {@link Boolean} 是否发送成功
      */
-    boolean sendRegisterSmsCode(String mobile);
-
-    /**
-     * 发送登录短信验证码
-     *
-     * @param mobile 手机号
-     * @return {@link Boolean} 是否发送成功
-     */
-    boolean sendLoginSmsCode(String mobile);
+    boolean sendRegistrationSmsCode(String mobile);
 
 
     /**

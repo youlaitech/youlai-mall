@@ -126,8 +126,8 @@ public class SysUserController {
     public Result<UserAuthInfo> getUserAuthInfo(
             @Parameter(description = "用户名") @PathVariable String username
     ) {
-        UserAuthInfo userAUthInfo = userService.getUserAuthInfo(username);
-        return Result.success(userAUthInfo);
+        UserAuthInfo userAuthInfo = userService.getUserAuthInfo(username);
+        return Result.success(userAuthInfo);
     }
 
     @Operation(summary = "获取登录用户信息")
@@ -192,19 +192,10 @@ public class SysUserController {
 
     @Operation(summary = "发送注册短信验证码")
     @PostMapping("/register/sms_code")
-    public Result sendRegisterSmsCode(
+    public Result sendRegistrationSmsCode(
             @Parameter(description = "手机号") @RequestParam String mobile
     ) {
-        boolean result = userService.sendRegisterSmsCode(mobile);
-        return Result.judge(result);
-    }
-
-    @Operation(summary = "发送登录短信验证码")
-    @PostMapping("/login/sms_code")
-    public Result sendLoginSmsCode(
-            @Parameter(description = "手机号") @RequestParam String mobile
-    ) {
-        boolean result = userService.sendLoginSmsCode(mobile);
+        boolean result = userService.sendRegistrationSmsCode(mobile);
         return Result.judge(result);
     }
 
@@ -214,5 +205,6 @@ public class SysUserController {
         UserProfileVO userProfile = userService.getUserProfile();
         return Result.success(userProfile);
     }
+
 
 }

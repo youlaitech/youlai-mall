@@ -15,7 +15,8 @@ import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.security.service.PermissionService;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.system.config.AliyunSmsProperties;
+import com.youlai.common.sms.property.AliyunSmsProperties;
+import com.youlai.common.sms.service.SmsService;
 import com.youlai.system.converter.UserConverter;
 import com.youlai.system.dto.UserAuthInfo;
 import com.youlai.system.mapper.SysUserMapper;
@@ -30,13 +31,13 @@ import com.youlai.system.model.vo.UserExportVO;
 import com.youlai.system.model.vo.UserInfoVO;
 import com.youlai.system.model.vo.UserPageVO;
 import com.youlai.system.model.vo.UserProfileVO;
-import com.youlai.system.service.SmsService;
 import com.youlai.system.service.SysRoleService;
 import com.youlai.system.service.SysUserRoleService;
 import com.youlai.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +71,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final AliyunSmsProperties aliyunSmsProperties;
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
     /**
      * 获取用户分页列表
@@ -283,7 +284,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
         });
 
-        if (!expireTimeOpt.isPresent()) {
+        if (expireTimeOpt.isEmpty()) {
             // token 永不过期则永久加入黑名单
             redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "");
         }
@@ -303,7 +304,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String mobile = userRegisterForm.getMobile();
         String code = userRegisterForm.getCode();
         // 校验验证码
-        String cacheCode = (String) redisTemplate.opsForValue().get(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile);
+        String cacheCode = redisTemplate.opsForValue().get(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile);
         if (!StrUtil.equals(code, cacheCode)) {
             log.warn("验证码不匹配或不存在: {}", mobile);
             return false; // 验证码不匹配或不存在时返回false
@@ -339,7 +340,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return true|false 是否发送成功
      */
     @Override
-    public boolean sendRegisterSmsCode(String mobile) {
+    public boolean sendRegistrationSmsCode(String mobile) {
         // 获取短信模板代码
         String templateCode = aliyunSmsProperties.getTemplateCodes().get("register");
 
@@ -360,33 +361,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return result;
     }
 
-    /**
-     * 发送登录短信验证码
-     *
-     * @param mobile 手机号
-     * @return true|false 是否发送成功
-     */
-    @Override
-    public boolean sendLoginSmsCode(String mobile) {
-        // 获取短信模板代码
-        String templateCode = aliyunSmsProperties.getTemplateCodes().get("login");
-
-        // 生成随机4位数验证码
-        String code = RandomUtil.randomNumbers(4);
-
-        // 短信模板: 您的验证码：${code}，该验证码5分钟内有效，请勿泄漏于他人。
-        // 其中 ${code} 是模板参数，使用时需要替换为实际值。
-        String templateParams = JSONUtil.toJsonStr(Collections.singletonMap("code", code));
-
-        boolean result = smsService.sendSms(mobile, templateCode, templateParams);
-        if (result) {
-            // 将验证码存入redis，有效期5分钟
-            redisTemplate.opsForValue().set(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile, code, 5, TimeUnit.MINUTES);
-
-            // TODO 考虑记录每次发送短信的详情，如发送时间、手机号和短信内容等，以便后续审核或分析短信发送效果。
-        }
-        return result;
-    }
 
     /**
      * 获取用户个人中心信息
