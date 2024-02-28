@@ -191,13 +191,6 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-log</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>com.youlai</groupId>
                 <artifactId>common-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -211,6 +204,12 @@
             <dependency>
                 <groupId>com.youlai</groupId>
                 <artifactId>common-apidoc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-sms</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
