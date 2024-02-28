@@ -54,4 +54,25 @@ public class UserAuthInfo {
      */
     private Integer dataScope;
 
+
+    /**
+     * 昵称(OIDC UserInfo)
+     */
+    private String nickname;
+
+    /**
+     * 手机号(OIDC UserInfo)
+     */
+    private String mobile;
+
+    /**
+     * 邮箱(OIDC UserInfo)
+     */
+    private String email;
+
+    /**
+     * 头像(OIDC UserInfo)
+     */
+    private String avatar;
+
 }
