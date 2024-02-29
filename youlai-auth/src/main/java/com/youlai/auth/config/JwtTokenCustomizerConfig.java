@@ -1,4 +1,4 @@
-package com.youlai.auth.oauth2.token;
+package com.youlai.auth.config;
 
 import com.youlai.auth.model.MemberDetails;
 import com.youlai.auth.model.SysUserDetails;
@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
  * JWT 自定义字段配置
  *
  * @author haoxr
- * @see <a href="https://github.com/spring-projects/spring-authorization-server/pull/1264">How-to: Authorize an access token containing custom authorities</a>
- * @since 3.0.0
+* @since 3.0.0
  */
 @Configuration
-public class JwtTokenConfig {
+public class JwtTokenCustomizerConfig {
 
     /**
      * JWT 自定义字段
+     * @see <a href="https://docs.spring.io/spring-authorization-server/reference/guides/how-to-custom-claims-authorities.html">Add custom claims to JWT access tokens</a>
      */
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtTokenCustomizer() {

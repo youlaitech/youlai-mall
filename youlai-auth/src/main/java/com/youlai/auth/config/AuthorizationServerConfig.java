@@ -1,5 +1,5 @@
 
-package com.youlai.auth.oauth2.config;
+package com.youlai.auth.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.hutool.captcha.generator.CodeGenerator;
