@@ -46,8 +46,8 @@ public class SysDept extends BaseEntity {
      */
     private Integer deleted;
 
-    private Long createBy;
+ /*   private Long createBy;
 
-    private Long updateBy;
+    private Long updateBy;*/
 
 }
