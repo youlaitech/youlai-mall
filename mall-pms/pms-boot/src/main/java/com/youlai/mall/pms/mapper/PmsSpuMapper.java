@@ -14,22 +14,22 @@ import java.util.List;
 public interface PmsSpuMapper extends BaseMapper<PmsSpu> {
 
     /**
-     * Admin- 商品分页列表
+     * Admin-商品分页列表
      *
-     * @param page
-     * @param queryParams
-     * @return
+     * @param page        分页参数
+     * @param queryParams 查询参数
+     * @return 商品分页列表
      */
-    List<PmsSpuPageVO> getSpuPage(Page<PmsSpuPageVO> page, SpuPageQuery queryParams);
+    List<PmsSpuPageVO> listPagedSpu(Page<PmsSpuPageVO> page, SpuPageQuery queryParams);
 
     /**
-     * 「应用端」商品分页列表
+     * APP-商品分页列表
      *
-     * @param page
-     * @param queryParams
-     * @return
+     * @param page        分页参数
+     * @param queryParams 查询参数
+     * @return 商品分页列表
      */
-    List<SpuPageVO> getSpuPageForApp(Page<SpuPageVO> page, SpuPageQuery queryParams);
+    List<SpuPageVO> listPagedSpuForApp(Page<SpuPageVO> page, SpuPageQuery queryParams);
 
 
 }

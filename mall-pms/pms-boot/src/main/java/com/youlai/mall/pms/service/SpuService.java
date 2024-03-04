@@ -24,7 +24,7 @@ public interface SpuService extends IService<PmsSpu> {
      * @param queryParams
      * @return
      */
-    IPage<PmsSpuPageVO> getSpuPage(SpuPageQuery queryParams);
+    IPage<PmsSpuPageVO> listPagedSpu(SpuPageQuery queryParams);
 
     /**
      * 「应用端」商品分页列表
@@ -32,7 +32,7 @@ public interface SpuService extends IService<PmsSpu> {
      * @param queryParams
      * @return
      */
-    IPage<SpuPageVO> getSpuPageForApp(SpuPageQuery queryParams);
+    IPage<SpuPageVO> listPagedSpuForApp(SpuPageQuery queryParams);
 
 
     /**
