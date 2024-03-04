@@ -15,7 +15,7 @@ import java.io.IOException;
  * 自定义 token 无效异常
  *
  * @author haoxr
- * @date 2022/11/13
+ * @since 2022/11/13
  */
 @Component
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -23,16 +23,8 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException {
         response.setContentType("application/json");
-
-        int status = response.getStatus();
         ObjectMapper mapper = new ObjectMapper();
-        if (HttpServletResponse.SC_NOT_FOUND == status) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(response.getOutputStream(), Result.failed(ResultCode.RESOURCE_NOT_FOUND));
-        } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            mapper.writeValue(response.getOutputStream(), Result.failed(ResultCode.TOKEN_INVALID));
-        }
-
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        mapper.writeValue(response.getOutputStream(), Result.failed(ResultCode.TOKEN_INVALID));
     }
 }
