@@ -66,11 +66,11 @@ public class SmsAuthenticationConverter implements AuthenticationConverter {
         }
 
         // 验证码(必需)
-        String verifyCode = parameters.getFirst(SmsParameterNames.VERIFY_CODE);
-        if (StrUtil.isBlank(verifyCode)) {
+        String code = parameters.getFirst(SmsParameterNames.CODE);
+        if (StrUtil.isBlank(code)) {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
-                    SmsParameterNames.VERIFY_CODE,
+                    SmsParameterNames.CODE,
                     OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
         }
 

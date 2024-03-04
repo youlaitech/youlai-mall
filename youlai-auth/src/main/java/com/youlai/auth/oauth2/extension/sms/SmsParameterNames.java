@@ -32,7 +32,7 @@ public final class SmsParameterNames {
     /**
      * 验证码
      */
-    public static final String VERIFY_CODE = "verifyCode";
+    public static final String CODE = "code";
 
 
     private SmsParameterNames() {
