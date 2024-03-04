@@ -25,8 +25,8 @@ public class SmsAdvertController {
     private final SmsAdvertService smsAdvertService;
 
     @Operation(summary= "广告分页列表")
-    @GetMapping("/pages")
-    public PageResult getAdvertPage(AdvertPageQuery queryParams) {
+    @GetMapping("/page")
+    public PageResult<SmsAdvert> getAdvertPage(AdvertPageQuery queryParams) {
 
         // 查询参数
         int pageNum = queryParams.getPageNum();
