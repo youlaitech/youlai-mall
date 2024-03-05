@@ -80,6 +80,8 @@ public class SysUserDetails implements UserDetails, CredentialsContainer {
             Long userId,
             String username,
             String password,
+            Integer dataScope,
+            Long deptId,
             boolean enabled,
             boolean accountNonExpired,
             boolean credentialsNonExpired,
@@ -91,6 +93,8 @@ public class SysUserDetails implements UserDetails, CredentialsContainer {
         this.userId = userId;
         this.username = username;
         this.password = password;
+        this.dataScope = dataScope;
+        this.deptId = deptId;
         this.enabled = enabled;
         this.accountNonExpired = accountNonExpired;
         this.credentialsNonExpired = credentialsNonExpired;
