@@ -29,8 +29,8 @@ public class SpuController {
 
     @Operation(summary = "商品分页列表")
     @GetMapping("/pages")
-    public PageResult getSpuPageForApp(SpuPageQuery queryParams) {
-        IPage<SpuPageVO> result = spuService.getSpuPageForApp(queryParams);
+    public PageResult<SpuPageVO> listPagedSpuForApp(SpuPageQuery queryParams) {
+        IPage<SpuPageVO> result = spuService.listPagedSpuForApp(queryParams);
         return PageResult.success(result);
     }
 

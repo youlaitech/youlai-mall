@@ -32,7 +32,7 @@ public class SmsAuthenticationTests {
         this.mvc.perform(post("/oauth2/token")
                         .param(OAuth2ParameterNames.GRANT_TYPE, "sms_code")
                         .param("mobile", "18866668888")
-                        .param("verifyCode", "666666")
+                        .param("code", "666666")
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())

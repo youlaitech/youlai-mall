@@ -23,6 +23,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import jakarta.servlet.ServletException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+
 import java.sql.SQLSyntaxErrorException;
 import java.util.concurrent.CompletionException;
 import java.util.regex.Matcher;
@@ -201,15 +202,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public <T> Result<T> handleException(Exception e) {
-        e.printStackTrace();
+        log.error("unknown exception:{}", e.getMessage(), e);
         String errorMsg = e.getMessage();
         if (StrUtil.isNotBlank(errorMsg) && errorMsg.contains("denied to user")) {
             return Result.failed(ResultCode.FORBIDDEN_OPERATION);
-        }else{
-            log.error("unknown exception");
-            errorMsg=e.getCause().getMessage();
-            return Result.failed(errorMsg);
         }
+        if (StrUtil.isBlank(errorMsg)) {
+            errorMsg = "系统异常";
+        }
+        return Result.failed(errorMsg);
     }
 
     /**

@@ -50,7 +50,7 @@ public class OrderControllerTest {
     @Autowired
     private RestTemplate restTemplate;
     private final String mobile = "18866668888";// 商城会员手机号
-    private final String verifyCode = "666666";// 短信验证码，666666是免校验验证码
+    private final String code = "666666";// 短信验证码，666666是免校验验证码
 
     private final Long skuId = 1L;// 购买商品ID
 
@@ -61,7 +61,7 @@ public class OrderControllerTest {
     void testPurchaseFlow_Normal() throws Exception {
 
         // 会员登录
-        String accessToken = acquireTokenByLogin(mobile, verifyCode); // 获取 accessToken，填充请求头用于身份认证
+        String accessToken = acquireTokenByLogin(mobile, code); // 获取 accessToken，填充请求头用于身份认证
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
@@ -86,7 +86,7 @@ public class OrderControllerTest {
     void testPurchaseFlow_PaymentTimeout() throws Exception {
 
         // 会员登录
-        String accessToken = acquireTokenByLogin(mobile, verifyCode); // 获取 accessToken，填充请求头用于身份认证
+        String accessToken = acquireTokenByLogin(mobile, code); // 获取 accessToken，填充请求头用于身份认证
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
@@ -204,10 +204,10 @@ public class OrderControllerTest {
      * 登录获取访问令牌
      *
      * @param mobile     手机号
-     * @param verifyCode 短信验证码
+     * @param code 短信验证码
      * @return
      */
-    private String acquireTokenByLogin(String mobile, String verifyCode) {
+    private String acquireTokenByLogin(String mobile, String code) {
         String clientId = "mall-app";
         String clientSecret = "123456";
         String tokenUrl = "http://localhost:9000/oauth2/token";
@@ -222,7 +222,7 @@ public class OrderControllerTest {
         requestBody.add("client_id", clientId);
         requestBody.add("client_secret", clientSecret);
         requestBody.add("mobile", mobile);
-        requestBody.add("code", verifyCode);
+        requestBody.add("code", code);
 
         // 创建 Basic Auth 头部
         String authHeader = clientId + ":" + clientSecret;

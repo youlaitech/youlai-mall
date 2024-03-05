@@ -33,12 +33,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 /**
  * 商品业务实现类
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @date 2021/8/8
+ * @author Ray Hao
+ * @since 2021/08/08
  */
 @Service
 @RequiredArgsConstructor
@@ -47,35 +46,33 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     private final SkuService skuService;
     private final SpuAttributeService spuAttributeService;
     private final MemberFeignClient memberFeignClient;
-
     private final SpuConverter spuConverter;
-
     private final SpuAttributeConverter spuAttributeConverter;
 
     /**
      * Admin-商品分页列表
      *
-     * @param queryParams
-     * @return
+     * @param queryParams 查询参数
+     * @return 商品分页列表 IPage<PmsSpuPageVO>
      */
     @Override
-    public IPage<PmsSpuPageVO> getSpuPage(SpuPageQuery queryParams) {
+    public IPage<PmsSpuPageVO> listPagedSpu(SpuPageQuery queryParams) {
         Page<PmsSpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<PmsSpuPageVO> list = this.baseMapper.getSpuPage(page, queryParams);
+        List<PmsSpuPageVO> list = this.baseMapper.listPagedSpu(page, queryParams);
         page.setRecords(list);
         return page;
     }
 
     /**
-     * 「应用端」商品分页列表
+     * APP-商品分页列表
      *
-     * @param queryParams
-     * @return
+     * @param queryParams 查询参数
+     * @return 商品分页列表 IPage<SpuPageVO>
      */
     @Override
-    public IPage<SpuPageVO> getSpuPageForApp(SpuPageQuery queryParams) {
+    public IPage<SpuPageVO> listPagedSpuForApp(SpuPageQuery queryParams) {
         Page<SpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<SpuPageVO> list = this.baseMapper.getSpuPageForApp(page, queryParams);
+        List<SpuPageVO> list = this.baseMapper.listPagedSpuForApp(page, queryParams);
         page.setRecords(list);
         return page;
     }
@@ -84,7 +81,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      * App-获取商品详情
      *
      * @param spuId 商品ID
-     * @return
+     * @return 商品详情
      */
     @Override
     public SpuDetailVO getSpuDetailForApp(Long spuId) {
@@ -178,7 +175,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      * 获取商品详情
      *
      * @param spuId 商品ID
-     * @return
+     * @return 商品详情
      */
     @Override
     public PmsSpuDetailVO getSpuDetail(Long spuId) {
@@ -212,8 +209,8 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     /**
      * 添加商品
      *
-     * @param formData
-     * @return
+     * @param formData 商品表单
+     * @return 是否成功
      */
     @Override
     @Transactional
@@ -245,7 +242,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      *
      * @param spuId    商品ID
      * @param formData 商品表单
-     * @return
+     * @return 是否成功
      */
     @Transactional
     @Override
@@ -277,7 +274,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      * 删除商品
      *
      * @param ids 商品ID，多个以英文逗号(,)分割
-     * @return
+     * @return 是否成功
      */
     @Override
     @Transactional
@@ -301,7 +298,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     /**
      * 获取商品秒杀接口
      *
-     * @return
+     * @return 商品秒杀列表
      */
     @Override
     public List<SeckillingSpuVO> listSeckillingSpu() {
@@ -309,27 +306,26 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
                 .select(PmsSpu::getId, PmsSpu::getName, PmsSpu::getPicUrl, PmsSpu::getPrice)
                 .orderByDesc(PmsSpu::getCreateTime)
         );
-        List<SeckillingSpuVO> list = spuConverter.entity2SeckillingVO(entities);
-        return list;
+        return spuConverter.entity2SeckillingVO(entities);
     }
 
 
     /**
      * 保存SKU，需要替换提交表单中的临时规格ID
      *
-     * @param goodsId
-     * @param skuList
-     * @param specTempIdIdMap
-     * @return
+     * @param spuId           商品ID
+     * @param skuList         SKU列表
+     * @param specTempIdIdMap 临时规格ID和持久化数据库得到的规格ID的映射
+     * @return 是否成功
      */
-    private boolean saveSku(Long goodsId, List<PmsSku> skuList, Map<String, Long> specTempIdIdMap) {
+    private boolean saveSku(Long spuId, List<PmsSku> skuList, Map<String, Long> specTempIdIdMap) {
 
         // 删除SKU
-        List<Long> formSkuIds = skuList.stream().map(PmsSku::getId).collect(Collectors.toList());
+        List<Long> formSkuIds = skuList.stream().map(PmsSku::getId).toList();
 
-        List<Long> dbSkuIds = skuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, goodsId)
+        List<Long> dbSkuIds = skuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId)
                         .select(PmsSku::getId)).stream().map(PmsSku::getId)
-                .collect(Collectors.toList());
+                .toList();
 
         List<Long> removeSkuIds = dbSkuIds.stream().filter(dbSkuId -> !formSkuIds.contains(dbSkuId)).collect(Collectors.toList());
 
@@ -344,7 +340,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
                     .map(specId -> specId.startsWith(ProductConstants.SPEC_TEMP_ID_PREFIX) ? specTempIdIdMap.get(specId) + "" : specId)
                     .collect(Collectors.joining("_"));
             sku.setSpecIds(specIds);
-            sku.setSpuId(goodsId);
+            sku.setSpuId(spuId);
             return sku;
         }).collect(Collectors.toList());
         return skuService.saveOrUpdateBatch(pmsSkuList);
@@ -366,14 +362,14 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
         List<Long> retainAttrIds = attrList.stream()
                 .filter(item -> item.getId() != null)
                 .map(item -> Convert.toLong(item.getId()))
-                .collect(Collectors.toList());
+                .toList();
         // 1.2 获取原商品属性ID集合
         List<Long> originAttrIds = spuAttributeService.list(new LambdaQueryWrapper<PmsSpuAttribute>()
                         .eq(PmsSpuAttribute::getSpuId, spuId).eq(PmsSpuAttribute::getType, AttributeTypeEnum.ATTR.getValue())
                         .select(PmsSpuAttribute::getId))
                 .stream()
                 .map(PmsSpuAttribute::getId)
-                .collect(Collectors.toList());
+                .toList();
         // 1.3 需要删除的商品属性：原商品属性-此次提交保留的属性
         List<Long> removeAttrValIds = originAttrIds.stream()
                 .filter(id -> !retainAttrIds.contains(id))
@@ -413,7 +409,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
         List<Long> retainSpuSpecIds = specList.stream()
                 .filter(item -> !item.getId().startsWith(ProductConstants.SPEC_TEMP_ID_PREFIX))
                 .map(item -> Convert.toLong(item.getId()))
-                .collect(Collectors.toList());
+                .toList();
 
         // 1.2 原商品规格
         List<Long> originSpuSpecIds = spuAttributeService.list(new LambdaQueryWrapper<PmsSpuAttribute>()
@@ -421,7 +417,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
                         .eq(PmsSpuAttribute::getType, AttributeTypeEnum.SPEC.getValue())
                         .select(PmsSpuAttribute::getId))
                 .stream().map(PmsSpuAttribute::getId)
-                .collect(Collectors.toList());
+                .toList();
 
         // 1.3 需要删除的商品规格：原商品规格-此次提交保留的规格
         List<Long> removeSpuSpecIds = originSpuSpecIds.stream().filter(id -> !retainSpuSpecIds.contains(id))

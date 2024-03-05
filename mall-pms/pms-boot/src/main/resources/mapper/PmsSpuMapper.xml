@@ -33,7 +33,7 @@
     </resultMap>
 
     <!--Admin-商品分页列表-->
-    <select id="getSpuPage" resultMap="BaseResultMap">
+    <select id="listPagedSpu" resultMap="BaseResultMap">
         SELECT
             t1.id,
             t1.name,
@@ -65,7 +65,7 @@
 
 
     <!--「应用端」商品分页列表-->
-    <select id="listSpuPages" resultType="com.youlai.mall.pms.model.vo.SpuPageVO">
+    <select id="listPagedSpuForApp" resultType="com.youlai.mall.pms.model.vo.SpuPageVO">
         SELECT
             id,
             NAME,
@@ -84,7 +84,7 @@
         </where>
         ORDER BY
         <if test='queryParams.sortField!=null and queryParams.sortField.trim() neq "" and queryParams.sortField !=null and queryParams.sort.trim() neq ""'>
-            #{queryParams.sortField} #{queryParams.sort} ,
+            ${queryParams.sortField} ${queryParams.sort} ,
         </if>
         create_time desc
     </select>

@@ -86,13 +86,13 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
         // 短信验证码校验
         Map<String, Object> additionalParameters = smsAuthenticationToken.getAdditionalParameters();
         String mobile = (String) additionalParameters.get(SmsParameterNames.MOBILE);
-        String verifyCode = (String) additionalParameters.get(SmsParameterNames.VERIFY_CODE);
+        String code = (String) additionalParameters.get(SmsParameterNames.CODE);
 
-        if (!verifyCode.equals("666666")) { // 666666 是后门，因为短信收费，正式环境删除这个if
+        if (!code.equals("666666")) { // 666666 是后门，因为短信收费，正式环境删除这个if
             String codeKey = RedisConstants.LOGIN_SMS_CODE_PREFIX + mobile;
             String cacheCode = (String) redisTemplate.opsForValue().get(codeKey);
 
-            if (!StrUtil.equals(verifyCode, cacheCode)) {
+            if (!StrUtil.equals(code, cacheCode)) {
                 throw new OAuth2AuthenticationException("验证码错误");
             }
         }

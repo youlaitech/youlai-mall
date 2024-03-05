@@ -21,18 +21,27 @@ import java.util.stream.Collectors;
 public class SecurityUtils {
 
     public static Long getUserId() {
-        return Convert.toLong(getTokenAttributes().get("userId"));
+        Map<String, Object> tokenAttributes = getTokenAttributes();
+        if (tokenAttributes != null) {
+            return Convert.toLong(tokenAttributes.get("userId"));
+        }
+        return null;
     }
 
     public static String getUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
+        if (authentication != null) {
+            return authentication.getName();
+        }
+        return null;
     }
 
     public static Map<String, Object> getTokenAttributes() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
-        return jwtAuthenticationToken.getTokenAttributes();
+        if (authentication instanceof JwtAuthenticationToken jwtAuthenticationToken) {
+            return jwtAuthenticationToken.getTokenAttributes();
+        }
+        return null;
     }
 
 
@@ -41,30 +50,45 @@ public class SecurityUtils {
      */
     public static Set<String> getRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        return AuthorityUtils.authorityListToSet(authentication.getAuthorities())
-                .stream()
-                .collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet));
+        if (authentication != null) {
+            return AuthorityUtils.authorityListToSet(authentication.getAuthorities())
+                    .stream()
+                    .collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet));
+        }
+        return null;
     }
 
     /**
      * 获取部门ID
      */
     public static Long getDeptId() {
-        return Convert.toLong(getTokenAttributes().get("deptId"));
+        Map<String, Object> tokenAttributes = getTokenAttributes();
+        if (tokenAttributes != null) {
+            return Convert.toLong(tokenAttributes.get("deptId"));
+        }
+        return null;
     }
 
     public static boolean isRoot() {
-        return getRoles().contains(SystemConstants.ROOT_ROLE_CODE);
+        Set<String> roles = getRoles();
+        return roles != null && roles.contains(SystemConstants.ROOT_ROLE_CODE);
     }
 
     public static String getJti() {
-        return String.valueOf(getTokenAttributes().get("jti"));
+        Map<String, Object> tokenAttributes = getTokenAttributes();
+        if (tokenAttributes != null) {
+            return String.valueOf(tokenAttributes.get("jti"));
+        }
+        return null;
     }
 
 
     public static Long getExp() {
-        return Convert.toLong(getTokenAttributes().get("exp"));
+        Map<String, Object> tokenAttributes = getTokenAttributes();
+        if (tokenAttributes != null) {
+            return Convert.toLong(tokenAttributes.get("exp"));
+        }
+        return null;
     }
 
     /**
@@ -74,7 +98,11 @@ public class SecurityUtils {
      * @see com.youlai.common.mybatis.enums.DataScopeEnum
      */
     public static Integer getDataScope() {
-        return Convert.toInt(getTokenAttributes().get("dataScope"));
+        Map<String, Object> tokenAttributes = getTokenAttributes();
+        if (tokenAttributes != null) {
+            return Convert.toInt(tokenAttributes.get("dataScope"));
+        }
+        return null;
     }
 
     /**
@@ -83,6 +111,10 @@ public class SecurityUtils {
      * @return 会员ID
      */
     public static Long getMemberId() {
-        return Convert.toLong(getTokenAttributes().get("memberId"));
+        Map<String, Object> tokenAttributes = getTokenAttributes();
+        if (tokenAttributes != null) {
+            return Convert.toLong(tokenAttributes.get("memberId"));
+        }
+        return null;
     }
 }
