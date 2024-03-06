@@ -127,7 +127,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         () -> this.getOrderItems(skuId, memberId), threadPoolExecutor)
                 .exceptionally(ex -> {
                     log.error("Failed to get order items: {}", ex.toString());
-                    return null;
+                    return Collections.emptyList();
                 });
 
         // 用户收货地址
@@ -139,7 +139,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             return null;
         }, threadPoolExecutor).exceptionally(ex -> {
             log.error("Failed to get addresses for memberId {} : {}", memberId, ex.toString());
-            return null;
+            return Collections.emptyList();
         });
 
         // 生成唯一令牌,防止重复提交(原理：提交会消耗令牌，令牌被消耗无法再次提交)
@@ -188,8 +188,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         List<Long> skuIds = orderItems.stream()
                 .map(OrderSubmitForm.OrderItem::getSkuId)
                 .collect(Collectors.toList());
-
-        List<SkuInfoDTO> skuList = skuFeignClient.getSkuInfoList(skuIds);
+        List<SkuInfoDTO> skuList;
+        try {
+            skuList = skuFeignClient.getSkuInfoList(skuIds);
+        } catch (Exception e) {
+            log.error("Failed to get sku info list: {}", e.toString());
+            skuList = Collections.emptyList();
+        }
         for (OrderSubmitForm.OrderItem item : orderItems) {
             SkuInfoDTO skuInfo = skuList.stream().filter(sku -> sku.getId().equals(item.getSkuId()))
                     .findFirst()
@@ -450,6 +455,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderItems = new ArrayList<>();
             SkuInfoDTO skuInfoDTO = skuFeignClient.getSkuInfo(skuId);
             OrderItemDTO orderItemDTO = new OrderItemDTO();
+            orderItemDTO.setSkuId(skuId);
             BeanUtil.copyProperties(skuInfoDTO, orderItemDTO);
             orderItemDTO.setSkuId(skuInfoDTO.getId());
             orderItemDTO.setQuantity(1); // 直接购买商品的数量为1
