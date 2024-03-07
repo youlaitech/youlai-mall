@@ -92,7 +92,7 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
         try {
             sessionInfo = wxMaService.getUserService().getSessionInfo(code);
         } catch (WxErrorException e) {
-            e.printStackTrace();
+            log.error("微信小程序登录失败", e);
             throw new OAuth2AuthenticationException(e.getMessage());
         }
         String openid = sessionInfo.getOpenid();
@@ -145,7 +145,6 @@ public class WxMiniAppAuthenticationProvider implements AuthenticationProvider {
                         "The token generator failed to generate the refresh token.", ERROR_URI);
                 throw new OAuth2AuthenticationException(error);
             }
-
 
             refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
             authorizationBuilder.refreshToken(refreshToken);
