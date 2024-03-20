@@ -41,7 +41,7 @@
         <spring-cloud.version>2023.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <!-- spring authorization server -->
-        <spring-authorization-server.version>1.2.2</spring-authorization-server.version>
+        <spring-authorization-server.version>1.2.3</spring-authorization-server.version>
 
         <!-- 数据库 & ORM -->
         <mysql.version>8.0.28</mysql.version>
