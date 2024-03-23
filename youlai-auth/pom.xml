@@ -5,7 +5,7 @@
     <parent>
         <artifactId>youlai-mall</artifactId>
         <groupId>com.youlai</groupId>
-        <version>3.1.0</version>
+        <version>3.2.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,8 +15,8 @@
 
         <!-- OAuth2 认证服务器-->
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
         </dependency>
 
         <!-- OAuth2 客户端（第三方登录 微信、Gitee、Github、QQ）-->
@@ -107,7 +107,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
                 <executions>
                     <execution>
                         <goals>

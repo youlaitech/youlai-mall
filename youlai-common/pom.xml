@@ -7,7 +7,7 @@
     <parent>
         <artifactId>youlai-mall</artifactId>
         <groupId>com.youlai</groupId>
-        <version>3.1.0</version>
+        <version>3.2.1</version>
     </parent>
 
     <artifactId>youlai-common</artifactId>

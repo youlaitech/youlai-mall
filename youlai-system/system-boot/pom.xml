@@ -5,7 +5,7 @@
     <parent>
         <artifactId>youlai-system</artifactId>
         <groupId>com.youlai</groupId>
-        <version>3.1.0</version>
+        <version>3.2.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -125,7 +125,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>
