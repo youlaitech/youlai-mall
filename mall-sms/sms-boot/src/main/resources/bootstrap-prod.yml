@@ -12,12 +12,12 @@ spring:
       # 注册中心
       discovery:
         server-addr: http://f.youlai.tech:8848
-        namespace: prod
+        namespace: youlai-mall-prod
       # 配置中心
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        namespace: prod
+        namespace: youlai-mall-prod
         shared-configs[0]:
           data-id: youlai-common.yaml
           refresh: true
