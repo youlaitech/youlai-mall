@@ -1,4 +1,4 @@
-package com.youlai.auth.oauth2.extension.sms;
+package com.youlai.auth.oauth2.extension.smscode;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
@@ -34,7 +34,7 @@ import java.util.Map;
  * @since 3.0.0
  */
 @Slf4j
-public class SmsAuthenticationProvider implements AuthenticationProvider {
+public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 
@@ -52,7 +52,7 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
      * @param tokenGenerator       the token generator
      * @since 0.2.3
      */
-    public SmsAuthenticationProvider(
+    public SmsCodeAuthenticationProvider(
             OAuth2AuthorizationService authorizationService,
             OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
             MemberDetailsService memberDetailsService,
@@ -72,21 +72,21 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        SmsAuthenticationToken smsAuthenticationToken = (SmsAuthenticationToken) authentication;
+        SmsCodeAuthenticationToken smsCodeAuthenticationToken = (SmsCodeAuthenticationToken) authentication;
 
         OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
-                .getAuthenticatedClientElseThrowInvalidClient(smsAuthenticationToken);
+                .getAuthenticatedClientElseThrowInvalidClient(smsCodeAuthenticationToken);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
         // 验证客户端是否支持授权类型(grant_type=wechat_mini_app)
-        if (!registeredClient.getAuthorizationGrantTypes().contains(SmsAuthenticationToken.SMS_CODE)) {
+        if (!registeredClient.getAuthorizationGrantTypes().contains(SmsCodeAuthenticationToken.SMS_CODE)) {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
         // 短信验证码校验
-        Map<String, Object> additionalParameters = smsAuthenticationToken.getAdditionalParameters();
-        String mobile = (String) additionalParameters.get(SmsParameterNames.MOBILE);
-        String code = (String) additionalParameters.get(SmsParameterNames.CODE);
+        Map<String, Object> additionalParameters = smsCodeAuthenticationToken.getAdditionalParameters();
+        String mobile = (String) additionalParameters.get(SmsCodeParameterNames.MOBILE);
+        String code = (String) additionalParameters.get(SmsCodeParameterNames.CODE);
 
         if (!code.equals("666666")) { // 666666 是后门，因为短信收费，正式环境删除这个if
             String codeKey = RedisConstants.LOGIN_SMS_CODE_PREFIX + mobile;
@@ -107,8 +107,8 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
                 .registeredClient(registeredClient)
                 .principal(usernamePasswordAuthentication)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
-                .authorizationGrantType(SmsAuthenticationToken.SMS_CODE)
-                .authorizationGrant(smsAuthenticationToken);
+                .authorizationGrantType(SmsCodeAuthenticationToken.SMS_CODE)
+                .authorizationGrant(smsCodeAuthenticationToken);
 
         // 生成访问令牌(Access Token)
         OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
@@ -124,7 +124,7 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(userDetails.getUsername())
-                .authorizationGrantType(SmsAuthenticationToken.SMS_CODE)
+                .authorizationGrantType(SmsCodeAuthenticationToken.SMS_CODE)
                 .attribute(Principal.class.getName(), usernamePasswordAuthentication);
         if (generatedAccessToken instanceof ClaimAccessor) {
             authorizationBuilder.token(accessToken, (metadata) ->
@@ -159,7 +159,7 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return SmsAuthenticationToken.class.isAssignableFrom(authentication);
+        return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
 }

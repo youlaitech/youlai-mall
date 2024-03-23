@@ -14,14 +14,14 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.youlai.auth.model.SysUserDetails;
 import com.youlai.auth.oauth2.extension.captcha.CaptchaAuthenticationConverter;
 import com.youlai.auth.oauth2.extension.captcha.CaptchaAuthenticationProvider;
-import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationConverter;
-import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationProvider;
-import com.youlai.auth.oauth2.extension.miniapp.WxMiniAppAuthenticationToken;
+import com.youlai.auth.oauth2.extension.wechat.WechatAuthenticationConverter;
+import com.youlai.auth.oauth2.extension.wechat.WechatAuthenticationProvider;
+import com.youlai.auth.oauth2.extension.wechat.WechatAuthenticationToken;
 import com.youlai.auth.oauth2.extension.password.PasswordAuthenticationConverter;
 import com.youlai.auth.oauth2.extension.password.PasswordAuthenticationProvider;
-import com.youlai.auth.oauth2.extension.sms.SmsAuthenticationConverter;
-import com.youlai.auth.oauth2.extension.sms.SmsAuthenticationProvider;
-import com.youlai.auth.oauth2.extension.sms.SmsAuthenticationToken;
+import com.youlai.auth.oauth2.extension.smscode.SmsCodeAuthenticationConverter;
+import com.youlai.auth.oauth2.extension.smscode.SmsCodeAuthenticationProvider;
+import com.youlai.auth.oauth2.extension.smscode.SmsCodeAuthenticationToken;
 import com.youlai.auth.oauth2.handler.MyAuthenticationFailureHandler;
 import com.youlai.auth.oauth2.handler.MyAuthenticationSuccessHandler;
 import com.youlai.auth.oauth2.jackson.SysUserMixin;
@@ -96,8 +96,6 @@ public class AuthorizationServerConfig {
     private final CustomOidcUserInfoService customOidcUserInfoService;
 
     private final OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer;
-    private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent"; // 自定义授权页
-    private static final String CUSTOM_LOGIN_PAGE_URI = "/sso-login"; // 自定义登录页
 
     private final StringRedisTemplate redisTemplate;
 
@@ -119,8 +117,6 @@ public class AuthorizationServerConfig {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI)) // 自定义授权页
-
                 // 自定义授权模式转换器(Converter)
                 .tokenEndpoint(tokenEndpoint -> tokenEndpoint
                         .accessTokenRequestConverters(
@@ -130,8 +126,8 @@ public class AuthorizationServerConfig {
                                                 List.of(
                                                         new PasswordAuthenticationConverter(),
                                                         new CaptchaAuthenticationConverter(),
-                                                        new WxMiniAppAuthenticationConverter(),
-                                                        new SmsAuthenticationConverter()
+                                                        new WechatAuthenticationConverter(),
+                                                        new SmsCodeAuthenticationConverter()
                                                 )
                                         )
                         )
@@ -142,8 +138,8 @@ public class AuthorizationServerConfig {
                                                 List.of(
                                                         new PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator),
                                                         new CaptchaAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator, redisTemplate, codeGenerator),
-                                                        new WxMiniAppAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, wxMaService),
-                                                        new SmsAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, redisTemplate)
+                                                        new WechatAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, wxMaService),
+                                                        new SmsCodeAuthenticationProvider(authorizationService, tokenGenerator, memberDetailsService, redisTemplate)
                                                 )
                                         )
                         )
@@ -161,17 +157,14 @@ public class AuthorizationServerConfig {
                 );
 
         http
-                // 当用户未登录且尝试访问需要认证的端点时，重定向至登录页面
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint(CUSTOM_LOGIN_PAGE_URI),
+                                new LoginUrlAuthenticationEntryPoint("/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 )
-                // Accept access tokens for User Info and/or Client Registration
                 .oauth2ResourceServer(oauth2ResourceServer ->
                         oauth2ResourceServer.jwt(Customizer.withDefaults()));
-
         return http.build();
     }
 
@@ -374,8 +367,8 @@ public class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .authorizationGrantType(WxMiniAppAuthenticationToken.WECHAT_MINI_APP) // 微信小程序模式
-                .authorizationGrantType(SmsAuthenticationToken.SMS_CODE) // 短信验证码模式
+                .authorizationGrantType(WechatAuthenticationToken.WECHAT_MINI_APP) // 微信小程序模式
+                .authorizationGrantType(SmsCodeAuthenticationToken.SMS_CODE) // 短信验证码模式
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
                 .scope(OidcScopes.OPENID)

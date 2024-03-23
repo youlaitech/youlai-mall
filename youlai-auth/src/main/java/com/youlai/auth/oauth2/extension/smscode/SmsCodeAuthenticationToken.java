@@ -1,4 +1,4 @@
-package com.youlai.auth.oauth2.extension.miniapp;
+package com.youlai.auth.oauth2.extension.smscode;
 
 import jakarta.annotation.Nullable;
 import org.springframework.security.core.Authentication;
@@ -12,13 +12,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 微信小程序授权模式身份验证令牌
+ * 短信验证码身份验证令牌
  *
- * @author haoxr
- * @see OAuth2AuthorizationGrantAuthenticationToken
+ * @author Ray Hao
  * @since 3.0.0
  */
-public class WxMiniAppAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
+public class SmsCodeAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
     /**
      * 令牌申请访问范围
@@ -26,17 +25,17 @@ public class WxMiniAppAuthenticationToken extends OAuth2AuthorizationGrantAuthen
     private final Set<String> scopes;
 
     /**
-     * 授权类型：微信小程序
+     * 授权类型(短信验证码: sms_code)
      */
-    public static final AuthorizationGrantType WECHAT_MINI_APP = new AuthorizationGrantType("wx_mini_app");
+    public static final AuthorizationGrantType SMS_CODE = new AuthorizationGrantType("sms_code");
 
 
-    protected WxMiniAppAuthenticationToken(
+    protected SmsCodeAuthenticationToken(
             Authentication clientPrincipal,
             Set<String> scopes,
             @Nullable Map<String, Object> additionalParameters
     ) {
-        super(WxMiniAppAuthenticationToken.WECHAT_MINI_APP, clientPrincipal, additionalParameters);
+        super(SmsCodeAuthenticationToken.SMS_CODE, clientPrincipal, additionalParameters);
         this.scopes = Collections.unmodifiableSet(scopes != null ? new HashSet<>(scopes) : Collections.emptySet());
     }
 

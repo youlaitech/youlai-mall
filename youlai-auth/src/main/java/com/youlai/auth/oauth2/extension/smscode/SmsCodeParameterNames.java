@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.youlai.auth.oauth2.extension.sms;
+package com.youlai.auth.oauth2.extension.smscode;
 
 /**
  * 短信验证码模式参数名称常量
@@ -22,7 +22,7 @@ package com.youlai.auth.oauth2.extension.sms;
  * @author haoxr
  * @since 3.0.0
  */
-public final class SmsParameterNames {
+public final class SmsCodeParameterNames {
 
     /**
      * 手机号
@@ -35,7 +35,7 @@ public final class SmsParameterNames {
     public static final String CODE = "code";
 
 
-    private SmsParameterNames() {
+    private SmsCodeParameterNames() {
     }
 
 }

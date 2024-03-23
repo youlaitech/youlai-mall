@@ -1,4 +1,4 @@
-package com.youlai.auth.oauth2.extension.sms;
+package com.youlai.auth.oauth2.extension.wechat;
 
 import jakarta.annotation.Nullable;
 import org.springframework.security.core.Authentication;
@@ -12,12 +12,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 短信验证码身份验证令牌
+ * 微信小程序授权模式身份验证令牌
  *
  * @author haoxr
+ * @see OAuth2AuthorizationGrantAuthenticationToken
  * @since 3.0.0
  */
-public class SmsAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
+public class WechatAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
     /**
      * 令牌申请访问范围
@@ -25,17 +26,17 @@ public class SmsAuthenticationToken extends OAuth2AuthorizationGrantAuthenticati
     private final Set<String> scopes;
 
     /**
-     * 授权类型(短信验证码: sms_code)
+     * 授权类型：微信小程序
      */
-    public static final AuthorizationGrantType SMS_CODE = new AuthorizationGrantType("sms");
+    public static final AuthorizationGrantType WECHAT_MINI_APP = new AuthorizationGrantType("wechat");
 
 
-    protected SmsAuthenticationToken(
+    protected WechatAuthenticationToken(
             Authentication clientPrincipal,
             Set<String> scopes,
             @Nullable Map<String, Object> additionalParameters
     ) {
-        super(SmsAuthenticationToken.SMS_CODE, clientPrincipal, additionalParameters);
+        super(WechatAuthenticationToken.WECHAT_MINI_APP, clientPrincipal, additionalParameters);
         this.scopes = Collections.unmodifiableSet(scopes != null ? new HashSet<>(scopes) : Collections.emptySet());
     }
 

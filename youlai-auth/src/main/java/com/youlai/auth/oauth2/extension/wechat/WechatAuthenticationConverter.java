@@ -1,4 +1,4 @@
-package com.youlai.auth.oauth2.extension.sms;
+package com.youlai.auth.oauth2.extension.wechat;
 
 import cn.hutool.core.util.StrUtil;
 import com.youlai.auth.util.OAuth2EndpointUtils;
@@ -18,21 +18,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 短信验证码认证参数转换器
+ * 微信小程序认证参数解析器
  * <p>
- * 解析请求参数中的手机号和验证码，并转换成相应的身份验证(Authentication)对象
+ * 解析请求参数中的微信小程序 Code，并构建相应的身份验证(Authentication)对象
  *
  * @author haoxr
  * @see org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter
  * @since 3.0.0
  */
-public class SmsAuthenticationConverter implements AuthenticationConverter {
+public class WechatAuthenticationConverter implements AuthenticationConverter {
+
+    public static final String ACCESS_TOKEN_REQUEST_ERROR_URI = "https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html";
 
     @Override
     public Authentication convert(HttpServletRequest request) {
         // 授权类型 (必需)
         String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-        if (!SmsAuthenticationToken.SMS_CODE.getValue().equals(grantType)) {
+        if (!WechatAuthenticationToken.WECHAT_MINI_APP.getValue().equals(grantType)) {
             return null;
         }
 
@@ -49,33 +51,22 @@ public class SmsAuthenticationConverter implements AuthenticationConverter {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
                     OAuth2ParameterNames.SCOPE,
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+                    ACCESS_TOKEN_REQUEST_ERROR_URI);
         }
         Set<String> requestedScopes = null;
         if (StringUtils.hasText(scope)) {
             requestedScopes = new HashSet<>(Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
         }
 
-        // 手机号(必需)
-        String mobile = parameters.getFirst(SmsParameterNames.MOBILE);
-        if (StrUtil.isBlank(mobile)) {
-            OAuth2EndpointUtils.throwError(
-                    OAuth2ErrorCodes.INVALID_REQUEST,
-                    SmsParameterNames.MOBILE,
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
-        }
-
-        // 验证码(必需)
-        String code = parameters.getFirst(SmsParameterNames.CODE);
+        // 微信小程序 Code (必需)
+        String code = parameters.getFirst(OAuth2ParameterNames.CODE);
         if (StrUtil.isBlank(code)) {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
-                    SmsParameterNames.CODE,
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+                    OAuth2ParameterNames.CODE,
+                    ACCESS_TOKEN_REQUEST_ERROR_URI);
         }
-
-
-        // 附加参数(手机号码、验证码)
+        // 附加参数(微信小程序 Code)
         Map<String, Object> additionalParameters = parameters
                 .entrySet()
                 .stream()
@@ -85,7 +76,7 @@ public class SmsAuthenticationConverter implements AuthenticationConverter {
                 )
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
-        return new SmsAuthenticationToken(
+        return new WechatAuthenticationToken(
                 clientPrincipal,
                 requestedScopes,
                 additionalParameters
