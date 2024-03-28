@@ -140,4 +140,14 @@ public class SysDictController {
         return Result.judge(result);
     }
 
+    @Operation(summary = "获取字典类型的数据项")
+    @GetMapping("/types/{typeCode}/items")
+    public Result<List<Option>> listDictTypeItems(
+            @Parameter(description ="字典类型编码") @PathVariable String typeCode
+    ) {
+        List<Option> list = dictTypeService.listDictItemsByTypeCode(typeCode);
+        return Result.success(list);
+    }
+
+
 }
