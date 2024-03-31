@@ -2,7 +2,7 @@ package com.youlai.mall.oms.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.mall.oms.model.dto.CartItemDTO;
+import com.youlai.mall.oms.model.dto.CartItemDto;
 import com.youlai.mall.oms.service.app.CartService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +30,7 @@ public class CartController {
     @Operation(summary = "查询购物车")
     @GetMapping
     public <T> Result<T> getCart() {
-        List<CartItemDTO> result = cartService.listCartItems(SecurityUtils.getMemberId());
+        List<CartItemDto> result = cartService.listCartItems(SecurityUtils.getMemberId());
         return Result.success((T) result);
     }
 
@@ -52,7 +52,7 @@ public class CartController {
     @PutMapping("/skuId/{skuId}")
     public <T> Result<T> updateCartItem(
             @PathVariable Long skuId,
-            @RequestBody CartItemDTO cartItem
+            @RequestBody CartItemDto cartItem
     ) {
         cartItem.setSkuId(skuId);
         boolean result = cartService.updateCartItem(cartItem);

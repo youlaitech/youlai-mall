@@ -8,7 +8,7 @@ import com.youlai.mall.sms.converter.AdvertConverter;
 import com.youlai.mall.sms.model.entity.SmsAdvert;
 import com.youlai.mall.sms.mapper.SmsAdvertMapper;
 import com.youlai.mall.sms.model.query.AdvertPageQuery;
-import com.youlai.mall.sms.model.vo.AdBannerVO;
+import com.youlai.mall.sms.model.vo.BannerVO;
 import com.youlai.mall.sms.model.vo.AdvertPageVO;
 import com.youlai.mall.sms.service.SmsAdvertService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 广告业务实现类
  *
- * @author haoxr
+ * @author Ray Hao
  * @since 2022/5/28
  */
 @Service
@@ -31,33 +31,27 @@ public class SmsAdvertServiceImpl extends ServiceImpl<SmsAdvertMapper, SmsAdvert
     /**
      * 广告分页列表
      *
-     * @param queryParams
-     * @return
+     * @param queryParams 查询参数
+     * @return 广告分页列表
      */
     @Override
     public Page<AdvertPageVO> getAdvertPage(AdvertPageQuery queryParams) {
-        Page<SmsAdvert> entities = this.baseMapper.getAdvertPage(new Page<>(queryParams.getPageNum(),
+        Page<SmsAdvert> page = this.baseMapper.getAdvertPage(new Page<>(queryParams.getPageNum(),
                         queryParams.getPageSize()),
                 queryParams);
-
-        Page<AdvertPageVO> advertVOPage = advertConverter.entity2PageVo(entities);
-
-        return advertVOPage;
+        return advertConverter.entity2PageVo(page);
     }
 
     /**
-     * 广告横幅列表对象
-     *
-     * @return
+     * 获取广告横幅列表
      */
     @Override
-    public List<AdBannerVO> listAdBanners() {
+    public List<BannerVO> getBannerList() {
 
         List<SmsAdvert> entities = this.list(new LambdaQueryWrapper<SmsAdvert>().
                 eq(SmsAdvert::getStatus, StatusEnum.ENABLE.getValue())
-                .select(SmsAdvert::getTitle, SmsAdvert::getPicUrl, SmsAdvert::getRedirectUrl)
+                .select(SmsAdvert::getTitle, SmsAdvert::getImageUrl, SmsAdvert::getRedirectUrl)
         );
-        List<AdBannerVO> list = advertConverter.entity2BannerVo(entities);
-        return list;
+        return advertConverter.entity2BannerVo(entities);
     }
 }

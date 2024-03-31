@@ -3,7 +3,7 @@ package com.youlai.mall.sms.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.sms.model.entity.SmsAdvert;
-import com.youlai.mall.sms.model.vo.AdBannerVO;
+import com.youlai.mall.sms.model.vo.BannerVO;
 import com.youlai.mall.sms.model.vo.AdvertPageVO;
 import org.mapstruct.Mapper;
 
@@ -22,7 +22,7 @@ public interface AdvertConverter {
 
     Page<AdvertPageVO> entity2PageVo(Page<SmsAdvert> po);
 
-    AdBannerVO entity2BannerVo(SmsAdvert entity);
+    BannerVO entity2BannerVo(SmsAdvert entity);
     
-    List<AdBannerVO> entity2BannerVo(List<SmsAdvert> entities);
+    List<BannerVO> entity2BannerVo(List<SmsAdvert> entities);
 }
