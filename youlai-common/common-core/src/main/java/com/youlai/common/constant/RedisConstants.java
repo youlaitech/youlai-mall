@@ -34,4 +34,8 @@ public interface RedisConstants {
      */
     String JWK_SET_KEY = "jwk_set";
 
+
+    String MEMBER_KEY_PREFIX = "member:";
+    String MEMBER_CART_KEY_SUFFIX = ":cart";
+
 }

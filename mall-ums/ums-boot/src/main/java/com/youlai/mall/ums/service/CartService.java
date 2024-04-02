@@ -1,6 +1,7 @@
-package com.youlai.mall.oms.service.app;
+package com.youlai.mall.ums.service;
 
-import com.youlai.mall.oms.model.dto.CartItemDto;
+
+import com.youlai.mall.ums.model.vo.CartItemVo;
 
 import java.util.List;
 
@@ -12,13 +13,12 @@ import java.util.List;
  */
 public interface CartService {
 
-    List<CartItemDto> listCartItems(Long memberId);
+    List<CartItemVo> listCartItems(Long memberId);
 
     boolean deleteCart();
 
     boolean addCartItem(Long skuId);
 
-    boolean updateCartItem(CartItemDto cartItem);
 
     boolean removeCartItem(Long skuId);
 

@@ -1,14 +1,14 @@
-package com.youlai.mall.oms.service.app.impl;
+package com.youlai.mall.ums.service.impl;
 
+import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.oms.constant.OrderConstants;
-import com.youlai.mall.oms.converter.CartConverter;
-import com.youlai.mall.oms.model.dto.CartItemDto;
-import com.youlai.mall.oms.service.app.CartService;
 import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.model.dto.SkuInfoDTO;
+import com.youlai.mall.ums.convert.CartConverter;
+import com.youlai.mall.ums.model.vo.CartItemVo;
+import com.youlai.mall.ums.service.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -35,14 +35,14 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
 
     private final RedisTemplate redisTemplate;
-    private final SkuFeignClient skuFeignService;
+    private final SkuFeignClient skuFeignClient;
     private final CartConverter cartConverter;
 
     @Override
-    public List<CartItemDto> listCartItems(Long memberId) {
+    public List<CartItemVo> listCartItems(Long memberId) {
         if (memberId != null) {
             BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
-            List<CartItemDto> cartItems = cartHashOperations.values();
+            List<CartItemVo> cartItems = cartHashOperations.values();
             return cartItems;
         }
         return Collections.EMPTY_LIST;
@@ -53,7 +53,7 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public boolean deleteCart() {
-        String key = OrderConstants.MEMBER_CART_PREFIX + SecurityUtils.getMemberId();
+        String key = RedisConstants.MEMBER_KEY_PREFIX + SecurityUtils.getMemberId()+ RedisConstants.MEMBER_CART_KEY_SUFFIX ;
         redisTemplate.delete(key);
         return true;
     }
@@ -64,10 +64,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public boolean addCartItem(Long skuId) {
         Long memberId = SecurityUtils.getMemberId();
-        BoundHashOperations<String, String, CartItemDto> cartHashOperations = getCartHashOperations(memberId);
+        BoundHashOperations<String, String, CartItemVo> cartHashOperations = getCartHashOperations(memberId);
         String hKey = String.valueOf(skuId);
 
-        CartItemDto cartItem = cartHashOperations.get(hKey);
+        CartItemVo cartItem = cartHashOperations.get(hKey);
 
         if (cartItem != null) {
             // 购物车已存在该商品，更新商品数量
@@ -75,9 +75,8 @@ public class CartServiceImpl implements CartService {
             cartItem.setChecked(true);
         } else {
             // 购物车中不存在该商品，新增商品到购物车
-            SkuInfoDTO skuInfo = skuFeignService.getSkuInfo(skuId);
+            SkuInfoDTO skuInfo = skuFeignClient.getSkuInfo(skuId);
             if (skuInfo != null) {
-                cartItem = cartConverter.sku2CartItem(skuInfo);
                 cartItem.setCount(1);
                 cartItem.setChecked(true);
             }
@@ -89,28 +88,6 @@ public class CartServiceImpl implements CartService {
     /**
      * 更新购物车总商品数量、选中状态
      */
-    @Override
-    public boolean updateCartItem(CartItemDto cartItem) {
-        Long memberId;
-        try {
-            memberId = SecurityUtils.getMemberId();
-        } catch (Exception e) {
-            throw new BizException(ResultCode.TOKEN_INVALID);
-        }
-        BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
-        String hKey = cartItem.getSkuId() + "";
-        if (cartHashOperations.get(hKey) != null) {
-            CartItemDto cacheCartItem = (CartItemDto) cartHashOperations.get(hKey);
-            if (cartItem.getChecked() != null) {
-                cacheCartItem.setChecked(cartItem.getChecked());
-            }
-            if (cartItem.getCount() != null) {
-                cacheCartItem.setCount(cartItem.getCount());
-            }
-            cartHashOperations.put(hKey, cacheCartItem);
-        }
-        return true;
-    }
 
     /**
      * 移除购物车的商品
@@ -143,7 +120,7 @@ public class CartServiceImpl implements CartService {
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
-            CartItemDto cartItem = (CartItemDto) value;
+            CartItemVo cartItem = (CartItemVo) value;
             cartItem.setChecked(checked);
             String hKey = cartItem.getSkuId() + "";
             cartHashOperations.put(hKey, cartItem);
@@ -165,7 +142,7 @@ public class CartServiceImpl implements CartService {
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
-            CartItemDto cartItem = (CartItemDto) value;
+            CartItemVo cartItem = (CartItemVo) value;
             if (cartItem.getChecked()) {
                 cartHashOperations.delete(cartItem.getSkuId() + "");
             }
@@ -177,8 +154,12 @@ public class CartServiceImpl implements CartService {
      * 获取第一层，即某个用户的购物车
      */
     private BoundHashOperations getCartHashOperations(Long memberId) {
-        String cartKey = OrderConstants.MEMBER_CART_PREFIX + memberId;
+        String cartKey = getCartKey(memberId);
         BoundHashOperations operations = redisTemplate.boundHashOps(cartKey);
         return operations;
+    }
+
+    private String getCartKey(Long memberId) {
+       return RedisConstants.MEMBER_KEY_PREFIX + memberId+ RedisConstants.MEMBER_CART_KEY_SUFFIX;
     }
 }

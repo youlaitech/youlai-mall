@@ -1,8 +1,8 @@
 
-package com.youlai.mall.oms.converter;
+package com.youlai.mall.ums.convert;
 
-import com.youlai.mall.oms.model.dto.CartItemDto;
 import com.youlai.mall.pms.model.dto.SkuInfoDTO;
+import com.youlai.mall.ums.model.vo.CartItemVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -19,6 +19,6 @@ public interface CartConverter {
     @Mappings({
             @Mapping(target = "skuId", source = "id"),
     })
-    CartItemDto sku2CartItem(SkuInfoDTO skuInfo);
+    CartItemVo sku2CartItem(SkuInfoDTO skuInfo);
 
 }

@@ -8,9 +8,8 @@ import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberRegisterDto;
-import com.youlai.mall.ums.dto.MemberInfoDTO;
 import com.youlai.mall.ums.model.entity.UmsMember;
-import com.youlai.mall.ums.model.vo.MemberVO;
+import com.youlai.mall.ums.model.vo.MemberVo;
 
 import java.util.List;
 import java.util.Set;
@@ -58,7 +57,7 @@ public interface UmsMemberService extends IService<UmsMember> {
      *
      * @return
      */
-    MemberVO getCurrMemberInfo();
+    MemberVo getCurrMemberInfo();
 
     /**
      * 获取会员地址列表

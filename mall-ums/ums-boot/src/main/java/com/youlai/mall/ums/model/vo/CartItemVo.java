@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.model.dto;
+package com.youlai.mall.ums.model.vo;
 
 import lombok.Data;
 
@@ -40,7 +40,7 @@ public class CartItemVo implements Serializable {
     private Integer count;
 
     /**
-     * 商品价格
+     * 加购价格
      */
     private Long price;
 

@@ -19,7 +19,7 @@ import com.youlai.mall.ums.dto.MemberRegisterDto;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
 import com.youlai.mall.ums.model.entity.UmsAddress;
 import com.youlai.mall.ums.model.entity.UmsMember;
-import com.youlai.mall.ums.model.vo.MemberVO;
+import com.youlai.mall.ums.model.vo.MemberVo;
 import com.youlai.mall.ums.service.UmsAddressService;
 import com.youlai.mall.ums.service.UmsMemberService;
 import lombok.RequiredArgsConstructor;
@@ -135,7 +135,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * @return
      */
     @Override
-    public MemberVO getCurrMemberInfo() {
+    public MemberVo getCurrMemberInfo() {
         Long memberId = SecurityUtils.getMemberId();
         UmsMember umsMember = this.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getId, memberId)
@@ -146,7 +146,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                         UmsMember::getBalance
                 )
         );
-        MemberVO memberVO = new MemberVO();
+        MemberVo memberVO = new MemberVo();
         BeanUtil.copyProperties(umsMember, memberVO);
         return memberVO;
     }

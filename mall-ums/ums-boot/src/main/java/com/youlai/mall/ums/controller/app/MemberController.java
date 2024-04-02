@@ -9,7 +9,7 @@ import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberRegisterDto;
 import com.youlai.mall.ums.model.entity.UmsMember;
-import com.youlai.mall.ums.model.vo.MemberVO;
+import com.youlai.mall.ums.model.vo.MemberVo;
 import com.youlai.mall.ums.service.UmsMemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,8 +46,8 @@ public class MemberController {
 
     @Operation(summary= "获取登录会员信息")
     @GetMapping("/me")
-    public Result<MemberVO> getCurrMemberInfo() {
-        MemberVO memberVO = memberService.getCurrMemberInfo();
+    public Result<MemberVo> getCurrMemberInfo() {
+        MemberVo memberVO = memberService.getCurrMemberInfo();
         return Result.success(memberVO);
     }
 
