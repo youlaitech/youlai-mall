@@ -3,29 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>youlai-mall</artifactId>
+        <artifactId>mall-member</artifactId>
         <groupId>com.youlai</groupId>
         <version>3.2.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>youlai-auth</artifactId>
+    <artifactId>member-boot</artifactId>
+
+    <properties>
+        <service.port>8801</service.port>
+        <service.nodeport>32003</service.nodeport>
+    </properties>
 
     <dependencies>
-
-        <!-- OAuth2 认证服务器-->
+        <!-- 读取配置 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
 
-        <!-- OAuth2 客户端（第三方登录 微信、Gitee、Github、QQ）-->
+        <!-- 单元测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
-        <!--Spring Cloud & Alibaba -->
+        <!-- Spring Cloud & Alibaba -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
@@ -44,38 +49,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>member-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>system-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
         </dependency>
 
         <dependency>
@@ -85,18 +60,27 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-apidoc</artifactId>
+            <artifactId>common-web</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-sms</artifactId>
+            <artifactId>common-redis</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-seata</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-apidoc</artifactId>
         </dependency>
 
     </dependencies>
@@ -107,16 +91,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
-
 
 </project>

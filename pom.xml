@@ -17,10 +17,10 @@
         <module>youlai-auth</module>
 
         <!-- 商城模块 -->
-        <module>mall-sms</module>
-        <module>mall-ums</module>
-        <module>mall-pms</module>
-        <module>mall-oms</module>
+        <module>mall-activity</module>
+        <module>mall-member</module>
+        <module>mall-product</module>
+        <module>mall-order</module>
     </modules>
 
     <parent>
@@ -235,25 +235,25 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>oms-api</artifactId>
+                <artifactId>order-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>pms-api</artifactId>
+                <artifactId>product-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>ums-api</artifactId>
+                <artifactId>member-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>sms-api</artifactId>
+                <artifactId>activity-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
