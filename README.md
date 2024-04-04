@@ -68,18 +68,18 @@ youlai-mall
     ├── sql                         # SQL脚本
         ├── mysql5                  # MySQL5脚本
         ├── mysql8                  # MySQL8脚本
-├── mall-activity                   # 营销服务
-    ├── activity-api                # 营销服务-Feign客户端
-    ├── activity-boot               # 营销服务-启动应用
-├── mall-product                    # 商品服务
-    ├── product-api                 # 商品服务-Feign客户端
-    ├── product-boot                # 商品服务-启动应用
-├── mall-order                      # 订单服务
-    ├── order-api                   # 订单服务-Feign客户端
-    ├── order-boot                  # 订单服务-启动应用
-├── mall-member                     # 会员服务
-    ├── member-api                  # 会员服务-Feign客户端
-    ├── member-boot                 # 会员服务-启动应用
+├── mall-sms                        # 营销服务(Sales Management Service)
+    ├── sms-api                     # 营销服务-Feign客户端
+    ├── sms-boot                    # 营销服务-启动应用
+├── mall-pms                        # 商品服务(Product Management Service)
+    ├── pms-api                     # 商品服务-Feign客户端
+    ├── pms-boot                    # 商品服务-启动应用
+├── mall-oms                        # 订单服务(Order Management Service)
+    ├── oms-api                     # 订单服务-Feign客户端
+    ├── oms-boot                    # 订单服务-启动应用
+├── mall-ums                        # 会员服务(User Management Service)
+    ├── ums-api                     # 会员服务-Feign客户端
+    ├── ums-boot                    # 会员服务-启动应用
 ├── youlai-auth                     # 认证授权中心
 ├── youlai-common                   # 公共模块
     ├── common-core                 # 基础依赖
