@@ -29,7 +29,7 @@ public class OrderItemDTO {
     /**
      * 商品图片地址
      */
-    private String picUrl;
+    private String imgUrl;
 
     /**
      * 商品价格

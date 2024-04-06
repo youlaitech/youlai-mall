@@ -97,7 +97,7 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
         }
         String openid = sessionInfo.getOpenid();
         // 根据 openid 获取会员信息
-        UserDetails userDetails = memberDetailsService.loadUserByOpenid(openid);
+        UserDetails userDetails = memberDetailsService.getUserByOpenId(openid);
 
         Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword());
 

@@ -2,17 +2,16 @@ package com.youlai.mall.ums.service;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberRegisterDto;
+import com.youlai.mall.ums.dto.MemberRegisterDTO;
+import com.youlai.mall.ums.model.dto.MemberDTO;
 import com.youlai.mall.ums.model.entity.UmsMember;
-import com.youlai.mall.ums.model.vo.MemberVo;
+import com.youlai.mall.ums.model.query.MemberPageQuery;
+import com.youlai.mall.ums.model.vo.MemberPageVO;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 会员业务接口
@@ -22,11 +21,12 @@ import java.util.Set;
  */
 public interface UmsMemberService extends IService<UmsMember> {
 
-    IPage<UmsMember> list(Page<UmsMember> page, String nickname);
 
-    void addProductViewHistory(ProductHistoryVO product, Long userId);
+    /**
+     * 会员分页列表
+     */
+    IPage<MemberPageVO> listPagedMembers(MemberPageQuery pageQuery);
 
-    Set<ProductHistoryVO> getProductViewHistory(Long userId);
 
     /**
      * 根据 openid 获取会员认证信息
@@ -50,14 +50,14 @@ public interface UmsMemberService extends IService<UmsMember> {
      * @param member
      * @return
      */
-    Long addMember(MemberRegisterDto member);
+    Long addMember(MemberRegisterDTO member);
 
     /**
      * 获取登录会员信息
      *
      * @return
      */
-    MemberVo getCurrMemberInfo();
+    MemberDTO getCurrMemberInfo();
 
     /**
      * 获取会员地址列表
@@ -67,5 +67,14 @@ public interface UmsMemberService extends IService<UmsMember> {
      */
     List<MemberAddressDTO> listMemberAddress(Long memberId);
 
+
+    /**
+     * 扣减会员余额
+     *
+     * @param memberId        会员ID
+     * @param deductionAmount 扣减金额
+     * @return 是否扣减成功
+     */
+    boolean deductMemberBalance(Long memberId, Long deductionAmount);
 
 }

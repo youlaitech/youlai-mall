@@ -98,7 +98,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         }
 
         // 根据手机号获取会员信息
-        UserDetails userDetails = memberDetailsService.loadUserByMobile(mobile);
+        UserDetails userDetails = memberDetailsService.getUserByMobile(mobile);
 
         Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails, null);
 

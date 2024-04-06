@@ -1,4 +1,4 @@
-package com.youlai.mall.ums.model.vo;
+package com.youlai.mall.ums.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Schema(description = "会员视图层对象")
 @Data
-public class MemberVo {
+public class MemberDTO {
 
     @Schema(description="会员ID")
     private Long id;

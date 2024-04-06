@@ -2,7 +2,7 @@ package com.youlai.mall.ums.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.mall.ums.model.vo.CartItemVo;
+import com.youlai.mall.ums.dto.CartItemDTO;
 import com.youlai.mall.ums.service.CartService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,9 +30,9 @@ public class CartController {
 
     @Operation(summary = "获取用户的购物车列表")
     @GetMapping
-    public Result<List<CartItemVo>> listCartItems() {
+    public Result<List<CartItemDTO>> listCartItems() {
         Long memberId = SecurityUtils.getMemberId();
-        List<CartItemVo> list = cartService.listCartItems(memberId);
+        List<CartItemDTO> list = cartService.listCartItems(memberId);
         return Result.success(list);
     }
 

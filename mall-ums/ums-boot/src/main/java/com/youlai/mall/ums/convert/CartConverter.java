@@ -1,12 +1,9 @@
 
 package com.youlai.mall.ums.convert;
 
-import com.youlai.mall.pms.model.dto.SkuInfoDto;
 import com.youlai.mall.ums.model.dto.CartItemCache;
-import com.youlai.mall.ums.model.vo.CartItemVo;
+import com.youlai.mall.ums.dto.CartItemDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.util.List;
 
@@ -19,14 +16,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CartConverter {
 
-    @Mappings({
-            @Mapping(target = "skuId", source = "id"),
-    })
-    CartItemVo sku2CartItem(SkuInfoDto skuInfo);
+
+    CartItemDTO cartItemCacheToVo(CartItemCache cache);
+
+    List<CartItemDTO> cartItemCacheToVo(List<CartItemCache> caches);
 
 
-    CartItemVo cartItemCacheToVo(CartItemCache cache);
-
-    List<CartItemVo> cartItemCacheToVo(List<CartItemCache> caches);
 
 }

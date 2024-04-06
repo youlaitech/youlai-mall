@@ -1,9 +1,8 @@
-package com.youlai.mall.ums.model.vo;
+package com.youlai.mall.ums.dto;
 
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * 购物车商品项
@@ -12,7 +11,7 @@ import java.util.Set;
  * @since 0.0.1
  */
 @Data
-public class CartItemVo implements Serializable {
+public class CartItemDTO implements Serializable {
 
     /**
      * 商品库存ID
@@ -25,19 +24,19 @@ public class CartItemVo implements Serializable {
     private String spuName;
 
     /**
-     * 规格集合
+     * 商品规格名称
      */
-    private Set<String> specs;
+    private String skuName;
 
     /**
      * 商品图片
      */
-    private String imageUrl;
+    private String imgUrl;
 
     /**
-     * 加购数量·
+     * 加
      */
-    private Integer count;
+    private Integer quantity;
 
     /**
      * 加购价格

@@ -96,8 +96,8 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
 
         List<String> album = new ArrayList<>();
 
-        if (StrUtil.isNotBlank(pmsSpu.getPicUrl())) {
-            album.add(pmsSpu.getPicUrl());
+        if (StrUtil.isNotBlank(pmsSpu.getImgUrl())) {
+            album.add(pmsSpu.getImgUrl());
         }
         if (pmsSpu.getAlbum() != null && pmsSpu.getAlbum().length > 0) {
             album.addAll(Arrays.asList(pmsSpu.getAlbum()));
@@ -165,7 +165,6 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
             vo.setId(goodsInfo.getId());
             vo.setName(goodsInfo.getName());
             vo.setPicUrl(goodsInfo.getAlbum() != null ? goodsInfo.getAlbum().get(0) : null);
-            memberFeignClient.addProductViewHistory(vo);
         }
         return spuDetailVO;
     }
@@ -303,7 +302,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     @Override
     public List<SeckillingSpuVO> listSeckillingSpu() {
         List<PmsSpu> entities = this.list(new LambdaQueryWrapper<PmsSpu>()
-                .select(PmsSpu::getId, PmsSpu::getName, PmsSpu::getPicUrl, PmsSpu::getPrice)
+                .select(PmsSpu::getId, PmsSpu::getName, PmsSpu::getImgUrl, PmsSpu::getPrice)
                 .orderByDesc(PmsSpu::getCreateTime)
         );
         return spuConverter.entity2SeckillingVO(entities);

@@ -47,7 +47,7 @@ public class OmsOrderItem extends BaseEntity {
     /**
      * 商品sku图片
      */
-    private String picUrl;
+    private String imgUrl;
 
     /**
      * 商品单价(单位：分)

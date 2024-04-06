@@ -15,11 +15,13 @@ import com.youlai.mall.ums.convert.AddressConvert;
 import com.youlai.mall.ums.convert.MemberConvert;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberRegisterDto;
+import com.youlai.mall.ums.dto.MemberRegisterDTO;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
 import com.youlai.mall.ums.model.entity.UmsAddress;
 import com.youlai.mall.ums.model.entity.UmsMember;
-import com.youlai.mall.ums.model.vo.MemberVo;
+import com.youlai.mall.ums.model.dto.MemberDTO;
+import com.youlai.mall.ums.model.query.MemberPageQuery;
+import com.youlai.mall.ums.model.vo.MemberPageVO;
 import com.youlai.mall.ums.service.UmsAddressService;
 import com.youlai.mall.ums.service.UmsMemberService;
 import lombok.RequiredArgsConstructor;
@@ -41,34 +43,19 @@ import java.util.Set;
 @Slf4j
 public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember> implements UmsMemberService {
 
-    private final RedisTemplate redisTemplate;
-    private final MemberConvert memberConvert;
 
-    private final AddressConvert addressConvert;
     private final UmsAddressService addressService;
+    private final MemberConvert memberConvert;
+    private final AddressConvert addressConvert;
 
+    /**
+     * 会员分页列表
+     *
+     * @return
+     */
     @Override
-    public IPage<UmsMember> list(Page<UmsMember> page, String nickname) {
-        List<UmsMember> list = this.baseMapper.list(page, nickname);
-        page.setRecords(list);
-        return page;
-    }
-
-    @Override
-    public void addProductViewHistory(ProductHistoryVO product, Long userId) {
-        if (userId != null) {
-            String key = MemberConstants.USER_PRODUCT_HISTORY + userId;
-            redisTemplate.opsForZSet().add(key, product, System.currentTimeMillis());
-            Long size = redisTemplate.opsForZSet().size(key);
-            if (size > 10) {
-                redisTemplate.opsForZSet().removeRange(key, 0, size - 11);
-            }
-        }
-    }
-
-    @Override
-    public Set<ProductHistoryVO> getProductViewHistory(Long userId) {
-        return redisTemplate.opsForZSet().reverseRange(MemberConstants.USER_PRODUCT_HISTORY + userId, 0, 9);
+    public IPage<MemberPageVO> listPagedMembers(MemberPageQuery pageQuery) {
+        return null;
     }
 
     /**
@@ -86,7 +73,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                         UmsMember::getStatus
                 )
         );
-        
+
         if (entity == null) {
             throw new BizException(ResultCode.USER_NOT_EXIST);
         }
@@ -116,17 +103,13 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     }
 
     /**
-     * 新增会员
-     *
-     * @param memberRegisterDTO
-     * @return
+     * 注册会员
      */
     @Override
-    public Long addMember(MemberRegisterDto memberRegisterDTO) {
-        UmsMember umsMember = memberConvert.dto2Entity(memberRegisterDTO);
-        boolean result = this.save(umsMember);
-        Assert.isTrue(result, "新增会员失败");
-        return umsMember.getId();
+    public Long addMember(MemberRegisterDTO registerDto) {
+        UmsMember entity = memberConvert.registerDto2Entity(registerDto);
+        boolean result = this.save(entity);
+        return entity.getId();
     }
 
     /**
@@ -135,7 +118,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * @return
      */
     @Override
-    public MemberVo getCurrMemberInfo() {
+    public MemberDTO getCurrMemberInfo() {
         Long memberId = SecurityUtils.getMemberId();
         UmsMember umsMember = this.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getId, memberId)
@@ -146,26 +129,37 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                         UmsMember::getBalance
                 )
         );
-        MemberVo memberVO = new MemberVo();
-        BeanUtil.copyProperties(umsMember, memberVO);
-        return memberVO;
+        MemberDTO memberDTO = new MemberDTO();
+        BeanUtil.copyProperties(umsMember, memberDTO);
+        return memberDTO;
     }
 
     /**
      * 获取会员地址
      *
-     * @param memberId
-     * @return
+     * @param memberId 会员ID
+     * @return 会员地址列表
      */
     @Override
     public List<MemberAddressDTO> listMemberAddress(Long memberId) {
-
-        List<UmsAddress> entities = addressService.list(
-                new LambdaQueryWrapper<UmsAddress>()
-                        .eq(UmsAddress::getMemberId, memberId)
+        List<UmsAddress> entities = addressService.list(new LambdaQueryWrapper<UmsAddress>()
+                .eq(UmsAddress::getMemberId, memberId)
         );
+        return addressConvert.entity2Dto(entities);
+    }
 
-        List<MemberAddressDTO> list = addressConvert.entity2Dto(entities);
-        return list;
+    /**
+     * 扣减会员余额
+     *
+     * @param memberId       会员ID
+     * @param deductionAmount 扣减金额(分)
+     * @return 是否扣减成功
+     */
+    @Override
+    public boolean deductMemberBalance(Long memberId, Long deductionAmount) {
+        UmsMember member = this.getById(memberId);
+       Assert.isTrue(member.getBalance() >= deductionAmount, "会员账户余额不足");
+        member.setBalance(member.getBalance() - deductionAmount);
+        return this.updateById(member);
     }
 }

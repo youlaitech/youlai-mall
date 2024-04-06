@@ -23,7 +23,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 远程调用HTTP客户端 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -31,9 +30,8 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>pms-api</artifactId>
-            <version>3.2.1</version>
-            <scope>compile</scope>
+            <artifactId>common-web</artifactId>
+            <optional>true</optional>
         </dependency>
 
     </dependencies>

@@ -1,10 +1,11 @@
 package com.youlai.mall.ums.api;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.model.vo.ProductHistoryVO;
+import com.youlai.common.web.config.FeignDecoderConfig;
+import com.youlai.mall.ums.dto.CartItemDTO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
-import com.youlai.mall.ums.dto.MemberRegisterDto;
+import com.youlai.mall.ums.dto.MemberRegisterDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,46 +17,42 @@ import java.util.List;
  * @author haoxr
  * @since 2022/11/29
  */
-@FeignClient(name = "mall-ums", contextId = "member")
+@FeignClient(name = "mall-ums", contextId = "member", configuration = {FeignDecoderConfig.class})
 public interface MemberFeignClient {
 
     /**
      * 新增会员
      *
-     * @param member
+     * @param registerDto 会员注册信息
      * @return
      */
     @PostMapping("/app-api/v1/members")
-    Result<Long> registerMember(@RequestBody MemberRegisterDto member);
+    Long registerMember(@RequestBody MemberRegisterDTO registerDto);
 
     /**
      * 获取会员的 openid
      *
-     * @return
+     * @return openid
      */
-    @PostMapping("/app-api/v1/members/{memberId}/openid")
-    Result<String> getMemberOpenId(@PathVariable Long memberId);
+    @GetMapping("/app-api/v1/members/{memberId}/openid")
+    String getMemberOpenId(@PathVariable Long memberId);
 
     /**
      * 扣减会员余额
+     *
+     * @param deductionAmount 扣减金额
      */
-    @PutMapping("/app-api/v1/members/{memberId}/balances/_deduct")
-    <T> Result<T> deductBalance(@PathVariable Long memberId, @RequestParam Long amount);
-
-    /**
-     * 添加浏览记录
-     */
-    @PostMapping("/app-api/v1/members/view/history")
-    <T> Result<T> addProductViewHistory(@RequestBody ProductHistoryVO product);
+    @PutMapping("/app-api/v1/members/balances/deduct")
+    Boolean deductMemberBalance(@RequestParam Long deductionAmount);
 
     /**
      * 根据openId获取会员认证信息
      *
-     * @param openid
-     * @return
+     * @param openid 微信公众平台唯一身份标识
+     * @return 会员认证信息
      */
     @GetMapping("/app-api/v1/members/openid/{openid}")
-    Result<MemberAuthDTO> loadUserByOpenId(@PathVariable String openid);
+    MemberAuthDTO getUserByOpenId(@PathVariable String openid);
 
     /**
      * 根据手机号获取会员认证信息
@@ -64,16 +61,20 @@ public interface MemberFeignClient {
      * @return 会员认证信息
      */
     @GetMapping("/app-api/v1/members/mobile/{mobile}")
-    Result<MemberAuthDTO> loadUserByMobile(@PathVariable String mobile);
+    MemberAuthDTO getUserByMobile(@PathVariable String mobile);
+
 
     /**
-     * 获取会员地址列表
-     *
-     * @param memberId
-     * @return
+     * 获取当前会员的地址列表
      */
-    @GetMapping("/app-api/v1/members/{memberId}/addresses")
-    Result<List<MemberAddressDTO>> listMemberAddresses(@PathVariable Long memberId);
+    @GetMapping("/app-api/v1/members/addresses")
+    List<MemberAddressDTO> getCurrentMemberAddresses();
+
+    /**
+     * 获取当前会员购物车商品列表
+     */
+    @GetMapping("/app-api/v1/cart-items")
+    List<CartItemDTO> getCurrentMemberCartItems();
 
 }
 

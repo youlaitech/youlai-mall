@@ -1,25 +1,23 @@
-package com.youlai.mall.ums.model.entity;
+package com.youlai.mall.ums.model.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.youlai.common.base.BaseEntity;
+import com.youlai.mall.ums.model.entity.UmsAddress;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * 会员实体类
+ * 会员分页对象
  *
  * @author Ray Hao
  * @since 2022/2/12
  */
+@Schema(description = "会员分页对象")
 @Data
-public class UmsMember extends BaseEntity {
-
-    @TableId(type = IdType.AUTO)
+public class MemberPageVO  {
+    @Schema(description="会员ID")
     private Long id;
 
     private Integer gender;
@@ -31,10 +29,6 @@ public class UmsMember extends BaseEntity {
     private LocalDate birthday;
 
     private String avatarUrl;
-
-    private String openid;
-
-    private String sessionKey;
 
     private String city;
 
@@ -48,9 +42,6 @@ public class UmsMember extends BaseEntity {
 
     private Long balance;
 
-    @TableLogic(delval = "1", value = "0")
-    private Integer deleted;
-
-    private Integer point;
+    private List<UmsAddress> addressList;
 
 }

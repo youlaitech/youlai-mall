@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.constant.ProductConstants;
 import com.youlai.mall.pms.converter.SkuConverter;
 import com.youlai.mall.pms.mapper.PmsSkuMapper;
+import com.youlai.mall.pms.model.bo.SkuInfoBo;
 import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDto;
 import com.youlai.mall.pms.model.entity.PmsSku;
@@ -55,9 +56,8 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
      */
     @Override
     public List<SkuInfoDto> listSkuInfos(List<Long> skuIds) {
-        List<PmsSku> list = this.list(new LambdaQueryWrapper<PmsSku>()
-                .in(PmsSku::getId, skuIds));
-        return skuConverter.entity2SkuInfoDto(list);
+        List<SkuInfoBo> boList = this.baseMapper.listSkuInfos(skuIds);
+        return skuConverter.skuInfoBo2Dto(boList);
     }
 
     /**

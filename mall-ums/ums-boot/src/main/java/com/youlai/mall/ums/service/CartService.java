@@ -1,7 +1,7 @@
 package com.youlai.mall.ums.service;
 
 
-import com.youlai.mall.ums.model.vo.CartItemVo;
+import com.youlai.mall.ums.dto.CartItemDTO;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface CartService {
      * @param memberId 会员ID
      * @return 购物车列表
      */
-    List<CartItemVo> listCartItems(Long memberId);
+    List<CartItemDTO> listCartItems(Long memberId);
 
     /**
      * 清空当前会员的购物车
@@ -29,10 +29,10 @@ public interface CartService {
     /**
      * 添加商品至购物车
      *
-     * @param skuId 商品库存ID
+     * @param skuId    商品库存ID
      * @param quantity 商品数量
      */
-    void addCartItem(Long skuId,Integer quantity);
+    void addCartItem(Long skuId, Integer quantity);
 
 
     /**
@@ -40,8 +40,16 @@ public interface CartService {
      */
     void removeCartItem(Long skuId);
 
-    void removeCheckedItem();
+    /**
+     * 删除选中的购物车商品
+     * <p>
+     * 订单支付成功，删除购物车中已选中的商品
+     */
+    void removeCheckedCartItems(Long memberId);
 
+    /**
+     * 切换购物车商品选中状态(全选/全不选)
+     */
     void toggleCheckAllItems(boolean checked);
 
 }

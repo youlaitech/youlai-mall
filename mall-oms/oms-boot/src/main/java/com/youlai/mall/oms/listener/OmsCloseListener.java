@@ -2,6 +2,7 @@ package com.youlai.mall.oms.listener;
 
 
 import com.rabbitmq.client.Channel;
+import com.youlai.common.rabbitmq.constant.RabbitMqConstants;
 import com.youlai.mall.oms.service.app.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,17 +22,6 @@ import java.io.IOException;
 @Slf4j
 public class OmsCloseListener {
     private final OrderService orderService;
-
-    // 延迟队列
-    private static final String ORDER_CLOSE_DELAY_QUEUE = "order.close.delay.queue";
-    private static final String ORDER_EXCHANGE = "order.exchange";
-    private static final String ORDER_CLOSE_DELAY_ROUTING_KEY = "order.close.delay";
-
-    // 关单队列
-    private static final String ORDER_ClOSE_QUEUE = "order.close.queue";
-    private static final String ORDER_DLX_EXCHANGE = "order.dlx.exchange";
-    private static final String ORDER_ClOSE_ROUTING_KEY = "order.close";
-
     /**
      * 延迟队列
      * <p>
@@ -40,15 +30,15 @@ public class OmsCloseListener {
     @RabbitListener(bindings =
             {
                     @QueueBinding(
-                            value = @Queue(value = ORDER_CLOSE_DELAY_QUEUE,
+                            value = @Queue(value = RabbitMqConstants.ORDER_CLOSE_DELAY_QUEUE,
                                     arguments =
                                             {
-                                                    @Argument(name = "x-dead-letter-exchange", value = ORDER_DLX_EXCHANGE),
-                                                    @Argument(name = "x-dead-letter-routing-key", value = ORDER_ClOSE_ROUTING_KEY),
+                                                    @Argument(name = "x-dead-letter-exchange", value =  RabbitMqConstants.ORDER_DLX_EXCHANGE),
+                                                    @Argument(name = "x-dead-letter-routing-key", value =  RabbitMqConstants.ORDER_ClOSE_ROUTING_KEY),
                                                     @Argument(name = "x-message-ttl", value = "10000", type = "java.lang.Long") // 超时10s
                                             }),
-                            exchange = @Exchange(value = ORDER_EXCHANGE),
-                            key = {ORDER_CLOSE_DELAY_ROUTING_KEY}
+                            exchange = @Exchange(value =  RabbitMqConstants.ORDER_EXCHANGE),
+                            key = { RabbitMqConstants.ORDER_CLOSE_DELAY_ROUTING_KEY}
                     )
             }, ackMode = "MANUAL" // 手动ACK
     )
@@ -68,13 +58,13 @@ public class OmsCloseListener {
      */
     @RabbitListener(bindings = {
             @QueueBinding(
-                    value = @Queue(value = ORDER_ClOSE_QUEUE, durable = "true"),
-                    exchange = @Exchange(value = ORDER_DLX_EXCHANGE),
-                    key = {ORDER_ClOSE_ROUTING_KEY}
+                    value = @Queue(value =  RabbitMqConstants.ORDER_ClOSE_QUEUE, durable = "true"),
+                    exchange = @Exchange(value =  RabbitMqConstants.ORDER_DLX_EXCHANGE),
+                    key = { RabbitMqConstants.ORDER_ClOSE_ROUTING_KEY}
             )
     }, ackMode = "MANUAL" // 手动ACK
     )
-    @RabbitListener(queues = "order.close.queue")
+    @RabbitListener(queues = RabbitMqConstants.ORDER_ClOSE_QUEUE)
     public void handleOrderClose(String orderSn, Message message, Channel channel) throws IOException {
 
         long deliveryTag = message.getMessageProperties().getDeliveryTag(); // 消息序号

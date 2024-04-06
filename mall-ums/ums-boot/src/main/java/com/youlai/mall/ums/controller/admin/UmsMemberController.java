@@ -2,11 +2,12 @@ package com.youlai.mall.ums.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.ums.model.entity.UmsMember;
+import com.youlai.mall.ums.model.query.MemberPageQuery;
+import com.youlai.mall.ums.model.vo.MemberPageVO;
 import com.youlai.mall.ums.service.UmsMemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,14 +27,10 @@ public class UmsMemberController {
     private final UmsMemberService memberService;
 
     @Operation(summary= "会员分页列表")
-    @GetMapping
-    public PageResult<UmsMember> getMemberPage(
-            @Parameter(name = "页码") Long pageNum,
-            @Parameter(name = "每页数量") Long pageSize,
-            @Parameter(name = "会员昵称") String nickName
-    ) {
-        IPage<UmsMember> result = memberService.list(new Page<>(pageNum, pageSize), nickName);
-        return PageResult.success(result);
+    @GetMapping("/page")
+    public PageResult<MemberPageVO> listPagedMembers(MemberPageQuery pageQuery) {
+        IPage<MemberPageVO> page = memberService.listPagedMembers(pageQuery);
+        return PageResult.success(page);
     }
 
     @Operation(summary= "修改会员")

@@ -50,11 +50,6 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>ums-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-mybatis</artifactId>
         </dependency>
 
@@ -81,6 +76,21 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-apidoc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-rabbitmq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>ums-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>pms-api</artifactId>
         </dependency>
 
     </dependencies>

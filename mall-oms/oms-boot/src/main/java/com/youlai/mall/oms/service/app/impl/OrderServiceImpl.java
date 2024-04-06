@@ -20,18 +20,16 @@ import com.github.binarywang.wxpay.bean.result.enums.TradeTypeEnum;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
-import com.youlai.common.result.Result;
+import com.youlai.common.rabbitmq.constant.RabbitMqConstants;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.config.WxPayProperties;
 import com.youlai.mall.oms.constant.OrderConstants;
 import com.youlai.mall.oms.converter.OrderConverter;
-import com.youlai.mall.oms.converter.OrderItemConverter;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.PaymentMethodEnum;
 import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.model.bo.OrderBO;
-import com.youlai.mall.oms.model.dto.CartItemDto;
 import com.youlai.mall.oms.model.dto.OrderItemDTO;
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.entity.OmsOrderItem;
@@ -40,13 +38,13 @@ import com.youlai.mall.oms.model.form.OrderSubmitForm;
 import com.youlai.mall.oms.model.query.OrderPageQuery;
 import com.youlai.mall.oms.model.vo.OrderConfirmVO;
 import com.youlai.mall.oms.model.vo.OrderPageVO;
-import com.youlai.mall.oms.service.app.CartService;
 import com.youlai.mall.oms.service.app.OrderItemService;
 import com.youlai.mall.oms.service.app.OrderService;
 import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDto;
 import com.youlai.mall.ums.api.MemberFeignClient;
+import com.youlai.mall.ums.dto.CartItemDTO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +79,6 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements OrderService {
 
     private final WxPayProperties wxPayProperties;
-    private final CartService cartService;
     private final OrderItemService orderItemService;
     private final RabbitTemplate rabbitTemplate;
     private final StringRedisTemplate redisTemplate;
@@ -91,7 +88,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private final WxPayService wxPayService;
     private final RedissonClient redissonClient;
     private final OrderConverter orderConverter;
-    private final OrderItemConverter orderItemConverter;
 
     /**
      * 订单分页列表
@@ -124,23 +120,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         // 获取订单商品
         CompletableFuture<List<OrderItemDTO>> getOrderItemsFuture = CompletableFuture.supplyAsync(
-                        () -> this.getOrderItems(skuId, memberId), threadPoolExecutor)
+                        () -> this.getOrderItems(skuId), threadPoolExecutor)
                 .exceptionally(ex -> {
                     log.error("Failed to get order items: {}", ex.toString());
                     return Collections.emptyList();
                 });
 
         // 用户收货地址
-        CompletableFuture<List<MemberAddressDTO>> getMemberAddressFuture = CompletableFuture.supplyAsync(() -> {
-            Result<List<MemberAddressDTO>> getMemberAddressResult = memberFeignClient.listMemberAddresses(memberId);
-            if (Result.isSuccess(getMemberAddressResult)) {
-                return getMemberAddressResult.getData();
-            }
-            return null;
-        }, threadPoolExecutor).exceptionally(ex -> {
-            log.error("Failed to get addresses for memberId {} : {}", memberId, ex.toString());
-            return Collections.emptyList();
-        });
+        CompletableFuture<List<MemberAddressDTO>> getMemberAddressFuture = CompletableFuture.supplyAsync(
+                        memberFeignClient::getCurrentMemberAddresses, threadPoolExecutor)
+                .exceptionally(ex -> {
+                    log.error("Failed to get addresses for memberId {} : {}", memberId, ex.toString());
+                    return Collections.emptyList();
+                });
 
         // 生成唯一令牌,防止重复提交(原理：提交会消耗令牌，令牌被消耗无法再次提交)
         CompletableFuture<String> generateOrderTokenFuture = CompletableFuture.supplyAsync(() -> {
@@ -200,12 +192,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                     .findFirst()
                     .orElse(null);
             Assert.isTrue(skuInfo != null, "商品({})已下架或删除");
-            Assert.isTrue(item.getPrice().compareTo(skuInfo.getPrice()) == 0, "商品({})价格发生变动，请刷新页面", item.getSkuName());
+            Assert.isTrue(item.getSkuPrice().compareTo(skuInfo.getPrice()) == 0, "商品({})价格发生变动，请刷新页面", item.getSkuName());
         }
 
         // 3. 校验库存并锁定库存
         List<LockSkuDTO> lockSkuList = orderItems.stream()
-                .map(item -> new LockSkuDTO(item.getSkuId(), item.getQuantity()))
+                .map(item -> new LockSkuDTO(item.getSkuId(), item.getSkuQuantity()))
                 .collect(Collectors.toList());
 
         boolean lockStockResult = skuFeignClient.lockStock(orderToken, lockSkuList);
@@ -222,26 +214,33 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * 创建订单
      *
      * @param submitForm 订单提交表单对象
-     * @return
+     * @return 是否成功
      */
     private boolean saveOrder(OrderSubmitForm submitForm) {
+        // 保存订单
         OmsOrder order = orderConverter.form2Entity(submitForm);
-        order.setStatus(OrderStatusEnum.UNPAID.getValue());
+        order.setStatus(OrderStatusEnum.UNPAID.getValue()); // 待支付
         order.setMemberId(SecurityUtils.getMemberId());
         order.setSource(submitForm.getOrderSource().getValue());
         boolean result = this.save(order);
 
-        Long orderId = order.getId();
         if (result) {
+            // 保存订单总得商品明细
+            List<OrderSubmitForm.OrderItem> formOrderItems = submitForm.getOrderItems();
+            List<OmsOrderItem> orderItems = formOrderItems.stream().map(formOrderItem -> {
+                        OmsOrderItem entity = new OmsOrderItem();
+                        BeanUtil.copyProperties(formOrderItem, entity);
+                        entity.setTotalAmount(formOrderItem.getSkuPrice() * formOrderItem.getSkuQuantity());
+                        entity.setOrderId(order.getId());
+                        return entity;
+                    }
+            ).toList();
+            result = orderItemService.saveBatch(orderItems);
 
-            // 保存订单明细
-            List<OmsOrderItem> orderItemEntities = orderItemConverter.item2Entity(submitForm.getOrderItems());
-            orderItemEntities.forEach(item -> item.setOrderId(orderId));
-
-            orderItemService.saveBatch(orderItemEntities);
-
-            // 订单超时未支付取消
-            rabbitTemplate.convertAndSend("order.exchange", "order.close.delay", submitForm.getOrderToken());
+            if (result) {
+                // 发送RabbitMQ消息处理订单超时未支付
+                rabbitTemplate.convertAndSend(RabbitMqConstants.ORDER_EXCHANGE, RabbitMqConstants.ORDER_CLOSE_DELAY_QUEUE, submitForm.getOrderToken());
+            }
         }
         return result;
     }
@@ -258,9 +257,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     public <T> T payOrder(OrderPaymentForm paymentForm) {
         String orderSn = paymentForm.getOrderSn();
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSn));
-        Assert.isTrue(order != null, "订单不存在");
-
-        Assert.isTrue(OrderStatusEnum.UNPAID.getValue().equals(order.getStatus()), "订单不可支付，请检查订单状态");
+        Assert.isTrue(order != null && OrderStatusEnum.UNPAID.getValue().equals(order.getStatus()), "订单不存在或已支付");
 
         RLock lock = redissonClient.getLock(OrderConstants.ORDER_LOCK_PREFIX + order.getOrderSn());
         try {
@@ -287,27 +284,29 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     /**
      * 余额支付
      *
-     * @param order
-     * @return
+     * @param order 订单
+     * @return 是否成功
      */
     private Boolean balancePay(OmsOrder order) {
         // 扣减余额
-        Long memberId = order.getMemberId();
-        Long payAmount = order.getPaymentAmount();
-        Result<?> deductBalanceResult = memberFeignClient.deductBalance(memberId, payAmount);
-        Assert.isTrue(Result.isSuccess(deductBalanceResult), "扣减账户余额失败");
+        boolean balanceDeducted = memberFeignClient.deductMemberBalance(order.getPaymentAmount());
+        Assert.isTrue(balanceDeducted, "订单支付失败：余额扣减失败！");
 
         // 扣减库存
-        skuFeignClient.deductStock(order.getOrderSn());
+        boolean stockDeducted = skuFeignClient.deductStock(order.getOrderSn());
+        Assert.isTrue(stockDeducted, "订单支付失败：库存扣减失败！");
 
         // 更新订单状态
         order.setStatus(OrderStatusEnum.PAID.getValue());
         order.setPaymentMethod(PaymentMethodEnum.BALANCE.getValue());
         order.setPaymentTime(new Date());
-        this.updateById(order);
-        // 支付成功删除购物车已勾选的商品
-        cartService.removeCheckedItem();
-        return Boolean.TRUE;
+        boolean result = this.updateById(order);
+        if (result) {
+            // 支付成功删除购物车已勾选的商品
+            rabbitTemplate
+                    .convertAndSend(RabbitMqConstants.CART_EXCHANGE, RabbitMqConstants.CART_REMOVE_ROUTING_KEY, order.getOrderSn());
+        }
+        return result;
     }
 
 
@@ -337,7 +336,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 .eq(OmsOrder::getOrderSn, orderSn)
         );
 
-        String memberOpenId = memberFeignClient.getMemberOpenId(memberId).getData();
+        String openId = memberFeignClient.getMemberOpenId(memberId);
 
         WxPayUnifiedOrderV3Request wxRequest = new WxPayUnifiedOrderV3Request()
                 .setAppid(appId)
@@ -348,7 +347,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 )
                 .setPayer(
                         new WxPayUnifiedOrderV3Request.Payer()
-                                .setOpenid(memberOpenId)
+                                .setOpenid(openId)
                 )
                 .setDescription("赅买-订单编号：" + orderSn)
                 .setNotifyUrl(wxPayProperties.getPayNotifyUrl());
@@ -417,8 +416,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             this.updateById(orderDO);
         }
         log.info("账单更新成功");
+
         // 支付成功删除购物车已勾选的商品
-        cartService.removeCheckedItem();
+        rabbitTemplate
+                .convertAndSend(RabbitMqConstants.CART_EXCHANGE, RabbitMqConstants.CART_REMOVE_ROUTING_KEY, orderDO.getOrderSn());
     }
 
     @Override
@@ -447,9 +448,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * 创建订单两种方式，1：直接购买；2：购物车结算
      *
      * @param skuId 直接购买必有值，购物车结算必没值
-     * @return
+     * @return 订单商品明细列表
      */
-    private List<OrderItemDTO> getOrderItems(Long skuId, Long memberId) {
+    private List<OrderItemDTO> getOrderItems(Long skuId) {
         List<OrderItemDTO> orderItems;
         if (skuId != null) {  // 直接购买
             orderItems = new ArrayList<>();
@@ -460,10 +461,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderItemDTO.setSkuId(skuInfoDTO.getId());
             orderItemDTO.setQuantity(1); // 直接购买商品的数量为1
             orderItems.add(orderItemDTO);
-        } else { // 购物车结算
-            List<CartItemDto> cartItems = cartService.listCartItems(memberId);
+        } else { // 购物车点击“结算”获取订单明细
+            List<CartItemDTO> cartItems = memberFeignClient.getCurrentMemberCartItems();
             orderItems = cartItems.stream()
-                    .filter(CartItemDto::getChecked)
+                    .filter(CartItemDTO::getChecked)
                     .map(cartItem -> {
                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                         BeanUtil.copyProperties(cartItem, orderItemDTO);

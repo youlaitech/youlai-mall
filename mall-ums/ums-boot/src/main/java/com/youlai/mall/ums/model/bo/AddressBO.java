@@ -1,20 +1,13 @@
-package com.youlai.mall.ums.model.entity;
+package com.youlai.mall.ums.model.bo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
-/**
- * 会员地址实体类
- *
- * @author Ray Hao
- * @since 2022/2/12
- */
 @Data
-public class UmsAddress extends BaseEntity {
+public class AddressBO {
 
-    @TableId(type = IdType.AUTO)
+    /**
+     * 地址ID
+     */
     private Long id;
 
     /**
@@ -61,5 +54,4 @@ public class UmsAddress extends BaseEntity {
      * 是否默认地址(1:是；0:否)
      */
     private Integer defaulted;
-
 }

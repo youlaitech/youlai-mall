@@ -9,8 +9,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient()
 @EnableFeignClients(basePackageClasses = {  SkuFeignClient.class})
-public class MemberApplication {
+public class UmsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MemberApplication.class, args);
+        SpringApplication.run(UmsApplication.class, args);
     }
 }

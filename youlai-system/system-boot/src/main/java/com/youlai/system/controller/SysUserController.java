@@ -50,10 +50,10 @@ public class SysUserController {
 
     @Operation(summary = "用户分页列表")
     @GetMapping("/page")
-    public PageResult<UserPageVO> getUserPage(
+    public PageResult<UserPageVO> listPagedUsers(
             @ParameterObject UserPageQuery queryParams
     ) {
-        IPage<UserPageVO> result = userService.getUserPage(queryParams);
+        IPage<UserPageVO> result = userService.listPagedUsers(queryParams);
         return PageResult.success(result);
     }
 

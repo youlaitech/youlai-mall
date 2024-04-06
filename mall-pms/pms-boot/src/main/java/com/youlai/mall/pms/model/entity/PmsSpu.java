@@ -33,7 +33,7 @@ public class PmsSpu extends BaseEntity {
 
     private Integer sales;
 
-    private String picUrl;
+    private String imgUrl;
 
     private String[] album;
 

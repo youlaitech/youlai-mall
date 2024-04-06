@@ -1,6 +1,7 @@
 package com.youlai.mall.oms.listener;
 
 import com.rabbitmq.client.Channel;
+import com.youlai.common.rabbitmq.constant.RabbitMqConstants;
 import com.youlai.mall.oms.service.app.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class OrderCloseListener {
     private final OrderService orderService;
     private final RabbitTemplate rabbitTemplate;
 
-    @RabbitListener(queues = "order.close.queue")
+    @RabbitListener(queues =RabbitMqConstants.ORDER_ClOSE_QUEUE)
     public void closeOrder(String orderSn, Message message, Channel channel) {
 
         long deliveryTag = message.getMessageProperties().getDeliveryTag(); // 消息序号（消息队列中的位置）
@@ -35,7 +36,7 @@ public class OrderCloseListener {
             log.info("关单结果：{}", closeOrderResult);
             if (closeOrderResult) {
                 // 关单成功：释放库存
-                rabbitTemplate.convertAndSend("stock.exchange", "stock.unlock", orderSn);
+                rabbitTemplate.convertAndSend(RabbitMqConstants.STOCK_RELEASE_QUEUE, RabbitMqConstants.STOCK_RELEASE_ROUTING_KEY, orderSn);
             } else {
                 // 关单失败：订单已被关闭，手动ACK确认并从队列移除消息
                 channel.basicAck(deliveryTag, false); // false: 不批量确认，仅确认当前单个消息

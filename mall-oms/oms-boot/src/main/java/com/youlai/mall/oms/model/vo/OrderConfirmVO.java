@@ -3,7 +3,6 @@ package com.youlai.mall.oms.model.vo;
 import com.youlai.mall.oms.model.dto.OrderItemDTO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
  import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;

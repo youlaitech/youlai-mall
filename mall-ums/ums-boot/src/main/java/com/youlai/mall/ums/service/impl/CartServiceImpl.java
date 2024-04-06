@@ -4,9 +4,10 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.pms.api.SkuFeignClient;
+import com.youlai.mall.pms.model.dto.SkuInfoDto;
 import com.youlai.mall.ums.convert.CartConverter;
 import com.youlai.mall.ums.model.dto.CartItemCache;
-import com.youlai.mall.ums.model.vo.CartItemVo;
+import com.youlai.mall.ums.dto.CartItemDTO;
 import com.youlai.mall.ums.service.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 购物车模块
@@ -33,7 +36,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
-    private final RedisTemplate<String, CartItemVo> redisTemplate;
+    private final RedisTemplate<String, CartItemDTO> redisTemplate;
     private final SkuFeignClient skuFeignClient;
     private final CartConverter cartConverter;
 
@@ -41,24 +44,38 @@ public class CartServiceImpl implements CartService {
      * 获取用户购物车列表
      */
     @Override
-    public List<CartItemVo> listCartItems(Long memberId) {
+    public List<CartItemDTO> listCartItems(Long memberId) {
         if (memberId == null) {
             return Collections.emptyList();
         }
         BoundHashOperations<String, String, CartItemCache> cartOperations = getCartHashOps(memberId);
         List<CartItemCache> cartItemCaches = cartOperations.values();
-        if(CollectionUtil.isEmpty(cartItemCaches)){
+        if (CollectionUtil.isEmpty(cartItemCaches)) {
             return Collections.emptyList();
         }
 
-        List<CartItemVo> list = cartConverter.cartItemCacheToVo(cartItemCaches);
-        List<Long> skuIds=  list.stream().map(CartItemVo::getSkuId).toList();
+        List<CartItemDTO> cartItems = cartConverter.cartItemCacheToVo(cartItemCaches);
 
-        skuFeignClient.listSkuInfoByIds(skuIds);
+        // 动态获取商品信息(实时商品价格、库存、图片)到购物车列表
+        List<Long> skuIds = cartItems.stream().map(CartItemDTO::getSkuId).toList();
+        List<SkuInfoDto> skuList = skuFeignClient.listSkuInfoByIds(skuIds);
 
 
+        // 创建SKU ID到SkuInfoDto的映射，以优化查找性能
+        Map<Long, SkuInfoDto> skuIdToSkuInfoMap = skuList.stream()
+                .collect(Collectors.toMap(SkuInfoDto::getId, Function.identity()));
 
-        return list;
+        // 为每个购物车项更新实时信息
+        cartItems.forEach(cartItem -> {
+            SkuInfoDto skuInfoDto = skuIdToSkuInfoMap.get(cartItem.getSkuId());
+            if (skuInfoDto != null) {
+                cartItem.setStock(skuInfoDto.getStock());
+                cartItem.setPrice(skuInfoDto.getPrice());
+                cartItem.setImgUrl(skuInfoDto.getImgUrl());
+                cartItem.setSpuName(skuInfoDto.getSpuName());
+            }
+        });
+        return cartItems;
     }
 
     /**
@@ -78,12 +95,12 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations<String, String, CartItemCache> cartHashOps = redisTemplate.boundHashOps(buildCartKey(memberId));
 
         String hKey = skuId + "";
-        
+
         CartItemCache cartItemCache = cartHashOps.get(hKey);
         // 购物车已存在该商品，更新商品数量
         if (cartItemCache != null) {
             cartItemCache.setQuantity(cartItemCache.getQuantity() + quantity);
-            cartItemCache.setChecked(true); 
+            cartItemCache.setChecked(true);
         } else {
             // 购物车中不存在该商品，新增商品到购物车
             cartItemCache = new CartItemCache();
@@ -100,48 +117,48 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeCartItem(Long skuId) {
         Long memberId = SecurityUtils.getMemberId();
-        BoundHashOperations<String,String,CartItemCache> cartHashOps = getCartHashOps(memberId);
+        BoundHashOperations<String, String, CartItemCache> cartHashOps = getCartHashOps(memberId);
         cartHashOps.delete(skuId);
     }
 
-
     /**
-     * 切换购物车中所有商品的选中状态
-     */
-    @Override
-    public void toggleCheckAllItems(boolean checked) {
-        Long memberId= SecurityUtils.getMemberId();
-        BoundHashOperations<String,String,CartItemCache> cartHashOps = getCartHashOps(memberId);
-
-        List<CartItemCache> cartItemCaches = cartHashOps.values();
-        if(CollectionUtil.isNotEmpty(cartItemCaches)){
-            cartItemCaches.forEach(cartItemCache -> {
-                cartItemCache.setChecked(checked);
-                cartHashOps.put(cartItemCache.getSkuId()+"",cartItemCache);
-            });
-        }
-    }
-
-
-    /**
-     * 移除购物车选中的商品
+     * 删除选中的购物车商品
      * <p>
-     * 1.支付后删除购物车的商品
+     * 订单支付成功，删除购物车中已选中的商品
      */
     @Override
-    public void removeCheckedItem() {
-        Long memberId = SecurityUtils.getMemberId();
-        BoundHashOperations<String,String,CartItemCache> cartHashOps = getCartHashOps(memberId);
+    public void removeCheckedCartItems(Long memberId) {
+        BoundHashOperations<String, String, CartItemCache> cartHashOps = getCartHashOps(memberId);
 
         List<CartItemCache> cartItemCaches = cartHashOps.values();
-        if(CollectionUtil.isNotEmpty(cartItemCaches)){
+        if (CollectionUtil.isNotEmpty(cartItemCaches)) {
             cartItemCaches.forEach(cartItemCache -> {
-                if(cartItemCache.getChecked()){
-                    cartHashOps.delete(cartItemCache.getSkuId()+"");
+                if (cartItemCache.getChecked()) {
+                    cartHashOps.delete(cartItemCache.getSkuId() + "");
                 }
             });
         }
     }
+
+
+    /**
+     * 切换购物车商品选中状态(全选/全不选)
+     */
+    @Override
+    public void toggleCheckAllItems(boolean checked) {
+        Long memberId = SecurityUtils.getMemberId();
+        BoundHashOperations<String, String, CartItemCache> cartHashOps = getCartHashOps(memberId);
+
+        List<CartItemCache> cartItemCaches = cartHashOps.values();
+        if (CollectionUtil.isNotEmpty(cartItemCaches)) {
+            cartItemCaches.forEach(cartItemCache -> {
+                cartItemCache.setChecked(checked);
+                cartHashOps.put(cartItemCache.getSkuId() + "", cartItemCache);
+            });
+        }
+    }
+
+
 
     /**
      * 获取购物车的Hash操作对象

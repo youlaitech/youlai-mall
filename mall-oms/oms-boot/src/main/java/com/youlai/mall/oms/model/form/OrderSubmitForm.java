@@ -83,16 +83,16 @@ public class OrderSubmitForm {
         private String skuName;
 
         @Schema(description = "商品图片URL")
-        private String picUrl;
+        private String imgUrl;
 
         @Schema(description = "商品价格(单位:分)")
-        private Long price;
+        private Long skuPrice;
 
         @Schema(description = "商品名称")
         private String spuName;
 
         @Schema(description = "商品数量")
-        private Integer quantity;
+        private Integer skuQuantity;
     }
 
 
