@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/app-api/v1/addresses")
 @RequiredArgsConstructor
-public class AddressController {
+public class AppAddressController {
 
     private final UmsAddressService addressService;
 

@@ -3,33 +3,33 @@ package com.youlai.mall.ums.controller.app;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.mall.pms.model.vo.ProductHistoryVO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberRegisterDTO;
-import com.youlai.mall.ums.model.entity.UmsMember;
 import com.youlai.mall.ums.model.dto.MemberDTO;
+import com.youlai.mall.ums.model.entity.UmsMember;
 import com.youlai.mall.ums.service.UmsMemberService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Tag(name = "App-会员管理")
 @RestController
 @RequestMapping("/app-api/v1/members")
 @RequiredArgsConstructor
-public class MemberController {
+public class AppMemberController {
 
     private final UmsMemberService memberService;
 
-    @Operation(summary = "根据会员ID获取 OpenId")
+    @Operation(summary = "根据会员ID获取OpenId")
     @GetMapping("/{memberId}/openid")
-    public Result<String> getMemberOpenId(@Parameter(name = "会员ID") @PathVariable Long memberId) {
+    public Result<String> getMemberOpenId(
+            @Parameter(name = "会员ID") @PathVariable Long memberId
+    ) {
         UmsMember member = memberService.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getId, memberId)
                 .select(UmsMember::getOpenid));
@@ -62,7 +62,7 @@ public class MemberController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "根据 openid 获取会员认证信息", hidden = true)
+    @Operation(summary = "根据OpenId获取会员认证信息", hidden = true)
     @GetMapping("/openid/{openid}")
     public Result<MemberAuthDTO> getMemberByOpenid(@Parameter(name = "微信唯一身份标识") @PathVariable String openid) {
         MemberAuthDTO memberAuthInfo = memberService.getMemberByOpenid(openid);
@@ -84,23 +84,6 @@ public class MemberController {
         Long memberId = SecurityUtils.getMemberId();
         List<MemberAddressDTO> addresses = memberService.listMemberAddress(memberId);
         return Result.success(addresses);
-    }
-
-    @Operation(summary = "添加浏览历史")
-    @PostMapping("/view/history")
-    public <T> Result<T> addProductViewHistory(@RequestBody ProductHistoryVO product) {
-        Long memberId = SecurityUtils.getMemberId();
-        memberService.addProductViewHistory(product, memberId);
-        return Result.success();
-    }
-
-    @Operation(summary = "获取浏览历史")
-    @GetMapping("/view/history")
-    public Result<Set<ProductHistoryVO>> getProductViewHistory() {
-        Long memberId = SecurityUtils.getMemberId();
-        Set<ProductHistoryVO> historyList = memberService.getProductViewHistory(memberId);
-        return Result.success(historyList);
-
     }
 
 }

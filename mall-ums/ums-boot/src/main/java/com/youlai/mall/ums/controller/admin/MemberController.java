@@ -22,13 +22,13 @@ import java.util.Arrays;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
-public class UmsMemberController {
+public class MemberController {
 
     private final UmsMemberService memberService;
 
     @Operation(summary= "会员分页列表")
     @GetMapping("/page")
-    public PageResult<MemberPageVO> listPagedMembers(MemberPageQuery pageQuery) {
+    public PageResult<MemberPageVO> getMemberPage(MemberPageQuery pageQuery) {
         IPage<MemberPageVO> page = memberService.listPagedMembers(pageQuery);
         return PageResult.success(page);
     }
