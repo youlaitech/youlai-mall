@@ -9,8 +9,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.pms.model.vo.ProductHistoryVO;
-import com.youlai.common.constant.MemberConstants;
 import com.youlai.mall.ums.convert.AddressConvert;
 import com.youlai.mall.ums.convert.MemberConvert;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
@@ -27,11 +25,9 @@ import com.youlai.mall.ums.service.UmsAddressService;
 import com.youlai.mall.ums.service.UmsMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 会员业务实现类
@@ -52,27 +48,22 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     /**
      * 会员分页列表
      *
-     * @return
+     * @return 会员分页列表
      */
     @Override
     public IPage<MemberPageVO> listPagedMembers(MemberPageQuery queryParams) {
-        int pageNum = queryParams.getPageNum();
-        int pageSize = queryParams.getPageSize();
-        Page<MemberBO> page = new Page<>(pageNum, pageSize);
-
-        // 查询数据
-        Page<MemberBO> memberBoPage = this.baseMapper.listPagedMembers(page, queryParams);
-
-
-
-        return null;
+        Page<MemberBO> boPage = this.baseMapper.listPagedMembers(
+                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+                queryParams
+        );
+        return memberConvert.bo2PageVo(boPage);
     }
 
     /**
      * 根据 openid 获取会员认证信息
      *
      * @param openid 微信唯一身份标识
-     * @return
+     * @return 会员认证信息
      */
     @Override
     public MemberAuthDTO getMemberByOpenid(String openid) {
@@ -93,8 +84,8 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     /**
      * 根据手机号获取会员认证信息
      *
-     * @param mobile
-     * @return
+     * @param mobile 手机号
+     * @return 会员认证信息
      */
     @Override
     public MemberAuthDTO getMemberByMobile(String mobile) {
@@ -119,13 +110,12 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     public Long addMember(MemberRegisterDTO registerDto) {
         UmsMember entity = memberConvert.registerDto2Entity(registerDto);
         boolean result = this.save(entity);
+        Assert.isTrue(result, "注册新增会员失败");
         return entity.getId();
     }
 
     /**
-     * 获取登录会员信息
-     *
-     * @return
+     * 获取当前登录会员信息
      */
     @Override
     public MemberDTO getCurrMemberInfo() {

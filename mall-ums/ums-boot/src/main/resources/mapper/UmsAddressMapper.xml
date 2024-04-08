@@ -6,17 +6,17 @@
 
     <!-- 根据会员ID获取地址列表 -->
     <select id="listAddressesByMemberId" resultType="com.youlai.mall.ums.model.bo.AddressBO">
-
         SELECT
             id,
             member_id,
-            consignee_name,
-            consignee_mobile,
+            recipient_name ,
+            recipient_mobile,
             province,
             city,
-            area,
-            detail_address,
-            zip_code,
+            district,
+            street,
+            postal_code,
+            is_default,
             create_time
         FROM
             ums_address

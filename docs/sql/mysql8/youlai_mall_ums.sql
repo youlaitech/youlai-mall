@@ -1,5 +1,5 @@
 
-use mall_ums;
+use youlai_mall_ums;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

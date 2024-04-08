@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class OrderControllerTest {
+public class AppOrderControllerTest {
 
 
     @Autowired
@@ -144,12 +144,12 @@ public class OrderControllerTest {
         // submitForm - 商品列表
         OrderSubmitForm.OrderItem orderItem = new OrderSubmitForm.OrderItem();
         orderItem.setSkuId(skuId);
-        orderItem.setQuantity(1);
+        orderItem.setSkuQuantity(1);
         orderItem.setSkuName("REDMI K60 16G+1T");
         orderItem.setSkuSn("sn001");
         orderItem.setSpuName("REDMI K60");
-        orderItem.setPrice(399900L);
-        orderItem.setPicUrl("https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png");
+        orderItem.setSkuPrice(399900L);
+        orderItem.setImgUrl("https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png");
         submitForm.setOrderItems(Arrays.asList(orderItem));
         // submitForm - 收货地址
         OrderSubmitForm.ShippingAddress shippingAddress = new OrderSubmitForm.ShippingAddress();
@@ -163,7 +163,7 @@ public class OrderControllerTest {
 
         // submitForm - 订单信息
         submitForm.setOrderToken(orderToken);
-        submitForm.setPaymentAmount(orderItem.getPrice() * 1);
+        submitForm.setPaymentAmount(orderItem.getSkuPrice() * 1);
         submitForm.setOrderSource(OrderSourceEnum.APP);
         submitForm.setRemark("单元测试生成订单");
 

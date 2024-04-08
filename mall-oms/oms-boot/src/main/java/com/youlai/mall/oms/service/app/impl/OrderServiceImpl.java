@@ -20,11 +20,11 @@ import com.github.binarywang.wxpay.bean.result.enums.TradeTypeEnum;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.rabbitmq.constant.RabbitMqConstants;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.config.WxPayProperties;
-import com.youlai.mall.oms.constant.OrderConstants;
 import com.youlai.mall.oms.converter.OrderConverter;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.PaymentMethodEnum;
@@ -137,7 +137,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 生成唯一令牌,防止重复提交(原理：提交会消耗令牌，令牌被消耗无法再次提交)
         CompletableFuture<String> generateOrderTokenFuture = CompletableFuture.supplyAsync(() -> {
             String orderToken = this.generateTradeNo(memberId);
-            redisTemplate.opsForValue().set(OrderConstants.ORDER_TOKEN_PREFIX + orderToken, orderToken);
+            redisTemplate.opsForValue().set(RedisConstants.ORDER_TOKEN_PREFIX + orderToken, orderToken);
             return orderToken;
         }, threadPoolExecutor).exceptionally(ex -> {
             log.error("Failed to generate order token .");
@@ -145,6 +145,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         });
 
         CompletableFuture.allOf(getOrderItemsFuture, getMemberAddressFuture, generateOrderTokenFuture).join();
+
         OrderConfirmVO orderConfirmVO = new OrderConfirmVO();
         orderConfirmVO.setOrderItems(getOrderItemsFuture.join());
         orderConfirmVO.setAddresses(getMemberAddressFuture.join());
@@ -170,7 +171,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         String lockAcquireScript = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
         Long lockAcquired = this.redisTemplate.execute(
                 new DefaultRedisScript<>(lockAcquireScript, Long.class),
-                Collections.singletonList(OrderConstants.ORDER_TOKEN_PREFIX + orderToken),
+                Collections.singletonList(RedisConstants.ORDER_TOKEN_PREFIX + orderToken),
                 orderToken
         );
         Assert.isTrue(lockAcquired != null && lockAcquired.equals(1L), "订单重复提交，请刷新页面后重试");
@@ -256,10 +257,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     @GlobalTransactional
     public <T> T payOrder(OrderPaymentForm paymentForm) {
         String orderSn = paymentForm.getOrderSn();
-        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>().eq(OmsOrder::getOrderSn, orderSn));
-        Assert.isTrue(order != null && OrderStatusEnum.UNPAID.getValue().equals(order.getStatus()), "订单不存在或已支付");
+        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
+                .eq(OmsOrder::getOrderSn, orderSn)
+        );
+        Assert.isTrue(order != null && OrderStatusEnum.UNPAID.getValue().equals(order.getStatus()),
+                "订单不存在或已支付");
 
-        RLock lock = redissonClient.getLock(OrderConstants.ORDER_LOCK_PREFIX + order.getOrderSn());
+        RLock lock = redissonClient.getLock(RedisConstants.ORDER_PAYMENT_LOCK_PREFIX + order.getOrderSn());
         try {
             lock.lock();
             T result;
@@ -471,7 +475,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                         return orderItemDTO;
                     }).collect(Collectors.toList());
         }
+
+
+        String skuSpecValue="";
+
         return orderItems;
+
+
+
     }
 
     /**

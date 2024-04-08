@@ -13,7 +13,7 @@
 
  Date: 14/11/2022 00:37:37
 */
-use mall_sms;
+use youlai_mall_sms;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

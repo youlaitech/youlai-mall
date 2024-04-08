@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.converter;
 
-import com.youlai.mall.pms.model.entity.PmsSpuAttribute;
+import com.youlai.mall.pms.model.entity.PmsSpuAttr;
 import com.youlai.mall.pms.model.form.PmsSpuAttributeForm;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,6 +18,6 @@ public interface SpuAttributeConverter {
     @Mappings({
             @Mapping(target = "id",ignore = true)
     })
-    PmsSpuAttribute form2Entity(PmsSpuAttributeForm form);
+    PmsSpuAttr form2Entity(PmsSpuAttributeForm form);
 
 }

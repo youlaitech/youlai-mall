@@ -25,12 +25,12 @@ public class UmsAddress extends BaseEntity {
     /**
      * 收货人姓名
      */
-    private String consigneeName;
+    private String recipientName;
 
     /**
-     * 收货人联系方式
+     * 收货人电话
      */
-    private String consigneeMobile;
+    private String recipientMobile;
 
     /**
      * 省
@@ -45,21 +45,21 @@ public class UmsAddress extends BaseEntity {
     /**
      * 区
      */
-    private String area;
+    private String district;
 
     /**
      * 详细地址
      */
-    private String detailAddress;
+    private String street;
 
     /**
      * 邮编
      */
-    private String zipCode;
+    private String postalCode;
 
     /**
      * 是否默认地址(1:是；0:否)
      */
-    private Integer defaulted;
+    private Integer isDefault;
 
 }

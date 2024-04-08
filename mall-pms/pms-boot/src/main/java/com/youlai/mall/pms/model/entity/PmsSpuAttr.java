@@ -12,7 +12,7 @@ import lombok.Data;
  * @since 2020/11/06
  */
 @Data
-public class PmsSpuAttribute extends BaseEntity {
+public class PmsSpuAttr extends BaseEntity {
 
     /**
      * 主键ID

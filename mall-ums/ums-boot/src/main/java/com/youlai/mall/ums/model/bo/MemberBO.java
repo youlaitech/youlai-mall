@@ -1,6 +1,5 @@
 package com.youlai.mall.ums.model.bo;
 
-import com.youlai.mall.ums.model.entity.UmsAddress;
 import lombok.Data;
 
 import java.time.LocalDate;

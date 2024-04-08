@@ -2,6 +2,12 @@ package com.youlai.mall.ums.model.bo;
 
 import lombok.Data;
 
+/**
+ * 地址业务对象
+ *
+ * @author Ray Hao
+ * @since 2024/4/8
+ */
 @Data
 public class AddressBO {
 
@@ -18,12 +24,12 @@ public class AddressBO {
     /**
      * 收货人姓名
      */
-    private String consigneeName;
+    private String recipientName ;
 
     /**
-     * 收货人联系方式
+     * 收货人电话
      */
-    private String consigneeMobile;
+    private String recipientMobile;
 
     /**
      * 省
@@ -38,20 +44,20 @@ public class AddressBO {
     /**
      * 区
      */
-    private String area;
+    private String district;
 
     /**
-     * 详细地址
+     * 街道地址
      */
-    private String detailAddress;
+    private String street;
 
     /**
      * 邮编
      */
-    private String zipCode;
+    private String postalCode;
 
     /**
      * 是否默认地址(1:是；0:否)
      */
-    private Integer defaulted;
+    private Integer isDefault;
 }

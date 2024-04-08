@@ -38,4 +38,14 @@ public interface RedisConstants {
     String MEMBER_KEY_PREFIX = "member:";
     String MEMBER_CART_KEY_SUFFIX = ":cart";
 
+    /**
+     * 订单防重提交令牌缓存键前缀
+     */
+    String ORDER_TOKEN_PREFIX = "order:token:";
+
+    /**
+     * 订单支付锁缓存键前缀
+     */
+    String ORDER_PAYMENT_LOCK_PREFIX = "order:payment:lock:";
+
 }

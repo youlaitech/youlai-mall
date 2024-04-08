@@ -27,9 +27,9 @@ public interface UserConverter {
     @Mappings({
             @Mapping(target = "genderLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(bo.getGender(), com.youlai.common.enums.GenderEnum.class))")
     })
-    UserPageVO bo2Vo(UserBO bo);
+    UserPageVO bo2PageVo(UserBO bo);
 
-    Page<UserPageVO> bo2Vo(Page<UserBO> bo);
+    Page<UserPageVO> bo2PageVo(Page<UserBO> bo);
 
     UserForm bo2Form(UserFormBO bo);
 

@@ -1,5 +1,5 @@
 
-use oauth2_server;
+use youlai_oauth2_server;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

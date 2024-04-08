@@ -123,7 +123,7 @@ youlai-mall
 
 先执行 [database.sql](docs%2Fsql%2Fmysql8%2Fdatabase.sql) 完成数据库的创建；
 
-再执行 [youlai_system.sql](docs%2Fsql%2Fmysql8%2Fyoulai_system.sql) 、[oauth2_server.sql](docs%2Fsql%2Fmysql8%2Foauth2_server.sql)、mall_*.sql 完成数据表的创建和数据初始化。
+再执行 [youlai_system.sql](docs%2Fsql%2Fmysql8%2Fyoulai_system.sql) 、[youlai_oauth2_server.sql](docs%2Fsql%2Fmysql8%2Foauth2_server.sql)、mall_*.sql 完成数据表的创建和数据初始化。
 
 ### 导入 Nacos 配置
 
