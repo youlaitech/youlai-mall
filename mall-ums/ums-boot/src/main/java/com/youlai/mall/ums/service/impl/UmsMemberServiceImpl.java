@@ -17,6 +17,7 @@ import com.youlai.mall.ums.dto.MemberAddressDTO;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
 import com.youlai.mall.ums.dto.MemberRegisterDTO;
 import com.youlai.mall.ums.mapper.UmsMemberMapper;
+import com.youlai.mall.ums.model.bo.MemberBO;
 import com.youlai.mall.ums.model.entity.UmsAddress;
 import com.youlai.mall.ums.model.entity.UmsMember;
 import com.youlai.mall.ums.model.dto.MemberDTO;
@@ -54,7 +55,16 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
      * @return
      */
     @Override
-    public IPage<MemberPageVO> listPagedMembers(MemberPageQuery pageQuery) {
+    public IPage<MemberPageVO> listPagedMembers(MemberPageQuery queryParams) {
+        int pageNum = queryParams.getPageNum();
+        int pageSize = queryParams.getPageSize();
+        Page<MemberBO> page = new Page<>(pageNum, pageSize);
+
+        // 查询数据
+        Page<MemberBO> memberBoPage = this.baseMapper.listPagedMembers(page, queryParams);
+
+
+
         return null;
     }
 

@@ -28,7 +28,7 @@ public class MemberController {
 
     @Operation(summary= "会员分页列表")
     @GetMapping("/page")
-    public PageResult<MemberPageVO> getMemberPage(MemberPageQuery pageQuery) {
+    public PageResult<MemberPageVO> listPagedMembers(MemberPageQuery pageQuery) {
         IPage<MemberPageVO> page = memberService.listPagedMembers(pageQuery);
         return PageResult.success(page);
     }

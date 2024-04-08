@@ -1,7 +1,6 @@
 package com.youlai.mall.ums.model.bo;
 
 import com.youlai.mall.ums.model.entity.UmsAddress;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -79,6 +78,6 @@ public class MemberBO {
     /**
      * 地址列表
      */
-    private List<UmsAddress> addressList;
+    private List<AddressBO> addresses;
 
 }

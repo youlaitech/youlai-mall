@@ -25,7 +25,7 @@ public interface UmsMemberService extends IService<UmsMember> {
     /**
      * 会员分页列表
      */
-    IPage<MemberPageVO> listPagedMembers(MemberPageQuery pageQuery);
+    IPage<MemberPageVO> listPagedMembers(MemberPageQuery queryParams);
 
 
     /**

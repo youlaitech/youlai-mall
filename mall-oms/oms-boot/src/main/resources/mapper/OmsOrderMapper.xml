@@ -13,7 +13,6 @@
 
     <!-- 订单分页列表 -->
     <select id="getOrderPage" resultMap="OrderMap">
-
         SELECT
            t1.id,
            t1.order_sn,
@@ -31,9 +30,8 @@
             oms_order t1
         <where>
             <if test ='queryParams.keywords !=null and queryParams.keywords.trim() neq ""' >
-                AND
-                (
-                t1.order_sn like  concat('%',#{queryParams.keywords},'%')
+                AND (
+                    t1.order_sn like  concat('%',#{queryParams.keywords},'%')
                 )
             </if>
             <if test ='queryParams.status !=null ' >

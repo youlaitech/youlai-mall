@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.ums.mapper.UmsAddressMapper">
+
+    <!-- 根据会员ID获取地址列表 -->
+    <select id="listAddressesByMemberId" resultType="com.youlai.mall.ums.model.bo.AddressBO">
+
+        SELECT
+            id,
+            member_id,
+            consignee_name,
+            consignee_mobile,
+            province,
+            city,
+            area,
+            detail_address,
+            zip_code,
+            create_time
+        FROM
+            ums_address
+        WHERE
+            member_id = #{memberId}
+        ORDER BY
+            create_time DESC
+    </select>
+
+
+</mapper>
