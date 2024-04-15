@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.pms.mapper.PmsSkuMapper">
+<mapper namespace="com.youlai.mall.pms.mapper.SkuMapper">
 
     <!-- 根据SKU的ID获取对应的商品库存单元（SKU）信息 -->
     <select id="getSkuInfo" resultType="com.youlai.mall.pms.model.dto.SkuInfoDto">
@@ -10,7 +10,7 @@
            t1.id ,
            t1.sku_sn,
            concat(t2.name,' ',t1.name) skuName,
-           t1.pic_url,
+           t1.img_url,
            t1.price,
            t1.stock,
            t2.name as spuName
@@ -22,7 +22,7 @@
     </select>
 
     <!-- 根据一组SKU的ID列表获取对应的商品库存信息列表 -->
-    <select id="listSkuInfos" resultType="com.youlai.mall.pms.model.bo.SkuInfoBo">
+    <select id="listSkuInfos" resultType="com.youlai.mall.pms.model.bo.SkuBO">
         SELECT
             t1.id,
             t1.sku_sn,

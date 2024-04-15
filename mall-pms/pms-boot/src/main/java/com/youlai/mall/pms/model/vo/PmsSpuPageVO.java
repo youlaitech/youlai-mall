@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.model.vo;
 
-import com.youlai.mall.pms.model.entity.PmsSku;
+import com.youlai.mall.pms.model.entity.Sku;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -30,7 +30,7 @@ public class PmsSpuPageVO {
 
     private Integer sales;
 
-    private String picUrl;
+    private String imgUrl;
 
     private String[] album;
 
@@ -46,5 +46,5 @@ public class PmsSpuPageVO {
 
     private String brandName;
 
-    private List<PmsSku> skuList;
+    private List<Sku> skuList;
 }

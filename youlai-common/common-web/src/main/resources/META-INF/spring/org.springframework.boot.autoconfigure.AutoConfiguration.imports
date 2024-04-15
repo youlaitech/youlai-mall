@@ -2,3 +2,4 @@
   com.youlai.common.web.config.FeignConfig
   com.youlai.common.web.exception.GlobalExceptionHandler
   com.youlai.common.web.aspect.DuplicateSubmitAspect
+  com.youlai.common.web.config.OpenApiConfig

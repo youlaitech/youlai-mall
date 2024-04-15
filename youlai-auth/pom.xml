@@ -85,11 +85,6 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-apidoc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-sms</artifactId>
         </dependency>
 

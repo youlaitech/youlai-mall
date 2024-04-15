@@ -105,7 +105,7 @@ public class SpuDetailVO {
         private Integer stock;
 
         @Schema(description="商品图片URL")
-        private String picUrl;
+        private String imgUrl;
 
     }
 }

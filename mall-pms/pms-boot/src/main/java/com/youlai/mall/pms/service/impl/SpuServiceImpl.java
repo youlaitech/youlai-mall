@@ -14,16 +14,16 @@ import com.youlai.mall.pms.constant.ProductConstants;
 import com.youlai.mall.pms.enums.AttributeTypeEnum;
 import com.youlai.mall.pms.converter.SpuAttributeConverter;
 import com.youlai.mall.pms.converter.SpuConverter;
-import com.youlai.mall.pms.mapper.PmsSpuMapper;
-import com.youlai.mall.pms.model.entity.PmsSku;
-import com.youlai.mall.pms.model.entity.PmsSpu;
-import com.youlai.mall.pms.model.entity.PmsSpuAttr;
+import com.youlai.mall.pms.mapper.SpuMapper;
+import com.youlai.mall.pms.model.entity.SpuAttribute;
+import com.youlai.mall.pms.model.entity.Sku;
+import com.youlai.mall.pms.model.entity.Spu;
 import com.youlai.mall.pms.model.form.PmsSpuAttributeForm;
 import com.youlai.mall.pms.model.form.PmsSpuForm;
 import com.youlai.mall.pms.model.query.SpuPageQuery;
 import com.youlai.mall.pms.model.vo.*;
 import com.youlai.mall.pms.service.SkuService;
-import com.youlai.mall.pms.service.SpuAttrService;
+import com.youlai.mall.pms.service.SpuAttributeService;
 import com.youlai.mall.pms.service.SpuService;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -41,10 +41,10 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements SpuService {
+public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuService {
 
     private final SkuService skuService;
-    private final SpuAttrService spuAttrService;
+    private final SpuAttributeService spuAttributeService;
     private final MemberFeignClient memberFeignClient;
     private final SpuConverter spuConverter;
     private final SpuAttributeConverter spuAttributeConverter;
@@ -85,30 +85,30 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      */
     @Override
     public SpuDetailVO getSpuDetailForApp(Long spuId) {
-        PmsSpu pmsSpu = this.getById(spuId);
-        Assert.isTrue(pmsSpu != null, "商品不存在");
+        Spu spu = this.getById(spuId);
+        Assert.isTrue(spu != null, "商品不存在");
 
         SpuDetailVO spuDetailVO = new SpuDetailVO();
 
         // 商品基本信息
         SpuDetailVO.GoodsInfo goodsInfo = new SpuDetailVO.GoodsInfo();
-        BeanUtil.copyProperties(pmsSpu, goodsInfo, "album");
+        BeanUtil.copyProperties(spu, goodsInfo, "album");
 
         List<String> album = new ArrayList<>();
 
-        if (StrUtil.isNotBlank(pmsSpu.getImgUrl())) {
-            album.add(pmsSpu.getImgUrl());
+        if (StrUtil.isNotBlank(spu.getImgUrl())) {
+            album.add(spu.getImgUrl());
         }
-        if (pmsSpu.getAlbum() != null && pmsSpu.getAlbum().length > 0) {
-            album.addAll(Arrays.asList(pmsSpu.getAlbum()));
+        if (spu.getAlbum() != null && spu.getAlbum().length > 0) {
+            album.addAll(Arrays.asList(spu.getAlbum()));
             goodsInfo.setAlbum(album);
         }
         spuDetailVO.setGoodsInfo(goodsInfo);
 
         // 商品属性列表
-        List<SpuDetailVO.Attribute> attributeList = spuAttrService.list(new LambdaQueryWrapper<PmsSpuAttr>()
-                        .eq(PmsSpuAttr::getType, AttributeTypeEnum.ATTR.getValue()).eq(PmsSpuAttr::getSpuId, spuId)
-                        .select(PmsSpuAttr::getId, PmsSpuAttr::getName, PmsSpuAttr::getValue)).stream().
+        List<SpuDetailVO.Attribute> attributeList = spuAttributeService.list(new LambdaQueryWrapper<SpuAttribute>()
+                        .eq(SpuAttribute::getType, AttributeTypeEnum.ATTR.getValue()).eq(SpuAttribute::getSpuId, spuId)
+                        .select(SpuAttribute::getId, SpuAttribute::getName, SpuAttribute::getValue)).stream().
                 map(item -> {
                     SpuDetailVO.Attribute attribute = new SpuDetailVO.Attribute();
                     BeanUtil.copyProperties(item, attribute);
@@ -118,18 +118,18 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
 
 
         // 商品规格列表
-        List<PmsSpuAttr> specSourceList = spuAttrService.list(new LambdaQueryWrapper<PmsSpuAttr>()
-                .eq(PmsSpuAttr::getType, AttributeTypeEnum.SPEC.getValue())
-                .eq(PmsSpuAttr::getSpuId, spuId)
-                .select(PmsSpuAttr::getId, PmsSpuAttr::getName, PmsSpuAttr::getValue));
+        List<SpuAttribute> specSourceList = spuAttributeService.list(new LambdaQueryWrapper<SpuAttribute>()
+                .eq(SpuAttribute::getType, AttributeTypeEnum.SPEC.getValue())
+                .eq(SpuAttribute::getSpuId, spuId)
+                .select(SpuAttribute::getId, SpuAttribute::getName, SpuAttribute::getValue));
 
         List<SpuDetailVO.Specification> specList = new ArrayList<>();
         // 规格Map [key:"颜色",value:[{id:1,value:"黑"},{id:2,value:"白"}]]
-        Map<String, List<PmsSpuAttr>> specValueMap = specSourceList.stream().collect(Collectors.groupingBy(PmsSpuAttr::getName));
+        Map<String, List<SpuAttribute>> specValueMap = specSourceList.stream().collect(Collectors.groupingBy(SpuAttribute::getName));
 
-        for (Map.Entry<String, List<PmsSpuAttr>> entry : specValueMap.entrySet()) {
+        for (Map.Entry<String, List<SpuAttribute>> entry : specValueMap.entrySet()) {
             String specName = entry.getKey();
-            List<PmsSpuAttr> specValueSourceList = entry.getValue();
+            List<SpuAttribute> specValueSourceList = entry.getValue();
 
             // 规格映射处理
             SpuDetailVO.Specification spec = new SpuDetailVO.Specification();
@@ -148,7 +148,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
         spuDetailVO.setSpecList(specList);
 
         // 商品SKU列表
-        List<PmsSku> skuSourceList = skuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
+        List<Sku> skuSourceList = skuService.list(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
         if (CollectionUtil.isNotEmpty(skuSourceList)) {
             List<SpuDetailVO.Sku> skuList = skuSourceList.stream().map(item -> {
                 SpuDetailVO.Sku sku = new SpuDetailVO.Sku();
@@ -164,7 +164,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
             ProductHistoryVO vo = new ProductHistoryVO();
             vo.setId(goodsInfo.getId());
             vo.setName(goodsInfo.getName());
-            vo.setPicUrl(goodsInfo.getAlbum() != null ? goodsInfo.getAlbum().get(0) : null);
+            vo.setImgUrl(goodsInfo.getAlbum() != null ? goodsInfo.getAlbum().get(0) : null);
         }
         return spuDetailVO;
     }
@@ -180,26 +180,26 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     public PmsSpuDetailVO getSpuDetail(Long spuId) {
         PmsSpuDetailVO pmsSpuDetailVO = new PmsSpuDetailVO();
 
-        PmsSpu entity = this.getById(spuId);
+        Spu entity = this.getById(spuId);
         Assert.isTrue(entity != null, "商品不存在");
 
         BeanUtil.copyProperties(entity, pmsSpuDetailVO, "album");
-        pmsSpuDetailVO.setSubPicUrls(entity.getAlbum());
+        pmsSpuDetailVO.setSubImgUrls(entity.getAlbum());
 
         // 商品属性列表
-        List<PmsSpuAttr> attrList = spuAttrService.list(new LambdaQueryWrapper<PmsSpuAttr>()
-                .eq(PmsSpuAttr::getSpuId, spuId)
-                .eq(PmsSpuAttr::getType, AttributeTypeEnum.ATTR.getValue()));
+        List<SpuAttribute> attrList = spuAttributeService.list(new LambdaQueryWrapper<SpuAttribute>()
+                .eq(SpuAttribute::getSpuId, spuId)
+                .eq(SpuAttribute::getType, AttributeTypeEnum.ATTR.getValue()));
         pmsSpuDetailVO.setAttrList(attrList);
 
         // 商品规格列表
-        List<PmsSpuAttr> specList = spuAttrService.list(new LambdaQueryWrapper<PmsSpuAttr>()
-                .eq(PmsSpuAttr::getSpuId, spuId)
-                .eq(PmsSpuAttr::getType, AttributeTypeEnum.SPEC.getValue()));
+        List<SpuAttribute> specList = spuAttributeService.list(new LambdaQueryWrapper<SpuAttribute>()
+                .eq(SpuAttribute::getSpuId, spuId)
+                .eq(SpuAttribute::getType, AttributeTypeEnum.SPEC.getValue()));
         pmsSpuDetailVO.setSpecList(specList);
 
         // 商品SKU列表
-        List<PmsSku> skuList = skuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
+        List<Sku> skuList = skuService.list(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
         pmsSpuDetailVO.setSkuList(skuList);
         return pmsSpuDetailVO;
 
@@ -215,7 +215,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     @Transactional
     public boolean addSpu(PmsSpuForm formData) {
 
-        PmsSpu entity = spuConverter.form2Entity(formData);
+        Spu entity = spuConverter.form2Entity(formData);
 
         boolean result = this.save(entity);
         if (result) {
@@ -227,7 +227,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
             List<PmsSpuAttributeForm> specList = formData.getSpecList();
             Map<String, Long> tempWithNewSpecIdMap = this.saveSpuSpecs(spuId, specList);
             // 保存SKU
-            List<PmsSku> skuList = formData.getSkuList();
+            List<Sku> skuList = formData.getSkuList();
             this.saveSku(spuId, skuList, tempWithNewSpecIdMap);
 
         }
@@ -247,7 +247,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
     @Override
     public boolean updateSpuById(Long spuId, PmsSpuForm formData) {
 
-        PmsSpu entity = spuConverter.form2Entity(formData);
+        Spu entity = spuConverter.form2Entity(formData);
 
         boolean result = this.updateById(entity);
         if (result) {
@@ -261,7 +261,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
             Map<String, Long> specTempIdIdMap = this.saveSpuSpecs(spuId, specList);
 
             // SKU保存
-            List<PmsSku> skuList = formData.getSkuList();
+            List<Sku> skuList = formData.getSkuList();
             this.saveSku(spuId, skuList, specTempIdIdMap);
         }
 
@@ -282,11 +282,11 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
         String[] spuIds = ids.split(",");
 
         for (String spuId : spuIds) {
-            skuService.remove(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId));
+            skuService.remove(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
             // 规格
-            spuAttrService.remove(new LambdaQueryWrapper<PmsSpuAttr>().eq(PmsSpuAttr::getSpuId, spuId));
+            spuAttributeService.remove(new LambdaQueryWrapper<SpuAttribute>().eq(SpuAttribute::getSpuId, spuId));
             // 属性
-            spuAttrService.remove(new LambdaQueryWrapper<PmsSpuAttr>().eq(PmsSpuAttr::getSpuId, spuId));
+            spuAttributeService.remove(new LambdaQueryWrapper<SpuAttribute>().eq(SpuAttribute::getSpuId, spuId));
             // SPU
             this.removeById(spuId);
         }
@@ -301,9 +301,9 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      */
     @Override
     public List<SeckillingSpuVO> listSeckillingSpu() {
-        List<PmsSpu> entities = this.list(new LambdaQueryWrapper<PmsSpu>()
-                .select(PmsSpu::getId, PmsSpu::getName, PmsSpu::getImgUrl, PmsSpu::getPrice)
-                .orderByDesc(PmsSpu::getCreateTime)
+        List<Spu> entities = this.list(new LambdaQueryWrapper<Spu>()
+                .select(Spu::getId, Spu::getName, Spu::getImgUrl, Spu::getPrice)
+                .orderByDesc(Spu::getCreateTime)
         );
         return spuConverter.entity2SeckillingVO(entities);
     }
@@ -317,13 +317,13 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
      * @param specTempIdIdMap 临时规格ID和持久化数据库得到的规格ID的映射
      * @return 是否成功
      */
-    private boolean saveSku(Long spuId, List<PmsSku> skuList, Map<String, Long> specTempIdIdMap) {
+    private boolean saveSku(Long spuId, List<Sku> skuList, Map<String, Long> specTempIdIdMap) {
 
         // 删除SKU
-        List<Long> formSkuIds = skuList.stream().map(PmsSku::getId).toList();
+        List<Long> formSkuIds = skuList.stream().map(Sku::getId).toList();
 
-        List<Long> dbSkuIds = skuService.list(new LambdaQueryWrapper<PmsSku>().eq(PmsSku::getSpuId, spuId)
-                        .select(PmsSku::getId)).stream().map(PmsSku::getId)
+        List<Long> dbSkuIds = skuService.list(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId)
+                        .select(Sku::getId)).stream().map(Sku::getId)
                 .toList();
 
         List<Long> removeSkuIds = dbSkuIds.stream().filter(dbSkuId -> !formSkuIds.contains(dbSkuId)).collect(Collectors.toList());
@@ -333,7 +333,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
         }
 
         // 新增/修改SKU
-        List<PmsSku> pmsSkuList = skuList.stream().map(sku -> {
+        List<Sku> pmsSkuList = skuList.stream().map(sku -> {
             // 临时规格ID转换
             String specIds = Arrays.stream(sku.getSpecIds().split("\\|"))
                     .map(specId -> specId.startsWith(ProductConstants.SPEC_TEMP_ID_PREFIX) ? specTempIdIdMap.get(specId) + "" : specId)
@@ -363,30 +363,30 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
                 .map(item -> Convert.toLong(item.getId()))
                 .toList();
         // 1.2 获取原商品属性ID集合
-        List<Long> originAttrIds = spuAttrService.list(new LambdaQueryWrapper<PmsSpuAttr>()
-                        .eq(PmsSpuAttr::getSpuId, spuId).eq(PmsSpuAttr::getType, AttributeTypeEnum.ATTR.getValue())
-                        .select(PmsSpuAttr::getId))
+        List<Long> originAttrIds = spuAttributeService.list(new LambdaQueryWrapper<SpuAttribute>()
+                        .eq(SpuAttribute::getSpuId, spuId).eq(SpuAttribute::getType, AttributeTypeEnum.ATTR.getValue())
+                        .select(SpuAttribute::getId))
                 .stream()
-                .map(PmsSpuAttr::getId)
+                .map(SpuAttribute::getId)
                 .toList();
         // 1.3 需要删除的商品属性：原商品属性-此次提交保留的属性
         List<Long> removeAttrValIds = originAttrIds.stream()
                 .filter(id -> !retainAttrIds.contains(id))
                 .collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(removeAttrValIds)) {
-            spuAttrService.removeByIds(removeAttrValIds);
+            spuAttributeService.removeByIds(removeAttrValIds);
         }
 
         // 新增或修改商品属性
-        List<PmsSpuAttr> entities = attrList.stream().map(item -> {
-            PmsSpuAttr entity = spuAttributeConverter.form2Entity(item);
+        List<SpuAttribute> entities = attrList.stream().map(item -> {
+            SpuAttribute entity = spuAttributeConverter.form2Entity(item);
             entity.setId(Convert.toLong(item.getId()));
             entity.setSpuId(spuId);
             entity.setType(AttributeTypeEnum.ATTR.getValue());
             return entity;
         }).collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(entities)) {
-            return spuAttrService.saveOrUpdateBatch(entities);
+            return spuAttributeService.saveOrUpdateBatch(entities);
         }
         return true;
     }
@@ -411,11 +411,11 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
                 .toList();
 
         // 1.2 原商品规格
-        List<Long> originSpuSpecIds = spuAttrService.list(new LambdaQueryWrapper<PmsSpuAttr>()
-                        .eq(PmsSpuAttr::getSpuId, spuId)
-                        .eq(PmsSpuAttr::getType, AttributeTypeEnum.SPEC.getValue())
-                        .select(PmsSpuAttr::getId))
-                .stream().map(PmsSpuAttr::getId)
+        List<Long> originSpuSpecIds = spuAttributeService.list(new LambdaQueryWrapper<SpuAttribute>()
+                        .eq(SpuAttribute::getSpuId, spuId)
+                        .eq(SpuAttribute::getType, AttributeTypeEnum.SPEC.getValue())
+                        .select(SpuAttribute::getId))
+                .stream().map(SpuAttribute::getId)
                 .toList();
 
         // 1.3 需要删除的商品规格：原商品规格-此次提交保留的规格
@@ -424,7 +424,7 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
 
         if (CollectionUtil.isNotEmpty(removeSpuSpecIds)) {
             // 删除商品的规格
-            spuAttrService.removeByIds(removeSpuSpecIds);
+            spuAttributeService.removeByIds(removeSpuSpecIds);
         }
 
         // 2. 【新增】此次提交的新加的商品规格
@@ -435,26 +435,26 @@ public class SpuServiceImpl extends ServiceImpl<PmsSpuMapper, PmsSpu> implements
                 .collect(Collectors.toList());
         if (CollectionUtil.isNotEmpty(newSpecList)) {
             newSpecList.forEach(item -> {
-                PmsSpuAttr entity = spuAttributeConverter.form2Entity(item);
+                SpuAttribute entity = spuAttributeConverter.form2Entity(item);
                 entity.setSpuId(spuId);
                 entity.setType(AttributeTypeEnum.SPEC.getValue());
-                spuAttrService.save(entity);
+                spuAttributeService.save(entity);
                 tempWithNewSpecIdMap.put(item.getId(), entity.getId());
             });
         }
 
         //  3. 【修改】此次提交的需要修改的商品规格
-        List<PmsSpuAttr> pmsSpuAttrList = specList.stream()
+        List<SpuAttribute> spuAttributeList = specList.stream()
                 .filter(item -> !item.getId().startsWith(ProductConstants.SPEC_TEMP_ID_PREFIX))
                 .map(item -> {
-                    PmsSpuAttr entity = spuAttributeConverter.form2Entity(item);
+                    SpuAttribute entity = spuAttributeConverter.form2Entity(item);
                     entity.setId(Convert.toLong(item.getId()));
                     entity.setSpuId(spuId);
                     entity.setType(AttributeTypeEnum.SPEC.getValue());
                     return entity;
                 }).collect(Collectors.toList());
-        if (CollectionUtil.isNotEmpty(pmsSpuAttrList)) {
-            spuAttrService.updateBatchById(pmsSpuAttrList);
+        if (CollectionUtil.isNotEmpty(spuAttributeList)) {
+            spuAttributeService.updateBatchById(spuAttributeList);
         }
         return tempWithNewSpecIdMap;
     }

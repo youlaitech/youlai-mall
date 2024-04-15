@@ -2,7 +2,7 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.model.entity.PmsSpu;
+import com.youlai.mall.pms.model.entity.Spu;
 import com.youlai.mall.pms.model.form.PmsSpuForm;
 import com.youlai.mall.pms.model.query.SpuPageQuery;
 import com.youlai.mall.pms.model.vo.*;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author haoxr
  * @date 2022/2/5
  */
-public interface SpuService extends IService<PmsSpu> {
+public interface SpuService extends IService<Spu> {
 
 
     /**

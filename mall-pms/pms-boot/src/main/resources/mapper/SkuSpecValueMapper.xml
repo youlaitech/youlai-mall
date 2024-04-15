@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.pms.mapper.SkuSpecValueMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.youlai.mall.pms.model.entity.SkuSpecValue">
+        <id column="sku_id" property="skuId" />
+        <id column="spec_value_id" property="specValueId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        sku_id, spec_value_id
+    </sql>
+
+
+    <!-- SKU规格值分页列表 -->
+    <select id="listPagedSkuSpecValues" resultType="com.youlai.mall.pms.model.bo.SkuSpecValueBO">
+        SELECT
+           ${Base_Column_List}
+        FROM
+            pms_sku_spec_value
+        <where>
+            deleted = 0
+            <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
+                AND (
+                    name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                )
+            </if>
+            <if test='queryParams.status!=null'>
+                AND status = #{queryParams.status}
+            </if>
+            <if test="queryParams.startTime != null">
+                AND create_time &gt;= #{queryParams.startTime}
+            </if>
+            <if test="queryParams.endTime != null">
+                AND create_time &lt;= #{queryParams.endTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

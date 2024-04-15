@@ -2,7 +2,7 @@ package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.web.model.Option;
-import com.youlai.mall.pms.model.entity.PmsCategory;
+import com.youlai.mall.pms.model.entity.Category;
 import com.youlai.mall.pms.model.vo.CategoryVO;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
  */
-public interface CategoryService extends IService<PmsCategory> {
+public interface CategoryService extends IService<Category> {
 
 
     /**
@@ -39,6 +39,6 @@ public interface CategoryService extends IService<PmsCategory> {
      * @param category
      * @return
      */
-    Long saveCategory(PmsCategory category);
+    Long saveCategory(Category category);
 
 }

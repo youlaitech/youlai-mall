@@ -1,0 +1,81 @@
+package ${package.Controller};
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ${package.Parent}.model.form.${entity}Form;
+import ${package.Parent}.model.query.${entity}PageQuery;
+import ${package.Parent}.model.vo.${entity}PageVO;
+import ${package.Parent}.service.${table.serviceName};
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.common.result.PageResult;
+import com.youlai.common.result.Result;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+
+/**
+ * $!{table.comment} 前端控制器
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Tag(name = "${table.comment}接口")
+@RestController
+@RequestMapping("/api/v1/${firstCharLowerCaseEntity}s")
+@RequiredArgsConstructor
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+
+        private final ${table.serviceName} ${firstCharLowerCaseEntity}Service;
+
+        @Operation(summary = "$!{table.comment}分页列表")
+        @GetMapping("/page")
+        public PageResult<${entity}PageVO> listPaged${entity}s(${entity}PageQuery queryParams ) {
+            IPage<${entity}PageVO> result = ${firstCharLowerCaseEntity}Service.listPaged${entity}s(queryParams);
+            return PageResult.success(result);
+        }
+
+        @Operation(summary = "新增$!{table.comment}")
+        @PostMapping
+        public Result save${entity}(@RequestBody @Valid ${entity}Form formData ) {
+            boolean result = ${firstCharLowerCaseEntity}Service.save${entity}(formData);
+            return Result.judge(result);
+        }
+
+        @Operation(summary = "$!{table.comment}表单数据")
+        @GetMapping("/{id}/form")
+        public Result<${entity}Form> get${entity}Form(
+            @Parameter(description = "$!{table.comment}ID") @PathVariable Long id
+        ) {
+            ${entity}Form formData = ${firstCharLowerCaseEntity}Service.get${entity}FormData(id);
+            return Result.success(formData);
+        }
+
+        @Operation(summary = "修改$!{table.comment}")
+        @PutMapping(value = "/{id}")
+        public Result update${entity}(@Parameter(description = "$!{table.comment}ID") @PathVariable Long id,
+        @RequestBody @Validated ${entity}Form formData) {
+            boolean result = ${firstCharLowerCaseEntity}Service.update${entity}(id, formData);
+            return Result.judge(result);
+        }
+
+        @Operation(summary = "删除$!{table.comment}")
+        @DeleteMapping("/{ids}")
+        public Result delete${entity}s(
+            @Parameter(description = "$!{table.comment}ID，多个以英文逗号(,)分割") @PathVariable String ids
+        ) {
+            boolean result = ${firstCharLowerCaseEntity}Service.delete${entity}s(ids);
+            return Result.judge(result);
+        }
+}

@@ -16,5 +16,5 @@ public class ProductHistoryVO implements Serializable {
 
     private String name;
 
-    private String picUrl;
+    private String imgUrl;
 }

@@ -1,8 +1,7 @@
 package com.youlai.mall.pms.converter;
 
-import com.youlai.mall.pms.model.bo.SkuInfoBo;
+import com.youlai.mall.pms.model.bo.SkuBO;
 import com.youlai.mall.pms.model.dto.SkuInfoDto;
-import com.youlai.mall.pms.model.entity.PmsSku;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SkuConverter {
 
-    SkuInfoDto skuInfoBo2Dto(SkuInfoBo bo);
+    SkuInfoDto skuInfoBo2Dto(SkuBO bo);
 
-    List<SkuInfoDto> skuInfoBo2Dto(List<SkuInfoBo> list);
+    List<SkuInfoDto> skuInfoBo2Dto(List<SkuBO> list);
 }

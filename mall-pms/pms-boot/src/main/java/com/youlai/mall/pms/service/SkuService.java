@@ -3,7 +3,7 @@ package com.youlai.mall.pms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDto;
-import com.youlai.mall.pms.model.entity.PmsSku;
+import com.youlai.mall.pms.model.entity.Sku;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author haoxr
  * @since 2.0.0
  */
-public interface SkuService extends IService<PmsSku> {
+public interface SkuService extends IService<Sku> {
 
     /**
      * 获取商品库存信息

@@ -23,6 +23,6 @@ public class SeckillingSpuVO {
     private Long price;
 
     @Schema(description="图片地址")
-    private String picUrl;
+    private String imgUrl;
 
 }

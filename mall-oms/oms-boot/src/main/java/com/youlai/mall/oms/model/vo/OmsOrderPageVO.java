@@ -67,7 +67,7 @@ public class OmsOrderPageVO {
         private String skuName;
 
         @Schema(description="图片地址")
-        private String picUrl;
+        private String imgUrl;
 
         @Schema(description="商品价格")
         private Long price;

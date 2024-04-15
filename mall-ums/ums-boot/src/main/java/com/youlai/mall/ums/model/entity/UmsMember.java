@@ -1,12 +1,11 @@
 package com.youlai.mall.ums.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
 import java.time.LocalDate;
+
 /**
  * 会员实体类
  *
@@ -15,12 +14,6 @@ import java.time.LocalDate;
  */
 @Data
 public class UmsMember extends BaseEntity {
-
-    /**
-     * 会员ID
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
 
     /**
      * 会员性别
@@ -97,7 +90,7 @@ public class UmsMember extends BaseEntity {
      * 0 - 未删除，1 - 已删除
      */
     @TableLogic(delval = "1", value = "0")
-    private Integer deleted;
+    private Integer isDeleted;
 
     /**
      * 积分

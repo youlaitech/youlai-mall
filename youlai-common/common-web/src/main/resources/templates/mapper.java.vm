@@ -1,0 +1,35 @@
+package ${package.Mapper};
+
+import ${package.Entity}.${entity};
+import ${superMapperClassPackage};
+#if(${mapperAnnotationClass})
+import ${mapperAnnotationClass.name};
+#end
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${package.Parent}.model.bo.${entity}BO;
+import ${package.Parent}.model.query.${entity}PageQuery;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * $!{table.comment} Mapper 接口
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${mapperAnnotationClass})
+@${mapperAnnotationClass.simpleName}
+#end
+
+@Mapper
+public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+
+    /**
+     * 获取用户分页列表
+     *
+     * @param page
+     * @param queryParams 查询参数
+     * @return
+     */
+    Page<${entity}BO> listPaged${entity}s(Page<${entity}BO> page, ${entity}PageQuery queryParams);
+
+}

@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.model.form;
 
-import com.youlai.mall.pms.model.entity.PmsSku;
+import com.youlai.mall.pms.model.entity.Sku;
 import lombok.Data;
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class PmsSpuForm {
     private Long brandId;
     private Long originPrice;
     private Long price;
-    private String picUrl;
-    private String[] subPicUrls;
+    private String imgUrl;
+    private String[] subImgUrls;
     private String description;
     private String detail;
 
@@ -28,5 +28,5 @@ public class PmsSpuForm {
 
     private List<PmsSpuAttributeForm> specList;
 
-    private List<PmsSku> skuList;
+    private List<Sku> skuList;
 }

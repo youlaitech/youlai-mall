@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.model.Option;
-import com.youlai.mall.pms.mapper.PmsCategoryMapper;
-import com.youlai.mall.pms.model.entity.PmsCategory;
+import com.youlai.mall.pms.mapper.CategoryMapper;
+import com.youlai.mall.pms.model.entity.Category;
 import com.youlai.mall.pms.model.vo.CategoryVO;
 import com.youlai.mall.pms.service.CategoryService;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,7 +22,7 @@ import java.util.Optional;
  * @author haoxr
  */
 @Service
-public class CategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCategory> implements CategoryService {
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
 
     /**
@@ -35,17 +35,17 @@ public class CategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCateg
     // @Cacheable(value = "pms", key = "'categoryList'")
     @Override
     public List<CategoryVO> getCategoryList(Long parentId) {
-        List<PmsCategory> categoryList = this.list(
-                new LambdaQueryWrapper<PmsCategory>()
-                        .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)
-                        .orderByDesc(PmsCategory::getSort)
+        List<Category> categoryList = this.list(
+                new LambdaQueryWrapper<Category>()
+                        .eq(Category::getVisible, GlobalConstants.STATUS_YES)
+                        .orderByDesc(Category::getSort)
         );
         List<CategoryVO> list = recursionTree(parentId != null ? parentId : 0l, categoryList);
         return list;
     }
 
 
-    private static List<CategoryVO> recursionTree(Long parentId, List<PmsCategory> categoryList) {
+    private static List<CategoryVO> recursionTree(Long parentId, List<Category> categoryList) {
         List<CategoryVO> list = new ArrayList<>();
         Optional.ofNullable(categoryList)
                 .ifPresent(categories ->
@@ -69,16 +69,16 @@ public class CategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCateg
      */
     @Override
     public List<Option> getCategoryOptions() {
-        List<PmsCategory> categoryList = this.list(
-                new LambdaQueryWrapper<PmsCategory>()
-                        .eq(PmsCategory::getVisible, GlobalConstants.STATUS_YES)
-                        .orderByAsc(PmsCategory::getSort)
+        List<Category> categoryList = this.list(
+                new LambdaQueryWrapper<Category>()
+                        .eq(Category::getVisible, GlobalConstants.STATUS_YES)
+                        .orderByAsc(Category::getSort)
         );
         List<Option> list = recursionCascade(0l, categoryList);
         return list;
     }
 
-    private List<Option> recursionCascade(Long parentId, List<PmsCategory> categoryList) {
+    private List<Option> recursionCascade(Long parentId, List<Category> categoryList) {
         List<Option> list = new ArrayList<>();
         Optional.ofNullable(categoryList)
                 .ifPresent(categories ->
@@ -105,7 +105,7 @@ public class CategoryServiceImpl extends ServiceImpl<PmsCategoryMapper, PmsCateg
      */
     @CacheEvict(value = "pms", key = "'categoryList'")
     @Override
-    public Long saveCategory(PmsCategory category) {
+    public Long saveCategory(Category category) {
         this.saveOrUpdate(category);
         return category.getId();
     }

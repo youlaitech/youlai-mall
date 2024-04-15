@@ -13,6 +13,6 @@ public class PmsSpuAttributeForm {
 
     private String value;
 
-    private String picUrl;
+    private String imgUrl;
 
 }

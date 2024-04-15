@@ -10,10 +10,13 @@ import org.springframework.util.StringUtils;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
 import java.io.InputStream;
 import java.util.List;
 
 /**
+ * 城市校验器
+ *
  * @author Gadfly
  * @since 2021-08-06 16:03
  */
@@ -68,7 +71,7 @@ public class CityValidator implements ConstraintValidator<CheckCityValid, String
                 }).findFirst().orElse(null);
                 break;
             }
-            case AREA: {
+            case DISTRICT: {
                 entity = cityJson.stream().filter(item -> {
                     // 找出名字相符且有父节点的entity
                     if (inputValue.equals(item.getName()) && item.getParent() != null) {

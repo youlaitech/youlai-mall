@@ -3,16 +3,15 @@ package com.youlai.mall.pms.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.constant.ProductConstants;
 import com.youlai.mall.pms.converter.SkuConverter;
-import com.youlai.mall.pms.mapper.PmsSkuMapper;
-import com.youlai.mall.pms.model.bo.SkuInfoBo;
+import com.youlai.mall.pms.mapper.SkuMapper;
+import com.youlai.mall.pms.model.bo.SkuBO;
 import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDto;
-import com.youlai.mall.pms.model.entity.PmsSku;
+import com.youlai.mall.pms.model.entity.Sku;
 import com.youlai.mall.pms.service.SkuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements SkuService {
+public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuService {
 
     private final RedisTemplate redisTemplate;
     private final SkuConverter skuConverter;
@@ -56,7 +55,7 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
      */
     @Override
     public List<SkuInfoDto> listSkuInfos(List<Long> skuIds) {
-        List<SkuInfoBo> boList = this.baseMapper.listSkuInfos(skuIds);
+        List<SkuBO> boList = this.baseMapper.listSkuInfos(skuIds);
         return skuConverter.skuInfoBo2Dto(boList);
     }
 
@@ -77,9 +76,9 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
         for (LockSkuDTO lockedSku : lockSkuList) {
             Integer quantity = lockedSku.getQuantity(); // 订单的商品数量
             // 库存足够
-            boolean lockResult = this.update(new LambdaUpdateWrapper<PmsSku>()
+            boolean lockResult = this.update(new LambdaUpdateWrapper<Sku>()
                     .setSql("locked_stock = locked_stock + " + quantity) // 修改锁定商品数
-                    .eq(PmsSku::getId, lockedSku.getSkuId())
+                    .eq(Sku::getId, lockedSku.getSkuId())
                     .apply("stock - locked_stock >= {0}", quantity) // 剩余商品数 ≥ 订单商品数
             );
             Assert.isTrue(lockResult, "商品库存不足");
@@ -111,9 +110,9 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
 
         // 解锁商品库存
         for (LockSkuDTO lockedSku : lockedSkus) {
-            boolean unlockResult = this.update(new LambdaUpdateWrapper<PmsSku>()
+            boolean unlockResult = this.update(new LambdaUpdateWrapper<Sku>()
                     .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
-                    .eq(PmsSku::getId, lockedSku.getSkuId())
+                    .eq(Sku::getId, lockedSku.getSkuId())
             );
             Assert.isTrue(unlockResult, "解锁商品库存失败");
         }
@@ -140,10 +139,10 @@ public class SkuServiceImpl extends ServiceImpl<PmsSkuMapper, PmsSku> implements
         Assert.isTrue(CollectionUtil.isNotEmpty(lockedSkus), "扣减商品库存失败：订单({})未包含商品");
 
         for (LockSkuDTO lockedSku : lockedSkus) {
-            boolean deductResult = this.update(new LambdaUpdateWrapper<PmsSku>()
+            boolean deductResult = this.update(new LambdaUpdateWrapper<Sku>()
                     .setSql("stock = stock - " + lockedSku.getQuantity())
                     .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
-                    .eq(PmsSku::getId, lockedSku.getSkuId())
+                    .eq(Sku::getId, lockedSku.getSkuId())
             );
             Assert.isTrue(deductResult, "扣减商品库存失败");
         }

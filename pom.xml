@@ -68,6 +68,10 @@
 
         <!-- redisson 分布式锁 -->
         <redisson.version>3.24.3</redisson.version>
+
+        <!-- 自动代码生成 -->
+        <mybatis-plus-generator.version>3.5.6</mybatis-plus-generator.version>
+        <velocity.version>2.3</velocity.version>
     </properties>
 
     <dependencies>
@@ -199,12 +203,6 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-apidoc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.youlai</groupId>
                 <artifactId>common-sms</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -273,6 +271,18 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
             </dependency>
 
         </dependencies>

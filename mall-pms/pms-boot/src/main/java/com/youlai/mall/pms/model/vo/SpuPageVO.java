@@ -26,6 +26,6 @@ public class SpuPageVO {
     private Integer sales;
 
     @Schema(description="图片地址")
-    private String picUrl;
+    private String imgUrl;
 
 }

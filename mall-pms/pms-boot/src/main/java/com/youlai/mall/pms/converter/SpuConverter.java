@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.converter;
 
-import com.youlai.mall.pms.model.entity.PmsSpu;
+import com.youlai.mall.pms.model.entity.Spu;
 import com.youlai.mall.pms.model.form.PmsSpuForm;
 import com.youlai.mall.pms.model.vo.SeckillingSpuVO;
 import org.mapstruct.InheritInverseConfiguration;
@@ -20,15 +20,15 @@ import java.util.List;
 public interface SpuConverter {
 
     @Mappings({
-            @Mapping(target = "album", source = "subPicUrls")
+            @Mapping(target = "album", source = "subImgUrls")
     })
-    PmsSpu form2Entity(PmsSpuForm form);
+    Spu form2Entity(PmsSpuForm form);
 
     @InheritInverseConfiguration(name="form2Entity")
-    PmsSpuForm entity2Form(PmsSpu entity);
+    PmsSpuForm entity2Form(Spu entity);
 
-    SeckillingSpuVO entity2SeckillingVO(PmsSpu entity);
+    SeckillingSpuVO entity2SeckillingVO(Spu entity);
 
-    List<SeckillingSpuVO> entity2SeckillingVO(List<PmsSpu> entities);
+    List<SeckillingSpuVO> entity2SeckillingVO(List<Spu> entities);
 
 }

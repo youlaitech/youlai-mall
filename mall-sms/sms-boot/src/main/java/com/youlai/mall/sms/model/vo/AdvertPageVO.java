@@ -24,7 +24,7 @@ public class AdvertPageVO {
     private String title;
 
     @Schema(description="广告图片")
-    private String picUrl;
+    private String imgUrl;
 
     @Schema(description="开始时间")
     @JsonFormat( pattern = "yyyy-MM-dd")

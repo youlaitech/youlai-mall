@@ -1,70 +1,117 @@
 package com.youlai.mall.pms.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.pms.mapper.PmsCategoryAttributeMapper;
-import com.youlai.mall.pms.model.entity.PmsCategoryAttribute;
-import com.youlai.mall.pms.model.form.PmsCategoryAttributeForm;
+import com.youlai.mall.pms.model.entity.Attribute;
+import com.youlai.mall.pms.mapper.AttributeMapper;
 import com.youlai.mall.pms.service.AttributeService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.youlai.common.util.DateUtils;
+import com.youlai.mall.pms.model.form.AttributeForm;
+import com.youlai.mall.pms.model.query.AttributePageQuery;
+import com.youlai.mall.pms.model.bo.AttributeBO;
+import com.youlai.mall.pms.model.vo.AttributePageVO;
+import com.youlai.mall.pms.converter.AttributeConverter;
 
-import java.util.ArrayList;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+
 /**
- * 商品属性业务实现类
+ * 属性服务实现类
  *
- * @author haoxr
- * @date 2022/7/2
+ * @author Ray Hao
+ * @since 2024-04-14
  */
 @Service
-public class AttributeServiceImpl extends ServiceImpl<PmsCategoryAttributeMapper, PmsCategoryAttribute> implements AttributeService {
+@RequiredArgsConstructor
+public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute> implements AttributeService {
+
+    private final AttributeConverter attributeConverter;
 
     /**
-     * 批量保存商品属性
+    * 获取属性分页列表
+    *
+    * @param queryParams 查询参数
+    * @return {@link IPage<AttributePageVO>} 属性分页列表
+    */
+    @Override
+    public IPage<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams) {
+    
+        // 参数构建
+        int pageNum = queryParams.getPageNum();
+        int pageSize = queryParams.getPageSize();
+        Page<AttributeBO> page = new Page<>(pageNum, pageSize);
+
+        // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
+        DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
+    
+        // 查询数据
+        Page<AttributeBO> boPage = this.baseMapper.listPagedAttributes(page, queryParams);
+    
+        // 实体转换
+        return attributeConverter.bo2PageVo(boPage);
+    }
+    
+    /**
+     * 获取属性表单数据
      *
-     * @param formData 表单数据
+     * @param id 属性ID
      * @return
      */
     @Override
-    public boolean saveBatch(PmsCategoryAttributeForm formData) {
-        Long categoryId = formData.getCategoryId();
-        Integer attributeType = formData.getType();
-
-        List<Long> formIds = formData.getAttributes().stream()
-                .filter(item -> item.getId() != null)
-                .map(item -> item.getId())
-                .collect(Collectors.toList());
-
-        List<Long> dbIds = this.list(new LambdaQueryWrapper<PmsCategoryAttribute>()
-                .eq(PmsCategoryAttribute::getCategoryId, categoryId)
-                .eq(PmsCategoryAttribute::getType, attributeType)
-                .select(PmsCategoryAttribute::getId)).stream()
-                .map(item -> item.getId())
-                .collect(Collectors.toList());
-
-        // 删除此次表单没有的属性ID
-        if (CollectionUtil.isNotEmpty(dbIds)) {
-            List<Long> rmIds = dbIds.stream()
-                    .filter(id -> CollectionUtil.isEmpty(formIds) || !formIds.contains(id))
-                    .collect(Collectors.toList());
-            if (CollectionUtil.isNotEmpty(rmIds)) {
-                this.removeByIds(rmIds);
-            }
-        }
-
-        // 新增/修改表单提交的属性
-        List<PmsCategoryAttributeForm.Attribute> formAttributes = formData.getAttributes();
-
-        List<PmsCategoryAttribute> attributeList = new ArrayList<>();
-
-        formAttributes.forEach(item -> {
-            PmsCategoryAttribute attribute = PmsCategoryAttribute.builder().id(item.getId()).categoryId(categoryId).type(attributeType).name(item.getName()).build();
-            attributeList.add(attribute);
-        });
-        boolean result = this.saveOrUpdateBatch(attributeList);
-        return result;
+    public AttributeForm getAttributeFormData(Long id) {
+        Attribute entity = this.getById(id);
+        return attributeConverter.entity2Form(entity);
     }
+    
+    /**
+     * 新增属性
+     *
+     * @param formData 属性表单对象
+     * @return
+     */
+    @Override
+    public boolean saveAttribute(AttributeForm formData) {
+        // 实体转换 form->entity
+        Attribute entity = attributeConverter.form2Entity(formData);
+        return this.save(entity);
+    }
+    
+    /**
+     * 更新属性
+     *
+     * @param id   属性ID
+     * @param formData 属性表单对象
+     * @return
+     */
+    @Override
+    public boolean updateAttribute(Long id,AttributeForm formData) {
+        Attribute entity = attributeConverter.form2Entity(formData);
+        return this.updateById(entity);
+    }
+    
+    /**
+     * 删除属性
+     *
+     * @param idsStr 属性ID，多个以英文逗号(,)分割
+     * @return true|false
+     */
+    @Override
+    public boolean deleteAttributes(String idsStr) {
+        Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的属性数据为空");
+        // 逻辑删除
+        List<Long> ids = Arrays.stream(idsStr.split(","))
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+        return this.removeByIds(ids);
+    }
+    
+
 }
