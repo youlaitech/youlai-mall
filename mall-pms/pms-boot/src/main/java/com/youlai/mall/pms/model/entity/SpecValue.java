@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
+ * 规格值实体
  *
  * @author Ray Hao
  * @since 2024-04-14
