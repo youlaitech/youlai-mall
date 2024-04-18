@@ -53,9 +53,9 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     /**
      * 删除$!{table.comment}
      *
-     * @param idsStr $!{table.comment}ID，多个以英文逗号(,)分割
+     * @param ids $!{table.comment}ID，多个以英文逗号(,)分割
      * @return
      */
-    boolean delete${entity}s(String idsStr);
+    boolean delete${entity}s(String ids);
 
 }
