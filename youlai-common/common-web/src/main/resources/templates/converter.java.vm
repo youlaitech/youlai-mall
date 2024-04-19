@@ -10,6 +10,12 @@ import ${package.Parent}.model.vo.${entity}PageVO;
 import ${package.Parent}.model.form.${entity}Form;
 import ${package.Parent}.model.bo.${entity}BO;
 
+/**
+ * $!{table.comment}转换器
+ *
+ * @author ${author}
+ * @since ${date}
+ */
 @Mapper(componentModel = "spring")
 public interface ${entity}Converter{
 

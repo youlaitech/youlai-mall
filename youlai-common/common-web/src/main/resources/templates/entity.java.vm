@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 #end
 
 /**
- * $!{table.comment}
+ * $!{table.comment}实体
  *
  * @author ${author}
  * @since ${date}

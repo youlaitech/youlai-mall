@@ -40,18 +40,15 @@
     <!-- ${table.comment}分页列表 -->
     <select id="listPaged${entity}s" resultType="${package.Parent}.model.bo.${entity}BO">
         SELECT
-           ${Base_Column_List}
+            <include refid="Base_Column_List"/>
         FROM
             ${table.name}
         <where>
-            deleted = 0
+            is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
                     name LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
-            </if>
-            <if test='queryParams.status!=null'>
-                AND status = #{queryParams.status}
             </if>
             <if test="queryParams.startTime != null">
                 AND create_time &gt;= #{queryParams.startTime}
@@ -60,6 +57,7 @@
                 AND create_time &lt;= #{queryParams.endTime}
             </if>
         </where>
+        ORDER BY create_time DESC
     </select>
 
 </mapper>

@@ -3,12 +3,7 @@ package ${package.Parent}.model.form;
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
 #end
-#if(${springdoc})
 import io.swagger.v3.oas.annotations.media.Schema;
-#elseif(${swagger})
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-#end
 #if(${entityLombokModel})
 import lombok.Getter;
 import lombok.Setter;
@@ -30,11 +25,7 @@ import lombok.Setter;
     @Accessors(chain = true)
     #end
 #end
-#if(${springdoc})
-@Schema(name = "${entity}", description = "$!{table.comment}")
-#elseif(${swagger})
-@ApiModel(value = "${entity}对象", description = "$!{table.comment}")
-#end
+@Schema(description = "$!{table.comment}表单对象")
 #if(${superEntityClass})
 public class ${entity}Form extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
 #elseif(${activeRecord})
@@ -55,15 +46,7 @@ public class ${entity}Form {
         #set($keyPropertyName=${field.propertyName})
     #end
     #if("$!field.comment" != "")
-        #if(${springdoc})
         @Schema(description = "${field.comment}")
-        #elseif(${swagger})
-        @ApiModelProperty("${field.comment}")
-        #else
-        /**
-         * ${field.comment}
-         */
-        #end
     #end
 
 private ${field.propertyType} ${field.propertyName};
