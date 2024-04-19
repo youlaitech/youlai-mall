@@ -74,7 +74,7 @@ public class PmsAutoGeneratorTest {
                             builder.entityBuilder()
                                     .enableLombok() // 是否使用lombok
                                     .enableFileOverride() // 开启覆盖已生成的文件
-                                    //.logicDeleteColumnName("isDeleted") // 逻辑删除字段名
+                                    .logicDeleteColumnName("isDeleted") // 逻辑删除字段名
                                     .enableRemoveIsPrefix() // 开启移除is前缀
                             ;
 
@@ -90,7 +90,8 @@ public class PmsAutoGeneratorTest {
                                     );
 
                             builder.controllerBuilder()
-                                            .enableFileOverride();
+                                           .enableFileOverride()
+                            ;
 
 
                             builder.addTablePrefix("pms_") // 过滤移除表前缀 sys_user 表生成的实体类 User.java

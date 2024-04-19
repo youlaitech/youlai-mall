@@ -11,8 +11,9 @@ import org.apache.ibatis.annotations.Mapper;
  * 属性 Mapper 接口
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024-04-19
  */
+
 @Mapper
 public interface AttributeMapper extends BaseMapper<Attribute> {
 

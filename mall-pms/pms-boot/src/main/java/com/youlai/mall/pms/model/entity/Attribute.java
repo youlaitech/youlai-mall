@@ -1,31 +1,21 @@
 package com.youlai.mall.pms.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.youlai.common.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 属性
+ * 属性实体
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024-04-19
  */
 @Getter
 @Setter
 @TableName("pms_attribute")
-public class Attribute implements Serializable {
+public class Attribute extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 属性主键
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
 
     /**
      * 属性组主键
@@ -40,20 +30,17 @@ public class Attribute implements Serializable {
     /**
      * 输入录入方式：1-手动输入，2-从列表选择
      */
-    private Byte inputType;
+    private Integer inputType;
 
     /**
      * 逗号分割的可选值列表，仅当input_type是2使用
      */
     private String options;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 逻辑删除标识(0-未删除，1-已删除)
      */
-    private LocalDateTime updateTime;
+    private Integer isDeleted;
+    ;
 }

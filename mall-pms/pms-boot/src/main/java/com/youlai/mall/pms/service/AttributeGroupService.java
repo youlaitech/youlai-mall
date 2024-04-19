@@ -7,10 +7,10 @@ import com.youlai.mall.pms.model.query.AttributeGroupPageQuery;
 import com.youlai.mall.pms.model.vo.AttributeGroupPageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 /**
- * 属性组接口
+ * 属性组 服务类
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024-04-19
  */
 public interface AttributeGroupService extends IService<AttributeGroup> {
 
@@ -53,9 +53,9 @@ public interface AttributeGroupService extends IService<AttributeGroup> {
     /**
      * 删除属性组
      *
-     * @param idsStr 属性组ID，多个以英文逗号(,)分割
+     * @param ids 属性组ID，多个以英文逗号(,)分割
      * @return
      */
-    boolean deleteAttributeGroups(String idsStr);
+    boolean deleteAttributeGroups(String ids);
 
 }

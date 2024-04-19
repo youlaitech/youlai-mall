@@ -43,12 +43,12 @@ public class SmsCouponHistory implements Serializable {
     /**
      * 获取类型(1：后台增删；2：主动领取)
      */
-    private Byte getType;
+    private Integer  getType;
 
     /**
      * 状态(0：未使用；1：已使用；2：已过期)
      */
-    private Byte status;
+    private Integer  status;
 
     /**
      * 使用时间

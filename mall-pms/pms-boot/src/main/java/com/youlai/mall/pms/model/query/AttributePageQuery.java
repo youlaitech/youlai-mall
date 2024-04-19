@@ -8,7 +8,7 @@ import lombok.Data;
  * 属性分页查询对象
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024-04-19
  */
 @Schema(description ="属性分页查询对象")
 @Data

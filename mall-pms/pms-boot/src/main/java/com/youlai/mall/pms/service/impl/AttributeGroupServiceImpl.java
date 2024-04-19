@@ -1,9 +1,12 @@
 package com.youlai.mall.pms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.youlai.mall.pms.model.entity.Attribute;
 import com.youlai.mall.pms.model.entity.AttributeGroup;
 import com.youlai.mall.pms.mapper.AttributeGroupMapper;
 import com.youlai.mall.pms.service.AttributeGroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.mall.pms.service.AttributeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.youlai.common.util.DateUtils;
@@ -35,15 +38,17 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
 
     private final AttributeGroupConverter attributeGroupConverter;
 
+    private final AttributeService attributeService;
+
     /**
-    * 获取属性组分页列表
-    *
-    * @param queryParams 查询参数
-    * @return {@link IPage<AttributeGroupPageVO>} 属性组分页列表
-    */
+     * 获取属性组分页列表
+     *
+     * @param queryParams 查询参数
+     * @return {@link IPage<AttributeGroupPageVO>} 属性组分页列表
+     */
     @Override
     public IPage<AttributeGroupPageVO> listPagedAttributeGroups(AttributeGroupPageQuery queryParams) {
-    
+
         // 参数构建
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
@@ -51,14 +56,14 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
 
         // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
         DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
-    
+
         // 查询数据
         Page<AttributeGroupBO> boPage = this.baseMapper.listPagedAttributeGroups(page, queryParams);
-    
+
         // 实体转换
         return attributeGroupConverter.bo2PageVo(boPage);
     }
-    
+
     /**
      * 获取属性组表单数据
      *
@@ -70,7 +75,7 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
         AttributeGroup entity = this.getById(id);
         return attributeGroupConverter.entity2Form(entity);
     }
-    
+
     /**
      * 新增属性组
      *
@@ -83,35 +88,45 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
         AttributeGroup entity = attributeGroupConverter.form2Entity(formData);
         return this.save(entity);
     }
-    
+
     /**
      * 更新属性组
      *
-     * @param id   属性组ID
+     * @param id       属性组ID
      * @param formData 属性组表单对象
      * @return
      */
     @Override
-    public boolean updateAttributeGroup(Long id,AttributeGroupForm formData) {
+    public boolean updateAttributeGroup(Long id, AttributeGroupForm formData) {
         AttributeGroup entity = attributeGroupConverter.form2Entity(formData);
         return this.updateById(entity);
     }
-    
+
     /**
      * 删除属性组
      *
-     * @param idsStr 属性组ID，多个以英文逗号(,)分割
+     * @param ids 属性组ID，多个以英文逗号(,)分割
      * @return true|false
      */
     @Override
-    public boolean deleteAttributeGroups(String idsStr) {
-        Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的属性组数据为空");
+    public boolean deleteAttributeGroups(String ids) {
+        Assert.isTrue(StrUtil.isNotBlank(ids), "删除的属性组数据为空");
         // 逻辑删除
-        List<Long> ids = Arrays.stream(idsStr.split(","))
+        List<Long> idList = Arrays.stream(ids.split(","))
                 .map(Long::parseLong)
-                .collect(Collectors.toList());
-        return this.removeByIds(ids);
+                .toList();
+
+        for (Long groupId : idList) {
+            boolean result = this.removeById(groupId);
+            if (result) {
+                // 删除属性组下的属性
+                attributeService.remove(
+                        new LambdaQueryWrapper<Attribute>().eq(Attribute::getAttributeGroupId, groupId)
+                );
+            }
+        }
+        // 无异常 则返回true
+        return true;
     }
-    
 
 }

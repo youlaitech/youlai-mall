@@ -11,37 +11,30 @@
         <result column="options" property="options" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
+        <result column="is_deleted" property="isDeleted" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, attribute_group_id, name, input_type, options, create_time, update_time
+        id, attribute_group_id, name, input_type, options, create_time, update_time, is_deleted
     </sql>
 
 
     <!-- 属性分页列表 -->
     <select id="listPagedAttributes" resultType="com.youlai.mall.pms.model.bo.AttributeBO">
         SELECT
-           ${Base_Column_List}
+            <include refid="Base_Column_List"/>
         FROM
             pms_attribute
         <where>
-            deleted = 0
+            is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
                     name LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
             </if>
-            <if test='queryParams.status!=null'>
-                AND status = #{queryParams.status}
-            </if>
-            <if test="queryParams.startTime != null">
-                AND create_time &gt;= #{queryParams.startTime}
-            </if>
-            <if test="queryParams.endTime != null">
-                AND create_time &lt;= #{queryParams.endTime}
-            </if>
         </where>
+        ORDER BY sort ASC, create_time DESC
     </select>
 
 </mapper>

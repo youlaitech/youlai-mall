@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,47 +13,40 @@ import lombok.Setter;
  * 属性组 分页VO
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024-04-19
  */
 @Getter
 @Setter
+@Schema(description = "属性组")
 public class AttributeGroupPageVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-        /**
-         * 属性组主键
-         */
+        @Schema(description = "属性组主键")
 
     private Long id;
 
-        /**
-         * 属性组名称
-         */
+        @Schema(description = "属性组名称")
 
     private String name;
 
-        /**
-         * 排序
-         */
+        @Schema(description = "排序")
 
     private Short sort;
 
-        /**
-         * 备注
-         */
+        @Schema(description = "备注")
 
     private String remark;
 
-        /**
-         * 创建时间
-         */
+        @Schema(description = "创建时间")
 
     private LocalDateTime createTime;
 
-        /**
-         * 更新时间
-         */
+        @Schema(description = "更新时间")
 
     private LocalDateTime updateTime;
+
+        @Schema(description = "逻辑删除标识(0-未删除，1-已删除)")
+
+    private Integer isDeleted;;
 }

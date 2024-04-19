@@ -6,18 +6,17 @@ import com.youlai.mall.pms.model.form.AttributeForm;
 import com.youlai.mall.pms.model.query.AttributePageQuery;
 import com.youlai.mall.pms.model.vo.AttributePageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-
 /**
  * 属性 服务类
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024-04-19
  */
 public interface AttributeService extends IService<Attribute> {
 
 
     /**
-     * 属性分页列表
+     *属性分页列表
      *
      * @return
      */
@@ -30,7 +29,7 @@ public interface AttributeService extends IService<Attribute> {
      * @param id 属性ID
      * @return
      */
-    AttributeForm getAttributeFormData(Long id);
+     AttributeForm getAttributeFormData(Long id);
 
 
     /**
@@ -44,7 +43,7 @@ public interface AttributeService extends IService<Attribute> {
     /**
      * 修改属性
      *
-     * @param id       属性ID
+     * @param id   属性ID
      * @param formData 属性表单对象
      * @return
      */
@@ -54,9 +53,9 @@ public interface AttributeService extends IService<Attribute> {
     /**
      * 删除属性
      *
-     * @param idsStr 属性ID，多个以英文逗号(,)分割
+     * @param ids 属性ID，多个以英文逗号(,)分割
      * @return
      */
-    boolean deleteAttributes(String idsStr);
+    boolean deleteAttributes(String ids);
 
 }

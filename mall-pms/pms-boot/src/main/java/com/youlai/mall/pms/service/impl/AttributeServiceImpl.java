@@ -27,7 +27,7 @@ import cn.hutool.core.util.StrUtil;
  * 属性服务实现类
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024-04-19
  */
 @Service
 @RequiredArgsConstructor
@@ -100,17 +100,17 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
     /**
      * 删除属性
      *
-     * @param idsStr 属性ID，多个以英文逗号(,)分割
+     * @param ids 属性ID，多个以英文逗号(,)分割
      * @return true|false
      */
     @Override
-    public boolean deleteAttributes(String idsStr) {
-        Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的属性数据为空");
+    public boolean deleteAttributes(String ids) {
+        Assert.isTrue(StrUtil.isNotBlank(ids), "删除的属性数据为空");
         // 逻辑删除
-        List<Long> ids = Arrays.stream(idsStr.split(","))
+        List<Long> idList = Arrays.stream(ids.split(","))
                 .map(Long::parseLong)
-                .collect(Collectors.toList());
-        return this.removeByIds(ids);
+                .toList();
+        return this.removeByIds(idList);
     }
     
 
