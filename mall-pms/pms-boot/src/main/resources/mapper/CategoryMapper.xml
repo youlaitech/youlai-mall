@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.pms.mapper.CategoryMapper">
+
+    <!-- 删除分类及子节点  -->
+    <update id="deleteCategoryById" parameterType="long">
+        WITH RECURSIVE subcategories AS (
+            SELECT
+                id
+            FROM
+                pms_category
+            WHERE
+                id = #{categoryId}
+            UNION ALL
+  ·          SELECT
+                c.id
+            FROM
+                pms_category c
+                    JOIN subcategories sc ON c.parent_id = sc.id
+        ) UPDATE pms_category
+        SET is_deleted = 1
+        WHERE
+            id IN ( SELECT id  FROM  subcategories)
+    </update>
+</mapper>
