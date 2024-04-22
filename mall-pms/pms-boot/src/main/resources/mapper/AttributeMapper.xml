@@ -19,7 +19,6 @@
         id, attribute_group_id, name, input_type, options, create_time, update_time, is_deleted
     </sql>
 
-
     <!-- 属性分页列表 -->
     <select id="listPagedAttributes" resultType="com.youlai.mall.pms.model.bo.AttributeBO">
         SELECT
@@ -33,8 +32,12 @@
                     name LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
             </if>
+            <if test='queryParams.groupId!=null'>
+                AND attribute_group_id = #{queryParams.groupId}
+            </if>
         </where>
-        ORDER BY sort ASC, create_time DESC
+        ORDER BY
+            create_time DESC
     </select>
 
 </mapper>

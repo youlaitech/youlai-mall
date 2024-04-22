@@ -3,15 +3,17 @@ package com.youlai.mall.pms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.pms.model.entity.Category;
+import com.youlai.mall.pms.model.form.CategoryForm;
 import com.youlai.mall.pms.model.vo.CategoryVO;
 
 import java.util.List;
 
 
 /**
- * 商品分类
+ * 商品分类接口
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author Ray Hao
+ * @since 2024/04/20
  */
 public interface CategoryService extends IService<Category> {
 
@@ -19,26 +21,31 @@ public interface CategoryService extends IService<Category> {
     /**
      * 分类列表（树形）
      *
-     * @param parentId
+     * @param parentId 父分类ID
      * @return
      */
-    List<CategoryVO> getCategoryList(Long parentId);
+    List<CategoryVO> listCategories(Long parentId);
 
     /**
      * 分类列表（级联）
      * @return
      */
-    List<Option> getCategoryOptions();
+    List<Option> listCategoryOptions();
 
 
     /**
-     *
      * 保存（新增/修改）分类
      *
-     *
-     * @param category
+     * @param formData 分类表单数据
      * @return
      */
-    Long saveCategory(Category category);
+    Long saveCategory( CategoryForm formData);
 
+    /**
+     * 删除分类
+     *
+     * @param id 分类ID
+     * @return
+     */
+    boolean deleteCategory(Long id);
 }

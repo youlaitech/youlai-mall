@@ -48,10 +48,6 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
         Page<AttributeBO> page = new Page<>(pageNum, pageSize);
-
-        // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
-        DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
-    
         // 查询数据
         Page<AttributeBO> boPage = this.baseMapper.listPagedAttributes(page, queryParams);
     

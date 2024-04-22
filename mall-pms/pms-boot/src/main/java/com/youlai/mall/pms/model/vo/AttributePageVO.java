@@ -1,13 +1,12 @@
 package com.youlai.mall.pms.model.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 属性 分页VO
@@ -22,35 +21,22 @@ public class AttributePageVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-        @Schema(description = "属性主键")
-
+    @Schema(description = "属性主键")
     private Long id;
 
-        @Schema(description = "属性组主键")
-
+    @Schema(description = "属性组主键")
     private Long attributeGroupId;
 
-        @Schema(description = "属性名称")
-
+    @Schema(description = "属性名称")
     private String name;
 
-        @Schema(description = "输入录入方式：1-手动输入，2-从列表选择")
+    @Schema(description = "输入录入方式标签")
+    private String inputTypeLabel;
 
-    private Integer  inputType;
-
-        @Schema(description = "逗号分割的可选值列表，仅当input_type是2使用")
-
+    @Schema(description = "逗号分割的可选值列表，仅当input_type是2使用")
     private String options;
 
-        @Schema(description = "创建时间")
-
+    @Schema(description = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createTime;
-
-        @Schema(description = "更新时间")
-
-    private LocalDateTime updateTime;
-
-        @Schema(description = "逻辑删除标识(0-未删除，1-已删除)")
-
-    private Integer isDeleted;;
 }

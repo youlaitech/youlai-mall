@@ -30,7 +30,7 @@ public class AppCategoryController {
     @Operation(summary = "分类列表")
     @GetMapping
     public Result list(@Parameter(name = "上级分类ID") Long parentId) {
-        List<CategoryVO> list = categoryService.getCategoryList(parentId);
+        List<CategoryVO> list = categoryService.listCategories(parentId);
         return Result.success(list);
     }
 }

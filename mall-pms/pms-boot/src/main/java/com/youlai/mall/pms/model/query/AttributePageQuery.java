@@ -17,4 +17,7 @@ public class AttributePageQuery extends BasePageQuery {
     @Schema(description="关键字")
     private String keywords;
 
+    @Schema(description="属性分组ID")
+    private Long groupId;
+
 }
