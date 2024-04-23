@@ -20,9 +20,6 @@ public class CategoryVO {
     @Schema(description = "父分类ID", example = "0")
     private Long parentId;
 
-    @Schema(description = "分类层级", example = "1")
-    private Integer level;
-
     @Schema(description = "分类图标URL", example = "http://example.com/icon.jpg")
     private String iconUrl;
 

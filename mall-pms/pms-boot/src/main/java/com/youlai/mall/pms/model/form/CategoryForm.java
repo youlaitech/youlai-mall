@@ -29,9 +29,6 @@ public class CategoryForm {
     @Schema(description = "分类图标URL", example = "http://example.com/icon.jpg")
     private String iconUrl;
 
-    @Schema(description = "分类层级", example = "1")
-    private Integer level;
-
     @Schema(description = "分类排序", example = "100")
     private Integer sort;
 

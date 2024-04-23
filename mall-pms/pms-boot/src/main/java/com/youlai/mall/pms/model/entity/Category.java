@@ -1,10 +1,7 @@
 package com.youlai.mall.pms.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,11 +30,6 @@ public class Category extends BaseEntity {
      * 分类图标URL
      */
     private String iconUrl;
-
-    /**
-     * 分类层级
-     */
-    private Integer level;
 
     /**
      * 分类排序
