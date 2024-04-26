@@ -2,11 +2,10 @@ package com.youlai.mall.pms.model.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
 /**
  * 
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class SpecBO implements Serializable {
+public class SpuSpecBO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

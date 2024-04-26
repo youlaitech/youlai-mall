@@ -4,7 +4,7 @@ package com.youlai.mall.pms.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+
 /**
  *  DTO
  *
@@ -13,25 +13,25 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class SpecValueDTO implements Serializable {
+public class SpuSpecDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
         /**
-         * 规格值ID
+         * 规格主键
          */
 
 private Long id;
 
         /**
-         * 规格ID
+         * SPU ID
          */
 
-private Long specId;
+private Long spuId;
 
         /**
-         * 规格值
+         * 规格名称
          */
 
-private String value;
+private String name;
 }

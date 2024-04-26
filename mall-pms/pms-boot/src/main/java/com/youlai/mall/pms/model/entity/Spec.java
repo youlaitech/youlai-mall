@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("pms_spec")
+@TableName("pms_spu_spec")
 public class Spec implements Serializable {
 
     private static final long serialVersionUID = 1L;

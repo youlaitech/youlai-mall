@@ -4,18 +4,17 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import com.youlai.mall.pms.model.dto.SpecDTO;
 import com.youlai.mall.pms.model.entity.Spec;
 import com.youlai.mall.pms.model.vo.SpecPageVO;
 import com.youlai.mall.pms.model.form.SpecForm;
-import com.youlai.mall.pms.model.bo.SpecBO;
+import com.youlai.mall.pms.model.bo.SpuSpecBO;
 
 @Mapper(componentModel = "spring")
 public interface SpecConverter{
 
-    SpecPageVO bo2PageVo(SpecBO bo);
+    SpecPageVO bo2PageVo(SpuSpecBO bo);
 
-    Page<SpecPageVO> bo2PageVo(Page<SpecBO> bo);
+    Page<SpecPageVO> bo2PageVo(Page<SpuSpecBO> bo);
 
     SpecForm entity2Form(Spec entity);
 

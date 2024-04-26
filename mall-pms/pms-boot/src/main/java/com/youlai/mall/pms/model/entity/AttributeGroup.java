@@ -24,7 +24,7 @@ public class AttributeGroup extends BaseEntity {
     /**
      * 排序
      */
-    private Short sort;
+    private Integer sort;
 
     /**
      * 备注
@@ -32,8 +32,5 @@ public class AttributeGroup extends BaseEntity {
     private String remark;
 
 
-    /**
-     * 逻辑删除标识(0-未删除，1-已删除)
-     */
-    private Integer isDeleted;;
+
 }

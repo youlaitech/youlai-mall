@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.pms.mapper.SpecValueMapper">
+<mapper namespace="com.youlai.mall.pms.mapper.SpuSpecMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.youlai.mall.pms.model.entity.SpecValue">
+    <resultMap id="BaseResultMap" type="com.youlai.mall.pms.model.entity.Spec">
         <id column="id" property="id" />
-        <result column="spec_id" property="specId" />
-        <result column="value" property="value" />
+        <result column="spu_id" property="spuId" />
+        <result column="name" property="name" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, spec_id, value
+        id, spu_id, name
     </sql>
 
 
     <!-- 分页列表 -->
-    <select id="listPagedSpecValues" resultType="com.youlai.mall.pms.model.bo.SpecValueBO">
+    <select id="listPagedSpecs" resultType="com.youlai.mall.pms.model.bo.SpuSpecBO">
         SELECT
            ${Base_Column_List}
         FROM
-            pms_spec_value
+            pms_spec
         <where>
             deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>

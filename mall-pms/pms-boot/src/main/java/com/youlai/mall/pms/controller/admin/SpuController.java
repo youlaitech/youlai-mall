@@ -3,7 +3,7 @@ package com.youlai.mall.pms.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.pms.model.form.PmsSpuForm;
+import com.youlai.mall.pms.model.form.SpuForm;
 import com.youlai.mall.pms.model.query.SpuPageQuery;
 import com.youlai.mall.pms.model.vo.PmsSpuDetailVO;
 import com.youlai.mall.pms.model.vo.PmsSpuPageVO;
@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -42,10 +43,10 @@ public class SpuController {
         return Result.success(pmsSpuDetailVO);
     }
 
-    @Operation(summary = "新增商品")
+    @Operation(summary = "保存商品")
     @PostMapping
-    public Result addSpu(@RequestBody PmsSpuForm formData) {
-        boolean result = spuService.addSpu(formData);
+    public Result saveSpu(@Validated @RequestBody SpuForm formData) {
+        boolean result = spuService.saveSpu(formData);
         return Result.judge(result);
     }
 
@@ -53,7 +54,7 @@ public class SpuController {
     @PutMapping(value = "/{id}")
     public Result updateSpuById(
             @Parameter(name = "商品ID") @PathVariable Long id,
-            @RequestBody PmsSpuForm formData
+            @RequestBody SpuForm formData
     ) {
         boolean result = spuService.updateSpuById(id, formData);
         return Result.judge(result);

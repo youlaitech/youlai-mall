@@ -19,13 +19,10 @@ import com.youlai.mall.pms.model.entity.SpuAttribute;
 import com.youlai.mall.pms.model.entity.Sku;
 import com.youlai.mall.pms.model.entity.Spu;
 import com.youlai.mall.pms.model.form.PmsSpuAttributeForm;
-import com.youlai.mall.pms.model.form.PmsSpuForm;
+import com.youlai.mall.pms.model.form.SpuForm;
 import com.youlai.mall.pms.model.query.SpuPageQuery;
 import com.youlai.mall.pms.model.vo.*;
-import com.youlai.mall.pms.service.SkuService;
-import com.youlai.mall.pms.service.SpuAttributeService;
-import com.youlai.mall.pms.service.SpuService;
-import com.youlai.mall.ums.api.MemberFeignClient;
+import com.youlai.mall.pms.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,10 +41,11 @@ import java.util.stream.Collectors;
 public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuService {
 
     private final SkuService skuService;
+    private final SpuSpecService spuSpecService;
     private final SpuAttributeService spuAttributeService;
-    private final MemberFeignClient memberFeignClient;
     private final SpuConverter spuConverter;
     private final SpuAttributeConverter spuAttributeConverter;
+    private final SpuImageService spuImageService;
 
     /**
      * Admin-商品分页列表
@@ -213,13 +211,27 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
      */
     @Override
     @Transactional
-    public boolean addSpu(PmsSpuForm formData) {
+    public boolean saveSpu(SpuForm formData) {
 
         Spu entity = spuConverter.form2Entity(formData);
 
-        boolean result = this.save(entity);
+        boolean result = this.saveOrUpdate(entity);
         if (result) {
             Long spuId = entity.getId();
+
+            List<SpuForm.SpuImage> galleryImages = formData.getGalleryImages();
+            spuImageService.saveSpuImages(spuId, galleryImages);
+
+            List<SpuForm.SpuAttribute> attributeList = formData.getAttrList();
+            spuAttributeService.saveSpuAttributes(spuId, attributeList);
+
+            List<SpuForm.SpuSpec> specList = formData.getSpecList();
+            spuSpecService.saveSpuSpecs(spuId, specList);
+
+            List<SpuForm.Sku> skuList = formData.getSkuList();
+            skuService.saveSkus(spuId, skuList);
+
+
             // 保存属性
             List<PmsSpuAttributeForm> attrList = formData.getAttrList();
             this.saveSpuAttrs(spuId, attrList);
@@ -245,7 +257,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
      */
     @Transactional
     @Override
-    public boolean updateSpuById(Long spuId, PmsSpuForm formData) {
+    public boolean updateSpuById(Long spuId, SpuForm formData) {
 
         Spu entity = spuConverter.form2Entity(formData);
 

@@ -1,15 +1,15 @@
 package com.youlai.mall.pms.service.impl;
 
 import com.youlai.mall.pms.model.entity.SpecValue;
-import com.youlai.mall.pms.mapper.SpecValueMapper;
-import com.youlai.mall.pms.service.SpecValueService;
+import com.youlai.mall.pms.mapper.SpuSpecValueMapper;
+import com.youlai.mall.pms.service.SpuSpecValueService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.youlai.common.util.DateUtils;
 import com.youlai.mall.pms.model.form.SpecValueForm;
 import com.youlai.mall.pms.model.query.SpecValuePageQuery;
-import com.youlai.mall.pms.model.bo.SpecValueBO;
+import com.youlai.mall.pms.model.bo.SpuSpecValueBO;
 import com.youlai.mall.pms.model.vo.SpecValuePageVO;
 import com.youlai.mall.pms.converter.SpecValueConverter;
 
@@ -31,7 +31,7 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 @RequiredArgsConstructor
-public class SpecValueServiceImpl extends ServiceImpl<SpecValueMapper, SpecValue> implements SpecValueService {
+public class SpuSpecValueServiceImpl extends ServiceImpl<SpuSpecValueMapper, SpecValue> implements SpuSpecValueService {
 
     private final SpecValueConverter specValueConverter;
 
@@ -47,13 +47,13 @@ public class SpecValueServiceImpl extends ServiceImpl<SpecValueMapper, SpecValue
         // 参数构建
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
-        Page<SpecValueBO> page = new Page<>(pageNum, pageSize);
+        Page<SpuSpecValueBO> page = new Page<>(pageNum, pageSize);
 
         // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
         DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
     
         // 查询数据
-        Page<SpecValueBO> boPage = this.baseMapper.listPagedSpecValues(page, queryParams);
+        Page<SpuSpecValueBO> boPage = this.baseMapper.listPagedSpecValues(page, queryParams);
     
         // 实体转换
         return specValueConverter.bo2PageVo(boPage);

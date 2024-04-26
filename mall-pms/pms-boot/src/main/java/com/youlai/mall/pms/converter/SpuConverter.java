@@ -1,31 +1,26 @@
 package com.youlai.mall.pms.converter;
 
 import com.youlai.mall.pms.model.entity.Spu;
-import com.youlai.mall.pms.model.form.PmsSpuForm;
+import com.youlai.mall.pms.model.form.SpuForm;
 import com.youlai.mall.pms.model.vo.SeckillingSpuVO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.util.List;
 
 /**
  * 商品对象转换器
  *
- * @author haoxr
- * @date 2022/6/11
+ * @author Ray Hao
+ * @since 2024/4/24
  */
 @Mapper(componentModel = "spring")
 public interface SpuConverter {
 
-    @Mappings({
-            @Mapping(target = "album", source = "subImgUrls")
-    })
-    Spu form2Entity(PmsSpuForm form);
+    Spu form2Entity(SpuForm form);
 
     @InheritInverseConfiguration(name="form2Entity")
-    PmsSpuForm entity2Form(Spu entity);
+    SpuForm entity2Form(Spu entity);
 
     SeckillingSpuVO entity2SeckillingVO(Spu entity);
 

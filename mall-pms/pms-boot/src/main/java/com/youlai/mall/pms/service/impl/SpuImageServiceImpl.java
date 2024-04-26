@@ -1,33 +1,26 @@
 package com.youlai.mall.pms.service.impl;
 
-import com.youlai.mall.pms.model.entity.SpuImage;
-import com.youlai.mall.pms.mapper.SpuImageMapper;
-import com.youlai.mall.pms.service.SpuImageService;
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.mall.pms.converter.SpuImageConverter;
+import com.youlai.mall.pms.mapper.SpuImageMapper;
+import com.youlai.mall.pms.model.entity.SpuImage;
+import com.youlai.mall.pms.model.form.SpuForm;
+import com.youlai.mall.pms.service.SpuImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.youlai.common.util.DateUtils;
-import com.youlai.mall.pms.model.form.SpuImageForm;
-import com.youlai.mall.pms.model.query.SpuImagePageQuery;
-import com.youlai.mall.pms.model.bo.SpuImageBO;
-import com.youlai.mall.pms.model.vo.SpuImagePageVO;
-import com.youlai.mall.pms.converter.SpuImageConverter;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
-
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.StrUtil;
 
 /**
  * 商品图片服务实现类
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024/04/14
  */
 @Service
 @RequiredArgsConstructor
@@ -35,83 +28,52 @@ public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImage> i
 
     private final SpuImageConverter spuImageConverter;
 
-    /**
-    * 获取商品图片分页列表
-    *
-    * @param queryParams 查询参数
-    * @return {@link IPage<SpuImagePageVO>} 商品图片分页列表
-    */
-    @Override
-    public IPage<SpuImagePageVO> listPagedSpuImages(SpuImagePageQuery queryParams) {
-    
-        // 参数构建
-        int pageNum = queryParams.getPageNum();
-        int pageSize = queryParams.getPageSize();
-        Page<SpuImageBO> page = new Page<>(pageNum, pageSize);
 
-        // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
-        DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
-    
-        // 查询数据
-        Page<SpuImageBO> boPage = this.baseMapper.listPagedSpuImages(page, queryParams);
-    
-        // 实体转换
-        return spuImageConverter.bo2PageVo(boPage);
-    }
-    
     /**
-     * 获取商品图片表单数据
+     * 保存商品图册
      *
-     * @param id 商品图片ID
-     * @return
+     * @param spuId 商品ID
+     * @param formImages 商品图册
      */
-    @Override
-    public SpuImageForm getSpuImageFormData(Long id) {
-        SpuImage entity = this.getById(id);
-        return spuImageConverter.entity2Form(entity);
-    }
-    
-    /**
-     * 新增商品图片
-     *
-     * @param formData 商品图片表单对象
-     * @return
-     */
-    @Override
-    public boolean saveSpuImage(SpuImageForm formData) {
-        // 实体转换 form->entity
-        SpuImage entity = spuImageConverter.form2Entity(formData);
-        return this.save(entity);
-    }
-    
-    /**
-     * 更新商品图片
-     *
-     * @param id   商品图片ID
-     * @param formData 商品图片表单对象
-     * @return
-     */
-    @Override
-    public boolean updateSpuImage(Long id,SpuImageForm formData) {
-        SpuImage entity = spuImageConverter.form2Entity(formData);
-        return this.updateById(entity);
-    }
-    
-    /**
-     * 删除商品图片
-     *
-     * @param idsStr 商品图片ID，多个以英文逗号(,)分割
-     * @return true|false
-     */
-    @Override
-    public boolean deleteSpuImages(String idsStr) {
-        Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的商品图片数据为空");
-        // 逻辑删除
-        List<Long> ids = Arrays.stream(idsStr.split(","))
-                .map(Long::parseLong)
-                .collect(Collectors.toList());
-        return this.removeByIds(ids);
-    }
-    
 
+    @Override
+    public void saveSpuImages(Long spuId, List<SpuForm.SpuImage> formImages) {
+        // 根据 SPU ID 获取商品图册旧图片
+        List<SpuImage> oldImages = this.list(new LambdaQueryWrapper<SpuImage>()
+                .eq(SpuImage::getSpuId, spuId));
+
+        // 转换为实体
+        List<SpuImage> newImages = spuImageConverter.formImage2Entity(formImages);
+
+        if (CollectionUtil.isNotEmpty(newImages)) {
+
+            // 新增图片处理
+            List<SpuImage> addImages = newImages.stream()
+                    .filter(item -> item.getId() == null)
+                    .peek(item -> item.setSpuId(spuId))
+                    .toList();
+
+            if(CollectionUtil.isNotEmpty(addImages)){
+                this.saveBatch(addImages);
+            }
+
+            // 构建新图片ID集合，以便快速检查
+            Set<Long> newImageIds = newImages.stream()
+                    .map(SpuImage::getId)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            // 确定需要删除的图片ID集合：旧图片ID集合中存在，新图片ID集合中不存在
+            List<Long> removeImageIds = oldImages.stream()
+                    .map(SpuImage::getId)
+                    .filter(id -> !newImageIds.contains(id))
+                    .collect(Collectors.toList());
+
+            if (CollectionUtil.isNotEmpty(removeImageIds)) {
+                this.remove(new LambdaQueryWrapper<SpuImage>()
+                        .eq(SpuImage::getSpuId, spuId)
+                        .in(SpuImage::getId, removeImageIds));
+            }
+        }
+    }
 }

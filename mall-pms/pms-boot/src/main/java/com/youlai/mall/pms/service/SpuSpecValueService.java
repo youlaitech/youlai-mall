@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * @author Ray Hao
  * @since 2024-04-14
  */
-public interface SpecValueService extends IService<SpecValue> {
+public interface SpuSpecValueService extends IService<SpecValue> {
 
 
     /**

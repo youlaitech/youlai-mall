@@ -2,55 +2,54 @@ package com.youlai.mall.pms.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
 
+import lombok.Getter;
+import lombok.Setter;
 /**
- * 商品库存单元
+ * Sku 实体类，代表商品的一个具体的库存单元。
+ * Sku 通常包含特定的属性组合，如颜色、尺寸等，与Spu相对，
+ * Spu是指商品的标准化信息，而Sku是在此基础上的特定属性的实体。
  *
- * @author haoxr
- * @since 2022/2/6
+ * @author Ray Hao
+ * @since 2024/4/6
  */
 @TableName("pms_sku")
-@Data
+@Getter
+@Setter
 public class Sku extends BaseEntity {
 
     /**
-     * 库存单元编号
+     * 商品的SKU编号，唯一标识一个SKU。
      */
     private String skuSn;
 
     /**
-     * SKU 名称
+     * 商品SKU的名称。
      */
     private String name;
 
     /**
-     * SPU ID
+     * 与该SKU相关联的SPU的ID。
      */
     private Long spuId;
 
     /**
-     * 规格ID，多个使用英文逗号(,)分割
-     */
-    private String specIds;
-
-    /**
-     * 商品价格(单位：分)
+     * 商品SKU的价格单位（分）
      */
     private Long price;
 
     /**
-     * 库存数量
+     * 商品SKU的库存数量。
      */
     private Integer stock;
 
     /**
-     * 锁定库存数量
+     * 被锁定的库存数量
      */
     private Integer lockedStock;
 
     /**
-     * SKU 展示图片 URL
+     * 商品SKU的图片URL地址。
      */
     private String imgUrl;
 }

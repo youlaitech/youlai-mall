@@ -3,20 +3,24 @@ package com.youlai.mall.pms.service;
 import com.youlai.mall.pms.model.entity.Spec;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.model.form.SpecForm;
+import com.youlai.mall.pms.model.form.SpuForm;
 import com.youlai.mall.pms.model.query.SpecPageQuery;
 import com.youlai.mall.pms.model.vo.SpecPageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import java.util.List;
+
 /**
- *  服务类
+ * 服务类
  *
  * @author Ray Hao
  * @since 2024-04-14
  */
-public interface SpecService extends IService<Spec> {
+public interface SpuSpecService extends IService<Spec> {
 
 
     /**
-     *分页列表
+     * 分页列表
      *
      * @return
      */
@@ -29,7 +33,7 @@ public interface SpecService extends IService<Spec> {
      * @param id ID
      * @return
      */
-     SpecForm getSpecFormData(Long id);
+    SpecForm getSpecFormData(Long id);
 
 
     /**
@@ -43,7 +47,7 @@ public interface SpecService extends IService<Spec> {
     /**
      * 修改
      *
-     * @param id   ID
+     * @param id       ID
      * @param formData 表单对象
      * @return
      */
@@ -58,4 +62,12 @@ public interface SpecService extends IService<Spec> {
      */
     boolean deleteSpecs(String idsStr);
 
+
+    /**
+     * 保存SPU规格
+     *
+     * @param spuId   SPU ID
+     * @param specList 规格列表
+     */
+    void saveSpuSpecs(Long spuId, List<SpuForm.SpuSpec> specList);
 }

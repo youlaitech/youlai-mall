@@ -1,23 +1,28 @@
 package com.youlai.mall.pms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.mall.pms.model.entity.Spec;
-import com.youlai.mall.pms.mapper.SpecMapper;
-import com.youlai.mall.pms.service.SpecService;
+import com.youlai.mall.pms.mapper.SpuSpecMapper;
+import com.youlai.mall.pms.model.form.SpuForm;
+import com.youlai.mall.pms.service.SpuSpecService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.youlai.common.util.DateUtils;
 import com.youlai.mall.pms.model.form.SpecForm;
 import com.youlai.mall.pms.model.query.SpecPageQuery;
-import com.youlai.mall.pms.model.bo.SpecBO;
+import com.youlai.mall.pms.model.bo.SpuSpecBO;
 import com.youlai.mall.pms.model.vo.SpecPageVO;
 import com.youlai.mall.pms.converter.SpecConverter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import cn.hutool.core.lang.Assert;
@@ -31,7 +36,7 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 @RequiredArgsConstructor
-public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements SpecService {
+public class SpuSpecServiceImpl extends ServiceImpl<SpuSpecMapper, Spec> implements SpuSpecService {
 
     private final SpecConverter specConverter;
 
@@ -47,13 +52,13 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
         // 参数构建
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
-        Page<SpecBO> page = new Page<>(pageNum, pageSize);
+        Page<SpuSpecBO> page = new Page<>(pageNum, pageSize);
 
         // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
         DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
     
         // 查询数据
-        Page<SpecBO> boPage = this.baseMapper.listPagedSpecs(page, queryParams);
+        Page<SpuSpecBO> boPage = this.baseMapper.listPagedSpecs(page, queryParams);
     
         // 实体转换
         return specConverter.bo2PageVo(boPage);
@@ -112,6 +117,37 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
                 .collect(Collectors.toList());
         return this.removeByIds(ids);
     }
-    
+
+    @Override
+    public void saveSpuSpecs(Long spuId, List<SpuForm.SpuSpec> specList) {
+        // 如果规格列表为空，则删除所有旧规格
+        if (specList == null || specList.isEmpty()) {
+            this.remove(new LambdaQueryWrapper<Spec>().eq(Spec::getSpuId, spuId));
+        } else {
+            // 获取当前数据库中的规格
+            Map<Long, Spec> existingSpecs = this.list(new LambdaQueryWrapper<Spec>().eq(Spec::getSpuId, spuId))
+                    .stream().collect(Collectors.toMap(Spec::getId, Function.identity()));
+
+            List<Spec> specsToSave = new ArrayList<>();
+            for (int i = 0; i < specList.size(); i++) {
+                Spec newSpec = specConverter.formSpec2Entity(specList.get(i));
+                newSpec.setSort(i + 1);
+                newSpec.setSpuId(spuId);
+
+                // 如果存在旧规格则移除，这样existingSpecs中剩下的即为需要删除的规格
+                if (newSpec.getId() != null) {
+                    existingSpecs.remove(newSpec.getId());
+                }
+
+                specsToSave.add(newSpec);
+            }
+
+            // 删除不再存在的规格
+            if (!existingSpecs.isEmpty()) {
+                this.removeByIds(existingSpecs.keySet());
+            }
+        }
+    }
+
 
 }

@@ -3,7 +3,7 @@ package com.youlai.mall.pms.mapper;
 import com.youlai.mall.pms.model.entity.Spec;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.pms.model.bo.SpecBO;
+import com.youlai.mall.pms.model.bo.SpuSpecBO;
 import com.youlai.mall.pms.model.query.SpecPageQuery;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface SpecMapper extends BaseMapper<Spec> {
+public interface SpuSpecMapper extends BaseMapper<Spec> {
 
     /**
      * 获取用户分页列表
@@ -24,6 +24,6 @@ public interface SpecMapper extends BaseMapper<Spec> {
      * @param queryParams 查询参数
      * @return
      */
-    Page<SpecBO> listPagedSpecs(Page<SpecBO> page, SpecPageQuery queryParams);
+    Page<SpuSpecBO> listPagedSpecs(Page<SpuSpecBO> page, SpecPageQuery queryParams);
 
 }

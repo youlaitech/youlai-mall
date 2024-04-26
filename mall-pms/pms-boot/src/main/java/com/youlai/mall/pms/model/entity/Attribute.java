@@ -36,11 +36,4 @@ public class Attribute extends BaseEntity {
      * 逗号分割的可选值列表，仅当input_type是2使用
      */
     private String options;
-
-
-    /**
-     * 逻辑删除标识(0-未删除，1-已删除)
-     */
-    private Integer isDeleted;
-    ;
 }

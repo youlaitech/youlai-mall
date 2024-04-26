@@ -37,22 +37,8 @@ public class Category extends BaseEntity {
     private Integer sort;
 
     /**
-     * 分类是否可见
-     */
-    private Integer visible;
-
-    /**
-     * 创建人ID
-     */
-    private Long createBy;
-
-    /**
      * 更新人ID
      */
     private Long updateBy;
 
-    /**
-     * 逻辑删除标识(0-未删除，1-已删除)
-     */
-    private Integer isDeleted;
 }
