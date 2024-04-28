@@ -3,7 +3,7 @@
 <mapper namespace="com.youlai.mall.pms.mapper.SpuSpecValueMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.youlai.mall.pms.model.entity.SpecValue">
+    <resultMap id="BaseResultMap" type="com.youlai.mall.pms.model.entity.SpuSpecValue">
         <id column="id" property="id" />
         <result column="spec_id" property="specId" />
         <result column="value" property="value" />

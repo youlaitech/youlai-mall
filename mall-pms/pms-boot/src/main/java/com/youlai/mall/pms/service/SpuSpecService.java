@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.service;
 
-import com.youlai.mall.pms.model.entity.Spec;
+import com.youlai.mall.pms.model.entity.SpuSpec;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.model.form.SpecForm;
 import com.youlai.mall.pms.model.form.SpuForm;
@@ -11,12 +11,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import java.util.List;
 
 /**
- * 服务类
+ * 商品规格服务类
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024/04/14
  */
-public interface SpuSpecService extends IService<Spec> {
+public interface SpuSpecService extends IService<SpuSpec> {
 
 
     /**

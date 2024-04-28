@@ -1,10 +1,10 @@
 package com.youlai.mall.pms.converter;
 
+import com.youlai.mall.pms.model.entity.SpuSpecValue;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import com.youlai.mall.pms.model.entity.SpecValue;
 import com.youlai.mall.pms.model.vo.SpecValuePageVO;
 import com.youlai.mall.pms.model.form.SpecValueForm;
 import com.youlai.mall.pms.model.bo.SpuSpecValueBO;
@@ -16,8 +16,8 @@ public interface SpecValueConverter{
 
     Page<SpecValuePageVO> bo2PageVo(Page<SpuSpecValueBO> bo);
 
-    SpecValueForm entity2Form(SpecValue entity);
+    SpecValueForm entity2Form(SpuSpecValue entity);
 
     @InheritInverseConfiguration(name = "entity2Form")
-    SpecValue form2Entity(SpecValueForm entity);
+    SpuSpecValue form2Entity(SpecValueForm entity);
 }

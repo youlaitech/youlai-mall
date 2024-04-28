@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.service;
 
-import com.youlai.mall.pms.model.entity.SpecValue;
+import com.youlai.mall.pms.model.entity.SpuSpecValue;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.model.form.SpecValueForm;
 import com.youlai.mall.pms.model.query.SpecValuePageQuery;
@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * @author Ray Hao
  * @since 2024-04-14
  */
-public interface SpuSpecValueService extends IService<SpecValue> {
+public interface SpuSpecValueService extends IService<SpuSpecValue> {
 
 
     /**

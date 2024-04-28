@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.service.impl;
 
-import com.youlai.mall.pms.model.entity.SpecValue;
+import com.youlai.mall.pms.model.entity.SpuSpecValue;
 import com.youlai.mall.pms.mapper.SpuSpecValueMapper;
 import com.youlai.mall.pms.service.SpuSpecValueService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -31,7 +31,7 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 @RequiredArgsConstructor
-public class SpuSpecValueServiceImpl extends ServiceImpl<SpuSpecValueMapper, SpecValue> implements SpuSpecValueService {
+public class SpuSpecValueServiceImpl extends ServiceImpl<SpuSpecValueMapper, SpuSpecValue> implements SpuSpecValueService {
 
     private final SpecValueConverter specValueConverter;
 
@@ -67,7 +67,7 @@ public class SpuSpecValueServiceImpl extends ServiceImpl<SpuSpecValueMapper, Spe
      */
     @Override
     public SpecValueForm getSpecValueFormData(Long id) {
-        SpecValue entity = this.getById(id);
+        SpuSpecValue entity = this.getById(id);
         return specValueConverter.entity2Form(entity);
     }
     
@@ -80,7 +80,7 @@ public class SpuSpecValueServiceImpl extends ServiceImpl<SpuSpecValueMapper, Spe
     @Override
     public boolean saveSpecValue(SpecValueForm formData) {
         // 实体转换 form->entity
-        SpecValue entity = specValueConverter.form2Entity(formData);
+        SpuSpecValue entity = specValueConverter.form2Entity(formData);
         return this.save(entity);
     }
     
@@ -93,7 +93,7 @@ public class SpuSpecValueServiceImpl extends ServiceImpl<SpuSpecValueMapper, Spe
      */
     @Override
     public boolean updateSpecValue(Long id,SpecValueForm formData) {
-        SpecValue entity = specValueConverter.form2Entity(formData);
+        SpuSpecValue entity = specValueConverter.form2Entity(formData);
         return this.updateById(entity);
     }
     

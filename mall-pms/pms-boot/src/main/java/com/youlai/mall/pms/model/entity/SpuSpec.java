@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 规格实体类
+ * 商品规格实体类
  *
  * @author Ray Hao
  * @since 2024-04-14
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("pms_spu_spec")
-public class Spec implements Serializable {
+public class SpuSpec implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

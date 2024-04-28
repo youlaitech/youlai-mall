@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.youlai.mall.pms.model.entity.Spec;
+import com.youlai.mall.pms.model.entity.SpuSpec;
 import com.youlai.mall.pms.mapper.SpuSpecMapper;
 import com.youlai.mall.pms.model.form.SpuForm;
 import com.youlai.mall.pms.service.SpuSpecService;
@@ -36,7 +36,7 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 @RequiredArgsConstructor
-public class SpuSpecServiceImpl extends ServiceImpl<SpuSpecMapper, Spec> implements SpuSpecService {
+public class SpuSpecServiceImpl extends ServiceImpl<SpuSpecMapper, SpuSpec> implements SpuSpecService {
 
     private final SpecConverter specConverter;
 
@@ -72,7 +72,7 @@ public class SpuSpecServiceImpl extends ServiceImpl<SpuSpecMapper, Spec> impleme
      */
     @Override
     public SpecForm getSpecFormData(Long id) {
-        Spec entity = this.getById(id);
+        SpuSpec entity = this.getById(id);
         return specConverter.entity2Form(entity);
     }
     
@@ -85,7 +85,7 @@ public class SpuSpecServiceImpl extends ServiceImpl<SpuSpecMapper, Spec> impleme
     @Override
     public boolean saveSpec(SpecForm formData) {
         // 实体转换 form->entity
-        Spec entity = specConverter.form2Entity(formData);
+        SpuSpec entity = specConverter.form2Entity(formData);
         return this.save(entity);
     }
     
@@ -98,7 +98,7 @@ public class SpuSpecServiceImpl extends ServiceImpl<SpuSpecMapper, Spec> impleme
      */
     @Override
     public boolean updateSpec(Long id,SpecForm formData) {
-        Spec entity = specConverter.form2Entity(formData);
+        SpuSpec entity = specConverter.form2Entity(formData);
         return this.updateById(entity);
     }
     
@@ -122,26 +122,32 @@ public class SpuSpecServiceImpl extends ServiceImpl<SpuSpecMapper, Spec> impleme
     public void saveSpuSpecs(Long spuId, List<SpuForm.SpuSpec> specList) {
         // 如果规格列表为空，则删除所有旧规格
         if (specList == null || specList.isEmpty()) {
-            this.remove(new LambdaQueryWrapper<Spec>().eq(Spec::getSpuId, spuId));
+            this.remove(new LambdaQueryWrapper<SpuSpec>().eq(SpuSpec::getSpuId, spuId));
         } else {
             // 获取当前数据库中的规格
-            Map<Long, Spec> existingSpecs = this.list(new LambdaQueryWrapper<Spec>().eq(Spec::getSpuId, spuId))
-                    .stream().collect(Collectors.toMap(Spec::getId, Function.identity()));
+            Map<Long, SpuSpec> existingSpecs = this.list(new LambdaQueryWrapper<SpuSpec>().eq(SpuSpec::getSpuId, spuId))
+                    .stream().collect(Collectors.toMap(SpuSpec::getId, Function.identity()));
 
-            List<Spec> specsToSave = new ArrayList<>();
+            List<SpuSpec> specsToSave = new ArrayList<>();
             for (int i = 0; i < specList.size(); i++) {
-                Spec newSpec = specConverter.formSpec2Entity(specList.get(i));
-                newSpec.setSort(i + 1);
-                newSpec.setSpuId(spuId);
 
-                // 如果存在旧规格则移除，这样existingSpecs中剩下的即为需要删除的规格
-                if (newSpec.getId() != null) {
-                    existingSpecs.remove(newSpec.getId());
+                SpuForm.SpuSpec specForm = specList.get(i);
+
+                SpuSpec entity = specConverter.form2Entity(specForm);
+
+                // 如果存在旧属性则移除，这样existingAttributes中剩下的即为需要删除的属性
+                if (entity.getId() != null) {
+                    existingSpecs.remove(entity.getId());
                 }
+                entity.setSpuId(spuId);
+                this.save(entity);
 
-                specsToSave.add(newSpec);
+                List<String> specValues = specForm.getValues();
+
+                // 保存规格值
+
+
             }
-
             // 删除不再存在的规格
             if (!existingSpecs.isEmpty()) {
                 this.removeByIds(existingSpecs.keySet());

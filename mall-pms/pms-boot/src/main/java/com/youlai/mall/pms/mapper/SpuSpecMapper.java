@@ -1,6 +1,6 @@
 package com.youlai.mall.pms.mapper;
 
-import com.youlai.mall.pms.model.entity.Spec;
+import com.youlai.mall.pms.model.entity.SpuSpec;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.pms.model.bo.SpuSpecBO;
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface SpuSpecMapper extends BaseMapper<Spec> {
+public interface SpuSpecMapper extends BaseMapper<SpuSpec> {
 
     /**
      * 获取用户分页列表
