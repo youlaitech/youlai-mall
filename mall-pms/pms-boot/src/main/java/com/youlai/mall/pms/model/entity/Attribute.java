@@ -16,7 +16,6 @@ import lombok.Setter;
 @TableName("pms_attribute")
 public class Attribute extends BaseEntity {
 
-
     /**
      * 属性组主键
      */
@@ -26,6 +25,12 @@ public class Attribute extends BaseEntity {
      * 属性名称
      */
     private String name;
+
+    /**
+     * 属性类型：1-规格，2-参数
+     * @see com.youlai.mall.pms.enums.AttributeTypeEnum
+     */
+    private Integer type;
 
     /**
      * 输入录入方式：1-手动输入，2-从列表选择

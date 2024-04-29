@@ -37,7 +37,7 @@ public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImage> i
      */
 
     @Override
-    public void saveSpuImages(Long spuId, List<SpuForm.SpuImage> formImages) {
+    public void saveSpuImages(Long spuId, List<SpuForm.Image> formImages) {
         // 根据 SPU ID 获取商品图册旧图片
         List<SpuImage> oldImages = this.list(new LambdaQueryWrapper<SpuImage>()
                 .eq(SpuImage::getSpuId, spuId));

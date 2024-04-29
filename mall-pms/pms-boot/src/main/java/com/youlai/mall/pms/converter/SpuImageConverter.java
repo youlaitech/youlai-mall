@@ -26,7 +26,7 @@ public interface SpuImageConverter{
     SpuImage form2Entity(SpuImageForm entity);
 
 
-    SpuImage formImage2Entity(SpuForm.SpuImage formImages);
+    SpuImage formImage2Entity(SpuForm.Image formImages);
 
-    List<SpuImage> formImage2Entity(List<SpuForm.SpuImage> formImages);
+    List<SpuImage> formImage2Entity(List<SpuForm.Image> formImages);
 }

@@ -17,10 +17,10 @@ import lombok.Setter;
  * @author haoxr
  * @since 2020/11/06
  */
-@TableName("pms_spu_attribute")
+@TableName("pms_spu_attribute_value")
 @Getter
 @Setter
-public class SpuAttribute extends BaseEntity {
+public class SpuAttributeValue extends BaseEntity {
 
     /**
      * 商品ID
@@ -28,14 +28,19 @@ public class SpuAttribute extends BaseEntity {
     private Long spuId;
 
     /**
+     * 属性ID
+     */
+    private Long attrId;
+
+    /**
      * 属性名称
      */
-    private String name;
+    private String attrName;
 
     /**
      * 属性值
      */
-    private String value;
+    private String attrValue;
 
     /**
      * 排序

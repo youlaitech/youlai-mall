@@ -1,18 +1,6 @@
-/*
- Navicat Premium Data Transfer
 
- Source Server         : localhost
- Source Server Type    : MySQL
- Source Server Version : 80027
- Source Host           : 192.168.10.192:3306
- Source Schema         : youlai_mall_pms
+use youlai_mall_pms;
 
- Target Server Type    : MySQL
- Target Server Version : 80027
- File Encoding         : 65001
-
- Date: 26/04/2024 23:36:05
-*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -23,15 +11,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `pms_attribute`;
 CREATE TABLE `pms_attribute`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `attribute_group_id` bigint NOT NULL COMMENT '属性组ID',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性名称',
+  `attribute_group_id` bigint NOT NULL COMMENT '属性组ID',
+  `type` tinyint NOT NULL COMMENT '属性类型：1-规格，2-参数',
   `input_type` tinyint NOT NULL COMMENT '输入录入方式：1-手动输入，2-从列表选择',
   `options` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '逗号分割的可选值列表，仅当input_type是2使用',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pms_attribute
@@ -44,13 +33,14 @@ DROP TABLE IF EXISTS `pms_attribute_group`;
 CREATE TABLE `pms_attribute_group`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '属性组ID',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性组名称',
+  `category_id` bigint NULL DEFAULT NULL COMMENT '商品分类ID',
   `sort` smallint NOT NULL DEFAULT 1 COMMENT '排序',
   `remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pms_attribute_group
@@ -69,7 +59,7 @@ CREATE TABLE `pms_brand`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_brand
@@ -95,7 +85,7 @@ CREATE TABLE `pms_category`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NULL DEFAULT 0 COMMENT '逻辑删除标识(0-未删除，1-已删除)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 102 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_category
@@ -114,9 +104,10 @@ INSERT INTO `pms_category` VALUES (101, '游戏本', 97, 'https://oss.youlai.tec
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_category_brand`;
 CREATE TABLE `pms_category_brand`  (
+  `id` bigint NOT NULL,
   `category_id` bigint NOT NULL,
   `brand_id` bigint NOT NULL,
-  PRIMARY KEY (`category_id`, `brand_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -141,7 +132,7 @@ CREATE TABLE `pms_sku`  (
   `is_deleted` tinyint NULL DEFAULT NULL COMMENT '逻辑删除标识：0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_sku_pms_spu`(`spu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 755 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_sku
@@ -169,9 +160,13 @@ INSERT INTO `pms_sku` VALUES (17, 'sn001', 4, '黑 6+128g', 399900, 999, 0, 'htt
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_sku_spec_value`;
 CREATE TABLE `pms_sku_spec_value`  (
-  `sku_id` bigint NOT NULL COMMENT 'SKU ID',
-  `spec_value_id` bigint NOT NULL COMMENT '规格值 ID',
-  PRIMARY KEY (`sku_id`, `spec_value_id`) USING BTREE
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `sku_id` bigint NULL DEFAULT NULL COMMENT 'SKU ID',
+  `attr_id` bigint NULL DEFAULT NULL COMMENT '规格属性 ID',
+  `attr_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规格属性名称',
+  `attr_value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规格属性值',
+  `sort` smallint NULL DEFAULT NULL COMMENT '规格排序',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -198,7 +193,7 @@ CREATE TABLE `pms_spu`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_pms_spu_pms_brand`(`brand_id`) USING BTREE,
   INDEX `fk_pms_spu_pms_category`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 288 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_spu
@@ -209,49 +204,50 @@ INSERT INTO `pms_spu` VALUES (3, '惠普战X ', 1, 99, 33, 'https://oss.youlai.t
 INSERT INTO `pms_spu` VALUES (4, '小米13', 1, 5, 10, 'https://oss.youlai.tech/youlai-boot/2023/06/08/6b83dd33eaa248ed8e11cff0003287ee.jpg', '台', '好快,好稳,\n好一次强上加强。\n高通全新一代芯片赋能，速度大幅提升。\n三大专业主摄影像加持，能力全面进化。\n大师级设计理念新诠释，质感简而不凡。\n斩获十五项纪录旗舰屏，感官万般出众。', '<p><img src=\"http://a.youlai.tech:9000/default/1a69357664c24962ac23953905c3c38f.png\" alt=\"\" data-href=\"\" style=\"width: 449.00px;height: 449.00px;\"/></p>', NULL, '2022-07-03 14:16:16', 0);
 
 -- ----------------------------
--- Table structure for pms_spu_attribute
+-- Table structure for pms_spu_attribute_value
 -- ----------------------------
-DROP TABLE IF EXISTS `pms_spu_attribute`;
-CREATE TABLE `pms_spu_attribute`  (
+DROP TABLE IF EXISTS `pms_spu_attribute_value`;
+CREATE TABLE `pms_spu_attribute_value`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'SPU 属性ID',
   `spu_id` bigint NOT NULL COMMENT 'SPU ID',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称',
-  `value` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性值',
+  `attr_id` bigint NULL DEFAULT NULL COMMENT '参数属性ID',
+  `attr_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '参数属性名称',
+  `attr_value` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '参数属性值',
   `sort` smallint NOT NULL DEFAULT 1 COMMENT '排序',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `fk_pms_spu_attribute_pms_attr`(`name`) USING BTREE,
+  INDEX `fk_pms_spu_attribute_pms_attr`(`attr_name`) USING BTREE,
   INDEX `fk_pms_spu_attribute_pms_spu`(`spu_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 847 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性/规格表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_spu_attribute
+-- Records of pms_spu_attribute_value
 -- ----------------------------
-INSERT INTO `pms_spu_attribute` VALUES (1, 1, '颜色', '黑', 1, NULL, '2022-07-03 14:16:16', 0);
-INSERT INTO `pms_spu_attribute` VALUES (3, 1, '规格', '6+128g', 1, NULL, '2022-07-03 14:16:16', 0);
-INSERT INTO `pms_spu_attribute` VALUES (4, 1, '规格', '8+256g', 1, NULL, '2022-07-03 14:16:16', 0);
-INSERT INTO `pms_spu_attribute` VALUES (5, 1, '上市时间', '2021-07-17', 1, NULL, '2022-07-03 14:16:16', 0);
-INSERT INTO `pms_spu_attribute` VALUES (216, 1, '颜色', '蓝', 1, '2022-03-05 09:25:53', '2022-07-03 14:16:16', 0);
-INSERT INTO `pms_spu_attribute` VALUES (251, 2, '上市时间', '2022/3/11', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (252, 2, '商品名称', '华硕天选3', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (253, 2, '商品编号', '100032610338', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (254, 2, '商品毛重', '4.05kg', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (255, 2, '系统', 'windows11', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (256, 2, '颜色', '魔幻青', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (257, 2, '颜色', '日蚀灰', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (258, 2, '规格', 'RTX3060/i7-12700H/165Hz 2.5K屏', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (259, 2, '规格', 'RTX3050tTi/12代i5/144Hz高色域屏', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
-INSERT INTO `pms_spu_attribute` VALUES (838, 3, '内存', '16g 32g', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
-INSERT INTO `pms_spu_attribute` VALUES (839, 3, '重量', '1.5kg(含)-2kg(不含)', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
-INSERT INTO `pms_spu_attribute` VALUES (840, 3, '显卡类型', '核芯显卡', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
-INSERT INTO `pms_spu_attribute` VALUES (841, 3, '内存容量', '16g', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
-INSERT INTO `pms_spu_attribute` VALUES (842, 3, '内存容量', '32g', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
-INSERT INTO `pms_spu_attribute` VALUES (843, 3, '硬盘容量', '512g', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
-INSERT INTO `pms_spu_attribute` VALUES (844, 3, '硬盘容量', '1t', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
-INSERT INTO `pms_spu_attribute` VALUES (845, 3, '套餐类型', '【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
-INSERT INTO `pms_spu_attribute` VALUES (846, 3, '套餐类型', '【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (1, 1, NULL, '颜色', '黑', 1, NULL, '2022-07-03 14:16:16', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (3, 1, NULL, '规格', '6+128g', 1, NULL, '2022-07-03 14:16:16', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (4, 1, NULL, '规格', '8+256g', 1, NULL, '2022-07-03 14:16:16', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (5, 1, NULL, '上市时间', '2021-07-17', 1, NULL, '2022-07-03 14:16:16', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (216, 1, NULL, '颜色', '蓝', 1, '2022-03-05 09:25:53', '2022-07-03 14:16:16', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (251, 2, NULL, '上市时间', '2022/3/11', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (252, 2, NULL, '商品名称', '华硕天选3', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (253, 2, NULL, '商品编号', '100032610338', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (254, 2, NULL, '商品毛重', '4.05kg', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (255, 2, NULL, '系统', 'windows11', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (256, 2, NULL, '颜色', '魔幻青', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (257, 2, NULL, '颜色', '日蚀灰', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (258, 2, NULL, '规格', 'RTX3060/i7-12700H/165Hz 2.5K屏', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (259, 2, NULL, '规格', 'RTX3050tTi/12代i5/144Hz高色域屏', 1, '2022-03-11 14:39:21', '2022-07-08 00:29:56', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (838, 3, NULL, '内存', '16g 32g', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (839, 3, NULL, '重量', '1.5kg(含)-2kg(不含)', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (840, 3, NULL, '显卡类型', '核芯显卡', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (841, 3, NULL, '内存容量', '16g', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (842, 3, NULL, '内存容量', '32g', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (843, 3, NULL, '硬盘容量', '512g', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (844, 3, NULL, '硬盘容量', '1t', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (845, 3, NULL, '套餐类型', '【2022款】锐龙六核R5-6600U/核芯显卡/100%sRGB高色域', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
+INSERT INTO `pms_spu_attribute_value` VALUES (846, 3, NULL, '套餐类型', '【2022款】锐龙八核R7-6800U/核芯显卡/100%sRGB高色域', 1, '2022-07-07 00:22:13', '2022-07-08 00:29:41', 0);
 
 -- ----------------------------
 -- Table structure for pms_spu_image
@@ -266,40 +262,10 @@ CREATE TABLE `pms_spu_image`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pms_spu_image
--- ----------------------------
-
--- ----------------------------
--- Table structure for pms_spu_spec
--- ----------------------------
-DROP TABLE IF EXISTS `pms_spu_spec`;
-CREATE TABLE `pms_spu_spec`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '规格 ID',
-  `spu_id` bigint NULL DEFAULT NULL COMMENT 'SPU ID',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规格名称(如：颜色、尺寸)',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of pms_spu_spec
--- ----------------------------
-
--- ----------------------------
--- Table structure for pms_spu_spec_value
--- ----------------------------
-DROP TABLE IF EXISTS `pms_spu_spec_value`;
-CREATE TABLE `pms_spu_spec_value`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '规格值ID',
-  `spec_id` bigint NOT NULL COMMENT '规格ID',
-  `value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规格值(如：蓝色、白色)',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of pms_spu_spec_value
 -- ----------------------------
 
 -- ----------------------------

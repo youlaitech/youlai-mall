@@ -16,6 +16,12 @@ import lombok.Setter;
 @TableName("pms_attribute_group")
 public class AttributeGroup extends BaseEntity {
 
+
+    /**
+     * 分类ID
+     */
+    private Long categoryId;
+
     /**
      * 属性组名称
      */

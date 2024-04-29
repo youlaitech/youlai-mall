@@ -21,5 +21,5 @@ public interface SpuImageService extends IService<SpuImage> {
      * @param galleryImages 商品图册
      * @return
      */
-    void saveSpuImages(Long spuId, List<SpuForm.SpuImage> galleryImages);
+    void saveSpuImages(Long spuId, List<SpuForm.Image> galleryImages);
 }

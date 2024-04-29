@@ -1,6 +1,5 @@
 package com.youlai.mall.pms.converter;
 
-import com.youlai.mall.pms.model.entity.SpuSpecValue;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

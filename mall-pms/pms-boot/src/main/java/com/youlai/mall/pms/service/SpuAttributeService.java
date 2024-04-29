@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.pms.model.entity.SpuAttribute;
+import com.youlai.mall.pms.model.entity.SpuAttributeValue;
 import com.youlai.mall.pms.model.form.SpuForm;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024/04/24
  */
-public interface SpuAttributeService extends IService<SpuAttribute> {
+public interface SpuAttributeService extends IService<SpuAttributeValue> {
 
     /**
      * 保存商品属性
@@ -20,6 +20,6 @@ public interface SpuAttributeService extends IService<SpuAttribute> {
      * @param spuId SPU ID
      * @param attributeList 属性列表
      */
-    void saveSpuAttributes(Long spuId, List<SpuForm.SpuAttribute> attributeList);
+    void saveSpuAttributes(Long spuId, List<SpuForm.Attribute> attributeList);
 
 }

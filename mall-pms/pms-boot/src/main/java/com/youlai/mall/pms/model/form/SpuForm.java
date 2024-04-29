@@ -29,14 +29,11 @@ public class SpuForm {
     @Schema(description = "品牌ID")
     private Long brandId;
 
-    @Schema(description = "状态：1-在售，0-下架")
-    private Integer status;
-
     @Schema(description = "商品主图URL")
     private String imgUrl;
 
     @Schema(description = "商品图册(详情页轮播图)")
-    private List<SpuImage> galleryImages;
+    private List<Image> galleryImages;
 
     @Schema(description = "商品描述")
     private String description;
@@ -44,18 +41,15 @@ public class SpuForm {
     @Schema(description = "商品详情")
     private String detail;
 
-    @Schema(description = "商品属性列表")
-    private List<SpuAttribute> attrList;
-
-    @Schema(description = "商品规格列表")
-    private List<SpuSpec> specList;
+    @Schema(description = "商品参数列表")
+    private List<Attribute> attributes;
 
     @Schema(description = "SKU列表")
     private List<Sku> skuList;
 
     @Schema(description = "商品图片")
     @Data
-    public static class SpuImage {
+    public static class Image {
 
         @Schema(description = "图片ID")
         private Long id;
@@ -68,9 +62,9 @@ public class SpuForm {
 
     }
 
-    @Schema(description = "商品属性")
+    @Schema(description = "属性")
     @Data
-    public static class SpuAttribute {
+    public static class Attribute {
 
         @Schema(description = "属性ID")
         private Long id;
@@ -83,21 +77,6 @@ public class SpuForm {
 
         @Schema(description = "排序")
         private Integer sort;
-
-    }
-
-    @Schema(description = "商品规格")
-    @Data
-    public static class SpuSpec {
-
-        @Schema(description = "规格ID")
-        private Long id;
-
-        @Schema(description = "规格名称(如：颜色)")
-        private String name;
-
-        @Schema(description = "规格值列表(如：黑色、白色)")
-        private List<String> values;
 
     }
 
@@ -116,6 +95,9 @@ public class SpuForm {
 
         @Schema(description = "库存")
         private Integer stock;
+
+        @Schema(description = "规格列表")
+        private List<Attribute> specifications;
 
     }
 }

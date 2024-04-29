@@ -1,6 +1,5 @@
 package com.youlai.mall.pms.mapper;
 
-import com.youlai.mall.pms.model.entity.SpuSpec;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.pms.model.bo.SpuSpecBO;

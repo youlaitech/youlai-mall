@@ -1,7 +1,7 @@
 package com.youlai.mall.pms.model.vo;
 
 import com.youlai.mall.pms.model.entity.Sku;
-import com.youlai.mall.pms.model.entity.SpuAttribute;
+import com.youlai.mall.pms.model.entity.SpuAttributeValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -39,9 +39,9 @@ public class PmsSpuDetailVO {
 
     private String detail;
 
-    private List<SpuAttribute> attrList;
+    private List<SpuAttributeValue> attrList;
 
-    private List<SpuAttribute> specList;
+    private List<SpuAttributeValue> specList;
 
     private List<Sku> skuList;
 
