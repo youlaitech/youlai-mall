@@ -15,8 +15,4 @@ public interface SpecValueConverter{
 
     Page<SpecValuePageVO> bo2PageVo(Page<SpuSpecValueBO> bo);
 
-    SpecValueForm entity2Form(SpuSpecValue entity);
-
-    @InheritInverseConfiguration(name = "entity2Form")
-    SpuSpecValue form2Entity(SpecValueForm entity);
 }

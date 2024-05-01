@@ -21,9 +21,9 @@
             COUNT(*)
         FROM
             sys_user_role t1
-                INNER JOIN sys_role t2 ON t1.role_id = t2.id AND t2.deleted = 0
+                INNER JOIN sys_role t2 ON t1.role_id = t2.id AND t2.is_deleted = 0
                 INNER JOIN sys_user t3 ON t1.user_id = t3.id
-                AND t3.deleted = 0
+                AND t3.is_deleted = 0
         WHERE
             t1.role_id = #{roleId}
     </select>

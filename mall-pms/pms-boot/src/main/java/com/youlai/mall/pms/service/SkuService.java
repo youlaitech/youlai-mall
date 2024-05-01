@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDto;
 import com.youlai.mall.pms.model.entity.Sku;
+import com.youlai.mall.pms.model.form.SpuForm;
 
 import java.util.List;
-
-
 /**
- * 商品库存接口
+ * 商品SKU 服务类
  *
  * @author haoxr
  * @since 2.0.0
@@ -51,5 +50,11 @@ public interface SkuService extends IService<Sku> {
      */
     boolean deductStock(String orderSn);
 
-
+    /**
+     * 保存商品SKU
+     *
+     * @param spuId    SPU ID
+     * @param skuList  SKU 列表
+     */
+    void saveSkus(Long spuId, List<SpuForm.Sku> skuList);
 }

@@ -23,7 +23,7 @@
                 LEFT JOIN sys_user_role sur ON u.id = sur.user_id
                 LEFT JOIN sys_role r ON sur.role_id = r.id
         <where>
-            u.deleted = 0 AND u.username != '${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}'
+            u.is_deleted = 0 AND u.username != '${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}'
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
                     u.username LIKE CONCAT('%',#{queryParams.keywords},'%')
@@ -75,7 +75,7 @@
         FROM
             sys_user
         WHERE
-            id = #{userId} AND deleted = 0
+            id = #{userId} AND is_deleted = 0
     </select>
 
     <!-- 用户认证信息映射 -->
@@ -113,7 +113,7 @@
                 LEFT JOIN sys_role t3 ON t3.id = t2.role_id
         WHERE
             t1.username = #{username}
-            AND t1.deleted=0
+            AND t1.is_deleted=0
     </select>
 
     <!-- 获取用户导出列表 -->
@@ -133,7 +133,7 @@
             sys_user u
                 LEFT JOIN sys_dept d ON u.dept_id = d.id
         <where>
-            u.deleted = 0 AND u.username != 'root'
+            u.is_deleted = 0 AND u.username != 'root'
             <if test='keywords!=null and keywords.trim() neq ""'>
                 AND (u.username LIKE CONCAT('%',#{keywords},'%')
                 OR u.nickname LIKE CONCAT('%',#{keywords},'%')
@@ -169,7 +169,7 @@
                 LEFT JOIN sys_role r ON sur.role_id = r.id
         WHERE
             u.id = #{userId}
-            AND u.deleted = 0
+            AND u.is_deleted = 0
     </select>
 
 </mapper>

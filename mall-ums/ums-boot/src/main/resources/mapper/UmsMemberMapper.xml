@@ -25,7 +25,7 @@
         FROM
             ums_member
         <where>
-            deleted = 0
+            is_deleted = 0
             <if test="queryParams.keywords != null and queryParams.keywords != ''">
                 AND
                 (

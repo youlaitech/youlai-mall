@@ -1,27 +1,19 @@
 package com.youlai.mall.pms.service.impl;
 
-import com.youlai.mall.pms.model.entity.SkuSpecValue;
-import com.youlai.mall.pms.mapper.SkuSpecValueMapper;
-import com.youlai.mall.pms.service.SkuSpecValueService;
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.mall.pms.converter.SkuSpecValueConverter;
+import com.youlai.mall.pms.mapper.SkuSpecValueMapper;
+import com.youlai.mall.pms.model.entity.Sku;
+import com.youlai.mall.pms.model.entity.SkuSpecValue;
+import com.youlai.mall.pms.model.form.SpuForm;
+import com.youlai.mall.pms.service.SkuSpecValueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.youlai.common.util.DateUtils;
-import com.youlai.mall.pms.model.form.SkuSpecValueForm;
-import com.youlai.mall.pms.model.query.SkuSpecValuePageQuery;
-import com.youlai.mall.pms.model.bo.SkuSpecValueBO;
-import com.youlai.mall.pms.model.vo.SkuSpecValuePageVO;
-import com.youlai.mall.pms.converter.SkuSpecValueConverter;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.StrUtil;
+import java.util.Objects;
 
 /**
  * SKU规格值服务实现类
@@ -35,83 +27,44 @@ public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, Sku
 
     private final SkuSpecValueConverter skuSpecValueConverter;
 
-    /**
-    * 获取SKU规格值分页列表
-    *
-    * @param queryParams 查询参数
-    * @return {@link IPage<SkuSpecValuePageVO>} SKU规格值分页列表
-    */
-    @Override
-    public IPage<SkuSpecValuePageVO> listPagedSkuSpecValues(SkuSpecValuePageQuery queryParams) {
-    
-        // 参数构建
-        int pageNum = queryParams.getPageNum();
-        int pageSize = queryParams.getPageSize();
-        Page<SkuSpecValueBO> page = new Page<>(pageNum, pageSize);
 
-        // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
-        DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
-    
-        // 查询数据
-        Page<SkuSpecValueBO> boPage = this.baseMapper.listPagedSkuSpecValues(page, queryParams);
-    
-        // 实体转换
-        return skuSpecValueConverter.bo2PageVo(boPage);
-    }
-    
     /**
-     * 获取SKU规格值表单数据
+     * 保存SKU规格值
      *
-     * @param id SKU规格值ID
-     * @return
+     * @param skuId    SKU ID
+     * @param specList 规格值列表
      */
     @Override
-    public SkuSpecValueForm getSkuSpecValueFormData(Long id) {
-        SkuSpecValue entity = this.getById(id);
-        return skuSpecValueConverter.entity2Form(entity);
-    }
-    
-    /**
-     * 新增SKU规格值
-     *
-     * @param formData SKU规格值表单对象
-     * @return
-     */
-    @Override
-    public boolean saveSkuSpecValue(SkuSpecValueForm formData) {
-        // 实体转换 form->entity
-        SkuSpecValue entity = skuSpecValueConverter.form2Entity(formData);
-        return this.save(entity);
-    }
-    
-    /**
-     * 更新SKU规格值
-     *
-     * @param id   SKU规格值ID
-     * @param formData SKU规格值表单对象
-     * @return
-     */
-    @Override
-    public boolean updateSkuSpecValue(Long id,SkuSpecValueForm formData) {
-        SkuSpecValue entity = skuSpecValueConverter.form2Entity(formData);
-        return this.updateById(entity);
-    }
-    
-    /**
-     * 删除SKU规格值
-     *
-     * @param idsStr SKU规格值ID，多个以英文逗号(,)分割
-     * @return true|false
-     */
-    @Override
-    public boolean deleteSkuSpecValues(String idsStr) {
-        Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的SKU规格值数据为空");
-        // 逻辑删除
-        List<Long> ids = Arrays.stream(idsStr.split(","))
-                .map(Long::parseLong)
-                .collect(Collectors.toList());
-        return this.removeByIds(ids);
-    }
-    
+    public void saveSkuSpecValues(Long skuId, List<SpuForm.Attribute> specList) {
 
+        // 检索数据库中与sku关联的规格值
+        List<SkuSpecValue> existingInDb = this.list(new LambdaQueryWrapper<SkuSpecValue>().eq(SkuSpecValue::getSkuId, skuId));
+
+        // 从提交的表单中提取所有非空的SKU ID
+        List<Long> submittedIds = specList.stream()
+                .map(SpuForm.Attribute::getId)
+                .filter(Objects::nonNull)
+                .toList();
+
+        // 确定需要删除的SKU：如果它们在提交的SKU列表中不存在
+        List<SkuSpecValue> specValuesToDelete = existingInDb.stream()
+                .filter(item -> !submittedIds.contains(item.getId()))
+                .toList();
+
+        // 如果有SKU需要删除，则进行删除操作
+        if (CollectionUtil.isNotEmpty(specValuesToDelete)) {
+            List<Long> specValueIdsToDelete = specValuesToDelete.stream()
+                    .map(SkuSpecValue::getId)
+                    .toList();
+
+            // 删除SKU关联的规格值
+            this.removeByIds(specValueIdsToDelete);
+        }
+        // 循环处理提交的每个规格值
+        for (SpuForm.Attribute spec : specList) {
+            SkuSpecValue entity = skuSpecValueConverter.convertToEntity(spec);
+            entity.setSkuId(skuId);
+            this.saveOrUpdate(entity);
+        }
+    }
 }

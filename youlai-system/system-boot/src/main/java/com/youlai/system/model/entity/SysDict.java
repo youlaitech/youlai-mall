@@ -47,16 +47,13 @@ public class SysDict implements Serializable {
     private Integer status;
 
     /**
-     * 是否默认(1:是;0:否)
+     * 是否默认[0:否,1:是]
      */
-    private Integer defaulted;
+    private Integer isDefault;
 
     /**
      * 备注
      */
     private String remark;
 
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

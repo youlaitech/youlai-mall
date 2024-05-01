@@ -3,6 +3,7 @@ package com.youlai.mall.pms.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.pms.constant.ProductConstants;
@@ -12,7 +13,10 @@ import com.youlai.mall.pms.model.bo.SkuBO;
 import com.youlai.mall.pms.model.dto.LockSkuDTO;
 import com.youlai.mall.pms.model.dto.SkuInfoDto;
 import com.youlai.mall.pms.model.entity.Sku;
+import com.youlai.mall.pms.model.entity.SkuSpecValue;
+import com.youlai.mall.pms.model.form.SpuForm;
 import com.youlai.mall.pms.service.SkuService;
+import com.youlai.mall.pms.service.SkuSpecValueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 商品库存业务实现类
@@ -34,6 +39,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
     private final RedisTemplate redisTemplate;
     private final SkuConverter skuConverter;
+    private final SkuSpecValueService skuSpecValueService;
 
 
     /**
@@ -150,5 +156,58 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
         // 移除订单锁定的商品
         redisTemplate.delete(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
         return true;
+    }
+
+
+    /**
+     * 保存商品SKU
+     *
+     * @param spuId   SPU ID
+     * @param skuList SKU 列表 非空的
+     */
+    @Override
+    public void saveSkus(Long spuId, List<SpuForm.Sku> skuList) {
+        // 检索数据库中与spuId相关联的所有SKU
+        List<Sku> existingSkusInDb = this.list(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
+
+        // 从提交的表单中提取所有非空的SKU ID
+        List<Long> submittedSkuIds = skuList.stream()
+                .map(SpuForm.Sku::getId)
+                .filter(Objects::nonNull)
+                .toList();
+
+        // 确定需要删除的SKU：如果它们在提交的SKU列表中不存在
+        List<Sku> skusToDelete = existingSkusInDb.stream()
+                .filter(sku -> !submittedSkuIds.contains(sku.getId()))
+                .toList();
+
+        // 如果有SKU需要删除，则进行删除操作
+        if (!skusToDelete.isEmpty()) {
+            List<Long> skuIdsToDelete = skusToDelete.stream()
+                    .map(Sku::getId)
+                    .toList();
+
+            // 删除SKU记录
+            boolean result = this.removeByIds(skuIdsToDelete);
+
+            // 删除关联的SKU规格值
+            if (result) {
+                skuSpecValueService.remove(new LambdaQueryWrapper<SkuSpecValue>().in(SkuSpecValue::getSkuId, skuIdsToDelete));
+            }
+        }
+
+        // 循环处理提交的每个SKU，执行更新或保存操作
+        for (SpuForm.Sku skuForm : skuList) {
+            Sku entity = skuConverter.convertToEntity(skuForm);
+            entity.setSpuId(spuId);
+
+            // 保存或更新SKU实体
+            boolean result = this.saveOrUpdate(entity);
+
+            // 如果成功保存或更新，则处理SKU的规格值
+            if (result) {
+                skuSpecValueService.saveSkuSpecValues(entity.getId(), skuForm.getSpecList());
+            }
+        }
     }
 }

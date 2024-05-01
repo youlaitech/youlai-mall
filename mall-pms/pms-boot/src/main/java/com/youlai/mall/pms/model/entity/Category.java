@@ -36,9 +36,10 @@ public class Category extends BaseEntity {
      */
     private Integer sort;
 
-    /**
-     * 更新人ID
+
+/**
+     * 是否显示[0-不显示，1-显示]
      */
-    private Long updateBy;
+    private Integer visible;
 
 }

@@ -34,7 +34,7 @@ public class Spu extends BaseEntity {
     /**
      * 主图URL
      */
-    private String mainImgUrl;
+    private String imgUrl;
 
     /**
      * 计量单位
@@ -42,12 +42,12 @@ public class Spu extends BaseEntity {
     private String unit;
 
     /**
-     * 商品简短描述
+     * 商品描述
      */
     private String description;
 
     /**
-     * 商品详细描述
+     * 商品详情
      */
     private String detail;
 

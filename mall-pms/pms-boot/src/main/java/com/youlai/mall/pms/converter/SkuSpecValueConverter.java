@@ -1,5 +1,6 @@
 package com.youlai.mall.pms.converter;
 
+import com.youlai.mall.pms.model.form.SpuForm;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,6 +10,8 @@ import com.youlai.mall.pms.model.entity.SkuSpecValue;
 import com.youlai.mall.pms.model.vo.SkuSpecValuePageVO;
 import com.youlai.mall.pms.model.form.SkuSpecValueForm;
 import com.youlai.mall.pms.model.bo.SkuSpecValueBO;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface SkuSpecValueConverter{
@@ -21,4 +24,5 @@ public interface SkuSpecValueConverter{
 
     @InheritInverseConfiguration(name = "entity2Form")
     SkuSpecValue form2Entity(SkuSpecValueForm entity);
+    SkuSpecValue convertToEntity(SpuForm.Attribute spec);
 }

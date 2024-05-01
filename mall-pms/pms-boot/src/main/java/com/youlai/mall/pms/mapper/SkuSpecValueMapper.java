@@ -17,13 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SkuSpecValueMapper extends BaseMapper<SkuSpecValue> {
 
-    /**
-     * 获取用户分页列表
-     *
-     * @param page
-     * @param queryParams 查询参数
-     * @return
-     */
-    Page<SkuSpecValueBO> listPagedSkuSpecValues(Page<SkuSpecValueBO> page, SkuSpecValuePageQuery queryParams);
+
 
 }

@@ -41,13 +41,4 @@ public class SysDept extends BaseEntity {
      */
     private Integer status;
 
-    /**
-     * 逻辑删除标识(1:已删除;0:未删除)
-     */
-    private Integer deleted;
-
- /*   private Long createBy;
-
-    private Long updateBy;*/
-
 }

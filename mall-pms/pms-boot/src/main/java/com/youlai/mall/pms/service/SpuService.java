@@ -10,10 +10,10 @@ import com.youlai.mall.pms.model.vo.*;
 import java.util.List;
 
 /**
- * 商品业务接口
+ * SPU 接口
  *
  * @author haoxr
- * @date 2022/2/5
+ * @since  2022/2/5
  */
 public interface SpuService extends IService<Spu> {
 
@@ -36,14 +36,6 @@ public interface SpuService extends IService<Spu> {
 
 
     /**
-     * Admin-获取商品详情
-     *
-     * @param id
-     * @return
-     */
-    PmsSpuDetailVO getSpuDetail(Long id);
-
-    /**
      * 「应用端」获取商品详情
      *
      * @param spuId
@@ -53,7 +45,7 @@ public interface SpuService extends IService<Spu> {
 
 
     /**
-     * 新增商品
+     * 保存商品
      *
      * @param formData 商品表单
      * @return
@@ -61,13 +53,13 @@ public interface SpuService extends IService<Spu> {
     boolean saveSpu(SpuForm formData);
 
     /**
-     * 修改商品
+     * 获取商品表单数据
      *
-     * @param spuId    商品ID
-     * @param formData
+     * @param spuId SPU ID
      * @return
      */
-    boolean updateSpuById(Long spuId, SpuForm formData);
+    SpuForm getSpuForm(Long spuId);
+
 
     /**
      * 删除商品
@@ -84,4 +76,6 @@ public interface SpuService extends IService<Spu> {
      * @return
      */
     List<SeckillingSpuVO> listSeckillingSpu();
+
+
 }

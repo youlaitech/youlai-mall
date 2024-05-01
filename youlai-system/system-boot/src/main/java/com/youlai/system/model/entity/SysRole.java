@@ -39,11 +39,6 @@ public class SysRole extends BaseEntity {
     private Integer status;
 
     /**
-     * 逻辑删除标识(0-未删除；1-已删除)
-     */
-    private Integer deleted;
-
-    /**
      * 数据权限
      */
     private Integer dataScope;

@@ -33,7 +33,7 @@ public class SpuForm {
     private String imgUrl;
 
     @Schema(description = "商品图册(详情页轮播图)")
-    private List<Image> galleryImages;
+    private List<Image> galleryImageList;
 
     @Schema(description = "商品描述")
     private String description;
@@ -42,7 +42,7 @@ public class SpuForm {
     private String detail;
 
     @Schema(description = "商品参数列表")
-    private List<Attribute> attributes;
+    private List<Attribute> attributeList;
 
     @Schema(description = "SKU列表")
     private List<Sku> skuList;
@@ -97,7 +97,7 @@ public class SpuForm {
         private Integer stock;
 
         @Schema(description = "规格列表")
-        private List<Attribute> specifications;
+        private List<Attribute> specList;
 
     }
 }

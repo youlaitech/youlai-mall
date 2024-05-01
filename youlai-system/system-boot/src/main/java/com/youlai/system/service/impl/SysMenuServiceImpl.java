@@ -130,7 +130,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 路由列表
      */
     @Override
-    @Cacheable(cacheNames = "menu", key = "'routes'")
+    // @Cacheable(cacheNames = "menu", key = "'routes'")
     public List<RouteVO> listRoutes() {
         List<RouteBO> menuList = this.baseMapper.listRoutes();
         return buildRoutes(SystemConstants.ROOT_NODE_ID, menuList);

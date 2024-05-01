@@ -7,6 +7,8 @@ import com.youlai.common.base.BaseEntity;
 import com.youlai.system.enums.MenuTypeEnum;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * 菜单实体对象
  *
@@ -15,7 +17,7 @@ import lombok.Data;
  */
 @TableName(value ="sys_menu")
 @Data
-public class SysMenu extends BaseEntity {
+public class SysMenu{
     /**
      * 菜单ID
      */
@@ -86,5 +88,15 @@ public class SysMenu extends BaseEntity {
      * 【目录】只有一个子路由是否始终显示(1:是 0:否)
      */
     private Integer alwaysShow;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
 }

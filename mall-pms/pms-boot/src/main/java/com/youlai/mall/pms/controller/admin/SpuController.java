@@ -5,7 +5,6 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.pms.model.form.SpuForm;
 import com.youlai.mall.pms.model.query.SpuPageQuery;
-import com.youlai.mall.pms.model.vo.PmsSpuDetailVO;
 import com.youlai.mall.pms.model.vo.PmsSpuPageVO;
 import com.youlai.mall.pms.service.SpuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,11 +35,13 @@ public class SpuController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "商品详情")
-    @GetMapping("/{id}/detail")
-    public Result detail(@Parameter(name = "商品ID") @PathVariable Long id) {
-        PmsSpuDetailVO pmsSpuDetailVO = spuService.getSpuDetail(id);
-        return Result.success(pmsSpuDetailVO);
+    @Operation(summary = "商品表单数据")
+    @GetMapping("/{id}/form")
+    public Result<SpuForm> getSpuForm(
+            @Parameter(name = "SPU ID") @PathVariable Long id
+    ) {
+        SpuForm spuForm = spuService.getSpuForm(id);
+        return Result.success(spuForm);
     }
 
     @Operation(summary = "保存商品")
@@ -50,20 +51,10 @@ public class SpuController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改商品")
-    @PutMapping(value = "/{id}")
-    public Result updateSpuById(
-            @Parameter(name = "商品ID") @PathVariable Long id,
-            @RequestBody SpuForm formData
-    ) {
-        boolean result = spuService.updateSpuById(id, formData);
-        return Result.judge(result);
-    }
-
     @Operation(summary = "删除商品")
     @DeleteMapping("/{ids}")
-    public Result delete(
-            @Parameter(name = "商品ID,多个以英文逗号(,)分隔") @PathVariable String ids
+    public Result deleteSpu(
+            @Parameter(name = "SPU ID,多个以英文逗号(,)分隔") @PathVariable String ids
     ) {
         boolean result = spuService.removeBySpuIds(ids);
         return Result.judge(result);
