@@ -205,9 +205,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 menuForm.setPath("/" + path); // 一级目录需以 / 开头
             }
             menuForm.setComponent("Layout");
-        }
-        // 如果是外链
-        else if (menuType == MenuTypeEnum.EXTLINK) {
+        } else if (menuType == MenuTypeEnum.EXTLINK) {
+            // 如果是外链
             menuForm.setComponent(null);
         }
 
