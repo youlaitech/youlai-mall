@@ -41,7 +41,7 @@ public interface UserConverter {
     @Mappings({
             @Mapping(target = "userId", source = "id")
     })
-    UserInfoVO entity2UserInfoVo(SysUser entity);
+    UserInfoVO entity2InfoVo(SysUser entity);
 
     SysUser importVo2Entity(UserImportVO vo);
 

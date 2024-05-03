@@ -246,7 +246,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 )
         );
         // entity->VO
-        UserInfoVO userInfoVO = userConverter.entity2UserInfoVo(user);
+        UserInfoVO userInfoVO = userConverter.entity2InfoVo(user);
 
         // 获取用户角色集合
         Set<String> roles = SecurityUtils.getRoles();
@@ -262,9 +262,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     /**
-     * 注销登出
-     *
-     * @return true|false
+     * 注销登录
      */
     @Override
     public boolean logout() {
