@@ -71,9 +71,9 @@ youlai-mall
 ├── mall-sms                        # 营销服务(Sales Management Service)
     ├── sms-api                     # 营销服务-Feign客户端
     ├── sms-boot                    # 营销服务-启动应用
-├── mall-pms                        # 商品服务(Product Management Service)
-    ├── pms-api                     # 商品服务-Feign客户端
-    ├── pms-boot                    # 商品服务-启动应用
+├── mall-product                        # 商品服务(Product Management Service)
+    ├── product-api                     # 商品服务-Feign客户端
+    ├── product-boot                    # 商品服务-启动应用
 ├── mall-oms                        # 订单服务(Order Management Service)
     ├── oms-api                     # 订单服务-Feign客户端
     ├── oms-boot                    # 订单服务-启动应用

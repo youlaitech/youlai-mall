@@ -41,7 +41,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>pms-api</artifactId>
+            <artifactId>product-api</artifactId>
         </dependency>
 
     </dependencies>

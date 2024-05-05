@@ -64,7 +64,7 @@ public class MemberController {
     ) {
         boolean status = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .in(UmsMember::getId, Arrays.asList(ids.split(",")))
-                .set(UmsMember::getDeleted, GlobalConstants.STATUS_YES));
+                .set(UmsMember::getIsDeleted, GlobalConstants.STATUS_YES));
         return Result.judge(status);
     }
 

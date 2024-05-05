@@ -1,6 +1,6 @@
 package com.youlai.mall.ums;
 
-import com.youlai.mall.pms.api.SkuFeignClient;
+import com.youlai.mall.product.api.SkuFeignClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

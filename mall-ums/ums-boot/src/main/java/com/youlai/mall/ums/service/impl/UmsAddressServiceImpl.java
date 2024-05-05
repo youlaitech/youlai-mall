@@ -45,12 +45,12 @@ public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddr
         boolean result = this.save(umsAddress);
         if (result) {
             // 修改其他默认地址为非默认
-            if (GlobalConstants.STATUS_YES.equals(addressForm.getDefaulted())) {
+            if (GlobalConstants.STATUS_YES.equals(addressForm.getIsDefault())) {
                 this.update(new LambdaUpdateWrapper<UmsAddress>()
                         .eq(UmsAddress::getMemberId, memberId)
-                        .eq(UmsAddress::getDefaulted, 1)
+                        .eq(UmsAddress::getIsDefault, 1)
                         .ne(UmsAddress::getId,umsAddress.getId())
-                        .set(UmsAddress::getDefaulted, 0)
+                        .set(UmsAddress::getIsDefault, 0)
                 );
             }
         }
@@ -74,12 +74,12 @@ public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddr
 
         if(result){
             // 修改其他默认地址为非默认
-            if (GlobalConstants.STATUS_YES.equals(addressForm.getDefaulted())) {
+            if (GlobalConstants.STATUS_YES.equals(addressForm.getIsDefault())) {
                 this.update(new LambdaUpdateWrapper<UmsAddress>()
                         .eq(UmsAddress::getMemberId, memberId)
-                        .eq(UmsAddress::getDefaulted, 1)
+                        .eq(UmsAddress::getIsDefault, 1)
                         .ne(UmsAddress::getId, umsAddress.getId())
-                        .set(UmsAddress::getDefaulted, 0)
+                        .set(UmsAddress::getIsDefault, 0)
                 );
             }
         }
@@ -96,7 +96,7 @@ public class UmsAddressServiceImpl extends ServiceImpl<UmsAddressMapper, UmsAddr
         Long memberId = SecurityUtils.getMemberId();
         List<UmsAddress> umsAddressList = this.list(new LambdaQueryWrapper<UmsAddress>()
                 .eq(UmsAddress::getMemberId, memberId)
-                .orderByDesc(UmsAddress::getDefaulted) // 默认地址排在首位
+                .orderByDesc(UmsAddress::getIsDefault) // 默认地址排在首位
         );
         List<MemberAddressDTO> memberAddressList = Optional.ofNullable(umsAddressList).orElse(new ArrayList<>()).stream()
                 .map(umsAddress -> {

@@ -23,9 +23,9 @@ public interface OrderConverter {
     @Mappings({
             @Mapping(target = "orderSn", source = "orderToken"),
             @Mapping(target = "totalQuantity",
-                    expression = "java(orderSubmitForm.getOrderItems().stream().map(OrderSubmitForm.OrderItem::getQuantity).reduce(0, Integer::sum))"),
+                    expression = "java(orderSubmitForm.getOrderItems().stream().map(OrderSubmitForm.OrderItem::getSkuQuantity).reduce(0, Integer::sum))"),
             @Mapping(target = "totalAmount",
-                    expression = "java(orderSubmitForm.getOrderItems().stream().map(item -> item.getPrice() * item.getQuantity()).reduce(0L, Long::sum))"),
+                    expression = "java(orderSubmitForm.getOrderItems().stream().map(item -> item.getSkuPrice() * item.getSkuQuantity()).reduce(0L, Long::sum))"),
             @Mapping(target = "source", expression = "java(orderSubmitForm.getOrderSource().getValue())"),
     })
     OmsOrder form2Entity(OrderSubmitForm orderSubmitForm);

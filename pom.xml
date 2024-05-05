@@ -19,7 +19,7 @@
         <!-- 商城模块 -->
         <module>mall-sms</module>
         <module>mall-ums</module>
-        <module>mall-pms</module>
+        <module>mall-product</module>
         <module>mall-oms</module>
     </modules>
 
@@ -239,7 +239,7 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>pms-api</artifactId>
+                <artifactId>product-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
