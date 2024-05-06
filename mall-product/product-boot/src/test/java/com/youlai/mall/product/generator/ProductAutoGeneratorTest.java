@@ -18,7 +18,7 @@ import java.util.List;
  * @see <a href="https://baomidou.com/pages/981406/">代码生成器配置新</a>
  * @since 2024/4/9
  */
-public class PmsAutoGeneratorTest {
+public class ProductAutoGeneratorTest {
 
     private static final DataSourceConfig.Builder DATA_SOURCE_CONFIG = new DataSourceConfig
             .Builder("jdbc:mysql://localhost:3306/youlai_mall_pms?serverTimezone=Asia/Shanghai", "root", "123456");

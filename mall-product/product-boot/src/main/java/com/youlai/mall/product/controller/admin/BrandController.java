@@ -7,6 +7,7 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.entity.Brand;
 import com.youlai.mall.product.model.query.BrandPageQuery;
+import com.youlai.mall.product.model.vo.BrandCategoryVO;
 import com.youlai.mall.product.service.BrandService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -85,5 +86,15 @@ public class BrandController {
     ) {
         boolean status = brandService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
+    }
+
+
+    @Operation(summary = "品牌分类列表")
+    @GetMapping("/{brandId}/categories")
+    public Result<List<BrandCategoryVO>> listBrandCategories(@PathVariable Long brandId) {
+
+
+
+        return null;
     }
 }
