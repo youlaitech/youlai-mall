@@ -88,7 +88,6 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
      * @return 是否成功
      */
     @Override
-    @Transactional
     public boolean saveSpu(SpuForm formData) {
 
         Spu entity = spuConverter.form2Entity(formData);
@@ -97,10 +96,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         if (result) {
             Long spuId = entity.getId();
             // 保存商品图片
-            List<SpuForm.Image> galleryImageList = formData.getGalleryImageList();
-            spuImageService.saveSpuImages(spuId, galleryImageList);
+            List<SpuForm.Image> imgList = formData.getImgList();
+            spuImageService.saveSpuImages(spuId, imgList);
             // 保存商品属性
-            List<SpuForm.Attribute> attributeList = formData.getAttributeList();
+            List<SpuForm.AttributeValue> attributeList = formData.getAttributeList();
             spuAttributeService.saveSpuAttributes(spuId, attributeList);
             // 保存 SKU
             List<SpuForm.Sku> skuList = formData.getSkuList();
@@ -133,13 +132,13 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                     BeanUtil.copyProperties(item, image);
                     return image;
                 }).collect(Collectors.toList());
-        spuForm.setGalleryImageList(galleryImageList);
+        spuForm.setImgList(galleryImageList);
 
         // 商品属性
-        List<SpuForm.Attribute> attributeList = spuAttributeService.list(new LambdaQueryWrapper<SpuAttributeValue>()
+        List<SpuForm.AttributeValue> attributeList = spuAttributeService.list(new LambdaQueryWrapper<SpuAttributeValue>()
                         .eq(SpuAttributeValue::getSpuId, spuId))
                 .stream().map(item -> {
-                    SpuForm.Attribute attribute = new SpuForm.Attribute();
+                    SpuForm.AttributeValue attribute = new SpuForm.AttributeValue();
                     BeanUtil.copyProperties(item, attribute);
                     return attribute;
                 }).collect(Collectors.toList());
@@ -153,10 +152,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
 
                     Long skuId = item.getId();
                     // 获取SKU规格值
-                    List<SpuForm.Attribute> skuSpecList = skuSpecValueService.list(new LambdaQueryWrapper<SkuSpecValue>()
+                    List<SpuForm.AttributeValue> skuSpecList = skuSpecValueService.list(new LambdaQueryWrapper<SkuSpecValue>()
                                     .eq(SkuSpecValue::getSkuId, skuId))
                             .stream().map(skuSpec -> {
-                                SpuForm.Attribute attribute = new SpuForm.Attribute();
+                                SpuForm.AttributeValue attribute = new SpuForm.AttributeValue();
                                 BeanUtil.copyProperties(skuSpec, attribute);
                                 return attribute;
                             }).collect(Collectors.toList());

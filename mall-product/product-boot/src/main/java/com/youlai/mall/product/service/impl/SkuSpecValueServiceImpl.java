@@ -34,14 +34,14 @@ public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, Sku
      * @param specList 规格值列表
      */
     @Override
-    public void saveSkuSpecValues(Long skuId, List<SpuForm.Attribute> specList) {
+    public void saveSkuSpecValues(Long skuId, List<SpuForm.AttributeValue> specList) {
 
         // 检索数据库中与sku关联的规格值
         List<SkuSpecValue> existingInDb = this.list(new LambdaQueryWrapper<SkuSpecValue>().eq(SkuSpecValue::getSkuId, skuId));
 
         // 从提交的表单中提取所有非空的SKU ID
         List<Long> submittedIds = specList.stream()
-                .map(SpuForm.Attribute::getId)
+                .map(SpuForm.AttributeValue::getId)
                 .filter(Objects::nonNull)
                 .toList();
 
@@ -59,8 +59,9 @@ public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, Sku
             // 删除SKU关联的规格值
             this.removeByIds(specValueIdsToDelete);
         }
+
         // 循环处理提交的每个规格值
-        for (SpuForm.Attribute spec : specList) {
+        for (SpuForm.AttributeValue spec : specList) {
             SkuSpecValue entity = skuSpecValueConverter.convertToEntity(spec);
             entity.setSkuId(skuId);
             this.saveOrUpdate(entity);

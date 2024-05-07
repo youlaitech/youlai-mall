@@ -47,11 +47,6 @@ public class Spu extends BaseEntity {
     private String description;
 
     /**
-     * 商品详情
-     */
-    private String detail;
-
-    /**
      * 商品状态：1-上架，0-下架
      */
     private Integer status;

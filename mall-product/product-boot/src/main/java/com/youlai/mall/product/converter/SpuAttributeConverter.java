@@ -16,7 +16,7 @@ import java.util.List;
 public interface SpuAttributeConverter {
 
 
-    SpuAttributeValue formAttribute2Entity(SpuForm.Attribute formAttribute);
+    SpuAttributeValue formAttribute2Entity(SpuForm.AttributeValue formAttribute);
 
-    List<SpuAttributeValue> formAttribute2Entity(List<SpuForm.Attribute> formAttribute);
+    List<SpuAttributeValue> formAttribute2Entity(List<SpuForm.AttributeValue> formAttribute);
 }

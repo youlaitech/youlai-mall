@@ -78,17 +78,17 @@ INSERT INTO `pms_category_attribute` VALUES (35, 5, '规格', 1, '2021-07-11 18:
 INSERT INTO `pms_category_attribute` VALUES (36, 5, '上市时间', 2, '2021-07-11 18:00:08', '2022-06-01 17:41:05');
 
 -- ----------------------------
--- Table structure for pms_category_brand
+-- Table structure for pms_brand_category
 -- ----------------------------
-DROP TABLE IF EXISTS `pms_category_brand`;
-CREATE TABLE `pms_category_brand`  (
+DROP TABLE IF EXISTS `pms_brand_category`;
+CREATE TABLE `pms_brand_category`  (
                                        `category_id` bigint NOT NULL,
                                        `brand_id` bigint NOT NULL,
                                        PRIMARY KEY (`category_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_category_brand
+-- Records of pms_brand_category
 -- ----------------------------
 
 -- ----------------------------

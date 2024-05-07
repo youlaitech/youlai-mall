@@ -20,6 +20,6 @@ public interface SpuAttributeService extends IService<SpuAttributeValue> {
      * @param spuId SPU ID
      * @param attributeList 属性列表
      */
-    void saveSpuAttributes(Long spuId, List<SpuForm.Attribute> attributeList);
+    void saveSpuAttributes(Long spuId, List<SpuForm.AttributeValue> attributeList);
 
 }

@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.entity.Brand;
+import com.youlai.mall.product.model.query.BrandCategoryQuery;
 import com.youlai.mall.product.model.query.BrandPageQuery;
 import com.youlai.mall.product.model.vo.BrandCategoryVO;
+import com.youlai.mall.product.service.BrandCategoryService;
 import com.youlai.mall.product.service.BrandService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +24,7 @@ import java.util.List;
  * 品牌前端控制器
  *
  * @author Ray Hao
- * @since 2022/7/2
+ * @since 2024/5/7
  */
 @Tag(name = "Admin-品牌接口")
 @RestController
@@ -31,6 +33,8 @@ import java.util.List;
 public class BrandController {
 
     private final BrandService brandService;
+
+    private final BrandCategoryService brandCategoryService;
 
     @Operation(summary = "品牌分页列表")
     @GetMapping("/page")
@@ -88,13 +92,20 @@ public class BrandController {
         return Result.judge(status);
     }
 
-
-    @Operation(summary = "品牌分类列表")
-    @GetMapping("/{brandId}/categories")
-    public Result<List<BrandCategoryVO>> listBrandCategories(@PathVariable Long brandId) {
-
-
-
-        return null;
+    @Operation(summary = "获取品牌分类关联列表")
+    @GetMapping("/{brandId}/brand-categories")
+    public Result<List<BrandCategoryVO>> listBrandCategories(BrandCategoryQuery queryParams) {
+        List<BrandCategoryVO> list = brandCategoryService.listBrandCategories(queryParams);
+        return Result.success(list);
     }
+
+    @Operation(summary = "保存品牌分类关联")
+    @PostMapping("/{brandId}/brand-categories")
+    public Result saveBrandCategories(
+            @Parameter(description = "品牌ID") @PathVariable Long brandId,
+            @RequestBody List<Long> categoryIds) {
+        brandCategoryService.saveBrandCategories(brandId, categoryIds);
+        return Result.success();
+    }
+
 }

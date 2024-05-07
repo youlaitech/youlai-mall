@@ -19,32 +19,35 @@ public class SpuForm {
     @Schema(description = "商品ID")
     private Long id;
 
-    @Schema(description = "商品名称")
+    @Schema(description = "商品名称",example = "Apple iPhone 12")
     @NotBlank(message = "商品名称不能为空")
     private String name;
 
-    @Schema(description = "分类ID")
+    @Schema(description = "分类ID",example = "1")
     private Long categoryId;
 
-    @Schema(description = "品牌ID")
+    @Schema(description = "品牌ID",example = "1")
     private Long brandId;
 
-    @Schema(description = "商品主图URL")
+    @Schema(description = "商品主图URL",example = "https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg")
     private String imgUrl;
 
-    @Schema(description = "商品图册(详情页轮播图)")
-    private List<Image> galleryImageList;
+    @Schema(description = "商品图册(详情页轮播图)",example = "[{\"imgUrl\":\"https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg\",\"sort\":1}]")
+    private List<Image> imgList;
 
-    @Schema(description = "商品描述")
+    @Schema(description = "商品单位",example = "台")
+    private String unit;
+
+    @Schema(description = "商品描述",example = "Apple iPhone 12 64GB 绿色")
     private String description;
 
-    @Schema(description = "商品详情")
+    @Schema(description = "商品详情",example = "<p>Apple iPhone 12 64GB 绿色</p>")
     private String detail;
 
-    @Schema(description = "商品参数列表")
-    private List<Attribute> attributeList;
+    @Schema(description = "商品参数列表",example = "[{\"id\":1,\"name\":\"颜色\",\"value\":\"绿色\",\"sort\":1}]")
+    private List<AttributeValue> attributeList;
 
-    @Schema(description = "SKU列表")
+    @Schema(description = "SKU列表",example = "[{\"id\":1,\"name\":\"绿色\",\"price\":699900,\"stock\":100,\"specList\":[{\"id\":1,\"name\":\"颜色\",\"value\":\"绿色\",\"sort\":1}]}]")
     private List<Sku> skuList;
 
     @Schema(description = "商品图片")
@@ -64,7 +67,7 @@ public class SpuForm {
 
     @Schema(description = "属性")
     @Data
-    public static class Attribute {
+    public static class AttributeValue {
 
         @Schema(description = "属性ID")
         private Long id;
@@ -96,8 +99,8 @@ public class SpuForm {
         @Schema(description = "库存")
         private Integer stock;
 
-        @Schema(description = "规格列表")
-        private List<Attribute> specList;
+        @Schema(description = "规格值列表")
+        private List<AttributeValue> specList;
 
     }
 }

@@ -21,5 +21,6 @@ public interface SkuSpecValueConverter{
 
     @InheritInverseConfiguration(name = "entity2Form")
     SkuSpecValue form2Entity(SkuSpecValueForm entity);
-    SkuSpecValue convertToEntity(SpuForm.Attribute spec);
+
+    SkuSpecValue convertToEntity(SpuForm.AttributeValue spec);
 }

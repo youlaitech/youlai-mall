@@ -37,7 +37,7 @@ public class SpuAttributeServiceImpl extends ServiceImpl<SpuAttributeMapper, Spu
      * @param formAttributes 属性列表
      */
     @Override
-    public void saveSpuAttributes(Long spuId, List<SpuForm.Attribute> formAttributes) {
+    public void saveSpuAttributes(Long spuId, List<SpuForm.AttributeValue> formAttributes) {
         // 如果属性列表为空，则删除所有旧属性
         if (CollectionUtil.isEmpty(formAttributes)) {
             this.remove(new LambdaQueryWrapper<SpuAttributeValue>().eq(SpuAttributeValue::getSpuId, spuId));

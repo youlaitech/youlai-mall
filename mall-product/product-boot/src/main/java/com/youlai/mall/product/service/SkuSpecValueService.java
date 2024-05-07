@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface SkuSpecValueService extends IService<SkuSpecValue> {
 
-    void saveSkuSpecValues(Long id, List<SpuForm.Attribute> specList);
+    void saveSkuSpecValues(Long id, List<SpuForm.AttributeValue> specList);
 }
