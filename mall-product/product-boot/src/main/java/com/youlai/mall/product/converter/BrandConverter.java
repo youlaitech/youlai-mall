@@ -5,8 +5,7 @@ import com.youlai.mall.product.model.entity.Brand;
 import com.youlai.mall.product.model.entity.BrandCategory;
 import com.youlai.mall.product.model.form.BrandCategoryForm;
 import com.youlai.mall.product.model.vo.BrandCategoryVO;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -19,6 +18,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface BrandConverter {
 
-    List<Option<Long>> convertToOptions(Brand entity);
+    @Mappings({
+            @Mapping(target = "value", source = "id"),
+            @Mapping(target = "label", source = "name"),
+    })
+    Option<Long> convertToOption(Brand entity);
+
+    List<Option<Long>> convertToOption(List<Brand> list);
 
 }

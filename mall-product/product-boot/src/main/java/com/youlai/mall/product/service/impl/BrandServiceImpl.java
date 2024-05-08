@@ -32,10 +32,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
 
     @Override
     public List<Option<Long>> listBrandOptions() {
-
         List<Brand> list = this.list();
-
-
-        return List.of();
+        return brandConverter.convertToOption(list);
     }
 }
