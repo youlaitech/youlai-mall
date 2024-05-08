@@ -17,8 +17,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("pms_sku_spec_value")
-public class SkuSpecValue implements Serializable {
+@TableName("pms_sku_attribute_value")
+public class SkuAttributeValue implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,9 +47,4 @@ public class SkuSpecValue implements Serializable {
      * 规格属性值
      */
     private String attrValue;
-
-    /**
-     * 排序
-     */
-    private Integer sort;
 }

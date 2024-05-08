@@ -1,6 +1,6 @@
 package com.youlai.mall.product.mapper;
 
-import com.youlai.mall.product.model.entity.SkuSpecValue;
+import com.youlai.mall.product.model.entity.SkuAttributeValue;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface SkuSpecValueMapper extends BaseMapper<SkuSpecValue> {
+public interface SkuAttributeValueMapper extends BaseMapper<SkuAttributeValue> {
 
 
 

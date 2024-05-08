@@ -13,10 +13,10 @@ import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
 import com.youlai.mall.product.model.dto.SkuInfoDto;
 import com.youlai.mall.product.model.entity.Sku;
-import com.youlai.mall.product.model.entity.SkuSpecValue;
+import com.youlai.mall.product.model.entity.SkuAttributeValue;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SkuService;
-import com.youlai.mall.product.service.SkuSpecValueService;
+import com.youlai.mall.product.service.SkuAttributeValueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -39,7 +39,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
     private final RedisTemplate redisTemplate;
     private final SkuConverter skuConverter;
-    private final SkuSpecValueService skuSpecValueService;
+    private final SkuAttributeValueService skuAttributeValueService;
 
 
     /**
@@ -192,7 +192,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
             // 删除关联的SKU规格值
             if (result) {
-                skuSpecValueService.remove(new LambdaQueryWrapper<SkuSpecValue>().in(SkuSpecValue::getSkuId, skuIdsToDelete));
+                skuAttributeValueService.remove(new LambdaQueryWrapper<SkuAttributeValue>().in(SkuAttributeValue::getSkuId, skuIdsToDelete));
             }
         }
 
@@ -206,7 +206,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
             // 如果成功保存或更新，则处理SKU的规格值
             if (result) {
-                skuSpecValueService.saveSkuSpecValues(entity.getId(), skuForm.getSpecList());
+                skuAttributeValueService.saveSaleAttributeValues(entity.getId(), skuForm.getSaleAttributeValues());
             }
         }
     }

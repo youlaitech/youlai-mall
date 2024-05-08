@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.Brand;
 import com.youlai.mall.product.model.query.BrandCategoryQuery;
 import com.youlai.mall.product.model.query.BrandPageQuery;
@@ -52,11 +53,10 @@ public class BrandController {
         return PageResult.success(page);
     }
 
-    @Operation(summary = "品牌列表")
-    @GetMapping
-    public Result listBrands() {
-        List<Brand> list = brandService.list(new LambdaQueryWrapper<Brand>()
-                .select(Brand::getId, Brand::getName));
+    @Operation(summary = "品牌下拉列表")
+    @GetMapping("/options")
+    public Result listBrandOptions() {
+        List<Option<Long>> list = brandService.listBrandOptions();
         return Result.success(list);
     }
 

@@ -10,7 +10,7 @@ import com.youlai.mall.product.service.SpuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Admin-商品SPU接口")
 @RestController
 @RequestMapping("/api/v1/spu")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SpuController {
 
-    private SpuService spuService;
+    private final SpuService spuService;
 
     @Operation(summary = "商品分页列表")
     @GetMapping("/page")
@@ -35,12 +35,12 @@ public class SpuController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "商品表单数据")
-    @GetMapping("/{id}/form")
+    @Operation(summary = "获取商品表单数据")
+    @GetMapping("/{spuId}/form")
     public Result<SpuForm> getSpuForm(
-            @Parameter(name = "SPU ID") @PathVariable Long id
+            @Parameter(description = "SPU ID",example = "290") @PathVariable Long spuId
     ) {
-        SpuForm spuForm = spuService.getSpuForm(id);
+        SpuForm spuForm = spuService.getSpuForm(spuId);
         return Result.success(spuForm);
     }
 

@@ -3,11 +3,11 @@ package com.youlai.mall.product.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.product.converter.SkuSpecValueConverter;
-import com.youlai.mall.product.mapper.SkuSpecValueMapper;
-import com.youlai.mall.product.model.entity.SkuSpecValue;
+import com.youlai.mall.product.converter.SkuAttributeValueConverter;
+import com.youlai.mall.product.mapper.SkuAttributeValueMapper;
+import com.youlai.mall.product.model.entity.SkuAttributeValue;
 import com.youlai.mall.product.model.form.SpuForm;
-import com.youlai.mall.product.service.SkuSpecValueService;
+import com.youlai.mall.product.service.SkuAttributeValueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,38 +22,38 @@ import java.util.Objects;
  */
 @Service
 @RequiredArgsConstructor
-public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, SkuSpecValue> implements SkuSpecValueService {
+public class SkuAttributeValueServiceImpl extends ServiceImpl<SkuAttributeValueMapper, SkuAttributeValue> implements SkuAttributeValueService {
 
-    private final SkuSpecValueConverter skuSpecValueConverter;
+    private final SkuAttributeValueConverter skuAttributeValueConverter;
 
 
     /**
-     * 保存SKU规格值
+     * 保存销售属性值
      *
      * @param skuId    SKU ID
-     * @param specList 规格值列表
+     * @param saleAttributeValues 销售属性值列表
      */
     @Override
-    public void saveSkuSpecValues(Long skuId, List<SpuForm.AttributeValue> specList) {
+    public void saveSaleAttributeValues(Long skuId, List<SpuForm.AttributeValue> saleAttributeValues) {
 
         // 检索数据库中与sku关联的规格值
-        List<SkuSpecValue> existingInDb = this.list(new LambdaQueryWrapper<SkuSpecValue>().eq(SkuSpecValue::getSkuId, skuId));
+        List<SkuAttributeValue> existingInDb = this.list(new LambdaQueryWrapper<SkuAttributeValue>().eq(SkuAttributeValue::getSkuId, skuId));
 
         // 从提交的表单中提取所有非空的SKU ID
-        List<Long> submittedIds = specList.stream()
+        List<Long> submittedIds = saleAttributeValues.stream()
                 .map(SpuForm.AttributeValue::getId)
                 .filter(Objects::nonNull)
                 .toList();
 
         // 确定需要删除的SKU：如果它们在提交的SKU列表中不存在
-        List<SkuSpecValue> specValuesToDelete = existingInDb.stream()
+        List<SkuAttributeValue> specValuesToDelete = existingInDb.stream()
                 .filter(item -> !submittedIds.contains(item.getId()))
                 .toList();
 
         // 如果有SKU需要删除，则进行删除操作
         if (CollectionUtil.isNotEmpty(specValuesToDelete)) {
             List<Long> specValueIdsToDelete = specValuesToDelete.stream()
-                    .map(SkuSpecValue::getId)
+                    .map(SkuAttributeValue::getId)
                     .toList();
 
             // 删除SKU关联的规格值
@@ -61,8 +61,8 @@ public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, Sku
         }
 
         // 循环处理提交的每个规格值
-        for (SpuForm.AttributeValue spec : specList) {
-            SkuSpecValue entity = skuSpecValueConverter.convertToEntity(spec);
+        for (SpuForm.AttributeValue spec : saleAttributeValues) {
+            SkuAttributeValue entity = skuAttributeValueConverter.convertToEntity(spec);
             entity.setSkuId(skuId);
             this.saveOrUpdate(entity);
         }

@@ -14,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SkuSpecValueBO implements Serializable {
+public class SkuAttributeValueBO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

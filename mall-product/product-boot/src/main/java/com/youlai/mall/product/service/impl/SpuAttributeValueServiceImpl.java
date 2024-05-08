@@ -3,11 +3,11 @@ package com.youlai.mall.product.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.product.converter.SpuAttributeConverter;
+import com.youlai.mall.product.converter.SpuAttributeValueConverter;
 import com.youlai.mall.product.mapper.SpuAttributeMapper;
 import com.youlai.mall.product.model.entity.SpuAttributeValue;
 import com.youlai.mall.product.model.form.SpuForm;
-import com.youlai.mall.product.service.SpuAttributeService;
+import com.youlai.mall.product.service.SpuAttributeValueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +25,15 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class SpuAttributeServiceImpl extends ServiceImpl<SpuAttributeMapper, SpuAttributeValue> implements SpuAttributeService {
+public class SpuAttributeValueServiceImpl extends ServiceImpl<SpuAttributeMapper, SpuAttributeValue> implements SpuAttributeValueService {
 
-    private final SpuAttributeConverter spuAttributeConverter;
+    private final SpuAttributeValueConverter spuAttributeValueConverter;
 
 
     /**
      * 保存商品属性
      *
-     * @param spuId         SPU ID
+     * @param spuId          SPU ID
      * @param formAttributes 属性列表
      */
     @Override
@@ -43,13 +43,13 @@ public class SpuAttributeServiceImpl extends ServiceImpl<SpuAttributeMapper, Spu
             this.remove(new LambdaQueryWrapper<SpuAttributeValue>().eq(SpuAttributeValue::getSpuId, spuId));
         } else {
             // 获取当前数据库中的属性
-            Map<Long, SpuAttributeValue> existingAttributes = this.list(new LambdaQueryWrapper<SpuAttributeValue>().eq(SpuAttributeValue::getSpuId, spuId))
+            Map<Long, SpuAttributeValue> existingAttributes = this.list(new LambdaQueryWrapper<SpuAttributeValue>()
+                            .eq(SpuAttributeValue::getSpuId, spuId))
                     .stream().collect(Collectors.toMap(SpuAttributeValue::getId, Function.identity()));
 
             List<SpuAttributeValue> attributesToSave = new ArrayList<>();
-            for (int i = 0; i < formAttributes.size(); i++) {
-                SpuAttributeValue newAttr = spuAttributeConverter.formAttribute2Entity(formAttributes.get(i));
-                newAttr.setSort(i + 1);
+            for (SpuForm.AttributeValue formAttribute : formAttributes) {
+                SpuAttributeValue newAttr = spuAttributeValueConverter.convertToEntity(formAttribute);
                 newAttr.setSpuId(spuId);
 
                 // 如果存在旧属性则移除，这样existingAttributes中剩下的即为需要删除的属性

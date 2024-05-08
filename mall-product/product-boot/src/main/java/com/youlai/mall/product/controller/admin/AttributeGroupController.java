@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * 属性组前端控制器
  *
@@ -66,8 +65,8 @@ public class AttributeGroupController {
     public Result deleteAttributeGroups(
             @Parameter(description = "属性组ID，多个以英文逗号(,)分割") @PathVariable String ids
     ) {
-        boolean result = attributeGroupService.deleteAttributeGroups(ids);
-        return Result.judge(result);
+        attributeGroupService.deleteAttributeGroups(ids);
+        return Result.success();
     }
 
 

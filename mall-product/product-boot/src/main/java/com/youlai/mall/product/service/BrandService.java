@@ -1,7 +1,10 @@
 package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.Brand;
+
+import java.util.List;
 
 /**
  * 品牌接口
@@ -11,4 +14,10 @@ import com.youlai.mall.product.model.entity.Brand;
  */
 public interface BrandService extends IService<Brand> {
 
+    /**
+     * 查询品牌下拉选项
+     *
+     * @return 品牌下拉选项
+     */
+    List<Option<Long>> listBrandOptions();
 }

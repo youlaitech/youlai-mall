@@ -1,9 +1,13 @@
 package com.youlai.mall.product.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * 商品属性
@@ -20,10 +24,16 @@ import lombok.Setter;
 @TableName("pms_spu_attribute_value")
 @Getter
 @Setter
-public class SpuAttributeValue extends BaseEntity {
+public class SpuAttributeValue implements Serializable {
 
     /**
-     * 商品ID
+     * 销售属性 ID
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * SPU ID
      */
     private Long spuId;
 
@@ -41,10 +51,5 @@ public class SpuAttributeValue extends BaseEntity {
      * 属性值
      */
     private String attrValue;
-
-    /**
-     * 排序
-     */
-    private Integer sort;
 
 }

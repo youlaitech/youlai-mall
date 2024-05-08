@@ -54,8 +54,7 @@ public interface AttributeGroupService extends IService<AttributeGroup> {
      * 删除属性组
      *
      * @param ids 属性组ID，多个以英文逗号(,)分割
-     * @return
      */
-    boolean deleteAttributeGroups(String ids);
+    void deleteAttributeGroups(String ids);
 
 }

@@ -105,10 +105,9 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
      * 删除属性组
      *
      * @param ids 属性组ID，多个以英文逗号(,)分割
-     * @return true|false
      */
     @Override
-    public boolean deleteAttributeGroups(String ids) {
+    public void deleteAttributeGroups(String ids) {
         Assert.isTrue(StrUtil.isNotBlank(ids), "删除的属性组数据为空");
         // 逻辑删除
         List<Long> idList = Arrays.stream(ids.split(","))
@@ -124,8 +123,6 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
                 );
             }
         }
-        // 无异常 则返回true
-        return true;
     }
 
 }
