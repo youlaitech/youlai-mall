@@ -1,10 +1,9 @@
 package com.youlai.mall.product.converter;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.Brand;
-import com.youlai.mall.product.model.entity.BrandCategory;
-import com.youlai.mall.product.model.form.BrandCategoryForm;
-import com.youlai.mall.product.model.vo.BrandCategoryVO;
+import com.youlai.mall.product.model.vo.BrandPageVO;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -26,4 +25,7 @@ public interface BrandConverter {
 
     List<Option<Long>> convertToOption(List<Brand> list);
 
+    BrandPageVO convertToVo(Brand entity);
+
+    Page<BrandPageVO> convertToPageVo(Page<Brand> page);
 }

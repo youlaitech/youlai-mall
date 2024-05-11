@@ -3,6 +3,9 @@ package com.youlai.mall.product.model.query;
 import com.youlai.common.base.BasePageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * 品牌分页列表查询对象

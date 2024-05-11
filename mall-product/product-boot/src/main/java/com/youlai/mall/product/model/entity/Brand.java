@@ -37,7 +37,7 @@ public class Brand extends BaseEntity {
     /**
      * 是否显示[0-不显示，1-显示]
      */
-    private Integer visible;
+    private Integer isVisible;
 
     /**
      * 品牌的简介

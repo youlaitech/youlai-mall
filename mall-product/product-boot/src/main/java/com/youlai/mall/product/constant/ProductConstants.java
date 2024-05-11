@@ -13,9 +13,4 @@ public interface ProductConstants {
      */
     String LOCKED_SKUS_PREFIX = "product:locked_skus:";
 
-    /**
-     * 临时规格ID前缀
-     */
-    String SPEC_TEMP_ID_PREFIX = "tid_";
-
 }

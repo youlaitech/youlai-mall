@@ -10,6 +10,7 @@ import com.youlai.mall.product.model.entity.Brand;
 import com.youlai.mall.product.model.query.BrandCategoryQuery;
 import com.youlai.mall.product.model.query.BrandPageQuery;
 import com.youlai.mall.product.model.vo.BrandCategoryVO;
+import com.youlai.mall.product.model.vo.BrandPageVO;
 import com.youlai.mall.product.service.BrandCategoryService;
 import com.youlai.mall.product.service.BrandService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,30 +40,22 @@ public class BrandController {
 
     @Operation(summary = "品牌分页列表")
     @GetMapping("/page")
-    public PageResult listPagedBrands(BrandPageQuery queryParams) {
-
-        // 查询参数
-        int pageNum = queryParams.getPageNum();
-        int pageSize = queryParams.getPageSize();
-        String keywords = queryParams.getKeywords();
-
+    public PageResult<BrandPageVO> listPagedBrands(BrandPageQuery queryParams) {
         // 分页查询
-        Page<Brand> page = brandService.page(new Page<>(pageNum, pageSize),
-                new LambdaQueryWrapper<Brand>().like(StrUtil.isNotBlank(keywords), Brand::getName, keywords)
-                        .orderByDesc(Brand::getCreateTime));
+        Page<BrandPageVO> page = brandService.listPagedBrands(queryParams);
         return PageResult.success(page);
     }
 
     @Operation(summary = "品牌下拉列表")
     @GetMapping("/options")
-    public Result listBrandOptions() {
+    public Result<List<Option<Long>>> listBrandOptions() {
         List<Option<Long>> list = brandService.listBrandOptions();
         return Result.success(list);
     }
 
     @Operation(summary = "品牌表单数据")
     @GetMapping("/{id}")
-    public Result getBrandDetail(@PathVariable Long id) {
+    public Result<Brand> getBrandDetail(@PathVariable Long id) {
         Brand brand = brandService.getById(id);
         return Result.success(brand);
     }

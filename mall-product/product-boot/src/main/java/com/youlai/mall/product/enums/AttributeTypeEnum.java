@@ -11,8 +11,8 @@ import lombok.Getter;
  */
 public enum AttributeTypeEnum implements IBaseEnum<Integer> {
 
-    SPECIFICATION(1, "规格"), //  规格: 影响价格的属性，如尺寸、颜色等
-    ATTRIBUTE(2, "参数"); //  参数: 重量、产地、包装等
+    BASE_ATTRIBUTE(1, "基础属性"), // 重量、产地、上市时间等
+    SALE_ATTRIBUTE(2, "销售属性"); // 影响价格的属性，如颜色、内存等
 
     AttributeTypeEnum(int value, String label) {
         this.value = value;
