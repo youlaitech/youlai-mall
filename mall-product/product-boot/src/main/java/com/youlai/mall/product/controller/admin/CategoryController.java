@@ -46,7 +46,7 @@ public class CategoryController {
     @Operation(summary = "获取商品分类表单数据")
     @GetMapping("/{id}/form")
     public Result getCategoryForm(
-            @Parameter(name = "商品分类ID") @PathVariable Long id
+            @Parameter(description = "商品分类ID") @PathVariable Long id
     ) {
         Category category = categoryService.getById(id);
         return Result.success(category);
@@ -64,7 +64,7 @@ public class CategoryController {
     @Operation(summary = "删除商品分类")
     @DeleteMapping("/{id}")
     public Result deleteCategory(
-            @Parameter(name = "商品分类ID") @PathVariable Long id
+            @Parameter(description = "商品分类ID") @PathVariable Long id
     ) {
         boolean result = categoryService.deleteCategory(id);
         return Result.judge(result);

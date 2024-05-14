@@ -37,7 +37,7 @@ public class AppSpuController {
     @Operation(summary = "获取商品详情")
     @GetMapping("/{spuId}")
     public Result<SpuDetailVO> getSpuDetail(
-            @Parameter(name ="商品ID") @PathVariable Long spuId
+            @Parameter(description ="商品ID") @PathVariable Long spuId
     ) {
         SpuDetailVO spuDetailVO = spuService.getSpuDetailForApp(spuId);
         return Result.success(spuDetailVO);

@@ -29,7 +29,7 @@ public class AppSkuController {
     @Operation(summary = "获取商品库存信息")
     @GetMapping("/{skuId}")
     public Result<SkuInfoDto> getSkuInfo(
-            @Parameter(name ="商品ID") @PathVariable Long skuId
+            @Parameter(description ="商品ID") @PathVariable Long skuId
     ) {
         SkuInfoDto skuInfo = skuService.getSkuInfo(skuId);
         return Result.success(skuInfo);
@@ -38,7 +38,7 @@ public class AppSkuController {
     @Operation(summary = "获取商品列表")
     @GetMapping
     public Result<List<SkuInfoDto>> listSkuInfoByIds(
-            @Parameter(name ="SKU的ID集合") @RequestParam List<Long> skuIds
+            @Parameter(description ="SKU的ID集合") @RequestParam List<Long> skuIds
     ) {
         List<SkuInfoDto> skuInfos = skuService.listSkuInfos(skuIds);
         return Result.success(skuInfos);

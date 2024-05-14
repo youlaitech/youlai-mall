@@ -1,12 +1,10 @@
 package com.youlai.mall.product.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * 品牌分类关联实体
@@ -19,14 +17,6 @@ import lombok.Setter;
 @TableName("pms_brand_category")
 public class BrandCategory implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 主键
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-
     /**
      * 分类ID
      */
@@ -37,13 +27,4 @@ public class BrandCategory implements Serializable {
      */
     private Long brandId;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 创建人ID
-     */
-    private Long createBy;
 }

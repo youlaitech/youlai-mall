@@ -1,9 +1,8 @@
 package com.youlai.mall.product.service;
 
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.BrandCategory;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.product.model.query.BrandCategoryQuery;
-import com.youlai.mall.product.model.vo.BrandCategoryVO;
 
 import java.util.List;
 
@@ -17,10 +16,8 @@ public interface BrandCategoryService extends IService<BrandCategory> {
 
     /**
      * 品牌分类关联列表
-     * <p>
-     * {@link List<BrandCategoryVO>} 品牌分类关联分页列表
      */
-    List<BrandCategoryVO> listBrandCategories(BrandCategoryQuery queryParams);
+    List<Option> listBrandCategories(Long brandId);
 
 
     /**

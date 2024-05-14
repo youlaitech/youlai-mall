@@ -50,7 +50,7 @@ public class OrderController {
     @Operation(summary = "订单详情")
     @GetMapping("/{orderId}")
     public Result getOrderDetail(
-            @Parameter(name ="订单ID") @PathVariable Long orderId
+            @Parameter(description ="订单ID") @PathVariable Long orderId
     ) {
         OrderDTO orderDTO = new OrderDTO();
         // 订单

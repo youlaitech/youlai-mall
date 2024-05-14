@@ -46,7 +46,7 @@ public class SmsAdvertController {
     @Operation(summary= "广告详情")
     @GetMapping("/{id}")
     public Result getAdvertDetail(
-            @Parameter(name = "广告ID") @PathVariable Long id
+            @Parameter(description = "广告ID") @PathVariable Long id
     ) {
         SmsAdvert advert = smsAdvertService.getById(id);
         return Result.success(advert);
@@ -62,7 +62,7 @@ public class SmsAdvertController {
     @Operation(summary= "修改广告")
     @PutMapping(value = "/{id}")
     public Result updateAdvert(
-            @Parameter(name = "广告ID") @PathVariable Long id,
+            @Parameter(description = "广告ID") @PathVariable Long id,
             @RequestBody SmsAdvert advert) {
         boolean status = smsAdvertService.updateById(advert);
         return Result.judge(status);
@@ -70,7 +70,7 @@ public class SmsAdvertController {
 
     @Operation(summary= "删除广告")
     @DeleteMapping("/{ids}")
-    public Result deleteAdverts(@Parameter(name = "广告ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids) {
+    public Result deleteAdverts(@Parameter(description = "广告ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids) {
         boolean status = smsAdvertService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
 

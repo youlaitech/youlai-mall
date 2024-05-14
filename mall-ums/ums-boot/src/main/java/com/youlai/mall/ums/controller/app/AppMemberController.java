@@ -28,7 +28,7 @@ public class AppMemberController {
     @Operation(summary = "根据会员ID获取OpenId")
     @GetMapping("/{memberId}/openid")
     public Result<String> getMemberOpenId(
-            @Parameter(name = "会员ID") @PathVariable Long memberId
+            @Parameter(description = "会员ID") @PathVariable Long memberId
     ) {
         UmsMember member = memberService.getOne(new LambdaQueryWrapper<UmsMember>()
                 .eq(UmsMember::getId, memberId)
@@ -64,7 +64,7 @@ public class AppMemberController {
 
     @Operation(summary = "根据OpenId获取会员认证信息", hidden = true)
     @GetMapping("/openid/{openid}")
-    public Result<MemberAuthDTO> getMemberByOpenid(@Parameter(name = "微信唯一身份标识") @PathVariable String openid) {
+    public Result<MemberAuthDTO> getMemberByOpenid(@Parameter(description = "微信唯一身份标识") @PathVariable String openid) {
         MemberAuthDTO memberAuthInfo = memberService.getMemberByOpenid(openid);
         return Result.success(memberAuthInfo);
     }
@@ -72,7 +72,7 @@ public class AppMemberController {
     @Operation(summary = "根据手机号获取会员认证信息", hidden = true)
     @GetMapping("/mobile/{mobile}")
     public Result<MemberAuthDTO> getMemberByMobile(
-            @Parameter(name = "手机号码") @PathVariable String mobile
+            @Parameter(description = "手机号码") @PathVariable String mobile
     ) {
         MemberAuthDTO memberAuthInfo = memberService.getMemberByMobile(mobile);
         return Result.success(memberAuthInfo);

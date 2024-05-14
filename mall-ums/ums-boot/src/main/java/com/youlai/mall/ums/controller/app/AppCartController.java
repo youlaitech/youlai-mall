@@ -66,7 +66,7 @@ public class AppCartController {
     @Operation(summary = "切换购物车商品的选中状态")
     @PatchMapping("/toggle-check")
     public Result toggleCheckAllItems(
-            @Parameter(name = "是否全选(true:全选;false:全不选)") boolean checked
+            @Parameter(description = "是否全选(true:全选;false:全不选)") boolean checked
     ) {
          cartService.toggleCheckAllItems(checked);
         return Result.success();

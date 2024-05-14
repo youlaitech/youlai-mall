@@ -32,7 +32,7 @@ public class SmsCouponController {
 
     @Operation(summary= "优惠券表单数据")
     @GetMapping("/{couponId}/form_data")
-    public Result<CouponForm> getCouponFormData(@Parameter(name = "优惠券ID") @PathVariable Long couponId) {
+    public Result<CouponForm> getCouponFormData(@Parameter(description = "优惠券ID") @PathVariable Long couponId) {
         CouponForm couponForm = couponService.getCouponFormData(couponId);
         return Result.success(couponForm);
     }
@@ -56,7 +56,7 @@ public class SmsCouponController {
 
     @Operation(summary= "删除优惠券")
     @DeleteMapping("/{ids}")
-    public Result deleteCoupons(@Parameter(name = "用户ID，多个以英文逗号(,)分割") @PathVariable String ids) {
+    public Result deleteCoupons(@Parameter(description = "用户ID，多个以英文逗号(,)分割") @PathVariable String ids) {
         boolean result = couponService.deleteCoupons(ids);
         return Result.judge(result);
     }

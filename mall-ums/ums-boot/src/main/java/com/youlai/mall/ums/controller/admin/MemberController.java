@@ -36,7 +36,7 @@ public class MemberController {
     @Operation(summary= "修改会员")
     @PutMapping(value = "/{memberId}")
     public <T> Result<T> update(
-            @Parameter(name = "会员ID") @PathVariable Long memberId,
+            @Parameter(description = "会员ID") @PathVariable Long memberId,
             @RequestBody UmsMember member
     ) {
         boolean status = memberService.updateById(member);
@@ -46,7 +46,7 @@ public class MemberController {
     @Operation(summary= "修改会员状态")
     @PatchMapping("/{memberId}/status")
     public <T> Result<T> updateMemberStatus(
-            @Parameter(name = "会员ID") @PathVariable Long memberId,
+            @Parameter(description = "会员ID") @PathVariable Long memberId,
             @RequestBody UmsMember member
     ) {
         boolean status = memberService.update(
@@ -60,7 +60,7 @@ public class MemberController {
     @Operation(summary= "删除会员")
     @DeleteMapping("/{ids}")
     public <T> Result<T> delete(
-            @Parameter(name = "会员ID，多个以英文逗号(,)拼接") @PathVariable String ids
+            @Parameter(description = "会员ID，多个以英文逗号(,)拼接") @PathVariable String ids
     ) {
         boolean status = memberService.update(new LambdaUpdateWrapper<UmsMember>()
                 .in(UmsMember::getId, Arrays.asList(ids.split(",")))

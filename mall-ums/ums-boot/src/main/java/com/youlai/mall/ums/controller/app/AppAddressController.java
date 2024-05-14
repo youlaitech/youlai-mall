@@ -33,7 +33,7 @@ public class AppAddressController {
     @Operation(summary= "获取地址详情")
     @GetMapping("/{addressId}")
     public Result<UmsAddress> getAddressDetail(
-            @Parameter(name = "地址ID") @PathVariable Long addressId
+            @Parameter(description = "地址ID") @PathVariable Long addressId
     ) {
         UmsAddress umsAddress = addressService.getById(addressId);
         return Result.success(umsAddress);
@@ -51,7 +51,7 @@ public class AppAddressController {
     @Operation(summary= "修改地址")
     @PutMapping("/{addressId}")
     public Result updateAddress(
-            @Parameter(name = "地址ID") @PathVariable Long addressId,
+            @Parameter(description = "地址ID") @PathVariable Long addressId,
             @RequestBody @Validated AddressForm addressForm
     ) {
         boolean result = addressService.updateAddress(addressForm);
@@ -61,7 +61,7 @@ public class AppAddressController {
     @Operation(summary= "删除地址")
     @DeleteMapping("/{ids}")
     public Result deleteAddress(
-            @Parameter(name = "地址ID，过个以英文逗号(,)分割") @PathVariable String ids
+            @Parameter(description = "地址ID，过个以英文逗号(,)分割") @PathVariable String ids
     ) {
         boolean status = addressService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);

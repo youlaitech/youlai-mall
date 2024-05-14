@@ -21,7 +21,7 @@ public class FileController {
     @PostMapping
     @Operation(summary= "文件上传")
     public Result<FileInfoVO> uploadFile(
-            @Parameter(name = "表单文件对象") @RequestParam(value = "file") MultipartFile file
+            @Parameter(description = "表单文件对象") @RequestParam(value = "file") MultipartFile file
     ) {
         FileInfoVO fileInfo = ossService.uploadFile(file);
         return Result.success(fileInfo);
@@ -30,7 +30,7 @@ public class FileController {
     @DeleteMapping
     @Operation(summary= "文件删除")
     public Result deleteFile(
-            @Parameter(name = "文件路径") @RequestParam String filePath
+            @Parameter(description = "文件路径") @RequestParam String filePath
     ) {
         boolean result = ossService.deleteFile(filePath);
         return Result.judge(result);

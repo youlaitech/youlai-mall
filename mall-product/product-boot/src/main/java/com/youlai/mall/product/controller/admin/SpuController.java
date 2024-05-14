@@ -54,7 +54,7 @@ public class SpuController {
     @Operation(summary = "删除商品")
     @DeleteMapping("/{ids}")
     public Result deleteSpu(
-            @Parameter(name = "SPU ID,多个以英文逗号(,)分隔") @PathVariable String ids
+            @Parameter(description = "SPU ID,多个以英文逗号(,)分隔") @PathVariable String ids
     ) {
         boolean result = spuService.removeBySpuIds(ids);
         return Result.judge(result);

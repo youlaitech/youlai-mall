@@ -1,15 +1,11 @@
 package com.youlai.mall.product.controller.admin;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.Brand;
-import com.youlai.mall.product.model.query.BrandCategoryQuery;
 import com.youlai.mall.product.model.query.BrandPageQuery;
-import com.youlai.mall.product.model.vo.BrandCategoryVO;
 import com.youlai.mall.product.model.vo.BrandPageVO;
 import com.youlai.mall.product.service.BrandCategoryService;
 import com.youlai.mall.product.service.BrandService;
@@ -79,21 +75,23 @@ public class BrandController {
     @Operation(summary = "删除品牌")
     @DeleteMapping("/{ids}")
     public Result deleteBrands(
-            @Parameter(name = "品牌ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids
+            @Parameter(description = "品牌ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids
     ) {
         boolean status = brandService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
     }
 
-    @Operation(summary = "获取品牌分类关联列表")
-    @GetMapping("/{brandId}/brand-categories")
-    public Result<List<BrandCategoryVO>> listBrandCategories(BrandCategoryQuery queryParams) {
-        List<BrandCategoryVO> list = brandCategoryService.listBrandCategories(queryParams);
-        return Result.success(list);
+    @Operation(summary = "获取品牌关联的分类列表")
+    @GetMapping("/{brandId}/categories")
+    public Result<List<Option>> listBrandCategories(
+           @Parameter(description = "品牌ID") @PathVariable Long brandId
+    ) {
+        List<Option> categories = brandCategoryService.listBrandCategories(brandId);
+        return Result.success(categories);
     }
 
-    @Operation(summary = "保存品牌分类关联")
-    @PostMapping("/{brandId}/brand-categories")
+    @Operation(summary = "修改品牌分类关联")
+    @PutMapping("/{brandId}/categories")
     public Result saveBrandCategories(
             @Parameter(description = "品牌ID") @PathVariable Long brandId,
             @RequestBody List<Long> categoryIds) {

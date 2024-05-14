@@ -40,7 +40,7 @@ public class AppOrderController {
     @Operation(summary = "订单确认", description = "进入订单确认页面有两个入口，1：立即购买；2：购物车结算")
     @PostMapping("/confirm")
     public Result<OrderConfirmVO> confirmOrder(
-            @Parameter(name ="立即购买必填，购物车结算不填") @RequestParam(required = false) Long skuId
+            @Parameter(description ="立即购买必填，购物车结算不填") @RequestParam(required = false) Long skuId
     ) {
         OrderConfirmVO result = orderService.confirmOrder(skuId);
         return Result.success(result);
