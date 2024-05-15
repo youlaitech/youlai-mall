@@ -18,7 +18,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AttributeGroupMapper extends BaseMapper<AttributeGroup> {
 
     /**
-     * 获取用户分页列表
+     * 获取属性组分页列表
      *
      * @param page
      * @param queryParams 查询参数

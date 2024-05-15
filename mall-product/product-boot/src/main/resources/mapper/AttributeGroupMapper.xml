@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.pms.mapper.AttributeGroupMapper">
+<mapper namespace="com.youlai.mall.product.mapper.AttributeGroupMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.youlai.mall.product.model.entity.AttributeGroup">
@@ -22,15 +22,27 @@
     <!-- 属性组分页列表 -->
     <select id="listPagedAttributeGroups" resultType="com.youlai.mall.product.model.bo.AttributeGroupBO">
         SELECT
-            <include refid="Base_Column_List"/>
+            pag.id,
+            pag.name,
+            pag.sort,
+            pag.remark,
+            pag.create_time,
+            pc.name AS category_name
         FROM
-            pms_attribute_group
+            pms_attribute_group pag
+                LEFT JOIN pms_category pc on pag.category_id = pc.id AND pc.is_deleted = 0
         <where>
-            is_deleted = 0
+            pag.is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
-                    name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    pag.name LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
+            </if>
+            <if test="queryParams.startTime != null">
+                AND pag.create_time &gt;= #{queryParams.startTime}
+            </if>
+            <if test="queryParams.endTime != null">
+                AND pag.create_time &lt;= #{queryParams.endTime}
             </if>
         </where>
     </select>

@@ -44,12 +44,8 @@ public class AttributeGroupBO implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 分类Label
      */
-    private LocalDateTime updateTime;
+    private String categoryLabel;
 
-    /**
-     * 逻辑删除标识(0-未删除，1-已删除)
-     */
-    private Integer isDeleted;;
 }
