@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +29,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/dept")
 @RequiredArgsConstructor
+@Slf4j
 public class SysDeptController {
     private final SysDeptService deptService;
+
     @Operation(summary = "获取部门列表")
     @GetMapping
-    public Result<List<DeptVO>> listDepartments(
-            @ParameterObject DeptQuery queryParams
-    ) {
+    public Result<List<DeptVO>> listDepartments(DeptQuery queryParams) {
         List<DeptVO> list = deptService.listDepartments(queryParams);
         return Result.success(list);
     }
@@ -49,7 +50,7 @@ public class SysDeptController {
     @Operation(summary = "获取部门表单数据")
     @GetMapping("/{deptId}/form")
     public Result<DeptForm> getDeptForm(
-            @Parameter(description ="部门ID") @PathVariable Long deptId
+            @Parameter(description = "部门ID") @PathVariable Long deptId
     ) {
         DeptForm deptForm = deptService.getDeptForm(deptId);
         return Result.success(deptForm);
@@ -73,7 +74,8 @@ public class SysDeptController {
             @PathVariable Long deptId,
             @Valid @RequestBody DeptForm formData
     ) {
-        deptId = deptService.updateDept(deptId, formData);
+        log.info("修改部门：{}", deptId);
+        deptId = deptService.saveDept(formData);
         return Result.success(deptId);
     }
 
@@ -81,10 +83,10 @@ public class SysDeptController {
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:dept:delete')")
     public Result deleteDepartments(
-            @Parameter(description ="部门ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids
+            @Parameter(description = "部门ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids
     ) {
-        boolean result = deptService.deleteByIds(ids);
-        return Result.judge(result);
+        deptService.deleteByIds(ids);
+        return Result.success();
     }
 
 }

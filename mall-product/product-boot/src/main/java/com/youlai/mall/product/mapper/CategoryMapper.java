@@ -12,11 +12,4 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CategoryMapper extends BaseMapper<Category> {
-
-    /**
-     * 删除分类
-     * @param categoryId 分类ID
-     * @return 影响行数
-     */
-    int deleteCategoryById(Long categoryId);
 }

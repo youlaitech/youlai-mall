@@ -1,7 +1,6 @@
 package com.youlai.mall.product.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
@@ -42,7 +41,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public List<CategoryVO> listCategories(Long parentId) {
         List<Category> categoryList = this.list(
                 new LambdaQueryWrapper<Category>()
-                        .eq(Category::getVisible, GlobalConstants.STATUS_YES)
+                        .eq(Category::getIsVisible, GlobalConstants.STATUS_YES)
                         .orderByDesc(Category::getSort)
         );
         return buildTree(parentId != null ? parentId : 0L, categoryList,
@@ -65,7 +64,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public List<Option> listCategoryOptions() {
         List<Category> categoryList = this.list(
                 new LambdaQueryWrapper<Category>()
-                        .eq(Category::getVisible, GlobalConstants.STATUS_YES)
+                        .eq(Category::getIsVisible, GlobalConstants.STATUS_YES)
                         .orderByAsc(Category::getSort)
         );
         return buildTree(0L, categoryList,
@@ -73,7 +72,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                 (option, children) -> ((Option<?>) option).setChildren(children)
         );
     }
-
 
     /**
      * 通用的递归树构建方法
@@ -104,9 +102,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public Long saveCategory(CategoryForm formData) {
-        Category category = categoryConverter.form2Entity(formData);
-        boolean result = this.saveOrUpdate(category);
-        Assert.isTrue(result, "保存商品分类失败");
+        // 转成实体对象
+        Category category = categoryConverter.convertToEntity(formData);
+        // 构建层级路径
+        String treePath = buildTreePath(formData.getParentId());
+        category.setTreePath(treePath);
+        // 保存分类
+        this.saveOrUpdate(category);
         return category.getId();
     }
 
@@ -114,11 +116,53 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * 删除分类
      *
      * @param id 分类ID
-     * @return 是否成功
      */
     @Override
-    public boolean deleteCategory(Long id) {
-        int count= this.baseMapper.deleteCategoryById(id);
-        return count > 0;
+    public void deleteCategory(Long id) {
+        // 删除分类及子分类
+        this.remove(new LambdaQueryWrapper<Category>()
+                .eq(Category::getId, id)
+                .or()
+                .apply("CONCAT (',',tree_path,',') LIKE CONCAT('%,',{0},',%')", id)
+        );
+    }
+
+    /**
+     * 获取分类表单数据
+     *
+     * @param id 分类ID
+     * @return 分类表单数据
+     */
+    @Override
+    public CategoryForm getCategoryForm(Long id) {
+        Category entity = this.getById(id);
+        CategoryForm categoryForm = categoryConverter.convertToForm(entity);
+
+        String treePath = entity.getTreePath();
+        // 根据 treePath 转为 level  0,1 是二级， 0,1,2 是三级
+        Integer level = treePath.split(",").length;
+        categoryForm.setLevel(level);
+
+        return categoryForm;
+    }
+
+
+    /**
+     * 构建部门层级路径
+     *
+     * @param parentId 父ID
+     * @return 父节点路径以英文逗号(, )分割，eg: 1,2,3
+     */
+    private String buildTreePath(Long parentId) {
+        String treePath = null;
+        if (GlobalConstants.ROOT_NODE_ID.equals(parentId)) {
+            treePath = String.valueOf(parentId);
+        } else {
+            Category parent = this.getById(parentId);
+            if (parent != null) {
+                treePath = parent.getTreePath() + "," + parent.getId();
+            }
+        }
+        return treePath;
     }
 }

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.converter.DeptConverter;
@@ -118,27 +119,20 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         return list;
     }
 
+    /**
+     * 保存部门
+     *
+     * @param formData
+     * @return
+     */
     @Override
     public Long saveDept(DeptForm formData) {
-        SysDept entity = deptConverter.form2Entity(formData);
-        // 部门路径
-        String treePath = generateDeptTreePath(formData.getParentId());
+        SysDept entity = deptConverter.convertToForm(formData);
+        // 部门层级路径
+        String treePath = buildTreePath(formData.getParentId());
         entity.setTreePath(treePath);
         // 保存部门并返回部门ID
-        this.save(entity);
-        return entity.getId();
-    }
-
-    @Override
-    public Long updateDept(Long deptId, DeptForm formData) {
-        // form->entity
-        SysDept entity = deptConverter.form2Entity(formData);
-        entity.setId(deptId);
-        // 部门路径
-        String treePath = generateDeptTreePath(formData.getParentId());
-        entity.setTreePath(treePath);
-        // 保存部门并返回部门ID
-        this.updateById(entity);
+        this.saveOrUpdate(entity);
         return entity.getId();
     }
 
@@ -172,18 +166,17 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @return
      */
     @Override
-    public boolean deleteByIds(String ids) {
+    public void deleteByIds(String ids) {
         // 删除部门及子部门
         if (StrUtil.isNotBlank(ids)) {
-            String[] menuIds = ids.split(",");
-            for (String deptId : menuIds) {
+            String[] deptIds = ids.split(",");
+            for (String deptId : deptIds) {
                 this.remove(new LambdaQueryWrapper<SysDept>()
                         .eq(SysDept::getId, deptId)
                         .or()
                         .apply("CONCAT (',',tree_path,',') LIKE CONCAT('%,',{0},',%')", deptId));
             }
         }
-        return true;
     }
 
     /**
@@ -210,14 +203,14 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 
     /**
-     * 部门路径生成
+     * 构建部门层级路径
      *
      * @param parentId 父ID
      * @return 父节点路径以英文逗号(, )分割，eg: 1,2,3
      */
-    private String generateDeptTreePath(Long parentId) {
+    private String buildTreePath(Long parentId) {
         String treePath = null;
-        if (SystemConstants.ROOT_NODE_ID.equals(parentId)) {
+        if (GlobalConstants.ROOT_NODE_ID.equals(parentId)) {
             treePath = String.valueOf(parentId);
         } else {
             SysDept parent = this.getById(parentId);

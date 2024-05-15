@@ -4,7 +4,6 @@ import com.youlai.mall.product.model.entity.SpuImage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.product.model.bo.SpuImageBO;
-import com.youlai.mall.product.model.query.SpuImagePageQuery;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

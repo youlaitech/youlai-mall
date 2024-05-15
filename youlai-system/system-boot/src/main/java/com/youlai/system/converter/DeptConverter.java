@@ -17,6 +17,6 @@ public interface DeptConverter {
     DeptForm entity2Form(SysDept entity);
     DeptVO entity2Vo(SysDept entity);
 
-    SysDept form2Entity(DeptForm deptForm);
+    SysDept convertToForm(DeptForm deptForm);
 
 }

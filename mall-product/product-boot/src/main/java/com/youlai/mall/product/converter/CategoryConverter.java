@@ -7,8 +7,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CategoryConverter {
-    CategoryForm entity2Form(Category entity);
+    CategoryForm convertToForm(Category entity);
 
-    @InheritInverseConfiguration(name = "entity2Form")
-    Category form2Entity(CategoryForm formData);
+    Category convertToEntity(CategoryForm formData);
 }

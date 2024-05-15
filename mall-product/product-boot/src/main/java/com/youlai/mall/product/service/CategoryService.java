@@ -47,5 +47,13 @@ public interface CategoryService extends IService<Category> {
      * @param id 分类ID
      * @return
      */
-    boolean deleteCategory(Long id);
+    void deleteCategory(Long id);
+
+    /**
+     * 获取分类表单数据
+     *
+     * @param id 分类ID
+     * @return
+     */
+    CategoryForm getCategoryForm(Long id);
 }

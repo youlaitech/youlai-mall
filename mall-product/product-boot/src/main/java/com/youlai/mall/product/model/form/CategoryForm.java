@@ -33,5 +33,8 @@ public class CategoryForm {
     private Integer sort;
 
     @Schema(description = "分类是否可见", allowableValues = {"0", "1"}, example = "1")
-    private Integer visible;
+    private Integer isVisible;
+
+    @Schema(description = "分类级别", example = "3")
+    private Integer level;
 }

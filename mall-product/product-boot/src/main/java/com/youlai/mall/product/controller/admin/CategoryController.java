@@ -2,8 +2,8 @@ package com.youlai.mall.product.controller.admin;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.web.model.Option;
-import com.youlai.mall.product.model.entity.Category;
 import com.youlai.mall.product.model.form.CategoryForm;
+import com.youlai.mall.product.model.query.CategoryQuery;
 import com.youlai.mall.product.model.vo.CategoryVO;
 import com.youlai.mall.product.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,8 +48,8 @@ public class CategoryController {
     public Result getCategoryForm(
             @Parameter(description = "商品分类ID") @PathVariable Long id
     ) {
-        Category category = categoryService.getById(id);
-        return Result.success(category);
+        CategoryForm categoryForm = categoryService.getCategoryForm(id);
+        return Result.success(categoryForm);
     }
 
     @Operation(summary = "保存商品分类")
@@ -66,8 +66,8 @@ public class CategoryController {
     public Result deleteCategory(
             @Parameter(description = "商品分类ID") @PathVariable Long id
     ) {
-        boolean result = categoryService.deleteCategory(id);
-        return Result.judge(result);
+        categoryService.deleteCategory(id);
+        return Result.success();
     }
 
 }
