@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 11/05/2024 22:50:25
+ Date: 15/05/2024 22:18:32
 */
 
 SET NAMES utf8mb4;
@@ -28,6 +28,7 @@ CREATE TABLE `pms_attribute`  (
   `type` tinyint NOT NULL COMMENT '属性类型[1-基础属性，2-销售属性]',
   `input_type` tinyint NOT NULL COMMENT '输入录入方式[1-手动输入，2-从列表选择]',
   `options` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '逗号分割的可选值列表，仅当input_type是2使用',
+  `category_id` bigint NULL DEFAULT NULL COMMENT '分类ID',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识[0-未删除，1-已删除]',
@@ -75,7 +76,7 @@ CREATE TABLE `pms_brand`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识[0-未删除，1-已删除]',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品品牌表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_brand
@@ -91,12 +92,8 @@ INSERT INTO `pms_brand` VALUES (33, '惠普', 'H', NULL, 1, 'https://oss.youlai.
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_brand_category`;
 CREATE TABLE `pms_brand_category`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
   `brand_id` bigint NOT NULL COMMENT '品牌ID',
-  `category_id` bigint NOT NULL COMMENT '分类ID',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint NULL DEFAULT NULL COMMENT '创建人ID',
-  PRIMARY KEY (`id`) USING BTREE
+  `category_id` bigint NOT NULL COMMENT '分类ID'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '品牌分类关联' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -111,9 +108,10 @@ CREATE TABLE `pms_category`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '分类ID',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称',
   `parent_id` bigint NOT NULL COMMENT '父级ID',
+  `tree_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '层级路径',
   `icon_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标地址',
   `sort` int NULL DEFAULT 1 COMMENT '排序',
-  `visible` tinyint(1) NULL DEFAULT 1 COMMENT '显示状态[1-显示，0-隐藏]',
+  `is_visible` tinyint(1) NULL DEFAULT 1 COMMENT '是否显示[1-显示，0-隐藏]',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识[0-未删除，1-已删除]',
@@ -123,14 +121,14 @@ CREATE TABLE `pms_category`  (
 -- ----------------------------
 -- Records of pms_category
 -- ----------------------------
-INSERT INTO `pms_category` VALUES (1, '手机配件', 0, NULL, 2, 1, NULL, '2022-07-07 22:56:53', 0);
-INSERT INTO `pms_category` VALUES (4, '智能手机', 1, NULL, 1, 1, NULL, NULL, 0);
-INSERT INTO `pms_category` VALUES (5, '5g手机', 4, 'https://oss.youlai.tech/default/6ffb37110ac2434a9882b9e8968b2887.jpg', 1, 1, NULL, '2022-07-08 00:28:38', 0);
-INSERT INTO `pms_category` VALUES (6, '电脑办公', 0, 'https://www.youlai.tech/files/default/776c21c1a71848069093033f461c5f4a.jpg', 1, 1, '2022-02-25 11:22:44', '2022-07-07 22:56:38', 0);
-INSERT INTO `pms_category` VALUES (97, '笔记本电脑', 6, NULL, 100, 1, '2022-07-08 00:10:27', '2022-07-08 00:10:27', 0);
-INSERT INTO `pms_category` VALUES (99, '三星轻薄本', 97, 'https://oss.youlai.tech/default/2f849b96ebb54ab3a94b1b90137f1b4d.png', 100, 1, '2022-07-08 00:14:03', '2022-07-08 00:26:52', 0);
-INSERT INTO `pms_category` VALUES (100, '全能本', 97, 'https://oss.youlai.tech/default/37cc080ec61b4ce7b0583b002568ebaa.png', 100, 1, '2022-07-08 00:14:10', '2022-07-08 00:27:01', 0);
-INSERT INTO `pms_category` VALUES (101, '游戏本', 97, 'https://oss.youlai.tech/default/5c1a2d5427534b48bc382caa55197f11.png', 100, 1, '2022-07-08 00:14:18', '2022-07-08 00:27:11', 0);
+INSERT INTO `pms_category` VALUES (1, '手机配件', 0, NULL, NULL, 2, 1, NULL, '2022-07-07 22:56:53', 0);
+INSERT INTO `pms_category` VALUES (4, '智能手机', 1, NULL, NULL, 1, 1, NULL, NULL, 0);
+INSERT INTO `pms_category` VALUES (5, '5g手机', 4, NULL, 'https://oss.youlai.tech/default/6ffb37110ac2434a9882b9e8968b2887.jpg', 1, 1, NULL, '2022-07-08 00:28:38', 0);
+INSERT INTO `pms_category` VALUES (6, '电脑办公', 0, NULL, 'https://www.youlai.tech/files/default/776c21c1a71848069093033f461c5f4a.jpg', 1, 1, '2022-02-25 11:22:44', '2022-07-07 22:56:38', 0);
+INSERT INTO `pms_category` VALUES (97, '笔记本电脑', 6, NULL, NULL, 100, 1, '2022-07-08 00:10:27', '2022-07-08 00:10:27', 0);
+INSERT INTO `pms_category` VALUES (99, '三星轻薄本', 97, NULL, 'https://oss.youlai.tech/default/2f849b96ebb54ab3a94b1b90137f1b4d.png', 100, 1, '2022-07-08 00:14:03', '2022-07-08 00:26:52', 0);
+INSERT INTO `pms_category` VALUES (100, '全能本', 97, NULL, 'https://oss.youlai.tech/default/37cc080ec61b4ce7b0583b002568ebaa.png', 100, 1, '2022-07-08 00:14:10', '2022-07-08 00:27:01', 0);
+INSERT INTO `pms_category` VALUES (101, '游戏本', 97, NULL, 'https://oss.youlai.tech/default/5c1a2d5427534b48bc382caa55197f11.png', 100, 1, '2022-07-08 00:14:18', '2022-07-08 00:27:11', 0);
 
 -- ----------------------------
 -- Table structure for pms_sku
