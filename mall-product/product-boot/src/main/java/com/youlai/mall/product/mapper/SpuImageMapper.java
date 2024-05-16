@@ -16,13 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SpuImageMapper extends BaseMapper<SpuImage> {
 
-    /**
-     * 获取用户分页列表
-     *
-     * @param page
-     * @param queryParams 查询参数
-     * @return
-     */
-    Page<SpuImageBO> listPagedSpuImages(Page<SpuImageBO> page, SpuImagePageQuery queryParams);
 
 }

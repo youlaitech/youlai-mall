@@ -27,7 +27,10 @@ public class CategoryVO {
     private Integer sort;
 
     @Schema(description = "分类是否可见", allowableValues = {"0", "1"}, example = "1")
-    private Integer visible;
+    private Integer isVisible;
+
+    @Schema(description = "分类级别", example = "1")
+    private Integer level;
 
     @Schema(description = "子分类列表")
     private List<CategoryVO> children;

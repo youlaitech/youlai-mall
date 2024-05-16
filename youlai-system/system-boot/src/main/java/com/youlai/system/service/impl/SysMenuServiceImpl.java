@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.constant.SystemConstants;
+import com.youlai.common.constant.GlobalConstants;
 import com.youlai.system.enums.MenuTypeEnum;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.converter.MenuConverter;
@@ -22,7 +22,6 @@ import com.youlai.system.service.SysMenuService;
 import com.youlai.system.service.SysRoleMenuService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -99,7 +98,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<Option> listMenuOptions() {
         List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().orderByAsc(SysMenu::getSort));
-        return buildMenuOptions(SystemConstants.ROOT_NODE_ID, menuList);
+        return buildMenuOptions(GlobalConstants.ROOT_NODE_ID, menuList);
     }
 
     /**
@@ -133,7 +132,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     // @Cacheable(cacheNames = "menu", key = "'routes'")
     public List<RouteVO> listRoutes() {
         List<RouteBO> menuList = this.baseMapper.listRoutes();
-        return buildRoutes(SystemConstants.ROOT_NODE_ID, menuList);
+        return buildRoutes(GlobalConstants.ROOT_NODE_ID, menuList);
     }
 
     /**
@@ -231,7 +230,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return 父节点路径以英文逗号(, )分割，eg: 1,2,3
      */
     private String generateMenuTreePath(Long parentId) {
-        if (SystemConstants.ROOT_NODE_ID.equals(parentId)) {
+        if (GlobalConstants.ROOT_NODE_ID.equals(parentId)) {
             return String.valueOf(parentId);
         } else {
             SysMenu parent = this.getById(parentId);

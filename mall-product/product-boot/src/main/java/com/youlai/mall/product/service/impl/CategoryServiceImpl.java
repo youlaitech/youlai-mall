@@ -48,6 +48,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                 category -> {
                     CategoryVO categoryVO = new CategoryVO();
                     BeanUtil.copyProperties(category, categoryVO);
+
+                    String treePath = category.getTreePath();
+                    // 根据 treePath 转为 level  0,1 是二级， 0,1,2 是三级
+                    Integer level = treePath.split(",").length;
+                    categoryVO.setLevel(level);
                     return categoryVO;
                 },
                 CategoryVO::setChildren
@@ -136,14 +141,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public CategoryForm getCategoryForm(Long id) {
         Category entity = this.getById(id);
-        CategoryForm categoryForm = categoryConverter.convertToForm(entity);
-
-        String treePath = entity.getTreePath();
-        // 根据 treePath 转为 level  0,1 是二级， 0,1,2 是三级
-        Integer level = treePath.split(",").length;
-        categoryForm.setLevel(level);
-
-        return categoryForm;
+        return categoryConverter.convertToForm(entity);
     }
 
 
