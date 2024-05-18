@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 属性组表单对象
@@ -32,8 +31,7 @@ public class AttributeGroupForm implements Serializable {
     @Schema(description = "备注")
     private String remark;
 
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
-
+    @Schema(description = "分类ID")
+    private Long categoryId;
 
 }

@@ -28,11 +28,10 @@ public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImage> i
 
     private final SpuImageConverter spuImageConverter;
 
-
     /**
      * 保存商品图册
      *
-     * @param spuId 商品ID
+     * @param spuId      商品ID
      * @param formImages 商品图册
      */
 
@@ -46,14 +45,13 @@ public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImage> i
         List<SpuImage> newImages = spuImageConverter.convertToEntity(formImages);
 
         if (CollectionUtil.isNotEmpty(newImages)) {
-
             // 新增图片处理
             List<SpuImage> addImages = newImages.stream()
                     .filter(item -> item.getId() == null)
                     .peek(item -> item.setSpuId(spuId))
                     .toList();
 
-            if(CollectionUtil.isNotEmpty(addImages)){
+            if (CollectionUtil.isNotEmpty(addImages)) {
                 this.saveBatch(addImages);
             }
 

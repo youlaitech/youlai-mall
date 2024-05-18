@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.product.mapper.SpuAttributeValueMapper">
+
+    <!-- 定义属性组&属性列表的结果集 -->
+    <resultMap id="AttributeGroupMap" type="com.youlai.mall.product.model.form.SpuForm$AttributeGroup">
+        <result column="attribute_group_id" property="attributeGroupId"/>
+        <result column="attribute_group_name" property="attributeGroupName"/>
+        <collection property="attributeValues" ofType="com.youlai.mall.product.model.form.SpuForm$AttributeValue" javaType="java.util.List">
+            <result column="attribute_id" property="attributeId"/>
+            <result column="attribute_name" property="attributeName"/>
+            <result column="attribute_value" property="attributeValue"/>
+        </collection>
+    </resultMap>
+
+    <!-- 根据SPU ID查询属性组&属性列表 -->
+    <select id="listAttributeGroupsBySpuId" resultMap="AttributeGroupMap">
+        SELECT
+            psav.attribute_id,
+            psav.attribute_name,
+            psav.attribute_value,
+            pag.NAME attribute_group_name,
+            pag.id attribute_group_id
+        FROM
+            pms_spu_attribute_value psav
+                LEFT JOIN pms_attribute pa ON psav.attribute_id = pa.id
+                LEFT JOIN pms_attribute_group pag ON pa.attribute_group_id = pag.id
+        WHERE
+            psav.spu_id = #{spuId}
+        ORDER BY
+            pag.sort ASC,
+            pa.sort ASC
+    </select>
+</mapper>

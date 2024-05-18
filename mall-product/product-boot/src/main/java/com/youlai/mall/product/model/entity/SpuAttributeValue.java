@@ -40,16 +40,16 @@ public class SpuAttributeValue implements Serializable {
     /**
      * 属性ID
      */
-    private Long attrId;
+    private Long attributeId;
 
     /**
      * 属性名称
      */
-    private String attrName;
+    private String attributeName;
 
     /**
      * 属性值
      */
-    private String attrValue;
+    private String attributeValue;
 
 }

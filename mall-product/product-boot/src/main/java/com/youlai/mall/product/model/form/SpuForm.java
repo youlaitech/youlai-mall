@@ -44,13 +44,13 @@ public class SpuForm {
     @Schema(description = "商品详情", example = "<p>Apple iPhone 12 64GB 绿色</p>")
     private String detail;
 
-    @Schema(description = "商品属性列表(仅返回用，提交时不填)", example = "[{\"attrId\":1,\"attrName\":\"颜色\",\"attrValues\":[\"红色\",\"绿色\"]}]")
-    private List<Attribute> attributes;
+    @Schema(description = "商品属性列表(仅返回用，提交时不填)", example = "[{\"attributeId\":1,\"attributeName\":\"颜色\",\"attributeValues\":[\"红色\",\"绿色\"]}]")
+    private List<SaleAttribute> saleAttributes;
 
-    @Schema(description = "商品基础属性值", example = "[{\"attrId\":1,\"attrName\":\"上市时间\",\"attrValue\":\"2024-05-08\"}]")
-    private List<AttributeValue> baseAttributeValues;
+    @Schema(description = "基础属性分组列表(仅返回用，提交时不填)", example = "[{\"attributeGroupId\":1,\"attributeGroupName\":\"基础属性\",\"attributeAttributeValues\":[{\"id\":1,\"attributeId\":1,\"attributeName\":\"颜色\",\"attributeValue\":\"红色\"}]}]")
+    private List<AttributeGroup> attributeGroups;
 
-    @Schema(description = "SKU列表", example = "[{\"name\":\"绿色 64GB\",\"price\":699900,\"stock\":100,\"imgUrl\":\"https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg\",\"saleAttributeValues\":[{\"attrName\":\"颜色\",\"attrValue\":\"绿色\",\"attrId\":1},{\"attrName\":\"内存\",\"attrValue\":\"64GB\",\"attrId\":2}]}]")
+    @Schema(description = "SKU列表", example = "[{\"name\":\"绿色 64GB\",\"price\":699900,\"stock\":100,\"imgUrl\":\"https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg\",\"saleAttributeValues\":[{\"attributeName\":\"颜色\",\"attributeValue\":\"绿色\",\"attributeId\":1},{\"attributeName\":\"内存\",\"attributeValue\":\"64GB\",\"attributeId\":2}]}]")
     private List<Sku> skuList;
 
     @Schema(description = "商品图片")
@@ -68,6 +68,21 @@ public class SpuForm {
 
     }
 
+    @Schema(description = "属性分组")
+    @Data
+    public static class AttributeGroup {
+
+        @Schema(description = "属性分组ID")
+        private Long attributeGroupId;
+
+        @Schema(description = "属性分组名称")
+        private String attributeGroupName;
+
+        @Schema(description = "属性列表")
+        private List<AttributeValue> attributeValues;
+
+    }
+
     @Schema(description = "属性值对象")
     @Data
     public static class AttributeValue {
@@ -76,13 +91,13 @@ public class SpuForm {
         private Long id;
 
         @Schema(description = "属性ID")
-        private Long attrId;
+        private Long attributeId;
 
         @Schema(description = "属性名称")
-        private String attrName;
+        private String attributeName;
 
         @Schema(description = "属性值")
-        private String attrValue;
+        private String attributeValue;
 
     }
 
@@ -110,17 +125,17 @@ public class SpuForm {
 
     }
 
-    @Schema(description = "属性")
+    @Schema(description = "销售属性")
     @Data
-    public static class Attribute {
+    public static class SaleAttribute {
 
         @Schema(description = "属性ID", example = "1")
-        private Long attrId;
+        private Long attributeId;
 
         @Schema(description = "属性名称", example = "颜色")
-        private String attrName;
+        private String attributeName;
 
-        @Schema(description = "属性值列表", example = "[\"红色\",\"绿色\"]")
-        private List<String> attrValues;
+        @Schema(description = "属性值列表", example = "[\"白色\",\"黑色\"]")
+        private List<String> attributeValues;
     }
 }

@@ -3,7 +3,6 @@ package com.youlai.mall.product.controller.admin;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.form.CategoryForm;
-import com.youlai.mall.product.model.query.CategoryQuery;
 import com.youlai.mall.product.model.vo.CategoryVO;
 import com.youlai.mall.product.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;

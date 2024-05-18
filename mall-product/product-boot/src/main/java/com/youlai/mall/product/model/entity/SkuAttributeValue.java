@@ -36,15 +36,15 @@ public class SkuAttributeValue implements Serializable {
     /**
      * 规格属性ID
      */
-    private Long attrId;
+    private Long attributeId;
 
     /**
      * 规格属性名称
      */
-    private String attrName;
+    private String attributeName;
 
     /**
      * 规格属性值
      */
-    private String attrValue;
+    private String attributeValue;
 }

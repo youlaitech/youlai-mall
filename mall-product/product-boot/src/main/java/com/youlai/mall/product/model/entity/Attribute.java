@@ -27,18 +27,18 @@ public class Attribute extends BaseEntity {
     private String name;
 
     /**
-     * 属性类型：1-规格，2-参数
+     * 属性类型（1：基础属性，2：销售属性）
      * @see com.youlai.mall.product.enums.AttributeTypeEnum
      */
     private Integer type;
 
     /**
-     * 输入录入方式：1-手动输入，2-从列表选择
+     * 输入方式（1：手动输入，2：从列表选择）
      */
-    private Integer inputType;
+    private Integer inputMethod;
 
     /**
-     * 逗号分割的可选值列表，仅当input_type是2使用
+     * 可选值列表（以逗号分隔，仅当输入方式为2时使用
      */
-    private String options;
+    private String selectableValues;
 }

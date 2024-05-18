@@ -9,6 +9,7 @@ import lombok.Getter;
  * @author Ray Hao
  * @since 2024/4/19
  */
+@Getter
 public enum AttributeInputTypeEnum implements IBaseEnum<Integer> {
 
     MANUAL(1, "手动录入"),
@@ -18,12 +19,10 @@ public enum AttributeInputTypeEnum implements IBaseEnum<Integer> {
         this.value = value;
         this.label = label;
     }
-    @Getter
     // @EnumValue //  Mybatis-Plus 提供注解表示插入数据库时插入该值
-    private Integer value;
+    private final Integer value;
 
-    @Getter
     // @JsonValue //  表示对枚举序列化时返回此字段
-    private String label;
+    private final String label;
 
 }

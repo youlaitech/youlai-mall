@@ -7,7 +7,7 @@ import com.youlai.mall.product.model.query.SpuPageQuery;
 import com.youlai.mall.product.model.vo.SeckillingSpuVO;
 import com.youlai.mall.product.model.vo.SpuDetailVO;
 import com.youlai.mall.product.model.vo.SpuPageVO;
-import com.youlai.mall.product.service.SpuService;
+import com.youlai.mall.product.service.app.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,16 +21,16 @@ import java.util.List;
 
 @Tag(name  = "App-商品接口")
 @RestController
-@RequestMapping("/app-api/v1/spu")
+@RequestMapping("/app-api/v1/product")
 @RequiredArgsConstructor
-public class AppSpuController {
+public class ProductController {
 
-    private final SpuService spuService;
+    private final ProductService productService;
 
     @Operation(summary = "商品分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult<SpuPageVO> listPagedSpuForApp(SpuPageQuery queryParams) {
-        IPage<SpuPageVO> result = spuService.listPagedSpuForApp(queryParams);
+        IPage<SpuPageVO> result = productService.listPagedSpuForApp(queryParams);
         return PageResult.success(result);
     }
 
@@ -39,15 +39,8 @@ public class AppSpuController {
     public Result<SpuDetailVO> getSpuDetail(
             @Parameter(description ="商品ID") @PathVariable Long spuId
     ) {
-        SpuDetailVO spuDetailVO = spuService.getSpuDetailForApp(spuId);
+        SpuDetailVO spuDetailVO = productService.getSpuDetailForApp(spuId);
         return Result.success(spuDetailVO);
-    }
-
-    @Operation(summary = "获取秒杀商品列表")
-    @GetMapping("/seckilling")
-    public Result<List<SeckillingSpuVO>> listSeckillingSpu() {
-        List<SeckillingSpuVO> list = spuService.listSeckillingSpu();
-        return Result.success(list);
     }
 
 }

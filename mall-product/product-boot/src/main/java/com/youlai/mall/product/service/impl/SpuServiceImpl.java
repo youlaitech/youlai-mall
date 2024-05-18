@@ -56,34 +56,6 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     }
 
     /**
-     * APP-商品分页列表
-     *
-     * @param queryParams 查询参数
-     * @return 商品分页列表 IPage<SpuPageVO>
-     */
-    @Override
-    public IPage<SpuPageVO> listPagedSpuForApp(SpuPageQuery queryParams) {
-        Page<SpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<SpuPageVO> list = this.baseMapper.listPagedSpuForApp(page, queryParams);
-        page.setRecords(list);
-        return page;
-    }
-
-    /**
-     * App-获取商品详情
-     *
-     * @param spuId 商品ID
-     * @return 商品详情
-     */
-    @Override
-    public SpuDetailVO getSpuDetailForApp(Long spuId) {
-
-        SpuDetailVO spuDetailVO = new SpuDetailVO();
-
-        return spuDetailVO;
-    }
-
-    /**
      * 保存商品
      *
      * @param formData 商品表单
@@ -102,8 +74,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             List<SpuForm.Image> imgList = formData.getImgList();
             spuImageService.saveSpuImages(spuId, imgList);
             // 保存商品属性
-            List<SpuForm.AttributeValue> attributeList = formData.getBaseAttributeValues();
-            spuAttributeValueService.saveSpuAttributes(spuId, attributeList);
+            List<SpuForm.AttributeGroup> attributeGroupList = formData.getAttributeGroups();
+            spuAttributeValueService.saveSpuAttributes(spuId, attributeGroupList);
             // 保存 SKU
             List<SpuForm.Sku> skuList = formData.getSkuList();
             skuService.saveSkus(spuId, skuList);
@@ -146,17 +118,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         }
 
         // 商品基础属性
-        List<SpuForm.AttributeValue> baseAttributeValues = spuAttributeValueService.list(new LambdaQueryWrapper<SpuAttributeValue>()
-                        .eq(SpuAttributeValue::getSpuId, spuId))
-                .stream().map(item -> {
-                    SpuForm.AttributeValue attribute = new SpuForm.AttributeValue();
-                    BeanUtil.copyProperties(item, attribute);
-                    return attribute;
-                }).toList();
-        spuForm.setBaseAttributeValues(baseAttributeValues);
+        List<SpuForm.AttributeGroup> attributeGroups = spuAttributeValueService.listAttributeGroupsBySpuId(spuId);
+        spuForm.setAttributeGroups(attributeGroups);
 
         List<Sku> skuList = skuService.list(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
-
         if (CollectionUtil.isNotEmpty(skuList)) {
             List<Long> skuIds = skuList.stream().map(Sku::getId).toList();
             List<SkuAttributeValue> skuAttributeValueList = skuAttributeValueService.list(new LambdaQueryWrapper<SkuAttributeValue>()
@@ -181,20 +146,20 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             spuForm.setSkuList(skus);
 
             // 转换销售属性为商品属性
-            Map<Long, SpuForm.Attribute> attributeMap = new HashMap<>();
+            Map<Long, SpuForm.SaleAttribute> attributeMap = new HashMap<>();
             for (SkuAttributeValue skuAttrValue : skuAttributeValueList) {
-                SpuForm.Attribute attribute = attributeMap.computeIfAbsent(skuAttrValue.getAttrId(), k -> {
-                    SpuForm.Attribute newAttr = new SpuForm.Attribute();
-                    newAttr.setAttrId(k);
-                    newAttr.setAttrName(skuAttrValue.getAttrName());
-                    newAttr.setAttrValues(new ArrayList<>());
+                SpuForm.SaleAttribute attribute = attributeMap.computeIfAbsent(skuAttrValue.getAttributeId(), k -> {
+                    SpuForm.SaleAttribute newAttr = new SpuForm.SaleAttribute();
+                    newAttr.setAttributeId(k);
+                    newAttr.setAttributeName(skuAttrValue.getAttributeName());
+                    newAttr.setAttributeValues(new ArrayList<>());
                     return newAttr;
                 });
-                if (!attribute.getAttrValues().contains(skuAttrValue.getAttrValue())) {
-                    attribute.getAttrValues().add(skuAttrValue.getAttrValue());
+                if (!attribute.getAttributeValues().contains(skuAttrValue.getAttributeValue())) {
+                    attribute.getAttributeValues().add(skuAttrValue.getAttributeValue());
                 }
             }
-            spuForm.setAttributes(new ArrayList<>(attributeMap.values()));
+            spuForm.setSaleAttributes(new ArrayList<>(attributeMap.values()));
         }
         return spuForm;
     }
@@ -225,19 +190,6 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         return true;
     }
 
-    /**
-     * 获取商品秒杀接口
-     *
-     * @return 商品秒杀列表
-     */
-    @Override
-    public List<SeckillingSpuVO> listSeckillingSpu() {
-        List<Spu> entities = this.list(new LambdaQueryWrapper<Spu>()
-                .select(Spu::getId, Spu::getName, Spu::getImgUrl)
-                .orderByDesc(Spu::getCreateTime)
-        );
-        return spuConverter.entity2SeckillingVO(entities);
-    }
 
 
 }
