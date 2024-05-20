@@ -1,6 +1,7 @@
 package com.youlai.mall.product.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
@@ -42,7 +43,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<Category> categoryList = this.list(
                 new LambdaQueryWrapper<Category>()
                         .eq(Category::getIsVisible, GlobalConstants.STATUS_YES)
-                        .orderByDesc(Category::getSort)
+                        .orderByAsc(Category::getSort)
         );
         return buildTree(parentId != null ? parentId : 0L, categoryList,
                 category -> {
@@ -50,9 +51,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                     BeanUtil.copyProperties(category, categoryVO);
 
                     String treePath = category.getTreePath();
-                    // 根据 treePath 转为 level  0,1 是二级， 0,1,2 是三级
-                    Integer level = treePath.split(",").length;
-                    categoryVO.setLevel(level);
+                    if (StrUtil.isNotBlank(treePath)){
+                        // 根据 treePath 转为 level  0,1 是二级， 0,1,2 是三级
+                        Integer level = treePath.split(",").length;
+                        categoryVO.setLevel(level);
+                    }
                     return categoryVO;
                 },
                 CategoryVO::setChildren

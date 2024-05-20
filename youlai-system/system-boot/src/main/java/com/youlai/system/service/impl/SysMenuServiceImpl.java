@@ -180,11 +180,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 && ObjectUtil.equals(routeBO.getKeepAlive(), 1)) {
             meta.setKeepAlive(true);
         }
-        // 【目录】只有一个子路由是否始终显示
-        if (MenuTypeEnum.CATALOG.equals(routeBO.getType())
-                && ObjectUtil.equals(routeBO.getAlwaysShow(), 1)) {
-            meta.setAlwaysShow(true);
-        }
+        meta.setAlwaysShow(ObjectUtil.equals(routeBO.getAlwaysShow(), 1));
 
         routeVO.setMeta(meta);
         return routeVO;

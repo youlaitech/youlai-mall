@@ -18,6 +18,9 @@ public class AttributeGroupPageQuery extends BasePageQuery {
     @Schema(description="关键字")
     private String keywords;
 
+    @Schema(description="分类ID")
+    private Long categoryId;
+
     @Schema(description="创建时间-开始")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String startTime;

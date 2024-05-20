@@ -44,8 +44,8 @@ public class AttributeGroupBO implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 分类Label
+     * 分类名称
      */
-    private String categoryLabel;
+    private String categoryName;
 
 }

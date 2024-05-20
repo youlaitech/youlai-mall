@@ -1,13 +1,11 @@
 package com.youlai.mall.product.service.app.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.entity.Spu;
 import com.youlai.mall.product.model.query.SpuPageQuery;
-import com.youlai.mall.product.model.vo.SeckillingSpuVO;
 import com.youlai.mall.product.model.vo.SpuDetailVO;
 import com.youlai.mall.product.model.vo.SpuPageVO;
 import com.youlai.mall.product.service.app.ProductService;
@@ -46,25 +44,8 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
      */
     @Override
     public SpuDetailVO getSpuDetailForApp(Long spuId) {
-
         SpuDetailVO spuDetailVO = new SpuDetailVO();
-
         return spuDetailVO;
-    }
-
-
-    /**
-     * 获取商品秒杀接口
-     *
-     * @return 商品秒杀列表
-     */
-    @Override
-    public List<SeckillingSpuVO> listSeckillingSpu() {
-        List<Spu> entities = this.list(new LambdaQueryWrapper<Spu>()
-                .select(Spu::getId, Spu::getName, Spu::getImgUrl)
-                .orderByDesc(Spu::getCreateTime)
-        );
-        return spuConverter.entity2SeckillingVO(entities);
     }
 
 

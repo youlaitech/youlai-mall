@@ -37,4 +37,7 @@ public class AttributeGroupPageVO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createTime;
 
+    @Schema(description = "分类名称")
+    private String categoryName;
+
 }

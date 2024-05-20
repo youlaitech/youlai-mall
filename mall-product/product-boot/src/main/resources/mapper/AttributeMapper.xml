@@ -1,43 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.pms.mapper.AttributeMapper">
-
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.youlai.mall.product.model.entity.Attribute">
-        <id column="id" property="id" />
-        <result column="attribute_group_id" property="attributeGroupId" />
-        <result column="name" property="name" />
-        <result column="input_type" property="inputType" />
-        <result column="options" property="options" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="is_deleted" property="isDeleted" />
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, attribute_group_id, name, input_type, options, create_time, update_time, is_deleted
-    </sql>
+<mapper namespace="com.youlai.mall.product.mapper.AttributeMapper">
 
     <!-- 属性分页列表 -->
     <select id="listPagedAttributes" resultType="com.youlai.mall.product.model.bo.AttributeBO">
         SELECT
-            <include refid="Base_Column_List"/>
+            t1.`name`,
+            t1.sort,
+            t1.type,
+            t1.selectable_values,
+            t2.NAME groupName,
+            t3.NAME categoryName
         FROM
-            pms_attribute
+            `pms_attribute` t1
+                LEFT JOIN pms_attribute_group t2 ON t1.attribute_group_id = t2.id
+                LEFT JOIN pms_category t3 ON t2.category_id = t3.id
         <where>
-            is_deleted = 0
+            t1.is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
-                    name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    t1.name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    OR t2.name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    OR t3.name LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
             </if>
             <if test='queryParams.groupId!=null'>
-                AND attribute_group_id = #{queryParams.groupId}
+                AND t1.attribute_group_id = #{queryParams.groupId}
             </if>
         </where>
         ORDER BY
-            create_time DESC
+            t2.sort DESC, t1.sort DESC
     </select>
 
 </mapper>

@@ -37,19 +37,18 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     @Override
     public Page<BrandPageVO> listPagedBrands(BrandPageQuery queryParams) {
         String keywords = queryParams.getKeywords();
-        Page<Brand> page = this.page(new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+        int pageNum = queryParams.getPageNum();
+        int pageSize = queryParams.getPageSize();
+        Page<Brand> page = this.page(new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<Brand>().like(StrUtil.isNotBlank(keywords), Brand::getName, keywords)
-                        .orderByDesc(Brand::getCreateTime)
+                        .orderByAsc(Brand::getSort)
         );
         return brandConverter.convertToPageVo(page);
     }
 
     /**
      * 品牌下拉选项
-     *
-     * @return 品牌下拉选项
      */
-
     @Override
     public List<Option<Long>> listBrandOptions() {
         List<Brand> list = this.list();

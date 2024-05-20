@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/app-api/v1/stocks")
 @RequiredArgsConstructor
-public class AppSkuController {
+public class StockController {
 
     private final SkuService skuService;
 

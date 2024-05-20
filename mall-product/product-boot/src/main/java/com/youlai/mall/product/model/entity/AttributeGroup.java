@@ -16,7 +16,6 @@ import lombok.Setter;
 @TableName("pms_attribute_group")
 public class AttributeGroup extends BaseEntity {
 
-
     /**
      * 分类ID
      */
@@ -31,12 +30,6 @@ public class AttributeGroup extends BaseEntity {
      * 排序
      */
     private Integer sort;
-
-    /**
-     * 备注
-     */
-    private String remark;
-
 
 
 }
