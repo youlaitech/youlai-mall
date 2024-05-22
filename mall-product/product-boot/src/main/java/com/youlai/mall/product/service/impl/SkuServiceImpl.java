@@ -11,7 +11,7 @@ import com.youlai.mall.product.converter.SkuConverter;
 import com.youlai.mall.product.mapper.SkuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
-import com.youlai.mall.product.model.dto.SkuInfoDto;
+import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.product.model.entity.Sku;
 import com.youlai.mall.product.model.entity.SkuAttributeValue;
 import com.youlai.mall.product.model.form.SpuForm;
@@ -23,13 +23,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
- * 商品库存业务实现类
+ * SKU 服务实现类
  *
- * @author haoxr
+ * @author Ray Hao
  * @since 2022/12/21
  */
 @Service
@@ -37,32 +36,42 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuService {
 
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final SkuConverter skuConverter;
     private final SkuAttributeValueService skuAttributeValueService;
 
-
     /**
-     * 获取商品库存信息
+     * 获取 SKU 信息
      *
      * @param skuId SKU ID
      * @return 商品库存信息
      */
     @Override
-    public SkuInfoDto getSkuInfo(Long skuId) {
-        return this.baseMapper.getSkuInfo(skuId);
+    public SkuDTO getSkuInfo(Long skuId) {
+        SkuBO bo = this.getSkuById(skuId);
+        return skuConverter.convertToDto(bo);
     }
 
     /**
-     * 获取商品库存信息列表
+     * 获取 SKU 信息
+     *
+     * @param skuId SKU ID
+     * @return SKU 信息
+     */
+    public SkuBO getSkuById(Long skuId) {
+        return this.baseMapper.getSkuById(skuId);
+    }
+
+    /**
+     * 获取 SKU 列表
      *
      * @param skuIds SKU ID 列表
-     * @return 商品库存信息列表
+     * @return SKU 列表
      */
     @Override
-    public List<SkuInfoDto> listSkuInfos(List<Long> skuIds) {
-        List<SkuBO> boList = this.baseMapper.listSkuInfos(skuIds);
-        return skuConverter.skuInfoBo2Dto(boList);
+    public List<SkuDTO> listSkusByIds(List<Long> skuIds) {
+        List<SkuBO> list = this.baseMapper.listSkusByIds(skuIds);
+        return skuConverter.convertToDto(list);
     }
 
     /**
@@ -209,5 +218,16 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
                 skuAttributeValueService.saveSaleAttributeValues(entity.getId(), skuForm.getSaleAttributeValues());
             }
         }
+    }
+
+    /**
+     * 根据SPU ID查询商品SKU列表
+     *
+     * @param spuId SPU ID
+     * @return 商品SKU列表
+     */
+    @Override
+    public List<SkuBO> listSkusBySpuId(Long spuId) {
+        return this.baseMapper.listSkusBySpuId(spuId);
     }
 }

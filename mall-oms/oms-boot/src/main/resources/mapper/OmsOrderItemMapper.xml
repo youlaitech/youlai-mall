@@ -10,7 +10,7 @@
             id,
             order_id,
             sku_id,
-            sku_sn,
+            code,
             sku_name,
             pic_url,
             price,

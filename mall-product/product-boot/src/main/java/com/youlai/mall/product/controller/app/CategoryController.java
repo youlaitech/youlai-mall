@@ -1,10 +1,9 @@
 package com.youlai.mall.product.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.product.model.vo.CategoryVO;
+import com.youlai.mall.product.model.vo.CategoryAppVO;
 import com.youlai.mall.product.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,21 +15,21 @@ import java.util.List;
 /**
  * 商品分类控制器
  *
- * @author haoxr
+ * @author Ray Hao
  * @since 2022/2/5
  */
 @Tag(name = "App-商品分类")
-@RestController
+@RestController("appCategoryController")
 @RequestMapping("/app-api/v1/categories")
 @RequiredArgsConstructor
-public class AppCategoryController {
+public class CategoryController {
 
     private final CategoryService categoryService;
 
     @Operation(summary = "分类列表")
     @GetMapping
-    public Result list(@Parameter(description = "上级分类ID") Long parentId) {
-        List<CategoryVO> list = categoryService.listCategories(parentId);
+    public Result<List<CategoryAppVO>> list() {
+        List<CategoryAppVO> list = categoryService.listAppCategories();
         return Result.success(list);
     }
 }

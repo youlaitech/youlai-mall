@@ -2,7 +2,7 @@ package com.youlai.mall.product.api;
 
 import com.youlai.common.web.config.FeignDecoderConfig;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
-import com.youlai.mall.product.model.dto.SkuInfoDto;
+import com.youlai.mall.product.model.dto.SkuDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ public interface SkuFeignClient {
      * 获取商品库存信息
      */
     @GetMapping("/app-api/v1/skus/{skuId}")
-    SkuInfoDto getSkuInfo(@PathVariable Long skuId);
+    SkuDTO getSkuById(@PathVariable Long skuId);
 
     /**
      * 获取商品库存信息列表
@@ -25,7 +25,7 @@ public interface SkuFeignClient {
      * @return 商品库存信息列表
      */
     @GetMapping("/app-api/v1/skus")
-    List<SkuInfoDto> listSkuInfoByIds(@RequestParam List<Long> skuIds);
+    List<SkuDTO> listSkusByIds(@RequestParam List<Long> skuIds);
 
     /**
      * 锁定商品库存

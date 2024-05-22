@@ -42,7 +42,7 @@ import com.youlai.mall.oms.service.app.OrderItemService;
 import com.youlai.mall.oms.service.app.OrderService;
 import com.youlai.mall.product.api.SkuFeignClient;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
-import com.youlai.mall.product.model.dto.SkuInfoDto;
+import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.ums.api.MemberFeignClient;
 import com.youlai.mall.ums.dto.CartItemDTO;
 import com.youlai.mall.ums.dto.MemberAddressDTO;
@@ -181,15 +181,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         List<Long> skuIds = orderItems.stream()
                 .map(OrderSubmitForm.OrderItem::getSkuId)
                 .collect(Collectors.toList());
-        List<SkuInfoDto> skuList;
+        List<SkuDTO> skuList;
         try {
-            skuList = skuFeignClient.listSkuInfoByIds(skuIds);
+            skuList = skuFeignClient.listSkusByIds(skuIds);
         } catch (Exception e) {
             log.error("Failed to get sku info list: {}", e.toString());
             skuList = Collections.emptyList();
         }
         for (OrderSubmitForm.OrderItem item : orderItems) {
-            SkuInfoDto skuInfo = skuList.stream().filter(sku -> sku.getId().equals(item.getSkuId()))
+            SkuDTO skuInfo = skuList.stream().filter(sku -> sku.getId().equals(item.getSkuId()))
                     .findFirst()
                     .orElse(null);
             Assert.isTrue(skuInfo != null, "商品({})已下架或删除");
@@ -458,11 +458,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         List<OrderItemDTO> orderItems;
         if (skuId != null) {  // 直接购买
             orderItems = new ArrayList<>();
-            SkuInfoDto skuInfoDTO = skuFeignClient.getSkuInfo(skuId);
+            SkuDTO skuDTO = skuFeignClient.getSkuById(skuId);
             OrderItemDTO orderItemDTO = new OrderItemDTO();
             orderItemDTO.setSkuId(skuId);
-            BeanUtil.copyProperties(skuInfoDTO, orderItemDTO);
-            orderItemDTO.setSkuId(skuInfoDTO.getId());
+            BeanUtil.copyProperties(skuDTO, orderItemDTO);
+            orderItemDTO.setSkuId(skuDTO.getId());
             orderItemDTO.setQuantity(1); // 直接购买商品的数量为1
             orderItems.add(orderItemDTO);
         } else { // 购物车点击“结算”获取订单明细

@@ -3,16 +3,14 @@ package com.youlai.mall.product.model.dto;
 import lombok.Data;
 
 /**
- * 商品库存信息DTO
- * <p>
- * 用于表示商品的库存信息。
+ * SKU 传输对象
  *
- * @author haoxr
+ * @author Ray Hao
  * @since 2.0.0
  */
 
 @Data
-public class SkuInfoDto {
+public class SkuDTO {
     /**
      * SKU ID
      */
@@ -20,11 +18,11 @@ public class SkuInfoDto {
     /**
      * SKU 编号
      */
-    private String skuSn;
+    private String code;
     /**
      * SKU 名称
      */
-    private String skuName;
+    private String name;
     /**
      * SKU 展示图片URL
      */

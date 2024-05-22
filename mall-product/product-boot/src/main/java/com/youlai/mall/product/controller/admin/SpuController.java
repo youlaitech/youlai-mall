@@ -5,7 +5,7 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.model.query.SpuPageQuery;
-import com.youlai.mall.product.model.vo.PmsSpuPageVO;
+import com.youlai.mall.product.model.vo.SpuPageVO;
 import com.youlai.mall.product.service.SpuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +31,7 @@ public class SpuController {
     @Operation(summary = "商品分页列表")
     @GetMapping("/page")
     public PageResult listPagedSpu(SpuPageQuery queryParams) {
-        IPage<PmsSpuPageVO> result = spuService.listPagedSpu(queryParams);
+        IPage<SpuPageVO> result = spuService.listPagedSpu(queryParams);
         return PageResult.success(result);
     }
 

@@ -2,8 +2,8 @@ package com.youlai.mall.product.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * SPU 实体类
@@ -11,9 +11,9 @@ import lombok.Setter;
  * @author Ray Hao
  * @since 2022/7/2
  */
+@EqualsAndHashCode(callSuper = true)
 @TableName("pms_spu")
-@Getter
-@Setter
+@Data
 public class Spu extends BaseEntity {
 
     /**
@@ -42,13 +42,13 @@ public class Spu extends BaseEntity {
     private String unit;
 
     /**
+     * 上架状态（1：上架，0：下架）
+     */
+    private Integer status;
+
+    /**
      * 商品描述
      */
     private String description;
-
-    /**
-     * 商品状态：1-上架，0-下架
-     */
-    private Integer status;
 
 }

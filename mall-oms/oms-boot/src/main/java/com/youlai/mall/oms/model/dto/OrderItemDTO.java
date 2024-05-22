@@ -19,7 +19,7 @@ public class OrderItemDTO {
     /**
      * SKU编码
      */
-    private String skuSn;
+    private String skuCode;
 
     /**
      * SKU名称

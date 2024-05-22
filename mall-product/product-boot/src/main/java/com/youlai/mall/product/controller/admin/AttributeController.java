@@ -29,7 +29,6 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 public class AttributeController {
 
-
     private final AttributeService attributeService;
 
     @Operation(summary = "属性分页列表")

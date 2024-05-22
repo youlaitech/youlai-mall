@@ -21,7 +21,7 @@ public class Sku extends BaseEntity {
     /**
      * 商品的SKU编号，唯一标识一个SKU。
      */
-    private String skuSn;
+    private String code;
 
     /**
      * 商品SKU的名称。

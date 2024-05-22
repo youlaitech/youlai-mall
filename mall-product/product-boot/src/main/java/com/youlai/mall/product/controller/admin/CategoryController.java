@@ -31,7 +31,7 @@ public class CategoryController {
     @Operation(summary = "获取商品分类列表")
     @GetMapping
     public Result<List<CategoryVO>> listCategories() {
-        List<CategoryVO> list = categoryService.listCategories(null);
+        List<CategoryVO> list = categoryService.listCategories();
         return Result.success(list);
     }
 

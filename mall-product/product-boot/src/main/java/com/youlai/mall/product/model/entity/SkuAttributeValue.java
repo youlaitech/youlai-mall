@@ -4,22 +4,22 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
- * SKU规格值
+ * SKU 属性值实体对象
  *
  * @author Ray Hao
- * @since 2024-04-14
+ * @since 2024/4/14
  */
-@Getter
-@Setter
 @TableName("pms_sku_attribute_value")
+@Data
 public class SkuAttributeValue implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

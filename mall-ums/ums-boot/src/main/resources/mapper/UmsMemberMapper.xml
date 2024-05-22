@@ -7,7 +7,7 @@
     <resultMap id="MemberPageResultMap" type="com.youlai.mall.ums.model.bo.MemberBO">
         <collection property="addresses"
                     column="{memberId=id}"
-                    select="com.youlai.mall.ums.mapper.UmsAddressMapper.listAddressesByMemberId">
+                    select="com.youlai.mall.ums.mapper.UmsAddressMapper$listAddressesByMemberId">
         </collection>
     </resultMap>
 

@@ -37,7 +37,7 @@ public class Category extends BaseEntity {
     private Integer sort;
 
     /**
-     * 是否显示[0-不显示，1-显示]
+     * 是否显示（0：不显示，1：显示）
      */
     private Integer isVisible;
 

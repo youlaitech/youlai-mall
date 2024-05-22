@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.entity.Spu;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.model.query.SpuPageQuery;
-import com.youlai.mall.product.model.vo.*;
-
-import java.util.List;
+import com.youlai.mall.product.model.vo.SpuPageVO;
 
 /**
  * SPU 接口
@@ -24,7 +22,7 @@ public interface SpuService extends IService<Spu> {
      * @param queryParams
      * @return
      */
-    IPage<PmsSpuPageVO> listPagedSpu(SpuPageQuery queryParams);
+    IPage<SpuPageVO> listPagedSpu(SpuPageQuery queryParams);
 
 
 

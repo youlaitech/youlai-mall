@@ -2,11 +2,8 @@ package com.youlai.mall.product.converter;
 
 import com.youlai.mall.product.model.entity.Spu;
 import com.youlai.mall.product.model.form.SpuForm;
-import com.youlai.mall.product.model.vo.SeckillingSpuVO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
-
-import java.util.List;
 
 /**
  * 商品对象转换器
@@ -21,9 +18,5 @@ public interface SpuConverter {
 
     @InheritInverseConfiguration(name="form2Entity")
     SpuForm entity2Form(Spu entity);
-
-    SeckillingSpuVO entity2SeckillingVO(Spu entity);
-
-    List<SeckillingSpuVO> entity2SeckillingVO(List<Spu> entities);
 
 }

@@ -1,31 +1,50 @@
 package com.youlai.mall.product.model.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.youlai.mall.product.model.entity.Sku;
 import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
- * 【应用端】商品分页视图对象
+ * 【管理端】商品分页视图对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
- * @since 2021/8/8
+ * @author haoxr
+ * @since 2022/3/13
  */
-@Schema(description = "商品分页对象")
 @Data
+@Accessors(chain = true)
 public class SpuPageVO {
 
-    @Schema(description="商品ID")
     private Long id;
 
-    @Schema(description="商品名称")
     private String name;
 
-    @Schema(description="商品价格(单位：分)")
+    private Long categoryId;
+
+    private Long brandId;
+
+    private Long originPrice;
+
     private Long price;
 
-    @Schema(description="销量")
     private Integer sales;
 
-    @Schema(description="图片地址")
     private String imgUrl;
 
+    private String[] album;
+
+    private String unit;
+
+    private String description;
+
+    private String detail;
+
+    private Integer status;
+
+    private String categoryName;
+
+    private String brandName;
+
+    private List<Sku> skuList;
 }

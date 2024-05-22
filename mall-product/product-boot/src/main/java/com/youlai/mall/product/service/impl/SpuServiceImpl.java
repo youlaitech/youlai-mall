@@ -12,9 +12,6 @@ import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.entity.*;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.model.query.SpuPageQuery;
-import com.youlai.mall.product.model.vo.PmsSpuPageVO;
-import com.youlai.mall.product.model.vo.SeckillingSpuVO;
-import com.youlai.mall.product.model.vo.SpuDetailVO;
 import com.youlai.mall.product.model.vo.SpuPageVO;
 import com.youlai.mall.product.service.*;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +25,7 @@ import java.util.stream.Collectors;
  * 商品业务实现类
  *
  * @author Ray Hao
- * @since 2021/08/08
+ * @since 2021/8/8
  */
 @Service
 @RequiredArgsConstructor
@@ -48,9 +45,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
      * @return 商品分页列表 IPage<PmsSpuPageVO>
      */
     @Override
-    public IPage<PmsSpuPageVO> listPagedSpu(SpuPageQuery queryParams) {
-        Page<PmsSpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<PmsSpuPageVO> list = this.baseMapper.listPagedSpu(page, queryParams);
+    public IPage<SpuPageVO> listPagedSpu(SpuPageQuery queryParams) {
+        Page<SpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
+        List<SpuPageVO> list = this.baseMapper.listPagedSpu(page, queryParams);
         page.setRecords(list);
         return page;
     }

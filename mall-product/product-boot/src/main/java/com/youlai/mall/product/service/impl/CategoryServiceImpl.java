@@ -10,11 +10,13 @@ import com.youlai.mall.product.converter.CategoryConverter;
 import com.youlai.mall.product.mapper.CategoryMapper;
 import com.youlai.mall.product.model.entity.Category;
 import com.youlai.mall.product.model.form.CategoryForm;
+import com.youlai.mall.product.model.vo.CategoryAppVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
 import com.youlai.mall.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -35,23 +37,22 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     /**
      * 分类列表（树形）
      *
-     * @param parentId 父分类ID
      * @return 分类列表
      */
     @Override
-    public List<CategoryVO> listCategories(Long parentId) {
+    public List<CategoryVO> listCategories() {
         List<Category> categoryList = this.list(
                 new LambdaQueryWrapper<Category>()
                         .eq(Category::getIsVisible, GlobalConstants.STATUS_YES)
                         .orderByAsc(Category::getSort)
         );
-        return buildTree(parentId != null ? parentId : 0L, categoryList,
+        return buildTree(0L, categoryList,
                 category -> {
                     CategoryVO categoryVO = new CategoryVO();
                     BeanUtil.copyProperties(category, categoryVO);
 
                     String treePath = category.getTreePath();
-                    if (StrUtil.isNotBlank(treePath)){
+                    if (StrUtil.isNotBlank(treePath)) {
                         // 根据 treePath 转为 level  0,1 是二级， 0,1,2 是三级
                         Integer level = treePath.split(",").length;
                         categoryVO.setLevel(level);
@@ -147,6 +148,56 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return categoryConverter.convertToForm(entity);
     }
 
+    /**
+     * 获取APP端分类列表
+     *
+     * @return APP端分类列表
+     */
+    @Override
+    public List<CategoryAppVO> listAppCategories() {
+        List<Category> categories = this.list(new LambdaQueryWrapper<Category>()
+                .eq(Category::getIsVisible, GlobalConstants.STATUS_YES)
+                .orderByAsc(Category::getSort)
+        );
+
+        return categories.stream()
+                .filter(category -> GlobalConstants.ROOT_NODE_ID.equals(category.getParentId()))
+                .map(rootCategory -> {
+                    CategoryAppVO rootVO = categoryConverter.convertToFirstLevelVo(rootCategory);
+                    rootVO.setCatType(1);
+                    rootVO.setShowPic(true);
+                    rootVO.setShowVideo(false);
+                    Long rootCategoryId = rootCategory.getId();
+
+                    List<CategoryAppVO.SecondLevelCategory> secondLevelCategories = categories.stream()
+                            .filter(category -> category.getParentId().equals(rootCategoryId))
+                            .map(secondCategory -> {
+                                CategoryAppVO.SecondLevelCategory secondVO = categoryConverter.convertToSecondLevelVo(secondCategory);
+                                secondVO.setCatType(1);
+                                secondVO.setShowPic(true);
+                                secondVO.setShowVideo(false);
+                                Long secondCategoryId = secondCategory.getId();
+
+                                List<CategoryAppVO.ThirdLevelCategory> thirdLevelCategories = categories.stream()
+                                        .filter(category -> category.getParentId().equals(secondCategoryId))
+                                        .map(thirdCategory -> {
+                                            CategoryAppVO.ThirdLevelCategory thirdVO = categoryConverter.convertToThirdLevelVo(thirdCategory);
+                                            thirdVO.setShowPic(true);
+                                            thirdVO.setShowVideo(false);
+                                            return thirdVO;
+                                        })
+                                        .toList();
+
+                                secondVO.setChildCateList(thirdLevelCategories);
+                                return secondVO;
+                            })
+                            .toList();
+
+                    rootVO.setChildren(secondLevelCategories);
+                    return rootVO;
+                })
+                .toList();
+    }
 
     /**
      * 构建部门层级路径

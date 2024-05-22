@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.product.api.SkuFeignClient;
-import com.youlai.mall.product.model.dto.SkuInfoDto;
+import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.ums.convert.CartConverter;
 import com.youlai.mall.ums.model.dto.CartItemCache;
 import com.youlai.mall.ums.dto.CartItemDTO;
@@ -58,21 +58,21 @@ public class CartServiceImpl implements CartService {
 
         // 动态获取商品信息(实时商品价格、库存、图片)到购物车列表
         List<Long> skuIds = cartItems.stream().map(CartItemDTO::getSkuId).toList();
-        List<SkuInfoDto> skuList = skuFeignClient.listSkuInfoByIds(skuIds);
+        List<SkuDTO> skuList = skuFeignClient.listSkusByIds(skuIds);
 
 
         // 创建SKU ID到SkuInfoDto的映射，以优化查找性能
-        Map<Long, SkuInfoDto> skuIdToSkuInfoMap = skuList.stream()
-                .collect(Collectors.toMap(SkuInfoDto::getId, Function.identity()));
+        Map<Long, SkuDTO> skuIdToSkuInfoMap = skuList.stream()
+                .collect(Collectors.toMap(SkuDTO::getId, Function.identity()));
 
         // 为每个购物车项更新实时信息
         cartItems.forEach(cartItem -> {
-            SkuInfoDto skuInfoDto = skuIdToSkuInfoMap.get(cartItem.getSkuId());
-            if (skuInfoDto != null) {
-                cartItem.setStock(skuInfoDto.getStock());
-                cartItem.setPrice(skuInfoDto.getPrice());
-                cartItem.setImgUrl(skuInfoDto.getImgUrl());
-                cartItem.setSpuName(skuInfoDto.getSpuName());
+            SkuDTO skuDTO = skuIdToSkuInfoMap.get(cartItem.getSkuId());
+            if (skuDTO != null) {
+                cartItem.setStock(skuDTO.getStock());
+                cartItem.setPrice(skuDTO.getPrice());
+                cartItem.setImgUrl(skuDTO.getImgUrl());
+                cartItem.setSpuName(skuDTO.getSpuName());
             }
         });
         return cartItems;

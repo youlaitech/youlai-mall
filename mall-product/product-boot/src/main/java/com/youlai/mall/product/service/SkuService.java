@@ -1,27 +1,39 @@
 package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
-import com.youlai.mall.product.model.dto.SkuInfoDto;
+import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.product.model.entity.Sku;
 import com.youlai.mall.product.model.form.SpuForm;
+import com.youlai.mall.product.model.vo.ProductDetailVO;
 
 import java.util.List;
+
 /**
- * 商品SKU 服务类
+ * SKU 接口
  *
- * @author haoxr
+ * @author Ray Hao
  * @since 2.0.0
  */
 public interface SkuService extends IService<Sku> {
 
     /**
-     * 获取商品库存信息
+     * 获取 SKU 传输对象
      *
      * @param skuId SKU ID
-     * @return 商品库存信息
+     * @return SKU 传输对象
      */
-    SkuInfoDto getSkuInfo(Long skuId);
+    SkuDTO getSkuInfo(Long skuId);
+
+
+    /**
+     * 获取 SKU 业务对象
+     *
+     * @param skuId SKU ID
+     * @return SKU 业务对象
+     */
+    SkuBO getSkuById(Long skuId);
 
     /**
      * 获取商品库存信息列表
@@ -29,7 +41,7 @@ public interface SkuService extends IService<Sku> {
      * @param skuIds SKU ID 列表
      * @return 商品库存信息列表
      */
-    List<SkuInfoDto> listSkuInfos(List<Long> skuIds);
+    List<SkuDTO> listSkusByIds(List<Long> skuIds);
 
     /**
      * 校验并锁定库存
@@ -57,4 +69,12 @@ public interface SkuService extends IService<Sku> {
      * @param skuList  SKU 列表
      */
     void saveSkus(Long spuId, List<SpuForm.Sku> skuList);
+
+    /**
+     * 根据SPU ID 查询商品SKU 列表
+     *
+     * @param id SPU ID
+     * @return 商品SKU 列表
+     */
+    List<SkuBO> listSkusBySpuId(Long id);
 }

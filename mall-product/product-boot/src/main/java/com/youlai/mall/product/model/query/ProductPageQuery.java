@@ -13,13 +13,16 @@ import lombok.Data;
 
 @Schema(description = "商品分页查询对象")
 @Data
-public class SpuPageQuery extends BasePageQuery {
+public class ProductPageQuery extends BasePageQuery {
 
     @Schema(description="关键字")
     private String keywords;
 
     @Schema(description="商品分类ID")
     private Long categoryId;
+
+    @Schema(description="上架状态（1：上架，0：下架）")
+    private Integer status;
 
     @Schema(description="排序字段名")
     private String sortField;

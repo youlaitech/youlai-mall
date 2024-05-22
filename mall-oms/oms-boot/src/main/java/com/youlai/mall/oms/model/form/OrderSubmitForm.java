@@ -77,7 +77,7 @@ public class OrderSubmitForm {
         private Long skuId;
 
         @Schema(description = "SKU 编号")
-        private String skuSn;
+        private String skuCode;
 
         @Schema(description = "SKU 名称")
         private String skuName;

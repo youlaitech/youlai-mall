@@ -1,7 +1,7 @@
 package com.youlai.mall.product.converter;
 
 import com.youlai.mall.product.model.bo.SkuBO;
-import com.youlai.mall.product.model.dto.SkuInfoDto;
+import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.product.model.entity.Sku;
 import com.youlai.mall.product.model.form.SpuForm;
 import org.mapstruct.Mapper;
@@ -17,9 +17,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SkuConverter {
 
-    SkuInfoDto skuInfoBo2Dto(SkuBO bo);
+    SkuDTO convertToDto(SkuBO bo);
 
-    List<SkuInfoDto> skuInfoBo2Dto(List<SkuBO> list);
+    List<SkuDTO> convertToDto(List<SkuBO> list);
 
 
     Sku convertToEntity(SpuForm.Sku skuForm);

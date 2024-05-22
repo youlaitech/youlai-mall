@@ -2,7 +2,7 @@ package com.youlai.mall.product.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
-import com.youlai.mall.product.model.dto.SkuInfoDto;
+import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.product.service.SkuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,20 +28,20 @@ public class StockController {
 
     @Operation(summary = "获取商品库存信息")
     @GetMapping("/{skuId}")
-    public Result<SkuInfoDto> getSkuInfo(
+    public Result<SkuDTO> getSkuInfo(
             @Parameter(description ="商品ID") @PathVariable Long skuId
     ) {
-        SkuInfoDto skuInfo = skuService.getSkuInfo(skuId);
+        SkuDTO skuInfo = skuService.getSkuInfo(skuId);
         return Result.success(skuInfo);
     }
 
     @Operation(summary = "获取商品列表")
     @GetMapping
-    public Result<List<SkuInfoDto>> listSkuInfoByIds(
+    public Result<List<SkuDTO>> listSkusByIds(
             @Parameter(description ="SKU的ID集合") @RequestParam List<Long> skuIds
     ) {
-        List<SkuInfoDto> skuInfos = skuService.listSkuInfos(skuIds);
-        return Result.success(skuInfos);
+        List<SkuDTO> skuList = skuService.listSkusByIds(skuIds);
+        return Result.success(skuList);
     }
 
     @Operation(summary = "校验并锁定库存")

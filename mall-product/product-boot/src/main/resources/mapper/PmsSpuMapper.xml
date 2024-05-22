@@ -2,44 +2,15 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.pms.mapper.SpuMapper">
+<mapper namespace="com.youlai.mall.product.mapper.SpuMapper">
 
-    <resultMap id="BaseResultMap" type="com.youlai.mall.product.model.vo.PmsSpuPageVO">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="name" column="name" jdbcType="VARCHAR"/>
-        <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
-        <result property="brandId" column="brand_id" jdbcType="BIGINT"/>
-        <result property="originPrice" column="origin_price" jdbcType="BIGINT"/>
-        <result property="price" column="price" jdbcType="BIGINT"/>
-        <result property="sales" column="sales" jdbcType="INTEGER"/>
-        <result property="imgUrl" column="pic_url" jdbcType="VARCHAR"/>
-        <result property="album" column="album" typeHandler="com.youlai.common.mybatis.handler.StringArrayJsonTypeHandler"/>
-        <result property="unit" column="unit" jdbcType="VARCHAR"/>
-        <result property="description" column="description" jdbcType="VARCHAR"/>
-        <result property="detail" column="detail" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="TINYINT"/>
-        <result property="categoryName" column="categoryName" jdbcType="VARCHAR"/>
-        <result property="brandName" column="brandName" jdbcType="VARCHAR"/>
-        <collection property="skuList" column="id" select="com.youlai.mall.product.mapper.SkuMapper.getSkuListBySpuId">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="skuSn" column="sku_sn" jdbcType="VARCHAR"/>
-            <result property="imgUrl" column="pic_url" jdbcType="VARCHAR"/>
-            <result property="price" column="price" jdbcType="BIGINT"/>
-            <result property="stock" column="stock" jdbcType="INTEGER"/>
-            <result property="lockedStock" column="locked_stock" jdbcType="INTEGER"/>
-        </collection>
-    </resultMap>
-
-    <!--Admin-商品分页列表-->
-    <select id="listPagedSpu" resultMap="BaseResultMap">
+    <!-- Admin-商品分页列表 -->
+    <select id="listPagedSpu" resultType="com.youlai.mall.product.model.vo.SpuPageVO">
         SELECT
             t1.id,
             t1.name,
             t1.img_url,
-            t1.origin_price,
             t1.price,
-            t1.sales,
             t1.unit,
             t1.detail,
             t1.description,
@@ -62,29 +33,31 @@
             t1.create_time DESC
     </select>
 
-
-    <!--「应用端」商品分页列表-->
-    <select id="listPagedSpuForApp" resultType="com.youlai.mall.product.model.vo.SpuPageVO">
+    <!-- APP-商品分页列表 -->
+    <select id="listPagedProducts" resultType="com.youlai.mall.product.model.vo.ProductPageVO">
         SELECT
-            id,
-            NAME,
-            pic_url,
-            price,
-            sales
+            t1.id,
+            t1.`name`,
+            min( t2.price ) price,
+            t1.img_url,
+            sum( t2.sales ) sales,
+            t1.description,
+            t1.unit
         FROM
-            `pms_spu`
-        <where>
+            `pms_spu` t1
+            LEFT JOIN pms_sku t2 ON t1.id = t2.spu_id
+        WHERE
+            t1.`status` = 1
+            AND t1.is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
-                AND name like concat('%',#{queryParams.keywords},'%')
+                AND `name` LIKE CONCAT('%',#{queryParams.keywords},'%')
             </if>
             <if test='queryParams.categoryId!=null'>
-                AND category_id like concat('%',#{queryParams.categoryId},'%')
+                AND category_id LIKE CONCAT('%',#{queryParams.categoryId},'%')
             </if>
-        </where>
+        GROUP BY
+            t1.id
         ORDER BY
-        <if test='queryParams.sortField!=null and queryParams.sortField.trim() neq "" and queryParams.sortField !=null and queryParams.sort.trim() neq ""'>
-            ${queryParams.sortField} ${queryParams.sort} ,
-        </if>
-        create_time desc
+            t1.create_time DESC
     </select>
 </mapper>

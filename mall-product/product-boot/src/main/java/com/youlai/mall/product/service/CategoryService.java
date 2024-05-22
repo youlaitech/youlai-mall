@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.Category;
 import com.youlai.mall.product.model.form.CategoryForm;
+import com.youlai.mall.product.model.vo.CategoryAppVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
 
 import java.util.List;
@@ -21,14 +22,14 @@ public interface CategoryService extends IService<Category> {
     /**
      * 分类列表（树形）
      *
-     * @param parentId 父分类ID
-     * @return
+     * @return 分类列表
      */
-    List<CategoryVO> listCategories(Long parentId);
+    List<CategoryVO> listCategories();
 
     /**
      * 分类列表（级联）
-     * @return
+     *
+     * @return 分类列表
      */
     List<Option> listCategoryOptions();
 
@@ -37,7 +38,7 @@ public interface CategoryService extends IService<Category> {
      * 保存（新增/修改）分类
      *
      * @param formData 分类表单数据
-     * @return
+     * @return 分类ID
      */
     Long saveCategory( CategoryForm formData);
 
@@ -45,7 +46,6 @@ public interface CategoryService extends IService<Category> {
      * 删除分类
      *
      * @param id 分类ID
-     * @return
      */
     void deleteCategory(Long id);
 
@@ -53,7 +53,14 @@ public interface CategoryService extends IService<Category> {
      * 获取分类表单数据
      *
      * @param id 分类ID
-     * @return
+     * @return 分类表单数据
      */
     CategoryForm getCategoryForm(Long id);
+
+    /**
+     * 获取APP端分类列表
+     *
+     * @return APP端分类列表
+     */
+    List<CategoryAppVO> listAppCategories();
 }

@@ -90,7 +90,7 @@ public class OrderBO extends BaseEntity {
 		/**
 		 * SKU编号
 		 */
-		private String skuSn;
+		private String skuCode;
 
 		/**
 		 * 商品名称
