@@ -27,7 +27,9 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 /**
- * @author haoxr
+ * MinIO 对象存储服务
+ *
+ * @author Ray Hao
  * @since 2023/6/2
  */
 @Service
