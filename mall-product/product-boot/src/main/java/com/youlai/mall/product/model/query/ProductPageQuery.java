@@ -1,8 +1,11 @@
 package com.youlai.mall.product.model.query;
 
 import com.youlai.common.base.BasePageQuery;
+import com.youlai.mall.product.enums.ProductOrderByEnum;
+import com.youlai.mall.product.enums.SortEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 商品分页查询对象
@@ -11,6 +14,7 @@ import lombok.Data;
  * @since 2024/5/22
  */
 
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "商品分页查询对象")
 @Data
 public class ProductPageQuery extends BasePageQuery {
@@ -21,13 +25,10 @@ public class ProductPageQuery extends BasePageQuery {
     @Schema(description="商品分类ID")
     private Long categoryId;
 
-    @Schema(description="上架状态（1：上架，0：下架）")
-    private Integer status;
+    @Schema(description="排序字段名（SCORE:评分，PRICE：价格，SALES：销量）",example = "SALES")
+    private ProductOrderByEnum orderBy;
 
-    @Schema(description="排序字段名")
-    private String sortField;
-
-    @Schema(description="排序规则(asc:升序;desc:降序)")
-    private String sort;
+    @Schema(description="排序规则（ASC:升序;DESC:降序）",example = "DESC")
+    private SortEnum sort;
 
 }

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.query.ProductPageQuery;
-import com.youlai.mall.product.model.query.SpuPageQuery;
 import com.youlai.mall.product.model.vo.ProductDetailVO;
 import com.youlai.mall.product.model.vo.ProductPageVO;
 import com.youlai.mall.product.service.app.ProductService;

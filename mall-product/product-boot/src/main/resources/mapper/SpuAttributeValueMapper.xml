@@ -9,6 +9,7 @@
         <result column="attribute_group_id" property="attributeGroupId"/>
         <result column="attribute_group_name" property="attributeGroupName"/>
         <collection property="attributeValues" ofType="com.youlai.mall.product.model.form.SpuForm$AttributeValue" javaType="java.util.List">
+            <result column="id" property="id"/>
             <result column="attribute_id" property="attributeId"/>
             <result column="attribute_name" property="attributeName"/>
             <result column="attribute_value" property="attributeValue"/>
@@ -18,19 +19,20 @@
     <!-- 根据SPU ID查询属性组&属性列表 -->
     <select id="listAttributeGroupsBySpuId" resultMap="AttributeGroupMap">
         SELECT
-            psav.attribute_id,
-            psav.attribute_name,
-            psav.attribute_value,
-            pag.NAME attribute_group_name,
-            pag.id attribute_group_id
+            t1.id,
+            t1.attribute_id,
+            t1.attribute_name,
+            t1.attribute_value,
+            t3.`name` attribute_group_name,
+            t3.id attribute_group_id
         FROM
-            pms_spu_attribute_value psav
-                LEFT JOIN pms_attribute pa ON psav.attribute_id = pa.id
-                LEFT JOIN pms_attribute_group pag ON pa.attribute_group_id = pag.id
+            pms_spu_attribute_value t1
+                LEFT JOIN pms_attribute t2 ON t1.attribute_id = t2.id
+                LEFT JOIN pms_attribute_group t3 ON t2.attribute_group_id = t3.id
         WHERE
-            psav.spu_id = #{spuId}
+            t1.spu_id = #{spuId}
         ORDER BY
-            pag.sort ASC,
-            pa.sort ASC
+            t3.sort ,
+            t2.sort
     </select>
 </mapper>
