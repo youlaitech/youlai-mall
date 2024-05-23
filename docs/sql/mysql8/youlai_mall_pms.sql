@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 22/05/2024 23:54:43
+ Date: 23/05/2024 20:28:20
 */
 
 SET NAMES utf8mb4;
@@ -39,14 +39,14 @@ CREATE TABLE `pms_attribute`  (
 -- ----------------------------
 -- Records of pms_attribute
 -- ----------------------------
-INSERT INTO `pms_attribute` VALUES (1, '屏幕分辨率', 1, 1, 2, '1080P,2K,4K', 3, NULL, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attribute` VALUES (2, '屏幕尺寸', 1, 1, 1, NULL, 3, NULL, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attribute` VALUES (3, '屏幕材料', 1, 1, 1, 'LCD,AMOLED', 3, NULL, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attribute` VALUES (4, '摄像头像素', 2, 1, 1, NULL, 3, NULL, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attribute` VALUES (5, '指纹类型', 2, 1, 2, '屏下指纹,屏后指纹', 3, NULL, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attribute` VALUES (6, '刷新率', 2, 1, 2, '90HZ,120HZ', 3, NULL, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attribute` VALUES (7, '颜色', 3, 2, 1, NULL, 3, NULL, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attribute` VALUES (8, '存储容量', 4, 2, 2, '8+256G,12+512G,16+1T', 3, NULL, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attribute` VALUES (1, '屏幕分辨率', 1, 1, 2, '1080P,2K,4K', 3, 1, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attribute` VALUES (2, '屏幕尺寸', 1, 1, 1, NULL, 3, 2, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attribute` VALUES (3, '屏幕材料', 1, 1, 1, 'LCD,AMOLED', 3, 3, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attribute` VALUES (4, '摄像头像素', 2, 1, 1, NULL, 3, 4, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attribute` VALUES (5, '指纹类型', 2, 1, 2, '屏下指纹,屏后指纹', 3, 5, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attribute` VALUES (6, '刷新率', 2, 1, 2, '90HZ,120HZ', 3, 6, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attribute` VALUES (7, '颜色', 3, 2, 1, NULL, 3, 1, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attribute` VALUES (8, '存储容量', 4, 2, 2, '8+256G,12+512G,16+1T', 3, 2, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
 
 -- ----------------------------
 -- Table structure for pms_attribute_group
@@ -55,22 +55,21 @@ DROP TABLE IF EXISTS `pms_attribute_group`;
 CREATE TABLE `pms_attribute_group`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '属性组ID',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性组名称',
-  `category_id` bigint NULL DEFAULT NULL COMMENT '商品分类ID',
+  `category_id` bigint NOT NULL COMMENT '商品分类ID',
   `sort` smallint NOT NULL DEFAULT 1 COMMENT '排序',
-  `remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识[0-未删除，1-已删除]',
+  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0-未删除，1-已删除）',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pms_attribute_group
 -- ----------------------------
-INSERT INTO `pms_attribute_group` VALUES (1, '屏幕属性', 3, 1, NULL, NULL, NULL, 0);
-INSERT INTO `pms_attribute_group` VALUES (2, '功能属性', 3, 2, NULL, NULL, NULL, 0);
-INSERT INTO `pms_attribute_group` VALUES (3, '外观属性', 3, 1, NULL, NULL, NULL, 0);
-INSERT INTO `pms_attribute_group` VALUES (4, '性能属性', 3, 2, NULL, NULL, NULL, 0);
+INSERT INTO `pms_attribute_group` VALUES (1, '屏幕属性', 3, 1, '2024-05-23 16:31:24', '2024-05-23 16:31:24', 0);
+INSERT INTO `pms_attribute_group` VALUES (2, '功能属性', 3, 2, '2024-05-23 16:31:24', '2024-05-23 16:31:24', 0);
+INSERT INTO `pms_attribute_group` VALUES (3, '外观属性', 3, 1, '2024-05-23 16:31:24', '2024-05-23 16:31:24', 0);
+INSERT INTO `pms_attribute_group` VALUES (4, '性能属性', 3, 2, '2024-05-23 16:31:24', '2024-05-23 16:31:24', 0);
 
 -- ----------------------------
 -- Table structure for pms_brand
@@ -452,10 +451,35 @@ CREATE TABLE `pms_spu_attribute_value`  (
 -- ----------------------------
 INSERT INTO `pms_spu_attribute_value` VALUES (1, 1, 1, '屏幕分辨率', '2K');
 INSERT INTO `pms_spu_attribute_value` VALUES (2, 1, 2, '屏幕尺寸', '6英寸');
-INSERT INTO `pms_spu_attribute_value` VALUES (3, 1, 3, '屏幕材料', '123');
+INSERT INTO `pms_spu_attribute_value` VALUES (3, 1, 3, '屏幕材料', 'OLED');
 INSERT INTO `pms_spu_attribute_value` VALUES (4, 1, 4, '摄像头像素', '5000万');
 INSERT INTO `pms_spu_attribute_value` VALUES (5, 1, 5, '指纹类型', '屏下指纹');
 INSERT INTO `pms_spu_attribute_value` VALUES (6, 1, 6, '刷新率', '150HZ');
+
+-- ----------------------------
+-- Table structure for pms_spu_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_spu_comment`;
+CREATE TABLE `pms_spu_comment`  (
+  `id` bigint NOT NULL,
+  `spu_id` bigint NULL DEFAULT NULL,
+  `spu_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `sku_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `member_id` bigint NULL DEFAULT NULL,
+  `member_nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `star` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `create_time` datetime NULL DEFAULT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
+  `is_deleted` tinyint NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pms_spu_comment
+-- ----------------------------
+INSERT INTO `pms_spu_comment` VALUES (1, 1, '小米14', '白色 8+256G', 1, '张三', '3.5', '质量嘎嘎好', '2024-05-23 11:34:47', NULL, 0);
+INSERT INTO `pms_spu_comment` VALUES (2, 1, '小米14', '白色 8+256G', 1, '张三', '4.2', '质量嘎嘎好', '2024-05-23 11:34:47', NULL, 0);
 
 -- ----------------------------
 -- Table structure for pms_spu_detail
