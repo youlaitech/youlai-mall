@@ -41,4 +41,9 @@ public class Attribute extends BaseEntity {
      * 可选值列表（以逗号分隔，仅当输入方式为2时使用
      */
     private String selectableValues;
+
+    /**
+     * 分类ID
+     */
+    private Long categoryId;
 }

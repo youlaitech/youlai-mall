@@ -1,5 +1,6 @@
 package com.youlai.mall.product.service.impl;
 
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.Attribute;
 import com.youlai.mall.product.mapper.AttributeMapper;
 import com.youlai.mall.product.service.AttributeService;
@@ -34,25 +35,25 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
     private final AttributeConverter attributeConverter;
 
     /**
-    * 获取属性分页列表
-    *
-    * @param queryParams 查询参数
-    * @return {@link IPage<AttributePageVO>} 属性分页列表
-    */
+     * 获取属性分页列表
+     *
+     * @param queryParams 查询参数
+     * @return {@link IPage<AttributePageVO>} 属性分页列表
+     */
     @Override
     public IPage<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams) {
-    
+
         // 参数构建
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
         Page<AttributeBO> page = new Page<>(pageNum, pageSize);
         // 查询数据
         Page<AttributeBO> boPage = this.baseMapper.listPagedAttributes(page, queryParams);
-    
+
         // 实体转换
         return attributeConverter.bo2PageVo(boPage);
     }
-    
+
     /**
      * 获取属性表单数据
      *
@@ -64,7 +65,7 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
         Attribute entity = this.getById(id);
         return attributeConverter.entity2Form(entity);
     }
-    
+
     /**
      * 新增属性
      *
@@ -77,20 +78,20 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
         Attribute entity = attributeConverter.form2Entity(formData);
         return this.save(entity);
     }
-    
+
     /**
      * 更新属性
      *
-     * @param id   属性ID
+     * @param id       属性ID
      * @param formData 属性表单对象
      * @return
      */
     @Override
-    public boolean updateAttribute(Long id,AttributeForm formData) {
+    public boolean updateAttribute(Long id, AttributeForm formData) {
         Attribute entity = attributeConverter.form2Entity(formData);
         return this.updateById(entity);
     }
-    
+
     /**
      * 删除属性
      *
@@ -106,6 +107,17 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
                 .toList();
         return this.removeByIds(idList);
     }
-    
+
+    /**
+     * 根据分类ID获取属性组&列表
+     *
+     * @param categoryId 分类ID
+     * @return
+     */
+    @Override
+    public List<Option> listAttributesWithGroupByCategoryId(Long categoryId) {
+        return this.baseMapper.listAttributesWithGroupByCategoryId(categoryId);
+    }
+
 
 }

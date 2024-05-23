@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.AttributeMapper">
 
+    <resultMap id="AttributeGroupMap" type="com.youlai.common.web.model.Option">
+        <result column="attribute_group_id" property="value"/>
+        <result column="attribute_group_name" property="label"/>
+        <collection property="children" ofType="com.youlai.common.web.model.Option" javaType="java.util.List">
+            <result column="id" property="value"/>
+            <result column="name" property="label"/>
+        </collection>
+    </resultMap>
+
     <!-- 属性分页列表 -->
     <select id="listPagedAttributes" resultType="com.youlai.mall.product.model.bo.AttributeBO">
         SELECT
@@ -30,6 +39,24 @@
         </where>
         ORDER BY
             t2.sort DESC, t1.sort DESC
+    </select>
+
+    <!-- 根据分类ID获取属性组&列表 -->
+    <select id="listAttributesWithGroupByCategoryId" resultMap="AttributeGroupMap">
+        SELECT
+            t1.id,
+            t1.`name`,
+            t2.id attribute_group_id,
+            t2.`name` attribute_group_name
+        FROM
+            pms_attribute t1
+                INNER JOIN pms_attribute_group t2 ON t1.attribute_group_id = t2.id AND t2.is_deleted = 0
+        WHERE
+            t1.category_id = #{categoryId}
+            AND t1.is_deleted = 0
+        ORDER BY
+            t2.sort DESC,
+            t1.sort DESC
     </select>
 
 </mapper>

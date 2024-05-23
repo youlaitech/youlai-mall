@@ -2,6 +2,7 @@ package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.web.model.Option;
+import com.youlai.mall.product.enums.AttributeTypeEnum;
 import com.youlai.mall.product.model.entity.Category;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.CategoryAppVO;
@@ -63,4 +64,13 @@ public interface CategoryService extends IService<Category> {
      * @return APP端分类列表
      */
     List<CategoryAppVO> listAppCategories();
+
+    /**
+     * 获取分类下的属性列表
+     *
+     * @param categoryId 分类ID
+     * @param type       属性类型
+     * @return 属性列表
+     */
+    List<Option> listAttributesByCategoryId(Long categoryId, AttributeTypeEnum type);
 }

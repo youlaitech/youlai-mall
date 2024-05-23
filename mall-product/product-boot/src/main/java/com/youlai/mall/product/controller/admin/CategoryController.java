@@ -2,6 +2,7 @@ package com.youlai.mall.product.controller.admin;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.web.model.Option;
+import com.youlai.mall.product.enums.AttributeTypeEnum;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.CategoryVO;
 import com.youlai.mall.product.service.CategoryService;
@@ -68,5 +69,17 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return Result.success();
     }
+
+
+    @Operation(summary = "获取商品分类的属性列表")
+    @GetMapping("/{categoryId}/attributes")
+    public Result<List<Option>> listAttributesByCategoryId(
+            @Parameter(description = "商品分类ID") @PathVariable Long categoryId,
+            @Parameter(description = "属性类型") @RequestParam AttributeTypeEnum type
+    ) {
+        List<Option> list = categoryService.listAttributesByCategoryId(categoryId, type);
+        return Result.success(list);
+    }
+
 
 }

@@ -1,11 +1,15 @@
 package com.youlai.mall.product.service;
 
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.AttributeGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.form.AttributeGroupForm;
 import com.youlai.mall.product.model.query.AttributeGroupPageQuery;
 import com.youlai.mall.product.model.vo.AttributeGroupPageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import java.util.List;
+
 /**
  * 属性组 服务类
  *

@@ -7,16 +7,20 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.converter.CategoryConverter;
+import com.youlai.mall.product.enums.AttributeTypeEnum;
 import com.youlai.mall.product.mapper.CategoryMapper;
+import com.youlai.mall.product.model.entity.Attribute;
+import com.youlai.mall.product.model.entity.AttributeGroup;
 import com.youlai.mall.product.model.entity.Category;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.CategoryAppVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
+import com.youlai.mall.product.service.AttributeGroupService;
+import com.youlai.mall.product.service.AttributeService;
 import com.youlai.mall.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -33,6 +37,8 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
     private final CategoryConverter categoryConverter;
+
+    private final AttributeService attributeService;
 
     /**
      * 分类列表（树形）
@@ -197,6 +203,29 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                     return rootVO;
                 })
                 .toList();
+    }
+
+    /**
+     * 获取分类下的属性列表
+     *
+     * @param categoryId 分类ID
+     * @param type       属性类型
+     * @return
+     */
+    @Override
+    public List<Option> listAttributesByCategoryId(Long categoryId, AttributeTypeEnum type) {
+        List<Option> list = null;
+        if (AttributeTypeEnum.BASE.equals(type)) {
+            // 基础属性
+            list = attributeService.listAttributesWithGroupByCategoryId(categoryId);
+        } else if (AttributeTypeEnum.SALE.equals(type)) {
+            list = attributeService.list(
+                            new LambdaQueryWrapper<Attribute>().
+                                    eq(Attribute::getCategoryId, categoryId)
+                    ).stream().map(attribute -> new Option(attribute.getId(), attribute.getName()))
+                    .toList();
+        }
+        return list;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.youlai.mall.product.controller.admin;
 
+import com.youlai.common.web.model.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,4 +71,6 @@ public class AttributeController {
         boolean result = attributeService.deleteAttributes(ids);
         return Result.judge(result);
     }
+
+
 }
