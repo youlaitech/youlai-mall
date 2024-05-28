@@ -9,17 +9,17 @@ import com.youlai.mall.product.model.form.AttributeForm;
 import com.youlai.mall.product.model.bo.AttributeBO;
 
 @Mapper(componentModel = "spring")
-public interface AttributeConverter{
+public interface AttributeConverter {
 
     @Mappings({
-            @Mapping(target = "inputTypeLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(bo.getInputType(), com.youlai.mall.product.enums.AttributeInputTypeEnum.class))")
+            @Mapping(target = "typeLabel", expression = "java(bo.getType()!=null? bo.getType().getLabel():\"\")"),
+            @Mapping(target = "inputMethodLabel", expression = "java(bo.getInputMethod()!=null? bo.getInputMethod().getLabel():\"\")")
     })
-    AttributePageVO bo2PageVo(AttributeBO bo);
+    AttributePageVO convertToPageVo(AttributeBO bo);
 
-    Page<AttributePageVO> bo2PageVo(Page<AttributeBO> bo);
+    Page<AttributePageVO> convertToPageVo(Page<AttributeBO> bo);
 
-    AttributeForm entity2Form(Attribute entity);
+    AttributeForm convertToForm(Attribute entity);
 
-    @InheritInverseConfiguration(name = "entity2Form")
-    Attribute form2Entity(AttributeForm entity);
+    Attribute convertToEntity(AttributeForm entity);
 }

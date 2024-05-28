@@ -14,12 +14,15 @@
     <!-- 属性分页列表 -->
     <select id="listPagedAttributes" resultType="com.youlai.mall.product.model.bo.AttributeBO">
         SELECT
+            t1.id,
             t1.`name`,
             t1.sort,
             t1.type,
+            t1.input_method,
             t1.selectable_values,
-            t2.NAME groupName,
-            t3.NAME categoryName
+            t2.NAME attributeGroupName,
+            t3.NAME categoryName,
+            t1.create_time
         FROM
             `pms_attribute` t1
                 LEFT JOIN pms_attribute_group t2 ON t1.attribute_group_id = t2.id

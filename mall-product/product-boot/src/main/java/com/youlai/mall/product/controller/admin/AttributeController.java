@@ -1,6 +1,5 @@
 package com.youlai.mall.product.controller.admin;
 
-import com.youlai.common.web.model.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,7 @@ import jakarta.validation.Valid;
  * 属性前端控制器
  *
  * @author Ray Hao
- * @since 2024-04-19
+ * @since 2024/4/19
  */
 @Tag(name = "属性接口")
 @RestController
@@ -35,8 +34,8 @@ public class AttributeController {
     @Operation(summary = "属性分页列表")
     @GetMapping("/page")
     public PageResult<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams) {
-        IPage<AttributePageVO> result = attributeService.listPagedAttributes(queryParams);
-        return PageResult.success(result);
+        IPage<AttributePageVO> page = attributeService.listPagedAttributes(queryParams);
+        return PageResult.success(page);
     }
 
     @Operation(summary = "新增属性")

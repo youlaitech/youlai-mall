@@ -1,14 +1,16 @@
 package com.youlai.mall.product.model.form;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
+import com.youlai.mall.product.enums.AttributeInputMethodEnum;
+import com.youlai.mall.product.enums.AttributeTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
- * 属性 表单对象
+ * 属性表单对象
  *
  * @author Ray Hao
  * @since 2024-04-19
@@ -18,38 +20,30 @@ import lombok.Setter;
 @Schema(description = "属性表单对象")
 public class AttributeForm implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "属性主键")
-
+    @Schema(description = "属性ID",example = "1")
     private Long id;
 
-    @Schema(description = "属性组主键")
-
+    @Schema(description = "属性组ID",example = "1")
     private Long attributeGroupId;
 
-    @Schema(description = "属性名称")
+    @Schema(description = "分类ID",example = "1")
+    private Long categoryId;
 
+    @Schema(description = "属性名称",example = "屏幕分辨率")
     private String name;
 
-    @Schema(description = "输入录入方式：1-手动输入，2-从列表选择")
+    @Schema(description = "属性类型（1：基础属性，2：销售属性）",example = "1")
+    private AttributeTypeEnum type;
 
-    private Integer inputType;
+    @Schema(description = "输入方式（1：手动输入，2：从列表选择）",example = "2")
+    private AttributeInputMethodEnum inputMethod;
 
-    @Schema(description = "逗号分割的可选值列表，仅当input_type是2使用")
+    @Schema(description = "可选值列表（以逗号分隔，仅当输入方式为2时使用）",example = "1920x1080,2560x1440")
+    private String selectableValues;
 
-    private String options;
-
-    @Schema(description = "创建时间")
-
-    private LocalDateTime createTime;
-
-    @Schema(description = "更新时间")
-
-    private LocalDateTime updateTime;
-
-    @Schema(description = "逻辑删除标识(0-未删除，1-已删除)")
-
-    private Integer isDeleted;
-    ;
+    @Schema(description = "排序",example = "1")
+    private Integer sort;
 }

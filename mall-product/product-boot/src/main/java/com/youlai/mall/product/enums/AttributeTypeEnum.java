@@ -1,5 +1,7 @@
 package com.youlai.mall.product.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
 
@@ -19,8 +21,10 @@ public enum AttributeTypeEnum implements IBaseEnum<Integer> {
         this.value = value;
         this.label = label;
     }
-
+    @EnumValue
+    @JsonValue
     private final Integer value;
+
 
     private final String label;
 

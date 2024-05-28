@@ -17,11 +17,11 @@ public enum GenderEnum implements IBaseEnum<Integer> {
 
     @Getter
     // @EnumValue //  Mybatis-Plus 提供注解表示插入数据库时插入该值
-    private Integer value;
+    private final Integer value;
 
     @Getter
     // @JsonValue //  表示对枚举序列化时返回此字段
-    private String label;
+    private final String label;
 
     GenderEnum(Integer value, String label) {
         this.value = value;

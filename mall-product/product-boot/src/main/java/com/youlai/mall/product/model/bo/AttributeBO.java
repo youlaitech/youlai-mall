@@ -1,10 +1,10 @@
 package com.youlai.mall.product.model.bo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.youlai.mall.product.enums.AttributeInputMethodEnum;
+import com.youlai.mall.product.enums.AttributeTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +23,6 @@ public class AttributeBO implements Serializable {
     /**
      * 属性主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
@@ -37,14 +36,29 @@ public class AttributeBO implements Serializable {
     private String name;
 
     /**
-     * 输入录入方式：1-手动输入，2-从列表选择
+     * 属性类型（1：基础属性，2：销售属性）
      */
-    private Integer  inputType;
+    private AttributeTypeEnum type;
 
     /**
-     * 逗号分割的可选值列表，仅当input_type是2使用
+     * 输入方式（1：手动输入，2：从列表选择）
      */
-    private String options;
+    private AttributeInputMethodEnum inputMethod;
+
+    /**
+     * 可选值列表（以逗号分隔，仅当输入方式为2时使用
+     */
+    private String selectableValues;
+
+    /**
+     * 属性组名称
+     */
+    private String attributeGroupName;
+
+    /**
+     * 分类名称
+     */
+    private String categoryName;
 
     /**
      * 创建时间
@@ -56,8 +70,7 @@ public class AttributeBO implements Serializable {
      */
     private LocalDateTime updateTime;
 
-    /**
-     * 逻辑删除标识(0-未删除，1-已删除)
-     */
-    private Integer isDeleted;;
+
+
+
 }

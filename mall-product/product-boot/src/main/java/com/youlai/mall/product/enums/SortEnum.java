@@ -1,5 +1,7 @@
 package com.youlai.mall.product.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
 
@@ -12,14 +14,16 @@ import lombok.Getter;
 @Getter
 public enum SortEnum implements IBaseEnum<String> {
 
-    ASC("ASC","升序"),
-    DESC("DESC","降序");
+    ASC("asc","升序"),
+    DESC("desc","降序");
 
     SortEnum(String value, String label) {
         this.value = value;
         this.label = label;
     }
 
+    @EnumValue
+    @JsonValue
     private final String value;
 
     private final String label;

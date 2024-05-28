@@ -26,7 +26,7 @@ import cn.hutool.core.util.StrUtil;
  * 属性服务实现类
  *
  * @author Ray Hao
- * @since 2024-04-19
+ * @since 2024/4/19
  */
 @Service
 @RequiredArgsConstructor
@@ -42,16 +42,11 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
      */
     @Override
     public IPage<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams) {
-
-        // 参数构建
-        int pageNum = queryParams.getPageNum();
-        int pageSize = queryParams.getPageSize();
-        Page<AttributeBO> page = new Page<>(pageNum, pageSize);
-        // 查询数据
-        Page<AttributeBO> boPage = this.baseMapper.listPagedAttributes(page, queryParams);
-
-        // 实体转换
-        return attributeConverter.bo2PageVo(boPage);
+        Page<AttributeBO> page = this.baseMapper.listPagedAttributes(
+                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+                queryParams
+        );
+        return attributeConverter.convertToPageVo(page);
     }
 
     /**
@@ -63,7 +58,7 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
     @Override
     public AttributeForm getAttributeFormData(Long id) {
         Attribute entity = this.getById(id);
-        return attributeConverter.entity2Form(entity);
+        return attributeConverter.convertToForm(entity);
     }
 
     /**
@@ -74,8 +69,7 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
      */
     @Override
     public boolean saveAttribute(AttributeForm formData) {
-        // 实体转换 form->entity
-        Attribute entity = attributeConverter.form2Entity(formData);
+        Attribute entity = attributeConverter.convertToEntity(formData);
         return this.save(entity);
     }
 
@@ -88,7 +82,7 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
      */
     @Override
     public boolean updateAttribute(Long id, AttributeForm formData) {
-        Attribute entity = attributeConverter.form2Entity(formData);
+        Attribute entity = attributeConverter.convertToEntity(formData);
         return this.updateById(entity);
     }
 

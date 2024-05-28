@@ -31,7 +31,7 @@ public class BrandPageVO implements Serializable {
     @Schema(description = "用于展示在列表中的排序权重，数值越小，排序越靠前", example = "1")
     private Integer sort;
 
-    @Schema(description = "是否显示[0-不显示，1-显示]", example = "1")
+    @Schema(description = "是否显示（0：不显示，1：显示）", example = "1")
     private Integer isVisible;
 
     @Schema(description = "品牌的简介", example = "Apple Inc. is an American multinational technology company...")

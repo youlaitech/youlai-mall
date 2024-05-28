@@ -10,21 +10,19 @@ import com.youlai.mall.product.converter.CategoryConverter;
 import com.youlai.mall.product.enums.AttributeTypeEnum;
 import com.youlai.mall.product.mapper.CategoryMapper;
 import com.youlai.mall.product.model.entity.Attribute;
-import com.youlai.mall.product.model.entity.AttributeGroup;
 import com.youlai.mall.product.model.entity.Category;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.CategoryAppVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
-import com.youlai.mall.product.service.AttributeGroupService;
 import com.youlai.mall.product.service.AttributeService;
 import com.youlai.mall.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * 商品分类服务实现类
@@ -106,7 +104,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                     childSetter.accept(node, children);
                     return node;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -213,18 +211,24 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return
      */
     @Override
-    public List<Option> listAttributesByCategoryId(Long categoryId, AttributeTypeEnum type) {
-        List<Option> list = null;
-        if (AttributeTypeEnum.BASE.equals(type)) {
+    public List<Option> listAttributesByCategoryId(Long categoryId, Integer type) {
+        List list;
+        if (AttributeTypeEnum.BASE.getValue().equals(type)) {
             // 基础属性
             list = attributeService.listAttributesWithGroupByCategoryId(categoryId);
-        } else if (AttributeTypeEnum.SALE.equals(type)) {
+        } else if (AttributeTypeEnum.SALE.getValue().equals(type)) {
+            // 销售属性
             list = attributeService.list(
                             new LambdaQueryWrapper<Attribute>().
                                     eq(Attribute::getCategoryId, categoryId)
-                    ).stream().map(attribute -> new Option(attribute.getId(), attribute.getName()))
+                    )
+                    .stream()
+                    .map(attribute -> new Option(attribute.getId(), attribute.getName()))
                     .toList();
+        } else {
+            list = Collections.EMPTY_LIST;
         }
+
         return list;
     }
 
