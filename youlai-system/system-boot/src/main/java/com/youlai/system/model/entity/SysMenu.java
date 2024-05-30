@@ -1,8 +1,6 @@
 package com.youlai.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.youlai.common.base.BaseEntity;
 import com.youlai.system.enums.MenuTypeEnum;
 import lombok.Data;
@@ -98,5 +96,12 @@ public class SysMenu{
      * 更新时间
      */
     private Date updateTime;
+
+    /**
+     * 路由参数
+     */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
+    private String params;
+
 
 }

@@ -1,12 +1,17 @@
 package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youlai.common.constant.GlobalConstants;
+import com.youlai.common.web.model.KeyValue;
 import com.youlai.system.enums.MenuTypeEnum;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.converter.MenuConverter;
@@ -26,6 +31,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -191,23 +197,31 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public boolean saveMenu(MenuForm menuForm) {
-        String path = menuForm.getPath();
         MenuTypeEnum menuType = menuForm.getType();
 
-        // 如果是目录
-        if (menuType == MenuTypeEnum.CATALOG) {
+        if (menuType == MenuTypeEnum.CATALOG) {  // 如果是外链
+            String path = menuForm.getPath();
             if (menuForm.getParentId() == 0 && !path.startsWith("/")) {
                 menuForm.setPath("/" + path); // 一级目录需以 / 开头
             }
             menuForm.setComponent("Layout");
-        } else if (menuType == MenuTypeEnum.EXTLINK) {
-            // 如果是外链
+        } else if (menuType == MenuTypeEnum.EXTLINK) {   // 如果是目录
+
             menuForm.setComponent(null);
         }
 
-        SysMenu entity = menuConverter.form2Entity(menuForm);
+        SysMenu entity = menuConverter.convertToEntity(menuForm);
         String treePath = generateMenuTreePath(menuForm.getParentId());
         entity.setTreePath(treePath);
+
+        List<KeyValue> params = menuForm.getParams();
+        // 路由参数 [{key:"id",value:"1"}，{key:"name",value:"张三"}] 转换为 [{"id":"1"},{"name":"张三"}]
+        if (CollectionUtil.isNotEmpty(params)) {
+            entity.setParams(JSONUtil.toJsonStr(params.stream()
+                    .collect(Collectors.toMap(KeyValue::getKey, KeyValue::getValue))));
+        }else{
+            entity.setParams(null);
+        }
 
         boolean result = this.saveOrUpdate(entity);
         if (result) {
@@ -259,7 +273,29 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public MenuForm getMenuForm(Long id) {
         SysMenu entity = this.getById(id);
-        return menuConverter.entity2Form(entity);
+        Assert.isTrue(entity != null, "菜单不存在");
+        MenuForm formData = menuConverter.convertToForm(entity);
+        // 路由参数字符串 {"id":"1","name":"张三"} 转换为 [{key:"id", value:"1"}, {key:"name", value:"张三"}]
+        String params = entity.getParams();
+        if (StrUtil.isNotBlank(params)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                // 解析 JSON 字符串为 Map<String, String>
+                Map<String, String> paramMap = objectMapper.readValue(params, new TypeReference<>() {});
+
+                // 转换为 List<KeyValue> 格式 [{key:"id", value:"1"}, {key:"name", value:"张三"}]
+                List<KeyValue> transformedList = paramMap.entrySet().stream()
+                        .map(entry -> new KeyValue(entry.getKey(), entry.getValue()))
+                        .toList();
+
+                // 将转换后的列表存入 MenuForm
+                formData.setParams(transformedList);
+            } catch (Exception e) {
+                throw new RuntimeException("解析参数失败", e);
+            }
+        }
+
+        return formData;
     }
 
     /**
