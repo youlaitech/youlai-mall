@@ -39,7 +39,7 @@ public class AttributePageVO implements Serializable {
     private String selectableValues;
 
     @Schema(description = "属性组名称")
-    private String attributeGroupName;
+    private String groupName;
 
     @Schema(description = "分类名称")
     private String categoryName;
@@ -47,4 +47,8 @@ public class AttributePageVO implements Serializable {
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createTime;
+
+    @Schema(description = "排序")
+    private Integer sort;
+
 }

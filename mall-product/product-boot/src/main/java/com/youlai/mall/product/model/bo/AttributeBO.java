@@ -53,7 +53,7 @@ public class AttributeBO implements Serializable {
     /**
      * 属性组名称
      */
-    private String attributeGroupName;
+    private String groupName;
 
     /**
      * 分类名称
@@ -70,7 +70,10 @@ public class AttributeBO implements Serializable {
      */
     private LocalDateTime updateTime;
 
-
+    /**
+     * 排序
+     */
+    private Integer sort;
 
 
 }
