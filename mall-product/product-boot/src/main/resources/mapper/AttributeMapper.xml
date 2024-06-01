@@ -20,7 +20,7 @@
             t1.type,
             t1.input_method,
             t1.selectable_values,
-            t2.NAME groupName,
+            t2.NAME attributeGroupName,
             t3.NAME categoryName,
             t1.create_time
         FROM

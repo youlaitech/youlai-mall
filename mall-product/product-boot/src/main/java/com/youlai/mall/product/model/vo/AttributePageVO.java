@@ -39,7 +39,7 @@ public class AttributePageVO implements Serializable {
     private String selectableValues;
 
     @Schema(description = "属性组名称")
-    private String groupName;
+    private String attributeGroupName;
 
     @Schema(description = "分类名称")
     private String categoryName;

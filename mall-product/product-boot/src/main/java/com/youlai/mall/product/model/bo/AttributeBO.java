@@ -53,7 +53,7 @@ public class AttributeBO implements Serializable {
     /**
      * 属性组名称
      */
-    private String groupName;
+    private String attributeGroupName;
 
     /**
      * 分类名称
