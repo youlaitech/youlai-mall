@@ -7,23 +7,24 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youlai.common.result.Result;
 import com.youlai.common.result.ResultCode;
-import jodd.net.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
+ * 自定义流控异常
+ *
  * @author haoxr
- * @description 自定义流控异常
- * @createTime 2021/4/12 22:57
+ * @since 2021/4/12 22:57
  */
 @Component
 public class DefaultBlockExceptionHandler implements BlockExceptionHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {
-        response.setStatus(HttpStatus.ok().status());
+        response.setStatus(HttpStatus.OK.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
 
