@@ -1,5 +1,6 @@
 package com.youlai.mall.product.controller.admin;
 
+import com.youlai.common.web.model.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,10 +34,13 @@ public class AttributeController {
 
     @Operation(summary = "属性分页列表")
     @GetMapping("/page")
-    public PageResult<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams) {
+    public PageResult<AttributePageVO> listPagedAttributes(
+            AttributePageQuery queryParams
+    ) {
         IPage<AttributePageVO> page = attributeService.listPagedAttributes(queryParams);
         return PageResult.success(page);
     }
+
 
     @Operation(summary = "新增属性")
     @PostMapping

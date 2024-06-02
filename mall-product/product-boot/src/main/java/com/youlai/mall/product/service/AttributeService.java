@@ -69,4 +69,5 @@ public interface AttributeService extends IService<Attribute> {
      * @return
      */
     List<Option> listAttributesWithGroupByCategoryId(Long categoryId);
+
 }

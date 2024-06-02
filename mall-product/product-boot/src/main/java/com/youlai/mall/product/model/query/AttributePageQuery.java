@@ -15,13 +15,13 @@ import lombok.Data;
 @Data
 public class AttributePageQuery extends BasePageQuery {
 
-    @Schema(description="关键字")
+    @Schema(description="关键字(属性名称/属性组名称/分类名称)")
     private String keywords;
 
-    @Schema(description="属性分组ID")
-    private Long groupId;
+    @Schema(description="分类ID")
+    private Long categoryId;
 
     @Schema(description="属性类型(1:基础属性,2:销售属性)")
-    private AttributeTypeEnum attributeType;
+    private Integer attributeType;
 
 }

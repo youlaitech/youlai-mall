@@ -30,6 +30,8 @@
                 AND (ag.category_id = #{queryParams.categoryId} OR CONCAT(',',c.tree_path,',') LIKE CONCAT('%,',#{queryParams.categoryId},',%'))
             </if>
         </where>
+        ORDER BY
+            ag.sort ASC
     </select>
 
 </mapper>

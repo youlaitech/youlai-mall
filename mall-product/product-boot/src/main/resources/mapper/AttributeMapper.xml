@@ -26,7 +26,7 @@
         FROM
             `pms_attribute` t1
                 LEFT JOIN pms_attribute_group t2 ON t1.attribute_group_id = t2.id
-                LEFT JOIN pms_category t3 ON t2.category_id = t3.id
+                LEFT JOIN pms_category t3 ON t1.category_id = t3.id
         <where>
             t1.is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
@@ -36,12 +36,15 @@
                     OR t3.name LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
             </if>
-            <if test='queryParams.groupId!=null'>
-                AND t1.attribute_group_id = #{queryParams.groupId}
+            <if test='queryParams.attributeType!=null'>
+                AND t1.type = #{queryParams.attributeType}
+            </if>
+            <if test='queryParams.categoryId!=null'>
+                AND t1.category_id = #{queryParams.categoryId}
             </if>
         </where>
         ORDER BY
-            t2.sort DESC, t1.sort DESC
+            t2.sort ASC, t1.sort ASC
     </select>
 
     <!-- 根据分类ID获取属性组&列表 -->

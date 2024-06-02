@@ -61,4 +61,10 @@ public interface AttributeGroupService extends IService<AttributeGroup> {
      */
     void deleteAttributeGroups(String ids);
 
+    /**
+     * 获取属性组选项列表
+     *
+     * @return
+     */
+    List<Option> listAttributeOptions(Long categoryId);
 }

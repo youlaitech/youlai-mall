@@ -188,6 +188,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
         meta.setAlwaysShow(ObjectUtil.equals(routeBO.getAlwaysShow(), 1));
 
+        String paramsJson = routeBO.getParams();
+        // 将 JSON 字符串转换为 Map<String, String>
+        if (StrUtil.isNotBlank(paramsJson)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                Map<String, String> paramMap = objectMapper.readValue(paramsJson, new TypeReference<>() {});
+                meta.setParams(paramMap);
+            } catch (Exception e) {
+                throw new RuntimeException("解析参数失败", e);
+            }
+        }
+
         routeVO.setMeta(meta);
         return routeVO;
     }

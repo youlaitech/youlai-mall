@@ -21,6 +21,7 @@ public enum AttributeTypeEnum implements IBaseEnum<Integer> {
         this.value = value;
         this.label = label;
     }
+
     @EnumValue
     @JsonValue
     private final Integer value;

@@ -1,6 +1,7 @@
 package com.youlai.mall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.Attribute;
 import com.youlai.mall.product.model.entity.AttributeGroup;
 import com.youlai.mall.product.mapper.AttributeGroupMapper;
@@ -123,6 +124,23 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
                 );
             }
         }
+    }
+
+    /**
+     * 获取属性组选项列表
+     *
+     * @param categoryId 分类ID
+     * @return
+     */
+    @Override
+    public List<Option> listAttributeOptions(Long categoryId) {
+        return this.list(new LambdaQueryWrapper<AttributeGroup>()
+                        .eq(categoryId != null, AttributeGroup::getCategoryId, categoryId)
+                        .orderByAsc(AttributeGroup::getSort)
+                )
+                .stream()
+                .map(item -> new Option(item.getId(), item.getName()))
+                .toList();
     }
 
 }
