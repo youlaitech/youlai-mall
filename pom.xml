@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -37,22 +37,21 @@
 
         <!-- spring cloud & alibaba -->
         <spring-cloud.version>2023.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.0.0-RC1</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
 
         <!-- 数据库 & ORM -->
         <mysql.version>8.0.28</mysql.version>
-        <druid.version>1.2.20</druid.version>
-        <mybatis-plus.version>3.5.5</mybatis-plus.version>
+        <druid.version>1.2.23</druid.version>
+        <mybatis-plus.version>3.5.6</mybatis-plus.version>
 
         <!-- 接口文档工具 -->
-        <knife4j.version>4.3.0</knife4j.version>
-        <swagger.version>2.1.0</swagger.version>
+        <knife4j.version>4.5.0</knife4j.version>
 
         <!-- 工具 -->
-        <hutool.version>5.8.26</hutool.version>
+        <hutool.version>5.8.28</hutool.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
-        <easyexcel.version>3.3.2</easyexcel.version>
+        <easyexcel.version>3.3.4</easyexcel.version>
         <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
 
         <!-- 阿里云短信 -->
@@ -67,7 +66,7 @@
         <okhttp3.version>4.8.1</okhttp3.version>
 
         <!-- redisson 分布式锁 -->
-        <redisson.version>3.24.3</redisson.version>
+        <redisson.version>3.31.0</redisson.version>
 
         <!-- 自动代码生成 -->
         <mybatis-plus-generator.version>3.5.6</mybatis-plus-generator.version>
