@@ -21,6 +21,9 @@ public class AttributePageQuery extends BasePageQuery {
     @Schema(description="分类ID")
     private Long categoryId;
 
+    @Schema(description="属性组ID")
+    private Long attributeGroupId;
+
     @Schema(description="属性类型(1:基础属性,2:销售属性)")
     private Integer attributeType;
 

@@ -36,6 +36,11 @@
                     OR t3.name LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
             </if>
+
+            <if test='queryParams.attributeGroupId!=null'>
+                AND t1.attribute_group_id = #{queryParams.attributeGroupId}
+            </if>
+
             <if test='queryParams.attributeType!=null'>
                 AND t1.type = #{queryParams.attributeType}
             </if>
