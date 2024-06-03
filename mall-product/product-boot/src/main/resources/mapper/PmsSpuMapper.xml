@@ -10,9 +10,7 @@
             t1.id,
             t1.name,
             t1.img_url,
-            t1.price,
             t1.unit,
-            t1.detail,
             t1.description,
             t3.NAME categoryName,
             t4.NAME brandName
@@ -26,10 +24,8 @@
             <if test="queryParams.categoryId!=null">
                 AND t1.category_id =#{queryParams.categoryId}
             </if>
-
         </where>
         ORDER BY
-            t1.update_time DESC,
             t1.create_time DESC
     </select>
 

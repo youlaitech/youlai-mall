@@ -18,7 +18,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2022/2/5
  */
-@Tag(name = "App-商品分类")
+@Tag(name = "【App】商品分类")
 @RestController("appCategoryController")
 @RequestMapping("/app-api/v1/categories")
 @RequiredArgsConstructor

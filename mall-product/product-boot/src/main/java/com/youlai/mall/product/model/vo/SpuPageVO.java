@@ -20,31 +20,15 @@ public class SpuPageVO {
 
     private String name;
 
-    private Long categoryId;
-
-    private Long brandId;
-
-    private Long originPrice;
-
-    private Long price;
-
-    private Integer sales;
-
     private String imgUrl;
-
-    private String[] album;
 
     private String unit;
 
     private String description;
-
-    private String detail;
 
     private Integer status;
 
     private String categoryName;
 
     private String brandName;
-
-    private List<Sku> skuList;
 }

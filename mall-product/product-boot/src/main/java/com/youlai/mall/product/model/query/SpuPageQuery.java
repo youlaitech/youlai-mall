@@ -21,10 +21,5 @@ public class SpuPageQuery extends BasePageQuery {
     @Schema(description="商品分类ID")
     private Long categoryId;
 
-    @Schema(description="排序字段名")
-    private String sortField;
-
-    @Schema(description="排序规则(asc:升序;desc:降序)")
-    private String sort;
 
 }
