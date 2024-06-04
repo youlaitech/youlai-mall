@@ -30,7 +30,7 @@ public class SpuController {
 
     @Operation(summary = "商品分页列表")
     @GetMapping("/page")
-    public PageResult listPagedSpu(SpuPageQuery queryParams) {
+    public PageResult<SpuPageVO> listPagedSpu(SpuPageQuery queryParams) {
         IPage<SpuPageVO> result = spuService.listPagedSpu(queryParams);
         return PageResult.success(result);
     }
