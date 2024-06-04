@@ -24,7 +24,7 @@ import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.rabbitmq.constant.RabbitMqConstants;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
-import com.youlai.mall.oms.config.WxPayProperties;
+import com.youlai.mall.oms.config.property.WechatPayProperties;
 import com.youlai.mall.oms.converter.OrderConverter;
 import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.PaymentMethodEnum;
@@ -78,7 +78,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> implements OrderService {
 
-    private final WxPayProperties wxPayProperties;
+    private final WechatPayProperties wechatPayProperties;
     private final OrderItemService orderItemService;
     private final RabbitTemplate rabbitTemplate;
     private final StringRedisTemplate redisTemplate;
@@ -220,7 +220,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private boolean saveOrder(OrderSubmitForm submitForm) {
         // 保存订单
         OmsOrder order = orderConverter.form2Entity(submitForm);
-        order.setStatus(OrderStatusEnum.UNPAID.getValue()); // 待支付
+        order.setStatus(OrderStatusEnum.PENDING_PAYMENT.getValue()); // 待支付
         order.setMemberId(SecurityUtils.getMemberId());
         order.setSource(submitForm.getOrderSource().getValue());
         boolean result = this.save(order);
@@ -260,7 +260,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderSn, orderSn)
         );
-        Assert.isTrue(order != null && OrderStatusEnum.UNPAID.getValue().equals(order.getStatus()),
+        Assert.isTrue(order != null && OrderStatusEnum.PENDING_PAYMENT.getValue().equals(order.getStatus()),
                 "订单不存在或已支付");
 
         RLock lock = redissonClient.getLock(RedisConstants.ORDER_PAYMENT_LOCK_PREFIX + order.getOrderSn());
@@ -301,7 +301,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Assert.isTrue(stockDeducted, "订单支付失败：库存扣减失败！");
 
         // 更新订单状态
-        order.setStatus(OrderStatusEnum.PAID.getValue());
+        order.setStatus(OrderStatusEnum.PENDING_SHIPMENT.getValue());
         order.setPaymentMethod(PaymentMethodEnum.BALANCE.getValue());
         order.setPaymentTime(new Date());
         boolean result = this.updateById(order);
@@ -354,7 +354,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                                 .setOpenid(openId)
                 )
                 .setDescription("赅买-订单编号：" + orderSn)
-                .setNotifyUrl(wxPayProperties.getPayNotifyUrl());
+                .setNotifyUrl(wechatPayProperties.getPayNotifyUrl());
         WxPayUnifiedOrderV3Result.JsapiResult jsapiResult;
         try {
             jsapiResult = wxPayService.createOrderV3(TradeTypeEnum.JSAPI, wxRequest);
@@ -376,8 +376,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         return this.update(new LambdaUpdateWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderSn, orderSn)
-                .eq(OmsOrder::getStatus, OrderStatusEnum.UNPAID.getValue())
-                .set(OmsOrder::getStatus, OrderStatusEnum.CANCELED.getValue())
+                .eq(OmsOrder::getStatus, OrderStatusEnum.PENDING_PAYMENT.getValue())
+                .set(OmsOrder::getStatus, OrderStatusEnum.CANCELLED.getValue())
         );
     }
 
@@ -393,8 +393,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Assert.isTrue(order != null, "删除失败,订单不存在！");
 
         Assert.isTrue(
-                OrderStatusEnum.CANCELED.getValue().equals(order.getStatus())
-                        || OrderStatusEnum.UNPAID.getValue().equals(order.getStatus())
+                OrderStatusEnum.CANCELLED.getValue().equals(order.getStatus())
+                        || OrderStatusEnum.PENDING_PAYMENT.getValue().equals(order.getStatus())
                 ,
                 "当前状态订单不能删除"
         );
@@ -414,7 +414,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         );
         // 支付成功处理
         if (WxPayConstants.WxpayTradeStatus.SUCCESS.equals(result.getTradeState())) {
-            orderDO.setStatus(OrderStatusEnum.PAID.getValue());
+            orderDO.setStatus(OrderStatusEnum.PENDING_SHIPMENT.getValue());
             orderDO.setTransactionId(result.getTransactionId());
             orderDO.setPaymentTime(new Date());
             this.updateById(orderDO);
@@ -438,7 +438,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OmsOrder orderDO = this.getOne(wrapper);
         // 退款成功处理
         if (WxPayConstants.RefundStatus.SUCCESS.equals(result.getRefundStatus())) {
-            orderDO.setStatus(OrderStatusEnum.COMPLETE.getValue());
+            orderDO.setStatus(OrderStatusEnum.COMPLETED.getValue());
             orderDO.setRefundId(result.getRefundId());
             this.updateById(orderDO);
         }

@@ -60,11 +60,6 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>oms-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-mybatis</artifactId>
         </dependency>
 

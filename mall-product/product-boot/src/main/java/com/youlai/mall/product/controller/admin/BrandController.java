@@ -24,7 +24,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024/5/7
  */
-@Tag(name = "Admin-品牌接口")
+@Tag(name = "【Admin】品牌接口")
 @RestController
 @RequestMapping("/api/v1/brands")
 @RequiredArgsConstructor

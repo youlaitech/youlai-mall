@@ -20,7 +20,7 @@
         <module>mall-sms</module>
         <module>mall-ums</module>
         <module>mall-product</module>
-        <module>mall-oms</module>
+        <module>mall-order</module>
     </modules>
 
     <parent>
@@ -50,7 +50,7 @@
         <!-- 工具 -->
         <hutool.version>5.8.28</hutool.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <weixin-java.version>4.1.5.B</weixin-java.version>
+        <weixin-java.version>4.2.6.B</weixin-java.version>
         <easyexcel.version>3.3.4</easyexcel.version>
         <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
 
@@ -227,12 +227,6 @@
             <dependency>
                 <groupId>com.youlai</groupId>
                 <artifactId>system-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.youlai</groupId>
-                <artifactId>oms-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

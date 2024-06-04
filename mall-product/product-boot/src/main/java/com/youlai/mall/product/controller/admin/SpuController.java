@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * @author haoxr
  * @since 2021/1/4
  **/
-@Tag(name = "Admin-商品接口")
+@Tag(name = "【Admin】商品接口")
 @RestController
 @RequestMapping("/api/v1/spu")
 @RequiredArgsConstructor

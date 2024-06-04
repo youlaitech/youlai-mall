@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>mall-oms</artifactId>
+        <artifactId>mall-order</artifactId>
         <groupId>com.youlai</groupId>
         <version>3.2.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>oms-boot</artifactId>
+    <artifactId>order-boot</artifactId>
 
     <properties>
         <service.port>8603</service.port>
@@ -51,11 +51,6 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-pay</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>oms-api</artifactId>
         </dependency>
 
         <dependency>

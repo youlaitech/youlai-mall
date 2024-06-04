@@ -42,7 +42,7 @@
         FROM
             `pms_spu` t1
                 LEFT JOIN pms_sku t2 ON t1.id = t2.spu_id  AND t2.is_deleted = 0
-                LEFT JOIN pms_spu_comment t3 ON t1.id = t3.spu_id  AND t3.is_deleted = 0
+                LEFT JOIN pms_spu_comment t3 ON t1.id = t3.spu_id AND t3.is_deleted = 0
         WHERE
             t1.`status` = 1
             AND t1.is_deleted = 0
@@ -57,18 +57,18 @@
             </if>
         GROUP BY
             t1.id
+        <if test="queryParams.orderBy!=null and queryParams.sort !=null">
         ORDER BY
-            <if test="queryParams.orderBy!=null and queryParams.sort !=null">
-                <choose>
-                    <when test="queryParams.orderBy.toString() eq 'price'">min(t2.price) </when>
-                    <when test="queryParams.orderBy.toString() eq 'sales'">sum( t2.sales )</when>
-                    <when test="queryParams.orderBy.toString() eq 'score'">(sum(t2.sales) * 0.5 + sum(t3.star)/COUNT(t3.id) * 0.5)</when>
-                    <otherwise>t1.create_time </otherwise>
-                </choose>
-                <choose>
-                    <when test="queryParams.sort.toString() eq 'asc'">ASC</when>
-                    <otherwise>DESC</otherwise>
-                </choose>
-            </if>
+            <choose>
+                <when test="queryParams.orderBy.toString() eq 'price'">min(t2.price) </when>
+                <when test="queryParams.orderBy.toString() eq 'sales'">sum( t2.sales )</when>
+                <when test="queryParams.orderBy.toString() eq 'score'">(sum(t2.sales) * 0.5 + sum(t3.star)/COUNT(t3.id) * 0.5)</when>
+                <otherwise>t1.create_time </otherwise>
+            </choose>
+            <choose>
+                <when test="queryParams.sort.toString() eq 'asc'">ASC</when>
+                <otherwise>DESC</otherwise>
+            </choose>
+        </if>
     </select>
 </mapper>

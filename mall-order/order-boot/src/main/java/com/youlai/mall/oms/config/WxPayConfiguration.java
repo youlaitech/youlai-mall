@@ -3,7 +3,8 @@ package com.youlai.mall.oms.config;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
-import lombok.AllArgsConstructor;
+import com.youlai.mall.oms.config.property.WechatPayProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,10 +22,10 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @ConditionalOnClass(WxPayService.class)
-@EnableConfigurationProperties(WxPayProperties.class)
-@AllArgsConstructor
+@EnableConfigurationProperties(WechatPayProperties.class)
+@RequiredArgsConstructor
 public class WxPayConfiguration {
-    private final WxPayProperties properties;
+    private final WechatPayProperties properties;
 
     @Bean
     @ConditionalOnMissingBean

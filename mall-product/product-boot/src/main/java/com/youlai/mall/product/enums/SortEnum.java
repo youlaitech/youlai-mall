@@ -23,12 +23,12 @@ public enum SortEnum implements IBaseEnum<String> {
     }
 
     @EnumValue
-    @JsonValue
     private final String value;
 
     private final String label;
 
     @Override
+    @JsonValue
     public String toString(){
         return this.value;
     }

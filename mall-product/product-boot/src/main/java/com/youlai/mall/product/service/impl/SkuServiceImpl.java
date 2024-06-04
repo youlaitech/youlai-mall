@@ -6,7 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.product.constant.ProductConstants;
+import com.youlai.common.constant.RedisConstants;
 import com.youlai.mall.product.converter.SkuConverter;
 import com.youlai.mall.product.mapper.SkuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
@@ -100,7 +100,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
         }
 
         // 锁定的商品缓存至 Redis (后续使用：1.取消订单解锁库存；2：支付订单扣减库存)
-        redisTemplate.opsForValue().set(ProductConstants.LOCKED_SKUS_PREFIX + orderToken, lockSkuList);
+        redisTemplate.opsForValue().set(RedisConstants.PRODUCT_SKUS_LOCK_PREFIX + orderToken, lockSkuList);
         return true;
     }
 
@@ -115,7 +115,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
     @Override
     @Transactional
     public boolean unlockStock(String orderSn) {
-        List<LockSkuDTO> lockedSkus = (List<LockSkuDTO>) redisTemplate.opsForValue().get(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
+        List<LockSkuDTO> lockedSkus = (List<LockSkuDTO>) redisTemplate.opsForValue().get(RedisConstants.PRODUCT_SKUS_LOCK_PREFIX + orderSn);
         log.info("释放订单({})锁定的商品库存:{}", orderSn, JSONUtil.toJsonStr(lockedSkus));
 
         // 库存已释放
@@ -132,7 +132,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
             Assert.isTrue(unlockResult, "解锁商品库存失败");
         }
         // 移除 redis 订单锁定的商品
-        redisTemplate.delete(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
+        redisTemplate.delete(RedisConstants.PRODUCT_SKUS_LOCK_PREFIX + orderSn);
         return true;
     }
 
@@ -148,7 +148,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
     @Transactional
     public boolean deductStock(String orderSn) {
         // 获取订单提交时锁定的商品
-        List<LockSkuDTO> lockedSkus = (List<LockSkuDTO>) redisTemplate.opsForValue().get(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
+        List<LockSkuDTO> lockedSkus = (List<LockSkuDTO>) redisTemplate.opsForValue().get(RedisConstants.PRODUCT_SKUS_LOCK_PREFIX + orderSn);
         log.info("订单({})支付成功，扣减订单商品库存：{}", orderSn, JSONUtil.toJsonStr(lockedSkus));
 
         Assert.isTrue(CollectionUtil.isNotEmpty(lockedSkus), "扣减商品库存失败：订单({})未包含商品");
@@ -163,7 +163,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
         }
 
         // 移除订单锁定的商品
-        redisTemplate.delete(ProductConstants.LOCKED_SKUS_PREFIX + orderSn);
+        redisTemplate.delete(RedisConstants.PRODUCT_SKUS_LOCK_PREFIX + orderSn);
         return true;
     }
 

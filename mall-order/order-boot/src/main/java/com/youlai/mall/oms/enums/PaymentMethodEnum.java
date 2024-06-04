@@ -10,6 +10,7 @@ import lombok.Getter;
  * @author huawei
  * @since 2.0.0
  */
+@Getter
 public enum PaymentMethodEnum implements IBaseEnum<Integer> {
 
     WX_JSAPI(1, "微信JSAPI支付"),
@@ -22,9 +23,7 @@ public enum PaymentMethodEnum implements IBaseEnum<Integer> {
         this.label = label;
     }
 
-    @Getter
-    private Integer value;
+    private final Integer value;
 
-    @Getter
-    private String label;
+    private final String label;
 }

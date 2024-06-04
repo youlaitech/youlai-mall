@@ -21,7 +21,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024/4/20
  */
-@Tag(name = "Admin-商品分类")
+@Tag(name = "【Admin】商品分类")
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
@@ -69,7 +69,6 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return Result.success();
     }
-
 
     @Operation(summary = "获取商品分类的属性列表")
     @GetMapping("/{categoryId}/attributes")

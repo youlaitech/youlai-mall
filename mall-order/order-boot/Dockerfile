@@ -14,7 +14,7 @@ RUN echo "https://mirrors.ustc.edu.cn/alpine/v3.7/main/" > /etc/apk/repositories
 VOLUME /tmp
 
 # 复制主机文件至镜像内，复制的目录需放置在 Dockerfile 文件同级目录下
-ADD target/oms-boot.jar app.jar
+ADD target/order-boot.jar app.jar
 
 # 容器启动执行命令
 CMD java \

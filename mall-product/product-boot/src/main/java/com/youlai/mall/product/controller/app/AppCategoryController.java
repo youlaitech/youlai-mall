@@ -19,10 +19,10 @@ import java.util.List;
  * @since 2022/2/5
  */
 @Tag(name = "【App】商品分类")
-@RestController("appCategoryController")
+@RestController
 @RequestMapping("/app-api/v1/categories")
 @RequiredArgsConstructor
-public class CategoryController {
+public class AppCategoryController {
 
     private final CategoryService categoryService;
 

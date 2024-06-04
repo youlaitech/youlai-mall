@@ -1,4 +1,4 @@
-package com.youlai.mall.oms.config;
+package com.youlai.mall.oms.config.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -29,7 +29,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Data
 @ConfigurationProperties(prefix = "wx.pay")
-public class WxPayProperties {
+public class WechatPayProperties {
 
     /**
      * 微信支付商户号

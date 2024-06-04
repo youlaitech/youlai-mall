@@ -48,4 +48,9 @@ public interface RedisConstants {
      */
     String ORDER_PAYMENT_LOCK_PREFIX = "order:payment:lock:";
 
+    /**
+     * 商品锁定缓存键前缀
+     */
+    String PRODUCT_SKUS_LOCK_PREFIX = "product:skus:lock:";
+
 }

@@ -24,7 +24,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024-04-19
  */
-@Tag(name = "属性组接口")
+@Tag(name = "【Admin】属性组接口")
 @RestController
 @RequestMapping("/api/v1/attribute-groups")
 @RequiredArgsConstructor

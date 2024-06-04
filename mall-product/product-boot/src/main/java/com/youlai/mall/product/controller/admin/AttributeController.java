@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
  * @author Ray Hao
  * @since 2024/4/19
  */
-@Tag(name = "属性接口")
+@Tag(name = "【Admin】属性接口")
 @RestController
 @RequestMapping("/api/v1/attributes")
 @RequiredArgsConstructor
@@ -40,7 +40,6 @@ public class AttributeController {
         IPage<AttributePageVO> page = attributeService.listPagedAttributes(queryParams);
         return PageResult.success(page);
     }
-
 
     @Operation(summary = "新增属性")
     @PostMapping

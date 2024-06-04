@@ -3,7 +3,10 @@ package com.youlai.mall.product.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.youlai.common.base.IBaseEnum;
+import com.youlai.common.parser.CommonFormEnumParser;
 import lombok.Getter;
+
+import java.util.Objects;
 
 /**
  * 商品排序字段枚举
@@ -12,7 +15,7 @@ import lombok.Getter;
  * @since 2024/5/23
  */
 @Getter
-public enum ProductOrderByEnum implements IBaseEnum<String> {
+public enum ProductOrderByEnum implements IBaseEnum<String>{
 
     SCORE("score", "评分"),
     PRICE("price", "价格"),
@@ -24,14 +27,14 @@ public enum ProductOrderByEnum implements IBaseEnum<String> {
     }
 
     @EnumValue
-    @JsonValue
     private final String value;
 
     private final String label;
 
     @Override
-    public String toString(){
-        return this.value;
+    @JsonValue
+    public String toString() {
+        return value;
     }
 
 }

@@ -1,5 +1,5 @@
 spring:
   application:
-    name: mall-oms
+    name: mall-order
   profiles:
     active: dev
