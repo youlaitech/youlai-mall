@@ -3,7 +3,6 @@ package com.youlai.mall.product.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.youlai.common.base.IBaseEnum;
-import com.youlai.common.parser.CommonFormEnumParser;
 import lombok.Getter;
 
 import java.util.Objects;

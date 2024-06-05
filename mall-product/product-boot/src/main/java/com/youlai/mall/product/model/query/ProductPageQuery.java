@@ -25,7 +25,7 @@ public class ProductPageQuery extends BasePageQuery {
     @Schema(description="商品分类ID")
     private Long categoryId;
 
-    @schema(description="排序字段名（SCORE:评分，PRICE：价格，SALES：销量）",example = "SCORE")
+    @Schema(description="排序字段名（SCORE:评分，PRICE：价格，SALES：销量）",example = "SCORE")
     private ProductOrderByEnum orderBy;
 
     @Schema(description="排序规则（ASC:升序;DESC:降序）",example = "DESC")
