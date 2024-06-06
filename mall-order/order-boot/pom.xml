@@ -55,6 +55,11 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
+            <artifactId>ums-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
             <artifactId>product-api</artifactId>
         </dependency>
 
