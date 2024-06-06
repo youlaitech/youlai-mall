@@ -40,15 +40,13 @@ public class ${entity}DTO {
 #end
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($field in ${table.fields})
-
     #if(${field.keyFlag})
         #set($keyPropertyName=${field.propertyName})
     #end
     #if("$!field.comment" != "")
         @Schema(description = "${field.comment}")
     #end
-
-private ${field.propertyType} ${field.propertyName};
+    private ${field.propertyType} ${field.propertyName};
 #end
 ## ----------  END 字段循环遍历  ----------
 #if(!${entityLombokModel})
