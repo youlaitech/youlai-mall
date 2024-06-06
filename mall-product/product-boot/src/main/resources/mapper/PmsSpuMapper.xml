@@ -13,11 +13,13 @@
             t1.unit,
             t1.description,
             t3.NAME categoryName,
-            t4.NAME brandName
+            t4.NAME brandName,
+            t1.status
         FROM pms_spu t1
             LEFT JOIN pms_category t3 ON t1.category_id = t3.id
             LEFT JOIN pms_brand t4 ON t1.brand_id = t4.id
         <where>
+            AND t1.is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND t1.name like concat('%',#{queryParams.keywords},'%')
             </if>
