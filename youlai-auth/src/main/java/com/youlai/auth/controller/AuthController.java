@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * 获取验证码、退出登录等接口
  * 注：登录接口不在此控制器，在过滤器OAuth2TokenEndpointFilter拦截端点(/oauth2/token)处理
  *
- * @author haoxr
+ * @author Ray
  * @since 3.1.0
  */
 @RestController

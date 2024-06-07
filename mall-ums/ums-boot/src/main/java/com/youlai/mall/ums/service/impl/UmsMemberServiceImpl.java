@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * 会员业务实现类
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/2/12
  */
 @Service

@@ -31,7 +31,7 @@ public class OrderBO extends BaseEntity {
 	/**
 	 * 订单总额（分）
 	 */
-	private Long totalAmount;
+	private Long totalFee;
 	/**
 	 * 商品总数
 	 */
@@ -115,7 +115,7 @@ public class OrderBO extends BaseEntity {
 		/**
 		 * 商品总金额(单位：分)(单价*数量)
 		 */
-		private Long totalAmount;
+		private Long totalFee;
 
 
 	}

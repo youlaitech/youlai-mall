@@ -3,6 +3,7 @@ package ${package.Parent}.model.query;
 import com.youlai.common.base.BasePageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * $!{table.comment}分页查询对象
@@ -10,6 +11,7 @@ import lombok.Data;
  * @author ${author}
  * @since ${date}
  */
+@EqualsAndHashCode(callSuper = true)
 @Schema(description ="$!{table.comment}分页查询对象")
 @Data
 public class ${entity}PageQuery extends BasePageQuery {

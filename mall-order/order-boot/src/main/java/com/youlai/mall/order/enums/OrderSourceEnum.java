@@ -10,10 +10,11 @@ import lombok.Getter;
  * @since 2021/1/16
  */
 
+@Getter
 public enum OrderSourceEnum implements IBaseEnum<Integer> {
 
-    APP(1, "APP"), // APP订单
-    WEB(2, "WEB"), // 网页
+    APP(1, "APP"),
+    WEB(2, "WEB")
     ;
 
     OrderSourceEnum(Integer value, String label) {
@@ -22,9 +23,7 @@ public enum OrderSourceEnum implements IBaseEnum<Integer> {
     }
 
 
-    @Getter
-    private Integer value;
+    private final Integer value;
 
-    @Getter
-    private String label;
+    private final String label;
 }

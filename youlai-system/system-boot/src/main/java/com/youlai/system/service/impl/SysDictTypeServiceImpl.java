@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 /**
  * 字典类型业务实现类
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/10/12
  */
 @Service
@@ -107,7 +107,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     @Override
     public boolean saveDictType(DictTypeForm dictTypeForm) {
         // 实体对象转换 form->entity
-        SysDictType entity = dictTypeConverter.form2Entity(dictTypeForm);
+        SysDictType entity = dictTypeConverter.convertToEntity(dictTypeForm);
         // 持久化
         boolean result = this.save(entity);
         return result;
@@ -127,7 +127,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         SysDictType sysDictType = this.getById(id);
         Assert.isTrue(sysDictType != null, "字典类型不存在");
 
-        SysDictType entity = dictTypeConverter.form2Entity(dictTypeForm);
+        SysDictType entity = dictTypeConverter.convertToEntity(dictTypeForm);
         boolean result = this.updateById(entity);
         if (result) {
             // 字典类型code变化，同步修改字典项的类型code

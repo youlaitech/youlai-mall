@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 会员地址业务接口
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/2/12
  */
 public interface UmsAddressService extends IService<UmsAddress> {

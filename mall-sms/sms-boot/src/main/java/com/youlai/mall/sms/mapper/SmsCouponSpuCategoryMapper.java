@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 优惠券商品分类关联持久层
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/6/30
  */
 @Mapper

@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * 验证码授权模式身份验证令牌(包含用户名和密码等)
  *
- * @author haoxr
+ * @author Ray
  * @since 3.0.0
  */
 public class CaptchaAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {

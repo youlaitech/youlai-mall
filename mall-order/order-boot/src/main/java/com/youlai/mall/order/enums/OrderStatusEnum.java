@@ -15,10 +15,14 @@ public enum OrderStatusEnum implements IBaseEnum<Integer> {
     PENDING_PAYMENT(0, "待支付"),
     PENDING_SHIPMENT(1, "待发货"),
     PENDING_RECEIPT(2, "待收货"),
-    CANCELLED(3, "已取消"),
-    RETURN_IN_PROGRESS(4, "退货中"),
-    RETURNED(5, "已退货"),
-    REFUNDED(6, "已退款");
+    COMPLETED(3, "交易完成"), // 用户确认收货
+    CANCELLED(4, "已取消"),
+    RETURN_IN_PROGRESS(5, "退货中"),
+    RETURNED(6, "已退货"),
+    REFUND_PENDING(7, "退款处理中"),
+    REFUNDED(8, "已退款"),
+    EVALUATING(9, "待评价"), // 用户确认收货后，如果商品支持评价，则状态变为待评价
+    EVALUATED(10, "已评价");
 
     OrderStatusEnum(Integer value, String label) {
         this.value = value;

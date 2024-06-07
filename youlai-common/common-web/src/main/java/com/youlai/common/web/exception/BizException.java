@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 自定义业务异常
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/7/31
  */
 @Getter

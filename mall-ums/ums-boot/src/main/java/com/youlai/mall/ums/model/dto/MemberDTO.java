@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 会员视图层对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author <a href="mailto:xianrui0365@163.com">Ray</a>
  * @since 2022/2/12 21:13
  */
 @Schema(description = "会员视图层对象")

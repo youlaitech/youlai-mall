@@ -14,7 +14,7 @@ import org.mapstruct.Mappings;
 /**
  *  会员对象转换器
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/6/11
  */
 @Mapper(componentModel = "spring")

@@ -3,7 +3,7 @@ package com.youlai.common.constant;
 /**
  * 全局常量
  *
- * @author haoxr
+ * @author Ray
  * @since 2021/10/30 9:32
  */
 public interface GlobalConstants {

@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * 商品库存释放监听器
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/12/20
  */
 @Component

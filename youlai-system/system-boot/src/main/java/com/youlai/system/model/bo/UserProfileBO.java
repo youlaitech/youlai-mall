@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * 用户个人中心对象
  *
- * @author haoxr
+ * @author Ray
  * @since 3.1.0
  */
 @Data

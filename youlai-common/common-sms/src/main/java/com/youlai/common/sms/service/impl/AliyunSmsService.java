@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 /**
  * 阿里云短信业务类
  * 
- * @author haoxr
+ * @author Ray
  * @since  3.1.0
  */
 @Service

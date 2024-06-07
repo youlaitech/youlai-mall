@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * 商品服务实现类
  *
- * @author haoxr
+ * @author Ray
  * @since 2024/5/17
  */
 @Service

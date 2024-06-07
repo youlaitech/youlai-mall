@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 用户注册表单
  *
- * @author haoxr
+ * @author Ray
  * @since 3.1.0
  */
 @Schema(description = "用户注册表单")

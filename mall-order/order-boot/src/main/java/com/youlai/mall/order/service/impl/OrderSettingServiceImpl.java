@@ -1,9 +1,9 @@
-package com.youlai.mall.order.service.app.impl;
+package com.youlai.mall.order.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.order.mapper.OrderSettingMapper;
 import com.youlai.mall.order.model.entity.OmsOrderSetting;
-import com.youlai.mall.order.service.app.OrderSettingService;
+import com.youlai.mall.order.service.OrderSettingService;
 import org.springframework.stereotype.Service;
 
 

@@ -2,7 +2,6 @@ package com.youlai.mall.order.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
  import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,12 +11,12 @@ import java.util.List;
 /**
  * Admin-订单分页视图对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2.3.0
  */
 @Schema(description ="Admin-订单分页视图对象")
 @Data
-public class OmsOrderPageVO {
+public class OrderPageAdminVO {
 
     @Schema(description="订单ID")
     private Long id;
@@ -26,7 +25,7 @@ public class OmsOrderPageVO {
     private String orderSn;
 
     @Schema(description="订单总金额(分)")
-    private BigDecimal totalAmount;
+    private BigDecimal totalFee;
 
     @Schema(description="订单总金额(分)")
     private Long paymentAmount;
@@ -76,7 +75,7 @@ public class OmsOrderPageVO {
         private Integer quantity;
 
         @Schema(description="商品总金额(单位：分)")
-        private Long totalAmount;
+        private Long totalFee;
 
     }
 

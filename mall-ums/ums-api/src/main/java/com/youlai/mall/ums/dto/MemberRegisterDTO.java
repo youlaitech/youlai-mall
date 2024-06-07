@@ -7,7 +7,7 @@ import java.time.LocalDate;
 /**
  * 会员传输层对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/2/12
  */
 @Data

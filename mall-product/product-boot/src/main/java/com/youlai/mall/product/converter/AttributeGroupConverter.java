@@ -19,5 +19,5 @@ public interface AttributeGroupConverter{
     AttributeGroupForm entity2Form(AttributeGroup entity);
 
     @InheritInverseConfiguration(name = "entity2Form")
-    AttributeGroup form2Entity(AttributeGroupForm entity);
+    AttributeGroup convertToEntity(AttributeGroupForm entity);
 }

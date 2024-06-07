@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * 下拉选项对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2024/5/25
  */
 @Schema(description ="键值对")

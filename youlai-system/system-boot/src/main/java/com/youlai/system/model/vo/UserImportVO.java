@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 用户导入对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/4/10
  */
 @Data

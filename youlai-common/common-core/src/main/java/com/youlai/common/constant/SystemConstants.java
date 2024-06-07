@@ -3,7 +3,7 @@ package com.youlai.common.constant;
 /**
  * 系统常量
  *
- * @author haoxr
+ * @author Ray
  * @since 2021/10/30
  */
 public interface SystemConstants {

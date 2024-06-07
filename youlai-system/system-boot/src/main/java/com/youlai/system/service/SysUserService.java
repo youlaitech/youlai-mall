@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 用户业务接口
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/1/14
  */
 public interface SysUserService extends IService<SysUser> {

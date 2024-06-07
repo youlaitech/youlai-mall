@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * 认证失败处理器
  *
- * @author haoxr
+ * @author Ray
  * @since 3.0.0
  */
 @Slf4j

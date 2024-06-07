@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * advert实体转换器
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/5/29
  */
 @Mapper(componentModel = "spring")

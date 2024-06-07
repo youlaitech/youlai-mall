@@ -14,7 +14,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * @author haoxr
+ * @author Ray
  * @link https://zhuanlan.zhihu.com/p/545505705
  * @since 2023/8/23
  */

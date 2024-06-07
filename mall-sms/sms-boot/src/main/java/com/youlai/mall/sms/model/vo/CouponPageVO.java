@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 优惠券分页视图对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/6/26
  */
 @Schema(description = "优惠券分页视图对象")

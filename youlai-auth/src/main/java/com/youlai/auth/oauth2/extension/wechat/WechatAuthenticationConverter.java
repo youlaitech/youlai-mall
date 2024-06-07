@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * <p>
  * 解析请求参数中的微信小程序 Code，并构建相应的身份验证(Authentication)对象
  *
- * @author haoxr
+ * @author Ray
  * @see org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter
  * @since 3.0.0
  */

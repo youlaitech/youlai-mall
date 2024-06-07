@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 验证码响应对象
  *
- * @author haoxr
+ * @author Ray
  * @since 3.1.0
  */
 

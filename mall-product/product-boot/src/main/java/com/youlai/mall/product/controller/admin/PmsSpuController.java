@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Admin-商品控制层
  *
- * @author haoxr
+ * @author Ray
  * @since 2021/1/4
  **/
 @Tag(name = "【Admin】商品接口")

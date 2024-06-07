@@ -3,7 +3,7 @@ package com.youlai.auth.enums;
 /**
  * EasyCaptcha 验证码类型枚举
  *
- * @author haoxr
+ * @author Ray
  * @since 2.5.1
  */
 public enum CaptchaTypeEnum {

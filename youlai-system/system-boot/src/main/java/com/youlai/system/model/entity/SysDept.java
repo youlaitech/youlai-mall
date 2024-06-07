@@ -4,10 +4,15 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * 部门表
+ * 部门实体
+ *
+ * @author Ray
+ * @since 2024/6/7
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysDept extends BaseEntity {
     /**

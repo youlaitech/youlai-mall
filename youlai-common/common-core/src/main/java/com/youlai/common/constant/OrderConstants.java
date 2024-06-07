@@ -3,7 +3,7 @@ package com.youlai.common.constant;
 /**
  * 订单常量
  *
- * @author haoxr
+ * @author Ray
  * @since 2021/03/16
  */
 public interface OrderConstants {

@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * 用户表
+ * 用户实体
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysUser extends BaseEntity {
     /**

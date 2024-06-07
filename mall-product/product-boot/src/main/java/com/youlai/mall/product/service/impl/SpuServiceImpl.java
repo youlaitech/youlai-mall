@@ -61,7 +61,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     @Override
     public boolean saveSpu(SpuForm formData) {
 
-        Spu entity = spuConverter.form2Entity(formData);
+        Spu entity = spuConverter.convertToEntity(formData);
         boolean result = this.saveOrUpdate(entity);
         if (result) {
             Long spuId = entity.getId();

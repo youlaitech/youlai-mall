@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * 菜单实体对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2023/3/6
  */
 @TableName(value ="sys_menu")

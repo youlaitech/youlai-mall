@@ -4,8 +4,8 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.mall.order.model.query.OrderPageQuery;
-import com.youlai.mall.order.model.vo.OrderPageVO;
-import com.youlai.mall.order.service.app.OrderService;
+import com.youlai.mall.order.model.vo.OrderPageAppVO;
+import com.youlai.mall.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ class OrderServiceImplTest {
         queryParams.setBeginDate(DateUtil.parseDate("2022-01-01"));
         queryParams.setEndDate(DateUtil.parseDate("2025-01-01"));
 
-        IPage<OrderPageVO> orderPage = orderService.getOrderPage(queryParams);
+        IPage<OrderPageAppVO> orderPage = orderService.listAppPagedOrders(queryParams);
 
         log.info(JSONUtil.toJsonStr(orderPage));
 

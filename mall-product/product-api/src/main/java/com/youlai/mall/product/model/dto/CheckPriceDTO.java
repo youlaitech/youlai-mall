@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 订单商品验价传输对象
  *
- * @author haoxr
+ * @author Ray
  * @date 2022/2/7
  */
 @Data
@@ -22,7 +22,7 @@ public class CheckPriceDTO {
     /**
      * 订单总金额
      */
-    private Long totalAmount;
+    private Long totalFee;
 
     /**
      * 订单商品明细

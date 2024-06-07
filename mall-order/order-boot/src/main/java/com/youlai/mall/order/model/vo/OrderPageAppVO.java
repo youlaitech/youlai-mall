@@ -11,12 +11,12 @@ import java.util.List;
 /**
  * App-订单分页视图对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2.3.0
  */
 @Schema(description ="App-订单分页视图对象")
 @Data
-public class OrderPageVO {
+public class OrderPageAppVO {
 
     @Schema(description="订单ID")
     private Long id;
@@ -25,7 +25,7 @@ public class OrderPageVO {
     private String orderSn;
 
     @Schema(description="订单总金额(分)")
-    private BigDecimal totalAmount;
+    private BigDecimal totalFee;
 
     @Schema(description="订单总金额(分)")
     private Long paymentAmount;
@@ -53,7 +53,7 @@ public class OrderPageVO {
     private String remark;
 
     @Schema(description="订单商品集合")
-    private List<OmsOrderPageVO.OrderItem> orderItems;
+    private List<OrderPageAdminVO.OrderItem> orderItems;
 
     @Schema(description ="订单商品明细")
     @Data
@@ -75,7 +75,7 @@ public class OrderPageVO {
         private Integer quantity;
 
         @Schema(description="商品总金额(单位：分)")
-        private Long totalAmount;
+        private Long totalFee;
 
     }
 

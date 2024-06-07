@@ -85,7 +85,7 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
     @Override
     public boolean saveAttributeGroup(AttributeGroupForm formData) {
         // 实体转换 form->entity
-        AttributeGroup entity = attributeGroupConverter.form2Entity(formData);
+        AttributeGroup entity = attributeGroupConverter.convertToEntity(formData);
         return this.save(entity);
     }
 
@@ -98,7 +98,7 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
      */
     @Override
     public boolean updateAttributeGroup(Long id, AttributeGroupForm formData) {
-        AttributeGroup entity = attributeGroupConverter.form2Entity(formData);
+        AttributeGroup entity = attributeGroupConverter.convertToEntity(formData);
         return this.updateById(entity);
     }
 

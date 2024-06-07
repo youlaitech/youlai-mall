@@ -2,9 +2,8 @@ package com.youlai.mall.order.controller.common;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
-import com.github.binarywang.wxpay.exception.WxPayException;
 import com.youlai.mall.order.model.result.WxPayResult;
-import com.youlai.mall.order.service.app.OrderService;
+import com.youlai.mall.order.service.OrderService;
 import com.youlai.mall.order.util.WxPayUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * 微信支付 APIv3
  *
  * @author Gadfly
- * @since 2021-05-27 14:24
+ * @since 2021-05-27
  */
 @Tag(name = "微信支付接口-APIv3")
 @RestController
@@ -36,7 +35,7 @@ public class WxPayController {
     public WxPayResult wxPayOrderNotify(
             @RequestBody String notifyData,
             @RequestHeader HttpHeaders headers
-    ) throws WxPayException {
+    ) {
         SignatureHeader signatureHeader = WxPayUtils.getSignatureHeader(headers);
         try {
             orderService.handleWxPayOrderNotify(signatureHeader, notifyData);
@@ -48,7 +47,6 @@ public class WxPayController {
                     .setCode(WxPayConstants.ResultCode.FAIL)
                     .setMessage("失败");
         }
-
     }
 
     @Operation(summary = "微信退款结果回调")
@@ -67,7 +65,6 @@ public class WxPayController {
             return new WxPayResult()
                     .setCode(WxPayConstants.ResultCode.FAIL)
                     .setMessage("失败");
-
         }
     }
 }

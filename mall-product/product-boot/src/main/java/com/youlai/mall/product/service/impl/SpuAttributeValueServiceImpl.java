@@ -10,6 +10,7 @@ import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SpuAttributeValueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class SpuAttributeValueServiceImpl extends ServiceImpl<SpuAttributeValueM
      * @param attributeGroupList 属性组列表
      */
     @Override
+    @Transactional
     public void saveSpuAttributes(Long spuId, List<SpuForm.AttributeGroup> attributeGroupList) {
         // 如果属性列表为空，则删除所有旧属性
         if (CollectionUtil.isEmpty(attributeGroupList)) {

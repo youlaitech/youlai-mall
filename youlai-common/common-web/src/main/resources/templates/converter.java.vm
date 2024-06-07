@@ -26,5 +26,5 @@ public interface ${entity}Converter{
     ${entity}Form entity2Form(${entity} entity);
 
     @InheritInverseConfiguration(name = "entity2Form")
-    ${entity} form2Entity(${entity}Form entity);
+    ${entity} convertToEntity(${entity}Form entity);
 }

@@ -4,7 +4,7 @@ package com.youlai.common.sms.service;
 /**
  * 短信服务接口层
  *
- * @author haoxr
+ * @author Ray
  * @since 3.0.0
  */
 public interface SmsService {

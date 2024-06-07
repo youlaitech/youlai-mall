@@ -7,6 +7,7 @@ import com.youlai.system.mapper.SysUserRoleMapper;
 import com.youlai.system.model.entity.SysUserRole;
 import com.youlai.system.service.SysUserRoleService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
      * @return
      */
     @Override
+    @Transactional
     public boolean saveUserRoles(Long userId, List<Long> roleIds) {
 
         if (userId == null || CollectionUtil.isEmpty(roleIds)) {
@@ -32,7 +34,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         List<Long> userRoleIds = this.list(new LambdaQueryWrapper<SysUserRole>()
                         .eq(SysUserRole::getUserId, userId))
                 .stream()
-                .map(item -> item.getRoleId())
+                .map(SysUserRole::getRoleId)
                 .collect(Collectors.toList());
 
         // 新增用户角色

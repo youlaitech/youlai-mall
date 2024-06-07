@@ -16,6 +16,7 @@ import com.youlai.common.web.model.Option;
 import com.youlai.system.service.SysDictService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * 数据字典项业务实现类
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/10/12
  */
 @Service
@@ -97,7 +98,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public boolean saveDict(DictForm dictForm) {
         // 实体对象转换 form->entity
-        SysDict entity = dictConverter.form2Entity(dictForm);
+        SysDict entity = dictConverter.convertToEntity(dictForm);
         // 持久化
         boolean result = this.save(entity);
         return result;
@@ -112,7 +113,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
      */
     @Override
     public boolean updateDict(Long id, DictForm dictForm) {
-        SysDict entity = dictConverter.form2Entity(dictForm);
+        SysDict entity = dictConverter.convertToEntity(dictForm);
         boolean result = this.updateById(entity);
         return result;
     }
@@ -124,23 +125,22 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
      * @return
      */
     @Override
+    @Transactional
     public boolean deleteDict(String idsStr) {
         Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除数据为空");
         //
-        List<Long> ids = Arrays.asList(idsStr.split(","))
-                .stream()
-                .map(id -> Long.parseLong(id))
+        List<Long> ids = Arrays.stream(idsStr.split(","))
+                .map(Long::parseLong)
                 .collect(Collectors.toList());
 
         // 删除字典数据项
-        boolean result = this.removeByIds(ids);
-        return result;
+        return this.removeByIds(ids);
     }
 
     /**
      * 获取字典下拉列表
      *
-     * @param typeCode
+     * @param typeCode 字典类型编码
      * @return
      */
     @Override

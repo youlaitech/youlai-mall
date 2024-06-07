@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 用户持久化对象
  *
- * @author haoxr
+ * @author Ray
  * @date 2022/6/10
  */
 @Data

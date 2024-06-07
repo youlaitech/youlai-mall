@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 客户端配置
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/8/28
  */
 @ConfigurationProperties(prefix = "security")

@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * 短信验证码认证授权提供者
  *
- * @author haoxr
+ * @author Ray
  * @since 3.0.0
  */
 @Slf4j

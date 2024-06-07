@@ -10,6 +10,7 @@ import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SkuAttributeValueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +35,7 @@ public class SkuAttributeValueServiceImpl extends ServiceImpl<SkuAttributeValueM
      * @param saleAttributeValues 销售属性值列表
      */
     @Override
+    @Transactional
     public void saveSaleAttributeValues(Long skuId, List<SpuForm.AttributeValue> saleAttributeValues) {
 
         // 检索数据库中与sku关联的规格值

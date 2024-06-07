@@ -3,14 +3,15 @@ package com.youlai.system.model.query;
 import com.youlai.common.base.BasePageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 角色分页查询实体
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/6/3
- *
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class RolePageQuery extends BasePageQuery {
 

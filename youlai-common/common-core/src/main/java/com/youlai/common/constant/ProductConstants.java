@@ -3,7 +3,7 @@ package com.youlai.common.constant;
 /**
  * 商品模块常量
  *
- * @author haoxr
+ * @author Ray
  * @since 2021/02/28
  */
 public interface ProductConstants {

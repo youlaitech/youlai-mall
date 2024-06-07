@@ -31,18 +31,10 @@ public class OmsOrder extends BaseEntity {
 	/**
 	 * 订单总额（分）
 	 */
-	private Long totalAmount;
-	/**
-	 * 商品总数
-	 */
-	private Integer totalQuantity;
-	/**
-	 * 订单来源(0-PC订单；1-app订单)
-	 */
-	private Integer source;
+	private Long totalFee;
 
 	/**
-	 * 订单状态(1-待付款;2-待发货;3-已发货;4-已完成;5-已关闭;6-已取消;)
+	 * 订单状态
 	 */
 	private Integer status;
 	/**
@@ -106,11 +98,6 @@ public class OmsOrder extends BaseEntity {
 	 * 评价时间
 	 */
 	private Date commentTime;
-
-	/**
-	 * 逻辑删除标识(1:已删除；0:正常)
-	 */
-	private Integer deleted;
 
 	@TableField(exist = false)
 	private List<OmsOrderItem> orderItems;

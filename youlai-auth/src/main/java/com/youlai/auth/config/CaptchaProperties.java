@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * 验证码配置
  *
- * @author haoxr
+ * @author Ray
  * @since 3.1.0
  */
 @Configuration

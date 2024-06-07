@@ -62,7 +62,7 @@ public class OmsOrderItem extends BaseEntity {
     /**
      * 商品总金额(单位：分)
      */
-    private Long totalAmount;
+    private Long totalFee;
 
     /**
      * 逻辑删除(0:正常；1:已删除)

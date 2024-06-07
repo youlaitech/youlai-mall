@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 优惠券对象转换器
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/5/29
  */
 @Mapper(componentModel = "spring")
@@ -38,7 +38,7 @@ public interface CouponConverter {
     @Mappings({
             @Mapping(target = "discount",expression = "java(cn.hutool.core.util.NumberUtil.div(form.getDiscount(),10L))"),
     })
-    SmsCoupon form2Entity(CouponForm form);
+    SmsCoupon convertToEntity(CouponForm form);
 
 
     @Mappings({

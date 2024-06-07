@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 角色菜单业务接口
  *
- * @author haoxr
+ * @author Ray
  * @since 0.0.1
  */
 public interface SysRoleMenuService extends IService<SysRoleMenu> {

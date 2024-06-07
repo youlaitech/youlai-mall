@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 【管理端】商品分页视图对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/3/13
  */
 @Schema(description = "商品分页视图对象")

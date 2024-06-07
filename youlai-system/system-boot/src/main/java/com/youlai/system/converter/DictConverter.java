@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 /**
  * 字典数据项对象转换器
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/6/8
  */
 @Mapper(componentModel = "spring")
@@ -21,5 +21,5 @@ public interface DictConverter {
     DictForm entity2Form(SysDict entity);
 
     @InheritInverseConfiguration(name="entity2Form")
-    SysDict form2Entity(DictForm entity);
+    SysDict convertToEntity(DictForm entity);
 }

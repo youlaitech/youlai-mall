@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 /**
  * 阿里云OSS服务
  *
- * @author haoxr
+ * @author Ray
  * @since 2.3.0
  */
 @Service

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 会员业务接口
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/2/12
  */
 public interface UmsMemberService extends IService<UmsMember> {

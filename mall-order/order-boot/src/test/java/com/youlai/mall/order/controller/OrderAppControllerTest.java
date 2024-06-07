@@ -32,13 +32,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * 订单单元测试
  *
- * @author haoxr
+ * @author Ray
  * @since 2.3.0
  */
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class AppOrderControllerTest {
+public class OrderAppControllerTest {
 
 
     @Autowired

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,18 +33,19 @@ import java.util.List;
 /**
  * 资源服务器配置
  *
- * @author haoxr
+ * @author Ray
  * @since 3.0.0
  */
 @ConfigurationProperties(prefix = "security")
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @Slf4j
 public class ResourceServerConfig {
 
-    private final AccessDeniedHandler accessDeniedHandler;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
 
     /**

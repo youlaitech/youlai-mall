@@ -175,6 +175,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
      * @param skuList SKU 列表 非空的
      */
     @Override
+    @Transactional
     public void saveSkus(Long spuId, List<SpuForm.Sku> skuList) {
         // 检索数据库中与spuId相关联的所有SKU
         List<Sku> existingSkusInDb = this.list(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));

@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 用户接口降级逻辑
- * @author haoxr
+ * @author Ray
  * @createTime 2021/4/23 23:30
  */
 @Slf4j

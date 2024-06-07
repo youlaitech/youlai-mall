@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 订单支付表单对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2.3.0
  */
 @Data
@@ -16,9 +16,6 @@ public class OrderPayForm {
 
     @Schema(description="订单编号")
     private String orderNo;
-
-    @Schema(description="小程序 AppId")
-    String appId;
 
     @Schema(description="支付方式")
     private PaymentMethodEnum paymentMethod;

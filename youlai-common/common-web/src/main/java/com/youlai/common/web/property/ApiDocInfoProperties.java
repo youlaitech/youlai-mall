@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * API 信息属性
  *
- * @author haoxr
+ * @author Ray
  * @since 2023/10/30
  */
 @Data

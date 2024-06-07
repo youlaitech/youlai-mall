@@ -1,13 +1,19 @@
 package com.youlai.mall.sms.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
+/**
+ * 营销广告
+ *
+ * @author Ray Hao
+ * @since 2024/6/7
+ */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SmsAdvert extends BaseEntity {
 

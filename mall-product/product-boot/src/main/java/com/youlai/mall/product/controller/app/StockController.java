@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 商品库存
  *
- * @author haoxr
+ * @author Ray
  * @since 2.0.0
  */
 @Tag(name  = "【App】商品库存接口")

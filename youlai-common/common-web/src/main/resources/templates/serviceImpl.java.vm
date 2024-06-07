@@ -80,7 +80,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     @Override
     public boolean save${entity}(${entity}Form formData) {
         // 实体转换 form->entity
-        ${entity} entity = ${firstCharLowerCaseEntity}Converter.form2Entity(formData);
+        ${entity} entity = ${firstCharLowerCaseEntity}Converter.convertToEntity(formData);
         return this.save(entity);
     }
     
@@ -93,7 +93,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
      */
     @Override
     public boolean update${entity}(Long id,${entity}Form formData) {
-        ${entity} entity = ${firstCharLowerCaseEntity}Converter.form2Entity(formData);
+        ${entity} entity = ${firstCharLowerCaseEntity}Converter.convertToEntity(formData);
         return this.updateById(entity);
     }
     

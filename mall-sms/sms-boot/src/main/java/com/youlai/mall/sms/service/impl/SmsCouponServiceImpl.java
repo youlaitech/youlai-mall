@@ -21,6 +21,7 @@ import com.youlai.mall.sms.service.SmsCouponSpuCategoryService;
 import com.youlai.mall.sms.service.SmsCouponSpuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 /**
  * 优惠券业务实现类
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/5/29
  */
 @Service
@@ -105,7 +106,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean saveCoupon(CouponForm couponForm) {
-        SmsCoupon entity = couponConverter.form2Entity(couponForm);
+        SmsCoupon entity = couponConverter.convertToEntity(couponForm);
         boolean result = this.save(entity);
 
         if (result) {
@@ -151,7 +152,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean updateCoupon(Long couponId, CouponForm couponForm) {
-        SmsCoupon entity = couponConverter.form2Entity(couponForm);
+        SmsCoupon entity = couponConverter.convertToEntity(couponForm);
         boolean result = this.updateById(entity);
 
         if (result) {
@@ -212,14 +213,14 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      * @return
      */
     @Override
+    @Transactional
     public boolean deleteCoupons(String idsStr) {
         Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的优惠券数据为空");
         // 逻辑删除
-        List<Long> ids = Arrays.asList(idsStr.split(",")).stream()
-                .map(idStr -> Long.parseLong(idStr))
+        List<Long> ids = Arrays.stream(idsStr.split(","))
+                .map(Long::parseLong)
                 .collect(Collectors.toList());
-        boolean result = this.removeByIds(ids);
-        return result;
+        return this.removeByIds(ids);
     }
 
 

@@ -10,6 +10,7 @@ import com.youlai.mall.product.service.BrandCategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -43,6 +44,7 @@ public class BrandCategoryServiceImpl extends ServiceImpl<BrandCategoryMapper, B
      * @param categoryIds 分类ID列表
      */
     @Override
+    @Transactional
     public void saveBrandCategories(Long brandId, List<Long> categoryIds) {
 
         // 获取已存在的品牌分类关联

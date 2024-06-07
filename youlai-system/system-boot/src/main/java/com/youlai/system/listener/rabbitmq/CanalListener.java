@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * Canal + RabbitMQ 监听数据库数据变化
  *
- * @author haoxr
+ * @author Ray
  * @since 2021/11/4 23:14
  */
 @Component

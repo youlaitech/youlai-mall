@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 会员Feign客户端
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/11/29
  */
 @FeignClient(name = "mall-ums", contextId = "member", configuration = {FeignDecoderConfig.class})

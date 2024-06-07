@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * 微信授权认证 Provider
  *
- * @author haoxr
+ * @author Ray
  * @since 3.0.0
  */
 @Slf4j

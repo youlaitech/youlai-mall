@@ -1,4 +1,4 @@
-package com.youlai.mall.order.service.app;
+package com.youlai.mall.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -6,18 +6,39 @@ import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.youlai.mall.order.model.entity.OmsOrder;
 import com.youlai.mall.order.model.form.OrderPayForm;
+import com.youlai.mall.order.model.form.OrderRefundApprovalForm;
+import com.youlai.mall.order.model.form.OrderRefundForm;
 import com.youlai.mall.order.model.form.OrderSubmitForm;
 import com.youlai.mall.order.model.query.OrderPageQuery;
+import com.youlai.mall.order.model.vo.OrderPageAdminVO;
 import com.youlai.mall.order.model.vo.OrderConfirmVO;
-import com.youlai.mall.order.model.vo.OrderPageVO;
+import com.youlai.mall.order.model.vo.OrderPageAppVO;
 
 /**
  * 订单业务接口
  *
  * @author huawei
- * @since 2020-12-30 22:31:10
+ * @since 2020-12-30
  */
 public interface OrderService extends IService<OmsOrder> {
+
+
+    /**
+     * 【Admin】订单分页列表
+     *
+     * @param queryParams {@link OrderPageQuery}
+     * @return {@link OrderPageAdminVO}
+     */
+    IPage<OrderPageAdminVO> listAdminPagedOrders(OrderPageQuery queryParams);
+
+    /**
+     * 【App】订单分页列表
+     *
+     * @param queryParams 订单分页查询参数
+     * @return {@link OrderPageAppVO}
+     */
+    IPage<OrderPageAppVO> listAppPagedOrders(OrderPageQuery queryParams);
+
 
     /**
      * 订单确认 → 进入创建订单页面
@@ -71,13 +92,17 @@ public interface OrderService extends IService<OmsOrder> {
      */
     void handleWxPayRefundNotify(SignatureHeader signatureHeader, String notifyData) throws WxPayException;
 
-    /**
-     * 订单分页列表
-     *
-     * @param queryParams 订单分页查询参数
-     * @return {@link OrderPageVO}
-     */
-    IPage<OrderPageVO> getOrderPage(OrderPageQuery queryParams);
 
+    /**
+     * 订单退款申请
+     * @param refundForm {@link OrderRefundForm} 退款表单
+     */
+    boolean refundApply(OrderRefundForm refundForm) ;
+    
+    /**
+     * 订单退款审批
+     * @param refundApprovalForm {@link OrderRefundApprovalForm} 退款审批表单
+     */
+    boolean refundApproval(OrderRefundApprovalForm refundApprovalForm);
 }
 

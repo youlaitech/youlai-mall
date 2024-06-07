@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 【应用端】商品详情视图对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author <a href="mailto:xianrui0365@163.com">Ray</a>
  * @since 2021/8/8
  */
 @Data

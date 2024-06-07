@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 微信小程序配置
  *
- * @author haoxr
+ * @author Ray
  * @since 3.0.0
  */
 @ConfigurationProperties(prefix = "wx.miniapp")

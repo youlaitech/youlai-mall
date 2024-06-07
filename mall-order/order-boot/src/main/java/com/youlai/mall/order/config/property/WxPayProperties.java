@@ -53,5 +53,10 @@ public class WxPayProperties {
      */
     private Boolean sandboxEnabled;
 
+    /**
+     * 退款异步通知地址
+     */
+    private String refundNotifyUrl;
+
 
 }

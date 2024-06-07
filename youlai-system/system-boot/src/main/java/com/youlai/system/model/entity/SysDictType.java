@@ -4,13 +4,15 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 字典类型实体
  *
- * @author haoxr
- * @since 2022/12/17
+ * @author Ray
+ * @since 2024/6/7
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysDictType extends BaseEntity {
     /**

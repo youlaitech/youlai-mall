@@ -6,15 +6,19 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * 优惠券表
- * @TableName sms_coupon
+ *
+ * @author Ray Hao
+ * @since 2024/6/7
  */
-@TableName(value ="sms_coupon")
+@EqualsAndHashCode(callSuper = true)
+@TableName
 @Data
 public class SmsCoupon extends BaseEntity {
     /**

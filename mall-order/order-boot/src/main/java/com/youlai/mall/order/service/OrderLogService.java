@@ -1,4 +1,4 @@
-package com.youlai.mall.order.service.app;
+package com.youlai.mall.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.order.model.entity.OmsOrderLog;

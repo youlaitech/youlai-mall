@@ -1,9 +1,9 @@
-package com.youlai.mall.order.service.app.impl;
+package com.youlai.mall.order.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.order.mapper.OrderItemMapper;
 import com.youlai.mall.order.model.entity.OmsOrderItem;
-import com.youlai.mall.order.service.app.OrderItemService;
+import com.youlai.mall.order.service.OrderItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

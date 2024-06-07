@@ -10,7 +10,7 @@ import com.youlai.mall.sms.model.vo.CouponPageVO;
 /**
  * 优惠券业务接口
  *
- * @author haoxr
+ * @author Ray
  * @since  2022/5/29
  */
 public interface SmsCouponService extends IService<SmsCoupon> {

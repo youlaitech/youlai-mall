@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * 自定义无权限异常
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/11/13
  */
 @Component

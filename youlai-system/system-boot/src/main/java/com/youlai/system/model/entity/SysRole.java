@@ -5,11 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * 角色表
+ * 角色实体
  */
-@TableName(value ="sys_role")
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysRole extends BaseEntity {
     /**

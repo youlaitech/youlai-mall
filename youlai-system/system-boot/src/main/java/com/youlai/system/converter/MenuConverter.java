@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 /**
  * 菜单对象转换器
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/7/29
  */
 @Mapper(componentModel = "spring")

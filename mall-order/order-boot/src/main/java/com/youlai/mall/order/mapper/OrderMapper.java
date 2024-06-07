@@ -23,5 +23,5 @@ public interface OrderMapper extends BaseMapper<OmsOrder> {
      * @param queryParams
      * @return
      */
-    Page<OrderBO> getOrderPage(Page<OrderBO> page, OrderPageQuery queryParams);
+    Page<OrderBO> listAdminPagedOrders(Page<OrderBO> page, OrderPageQuery queryParams);
 }

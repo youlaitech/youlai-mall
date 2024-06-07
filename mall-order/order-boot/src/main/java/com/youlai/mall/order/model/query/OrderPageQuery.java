@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 订单分页查询对象
  *
- * @author haoxr
+ * @author Ray
  * @since 2.3.0
  */
 @EqualsAndHashCode(callSuper = true)

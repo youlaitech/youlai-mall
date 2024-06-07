@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * 【应用端】商品分页视图对象
  *
- * @author <a href="mailto:xianrui0365@163.com">haoxr</a>
+ * @author <a href="mailto:xianrui0365@163.com">Ray</a>
  * @since 2021/8/8
  */
 @Schema(description = "商品分页对象")

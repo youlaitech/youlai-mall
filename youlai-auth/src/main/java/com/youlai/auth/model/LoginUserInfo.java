@@ -3,7 +3,7 @@ package com.youlai.auth.model;
 import lombok.Data;
 
 /**
- * @author haoxr
+ * @author Ray
  * @since 2024/1/30
  */
 @Data

@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 /**
  * 角色业务实现类
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/6/3
  */
 @Service
@@ -117,7 +117,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Assert.isTrue(count == 0, "角色名称或角色编码已存在，请修改后重试！");
 
         // 实体转换
-        SysRole role = roleConverter.form2Entity(roleForm);
+        SysRole role = roleConverter.convertToEntity(roleForm);
 
         boolean result = this.saveOrUpdate(role);
         if (result) {

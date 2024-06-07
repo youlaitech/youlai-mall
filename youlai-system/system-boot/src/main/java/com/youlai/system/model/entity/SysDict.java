@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 字典数据表
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/12/17
  */
 @Data

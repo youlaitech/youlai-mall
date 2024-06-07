@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 /**
  * 字典类型对象转换器
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/6/8
  */
 @Mapper(componentModel = "spring")
@@ -19,5 +19,5 @@ public interface DictTypeConverter {
 
     DictTypeForm entity2Form(SysDictType entity);
 
-    SysDictType form2Entity(DictTypeForm entity);
+    SysDictType convertToEntity(DictTypeForm entity);
 }

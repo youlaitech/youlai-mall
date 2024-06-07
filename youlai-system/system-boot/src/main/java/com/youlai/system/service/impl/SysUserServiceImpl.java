@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 /**
  * 用户业务实现类
  *
- * @author haoxr
+ * @author Ray
  * @since 2022/1/14
  */
 @Service
@@ -119,7 +119,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Assert.isTrue(count == 0, "用户名已存在");
 
         // 实体转换 form->entity
-        SysUser entity = userConverter.form2Entity(userForm);
+        SysUser entity = userConverter.convertToEntity(userForm);
 
         // 设置默认加密密码
         String defaultEncryptPwd = passwordEncoder.encode(SystemConstants.DEFAULT_PASSWORD);
@@ -155,7 +155,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Assert.isTrue(count == 0, "用户名已存在");
 
         // form -> entity
-        SysUser entity = userConverter.form2Entity(userForm);
+        SysUser entity = userConverter.convertToEntity(userForm);
 
         // 修改用户
         boolean result = this.updateById(entity);
@@ -174,6 +174,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return true/false 是否删除成功
      */
     @Override
+    @Transactional
     public boolean deleteUsers(String idsStr) {
         List<Long> ids = Arrays.stream(idsStr.split(","))
                 .map(Long::parseLong).

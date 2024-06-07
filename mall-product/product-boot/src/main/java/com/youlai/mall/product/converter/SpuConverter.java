@@ -14,9 +14,9 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SpuConverter {
 
-    Spu form2Entity(SpuForm form);
+    Spu convertToEntity(SpuForm form);
 
-    @InheritInverseConfiguration(name="form2Entity")
+    @InheritInverseConfiguration(name="convertToEntity")
     SpuForm entity2Form(Spu entity);
 
 }
