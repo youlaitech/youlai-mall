@@ -1,4 +1,4 @@
-package com.youlai.mall.order.controller;
+package com.youlai.mall.order.controller.app;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/app-api/v1/orders")
 @RequiredArgsConstructor
-public class OrderController {
+public class AppOrderController {
 
     private final OrderService orderService;
 

@@ -402,51 +402,81 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         return this.removeById(orderId);
     }
 
+    /**
+     * 处理微信支付结果通知
+     *
+     * @param signatureHeader 签名头信息
+     * @param notifyData      通知数据
+     * @throws WxPayException 微信支付异常
+     */
     @Override
     public void handleWxPayOrderNotify(SignatureHeader signatureHeader, String notifyData) throws WxPayException {
-        log.info("开始处理支付结果通知");
-        // 解密支付通知内容
-        final WxPayOrderNotifyV3Result.DecryptNotifyResult result = this.wxPayService.parseOrderNotifyV3Result(
+        // 记录开始处理支付结果通知的日志
+        log.info("开始处理订单支付结果通知");
+        // 解密支付通知数据，获取支付结果
+        WxPayOrderNotifyV3Result.DecryptNotifyResult result = this.wxPayService.parseOrderNotifyV3Result(
                 notifyData,
                 signatureHeader
         ).getResult();
+
+        // 记录支付通知解密成功的日志，并打印解密结果
         log.debug("支付通知解密成功：{}", JSONUtil.toJsonStr(result));
 
-        // 根据商户订单号查询订单
-
+        // 获取商户订单号
+        String outTradeNo = result.getOutTradeNo();
+        // 根据商户订单号查询订单信息
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
-                .eq(OmsOrder::getOutTradeNo, result.getOutTradeNo())
+                .eq(OmsOrder::getOutTradeNo, outTradeNo)
         );
-        // 支付成功处理
-        if (WxPayConstants.WxpayTradeStatus.SUCCESS.equals(result.getTradeState())) {
-            order.setStatus(OrderStatusEnum.PENDING_SHIPMENT.getValue());
-            order.setTransactionId(result.getTransactionId());
-            order.setPaymentTime(new Date());
-            this.updateById(order);
-        }
+        Assert.isTrue(order != null, "订单不存在");
 
-        // 支付成功删除购物车已勾选的商品
-        rabbitTemplate
-                .convertAndSend(RabbitMqConstants.CART_EXCHANGE, RabbitMqConstants.CART_REMOVE_ROUTING_KEY, order.getOrderNo());
+        // 如果支付状态为成功，更新订单状态和相关信息
+        if (WxPayConstants.WxpayTradeStatus.SUCCESS.equals(result.getTradeState())) {
+            // 设置订单状态为待发货
+            order.setStatus(OrderStatusEnum.PENDING_SHIPMENT.getValue());
+            // 设置交易流水号
+            order.setTransactionId(result.getTransactionId());
+            // 设置支付时间为当前时间
+            order.setPaymentTime(new Date());
+            // 更新订单信息
+            this.updateById(order);
+
+            // 支付成功后删除购物车中已勾选的商品
+            rabbitTemplate
+                    .convertAndSend(RabbitMqConstants.CART_EXCHANGE,
+                            RabbitMqConstants.CART_REMOVE_ROUTING_KEY,
+                            order.getOrderNo());
+        }
     }
 
+
+    /**
+     * 处理微信退款结果通知
+     *
+     * @param signatureHeader 签名头信息
+     * @param notifyData      通知数据
+     * @throws WxPayException 微信支付异常
+     */
     @Override
     public void handleWxPayRefundNotify(SignatureHeader signatureHeader, String notifyData) throws WxPayException {
         log.info("开始处理退款结果通知");
         // 解密支付通知内容
         final WxPayRefundNotifyV3Result.DecryptNotifyResult result = this.wxPayService.parseRefundNotifyV3Result(notifyData, signatureHeader).getResult();
-        log.debug("退款通知解密成功：[{}]", result.toString());
-        // 根据商户退款单号查询订单
-        QueryWrapper<OmsOrder> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(OmsOrder::getOutTradeNo, result.getOutTradeNo());
-        OmsOrder orderDO = this.getOne(wrapper);
+        log.debug("退款通知解密成功：{}", JSONUtil.toJsonStr(result));
+        // 获取商户订单号
+        String outTradeNo = result.getOutTradeNo();
+        // 根据商户订单号查询订单信息
+        OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
+                .eq(OmsOrder::getOutTradeNo, outTradeNo)
+        );
+        Assert.isTrue(order != null, "订单不存在");
+
         // 退款成功处理
         if (WxPayConstants.RefundStatus.SUCCESS.equals(result.getRefundStatus())) {
-            orderDO.setStatus(OrderStatusEnum.COMPLETED.getValue());
-            orderDO.setRefundId(result.getRefundId());
-            this.updateById(orderDO);
+            order.setStatus(OrderStatusEnum.REFUNDED.getValue());
+            order.setRefundId(result.getRefundId());
+            this.updateById(order);
         }
-        log.info("账单更新成功");
     }
 
 

@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class OrderControllerTest {
+public class AppOrderControllerTest {
 
 
     @Autowired
@@ -189,7 +189,7 @@ public class OrderControllerTest {
     private void payOrder(String orderSn, HttpHeaders headers) throws Exception {
 
         OrderPayForm paymentForm = new OrderPayForm();
-        paymentForm.setOrderSn(orderSn);
+        paymentForm.setOrderNo(orderSn);
         paymentForm.setPaymentMethod(PaymentMethodEnum.BALANCE);
         mockMvc.perform(post("/app-api/v1/orders/payment")
                         .headers(headers)

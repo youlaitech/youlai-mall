@@ -1,4 +1,4 @@
-package com.youlai.mall.order.controller;
+package com.youlai.mall.order.controller.common;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "微信支付接口-APIv3")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v3/wx-pay")
+@RequestMapping("/common-api/v3/wx-pay")
 @Validated
 @Slf4j
 public class WxPayController {
@@ -38,10 +38,17 @@ public class WxPayController {
             @RequestHeader HttpHeaders headers
     ) throws WxPayException {
         SignatureHeader signatureHeader = WxPayUtils.getSignatureHeader(headers);
-        orderService.handleWxPayOrderNotify(signatureHeader, notifyData);
-        return new WxPayResult()
-                .setCode(WxPayConstants.ResultCode.SUCCESS)
-                .setMessage("成功");
+        try {
+            orderService.handleWxPayOrderNotify(signatureHeader, notifyData);
+            return new WxPayResult()
+                    .setCode(WxPayConstants.ResultCode.SUCCESS)
+                    .setMessage("成功");
+        } catch (Exception e) {
+            return new WxPayResult()
+                    .setCode(WxPayConstants.ResultCode.FAIL)
+                    .setMessage("失败");
+        }
+
     }
 
     @Operation(summary = "微信退款结果回调")
@@ -49,11 +56,18 @@ public class WxPayController {
     public WxPayResult wxPayRefundNotify(
             @Parameter(description = "加密数据") @RequestBody String notifyData,
             @Parameter(description = "请求头") @RequestHeader HttpHeaders headers
-    ) throws WxPayException {
+    ) {
         SignatureHeader signatureHeader = WxPayUtils.getSignatureHeader(headers);
-        orderService.handleWxPayRefundNotify(signatureHeader, notifyData);
-        return new WxPayResult()
-                .setCode(WxPayConstants.ResultCode.SUCCESS)
-                .setMessage("成功");
+        try {
+            orderService.handleWxPayRefundNotify(signatureHeader, notifyData);
+            return new WxPayResult()
+                    .setCode(WxPayConstants.ResultCode.SUCCESS)
+                    .setMessage("成功");
+        } catch (Exception e) {
+            return new WxPayResult()
+                    .setCode(WxPayConstants.ResultCode.FAIL)
+                    .setMessage("失败");
+
+        }
     }
 }
