@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/attribute-groups")
 @RequiredArgsConstructor
-public class PmsAttributeGroupController {
+public class AttributeGroupController {
 
     private final AttributeGroupService attributeGroupService;
 

@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/attributes")
 @RequiredArgsConstructor
-public class PmsAttributeController {
+public class AttributeController {
 
     private final AttributeService attributeService;
 

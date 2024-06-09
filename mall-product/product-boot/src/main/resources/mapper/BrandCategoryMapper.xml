@@ -3,7 +3,7 @@
 <mapper namespace="com.youlai.mall.product.mapper.BrandCategoryMapper">
 
     <!-- 查询品牌分类列表 -->
-    <select id="listBrandCategories" resultType="com.youlai.common.web.model.Option">
+    <select id="listCategoriesByBrandId" resultType="com.youlai.common.web.model.Option">
         SELECT
             pc.id AS 'value',
             pc.name AS 'label'

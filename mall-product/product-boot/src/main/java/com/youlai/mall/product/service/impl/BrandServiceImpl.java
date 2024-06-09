@@ -10,6 +10,7 @@ import com.youlai.mall.product.mapper.BrandMapper;
 import com.youlai.mall.product.model.entity.Brand;
 import com.youlai.mall.product.model.query.BrandPageQuery;
 import com.youlai.mall.product.model.vo.BrandPageVO;
+import com.youlai.mall.product.service.BrandCategoryService;
 import com.youlai.mall.product.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,10 +49,12 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
 
     /**
      * 品牌下拉选项
+     *
+     * @param categoryId 分类ID
      */
     @Override
-    public List<Option<Long>> listBrandOptions() {
-        List<Brand> list = this.list();
+    public List<Option<Long>> listBrandOptions(Long categoryId){
+        List<Brand> list = this.baseMapper.listBrandOptions(categoryId);
         return brandConverter.convertToOption(list);
     }
 }

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/spu")
 @RequiredArgsConstructor
-public class PmsSpuController {
+public class SpuController {
 
     private final SpuService spuService;
 

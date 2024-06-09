@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/brands")
 @RequiredArgsConstructor
-public class PmsBrandController {
+public class BrandController {
 
     private final BrandService brandService;
 
@@ -44,8 +44,10 @@ public class PmsBrandController {
 
     @Operation(summary = "品牌下拉列表")
     @GetMapping("/options")
-    public Result<List<Option<Long>>> listBrandOptions() {
-        List<Option<Long>> list = brandService.listBrandOptions();
+    public Result<List<Option<Long>>> listBrandOptions(
+          @Parameter(description = "分类ID")  @RequestParam(required = false) Long categoryId
+    ) {
+        List<Option<Long>> list = brandService.listBrandOptions(categoryId);
         return Result.success(list);
     }
 
@@ -83,10 +85,10 @@ public class PmsBrandController {
 
     @Operation(summary = "获取品牌关联的分类列表")
     @GetMapping("/{brandId}/categories")
-    public Result<List<Option>> listBrandCategories(
+    public Result<List<Option>> listCategoriesByBrandId(
            @Parameter(description = "品牌ID") @PathVariable Long brandId
     ) {
-        List<Option> categories = brandCategoryService.listBrandCategories(brandId);
+        List<Option> categories = brandCategoryService.listCategoriesByBrandId(brandId);
         return Result.success(categories);
     }
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Admin-商品分类控制器
+ * 【Admin】商品分类控制层
  *
  * @author Ray Hao
  * @since 2024/4/20
@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
-public class PmsCategoryController {
+public class CategoryController {
 
     private final CategoryService categoryService;
 
