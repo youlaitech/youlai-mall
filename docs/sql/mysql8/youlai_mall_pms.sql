@@ -26,7 +26,7 @@ CREATE TABLE `pms_attribute`  (
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性名称',
   `attribute_group_id` bigint NULL DEFAULT NULL COMMENT '属性组ID',
   `type` tinyint NOT NULL COMMENT '属性类型（1：基础属性，2：销售属性）',
-  `input_method` tinyint NOT NULL COMMENT '输入方式（1：手动输入，2：从列表选择）',
+  `input_type` tinyint NOT NULL COMMENT '输入方式（1：手动输入，2：从列表选择）',
   `selectable_values` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '可选值列表（以逗号分隔，仅当输入方式为2时使用）',
   `category_id` bigint NOT NULL COMMENT '分类ID',
   `sort` smallint NULL DEFAULT NULL COMMENT '排序',
