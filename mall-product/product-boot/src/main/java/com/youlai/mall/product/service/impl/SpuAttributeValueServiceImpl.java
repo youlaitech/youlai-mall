@@ -85,7 +85,7 @@ public class SpuAttributeValueServiceImpl extends ServiceImpl<SpuAttributeValueM
      * @return 商品属性列表
      */
     @Override
-    public List<SpuForm.AttributeGroup> listAttributeGroupsBySpuId(Long spuId) {
-        return this.baseMapper.listAttributeGroupsBySpuId(spuId);
+    public List<SpuForm.AttributeGroup> listBaseAttributesBySpuId(Long spuId) {
+        return this.baseMapper.listBaseAttributesBySpuId(spuId);
     }
 }

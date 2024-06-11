@@ -170,9 +170,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     private RouteVO toRouteVo(RouteBO routeBO) {
         RouteVO routeVO = new RouteVO();
-        String routeName = StringUtils.capitalize(StrUtil.toCamelCase(routeBO.getPath(), '-'));  // 路由 name 需要驼峰，首字母大写
-        routeVO.setName(routeName); // 根据name路由跳转 this.$router.push({name:xxx})
-        routeVO.setPath(routeBO.getPath()); // 根据path路由跳转 this.$router.push({path:xxx})
+        // 路由名称 将path转换为驼峰命名  user => User
+        String routeName = StringUtils.capitalize(StrUtil.toCamelCase(routeBO.getPath(), '-'));
+        // 根据name路由跳转 this.$router.push({name:xxx})
+        routeVO.setName(routeName);
+        // 根据path路由跳转 this.$router.push({path:xxx})
+        routeVO.setPath(routeBO.getPath());
         routeVO.setRedirect(routeBO.getRedirect());
         routeVO.setComponent(routeBO.getComponent());
 
@@ -218,7 +221,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
             menuForm.setComponent("Layout");
         } else if (menuType == MenuTypeEnum.EXTLINK) {   // 如果是目录
-
             menuForm.setComponent(null);
         }
 

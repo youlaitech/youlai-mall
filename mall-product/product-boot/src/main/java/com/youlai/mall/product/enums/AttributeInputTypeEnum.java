@@ -12,12 +12,12 @@ import lombok.Getter;
  * @since 2024/4/19
  */
 @Getter
-public enum AttributeInputMethodEnum implements IBaseEnum<Integer> {
+public enum AttributeInputTypeEnum implements IBaseEnum<Integer> {
 
     MANUAL(1, "手动录入"),
     SELECT(2, "可选列表");
 
-    AttributeInputMethodEnum(Integer value, String label) {
+    AttributeInputTypeEnum(Integer value, String label) {
         this.value = value;
         this.label = label;
     }

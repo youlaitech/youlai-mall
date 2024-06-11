@@ -1,6 +1,6 @@
 package com.youlai.mall.product.model.form;
 
-import com.youlai.mall.product.enums.AttributeInputMethodEnum;
+import com.youlai.mall.product.enums.AttributeInputTypeEnum;
 import com.youlai.mall.product.enums.AttributeTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class AttributeForm implements Serializable {
     private AttributeTypeEnum type;
 
     @Schema(description = "输入方式（1：手动输入，2：从列表选择）",example = "2")
-    private AttributeInputMethodEnum inputMethod;
+    private AttributeInputTypeEnum inputType;
 
     @Schema(description = "可选值列表（以逗号分隔，仅当输入方式为2时使用）",example = "1920x1080,2560x1440")
     private String selectableValues;

@@ -7,11 +7,17 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.youlai.common.mybatis.handler.*;
+import com.youlai.common.mybatis.handler.typehandler.CommaStringListHandler;
+import com.youlai.common.mybatis.handler.typehandler.IntegerArrayJsonTypeHandler;
+import com.youlai.common.mybatis.handler.typehandler.LongArrayJsonTypeHandler;
+import com.youlai.common.mybatis.handler.typehandler.StringArrayJsonTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.util.List;
 
 /**
  * mybatis-plus 配置类
@@ -45,6 +51,8 @@ public class MybatisPlusConfig {
             typeHandlerRegistry.register(String[].class, JdbcType.OTHER, StringArrayJsonTypeHandler.class);
             typeHandlerRegistry.register(Long[].class, JdbcType.OTHER, LongArrayJsonTypeHandler.class);
             typeHandlerRegistry.register(Integer[].class, JdbcType.OTHER, IntegerArrayJsonTypeHandler.class);
+            // 将逗号分隔的字符串转换为List<String>的处理器
+            typeHandlerRegistry.register(List.class, JdbcType.VARCHAR, CommaStringListHandler.class);
         };
     }
 

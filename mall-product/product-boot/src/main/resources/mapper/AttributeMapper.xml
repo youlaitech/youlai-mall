@@ -18,7 +18,7 @@
             t1.`name`,
             t1.sort,
             t1.type,
-            t1.input_method,
+            t1.input_type,
             t1.selectable_values,
             t2.NAME attributeGroupName,
             t3.NAME categoryName,

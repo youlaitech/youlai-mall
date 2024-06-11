@@ -3,7 +3,7 @@ package com.youlai.mall.product.model.bo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.youlai.mall.product.enums.AttributeInputMethodEnum;
+import com.youlai.mall.product.enums.AttributeInputTypeEnum;
 import com.youlai.mall.product.enums.AttributeTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +43,7 @@ public class AttributeBO implements Serializable {
     /**
      * 输入方式（1：手动输入，2：从列表选择）
      */
-    private AttributeInputMethodEnum inputMethod;
+    private AttributeInputTypeEnum inputType;
 
     /**
      * 可选值列表（以逗号分隔，仅当输入方式为2时使用

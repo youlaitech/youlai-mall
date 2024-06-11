@@ -13,18 +13,22 @@
             <result column="attribute_id" property="attributeId"/>
             <result column="attribute_name" property="attributeName"/>
             <result column="attribute_value" property="attributeValue"/>
+            <result column="input_type" property="inputType"/>
+            <result column="selectable_values" property="selectableValues" typeHandler="com.youlai.common.mybatis.handler.typehandler.CommaStringListHandler"/>
         </collection>
     </resultMap>
 
-    <!-- 根据SPU ID查询属性组&属性列表 -->
-    <select id="listAttributeGroupsBySpuId" resultMap="AttributeGroupMap">
+    <!-- 根据SPU ID查询基础属性组&属性列表 -->
+    <select id="listBaseAttributesBySpuId" resultMap="AttributeGroupMap">
         SELECT
             t1.id,
             t1.attribute_id,
             t1.attribute_name,
             t1.attribute_value,
             t3.`name` attribute_group_name,
-            t3.id attribute_group_id
+            t3.id attribute_group_id,
+            t2.input_type,
+            t2.selectable_values
         FROM
             pms_spu_attribute_value t1
                 LEFT JOIN pms_attribute t2 ON t1.attribute_id = t2.id

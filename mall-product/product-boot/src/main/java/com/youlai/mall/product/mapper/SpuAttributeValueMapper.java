@@ -19,5 +19,5 @@ public interface SpuAttributeValueMapper extends BaseMapper<SpuAttributeValue> {
      * @param spuId SPU ID
      * @return 属性列表
      */
-    List<SpuForm.AttributeGroup> listAttributeGroupsBySpuId(Long spuId);
+    List<SpuForm.AttributeGroup> listBaseAttributesBySpuId(Long spuId);
 }

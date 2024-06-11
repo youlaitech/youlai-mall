@@ -13,7 +13,7 @@ public interface AttributeConverter {
 
     @Mappings({
             @Mapping(target = "typeLabel", expression = "java(bo.getType()!=null? bo.getType().getLabel():\"\")"),
-            @Mapping(target = "inputMethodLabel", expression = "java(bo.getInputMethod()!=null? bo.getInputMethod().getLabel():\"\")")
+            @Mapping(target = "inputTypeLabel", expression = "java(bo.getInputType()!=null? bo.getInputType().getLabel():\"\")")
     })
     AttributePageVO convertToPageVo(AttributeBO bo);
 

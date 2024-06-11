@@ -115,9 +115,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         }
 
         // 商品基础属性
-        List<SpuForm.AttributeGroup> attributeGroups = spuAttributeValueService.listAttributeGroupsBySpuId(spuId);
+        List<SpuForm.AttributeGroup> attributeGroups = spuAttributeValueService.listBaseAttributesBySpuId(spuId);
         spuForm.setAttributeGroups(attributeGroups);
 
+        // 商品SKU列表
         List<Sku> skuList = skuService.list(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
         if (CollectionUtil.isNotEmpty(skuList)) {
             List<Long> skuIds = skuList.stream().map(Sku::getId).toList();

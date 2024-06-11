@@ -1,7 +1,7 @@
 package com.youlai.mall.product.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.youlai.mall.product.enums.AttributeInputMethodEnum;
+import com.youlai.mall.product.enums.AttributeInputTypeEnum;
 import com.youlai.mall.product.enums.AttributeTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -33,7 +33,7 @@ public class AttributePageVO implements Serializable {
     private String typeLabel;
 
     @Schema(description = "输入录入方式标签")
-    private String inputMethodLabel;
+    private String inputTypeLabel;
 
     @Schema(description = "逗号分割的可选值列表，仅当input_method是2使用")
     private String selectableValues;

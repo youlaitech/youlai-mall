@@ -96,6 +96,12 @@ public class SpuForm {
         @Schema(description = "属性名称")
         private String attributeName;
 
+        @Schema(description = "录入方式(1:手动录入 2:可选列表)")
+        private Integer inputType;
+
+        @Schema(description = "可选值列表")
+        private List<String> selectableValues;
+
         @Schema(description = "属性值")
         private String attributeValue;
 

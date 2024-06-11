@@ -1,4 +1,4 @@
-package com.youlai.common.mybatis.handler;
+package com.youlai.common.mybatis.handler.typehandler;
 
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -84,7 +84,7 @@ public class ArrayObjectJsonTypeHandler<E> extends BaseTypeHandler<E[]> {
         try {
             return MAPPER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("mybatis column to json error,obj:" + Arrays.toString(obj), e);
+            throw new RuntimeException("typehandler column to json error,obj:" + Arrays.toString(obj), e);
         }
     }
 
@@ -107,7 +107,7 @@ public class ArrayObjectJsonTypeHandler<E> extends BaseTypeHandler<E[]> {
         try {
             return MAPPER.readValue(json, clazz);
         } catch (JsonProcessingException e) {
-            log.error("mybatis column json to object error,json:{}", json, e);
+            log.error("typehandler column json to object error,json:{}", json, e);
             return newArray(clazz);
         }
     }
