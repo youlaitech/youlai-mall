@@ -1,6 +1,6 @@
 package com.youlai.mall.product.mapper;
 
-import com.youlai.mall.product.model.entity.AttributeGroup;
+import com.youlai.mall.product.model.entity.AttrGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.product.model.bo.AttributeGroupBO;
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface AttributeGroupMapper extends BaseMapper<AttributeGroup> {
+public interface AttributeGroupMapper extends BaseMapper<AttrGroup> {
 
     /**
      * 获取属性组分页列表

@@ -1,8 +1,9 @@
 package com.youlai.mall.product.service.impl;
 
-import com.youlai.common.web.model.Option;
-import com.youlai.mall.product.model.entity.Attribute;
+import com.youlai.mall.product.model.entity.Attr;
 import com.youlai.mall.product.mapper.AttributeMapper;
+import com.youlai.mall.product.model.vo.AttributeGroupVO;
+import com.youlai.mall.product.model.vo.AttributeVO;
 import com.youlai.mall.product.service.AttributeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,12 @@ import cn.hutool.core.util.StrUtil;
 /**
  * 属性服务实现类
  *
- * @author Ray Hao
+ * @author Ray
  * @since 2024/4/19
  */
 @Service
 @RequiredArgsConstructor
-public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute> implements AttributeService {
+public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attr> implements AttributeService {
 
     private final AttributeConverter attributeConverter;
 
@@ -53,11 +54,10 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
      * 获取属性表单数据
      *
      * @param id 属性ID
-     * @return
      */
     @Override
     public AttributeForm getAttributeFormData(Long id) {
-        Attribute entity = this.getById(id);
+        Attr entity = this.getById(id);
         return attributeConverter.convertToForm(entity);
     }
 
@@ -65,11 +65,10 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
      * 新增属性
      *
      * @param formData 属性表单对象
-     * @return
      */
     @Override
     public boolean saveAttribute(AttributeForm formData) {
-        Attribute entity = attributeConverter.convertToEntity(formData);
+        Attr entity = attributeConverter.convertToEntity(formData);
         return this.save(entity);
     }
 
@@ -78,11 +77,10 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
      *
      * @param id       属性ID
      * @param formData 属性表单对象
-     * @return
      */
     @Override
     public boolean updateAttribute(Long id, AttributeForm formData) {
-        Attribute entity = attributeConverter.convertToEntity(formData);
+        Attr entity = attributeConverter.convertToEntity(formData);
         return this.updateById(entity);
     }
 
@@ -103,15 +101,23 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
     }
 
     /**
-     * 根据分类ID获取属性组&列表
+     * 获取基础属性列表
      *
-     * @param categoryId 分类ID
-     * @return
+     * @param categoryId 商品分类ID
      */
     @Override
-    public List<Option> listAttributesWithGroupByCategoryId(Long categoryId) {
-        return this.baseMapper.listAttributesWithGroupByCategoryId(categoryId);
+    public List<AttributeGroupVO> listBaseAttributes(Long categoryId) {
+        return this.baseMapper.listBaseAttributes(categoryId);
     }
 
+    /**
+     * 获取销售属性列表
+     *
+     * @param categoryId 商品分类ID
+     */
+    @Override
+    public List<AttributeVO> listSaleAttributes(Long categoryId) {
+        return this.baseMapper.listSaleAttributes(categoryId);
+    }
 
 }

@@ -3,6 +3,7 @@ package com.youlai.mall.product.converter;
 import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.product.model.entity.Sku;
+import com.youlai.mall.product.model.entity.SkuSpecValue;
 import com.youlai.mall.product.model.form.SpuForm;
 import org.mapstruct.Mapper;
 
@@ -23,4 +24,7 @@ public interface SkuConverter {
 
 
     Sku convertToEntity(SpuForm.Sku skuForm);
+
+
+    SpuForm.Sku toForm(SkuBO bo);
 }

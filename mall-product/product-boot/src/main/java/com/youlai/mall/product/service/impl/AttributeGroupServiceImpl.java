@@ -2,8 +2,8 @@ package com.youlai.mall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.web.model.Option;
-import com.youlai.mall.product.model.entity.Attribute;
-import com.youlai.mall.product.model.entity.AttributeGroup;
+import com.youlai.mall.product.model.entity.Attr;
+import com.youlai.mall.product.model.entity.AttrGroup;
 import com.youlai.mall.product.mapper.AttributeGroupMapper;
 import com.youlai.mall.product.service.AttributeGroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,7 +34,7 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 @RequiredArgsConstructor
-public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper, AttributeGroup> implements AttributeGroupService {
+public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper, AttrGroup> implements AttributeGroupService {
 
     private final AttributeGroupConverter attributeGroupConverter;
 
@@ -72,7 +72,7 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
      */
     @Override
     public AttributeGroupForm getAttributeGroupFormData(Long id) {
-        AttributeGroup entity = this.getById(id);
+        AttrGroup entity = this.getById(id);
         return attributeGroupConverter.entity2Form(entity);
     }
 
@@ -85,7 +85,7 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
     @Override
     public boolean saveAttributeGroup(AttributeGroupForm formData) {
         // 实体转换 form->entity
-        AttributeGroup entity = attributeGroupConverter.convertToEntity(formData);
+        AttrGroup entity = attributeGroupConverter.convertToEntity(formData);
         return this.save(entity);
     }
 
@@ -98,7 +98,7 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
      */
     @Override
     public boolean updateAttributeGroup(Long id, AttributeGroupForm formData) {
-        AttributeGroup entity = attributeGroupConverter.convertToEntity(formData);
+        AttrGroup entity = attributeGroupConverter.convertToEntity(formData);
         return this.updateById(entity);
     }
 
@@ -120,7 +120,7 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
             if (result) {
                 // 删除属性组下的属性
                 attributeService.remove(
-                        new LambdaQueryWrapper<Attribute>().eq(Attribute::getAttributeGroupId, groupId)
+                        new LambdaQueryWrapper<Attr>().eq(Attr::getAttributeGroupId, groupId)
                 );
             }
         }
@@ -134,9 +134,9 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
      */
     @Override
     public List<Option> listAttributeOptions(Long categoryId) {
-        return this.list(new LambdaQueryWrapper<AttributeGroup>()
-                        .eq(categoryId != null, AttributeGroup::getCategoryId, categoryId)
-                        .orderByAsc(AttributeGroup::getSort)
+        return this.list(new LambdaQueryWrapper<AttrGroup>()
+                        .eq(categoryId != null, AttrGroup::getCategoryId, categoryId)
+                        .orderByAsc(AttrGroup::getSort)
                 )
                 .stream()
                 .map(item -> new Option(item.getId(), item.getName()))

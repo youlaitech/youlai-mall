@@ -69,15 +69,4 @@ public class CategoryController {
         return Result.success();
     }
 
-    @Operation(summary = "获取商品分类的属性列表")
-    @GetMapping("/{categoryId}/attributes")
-    public Result<List<Option>> listAttributesByCategoryId(
-            @Parameter(description = "商品分类ID", example = "3") @PathVariable Long categoryId,
-            @Parameter(description = "属性类型", example = "1") @RequestParam Integer type
-    ) {
-        List<Option> list = categoryService.listAttributesByCategoryId(categoryId, type);
-        return Result.success(list);
-    }
-
-
 }

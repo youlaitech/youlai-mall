@@ -12,12 +12,12 @@ import lombok.Data;
 /**
  * SKU 属性值实体对象
  *
- * @author Ray Hao
+ * @author Ray
  * @since 2024/4/14
  */
-@TableName("pms_sku_attribute_value")
+@TableName("pms_sku_spec_value")
 @Data
-public class SkuAttributeValue implements Serializable {
+public class SkuSpecValue implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -34,17 +34,12 @@ public class SkuAttributeValue implements Serializable {
     private Long skuId;
 
     /**
-     * 规格属性ID
+     * 规格ID
      */
-    private Long attributeId;
+    private Long specId;
 
     /**
-     * 规格属性名称
+     * 规格值
      */
-    private String attributeName;
-
-    /**
-     * 规格属性值
-     */
-    private String attributeValue;
+    private String value;
 }

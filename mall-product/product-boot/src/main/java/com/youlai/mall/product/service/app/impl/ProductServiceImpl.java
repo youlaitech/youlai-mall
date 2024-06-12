@@ -5,10 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
-import com.youlai.mall.product.model.entity.SkuAttributeValue;
+import com.youlai.mall.product.model.entity.SkuSpecValue;
 import com.youlai.mall.product.model.entity.Spu;
 import com.youlai.mall.product.model.query.ProductPageQuery;
-import com.youlai.mall.product.model.query.SpuPageQuery;
 import com.youlai.mall.product.model.vo.ProductDetailVO;
 import com.youlai.mall.product.model.vo.ProductPageVO;
 import com.youlai.mall.product.service.SkuService;
@@ -55,16 +54,19 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
     @Override
     public ProductDetailVO getProductDetail(Long spuId) {
         ProductDetailVO productDetailVO = new ProductDetailVO();
-        Spu spu = this.getById(spuId); // 获取商品基本信息
+        // 获取商品基本信息
+        Spu spu = this.getById(spuId);
         if (spu != null) {
-            List<SkuBO> skuList = skuService.listSkusBySpuId(spuId); // 获取 SKU 列表
-            List<ProductDetailVO.Attribute> productAttributes = convertToProductAttributes(skuList); // 转换为商品属性列表
+            // 获取 SKU 列表
+            List<SkuBO> skuList = skuService.listSkusBySpuId(spuId);
+            // 转换为商品属性列表
+            List<ProductDetailVO.Attribute> productAttributes = convertToProductAttributes(skuList);
             productDetailVO.setAttributes(productAttributes);
-
-            List<ProductDetailVO.Sku> productSkus = convertToProductSkus(skuList); // 转换为商品 SKU 列表
+            // 转换为商品 SKU 列表
+            List<ProductDetailVO.Sku> productSkus = convertToProductSkus(skuList);
             productDetailVO.setSkus(productSkus);
-
-            ProductDetailVO.Goods goods = getGoodsDetails(skuList, productAttributes); // 获取商品的第一个SKU信息
+            // 获取商品的第一个SKU信息
+            ProductDetailVO.Goods goods = getGoodsDetails(skuList, productAttributes);
             if (goods != null) {
                 productDetailVO.setGoods(goods);
             }
@@ -82,12 +84,12 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
         Map<Long, ProductDetailVO.Attribute> attributeMap = new HashMap<>();
         AtomicBoolean isFirstAttributeValue = new AtomicBoolean(false);
 
-        skuList.forEach(sku -> sku.getAttributeValues().forEach(skuAttributeValue -> {
-            Long attributeId = skuAttributeValue.getAttributeId();
-            ProductDetailVO.Attribute attribute = attributeMap.computeIfAbsent(attributeId, id -> {
+        skuList.forEach(sku -> sku.getSpecValues().forEach(skuAttributeValue -> {
+            Long specId = skuAttributeValue.getSpecId();
+            ProductDetailVO.Attribute attribute = attributeMap.computeIfAbsent(specId, id -> {
                 ProductDetailVO.Attribute attr = new ProductDetailVO.Attribute();
                 attr.setId(id);
-                attr.setName(skuAttributeValue.getAttributeName());
+                attr.setName(skuAttributeValue.get());
                 attr.setList(new ArrayList<>());
                 return attr;
             });
@@ -124,8 +126,8 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
             productSku.setPrice(sku.getPrice());
             productSku.setStock(sku.getStock());
             productSku.setImgUrl(sku.getImgUrl());
-            productSku.setAttributeValues(sku.getAttributeValues().stream()
-                    .map(SkuAttributeValue::getAttributeValue)
+            productSku.setAttributeValues(sku.getSpecValues().stream()
+                    .map(SkuSpecValue::getValue)
                     .collect(Collectors.toList()));
             return productSku;
         }).toList();
@@ -134,7 +136,7 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
     /**
      * 获取商品详情，包括 SKU ID、价格和图片路径
      *
-     * @param skuList          SKU 列表
+     * @param skuList           SKU 列表
      * @param productAttributes 商品属性列表
      * @return 商品详情
      */
@@ -146,8 +148,8 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
                 .toList();
 
         return skuList.stream()
-                .filter(sku -> new HashSet<>(sku.getAttributeValues().stream()
-                        .map(SkuAttributeValue::getAttributeValue)
+                .filter(sku -> new HashSet<>(sku.getSpecValues().stream()
+                        .map(SkuSpecValue::getValue)
                         .collect(Collectors.toList()))
                         .containsAll(activeAttributeValues))
                 .findFirst()

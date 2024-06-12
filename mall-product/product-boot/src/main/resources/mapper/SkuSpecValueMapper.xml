@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.product.mapper.SkuSpecValueMapper">
+
+    <!-- 根据 SKU 的 ID 获取销售属性列表  -->
+    <select id="listSpecValuesBySkuId" resultType="com.youlai.mall.product.model.bo.SpecValueBO">
+        SELECT
+            t1.id,
+            t1.spec_id,
+            t2.name spec_name,
+            t1.value
+        FROM
+            pms_sku_spec_value t1
+                INNER JOIN pms_spec t2 ON t1.spec_id = t2.id
+        WHERE
+            t1.sku_id = #{skuId}
+    </select>
+
+</mapper>

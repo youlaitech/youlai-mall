@@ -13,7 +13,7 @@ import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
 import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.product.model.entity.Sku;
-import com.youlai.mall.product.model.entity.SkuAttributeValue;
+import com.youlai.mall.product.model.entity.SkuSpecValue;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SkuService;
 import com.youlai.mall.product.service.SkuAttributeValueService;
@@ -202,7 +202,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
             // 删除关联的SKU规格值
             if (result) {
-                skuAttributeValueService.remove(new LambdaQueryWrapper<SkuAttributeValue>().in(SkuAttributeValue::getSkuId, skuIdsToDelete));
+                skuAttributeValueService.remove(new LambdaQueryWrapper<SkuSpecValue>().in(SkuSpecValue::getSkuId, skuIdsToDelete));
             }
         }
 
@@ -216,7 +216,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
             // 如果成功保存或更新，则处理SKU的规格值
             if (result) {
-                skuAttributeValueService.saveSaleAttributeValues(entity.getId(), skuForm.getSaleAttributeValues());
+                skuAttributeValueService.specSpecValues(entity.getId(), skuForm.getSpecValues());
             }
         }
     }

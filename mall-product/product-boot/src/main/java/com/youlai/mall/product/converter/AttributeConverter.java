@@ -1,9 +1,9 @@
 package com.youlai.mall.product.converter;
 
+import com.youlai.mall.product.model.entity.Attr;
 import org.mapstruct.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import com.youlai.mall.product.model.entity.Attribute;
 import com.youlai.mall.product.model.vo.AttributePageVO;
 import com.youlai.mall.product.model.form.AttributeForm;
 import com.youlai.mall.product.model.bo.AttributeBO;
@@ -19,7 +19,7 @@ public interface AttributeConverter {
 
     Page<AttributePageVO> convertToPageVo(Page<AttributeBO> bo);
 
-    AttributeForm convertToForm(Attribute entity);
+    AttributeForm convertToForm(Attr entity);
 
-    Attribute convertToEntity(AttributeForm entity);
+    Attr convertToEntity(AttributeForm entity);
 }

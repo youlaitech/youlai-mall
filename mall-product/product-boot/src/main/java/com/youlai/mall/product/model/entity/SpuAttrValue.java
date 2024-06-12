@@ -3,7 +3,6 @@ package com.youlai.mall.product.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.youlai.common.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,10 +20,10 @@ import java.io.Serializable;
  * @author Ray
  * @since 2020/11/06
  */
-@TableName("pms_spu_attribute_value")
+@TableName("pms_spu_attr_value")
 @Getter
 @Setter
-public class SpuAttributeValue implements Serializable {
+public class SpuAttrValue implements Serializable {
 
     /**
      * 销售属性 ID
@@ -40,16 +39,11 @@ public class SpuAttributeValue implements Serializable {
     /**
      * 属性ID
      */
-    private Long attributeId;
-
-    /**
-     * 属性名称
-     */
-    private String attributeName;
+    private Long attrId;
 
     /**
      * 属性值
      */
-    private String attributeValue;
+    private String value;
 
 }

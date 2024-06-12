@@ -73,8 +73,8 @@ public interface SkuService extends IService<Sku> {
     /**
      * 根据SPU ID 查询商品SKU 列表
      *
-     * @param id SPU ID
-     * @return 商品SKU 列表
+     * @param spuId SPU ID
+     * @return 商品 SKU 列表
      */
-    List<SkuBO> listSkusBySpuId(Long id);
+    List<SkuBO> listSkusBySpuId(Long spuId);
 }

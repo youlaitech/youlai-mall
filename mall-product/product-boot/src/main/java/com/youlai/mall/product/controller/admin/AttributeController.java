@@ -1,5 +1,7 @@
 package com.youlai.mall.product.controller.admin;
 
+import com.youlai.mall.product.model.vo.AttributeGroupVO;
+import com.youlai.mall.product.model.vo.AttributeVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 /**
  * 属性前端控制器
@@ -73,5 +77,22 @@ public class AttributeController {
         return Result.judge(result);
     }
 
+    @Operation(summary = "获取基础属性列表")
+    @GetMapping("/base")
+    public Result<List<AttributeGroupVO>> listBaseAttributes(
+            @Parameter(description = "商品分类ID", example = "3") @RequestParam Long categoryId
+    ) {
+        List<AttributeGroupVO> list = attributeService.listBaseAttributes(categoryId);
+        return Result.success(list);
+    }
+
+    @Operation(summary = "获取销售属性列表")
+    @GetMapping("/sale")
+    public Result<List<AttributeVO>> listSaleAttributes(
+            @Parameter(description = "商品分类ID", example = "3") @RequestParam Long categoryId
+    ) {
+        List<AttributeVO> list = attributeService.listSaleAttributes(categoryId);
+        return Result.success(list);
+    }
 
 }

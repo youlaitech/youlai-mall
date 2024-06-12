@@ -10,13 +10,13 @@ import lombok.Setter;
 /**
  * 属性实体
  *
- * @author Ray Hao
+ * @author Ray
  * @since 2024/5/24
  */
 @Getter
 @Setter
-@TableName("pms_attribute")
-public class Attribute extends BaseEntity {
+@TableName("pms_attr")
+public class Attr extends BaseEntity {
 
     /**
      * 属性组主键

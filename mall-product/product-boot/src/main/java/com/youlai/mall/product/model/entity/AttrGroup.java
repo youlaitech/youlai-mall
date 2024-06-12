@@ -8,13 +8,13 @@ import lombok.Setter;
 /**
  * 属性组
  *
- * @author Ray Hao
+ * @author Ray
  * @since 2024-04-19
  */
 @Getter
 @Setter
-@TableName("pms_attribute_group")
-public class AttributeGroup extends BaseEntity {
+@TableName("pms_attr_group")
+public class AttrGroup extends BaseEntity {
 
     /**
      * 分类ID

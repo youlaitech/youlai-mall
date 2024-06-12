@@ -18,25 +18,4 @@
         </collection>
     </resultMap>
 
-    <!-- 根据SPU ID查询基础属性组&属性列表 -->
-    <select id="listBaseAttributesBySpuId" resultMap="AttributeGroupMap">
-        SELECT
-            t1.id,
-            t1.attribute_id,
-            t1.attribute_name,
-            t1.attribute_value,
-            t3.`name` attribute_group_name,
-            t3.id attribute_group_id,
-            t2.input_type,
-            t2.selectable_values
-        FROM
-            pms_spu_attribute_value t1
-                LEFT JOIN pms_attribute t2 ON t1.attribute_id = t2.id
-                LEFT JOIN pms_attribute_group t3 ON t2.attribute_group_id = t3.id
-        WHERE
-            t1.spu_id = #{spuId}
-        ORDER BY
-            t3.sort ,
-            t2.sort
-    </select>
 </mapper>

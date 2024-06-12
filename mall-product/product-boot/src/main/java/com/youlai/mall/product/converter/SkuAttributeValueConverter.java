@@ -1,6 +1,6 @@
 package com.youlai.mall.product.converter;
 
-import com.youlai.mall.product.model.entity.SkuAttributeValue;
+import com.youlai.mall.product.model.entity.SkuSpecValue;
 import com.youlai.mall.product.model.form.SpuForm;
 import org.mapstruct.Mapper;
 
@@ -8,5 +8,5 @@ import org.mapstruct.Mapper;
 public interface SkuAttributeValueConverter {
 
 
-    SkuAttributeValue convertToEntity(SpuForm.AttributeValue spec);
+    SkuSpecValue convertToEntity(SpuForm.AttributeValue spec);
 }

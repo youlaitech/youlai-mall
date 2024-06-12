@@ -1,6 +1,6 @@
 package com.youlai.mall.product.converter;
 
-import com.youlai.mall.product.model.entity.SpuAttributeValue;
+import com.youlai.mall.product.model.entity.SpuAttrValue;
 import com.youlai.mall.product.model.form.SpuForm;
 import org.mapstruct.Mapper;
 
@@ -13,6 +13,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SpuAttributeValueConverter {
 
-    SpuAttributeValue convertToEntity(SpuForm.AttributeValue formAttribute);
 
 }

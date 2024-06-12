@@ -63,12 +63,4 @@ public interface CategoryService extends IService<Category> {
      */
     List<CategoryAppVO> listAppCategories();
 
-    /**
-     * 获取分类下的属性列表
-     *
-     * @param categoryId 分类ID
-     * @param type       属性类型
-     * @return 属性列表
-     */
-    List<Option> listAttributesByCategoryId(Long categoryId, Integer type);
 }

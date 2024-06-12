@@ -1,6 +1,6 @@
 package com.youlai.mall.product.model.bo;
 
-import com.youlai.mall.product.model.entity.SkuAttributeValue;
+import com.youlai.mall.product.model.entity.SkuSpecValue;
 import lombok.Data;
 
 import java.util.List;
@@ -54,6 +54,6 @@ public class SkuBO {
     /**
      * 商品属性值列表
      */
-    private List<SkuAttributeValue> attributeValues;
+    private List<SpecValueBO> specValues;
 
 }

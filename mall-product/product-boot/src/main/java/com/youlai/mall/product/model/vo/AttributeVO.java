@@ -1,5 +1,6 @@
 package com.youlai.mall.product.model.vo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -10,40 +11,27 @@ import lombok.Setter;
 /**
  * 属性 VO
  *
- * @author Ray Hao
+ * @author Ray
  * @since 2024-04-19
  */
 @Getter
 @Setter
-@Schema(description = "属性")
+@Schema(description = "属性VO")
 public class AttributeVO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
-    @Schema(description = "属性主键")
 
+    @Schema(description = "属性主键")
     private Long id;
 
-    @Schema(description = "属性组主键")
-
-    private Long attributeGroupId;
-
     @Schema(description = "属性名称")
-
     private String name;
 
-    @Schema(description = "输入录入方式：1-手动输入，2-从列表选择")
+    @Schema(description = "属性输入类型：1->手动输入；2->列表选择")
     private Integer inputType;
 
-    @Schema(description = "逗号分割的可选值列表，仅当input_type是2使用")
+    @Schema(description = "可选列表(仅当input_type是2使用)",example = "[\"1920*1080\",\"2560*1440\",\"3840*2160\"]")
     private String options;
-
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
-
-    @Schema(description = "更新时间")
-    private LocalDateTime updateTime;
-
-    @Schema(description = "逻辑删除标识(0-未删除，1-已删除)")
-    private Integer isDeleted;
     ;
 }

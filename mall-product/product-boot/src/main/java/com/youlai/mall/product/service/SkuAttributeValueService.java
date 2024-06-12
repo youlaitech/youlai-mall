@@ -1,6 +1,6 @@
 package com.youlai.mall.product.service;
 
-import com.youlai.mall.product.model.entity.SkuAttributeValue;
+import com.youlai.mall.product.model.entity.SkuSpecValue;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.form.SpuForm;
 
@@ -12,13 +12,13 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024-04-14
  */
-public interface SkuAttributeValueService extends IService<SkuAttributeValue> {
+public interface SkuAttributeValueService extends IService<SkuSpecValue> {
 
     /**
-     * 保存销售属性值
+     * 保存商品规格值
      *
      * @param id    SKU ID
-     * @param saleAttributeValues 销售属性值列表
+     * @param specValues 规格值列表
      */
-    void saveSaleAttributeValues(Long id, List<SpuForm.AttributeValue> saleAttributeValues);
+    void specSpecValues(Long id, List<SpuForm.SpecValue> specValues);
 }

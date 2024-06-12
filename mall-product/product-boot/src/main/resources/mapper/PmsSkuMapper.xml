@@ -4,13 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.SkuMapper">
 
-    <!-- 定义SKU和属性值的结果集 -->
-    <resultMap id="SkuAndAttributeValueMap" type="com.youlai.mall.product.model.bo.SkuBO">
-        <collection property="attributeValues" ofType="com.youlai.mall.product.model.entity.SkuAttributeValue"
-                    column="{skuId=id}"
-                    select="com.youlai.mall.product.mapper.SkuAttributeValueMapper.listAttributesBySkuId">
-        </collection>
-    </resultMap>
+
 
     <!-- 根据SKU的ID获取对应的商品库存单元（SKU）信息 -->
     <select id="getSkuById" resultType="com.youlai.mall.product.model.bo.SkuBO">
@@ -48,6 +42,14 @@
                 #{id}
             </foreach>
     </select>
+
+    <!-- 定义SKU和属性值的结果集 -->
+    <resultMap id="SkuAndAttributeValueMap" type="com.youlai.mall.product.model.bo.SkuBO">
+        <collection property="specValues" ofType="com.youlai.mall.product.model.bo.SpecValueBO"
+                    column="{skuId=id}"
+                    select="com.youlai.mall.product.mapper.SkuSpecValueMapper.listSpecValuesBySkuId">
+        </collection>
+    </resultMap>
 
     <!-- 根据SPU的ID获取对应的商品库存单元（SKU）列表 -->
     <select id="listSkusBySpuId" resultMap="SkuAndAttributeValueMap">

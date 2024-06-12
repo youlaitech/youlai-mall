@@ -1,11 +1,12 @@
 package com.youlai.mall.product.mapper;
 
-import com.youlai.common.web.model.Option;
-import com.youlai.mall.product.model.entity.Attribute;
+import com.youlai.mall.product.model.entity.Attr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.product.model.bo.AttributeBO;
 import com.youlai.mall.product.model.query.AttributePageQuery;
+import com.youlai.mall.product.model.vo.AttributeGroupVO;
+import com.youlai.mall.product.model.vo.AttributeVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,22 +19,28 @@ import java.util.List;
  */
 
 @Mapper
-public interface AttributeMapper extends BaseMapper<Attribute> {
+public interface AttributeMapper extends BaseMapper<Attr> {
 
     /**
      * 获取属性分页列表
      *
-     * @param page
+     * @param page        分页参数
      * @param queryParams 查询参数
-     * @return
      */
     Page<AttributeBO> listPagedAttributes(Page<AttributeBO> page, AttributePageQuery queryParams);
 
+
     /**
-     * 根据分类ID获取属性组&列表
+     * 根据分类ID获取基础属性列表
      *
      * @param categoryId 分类ID
-     * @return
      */
-    List<Option> listAttributesWithGroupByCategoryId(Long categoryId);
+    List<AttributeGroupVO> listBaseAttributes(Long categoryId);
+
+    /**
+     * 根据分类ID获取销售属性列表
+     *
+     * @param categoryId 分类ID
+     */
+    List<AttributeVO> listSaleAttributes(Long categoryId);
 }

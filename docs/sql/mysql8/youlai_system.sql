@@ -171,10 +171,10 @@ INSERT INTO `sys_menu` VALUES (94, 18, 4, '分类查询', '', NULL, 'pms:categor
 INSERT INTO `sys_menu` VALUES (95, 18, 4, '分类新增', '', NULL, 'pms:category:add', '', 2, 1, '', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (96, 18, 4, '分类修改', '', NULL, 'pms:category:edit', '', 3, 1, '', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (97, 18, 4, '分类删除', '', NULL, 'pms:category:delete', '', 4, 1, '', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (98, 11, 1, '属性管理', 'attribute', 'layout/secondary', NULL, 'rate', 6, 1, '', '0,11', 0, 0, NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (99, 98, 1, '属性分组', 'attribute-group', 'product/attribute/group', NULL, 'api', 1, 1, '', '0,11,98', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (100, 98, 1, '基础属性', 'base-attribute', 'product/attribute/index', NULL, 'multi_level', 2, 1, '', '0,11,98', NULL, NULL, '{\"typehandler\": \"1\"}', NULL, NULL);
-INSERT INTO `sys_menu` VALUES (101, 98, 1, '销售属性', 'sale-attribute', 'product/attribute/index', NULL, 'multi_level', 3, 1, '', '0,11,98', NULL, NULL, '{\"typehandler\": \"2\"}', NULL, NULL);
+INSERT INTO `sys_menu` VALUES (98, 11, 1, '属性管理', 'attr', 'layout/secondary', NULL, 'rate', 6, 1, '', '0,11', 0, 0, NULL, NULL, NULL);
+INSERT INTO `sys_menu` VALUES (99, 98, 1, '属性分组', 'attr-group', 'product/attr/group', NULL, 'api', 1, 1, '', '0,11,98', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_menu` VALUES (100, 98, 1, '基础属性', 'base-attr', 'product/attr/index', NULL, 'multi_level', 2, 1, '', '0,11,98', NULL, NULL, '{\"typehandler\": \"1\"}', NULL, NULL);
+INSERT INTO `sys_menu` VALUES (101, 98, 1, '销售属性', 'sale-attr', 'product/attr/index', NULL, 'multi_level', 3, 1, '', '0,11,98', NULL, NULL, '{\"typehandler\": \"2\"}', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_role

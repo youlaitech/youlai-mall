@@ -44,13 +44,10 @@ public class SpuForm {
     @Schema(description = "商品详情", example = "<p>Apple iPhone 12 64GB 绿色</p>")
     private String detail;
 
-    @Schema(description = "商品属性列表(仅返回用，提交时不填)", example = "[{\"attributeId\":1,\"attributeName\":\"颜色\",\"attributeValues\":[\"红色\",\"绿色\"]}]")
-    private List<SaleAttribute> saleAttributes;
+    @Schema(description = "属性值列表", example = "[{\"id\":\"1\",\"value\":\"2K\"},{\"id\":\"2\",\"value\":\"6英寸\"}]")
+    private List<AttrValue> attrValues;
 
-    @Schema(description = "基础属性分组列表(仅返回用，提交时不填)", example = "[{\"attributeGroupId\":1,\"attributeGroupName\":\"基础属性\",\"attributeAttributeValues\":[{\"id\":1,\"attributeId\":1,\"attributeName\":\"颜色\",\"attributeValue\":\"红色\"}]}]")
-    private List<AttributeGroup> attributeGroups;
-
-    @Schema(description = "SKU列表", example = "[{\"name\":\"绿色 64GB\",\"price\":699900,\"stock\":100,\"imgUrl\":\"https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg\",\"saleAttributeValues\":[{\"attributeName\":\"颜色\",\"attributeValue\":\"绿色\",\"attributeId\":1},{\"attributeName\":\"内存\",\"attributeValue\":\"64GB\",\"attributeId\":2}]}]")
+    @Schema(description = "SKU列表", example = "[{\"name\":\"白色 64GB\",\"price\":699900,\"stock\":100,\"imgUrl\":\"https://youlai.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg\",\"specValues\":[{\"id\":\"1\",\"value\":\"白色\"},{\"id\":\"2\",\"value\":\"64GB\"}]}]")
     private List<Sku> skuList;
 
     @Schema(description = "商品图片")
@@ -62,48 +59,6 @@ public class SpuForm {
 
         @Schema(description = "图片地址")
         private String imgUrl;
-
-        @Schema(description = "排序")
-        private Integer sort;
-
-    }
-
-    @Schema(description = "属性分组")
-    @Data
-    public static class AttributeGroup {
-
-        @Schema(description = "属性分组ID")
-        private Long attributeGroupId;
-
-        @Schema(description = "属性分组名称")
-        private String attributeGroupName;
-
-        @Schema(description = "属性列表")
-        private List<AttributeValue> attributeValues;
-
-    }
-
-    @Schema(description = "属性值对象")
-    @Data
-    public static class AttributeValue {
-
-        @Schema(description = "属性值ID")
-        private Long id;
-
-        @Schema(description = "属性ID")
-        private Long attributeId;
-
-        @Schema(description = "属性名称")
-        private String attributeName;
-
-        @Schema(description = "录入方式(1:手动录入 2:可选列表)")
-        private Integer inputType;
-
-        @Schema(description = "可选值列表")
-        private List<String> selectableValues;
-
-        @Schema(description = "属性值")
-        private String attributeValue;
 
     }
 
@@ -126,22 +81,34 @@ public class SpuForm {
         @Schema(description = "商品图片URL")
         private String imgUrl;
 
-        @Schema(description = "商品销售属性值")
-        private List<AttributeValue> saleAttributeValues;
+        @Schema(description = "规格值列表", example = "[{\"id\":\"1\",\"value\":\"白色\"},{\"id\":\"2\",\"value\":\"64GB\"}]")
+        private List<SpecValue> specValues;
 
     }
 
-    @Schema(description = "销售属性")
+    @Schema(description = "规格值")
     @Data
-    public static class SaleAttribute {
+    public static class SpecValue {
+
+        @Schema(description = "规格ID", example = "1")
+        private Long specId;
+
+        @Schema(description = "规格值", example = "白色")
+        private String value;
+    }
+
+
+    @Schema(description = "属性值")
+    @Data
+    public static class AttrValue {
 
         @Schema(description = "属性ID", example = "1")
-        private Long attributeId;
+        private Long attrId;
 
-        @Schema(description = "属性名称", example = "颜色")
-        private String attributeName;
+        @Schema(description = "属性值", example = "2K")
+        private String value;
 
-        @Schema(description = "属性值列表", example = "[\"白色\",\"黑色\"]")
-        private List<String> attributeValues;
     }
+
+
 }

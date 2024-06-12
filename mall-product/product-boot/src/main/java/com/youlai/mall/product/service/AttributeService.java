@@ -1,12 +1,13 @@
 package com.youlai.mall.product.service;
 
-import com.youlai.common.web.model.Option;
-import com.youlai.mall.product.model.entity.Attribute;
+import com.youlai.mall.product.model.entity.Attr;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.form.AttributeForm;
 import com.youlai.mall.product.model.query.AttributePageQuery;
+import com.youlai.mall.product.model.vo.AttributeGroupVO;
 import com.youlai.mall.product.model.vo.AttributePageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.mall.product.model.vo.AttributeVO;
 
 import java.util.List;
 
@@ -16,13 +17,11 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024-04-19
  */
-public interface AttributeService extends IService<Attribute> {
+public interface AttributeService extends IService<Attr> {
 
 
     /**
      * 属性分页列表
-     *
-     * @return
      */
     IPage<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams);
 
@@ -31,7 +30,6 @@ public interface AttributeService extends IService<Attribute> {
      * 获取属性表单数据
      *
      * @param id 属性ID
-     * @return
      */
     AttributeForm getAttributeFormData(Long id);
 
@@ -40,7 +38,6 @@ public interface AttributeService extends IService<Attribute> {
      * 新增属性
      *
      * @param formData 属性表单对象
-     * @return
      */
     boolean saveAttribute(AttributeForm formData);
 
@@ -49,25 +46,27 @@ public interface AttributeService extends IService<Attribute> {
      *
      * @param id       属性ID
      * @param formData 属性表单对象
-     * @return
      */
     boolean updateAttribute(Long id, AttributeForm formData);
-
 
     /**
      * 删除属性
      *
      * @param ids 属性ID，多个以英文逗号(,)分割
-     * @return
      */
     boolean deleteAttributes(String ids);
 
     /**
-     * 根据分类ID获取属性组&列表
+     * 获取基础属性列表
      *
-     * @param categoryId 分类ID
-     * @return
+     * @param categoryId 商品分类ID
      */
-    List<Option> listAttributesWithGroupByCategoryId(Long categoryId);
+    List<AttributeGroupVO> listBaseAttributes(Long categoryId);
 
+    /**
+     * 获取销售属性列表
+     *
+     * @param categoryId 商品分类ID
+     */
+    List<AttributeVO> listSaleAttributes(Long categoryId);
 }

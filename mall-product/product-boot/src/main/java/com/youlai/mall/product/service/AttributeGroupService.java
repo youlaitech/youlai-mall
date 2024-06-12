@@ -1,7 +1,7 @@
 package com.youlai.mall.product.service;
 
 import com.youlai.common.web.model.Option;
-import com.youlai.mall.product.model.entity.AttributeGroup;
+import com.youlai.mall.product.model.entity.AttrGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.form.AttributeGroupForm;
 import com.youlai.mall.product.model.query.AttributeGroupPageQuery;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024-04-19
  */
-public interface AttributeGroupService extends IService<AttributeGroup> {
+public interface AttributeGroupService extends IService<AttrGroup> {
 
 
     /**
