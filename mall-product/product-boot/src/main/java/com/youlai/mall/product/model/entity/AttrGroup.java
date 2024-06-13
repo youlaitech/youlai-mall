@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 属性组
+ * 属性组实体对象
  *
  * @author Ray
  * @since 2024-04-19

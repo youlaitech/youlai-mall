@@ -85,7 +85,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         Assert.isTrue(entity != null, "字典数据项不存在");
 
         // 实体转换
-        DictForm dictForm = dictConverter.entity2Form(entity);
+        DictForm dictForm = dictConverter.toForm(entity);
         return dictForm;
     }
 
@@ -98,7 +98,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public boolean saveDict(DictForm dictForm) {
         // 实体对象转换 form->entity
-        SysDict entity = dictConverter.convertToEntity(dictForm);
+        SysDict entity = dictConverter.toEntity(dictForm);
         // 持久化
         boolean result = this.save(entity);
         return result;
@@ -113,7 +113,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
      */
     @Override
     public boolean updateDict(Long id, DictForm dictForm) {
-        SysDict entity = dictConverter.convertToEntity(dictForm);
+        SysDict entity = dictConverter.toEntity(dictForm);
         boolean result = this.updateById(entity);
         return result;
     }

@@ -24,15 +24,14 @@ public class ProductDetailVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-
     @Schema(description = "商品信息")
     private Goods goods;
 
-    @Schema(description = "销售属性列表")
-    private List<Attribute> attributes;
+    @Schema(description = "")
+    private List<Spec> attributes;
 
     @Schema(description = "SKU 列表")
-    private List<Sku> skus;
+    private List<Sku> skuList;
 
     @Schema(description = "商品信息")
     @Data
@@ -48,23 +47,23 @@ public class ProductDetailVO implements Serializable {
         private String imagePath;
     }
 
-    @Schema(description = "SKU 属性列表")
+    @Schema(description = "规格")
     @Data
-    public static class Attribute {
+    public static class Spec {
 
-        @Schema(description = "属性ID")
+        @Schema(description = "规格ID")
         private Long id;
 
-        @Schema(description = "属性名称")
+        @Schema(description = "规格名称")
         private String name;
 
-        @Schema(description = "属性值列表")
-        private List<AttributeValue> list;
+        @Schema(description = "规格值列表")
+        private List<SpecValue> list;
     }
 
-    @Schema(description = "属性值")
+    @Schema(description = "规格值")
     @Data
-    public static class AttributeValue {
+    public static class SpecValue {
 
         @Schema(description = "属性值 ID")
         private String id;
@@ -103,7 +102,7 @@ public class ProductDetailVO implements Serializable {
         private String imgUrl;
 
         @Schema(description = "SKU 属性值列表",example = "[\"白色\",\"8+256G\"]")
-        private List<String> attributeValues;
+        private List<String> specValues;
 
     }
 

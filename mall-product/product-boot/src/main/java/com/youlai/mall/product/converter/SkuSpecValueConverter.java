@@ -5,8 +5,6 @@ import com.youlai.mall.product.model.form.SpuForm;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface SkuAttributeValueConverter {
+public interface SkuSpecValueConverter {
 
-
-    SkuSpecValue convertToEntity(SpuForm.AttributeValue spec);
 }

@@ -1,9 +1,9 @@
 package com.youlai.mall.product.mapper;
 
+import com.youlai.mall.product.model.bo.AttrGroupBO;
 import com.youlai.mall.product.model.entity.AttrGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.product.model.bo.AttributeGroupBO;
 import com.youlai.mall.product.model.query.AttributeGroupPageQuery;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface AttributeGroupMapper extends BaseMapper<AttrGroup> {
+public interface AttrGroupMapper extends BaseMapper<AttrGroup> {
 
     /**
      * 获取属性组分页列表
@@ -24,6 +24,6 @@ public interface AttributeGroupMapper extends BaseMapper<AttrGroup> {
      * @param queryParams 查询参数
      * @return
      */
-    Page<AttributeGroupBO> listPagedAttributeGroups(Page<AttributeGroupBO> page, AttributeGroupPageQuery queryParams);
+    Page<AttrGroupBO> listPagedAttributeGroups(Page<AttrGroupBO> page, AttributeGroupPageQuery queryParams);
 
 }

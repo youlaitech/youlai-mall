@@ -12,7 +12,7 @@ import com.youlai.mall.product.model.entity.Category;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.CategoryAppVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
-import com.youlai.mall.product.service.AttributeService;
+import com.youlai.mall.product.service.AttrService;
 import com.youlai.mall.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     private final CategoryConverter categoryConverter;
 
-    private final AttributeService attributeService;
+    private final AttrService attrService;
 
     /**
      * 分类列表（树形）
@@ -113,7 +113,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public Long saveCategory(CategoryForm formData) {
         // 转成实体对象
-        Category category = categoryConverter.convertToEntity(formData);
+        Category category = categoryConverter.toEntity(formData);
         // 构建层级路径
         String treePath = buildTreePath(formData.getParentId());
         category.setTreePath(treePath);

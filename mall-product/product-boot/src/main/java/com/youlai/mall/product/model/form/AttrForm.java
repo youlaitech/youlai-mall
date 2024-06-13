@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Schema(description = "属性表单对象")
-public class AttributeForm implements Serializable {
+public class AttrForm implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

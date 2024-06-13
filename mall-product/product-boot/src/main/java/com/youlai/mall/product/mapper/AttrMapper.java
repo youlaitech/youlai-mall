@@ -1,9 +1,9 @@
 package com.youlai.mall.product.mapper;
 
+import com.youlai.mall.product.model.bo.AttrBO;
 import com.youlai.mall.product.model.entity.Attr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.product.model.bo.AttributeBO;
 import com.youlai.mall.product.model.query.AttributePageQuery;
 import com.youlai.mall.product.model.vo.AttributeGroupVO;
 import com.youlai.mall.product.model.vo.AttributeVO;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface AttributeMapper extends BaseMapper<Attr> {
+public interface AttrMapper extends BaseMapper<Attr> {
 
     /**
      * 获取属性分页列表
@@ -27,7 +27,7 @@ public interface AttributeMapper extends BaseMapper<Attr> {
      * @param page        分页参数
      * @param queryParams 查询参数
      */
-    Page<AttributeBO> listPagedAttributes(Page<AttributeBO> page, AttributePageQuery queryParams);
+    Page<AttrBO> listPagedAttributes(Page<AttrBO> page, AttributePageQuery queryParams);
 
 
     /**

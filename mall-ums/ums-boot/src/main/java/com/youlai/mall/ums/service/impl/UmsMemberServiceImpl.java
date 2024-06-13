@@ -56,7 +56,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 queryParams
         );
-        return memberConvert.bo2PageVo(boPage);
+        return memberConvert.toPageVo(boPage);
     }
 
     /**

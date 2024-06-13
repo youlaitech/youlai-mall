@@ -23,7 +23,7 @@ public interface SkuConverter {
     List<SkuDTO> convertToDto(List<SkuBO> list);
 
 
-    Sku convertToEntity(SpuForm.Sku skuForm);
+    Sku toEntity(SpuForm.Sku skuForm);
 
 
     SpuForm.Sku toForm(SkuBO bo);

@@ -38,11 +38,11 @@ public interface CouponConverter {
     @Mappings({
             @Mapping(target = "discount",expression = "java(cn.hutool.core.util.NumberUtil.div(form.getDiscount(),10L))"),
     })
-    SmsCoupon convertToEntity(CouponForm form);
+    SmsCoupon toEntity(CouponForm form);
 
 
     @Mappings({
             @Mapping(target = "discount",expression = "java(cn.hutool.core.util.NumberUtil.mul(entity.getDiscount(),10L))"),
     })
-    CouponForm entity2Form(SmsCoupon entity);
+    CouponForm toForm(SmsCoupon entity);
 }

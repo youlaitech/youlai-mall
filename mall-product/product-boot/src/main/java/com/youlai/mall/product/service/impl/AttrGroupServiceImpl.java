@@ -2,20 +2,20 @@ package com.youlai.mall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.youlai.common.web.model.Option;
+import com.youlai.mall.product.converter.AttrGroupConverter;
 import com.youlai.mall.product.model.entity.Attr;
 import com.youlai.mall.product.model.entity.AttrGroup;
-import com.youlai.mall.product.mapper.AttributeGroupMapper;
-import com.youlai.mall.product.service.AttributeGroupService;
+import com.youlai.mall.product.mapper.AttrGroupMapper;
+import com.youlai.mall.product.model.form.AttrGroupForm;
+import com.youlai.mall.product.service.AttrGroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.product.service.AttributeService;
+import com.youlai.mall.product.service.AttrService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.youlai.common.util.DateUtils;
-import com.youlai.mall.product.model.form.AttributeGroupForm;
 import com.youlai.mall.product.model.query.AttributeGroupPageQuery;
-import com.youlai.mall.product.model.bo.AttributeGroupBO;
+import com.youlai.mall.product.model.bo.AttrGroupBO;
 import com.youlai.mall.product.model.vo.AttributeGroupPageVO;
-import com.youlai.mall.product.converter.AttributeGroupConverter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -34,11 +34,11 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 @RequiredArgsConstructor
-public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper, AttrGroup> implements AttributeGroupService {
+public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup> implements AttrGroupService {
 
-    private final AttributeGroupConverter attributeGroupConverter;
+    private final AttrGroupConverter attrGroupConverter;
 
-    private final AttributeService attributeService;
+    private final AttrService attrService;
 
     /**
      * 获取属性组分页列表
@@ -52,16 +52,16 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
         // 参数构建
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
-        Page<AttributeGroupBO> page = new Page<>(pageNum, pageSize);
+        Page<AttrGroupBO> page = new Page<>(pageNum, pageSize);
 
         // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
         DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
 
         // 查询数据
-        Page<AttributeGroupBO> boPage = this.baseMapper.listPagedAttributeGroups(page, queryParams);
+        Page<AttrGroupBO> boPage = this.baseMapper.listPagedAttributeGroups(page, queryParams);
 
         // 实体转换
-        return attributeGroupConverter.bo2PageVo(boPage);
+        return attrGroupConverter.toPageVo(boPage);
     }
 
     /**
@@ -71,9 +71,9 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
      * @return
      */
     @Override
-    public AttributeGroupForm getAttributeGroupFormData(Long id) {
+    public AttrGroupForm getAttributeGroupFormData(Long id) {
         AttrGroup entity = this.getById(id);
-        return attributeGroupConverter.entity2Form(entity);
+        return attrGroupConverter.toForm(entity);
     }
 
     /**
@@ -83,9 +83,9 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
      * @return
      */
     @Override
-    public boolean saveAttributeGroup(AttributeGroupForm formData) {
+    public boolean saveAttributeGroup(AttrGroupForm formData) {
         // 实体转换 form->entity
-        AttrGroup entity = attributeGroupConverter.convertToEntity(formData);
+        AttrGroup entity = attrGroupConverter.toEntity(formData);
         return this.save(entity);
     }
 
@@ -97,8 +97,8 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
      * @return
      */
     @Override
-    public boolean updateAttributeGroup(Long id, AttributeGroupForm formData) {
-        AttrGroup entity = attributeGroupConverter.convertToEntity(formData);
+    public boolean updateAttributeGroup(Long id, AttrGroupForm formData) {
+        AttrGroup entity = attrGroupConverter.toEntity(formData);
         return this.updateById(entity);
     }
 
@@ -119,7 +119,7 @@ public class AttributeGroupServiceImpl extends ServiceImpl<AttributeGroupMapper,
             boolean result = this.removeById(groupId);
             if (result) {
                 // 删除属性组下的属性
-                attributeService.remove(
+                attrService.remove(
                         new LambdaQueryWrapper<Attr>().eq(Attr::getAttributeGroupId, groupId)
                 );
             }

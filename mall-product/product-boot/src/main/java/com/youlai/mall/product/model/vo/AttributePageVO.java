@@ -29,9 +29,6 @@ public class AttributePageVO implements Serializable {
     @Schema(description = "属性名称")
     private String name;
 
-    @Schema(description = "属性类型标签")
-    private String typeLabel;
-
     @Schema(description = "输入录入方式标签")
     private String inputTypeLabel;
 

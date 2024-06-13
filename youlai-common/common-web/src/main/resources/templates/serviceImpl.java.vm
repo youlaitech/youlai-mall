@@ -56,7 +56,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         Page<${entity}BO> boPage = this.baseMapper.listPaged${entity}s(page, queryParams);
     
         // 实体转换
-        return ${firstCharLowerCaseEntity}Converter.bo2PageVo(boPage);
+        return ${firstCharLowerCaseEntity}Converter.toPageVo(boPage);
     }
     
     /**
@@ -68,7 +68,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     @Override
     public ${entity}Form get${entity}FormData(Long id) {
         ${entity} entity = this.getById(id);
-        return ${firstCharLowerCaseEntity}Converter.entity2Form(entity);
+        return ${firstCharLowerCaseEntity}Converter.toForm(entity);
     }
     
     /**
@@ -80,7 +80,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     @Override
     public boolean save${entity}(${entity}Form formData) {
         // 实体转换 form->entity
-        ${entity} entity = ${firstCharLowerCaseEntity}Converter.convertToEntity(formData);
+        ${entity} entity = ${firstCharLowerCaseEntity}Converter.toEntity(formData);
         return this.save(entity);
     }
     
@@ -93,7 +93,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
      */
     @Override
     public boolean update${entity}(Long id,${entity}Form formData) {
-        ${entity} entity = ${firstCharLowerCaseEntity}Converter.convertToEntity(formData);
+        ${entity} entity = ${firstCharLowerCaseEntity}Converter.toEntity(formData);
         return this.updateById(entity);
     }
     

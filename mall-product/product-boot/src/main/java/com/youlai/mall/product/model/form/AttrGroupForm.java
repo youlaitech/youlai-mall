@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Schema(description = "属性组表单对象")
-public class AttributeGroupForm implements Serializable {
+public class AttrGroupForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

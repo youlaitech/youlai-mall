@@ -44,6 +44,6 @@ public class SpuAttrValue implements Serializable {
     /**
      * 属性值
      */
-    private String value;
+    private String attrValue;
 
 }

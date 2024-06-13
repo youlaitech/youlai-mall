@@ -12,7 +12,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024-04-14
  */
-public interface SkuAttributeValueService extends IService<SkuSpecValue> {
+public interface SkuSpecValueService extends IService<SkuSpecValue> {
 
     /**
      * 保存商品规格值

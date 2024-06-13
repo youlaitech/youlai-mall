@@ -3,7 +3,7 @@ package com.youlai.mall.product.service;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.AttrGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.product.model.form.AttributeGroupForm;
+import com.youlai.mall.product.model.form.AttrGroupForm;
 import com.youlai.mall.product.model.query.AttributeGroupPageQuery;
 import com.youlai.mall.product.model.vo.AttributeGroupPageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024-04-19
  */
-public interface AttributeGroupService extends IService<AttrGroup> {
+public interface AttrGroupService extends IService<AttrGroup> {
 
 
     /**
@@ -33,7 +33,7 @@ public interface AttributeGroupService extends IService<AttrGroup> {
      * @param id 属性组ID
      * @return
      */
-     AttributeGroupForm getAttributeGroupFormData(Long id);
+     AttrGroupForm getAttributeGroupFormData(Long id);
 
 
     /**
@@ -42,7 +42,7 @@ public interface AttributeGroupService extends IService<AttrGroup> {
      * @param formData 属性组表单对象
      * @return
      */
-    boolean saveAttributeGroup(AttributeGroupForm formData);
+    boolean saveAttributeGroup(AttrGroupForm formData);
 
     /**
      * 修改属性组
@@ -51,7 +51,7 @@ public interface AttributeGroupService extends IService<AttrGroup> {
      * @param formData 属性组表单对象
      * @return
      */
-    boolean updateAttributeGroup(Long id, AttributeGroupForm formData);
+    boolean updateAttributeGroup(Long id, AttrGroupForm formData);
 
 
     /**

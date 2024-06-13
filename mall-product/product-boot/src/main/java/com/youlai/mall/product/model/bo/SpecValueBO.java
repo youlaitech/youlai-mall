@@ -9,7 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * SKU 属性值实体对象
+ * SKU 规格值实体
  *
  * @author Ray
  * @since 2024/4/14
@@ -45,5 +45,5 @@ public class SpecValueBO implements Serializable {
     /**
      * 规格值 如：红色
      */
-    private String value;
+    private String specValue;
 }

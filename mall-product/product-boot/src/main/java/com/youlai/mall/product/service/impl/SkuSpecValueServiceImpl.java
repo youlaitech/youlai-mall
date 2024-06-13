@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SkuSpecValueMapper;
 import com.youlai.mall.product.model.entity.SkuSpecValue;
 import com.youlai.mall.product.model.form.SpuForm;
-import com.youlai.mall.product.service.SkuAttributeValueService;
+import com.youlai.mall.product.service.SkuSpecValueService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * @since 2024-04-14
  */
 @Service
-public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, SkuSpecValue> implements SkuAttributeValueService {
+public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, SkuSpecValue> implements SkuSpecValueService {
 
     /**
      * 保存商品规格值
@@ -40,7 +40,7 @@ public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, Sku
                 SkuSpecValue skuSpecValue = new SkuSpecValue();
                 skuSpecValue.setSkuId(skuId);
                 skuSpecValue.setSpecId(specValue.getSpecId());
-                skuSpecValue.setValue(specValue.getValue());
+                skuSpecValue.setSpecValue(specValue.getSpecValue());
                 return skuSpecValue;
             }).toList();
             this.saveBatch(skuSpecValues);

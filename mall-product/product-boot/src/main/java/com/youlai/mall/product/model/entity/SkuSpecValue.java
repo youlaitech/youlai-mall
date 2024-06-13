@@ -41,5 +41,5 @@ public class SkuSpecValue implements Serializable {
     /**
      * 规格值
      */
-    private String value;
+    private String specValue;
 }

@@ -35,6 +35,6 @@ public interface MemberConvert {
     @Mappings({
             @Mapping(target = "genderLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(bo.getGender(), com.youlai.common.enums.GenderEnum.class))")
     })
-    MemberPageVO bo2PageVo(MemberBO bo);
-    Page<MemberPageVO> bo2PageVo(Page<MemberBO> boPage);
+    MemberPageVO toPageVo(MemberBO bo);
+    Page<MemberPageVO> toPageVo(Page<MemberBO> boPage);
 }

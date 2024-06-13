@@ -70,7 +70,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
     public CouponForm getCouponFormData(Long couponId) {
         SmsCoupon entity = this.getById(couponId);
         // 实体转换entity->form
-        CouponForm couponForm = couponConverter.entity2Form(entity);
+        CouponForm couponForm = couponConverter.toForm(entity);
 
         Integer applicationScope = couponForm.getApplicationScope();
 
@@ -106,7 +106,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean saveCoupon(CouponForm couponForm) {
-        SmsCoupon entity = couponConverter.convertToEntity(couponForm);
+        SmsCoupon entity = couponConverter.toEntity(couponForm);
         boolean result = this.save(entity);
 
         if (result) {
@@ -152,7 +152,7 @@ public class SmsCouponServiceImpl extends ServiceImpl<SmsCouponMapper, SmsCoupon
      */
     @Override
     public boolean updateCoupon(Long couponId, CouponForm couponForm) {
-        SmsCoupon entity = couponConverter.convertToEntity(couponForm);
+        SmsCoupon entity = couponConverter.toEntity(couponForm);
         boolean result = this.updateById(entity);
 
         if (result) {

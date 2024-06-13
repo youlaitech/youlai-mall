@@ -1,18 +1,18 @@
 package com.youlai.mall.product.service.impl;
 
+import com.youlai.mall.product.converter.AttrConverter;
+import com.youlai.mall.product.model.bo.AttrBO;
 import com.youlai.mall.product.model.entity.Attr;
-import com.youlai.mall.product.mapper.AttributeMapper;
+import com.youlai.mall.product.mapper.AttrMapper;
+import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.vo.AttributeGroupVO;
 import com.youlai.mall.product.model.vo.AttributeVO;
-import com.youlai.mall.product.service.AttributeService;
+import com.youlai.mall.product.service.AttrService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.youlai.mall.product.model.form.AttributeForm;
 import com.youlai.mall.product.model.query.AttributePageQuery;
-import com.youlai.mall.product.model.bo.AttributeBO;
 import com.youlai.mall.product.model.vo.AttributePageVO;
-import com.youlai.mall.product.converter.AttributeConverter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,9 +31,9 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 @RequiredArgsConstructor
-public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attr> implements AttributeService {
+public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements AttrService {
 
-    private final AttributeConverter attributeConverter;
+    private final AttrConverter attributeConverter;
 
     /**
      * 获取属性分页列表
@@ -43,7 +43,7 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attr> imp
      */
     @Override
     public IPage<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams) {
-        Page<AttributeBO> page = this.baseMapper.listPagedAttributes(
+        Page<AttrBO> page = this.baseMapper.listPagedAttributes(
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 queryParams
         );
@@ -56,7 +56,7 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attr> imp
      * @param id 属性ID
      */
     @Override
-    public AttributeForm getAttributeFormData(Long id) {
+    public AttrForm getAttributeFormData(Long id) {
         Attr entity = this.getById(id);
         return attributeConverter.convertToForm(entity);
     }
@@ -67,8 +67,8 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attr> imp
      * @param formData 属性表单对象
      */
     @Override
-    public boolean saveAttribute(AttributeForm formData) {
-        Attr entity = attributeConverter.convertToEntity(formData);
+    public boolean saveAttribute(AttrForm formData) {
+        Attr entity = attributeConverter.toEntity(formData);
         return this.save(entity);
     }
 
@@ -79,8 +79,8 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attr> imp
      * @param formData 属性表单对象
      */
     @Override
-    public boolean updateAttribute(Long id, AttributeForm formData) {
-        Attr entity = attributeConverter.convertToEntity(formData);
+    public boolean updateAttribute(Long id, AttrForm formData) {
+        Attr entity = attributeConverter.toEntity(formData);
         return this.updateById(entity);
     }
 

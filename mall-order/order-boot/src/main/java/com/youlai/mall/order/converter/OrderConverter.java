@@ -25,7 +25,7 @@ public interface OrderConverter {
             @Mapping(target = "totalFee",
                     expression = "java(orderSubmitForm.getOrderItems().stream().map(item -> item.getSkuPrice() * item.getSkuQuantity()).reduce(0L, Long::sum))"),
     })
-    OmsOrder convertToEntity(OrderSubmitForm orderSubmitForm);
+    OmsOrder toEntity(OrderSubmitForm orderSubmitForm);
 
     @Mappings({
             @Mapping(

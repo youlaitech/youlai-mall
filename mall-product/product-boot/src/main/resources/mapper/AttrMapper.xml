@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.product.mapper.AttributeMapper">
+<mapper namespace="com.youlai.mall.product.mapper.AttrMapper">
 
     <!-- 属性分页列表 -->
-    <select id="listPagedAttributes" resultType="com.youlai.mall.product.model.bo.AttributeBO">
+    <select id="listPagedAttributes" resultType="com.youlai.mall.product.model.bo.AttrBO">
         SELECT
             t1.id,
             t1.`name`,

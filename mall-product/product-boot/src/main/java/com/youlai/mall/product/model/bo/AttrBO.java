@@ -16,7 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class AttributeBO implements Serializable {
+public class AttrBO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

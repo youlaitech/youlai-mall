@@ -251,7 +251,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      */
     private boolean saveOrder(OrderSubmitForm submitForm) {
         // 保存订单
-        OmsOrder order = orderConverter.convertToEntity(submitForm);
+        OmsOrder order = orderConverter.toEntity(submitForm);
         order.setStatus(OrderStatusEnum.PENDING_PAYMENT.getValue());
         order.setMemberId(SecurityUtils.getMemberId());
         boolean result = this.save(order);

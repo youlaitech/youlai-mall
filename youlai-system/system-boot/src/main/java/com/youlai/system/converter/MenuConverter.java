@@ -21,5 +21,5 @@ public interface MenuConverter {
     MenuForm convertToForm(SysMenu entity);
 
     @Mapping(target = "params", ignore = true)
-    SysMenu convertToEntity(MenuForm menuForm);
+    SysMenu toEntity(MenuForm menuForm);
 }

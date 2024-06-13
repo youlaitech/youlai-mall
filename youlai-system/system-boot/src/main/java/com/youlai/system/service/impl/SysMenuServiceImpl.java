@@ -224,7 +224,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             menuForm.setComponent(null);
         }
 
-        SysMenu entity = menuConverter.convertToEntity(menuForm);
+        SysMenu entity = menuConverter.toEntity(menuForm);
         String treePath = generateMenuTreePath(menuForm.getParentId());
         entity.setTreePath(treePath);
 

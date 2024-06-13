@@ -117,7 +117,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Assert.isTrue(count == 0, "角色名称或角色编码已存在，请修改后重试！");
 
         // 实体转换
-        SysRole role = roleConverter.convertToEntity(roleForm);
+        SysRole role = roleConverter.toEntity(roleForm);
 
         boolean result = this.saveOrUpdate(role);
         if (result) {
@@ -142,7 +142,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public RoleForm getRoleForm(Long roleId) {
         SysRole entity = this.getById(roleId);
-        return roleConverter.entity2Form(entity);
+        return roleConverter.toForm(entity);
     }
 
     /**

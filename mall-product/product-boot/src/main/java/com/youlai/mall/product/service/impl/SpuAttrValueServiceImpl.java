@@ -3,10 +3,10 @@ package com.youlai.mall.product.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.product.mapper.SpuAttributeValueMapper;
+import com.youlai.mall.product.mapper.SpuAttrValueMapper;
 import com.youlai.mall.product.model.entity.SpuAttrValue;
 import com.youlai.mall.product.model.form.SpuForm;
-import com.youlai.mall.product.service.SpuAttributeValueService;
+import com.youlai.mall.product.service.SpuAttrValueService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @since 2024/04/24
  */
 @Service
-public class SpuAttributeValueServiceImpl extends ServiceImpl<SpuAttributeValueMapper, SpuAttrValue> implements SpuAttributeValueService {
+public class SpuAttrValueServiceImpl extends ServiceImpl<SpuAttrValueMapper, SpuAttrValue> implements SpuAttrValueService {
     /**
      * 保存商品属性
      *
@@ -39,7 +39,7 @@ public class SpuAttributeValueServiceImpl extends ServiceImpl<SpuAttributeValueM
                 SpuAttrValue spuAttrValue = new SpuAttrValue();
                 spuAttrValue.setSpuId(spuId);
                 spuAttrValue.setAttrId(attrValue.getAttrId());
-                spuAttrValue.setValue(attrValue.getValue());
+                spuAttrValue.setAttrValue(attrValue.getAttrValue());
                 return spuAttrValue;
             }).collect(Collectors.toList());
             this.saveBatch(spuAttrValues);

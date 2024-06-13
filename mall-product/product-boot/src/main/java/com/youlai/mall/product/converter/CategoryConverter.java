@@ -12,7 +12,7 @@ import org.mapstruct.Mappings;
 public interface CategoryConverter {
     CategoryForm convertToForm(Category entity);
 
-    Category convertToEntity(CategoryForm formData);
+    Category toEntity(CategoryForm formData);
 
     @Mappings({
             @Mapping(target = "catId", source = "id"),

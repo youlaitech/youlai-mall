@@ -198,7 +198,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                         SysDept::getSort
                 ));
 
-        return deptConverter.entity2Form(entity);
+        return deptConverter.toForm(entity);
     }
 
 

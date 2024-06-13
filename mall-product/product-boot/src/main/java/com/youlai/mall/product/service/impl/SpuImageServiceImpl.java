@@ -42,7 +42,7 @@ public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImage> i
                 .eq(SpuImage::getSpuId, spuId));
 
         // 转换为实体
-        List<SpuImage> newImages = spuImageConverter.convertToEntity(formImages);
+        List<SpuImage> newImages = spuImageConverter.toEntity(formImages);
 
         if (CollectionUtil.isNotEmpty(newImages)) {
             // 新增图片处理

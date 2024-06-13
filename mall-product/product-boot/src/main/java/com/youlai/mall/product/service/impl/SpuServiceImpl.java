@@ -1,13 +1,11 @@
 package com.youlai.mall.product.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.product.converter.SkuConverter;
 import com.youlai.mall.product.converter.SpuConverter;
 import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 商品业务实现类
@@ -37,7 +34,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     private final SkuService skuService;
     private final SpuImageService spuImageService;
     private final SpuDetailService spuDetailService;
-    private final SpuAttributeValueService spuAttributeValueService;
+    private final SpuAttrValueService spuAttrValueService;
 
     /**
      * Admin-商品分页列表
@@ -73,7 +70,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             spuImageService.saveSpuImages(spuId, imgList);
             // 保存商品属性
             List<SpuForm.AttrValue> attrValues = formData.getAttrValues();
-            spuAttributeValueService.saveAttributeValues(spuId, attrValues);
+            spuAttrValueService.saveAttributeValues(spuId, attrValues);
             // 保存 SKU
             List<SpuForm.Sku> skuList = formData.getSkuList();
             skuService.saveSkus(spuId, skuList);
@@ -115,9 +112,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         }
 
         // 商品属性
-        List<SpuForm.AttrValue> attrValues = spuAttributeValueService.list(new LambdaQueryWrapper<SpuAttrValue>()
+        List<SpuForm.AttrValue> attrValues = spuAttrValueService.list(new LambdaQueryWrapper<SpuAttrValue>()
                         .eq(SpuAttrValue::getSpuId, spuId)
-                        .select(SpuAttrValue::getAttrId, SpuAttrValue::getValue)
+                        .select(SpuAttrValue::getAttrId, SpuAttrValue::getAttrValue)
                 )
                 .stream()
                 .map(item -> {
@@ -135,7 +132,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             sku.setSpecValues(entity.getSpecValues().stream().map(attrValue -> {
                 SpuForm.SpecValue specValue = new SpuForm.SpecValue();
                 specValue.setSpecId(attrValue.getSpecId());
-                specValue.setValue(attrValue.getValue());
+                specValue.setSpecValue(attrValue.getSpecValue());
                 return specValue;
             }).toList());
             return sku;
@@ -160,9 +157,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         for (String spuId : spuIds) {
             skuService.remove(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
             // 规格
-            spuAttributeValueService.remove(new LambdaQueryWrapper<SpuAttrValue>().eq(SpuAttrValue::getSpuId, spuId));
+            spuAttrValueService.remove(new LambdaQueryWrapper<SpuAttrValue>().eq(SpuAttrValue::getSpuId, spuId));
             // 参数
-            spuAttributeValueService.remove(new LambdaQueryWrapper<SpuAttrValue>().eq(SpuAttrValue::getSpuId, spuId));
+            spuAttrValueService.remove(new LambdaQueryWrapper<SpuAttrValue>().eq(SpuAttrValue::getSpuId, spuId));
             // SPU
             this.removeById(spuId);
         }

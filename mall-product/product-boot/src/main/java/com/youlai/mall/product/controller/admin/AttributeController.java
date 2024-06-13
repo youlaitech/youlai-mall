@@ -1,14 +1,14 @@
 package com.youlai.mall.product.controller.admin;
 
+import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.vo.AttributeGroupVO;
 import com.youlai.mall.product.model.vo.AttributeVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.youlai.mall.product.model.form.AttributeForm;
 import com.youlai.mall.product.model.query.AttributePageQuery;
 import com.youlai.mall.product.model.vo.AttributePageVO;
-import com.youlai.mall.product.service.AttributeService;
+import com.youlai.mall.product.service.AttrService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
@@ -33,38 +33,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AttributeController {
 
-    private final AttributeService attributeService;
+    private final AttrService attrService;
 
     @Operation(summary = "属性分页列表")
     @GetMapping("/page")
     public PageResult<AttributePageVO> listPagedAttributes(
             AttributePageQuery queryParams
     ) {
-        IPage<AttributePageVO> page = attributeService.listPagedAttributes(queryParams);
+        IPage<AttributePageVO> page = attrService.listPagedAttributes(queryParams);
         return PageResult.success(page);
     }
 
     @Operation(summary = "新增属性")
     @PostMapping
-    public Result saveAttribute(@RequestBody @Valid AttributeForm formData) {
-        boolean result = attributeService.saveAttribute(formData);
+    public Result saveAttribute(@RequestBody @Valid AttrForm formData) {
+        boolean result = attrService.saveAttribute(formData);
         return Result.judge(result);
     }
 
     @Operation(summary = "属性表单数据")
     @GetMapping("/{id}/form")
-    public Result<AttributeForm> getAttributeForm(
+    public Result<AttrForm> getAttributeForm(
             @Parameter(description = "属性ID") @PathVariable Long id
     ) {
-        AttributeForm formData = attributeService.getAttributeFormData(id);
+        AttrForm formData = attrService.getAttributeFormData(id);
         return Result.success(formData);
     }
 
     @Operation(summary = "修改属性")
     @PutMapping(value = "/{id}")
     public Result updateAttribute(@Parameter(description = "属性ID") @PathVariable Long id,
-                                  @RequestBody @Validated AttributeForm formData) {
-        boolean result = attributeService.updateAttribute(id, formData);
+                                  @RequestBody @Validated AttrForm formData) {
+        boolean result = attrService.updateAttribute(id, formData);
         return Result.judge(result);
     }
 
@@ -73,7 +73,7 @@ public class AttributeController {
     public Result deleteAttributes(
             @Parameter(description = "属性ID，多个以英文逗号(,)分割") @PathVariable String ids
     ) {
-        boolean result = attributeService.deleteAttributes(ids);
+        boolean result = attrService.deleteAttributes(ids);
         return Result.judge(result);
     }
 
@@ -82,7 +82,7 @@ public class AttributeController {
     public Result<List<AttributeGroupVO>> listBaseAttributes(
             @Parameter(description = "商品分类ID", example = "3") @RequestParam Long categoryId
     ) {
-        List<AttributeGroupVO> list = attributeService.listBaseAttributes(categoryId);
+        List<AttributeGroupVO> list = attrService.listBaseAttributes(categoryId);
         return Result.success(list);
     }
 
@@ -91,7 +91,7 @@ public class AttributeController {
     public Result<List<AttributeVO>> listSaleAttributes(
             @Parameter(description = "商品分类ID", example = "3") @RequestParam Long categoryId
     ) {
-        List<AttributeVO> list = attributeService.listSaleAttributes(categoryId);
+        List<AttributeVO> list = attrService.listSaleAttributes(categoryId);
         return Result.success(list);
     }
 

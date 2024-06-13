@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class AttributeGroupBO implements Serializable {
+public class AttrGroupBO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

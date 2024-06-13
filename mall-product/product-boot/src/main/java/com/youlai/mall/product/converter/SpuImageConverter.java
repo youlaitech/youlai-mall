@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SpuImageConverter{
 
-    SpuImage convertToEntity(SpuForm.Image formImages);
+    SpuImage toEntity(SpuForm.Image formImages);
 
-    List<SpuImage> convertToEntity(List<SpuForm.Image> formImages);
+    List<SpuImage> toEntity(List<SpuForm.Image> formImages);
 }

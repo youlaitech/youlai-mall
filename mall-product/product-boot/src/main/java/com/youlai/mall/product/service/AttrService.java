@@ -2,7 +2,7 @@ package com.youlai.mall.product.service;
 
 import com.youlai.mall.product.model.entity.Attr;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.product.model.form.AttributeForm;
+import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.query.AttributePageQuery;
 import com.youlai.mall.product.model.vo.AttributeGroupVO;
 import com.youlai.mall.product.model.vo.AttributePageVO;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author Ray Hao
  * @since 2024-04-19
  */
-public interface AttributeService extends IService<Attr> {
+public interface AttrService extends IService<Attr> {
 
 
     /**
@@ -31,7 +31,7 @@ public interface AttributeService extends IService<Attr> {
      *
      * @param id 属性ID
      */
-    AttributeForm getAttributeFormData(Long id);
+    AttrForm getAttributeFormData(Long id);
 
 
     /**
@@ -39,7 +39,7 @@ public interface AttributeService extends IService<Attr> {
      *
      * @param formData 属性表单对象
      */
-    boolean saveAttribute(AttributeForm formData);
+    boolean saveAttribute(AttrForm formData);
 
     /**
      * 修改属性
@@ -47,7 +47,7 @@ public interface AttributeService extends IService<Attr> {
      * @param id       属性ID
      * @param formData 属性表单对象
      */
-    boolean updateAttribute(Long id, AttributeForm formData);
+    boolean updateAttribute(Long id, AttrForm formData);
 
     /**
      * 删除属性

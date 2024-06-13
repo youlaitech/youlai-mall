@@ -94,7 +94,7 @@ public class SpuForm {
         private Long specId;
 
         @Schema(description = "规格值", example = "白色")
-        private String value;
+        private String specValue;
     }
 
 
@@ -106,7 +106,7 @@ public class SpuForm {
         private Long attrId;
 
         @Schema(description = "属性值", example = "2K")
-        private String value;
+        private String attrValue;
 
     }
 

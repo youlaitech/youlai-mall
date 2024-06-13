@@ -16,7 +16,7 @@ import com.youlai.mall.product.model.entity.Sku;
 import com.youlai.mall.product.model.entity.SkuSpecValue;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SkuService;
-import com.youlai.mall.product.service.SkuAttributeValueService;
+import com.youlai.mall.product.service.SkuSpecValueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -38,7 +38,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final SkuConverter skuConverter;
-    private final SkuAttributeValueService skuAttributeValueService;
+    private final SkuSpecValueService skuSpecValueService;
 
     /**
      * 获取 SKU 信息
@@ -202,13 +202,13 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
             // 删除关联的SKU规格值
             if (result) {
-                skuAttributeValueService.remove(new LambdaQueryWrapper<SkuSpecValue>().in(SkuSpecValue::getSkuId, skuIdsToDelete));
+                skuSpecValueService.remove(new LambdaQueryWrapper<SkuSpecValue>().in(SkuSpecValue::getSkuId, skuIdsToDelete));
             }
         }
 
         // 循环处理提交的每个SKU，执行更新或保存操作
         for (SpuForm.Sku skuForm : skuList) {
-            Sku entity = skuConverter.convertToEntity(skuForm);
+            Sku entity = skuConverter.toEntity(skuForm);
             entity.setSpuId(spuId);
 
             // 保存或更新SKU实体
@@ -216,7 +216,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
             // 如果成功保存或更新，则处理SKU的规格值
             if (result) {
-                skuAttributeValueService.specSpecValues(entity.getId(), skuForm.getSpecValues());
+                skuSpecValueService.specSpecValues(entity.getId(), skuForm.getSpecValues());
             }
         }
     }
