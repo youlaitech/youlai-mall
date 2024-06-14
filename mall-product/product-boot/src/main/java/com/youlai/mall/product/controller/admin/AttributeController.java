@@ -1,25 +1,22 @@
 package com.youlai.mall.product.controller.admin;
 
-import com.youlai.mall.product.model.form.AttrForm;
-import com.youlai.mall.product.model.vo.AttributeGroupVO;
-import com.youlai.mall.product.model.vo.AttributeVO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.youlai.mall.product.model.query.AttributePageQuery;
-import com.youlai.mall.product.model.vo.AttributePageVO;
-import com.youlai.mall.product.service.AttrService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
+import com.youlai.mall.product.model.form.AttrForm;
+import com.youlai.mall.product.model.form.AttrGroupForm;
+import com.youlai.mall.product.model.query.AttributePageQuery;
+import com.youlai.mall.product.model.vo.AttrPageVO;
+import com.youlai.mall.product.service.AttrGroupService;
+import com.youlai.mall.product.service.AttrService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-
-import java.util.List;
 
 /**
  * 属性前端控制器
@@ -35,15 +32,46 @@ public class AttributeController {
 
     private final AttrService attrService;
 
-    @Operation(summary = "属性分页列表")
-    @GetMapping("/page")
-    public PageResult<AttributePageVO> listPagedAttributes(
+    private final AttrGroupService attrGroupService;
+
+    @ApiOperationSupport(order = 1)
+    @Operation(summary = "属性组分页列表")
+    @GetMapping("/group/page")
+    public PageResult<AttrPageVO> listPagedAttributes(
             AttributePageQuery queryParams
     ) {
-        IPage<AttributePageVO> page = attrService.listPagedAttributes(queryParams);
+        IPage<AttrPageVO> page = attrService.listPagedAttributes(queryParams);
         return PageResult.success(page);
     }
 
+    @ApiOperationSupport(order = 2)
+    @Operation(summary = "新增属性组")
+    @PostMapping("/group")
+    public Result saveAttributeGroup(@RequestBody @Valid AttrGroupForm formData) {
+        boolean result = attrGroupService.saveAttributeGroup(formData);
+        return Result.judge(result);
+    }
+
+    @ApiOperationSupport(order = 3)
+    @Operation(summary = "修改属性组")
+    @PutMapping(value = "/group/{id}")
+    public Result updateAttributeGroup(@Parameter(description = "属性组ID") @PathVariable Long id,
+                                       @RequestBody @Validated AttrGroupForm formData) {
+        boolean result = attrGroupService.updateAttributeGroup(id, formData);
+        return Result.judge(result);
+    }
+
+    @ApiOperationSupport(order = 4)
+    @Operation(summary = "删除属性组")
+    @DeleteMapping("/group/{ids}")
+    public Result deleteAttributeGroups(
+            @Parameter(description = "属性组ID，多个以英文逗号(,)分割") @PathVariable String ids
+    ) {
+        attrGroupService.deleteAttributeGroups(ids);
+        return Result.success();
+    }
+
+    @ApiOperationSupport(order = 5)
     @Operation(summary = "新增属性")
     @PostMapping
     public Result saveAttribute(@RequestBody @Valid AttrForm formData) {
@@ -51,6 +79,7 @@ public class AttributeController {
         return Result.judge(result);
     }
 
+    @ApiOperationSupport(order = 6)
     @Operation(summary = "属性表单数据")
     @GetMapping("/{id}/form")
     public Result<AttrForm> getAttributeForm(
@@ -60,6 +89,7 @@ public class AttributeController {
         return Result.success(formData);
     }
 
+    @ApiOperationSupport(order = 7)
     @Operation(summary = "修改属性")
     @PutMapping(value = "/{id}")
     public Result updateAttribute(@Parameter(description = "属性ID") @PathVariable Long id,
@@ -68,6 +98,7 @@ public class AttributeController {
         return Result.judge(result);
     }
 
+    @ApiOperationSupport(order = 8)
     @Operation(summary = "删除属性")
     @DeleteMapping("/{ids}")
     public Result deleteAttributes(
@@ -75,24 +106,6 @@ public class AttributeController {
     ) {
         boolean result = attrService.deleteAttributes(ids);
         return Result.judge(result);
-    }
-
-    @Operation(summary = "获取基础属性列表")
-    @GetMapping("/base")
-    public Result<List<AttributeGroupVO>> listBaseAttributes(
-            @Parameter(description = "商品分类ID", example = "3") @RequestParam Long categoryId
-    ) {
-        List<AttributeGroupVO> list = attrService.listBaseAttributes(categoryId);
-        return Result.success(list);
-    }
-
-    @Operation(summary = "获取销售属性列表")
-    @GetMapping("/sale")
-    public Result<List<AttributeVO>> listSaleAttributes(
-            @Parameter(description = "商品分类ID", example = "3") @RequestParam Long categoryId
-    ) {
-        List<AttributeVO> list = attrService.listSaleAttributes(categoryId);
-        return Result.success(list);
     }
 
 }
