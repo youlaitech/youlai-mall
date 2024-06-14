@@ -29,25 +29,14 @@ public class Attr extends BaseEntity {
     private String name;
 
     /**
-     * 属性类型（1：基础属性，2：销售属性）
-     * @see com.youlai.mall.product.enums.AttributeTypeEnum
-     */
-    private AttributeTypeEnum type;
-
-    /**
-     * 输入方式（1：手动输入，2：从列表选择）
+     * 输入方式：1->手动输入；2->列表选择
      */
     private AttributeInputTypeEnum inputType;
 
     /**
      * 可选值列表（以逗号分隔，仅当输入方式为2时使用）
      */
-    private String selectableValues;
-
-    /**
-     * 分类ID
-     */
-    private Long categoryId;
+    private String options;
 
     /**
      * 排序

@@ -11,7 +11,7 @@
             ag.create_time,
             c.name AS category_name
         FROM
-            pms_attribute_group ag
+            pms_attr_group ag
                 LEFT JOIN pms_category c on ag.category_id = c.id AND c.is_deleted = 0
         <where>
             ag.is_deleted = 0

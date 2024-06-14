@@ -5,6 +5,7 @@ import com.youlai.mall.product.model.bo.AttrBO;
 import com.youlai.mall.product.model.entity.Attr;
 import com.youlai.mall.product.mapper.AttrMapper;
 import com.youlai.mall.product.model.form.AttrForm;
+import com.youlai.mall.product.model.vo.AttrPageVO;
 import com.youlai.mall.product.model.vo.AttributeGroupVO;
 import com.youlai.mall.product.model.vo.AttributeVO;
 import com.youlai.mall.product.service.AttrService;
@@ -12,7 +13,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.youlai.mall.product.model.query.AttributePageQuery;
-import com.youlai.mall.product.model.vo.AttributePageVO;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,15 +39,15 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
      * 获取属性分页列表
      *
      * @param queryParams 查询参数
-     * @return {@link IPage<AttributePageVO>} 属性分页列表
+     * @return {@link IPage< AttrPageVO >} 属性分页列表
      */
     @Override
-    public IPage<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams) {
+    public IPage<AttrPageVO> listPagedAttributes(AttributePageQuery queryParams) {
         Page<AttrBO> page = this.baseMapper.listPagedAttributes(
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 queryParams
         );
-        return attributeConverter.convertToPageVo(page);
+        return attributeConverter.toPageVo(page);
     }
 
     /**
@@ -106,8 +106,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
      * @param categoryId 商品分类ID
      */
     @Override
-    public List<AttributeGroupVO> listBaseAttributes(Long categoryId) {
-        return this.baseMapper.listBaseAttributes(categoryId);
+    public List<AttributeGroupVO> listAttributesByCategoryId(Long categoryId) {
+        return this.baseMapper.listAttributesByCategoryId(categoryId);
     }
 
     /**

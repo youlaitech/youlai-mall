@@ -27,5 +27,5 @@ public interface BrandConverter {
 
     BrandPageVO convertToVo(Brand entity);
 
-    Page<BrandPageVO> convertToPageVo(Page<Brand> page);
+    Page<BrandPageVO> toPageVo(Page<Brand> page);
 }

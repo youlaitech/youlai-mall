@@ -35,7 +35,7 @@ public interface AttrMapper extends BaseMapper<Attr> {
      *
      * @param categoryId 分类ID
      */
-    List<AttributeGroupVO> listBaseAttributes(Long categoryId);
+    List<AttributeGroupVO> listAttributesByCategoryId(Long categoryId);
 
     /**
      * 根据分类ID获取销售属性列表

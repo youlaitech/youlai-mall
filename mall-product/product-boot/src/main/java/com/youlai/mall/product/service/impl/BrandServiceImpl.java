@@ -44,7 +44,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
                 new LambdaQueryWrapper<Brand>().like(StrUtil.isNotBlank(keywords), Brand::getName, keywords)
                         .orderByAsc(Brand::getSort)
         );
-        return brandConverter.convertToPageVo(page);
+        return brandConverter.toPageVo(page);
     }
 
     /**

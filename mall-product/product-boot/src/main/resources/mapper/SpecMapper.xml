@@ -2,29 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.SpecMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.youlai.mall.product.model.entity.Spec">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="input_type" property="inputType" />
-        <result column="options" property="options" />
-        <result column="category_id" property="categoryId" />
-        <result column="sort" property="sort" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="is_deleted" property="isDeleted" />
+    <resultMap id="SpecPageMap" type="com.youlai.mall.product.model.vo.SpecPageVO">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="input_type" property="inputType"/>
+        <result column="options"
+                property="options"
+                typeHandler="com.youlai.common.mybatis.handler.typehandler.CommaStringListHandler"
+        />
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, name, input_type, options, category_id, sort, create_time, update_time, is_deleted
-    </sql>
-
-
     <!-- 分页列表 -->
-    <select id="listPagedSpecs" resultType="com.youlai.mall.product.model.bo.SpecBO">
+    <select id="listPagedSpecs" resultMap="SpecPageMap">
         SELECT
-            <include refid="Base_Column_List"/>
+            id,
+            `name`,
+            input_type,
+            options,
+            create_time
         FROM
             pms_spec
         <where>
@@ -41,7 +36,36 @@
                 AND create_time &lt;= #{queryParams.endTime}
             </if>
         </where>
-        ORDER BY create_time DESC
+        ORDER BY
+            create_time DESC
+    </select>
+
+    <!-- 属性映射 -->
+    <resultMap id="SpecMap" type="com.youlai.mall.product.model.vo.SpecVO">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="input_type" property="inputType"/>
+        <result column="options"
+                property="options"
+                typeHandler="com.youlai.common.mybatis.handler.typehandler.CommaStringListHandler"
+        />
+    </resultMap>
+
+    <!-- 根据分类ID获取销售属性列表 -->
+    <select id="listSpecsByCategoryId" resultMap="SpecMap">
+        SELECT
+            t1.id,
+            t1.`name`,
+            t1.input_type,
+            t1.options
+        FROM
+            pms_attr t1
+        WHERE
+            t1.category_id = #{categoryId}
+          AND t1.is_deleted = 0
+          AND t1.type = 2
+        ORDER BY
+            t1.sort
     </select>
 
 </mapper>

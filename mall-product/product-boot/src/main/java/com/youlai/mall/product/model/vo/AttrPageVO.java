@@ -1,8 +1,6 @@
 package com.youlai.mall.product.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.youlai.mall.product.enums.AttributeInputTypeEnum;
-import com.youlai.mall.product.enums.AttributeTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,10 +16,9 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@Schema(description = "属性")
-public class AttributePageVO implements Serializable {
+@Schema(description = "属性分页对象")
+public class AttrPageVO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
     @Schema(description = "属性主键")
     private Long id;

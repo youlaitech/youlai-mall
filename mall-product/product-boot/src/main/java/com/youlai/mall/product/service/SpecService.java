@@ -6,8 +6,12 @@ import com.youlai.mall.product.model.form.SpecForm;
 import com.youlai.mall.product.model.query.SpecPageQuery;
 import com.youlai.mall.product.model.vo.SpecPageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youlai.mall.product.model.vo.SpecVO;
+
+import java.util.List;
+
 /**
- *  服务类
+ * 规格接口层
  *
  * @author Ray Hao
  * @since 2024-06-13
@@ -16,7 +20,7 @@ public interface SpecService extends IService<Spec> {
 
 
     /**
-     *分页列表
+     * 分页列表
      *
      * @return
      */
@@ -29,7 +33,7 @@ public interface SpecService extends IService<Spec> {
      * @param id ID
      * @return
      */
-     SpecForm getSpecFormData(Long id);
+    SpecForm getSpecFormData(Long id);
 
 
     /**
@@ -43,7 +47,7 @@ public interface SpecService extends IService<Spec> {
     /**
      * 修改
      *
-     * @param id   ID
+     * @param id       ID
      * @param formData 表单对象
      * @return
      */
@@ -58,4 +62,11 @@ public interface SpecService extends IService<Spec> {
      */
     boolean deleteSpecs(String ids);
 
+    /**
+     * 根据分类ID获取规格列表
+     *
+     * @param categoryId 分类ID
+     * @return
+     */
+    List<SpecVO> listSpecsByCategoryId(Long categoryId);
 }

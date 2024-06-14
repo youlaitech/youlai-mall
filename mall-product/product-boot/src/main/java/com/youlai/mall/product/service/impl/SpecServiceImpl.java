@@ -2,6 +2,7 @@ package com.youlai.mall.product.service.impl;
 
 import com.youlai.mall.product.model.entity.Spec;
 import com.youlai.mall.product.mapper.SpecMapper;
+import com.youlai.mall.product.model.vo.SpecVO;
 import com.youlai.mall.product.service.SpecService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 
 /**
- * 服务实现类
+ * 规格服务实现类
  *
  * @author Ray Hao
  * @since 2024-06-13
@@ -36,29 +37,25 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
     private final SpecConverter specConverter;
 
     /**
-    * 获取分页列表
-    *
-    * @param queryParams 查询参数
-    * @return {@link IPage<SpecPageVO>} 分页列表
-    */
+     * 获取分页列表
+     *
+     * @param queryParams 查询参数
+     * @return {@link IPage<SpecPageVO>} 分页列表
+     */
     @Override
     public IPage<SpecPageVO> listPagedSpecs(SpecPageQuery queryParams) {
-    
+
         // 参数构建
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
-        Page<SpecBO> page = new Page<>(pageNum, pageSize);
+        Page<SpecPageVO> page = new Page<>(pageNum, pageSize);
 
         // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
         DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
-    
-        // 查询数据
-        Page<SpecBO> boPage = this.baseMapper.listPagedSpecs(page, queryParams);
-    
-        // 实体转换
-        return specConverter.toPageVo(boPage);
+
+        return this.baseMapper.listPagedSpecs(page, queryParams);
     }
-    
+
     /**
      * 获取表单数据
      *
@@ -70,7 +67,7 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
         Spec entity = this.getById(id);
         return specConverter.toForm(entity);
     }
-    
+
     /**
      * 新增
      *
@@ -83,20 +80,20 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
         Spec entity = specConverter.toEntity(formData);
         return this.save(entity);
     }
-    
+
     /**
      * 更新
      *
-     * @param id   ID
+     * @param id       ID
      * @param formData 表单对象
      * @return
      */
     @Override
-    public boolean updateSpec(Long id,SpecForm formData) {
+    public boolean updateSpec(Long id, SpecForm formData) {
         Spec entity = specConverter.toEntity(formData);
         return this.updateById(entity);
     }
-    
+
     /**
      * 删除
      *
@@ -112,6 +109,17 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
                 .toList();
         return this.removeByIds(idList);
     }
-    
+
+    /**
+     * 根据分类ID获取规格列表
+     *
+     * @param categoryId 分类ID
+     * @return
+     */
+    @Override
+    public List<SpecVO> listSpecsByCategoryId(Long categoryId) {
+        return this.baseMapper.listSpecsByCategoryId(categoryId);
+    }
+
 
 }

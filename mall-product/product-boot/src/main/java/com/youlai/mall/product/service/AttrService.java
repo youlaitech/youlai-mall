@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.query.AttributePageQuery;
 import com.youlai.mall.product.model.vo.AttributeGroupVO;
-import com.youlai.mall.product.model.vo.AttributePageVO;
+import com.youlai.mall.product.model.vo.AttrPageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.mall.product.model.vo.AttributeVO;
 
@@ -23,7 +23,7 @@ public interface AttrService extends IService<Attr> {
     /**
      * 属性分页列表
      */
-    IPage<AttributePageVO> listPagedAttributes(AttributePageQuery queryParams);
+    IPage<AttrPageVO> listPagedAttributes(AttributePageQuery queryParams);
 
 
     /**
@@ -61,7 +61,7 @@ public interface AttrService extends IService<Attr> {
      *
      * @param categoryId 商品分类ID
      */
-    List<AttributeGroupVO> listBaseAttributes(Long categoryId);
+    List<AttributeGroupVO> listAttributesByCategoryId(Long categoryId);
 
     /**
      * 获取销售属性列表

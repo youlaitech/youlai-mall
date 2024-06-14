@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 分页查询对象
+ * 规格分页查询对象
  *
  * @author Ray Hao
  * @since 2024-06-13
@@ -18,5 +18,8 @@ public class SpecPageQuery extends BasePageQuery {
 
     @Schema(description="关键字")
     private String keywords;
+
+    @Schema(description="分类ID",example = "3")
+    private Long categoryId;
 
 }

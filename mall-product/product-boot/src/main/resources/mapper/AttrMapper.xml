@@ -15,8 +15,8 @@
             t3.NAME categoryName,
             t1.create_time
         FROM
-            `pms_attribute` t1
-                LEFT JOIN pms_attribute_group t2 ON t1.attribute_group_id = t2.id
+            `pms_attr` t1
+                LEFT JOIN pms_attr_group t2 ON t1.attribute_group_id = t2.id
                 LEFT JOIN pms_category t3 ON t1.category_id = t3.id
         <where>
             t1.is_deleted = 0
@@ -62,19 +62,18 @@
     </resultMap>
 
     <!-- 根据分类ID获取属性组&列表 -->
-    <select id="listBaseAttributes" resultMap="AttributeGroupMap">
+    <select id="listAttributesByCategoryId" resultMap="AttributeGroupMap">
         SELECT
             t1.id,
             t1.`name`,
             t2.id AS attribute_group_id,
             t2.`name` AS attribute_group_name
         FROM
-            pms_attribute t1
-            INNER JOIN pms_attribute_group t2 ON t1.attribute_group_id = t2.id AND t2.is_deleted = 0
+            pms_attr t1
+            INNER JOIN pms_attr_group t2 ON t1.attribute_group_id = t2.id AND t2.is_deleted = 0
         WHERE
             t1.category_id = #{categoryId}
             AND t1.is_deleted = 0
-            AND t1.type = 1
         ORDER BY
             t2.sort,
             t1.sort
@@ -99,7 +98,7 @@
             t1.input_type,
             t1.options
         FROM
-            pms_attribute t1
+            pms_attr t1
         WHERE
             t1.category_id = #{categoryId}
             AND t1.is_deleted = 0
