@@ -1,7 +1,6 @@
 package com.youlai.mall.product.model.form;
 
 import com.youlai.mall.product.enums.AttributeInputTypeEnum;
-import com.youlai.mall.product.enums.AttributeTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +26,7 @@ public class AttrForm implements Serializable {
     private Long id;
 
     @Schema(description = "属性组ID",example = "1")
-    private Long attributeGroupId;
+    private Long attrGroupId;
 
     @Schema(description = "分类ID",example = "1")
     private Long categoryId;
@@ -35,14 +34,11 @@ public class AttrForm implements Serializable {
     @Schema(description = "属性名称",example = "屏幕分辨率")
     private String name;
 
-    @Schema(description = "属性类型（1：基础属性，2：销售属性）",example = "1")
-    private AttributeTypeEnum type;
-
     @Schema(description = "输入方式（1：手动输入，2：从列表选择）",example = "2")
     private AttributeInputTypeEnum inputType;
 
     @Schema(description = "可选值列表（以逗号分隔，仅当输入方式为2时使用）",example = "1920x1080,2560x1440")
-    private String selectableValues;
+    private String options;
 
     @Schema(description = "排序",example = "1")
     private Integer sort;

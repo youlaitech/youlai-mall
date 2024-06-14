@@ -115,8 +115,8 @@ INSERT INTO `sys_menu` VALUES (11, 0, 1, '商品管理', '/product', 'Layout', N
 INSERT INTO `sys_menu` VALUES (12, 11, 1, '商品列表', 'goods', 'product/goods/index', NULL, 'goods-list', 1, 1, NULL, NULL, NULL, 1, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (13, 0, 2, '订单管理', '/oms', 'Layout', NULL, 'el-icon-ShoppingCart', 3, 1, '/oms/order', '0', 1, 1, '2021-08-28 09:12:21', '2024-03-03 23:52:32');
 INSERT INTO `sys_menu` VALUES (14, 13, 1, '订单列表', 'order', 'oms/order/index', NULL, 'el-icon-Document', 1, 1, NULL, 'null,13', NULL, 1, '2021-08-28 09:12:21', '2024-03-03 23:45:09');
-INSERT INTO `sys_menu` VALUES (15, 0, 1, '会员管理', '/ums', 'Layout', NULL, 'user', 4, 1, '/ums/member', NULL, NULL, 1, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (16, 15, 1, '会员列表', 'member', 'ums/member/index', NULL, 'peoples', 1, 1, NULL, NULL, NULL, 1, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
+INSERT INTO `sys_menu` VALUES (15, 0, 1, '会员管理', '/member', 'Layout', NULL, 'user', 4, 1, '/member/member', NULL, NULL, 1, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
+INSERT INTO `sys_menu` VALUES (16, 15, 1, '会员列表', 'member', 'member/member/index', NULL, 'peoples', 1, 1, NULL, NULL, NULL, 1, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (17, 11, 1, '品牌管理', 'brand', 'product/brand/index', NULL, 'brand', 5, 1, NULL, NULL, NULL, 1, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (18, 11, 1, '商品分类', 'category', 'product/category/index', NULL, 'menu', 3, 1, NULL, NULL, NULL, 1, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (19, 11, 1, '商品上架', 'goods-detail', 'product/goods/detail', NULL, 'publish', 2, 1, NULL, NULL, NULL, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');

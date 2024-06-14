@@ -28,7 +28,7 @@ public interface SpecMapper extends BaseMapper<Spec> {
      * @param queryParams 查询参数
      * @return
      */
-    Page<SpecPageVO> listPagedSpecs(Page<SpecPageVO> page, SpecPageQuery queryParams);
+    Page<SpecBO> listPagedSpecs(Page<SpecBO> page, SpecPageQuery queryParams);
 
     /**
      * 根据分类ID查询规格列表

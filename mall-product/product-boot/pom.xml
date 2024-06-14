@@ -59,7 +59,7 @@
         <!-- 会员feign客户端 -->
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>ums-api</artifactId>
+            <artifactId>member-api</artifactId>
         </dependency>
 
         <dependency>

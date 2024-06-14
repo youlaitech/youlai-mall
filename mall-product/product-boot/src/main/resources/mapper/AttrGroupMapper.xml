@@ -2,36 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.AttrGroupMapper">
 
+    <!-- 属性组映射 -->
+    <resultMap id="AttrGroupMap" type="com.youlai.mall.product.model.vo.AttrGroupPageVO">
+        <collection property="attrs"
+                    column="{groupId=id}"
+                    select="com.youlai.mall.product.mapper.AttrMapper.listAttrsByGroupId">
+        </collection>
+    </resultMap>
+
     <!-- 属性组分页列表 -->
-    <select id="listPagedAttributeGroups" resultType="com.youlai.mall.product.model.bo.AttrGroupBO">
+    <select id="listPagedAttrGroups" resultMap="AttrGroupMap">
         SELECT
-            ag.id,
-            ag.name,
-            ag.sort,
-            ag.create_time,
-            c.name AS category_name
+            t1.id,
+            t1.name,
+            t2.name AS category_name,
+            t1.sort,
+            t1.create_time
         FROM
-            pms_attr_group ag
-                LEFT JOIN pms_category c on ag.category_id = c.id AND c.is_deleted = 0
+            pms_attr_group t1
+                LEFT JOIN pms_category t2 on t1.category_id = t2.id AND t2.is_deleted = 0
         <where>
-            ag.is_deleted = 0
+            t1.is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
-                    ag.name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    t1.name LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
             </if>
             <if test="queryParams.startTime != null">
-                AND ag.create_time &gt;= #{queryParams.startTime}
+                AND t1.create_time &gt;= #{queryParams.startTime}
             </if>
             <if test="queryParams.endTime != null">
-                AND ag.create_time &lt;= #{queryParams.endTime}
+                AND t1.create_time &lt;= #{queryParams.endTime}
             </if>
             <if test="queryParams.categoryId != null">
-                AND (ag.category_id = #{queryParams.categoryId} OR CONCAT(',',c.tree_path,',') LIKE CONCAT('%,',#{queryParams.categoryId},',%'))
+                AND (t1.category_id = #{queryParams.categoryId} OR CONCAT(',',t2.tree_path,',') LIKE CONCAT('%,',#{queryParams.categoryId},',%'))
             </if>
         </where>
         ORDER BY
-            ag.sort ASC
+            t1.sort ASC
     </select>
 
 </mapper>

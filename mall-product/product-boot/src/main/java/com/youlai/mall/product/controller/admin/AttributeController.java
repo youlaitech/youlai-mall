@@ -6,8 +6,8 @@ import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.form.AttrGroupForm;
-import com.youlai.mall.product.model.query.AttributePageQuery;
-import com.youlai.mall.product.model.vo.AttrPageVO;
+import com.youlai.mall.product.model.query.AttrGroupPageQuery;
+import com.youlai.mall.product.model.vo.AttrGroupPageVO;
 import com.youlai.mall.product.service.AttrGroupService;
 import com.youlai.mall.product.service.AttrService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,10 +37,10 @@ public class AttributeController {
     @ApiOperationSupport(order = 1)
     @Operation(summary = "属性组分页列表")
     @GetMapping("/group/page")
-    public PageResult<AttrPageVO> listPagedAttributes(
-            AttributePageQuery queryParams
+    public PageResult<AttrGroupPageVO> listPagedAttrGroups(
+            AttrGroupPageQuery queryParams
     ) {
-        IPage<AttrPageVO> page = attrService.listPagedAttributes(queryParams);
+        IPage<AttrGroupPageVO> page = attrGroupService.listPagedAttrGroups(queryParams);
         return PageResult.success(page);
     }
 

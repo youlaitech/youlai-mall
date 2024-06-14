@@ -1,10 +1,11 @@
 package com.youlai.mall.product.mapper;
 
-import com.youlai.mall.product.model.bo.AttrGroupBO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.mall.product.model.entity.AttrGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.product.model.query.AttributeGroupPageQuery;
+import com.youlai.mall.product.model.query.AttrGroupPageQuery;
+import com.youlai.mall.product.model.vo.AttrGroupPageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -24,6 +25,5 @@ public interface AttrGroupMapper extends BaseMapper<AttrGroup> {
      * @param queryParams 查询参数
      * @return
      */
-    Page<AttrGroupBO> listPagedAttributeGroups(Page<AttrGroupBO> page, AttributeGroupPageQuery queryParams);
-
+    IPage<AttrGroupPageVO> listPagedAttrGroups(Page<AttrGroupPageVO> page, AttrGroupPageQuery queryParams);
 }

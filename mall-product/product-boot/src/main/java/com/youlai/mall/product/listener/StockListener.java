@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-
 /**
  * 商品库存释放监听器
  *
@@ -25,7 +24,6 @@ public class StockListener {
 
     private final SkuService skuService;
 
-
     /**
      * 订单取消释放库存
      */
@@ -38,11 +36,11 @@ public class StockListener {
             ackMode = "MANUAL" // 手动ACK
     )
     @RabbitHandler
-    public void releaseStock(String orderSn, Message message, Channel channel) throws IOException {
-        log.info("订单【{}】取消释放库存消息监听", orderSn);
+    public void releaseStock(String orderNo, Message message, Channel channel) throws IOException {
+        log.info("订单【{}】取消释放库存消息监听", orderNo);
         long deliveryTag = message.getMessageProperties().getDeliveryTag(); // 消息序号
         try {
-            skuService.unlockStock(orderSn);
+            skuService.unlockStock(orderNo);
             channel.basicAck(deliveryTag, false);
         } catch (Exception e) {
             channel.basicReject(deliveryTag, true);

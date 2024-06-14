@@ -1,7 +1,7 @@
 package com.youlai.auth.model;
 
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.mall.ums.dto.MemberAuthDTO;
+import com.youlai.mall.member.dto.MemberAuthDTO;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

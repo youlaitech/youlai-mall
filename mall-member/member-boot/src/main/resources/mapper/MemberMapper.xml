@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.ums.mapper.UmsMemberMapper">
+
+    <resultMap id="MemberPageResultMap" type="com.youlai.mall.member.model.bo.MemberBO">
+        <collection property="addresses"
+                    column="{memberId=id}"
+                    select="com.youlai.mall.member.mapper.AddressMapper$listAddressesByMemberId">
+        </collection>
+    </resultMap>
+
+    <!-- 会员分页列表 -->
+    <select id="listPagedMembers" resultMap="MemberPageResultMap">
+        SELECT
+            id,
+            nickName,
+            mobile,
+            gender,
+            birthday,
+            avatarUrl,
+            status,
+            create_time
+        FROM
+            ums_member
+        <where>
+            is_deleted = 0
+            <if test="queryParams.keywords != null and queryParams.keywords != ''">
+                AND
+                (
+                    nickName LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    OR
+                    mobile LIKE CONCAT('%',#{queryParams.keywords},'%')
+                )
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+</mapper>

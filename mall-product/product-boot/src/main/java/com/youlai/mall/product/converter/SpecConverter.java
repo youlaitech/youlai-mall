@@ -8,6 +8,7 @@ import com.youlai.mall.product.model.entity.Spec;
 import com.youlai.mall.product.model.vo.SpecPageVO;
 import com.youlai.mall.product.model.form.SpecForm;
 import com.youlai.mall.product.model.bo.SpecBO;
+import org.mapstruct.Mapping;
 
 /**
  * 转换器
@@ -16,8 +17,11 @@ import com.youlai.mall.product.model.bo.SpecBO;
  * @since 2024-06-13
  */
 @Mapper(componentModel = "spring")
-public interface SpecConverter{
+public interface SpecConverter {
 
+    @Mapping(target = "inputTypeLabel",
+            expression = "java(bo.getInputType()!=null ? bo.getInputType().getLabel(): Strings.EMPTY)"
+    )
     SpecPageVO toPageVo(SpecBO bo);
 
     Page<SpecPageVO> toPageVo(Page<SpecBO> bo);

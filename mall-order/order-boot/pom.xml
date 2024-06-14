@@ -55,7 +55,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>ums-api</artifactId>
+            <artifactId>member-api</artifactId>
         </dependency>
 
         <dependency>

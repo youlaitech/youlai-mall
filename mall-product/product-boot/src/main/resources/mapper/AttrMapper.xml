@@ -2,50 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.AttrMapper">
 
-    <!-- 属性分页列表 -->
-    <select id="listPagedAttributes" resultType="com.youlai.mall.product.model.bo.AttrBO">
+    <!-- 根据分组ID获取属性列表 -->
+    <select id="listAttrsByGroupId" resultType="com.youlai.mall.product.model.vo.AttrGroupPageVO$Attr">
         SELECT
-            t1.id,
-            t1.`name`,
-            t1.sort,
-            t1.type,
-            t1.input_type,
-            t1.selectable_values,
-            t2.NAME attributeGroupName,
-            t3.NAME categoryName,
-            t1.create_time
+            id,
+            `name`,
+            case input_type when 1 then '手工录入' when 2 then '列表选择' end as inputTypeLabel,
+            options,
+            sort,
+            create_time
         FROM
-            `pms_attr` t1
-                LEFT JOIN pms_attr_group t2 ON t1.attribute_group_id = t2.id
-                LEFT JOIN pms_category t3 ON t1.category_id = t3.id
+            `pms_attr`
         <where>
-            t1.is_deleted = 0
-            <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
-                AND (
-                    t1.name LIKE CONCAT('%',#{queryParams.keywords},'%')
-                    OR t2.name LIKE CONCAT('%',#{queryParams.keywords},'%')
-                    OR t3.name LIKE CONCAT('%',#{queryParams.keywords},'%')
-                )
-            </if>
-
-            <if test='queryParams.attributeGroupId!=null'>
-                AND t1.attribute_group_id = #{queryParams.attributeGroupId}
-            </if>
-
-            <if test='queryParams.attributeType!=null'>
-                AND t1.type = #{queryParams.attributeType}
-            </if>
-            <if test='queryParams.categoryId!=null'>
-                AND t1.category_id = #{queryParams.categoryId}
-            </if>
+            is_deleted = 0
+            AND attr_group_id = #{groupId}
         </where>
         ORDER BY
-            t2.sort ASC, t1.sort ASC
+            sort ASC
     </select>
 
     <!-- 属性组映射 -->
     <resultMap id="AttributeGroupMap" type="com.youlai.mall.product.model.vo.AttributeGroupVO">
-        <result column="attribute_group_id" property="groupId"/>
+        <result column="attr_group_id" property="groupId"/>
         <result column="attribute_group_name" property="groupName"/>
         <collection property="attributes"
                     ofType="com.youlai.mall.product.model.vo.AttributeVO"
@@ -66,11 +44,11 @@
         SELECT
             t1.id,
             t1.`name`,
-            t2.id AS attribute_group_id,
+            t2.id AS attr_group_id,
             t2.`name` AS attribute_group_name
         FROM
             pms_attr t1
-            INNER JOIN pms_attr_group t2 ON t1.attribute_group_id = t2.id AND t2.is_deleted = 0
+            INNER JOIN pms_attr_group t2 ON t1.attr_group_id = t2.id AND t2.is_deleted = 0
         WHERE
             t1.category_id = #{categoryId}
             AND t1.is_deleted = 0
@@ -79,32 +57,5 @@
             t1.sort
     </select>
 
-    <!-- 属性映射 -->
-    <resultMap id="AttributeMap" type="com.youlai.mall.product.model.vo.AttributeVO">
-        <result column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="input_type" property="inputType"/>
-        <result column="options"
-                property="options"
-                typeHandler="com.youlai.common.mybatis.handler.typehandler.CommaStringListHandler"
-        />
-    </resultMap>
-
-    <!-- 根据分类ID获取销售属性列表 -->
-    <select id="listSaleAttributes" resultMap="AttributeMap">
-        SELECT
-            t1.id,
-            t1.`name`,
-            t1.input_type,
-            t1.options
-        FROM
-            pms_attr t1
-        WHERE
-            t1.category_id = #{categoryId}
-            AND t1.is_deleted = 0
-            AND t1.type = 2
-        ORDER BY
-            t1.sort
-    </select>
 
 </mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.mall.sms.mapper.CouponMapper">
+
+    <!-- 优惠券分页列表 -->
+    <select id="getCouponPage" resultType="com.youlai.mall.sms.model.entity.Coupon">
+        SELECT
+            *
+        FROM
+            sms_coupon
+    </select>
+</mapper>

@@ -19,12 +19,12 @@ import jakarta.validation.Valid;
 
 
 /**
- *  规格前端控制器
+ * 规格前端控制器
  *
  * @author Ray Hao
  * @since 2024-06-13
  */
-@Tag(name = "商品规格接口")
+@Tag(name = "【Admin】规格接口")
 @RestController
 @RequestMapping("/api/v1/specs")
 @RequiredArgsConstructor

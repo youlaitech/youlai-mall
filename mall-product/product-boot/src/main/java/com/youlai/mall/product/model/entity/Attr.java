@@ -3,7 +3,6 @@ package com.youlai.mall.product.model.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
 import com.youlai.mall.product.enums.AttributeInputTypeEnum;
-import com.youlai.mall.product.enums.AttributeTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +20,7 @@ public class Attr extends BaseEntity {
     /**
      * 属性组主键
      */
-    private Long attributeGroupId;
+    private Long attrGroupId;
 
     /**
      * 属性名称

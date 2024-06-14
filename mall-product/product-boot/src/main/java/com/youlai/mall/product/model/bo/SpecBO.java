@@ -3,14 +3,19 @@ package com.youlai.mall.product.model.bo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.youlai.mall.product.enums.AttributeInputTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 /**
- * 
+ * 规格BO
  *
  * @author Ray Hao
  * @since 2024-06-13
@@ -19,6 +24,7 @@ import java.time.LocalDateTime;
 @Setter
 public class SpecBO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -30,12 +36,12 @@ public class SpecBO implements Serializable {
     private String name;
 
     /**
-     * 输入方式（1：手动输入，2：列表选择）
+     * 输入方式：1->手动输入，2->列表选择
      */
-    private Byte inputType;
+    private AttributeInputTypeEnum inputType;
 
     /**
-     * 可选值列表（以逗号分隔，仅当输入方式为2时使用）
+     * 可选值（以逗号分隔，仅当输入方式为2时使用）
      */
     private String options;
 

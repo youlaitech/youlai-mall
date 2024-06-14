@@ -1,13 +1,9 @@
 package com.youlai.mall.product.service;
 
-import com.youlai.mall.product.model.entity.Attr;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.mall.product.model.entity.Attr;
 import com.youlai.mall.product.model.form.AttrForm;
-import com.youlai.mall.product.model.query.AttributePageQuery;
 import com.youlai.mall.product.model.vo.AttributeGroupVO;
-import com.youlai.mall.product.model.vo.AttrPageVO;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youlai.mall.product.model.vo.AttributeVO;
 
 import java.util.List;
 
@@ -18,12 +14,6 @@ import java.util.List;
  * @since 2024-04-19
  */
 public interface AttrService extends IService<Attr> {
-
-
-    /**
-     * 属性分页列表
-     */
-    IPage<AttrPageVO> listPagedAttributes(AttributePageQuery queryParams);
 
 
     /**
@@ -63,10 +53,4 @@ public interface AttrService extends IService<Attr> {
      */
     List<AttributeGroupVO> listAttributesByCategoryId(Long categoryId);
 
-    /**
-     * 获取销售属性列表
-     *
-     * @param categoryId 商品分类ID
-     */
-    List<AttributeVO> listSaleAttributes(Long categoryId);
 }

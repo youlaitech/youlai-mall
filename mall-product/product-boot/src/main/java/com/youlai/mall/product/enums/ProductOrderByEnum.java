@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
 
-import java.util.Objects;
-
 /**
  * 商品排序字段枚举
  *

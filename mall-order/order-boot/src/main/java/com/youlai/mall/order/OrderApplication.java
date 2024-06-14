@@ -1,7 +1,7 @@
 package com.youlai.mall.order;
 
 import com.youlai.mall.product.api.SkuFeignClient;
-import com.youlai.mall.ums.api.MemberFeignClient;
+import com.youlai.mall.member.api.MemberFeignClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

@@ -2,18 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.SpecMapper">
 
-    <resultMap id="SpecPageMap" type="com.youlai.mall.product.model.vo.SpecPageVO">
-        <result column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="input_type" property="inputType"/>
-        <result column="options"
-                property="options"
-                typeHandler="com.youlai.common.mybatis.handler.typehandler.CommaStringListHandler"
-        />
-    </resultMap>
-
-    <!-- 分页列表 -->
-    <select id="listPagedSpecs" resultMap="SpecPageMap">
+    <!-- 规格分页列表 -->
+    <select id="listPagedSpecs" resultType="com.youlai.mall.product.model.bo.SpecBO">
         SELECT
             id,
             `name`,
@@ -40,7 +30,7 @@
             create_time DESC
     </select>
 
-    <!-- 属性映射 -->
+    <!-- 规格映射 -->
     <resultMap id="SpecMap" type="com.youlai.mall.product.model.vo.SpecVO">
         <result column="id" property="id"/>
         <result column="name" property="name"/>
@@ -54,18 +44,16 @@
     <!-- 根据分类ID获取销售属性列表 -->
     <select id="listSpecsByCategoryId" resultMap="SpecMap">
         SELECT
-            t1.id,
-            t1.`name`,
-            t1.input_type,
-            t1.options
+            id,
+            `name`,
+            input_type,
+            options
         FROM
-            pms_attr t1
+            pms_spec
         WHERE
-            t1.category_id = #{categoryId}
-          AND t1.is_deleted = 0
-          AND t1.type = 2
+            category_id = #{categoryId} AND is_deleted = 0
         ORDER BY
-            t1.sort
+            sort
     </select>
 
 </mapper>

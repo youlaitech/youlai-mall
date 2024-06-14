@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: mall-member
+  profiles:
+    active: dev

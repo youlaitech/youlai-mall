@@ -1,27 +1,19 @@
 package com.youlai.mall.product.service.impl;
 
-import com.youlai.mall.product.converter.AttrConverter;
-import com.youlai.mall.product.model.bo.AttrBO;
-import com.youlai.mall.product.model.entity.Attr;
-import com.youlai.mall.product.mapper.AttrMapper;
-import com.youlai.mall.product.model.form.AttrForm;
-import com.youlai.mall.product.model.vo.AttrPageVO;
-import com.youlai.mall.product.model.vo.AttributeGroupVO;
-import com.youlai.mall.product.model.vo.AttributeVO;
-import com.youlai.mall.product.service.AttrService;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.mall.product.converter.AttrConverter;
+import com.youlai.mall.product.mapper.AttrMapper;
+import com.youlai.mall.product.model.entity.Attr;
+import com.youlai.mall.product.model.form.AttrForm;
+import com.youlai.mall.product.model.vo.AttributeGroupVO;
+import com.youlai.mall.product.service.AttrService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.youlai.mall.product.model.query.AttributePageQuery;
-
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Arrays;
 import java.util.List;
-
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.StrUtil;
 
 /**
  * 属性服务实现类
@@ -36,21 +28,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
     private final AttrConverter attributeConverter;
 
     /**
-     * 获取属性分页列表
-     *
-     * @param queryParams 查询参数
-     * @return {@link IPage< AttrPageVO >} 属性分页列表
-     */
-    @Override
-    public IPage<AttrPageVO> listPagedAttributes(AttributePageQuery queryParams) {
-        Page<AttrBO> page = this.baseMapper.listPagedAttributes(
-                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
-                queryParams
-        );
-        return attributeConverter.toPageVo(page);
-    }
-
-    /**
      * 获取属性表单数据
      *
      * @param id 属性ID
@@ -58,7 +35,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
     @Override
     public AttrForm getAttributeFormData(Long id) {
         Attr entity = this.getById(id);
-        return attributeConverter.convertToForm(entity);
+        return attributeConverter.toForm(entity);
     }
 
     /**
@@ -108,16 +85,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
     @Override
     public List<AttributeGroupVO> listAttributesByCategoryId(Long categoryId) {
         return this.baseMapper.listAttributesByCategoryId(categoryId);
-    }
-
-    /**
-     * 获取销售属性列表
-     *
-     * @param categoryId 商品分类ID
-     */
-    @Override
-    public List<AttributeVO> listSaleAttributes(Long categoryId) {
-        return this.baseMapper.listSaleAttributes(categoryId);
     }
 
 }

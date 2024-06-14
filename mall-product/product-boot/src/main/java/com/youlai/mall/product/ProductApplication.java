@@ -1,6 +1,6 @@
 package com.youlai.mall.product;
 
-import com.youlai.mall.ums.api.MemberFeignClient;
+import com.youlai.mall.member.api.MemberFeignClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

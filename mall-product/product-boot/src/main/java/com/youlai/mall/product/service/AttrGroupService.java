@@ -1,14 +1,11 @@
 package com.youlai.mall.product.service;
 
-import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.entity.AttrGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.form.AttrGroupForm;
-import com.youlai.mall.product.model.query.AttributeGroupPageQuery;
-import com.youlai.mall.product.model.vo.AttributeGroupPageVO;
+import com.youlai.mall.product.model.query.AttrGroupPageQuery;
+import com.youlai.mall.product.model.vo.AttrGroupPageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-
-import java.util.List;
 
 /**
  * 属性组 服务类
@@ -24,17 +21,7 @@ public interface AttrGroupService extends IService<AttrGroup> {
      *
      * @return
      */
-    IPage<AttributeGroupPageVO> listPagedAttributeGroups(AttributeGroupPageQuery queryParams);
-
-
-    /**
-     * 获取属性组表单数据
-     *
-     * @param id 属性组ID
-     * @return
-     */
-     AttrGroupForm getAttributeGroupFormData(Long id);
-
+    IPage<AttrGroupPageVO> listPagedAttrGroups(AttrGroupPageQuery queryParams);
 
     /**
      * 新增属性组
@@ -61,10 +48,6 @@ public interface AttrGroupService extends IService<AttrGroup> {
      */
     void deleteAttributeGroups(String ids);
 
-    /**
-     * 获取属性组选项列表
-     *
-     * @return
-     */
-    List<Option> listAttributeOptions(Long categoryId);
+
+
 }

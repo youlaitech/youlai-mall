@@ -1,7 +1,7 @@
 package com.youlai.mall.order.model.vo;
 
 import com.youlai.mall.order.model.dto.OrderItemDTO;
-import com.youlai.mall.ums.dto.MemberAddressDTO;
+import com.youlai.mall.member.dto.MemberAddressDTO;
  import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
