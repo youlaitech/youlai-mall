@@ -17,7 +17,7 @@
         <module>youlai-auth</module>
 
         <!-- 商城模块 -->
-        <module>mall-marketing</module>
+        <module>mall-sales</module>
         <module>mall-member</module>
         <module>mall-product</module>
         <module>mall-order</module>
@@ -244,7 +244,7 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>marketing-api</artifactId>
+                <artifactId>sales-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

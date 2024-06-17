@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: mall-sales
+  profiles:
+    active: dev
+

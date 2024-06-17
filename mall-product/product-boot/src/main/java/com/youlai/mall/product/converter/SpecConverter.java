@@ -11,7 +11,7 @@ import com.youlai.mall.product.model.bo.SpecBO;
 import org.mapstruct.Mapping;
 
 /**
- * 转换器
+ * 规格转换器
  *
  * @author Ray Hao
  * @since 2024-06-13
@@ -20,7 +20,7 @@ import org.mapstruct.Mapping;
 public interface SpecConverter {
 
     @Mapping(target = "inputTypeLabel",
-            expression = "java(bo.getInputType()!=null ? bo.getInputType().getLabel(): Strings.EMPTY)"
+            expression = "java(bo.getInputType()!=null ? bo.getInputType().getLabel(): \"\")"
     )
     SpecPageVO toPageVo(SpecBO bo);
 
@@ -28,6 +28,5 @@ public interface SpecConverter {
 
     SpecForm toForm(Spec entity);
 
-    @InheritInverseConfiguration(name = "toForm")
-    Spec toEntity(SpecForm entity);
+    Spec toEntity(SpecForm formData);
 }

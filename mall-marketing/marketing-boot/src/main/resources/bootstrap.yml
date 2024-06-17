@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: mall-marketing
-  profiles:
-    active: dev
-

@@ -52,7 +52,16 @@ public class AttributeController {
         return Result.judge(result);
     }
 
-    @ApiOperationSupport(order = 3)
+    @ApiOperationSupport(order = 2)
+    @Operation(summary = "获取属性组表单")
+    @GetMapping("/group/form")
+    public Result saveAttributeGroup(@RequestBody @Valid AttrGroupForm formData) {
+        boolean result = attrGroupService.saveAttributeGroup(formData);
+        return Result.judge(result);
+    }
+
+
+    @ApiOperationSupport(order = 4)
     @Operation(summary = "修改属性组")
     @PutMapping(value = "/group/{id}")
     public Result updateAttributeGroup(@Parameter(description = "属性组ID") @PathVariable Long id,
@@ -61,7 +70,7 @@ public class AttributeController {
         return Result.judge(result);
     }
 
-    @ApiOperationSupport(order = 4)
+    @ApiOperationSupport(order = 5)
     @Operation(summary = "删除属性组")
     @DeleteMapping("/group/{ids}")
     public Result deleteAttributeGroups(
@@ -71,7 +80,7 @@ public class AttributeController {
         return Result.success();
     }
 
-    @ApiOperationSupport(order = 5)
+    @ApiOperationSupport(order = 6)
     @Operation(summary = "新增属性")
     @PostMapping
     public Result saveAttribute(@RequestBody @Valid AttrForm formData) {
@@ -79,7 +88,7 @@ public class AttributeController {
         return Result.judge(result);
     }
 
-    @ApiOperationSupport(order = 6)
+    @ApiOperationSupport(order = 7)
     @Operation(summary = "属性表单数据")
     @GetMapping("/{id}/form")
     public Result<AttrForm> getAttributeForm(
@@ -89,7 +98,7 @@ public class AttributeController {
         return Result.success(formData);
     }
 
-    @ApiOperationSupport(order = 7)
+    @ApiOperationSupport(order = )
     @Operation(summary = "修改属性")
     @PutMapping(value = "/{id}")
     public Result updateAttribute(@Parameter(description = "属性ID") @PathVariable Long id,
@@ -98,7 +107,7 @@ public class AttributeController {
         return Result.judge(result);
     }
 
-    @ApiOperationSupport(order = 8)
+    @ApiOperationSupport(order = 9)
     @Operation(summary = "删除属性")
     @DeleteMapping("/{ids}")
     public Result deleteAttributes(
