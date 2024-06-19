@@ -3,15 +3,15 @@
 
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 80036 (8.0.36)
- Source Host           : localhost:3306
+ Source Server Version : 80027
+ Source Host           : 192.168.10.192:3306
  Source Schema         : youlai_system
 
  Target Server Type    : MySQL
- Target Server Version : 80036 (8.0.36)
+ Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 03/06/2024 08:16:34
+ Date: 18/06/2024 23:22:29
 */
 
 SET NAMES utf8mb4;
@@ -57,7 +57,7 @@ CREATE TABLE `sys_dict`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典数据表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -79,8 +79,8 @@ CREATE TABLE `sys_dict_type`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `type_code`(`code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `type_code`(`code`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -127,14 +127,13 @@ INSERT INTO `sys_menu` VALUES (6, 1, 1, '字典管理', 'dict', 'system/dict/ind
 INSERT INTO `sys_menu` VALUES (9, 0, 2, '营销管理', '/sms', 'Layout', NULL, 'number', 5, 1, NULL, NULL, NULL, NULL, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (10, 9, 1, '广告列表', 'advert', 'sms/advert/index', NULL, 'advert', 1, 1, NULL, NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (11, 0, 1, '商品管理', '/product', 'Layout', NULL, 'el-icon-Goods', 2, 1, '/product/goods', '0', NULL, 1, NULL, '2021-08-28 09:12:21', '2024-03-03 23:54:35');
-INSERT INTO `sys_menu` VALUES (12, 11, 1, '商品列表', 'goods', 'product/goods/index', NULL, 'goods-list', 1, 1, NULL, NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
+INSERT INTO `sys_menu` VALUES (12, 11, 1, '商品列表', 'spu', 'product/spu/index', NULL, 'goods-list', 1, 1, NULL, NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (13, 0, 2, '订单管理', '/oms', 'Layout', NULL, 'el-icon-ShoppingCart', 3, 1, '/oms/order', '0', 1, 1, NULL, '2021-08-28 09:12:21', '2024-03-03 23:52:32');
 INSERT INTO `sys_menu` VALUES (14, 13, 1, '订单列表', 'order', 'oms/order/index', NULL, 'el-icon-Document', 1, 1, NULL, 'null,13', NULL, 1, NULL, '2021-08-28 09:12:21', '2024-03-03 23:45:09');
-INSERT INTO `sys_menu` VALUES (15, 0, 1, '会员管理', '/member', 'Layout', NULL, 'user', 4, 1, '/member/member', NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (16, 15, 1, '会员列表', 'member', 'member/member/index', NULL, 'peoples', 1, 1, NULL, NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
+INSERT INTO `sys_menu` VALUES (15, 0, 1, '会员管理', '/ums', 'Layout', NULL, 'user', 4, 1, '/ums/member', NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
+INSERT INTO `sys_menu` VALUES (16, 15, 1, '会员列表', 'member', 'ums/member/index', NULL, 'peoples', 1, 1, NULL, NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (17, 11, 1, '品牌管理', 'brand', 'product/brand/index', NULL, 'brand', 5, 1, NULL, NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (18, 11, 1, '商品分类', 'category', 'product/category/index', NULL, 'menu', 3, 1, NULL, NULL, NULL, 1, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
-INSERT INTO `sys_menu` VALUES (19, 11, 1, '商品上架', 'goods-detail', 'product/goods/detail', NULL, 'publish', 2, 1, NULL, NULL, NULL, NULL, NULL, '2021-08-28 09:12:21', '2021-08-28 09:12:21');
 INSERT INTO `sys_menu` VALUES (20, 0, 2, '多级菜单', '/multi-level', 'Layout', NULL, 'nested', 7, 1, '/nested/level1/level2', NULL, NULL, NULL, NULL, '2022-02-16 23:11:00', '2022-02-16 23:11:00');
 INSERT INTO `sys_menu` VALUES (21, 20, 1, '菜单一级', 'level1', 'demo/multi-level/level1', NULL, '', 1, 1, '/nested/level1/level2', NULL, NULL, NULL, NULL, '2022-02-16 23:13:38', '2022-02-16 23:13:38');
 INSERT INTO `sys_menu` VALUES (22, 21, 1, '菜单二级', 'level2', 'demo/multi-level/children/level2', NULL, '', 1, 1, '/nested/level1/level2/level3', NULL, NULL, NULL, NULL, '2022-02-16 23:14:23', '2022-02-16 23:14:23');
@@ -171,10 +170,6 @@ INSERT INTO `sys_menu` VALUES (94, 18, 4, '分类查询', '', NULL, 'pms:categor
 INSERT INTO `sys_menu` VALUES (95, 18, 4, '分类新增', '', NULL, 'pms:category:add', '', 2, 1, '', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (96, 18, 4, '分类修改', '', NULL, 'pms:category:edit', '', 3, 1, '', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (97, 18, 4, '分类删除', '', NULL, 'pms:category:delete', '', 4, 1, '', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (98, 11, 1, '属性管理', 'attr', 'layout/secondary', NULL, 'rate', 6, 1, '', '0,11', 0, 0, NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (99, 98, 1, '属性分组', 'attr-group', 'product/attr/group', NULL, 'api', 1, 1, '', '0,11,98', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (100, 98, 1, '基础属性', 'base-attr', 'product/attr/index', NULL, 'multi_level', 2, 1, '', '0,11,98', NULL, NULL, '{\"typehandler\": \"1\"}', NULL, NULL);
-INSERT INTO `sys_menu` VALUES (101, 98, 1, '销售属性', 'sale-attr', 'product/attr/index', NULL, 'multi_level', 3, 1, '', '0,11,98', NULL, NULL, '{\"typehandler\": \"2\"}', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -191,7 +186,7 @@ CREATE TABLE `sys_role`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识(0-未删除；1-已删除)',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `name`(`name` ASC) USING BTREE
+  UNIQUE INDEX `name`(`name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -293,7 +288,7 @@ CREATE TABLE `sys_user`  (
   `update_by` bigint NULL DEFAULT NULL COMMENT '更新人ID',
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除标识(0:未删除;1:已删除)',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `login_name`(`username` ASC) USING BTREE
+  UNIQUE INDEX `login_name`(`username`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
