@@ -35,7 +35,7 @@ public class AttrForm implements Serializable {
     private String name;
 
     @Schema(description = "输入方式（1：手动输入，2：从列表选择）",example = "2")
-    private AttributeInputTypeEnum inputType;
+    private Integer inputType;
 
     @Schema(description = "可选值列表（以逗号分隔，仅当输入方式为2时使用）",example = "1920x1080,2560x1440")
     private String options;

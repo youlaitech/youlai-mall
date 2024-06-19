@@ -7,14 +7,14 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import com.youlai.mall.product.model.vo.AttributeGroupPageVO;
+import com.youlai.mall.product.model.vo.AttrGroupPageVO;
 
 @Mapper(componentModel = "spring")
 public interface AttrGroupConverter {
 
-    AttributeGroupPageVO toPageVo(AttrGroupBO bo);
+    AttrGroupPageVO toPageVo(AttrGroupBO bo);
 
-    Page<AttributeGroupPageVO> toPageVo(Page<AttrGroupBO> bo);
+    Page<AttrGroupPageVO> toPageVo(Page<AttrGroupBO> bo);
 
     AttrGroupForm toForm(AttrGroup entity);
 

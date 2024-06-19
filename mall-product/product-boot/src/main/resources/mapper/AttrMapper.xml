@@ -22,11 +22,11 @@
     </select>
 
     <!-- 属性组映射 -->
-    <resultMap id="AttributeGroupMap" type="com.youlai.mall.product.model.vo.AttributeGroupVO">
+    <resultMap id="AttributeGroupMap" type="com.youlai.mall.product.model.vo.AttrGroupVO">
         <result column="attr_group_id" property="groupId"/>
         <result column="attribute_group_name" property="groupName"/>
         <collection property="attributes"
-                    ofType="com.youlai.mall.product.model.vo.AttributeVO"
+                    ofType="com.youlai.mall.product.model.vo.AttrVO"
                     javaType="java.util.List"
         >
             <result column="id" property="id"/>
@@ -40,7 +40,7 @@
     </resultMap>
 
     <!-- 根据分类ID获取属性组&列表 -->
-    <select id="listAttributesByCategoryId" resultMap="AttributeGroupMap">
+    <select id="listAttrsByCategoryId" resultMap="AttributeGroupMap">
         SELECT
             t1.id,
             t1.`name`,

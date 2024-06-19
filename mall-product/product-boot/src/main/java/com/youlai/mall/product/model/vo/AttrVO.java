@@ -2,7 +2,6 @@ package com.youlai.mall.product.model.vo;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -17,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "属性VO")
-public class AttributeVO implements Serializable {
+public class AttrVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -31,7 +30,9 @@ public class AttributeVO implements Serializable {
     @Schema(description = "属性输入类型：1->手动输入；2->列表选择")
     private Integer inputType;
 
-    @Schema(description = "可选列表(仅当input_type是2使用)",example = "[\"1920*1080\",\"2560*1440\",\"3840*2160\"]")
+    @Schema(description = "可选列表(仅当input_type是2使用)",example = "1920*1080,2560*1440,3840*2160")
     private String options;
-    ;
+
+    @Schema(description = "排序")
+    private Integer sort;
 }

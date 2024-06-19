@@ -29,7 +29,16 @@ public interface AttrGroupService extends IService<AttrGroup> {
      * @param formData 属性组表单对象
      * @return
      */
-    boolean saveAttributeGroup(AttrGroupForm formData);
+    boolean saveAttrGroup(AttrGroupForm formData);
+
+
+    /**
+     * 获取属性组表单数据
+     *
+     * @param id 属性组ID
+     * @return
+     */
+    AttrGroupForm getAttrGroupForm(Long id);
 
     /**
      * 修改属性组
@@ -38,7 +47,7 @@ public interface AttrGroupService extends IService<AttrGroup> {
      * @param formData 属性组表单对象
      * @return
      */
-    boolean updateAttributeGroup(Long id, AttrGroupForm formData);
+    boolean updateAttrGroup(Long id, AttrGroupForm formData);
 
 
     /**
@@ -46,7 +55,7 @@ public interface AttrGroupService extends IService<AttrGroup> {
      *
      * @param ids 属性组ID，多个以英文逗号(,)分割
      */
-    void deleteAttributeGroups(String ids);
+    void deleteAttrGroups(String ids);
 
 
 

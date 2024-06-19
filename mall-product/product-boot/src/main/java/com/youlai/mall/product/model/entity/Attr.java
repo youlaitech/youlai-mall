@@ -30,7 +30,7 @@ public class Attr extends BaseEntity {
     /**
      * 输入方式：1->手动输入；2->列表选择
      */
-    private AttributeInputTypeEnum inputType;
+    private Integer inputType;
 
     /**
      * 可选值列表（以逗号分隔，仅当输入方式为2时使用）

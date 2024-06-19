@@ -32,10 +32,6 @@ public class AttrGroupPageVO implements Serializable {
     @Schema(description = "排序")
     private Integer sort;
 
-    @Schema(description = "创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime createTime;
-
     @Schema(description = "属性列表")
     private List<Attr> attrs;
 

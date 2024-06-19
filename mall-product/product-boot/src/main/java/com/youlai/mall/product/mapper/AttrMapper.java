@@ -5,7 +5,7 @@ import com.youlai.mall.product.model.entity.Attr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.product.model.query.AttrGroupPageQuery;
-import com.youlai.mall.product.model.vo.AttributeGroupVO;
+import com.youlai.mall.product.model.vo.AttrGroupVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -34,5 +34,5 @@ public interface AttrMapper extends BaseMapper<Attr> {
      *
      * @param categoryId 分类ID
      */
-    List<AttributeGroupVO> listAttributesByCategoryId(Long categoryId);
+    List<AttrGroupVO> listAttrsByCategoryId(Long categoryId);
 }

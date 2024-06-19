@@ -3,7 +3,7 @@ package com.youlai.mall.product.controller.admin;
 import com.youlai.common.result.Result;
 import com.youlai.common.web.model.Option;
 import com.youlai.mall.product.model.form.CategoryForm;
-import com.youlai.mall.product.model.vo.AttributeGroupVO;
+import com.youlai.mall.product.model.vo.AttrGroupVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
 import com.youlai.mall.product.model.vo.SpecVO;
 import com.youlai.mall.product.service.AttrService;
@@ -77,10 +77,10 @@ public class CategoryController {
 
     @Operation(summary = "获取属性列表")
     @GetMapping("/{categoryId}/attributes")
-    public Result<List<AttributeGroupVO>> listAttributesByCategoryId(
+    public Result<List<AttrGroupVO>> listAttrsByCategoryId(
             @Parameter(description = "分类ID", example = "3") @PathVariable Long categoryId
     ) {
-        List<AttributeGroupVO> list = attrService.listAttributesByCategoryId(categoryId);
+        List<AttrGroupVO> list = attrService.listAttrsByCategoryId(categoryId);
         return Result.success(list);
     }
 

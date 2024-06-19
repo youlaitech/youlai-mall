@@ -15,7 +15,7 @@ import java.util.List;
 @Schema( description = "属性组VO")
 @Getter
 @Setter
-public class AttributeGroupVO {
+public class AttrGroupVO {
 
     @Schema(description = "属性组ID",example = "1")
     private Long groupId;
@@ -24,6 +24,6 @@ public class AttributeGroupVO {
     private String groupName;
 
     @Schema(description = "属性列表")
-    private List<AttributeVO> attributes;
+    private List<AttrVO> attrs;
 
 }
