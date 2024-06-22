@@ -44,5 +44,5 @@ public interface CouponConverter {
     @Mappings({
             @Mapping(target = "discount",expression = "java(cn.hutool.core.util.NumberUtil.mul(entity.getDiscount(),10L))"),
     })
-    CouponForm toForm(Coupon entity);
+    CouponForm convertToForm(Coupon entity);
 }

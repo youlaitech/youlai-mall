@@ -17,9 +17,15 @@ public interface SpuAttrValueService extends IService<SpuAttrValue> {
     /**
      * 保存商品属性
      *
-     * @param spuId SPU ID
+     * @param spuId      SPU ID
      * @param attrValues 属性列表
      */
     void saveAttributeValues(Long spuId, List<SpuForm.AttrValue> attrValues);
 
+    /**
+     * 判断属性是否有商品引用
+     *
+     * @param attrId 属性ID
+     */
+    boolean isAttrReferenced(Long attrId);
 }

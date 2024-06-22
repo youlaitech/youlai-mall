@@ -46,5 +46,17 @@ public class SpuAttrValueServiceImpl extends ServiceImpl<SpuAttrValueMapper, Spu
         }
     }
 
+    /**
+     * 判断属性是否有商品引用
+     *
+     * @param attrId 属性ID
+     */
+    @Override
+    public boolean isAttrReferenced(Long attrId) {
+        long count = this.count(new LambdaQueryWrapper<SpuAttrValue>()
+                .eq(SpuAttrValue::getAttrId, attrId));
+        return count > 0;
+    }
+
 
 }

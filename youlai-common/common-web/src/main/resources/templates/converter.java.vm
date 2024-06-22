@@ -23,8 +23,8 @@ public interface ${entity}Converter{
 
     Page<${entity}PageVO> toPageVo(Page<${entity}BO> bo);
 
-    ${entity}Form toForm(${entity} entity);
+    ${entity}Form convertToForm(${entity} entity);
 
-    @InheritInverseConfiguration(name = "toForm")
+    @InheritInverseConfiguration(name = "convertToForm")
     ${entity} toEntity(${entity}Form entity);
 }

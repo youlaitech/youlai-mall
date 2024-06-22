@@ -26,7 +26,7 @@ public interface SpecConverter {
 
     Page<SpecPageVO> toPageVo(Page<SpecBO> bo);
 
-    SpecForm toForm(Spec entity);
+    SpecForm convertToForm(Spec entity);
 
     Spec toEntity(SpecForm formData);
 }

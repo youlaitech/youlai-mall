@@ -18,8 +18,8 @@ public interface DictConverter {
 
     Page<DictPageVO> entity2Page(Page<SysDict> page);
 
-    DictForm toForm(SysDict entity);
+    DictForm convertToForm(SysDict entity);
 
-    @InheritInverseConfiguration(name="toForm")
+    @InheritInverseConfiguration(name="convertToForm")
     SysDict toEntity(DictForm entity);
 }

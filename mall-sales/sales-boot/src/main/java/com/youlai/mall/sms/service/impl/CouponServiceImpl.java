@@ -70,7 +70,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
     public CouponForm getCouponFormData(Long couponId) {
         Coupon entity = this.getById(couponId);
         // 实体转换entity->form
-        CouponForm couponForm = couponConverter.toForm(entity);
+        CouponForm couponForm = couponConverter.convertToForm(entity);
 
         Integer applicationScope = couponForm.getApplicationScope();
 

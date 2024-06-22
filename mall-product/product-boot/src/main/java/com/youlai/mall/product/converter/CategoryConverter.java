@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface CategoryConverter {
-    CategoryForm toForm(Category entity);
+    CategoryForm convertToForm(Category entity);
 
     Category toEntity(CategoryForm formData);
 

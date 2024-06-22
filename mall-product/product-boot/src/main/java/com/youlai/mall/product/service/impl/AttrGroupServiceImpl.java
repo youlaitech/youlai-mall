@@ -16,8 +16,10 @@ import com.youlai.mall.product.model.query.AttrGroupPageQuery;
 import com.youlai.mall.product.model.vo.AttrGroupPageVO;
 import com.youlai.mall.product.service.AttrGroupService;
 import com.youlai.mall.product.service.AttrService;
+import com.youlai.mall.product.service.SpuAttrValueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,6 +39,8 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
     private final AttrGroupConverter attrGroupConverter;
 
     private final AttrConverter attrConverter;
+
+    private final SpuAttrValueService spuAttrValueService;
 
     /**
      * 获取属性组分页列表
@@ -82,13 +86,13 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
         AttrGroup attrGroup = this.getById(groupId);
         Assert.isTrue(attrGroup != null, "属性组不存在");
 
-        AttrGroupForm attrGroupForm = attrGroupConverter.toForm(attrGroup);
+        AttrGroupForm attrGroupForm = attrGroupConverter.convertToForm(attrGroup);
 
         // 属性列表
         List<Attr> attrEntities = attrService.list(new LambdaQueryWrapper<Attr>()
                 .eq(Attr::getAttrGroupId, groupId)
         );
-        List<AttrGroupForm.Attr> attrList = attrConverter.toForm(attrEntities);
+        List<AttrGroupForm.Attr> attrList = attrConverter.convertToForm(attrEntities);
         attrGroupForm.setAttrs(attrList);
 
         return attrGroupForm;
@@ -156,9 +160,9 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
      * @param ids 属性组ID，多个以英文逗号(,)分割
      */
     @Override
+    @Transactional
     public void deleteAttrGroups(String ids) {
-        Assert.isTrue(StrUtil.isNotBlank(ids), "删除的属性组数据为空");
-        // 逻辑删除
+        Assert.isTrue(StrUtil.isNotBlank(ids), "请选择需要删除的属性组");
         List<Long> idList = Arrays.stream(ids.split(","))
                 .map(Long::parseLong)
                 .toList();
@@ -167,9 +171,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
             boolean result = this.removeById(groupId);
             if (result) {
                 // 删除属性组下的属性
-                attrService.remove(
-                        new LambdaQueryWrapper<Attr>().eq(Attr::getAttrGroupId, groupId)
-                );
+                attrService.removeByGroupId(groupId);
             }
         }
     }

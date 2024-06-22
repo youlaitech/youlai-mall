@@ -2,9 +2,7 @@ package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.entity.Attr;
-import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.vo.AttrGroupVO;
-import com.youlai.mall.product.model.vo.AttrVO;
 
 import java.util.List;
 
@@ -22,4 +20,11 @@ public interface AttrService extends IService<Attr> {
      * @param categoryId 分类ID
      */
     List<AttrGroupVO> listAttrsByCategoryId(Long categoryId);
+
+    /**
+     * 根据分组ID删除属性
+     *
+     * @param groupId 分组ID
+     */
+    void removeByGroupId(Long groupId);
 }

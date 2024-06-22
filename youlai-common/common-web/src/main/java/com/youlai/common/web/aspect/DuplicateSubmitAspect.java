@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.annotation.PreventDuplicateResubmit;
-import com.youlai.common.web.exception.BizException;
+import com.youlai.common.web.exception.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +56,7 @@ public class DuplicateSubmitAspect {
             RLock lock = redissonClient.getLock(resubmitLockKey);
             boolean lockResult = lock.tryLock(0, expire, TimeUnit.SECONDS); // 获取锁失败，直接返回 false
             if (!lockResult) {
-                throw new BizException(ResultCode.REPEAT_SUBMIT_ERROR); // 抛出重复提交提示信息
+                throw new BusinessException(ResultCode.REPEAT_SUBMIT_ERROR); // 抛出重复提交提示信息
             }
         }
         return pjp.proceed();

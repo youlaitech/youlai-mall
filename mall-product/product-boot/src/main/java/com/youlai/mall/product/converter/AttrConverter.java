@@ -11,8 +11,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AttrConverter {
 
-    AttrForm toForm(Attr entity);
-    List<AttrGroupForm.Attr> toForm(List<Attr> entity);
+    AttrForm convertToForm(Attr entity);
+    List<AttrGroupForm.Attr> convertToForm(List<Attr> entity);
 
     Attr convertToEntity(AttrGroupForm.Attr attr);
     List<Attr> convertToEntity(List<AttrGroupForm.Attr> attrs);

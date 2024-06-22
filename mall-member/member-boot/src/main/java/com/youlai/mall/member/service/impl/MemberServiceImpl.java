@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.result.ResultCode;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.web.exception.BizException;
+import com.youlai.common.web.exception.BusinessException;
 import com.youlai.mall.member.convert.AddressConvert;
 import com.youlai.mall.member.convert.MemberConvert;
 import com.youlai.mall.member.dto.MemberAddressDTO;
@@ -76,7 +76,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         );
 
         if (entity == null) {
-            throw new BizException(ResultCode.USER_NOT_EXIST);
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
         return memberConvert.entity2OpenidAuthDTO(entity);
     }
@@ -98,7 +98,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         );
 
         if (entity == null) {
-            throw new BizException(ResultCode.USER_NOT_EXIST);
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
         return memberConvert.entity2MobileAuthDTO(entity);
     }

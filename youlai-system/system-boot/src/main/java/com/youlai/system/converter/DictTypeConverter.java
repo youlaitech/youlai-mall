@@ -17,7 +17,7 @@ public interface DictTypeConverter {
 
     Page<DictTypePageVO> entity2Page(Page<SysDictType> page);
 
-    DictTypeForm toForm(SysDictType entity);
+    DictTypeForm convertToForm(SysDictType entity);
 
     SysDictType toEntity(DictTypeForm entity);
 }

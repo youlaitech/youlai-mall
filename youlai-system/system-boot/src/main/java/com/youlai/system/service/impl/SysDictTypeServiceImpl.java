@@ -94,7 +94,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         Assert.isTrue(entity != null, "字典类型不存在");
 
         // 实体转换
-        DictTypeForm dictTypeForm = dictTypeConverter.toForm(entity);
+        DictTypeForm dictTypeForm = dictTypeConverter.convertToForm(entity);
         return dictTypeForm;
     }
 

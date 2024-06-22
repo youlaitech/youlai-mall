@@ -288,7 +288,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public MenuForm getMenuForm(Long id) {
         SysMenu entity = this.getById(id);
         Assert.isTrue(entity != null, "菜单不存在");
-        MenuForm formData = menuConverter.toForm(entity);
+        MenuForm formData = menuConverter.convertToForm(entity);
         // 路由参数字符串 {"id":"1","name":"张三"} 转换为 [{key:"id", value:"1"}, {key:"name", value:"张三"}]
         String params = entity.getParams();
         if (StrUtil.isNotBlank(params)) {

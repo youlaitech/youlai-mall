@@ -16,8 +16,8 @@ public interface AttrGroupConverter {
 
     Page<AttrGroupPageVO> toPageVo(Page<AttrGroupBO> bo);
 
-    AttrGroupForm toForm(AttrGroup entity);
+    AttrGroupForm convertToForm(AttrGroup entity);
 
-    @InheritInverseConfiguration(name = "toForm")
+    @InheritInverseConfiguration(name = "convertToForm")
     AttrGroup toEntity(AttrGroupForm entity);
 }

@@ -85,7 +85,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         Assert.isTrue(entity != null, "字典数据项不存在");
 
         // 实体转换
-        DictForm dictForm = dictConverter.toForm(entity);
+        DictForm dictForm = dictConverter.convertToForm(entity);
         return dictForm;
     }
 

@@ -33,5 +33,5 @@ public interface RoleConverter {
 
     SysRole toEntity(RoleForm roleForm);
 
-    RoleForm toForm(SysRole entity);
+    RoleForm convertToForm(SysRole entity);
 }

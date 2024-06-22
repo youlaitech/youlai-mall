@@ -68,7 +68,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     @Override
     public ${entity}Form get${entity}FormData(Long id) {
         ${entity} entity = this.getById(id);
-        return ${firstCharLowerCaseEntity}Converter.toForm(entity);
+        return ${firstCharLowerCaseEntity}Converter.convertToForm(entity);
     }
     
     /**

@@ -127,7 +127,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      */
     @Override
     public Long saveDept(DeptForm formData) {
-        SysDept entity = deptConverter.toForm(formData);
+        SysDept entity = deptConverter.convertToForm(formData);
         // 部门层级路径
         String treePath = buildTreePath(formData.getParentId());
         entity.setTreePath(treePath);
@@ -198,7 +198,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                         SysDept::getSort
                 ));
 
-        return deptConverter.toForm(entity);
+        return deptConverter.convertToForm(entity);
     }
 
 

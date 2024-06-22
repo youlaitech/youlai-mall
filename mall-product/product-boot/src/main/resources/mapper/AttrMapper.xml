@@ -25,7 +25,7 @@
     <resultMap id="AttributeGroupMap" type="com.youlai.mall.product.model.vo.AttrGroupVO">
         <result column="attr_group_id" property="groupId"/>
         <result column="attribute_group_name" property="groupName"/>
-        <collection property="attributes"
+        <collection property="attrs"
                     ofType="com.youlai.mall.product.model.vo.AttrVO"
                     javaType="java.util.List"
         >

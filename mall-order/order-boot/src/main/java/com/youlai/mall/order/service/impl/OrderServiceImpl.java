@@ -3,7 +3,6 @@ package com.youlai.mall.order.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -25,7 +24,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.rabbitmq.constant.RabbitMqConstants;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.web.exception.BizException;
+import com.youlai.common.web.exception.BusinessException;
 import com.youlai.mall.order.config.property.WxPayProperties;
 import com.youlai.mall.order.converter.OrderConverter;
 import com.youlai.mall.order.enums.ApprovalStatusEnum;
@@ -57,7 +56,6 @@ import com.youlai.mall.member.api.MemberFeignClient;
 import com.youlai.mall.member.dto.CartItemDTO;
 import com.youlai.mall.member.dto.MemberAddressDTO;
 import io.seata.spring.annotation.GlobalTransactional;
-import io.seata.spring.util.OrderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -376,7 +374,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 refundResult = wxPayService.refund(request);
             } catch (WxPayException e) {
                 log.error(e.getMessage(), e);
-                throw new BizException("订单（" + order.getOrderNo() + "）退款失败");
+                throw new BusinessException("订单（" + order.getOrderNo() + "）退款失败");
             }
             if (WxPayConstants.ResultCode.SUCCESS.equals(refundResult.getResultCode())) {
                 order.setStatus(OrderStatusEnum.REFUND_PENDING.getValue());
@@ -433,7 +431,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 wxPayService.closeOrderV3(orderNo);
             } catch (WxPayException e) {
                 log.error(e.getMessage(), e);
-                throw new BizException("微信关单异常");
+                throw new BusinessException("微信关单异常");
             }
         }
 
@@ -463,7 +461,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             jsapiResult = wxPayService.createOrderV3(TradeTypeEnum.JSAPI, wxRequest);
         } catch (WxPayException e) {
             log.error(e.getMessage(), e);
-            throw new BizException("微信统一下单异常");
+            throw new BusinessException("微信统一下单异常");
         }
         return jsapiResult;
     }

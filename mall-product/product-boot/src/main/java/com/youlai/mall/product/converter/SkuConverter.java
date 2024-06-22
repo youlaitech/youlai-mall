@@ -26,5 +26,5 @@ public interface SkuConverter {
     Sku toEntity(SpuForm.Sku skuForm);
 
 
-    SpuForm.Sku toForm(SkuBO bo);
+    SpuForm.Sku convertToForm(SkuBO bo);
 }

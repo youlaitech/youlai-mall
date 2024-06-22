@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/attributes")
 @RequiredArgsConstructor
-public class AttributeController {
+public class AttrController {
 
     private final AttrGroupService attrGroupService;
 

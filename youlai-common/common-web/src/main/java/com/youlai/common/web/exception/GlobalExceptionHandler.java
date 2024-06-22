@@ -190,8 +190,8 @@ public class GlobalExceptionHandler {
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BizException.class)
-    public <T> Result<T> handleBizException(BizException e) {
+    @ExceptionHandler(BusinessException.class)
+    public <T> Result<T> handleBizException(BusinessException e) {
         log.error("biz exception:{}", e.getMessage(), e);
         if (e.getResultCode() != null) {
             return Result.failed(e.getResultCode());

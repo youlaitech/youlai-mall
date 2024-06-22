@@ -33,9 +33,9 @@ public interface UserConverter {
 
     UserForm bo2Form(UserFormBO bo);
 
-    UserForm toForm(SysUser entity);
+    UserForm convertToForm(SysUser entity);
 
-    @InheritInverseConfiguration(name = "toForm")
+    @InheritInverseConfiguration(name = "convertToForm")
     SysUser toEntity(UserForm entity);
 
     @Mappings({
