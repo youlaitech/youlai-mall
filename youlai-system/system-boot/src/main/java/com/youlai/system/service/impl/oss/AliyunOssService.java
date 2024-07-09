@@ -8,7 +8,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
-import com.youlai.system.model.vo.FileInfoVO;
+import com.youlai.system.model.vo.FileInfo;
 import com.youlai.system.service.OssService;
 import jakarta.annotation.PostConstruct;
 import lombok.Data;
@@ -16,19 +16,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
 /**
- * 阿里云OSS服务
+ * Aliyun 对象存储服务类
  *
- * @author Ray
+ * @author haoxr
  * @since 2.3.0
  */
-@Service
+@Component
 @ConditionalOnProperty(value = "oss.type", havingValue = "aliyun")
 @ConfigurationProperties(prefix = "oss.aliyun")
 @RequiredArgsConstructor
@@ -60,7 +60,7 @@ public class AliyunOssService implements OssService {
 
     @Override
     @SneakyThrows
-    public FileInfoVO uploadFile(MultipartFile file) {
+    public FileInfo uploadFile(MultipartFile file) {
 
         // 生成文件名(日期文件夹)
         String suffix = FileUtil.getSuffix(file.getOriginalFilename());
@@ -81,7 +81,7 @@ public class AliyunOssService implements OssService {
         }
         // 获取文件访问路径
         String fileUrl = "https://" + bucketName + "." + endpoint + "/" + fileName;
-        FileInfoVO fileInfo = new FileInfoVO();
+        FileInfo fileInfo = new FileInfo();
         fileInfo.setName(fileName);
         fileInfo.setUrl(fileUrl);
         return fileInfo;

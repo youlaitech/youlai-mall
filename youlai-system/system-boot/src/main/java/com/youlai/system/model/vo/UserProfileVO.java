@@ -30,8 +30,8 @@ public class UserProfileVO {
     @Schema(description="头像地址")
     private String avatar;
 
-    @Schema(description="用户角色名称集合")
-    private Set<String> roleNames;
+    @Schema(description="用户角色名称")
+    private String roleNames;
 
     @Schema(description="部门名称")
     private String deptName;

@@ -1,6 +1,5 @@
 package com.youlai.mall.product.converter;
 
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -26,7 +25,7 @@ public interface SpecConverter {
 
     Page<SpecPageVO> toPageVo(Page<SpecBO> bo);
 
-    SpecForm convertToForm(Spec entity);
+    SpecForm toForm(Spec entity);
 
     Spec toEntity(SpecForm formData);
 }

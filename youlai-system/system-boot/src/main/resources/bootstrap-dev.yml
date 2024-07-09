@@ -20,3 +20,10 @@ spring:
           data-id: youlai-common.yaml
           refresh: true
 
+  security:
+    oauth2:
+      authorizationserver:
+        token-uri: ${gateway.endpoint}/youlai-auth/oauth2/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${gateway.endpoint}/youlai-auth/oauth2/jwks

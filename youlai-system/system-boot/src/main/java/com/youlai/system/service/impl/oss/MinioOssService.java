@@ -5,7 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.youlai.system.model.vo.FileInfoVO;
+import com.youlai.system.model.vo.FileInfo;
 import com.youlai.system.service.OssService;
 import io.minio.*;
 import io.minio.errors.*;
@@ -17,7 +17,6 @@ import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,12 +26,12 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 /**
- * MinIO 对象存储服务
+ * MinIO 文件上传服务类
  *
- * @author Ray Hao
+ * @author haoxr
  * @since 2023/6/2
  */
-@Service
+@Component
 @ConditionalOnProperty(value = "oss.type", havingValue = "minio")
 @ConfigurationProperties(prefix = "oss.minio")
 @RequiredArgsConstructor
@@ -79,7 +78,7 @@ public class MinioOssService implements OssService {
      * @return
      */
     @Override
-    public FileInfoVO uploadFile(MultipartFile file) {
+    public FileInfo uploadFile(MultipartFile file) {
 
         // 生成文件名(日期文件夹)
         String suffix = FileUtil.getSuffix(file.getOriginalFilename());
@@ -110,7 +109,7 @@ public class MinioOssService implements OssService {
                 fileUrl = customDomain + '/' + bucketName + "/" + fileName;
             }
 
-            FileInfoVO fileInfo = new FileInfoVO();
+            FileInfo fileInfo = new FileInfo();
             fileInfo.setName(fileName);
             fileInfo.setUrl(fileUrl);
             return fileInfo;

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Schema(description = "文件对象")
 @Data
-public class FileInfoVO {
+public class FileInfo {
 
     @Schema(description = "文件名称")
     private String name;

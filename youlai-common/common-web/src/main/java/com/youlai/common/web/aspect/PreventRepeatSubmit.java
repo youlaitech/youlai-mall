@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class DuplicateSubmitAspect {
+public class PreventRepeatSubmit {
 
     private final RedissonClient redissonClient;
 

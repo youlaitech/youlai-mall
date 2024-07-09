@@ -2,37 +2,46 @@ package com.youlai.system.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.youlai.common.base.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
- * 字典类型实体
+ * 字典项实体
  *
- * @author Ray
- * @since 2024/6/7
+ * @author haoxr
+ * @since 2022/12/17
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class SysDictType extends BaseEntity {
+public class SysDictItem implements Serializable {
     /**
-     * 主键 
+     * 主键
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 类型名称
+     * 字典类ID
+     */
+    private Long dictId;
+
+    /**
+     * 字典项名称
      */
     private String name;
 
     /**
-     * 类型编码
+     * 字典项值
      */
-    private String code;
+    private String value;
 
     /**
-     * 状态(0:正常;1:禁用)
+     * 排序
+     */
+    private Integer sort;
+
+    /**
+     * 状态（1-正常，0-禁用）
      */
     private Integer status;
 

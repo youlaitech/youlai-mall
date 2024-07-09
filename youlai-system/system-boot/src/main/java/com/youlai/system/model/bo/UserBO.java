@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户持久化对象
@@ -50,14 +51,25 @@ public class UserBO {
     private String email;
 
     /**
-     * 状态: 1->启用;0->禁用
+     * 状态(1-启用 0-禁用)
      */
     private Integer status;
+
+    /**
+     * 部门ID
+     */
+    private Long deptId;
 
     /**
      * 部门名称
      */
     private String deptName;
+
+
+    /**
+     * 角色ID集合
+     */
+    private List<Long> roleIds;
 
     /**
      * 角色名称，多个使用英文逗号(,)分割
@@ -69,4 +81,5 @@ public class UserBO {
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
+
 }

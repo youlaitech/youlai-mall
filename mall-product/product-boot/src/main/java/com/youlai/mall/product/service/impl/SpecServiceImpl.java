@@ -65,7 +65,7 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
     @Override
     public SpecForm getSpecFormData(Long id) {
         Spec entity = this.getById(id);
-        return specConverter.convertToForm(entity);
+        return specConverter.toForm(entity);
     }
 
     /**

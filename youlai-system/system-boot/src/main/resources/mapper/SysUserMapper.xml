@@ -42,7 +42,7 @@
     </select>
 
     <!-- 用户表单信息映射 -->
-    <resultMap id="UserFormMap" type="com.youlai.system.model.bo.UserFormBO">
+    <resultMap id="UserFormMap" type="com.youlai.system.model.bo.UserBO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
@@ -94,7 +94,7 @@
         </collection>
     </resultMap>
 
-    <!-- 根据用户名获取认证信息 -->
+    <!-- 获取用户认证信息(登录认证，密码判读) -->
     <select id="getUserAuthInfo" resultMap="UserAuthMap">
         SELECT
             t1.id,
@@ -150,7 +150,7 @@
     </select>
 
     <!-- 获取用户个人中心信息 -->
-    <select id="getUserProfile" resultType="com.youlai.system.model.bo.UserProfileBO">
+    <select id="getUserProfile" resultType="com.youlai.system.model.bo.UserBO">
         SELECT
             u.id,
             u.username,

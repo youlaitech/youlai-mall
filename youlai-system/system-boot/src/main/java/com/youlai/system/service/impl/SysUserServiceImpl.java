@@ -21,8 +21,6 @@ import com.youlai.system.converter.UserConverter;
 import com.youlai.system.dto.UserAuthInfo;
 import com.youlai.system.mapper.SysUserMapper;
 import com.youlai.system.model.bo.UserBO;
-import com.youlai.system.model.bo.UserFormBO;
-import com.youlai.system.model.bo.UserProfileBO;
 import com.youlai.system.model.entity.SysUser;
 import com.youlai.system.model.form.UserForm;
 import com.youlai.system.model.form.UserRegisterForm;
@@ -36,7 +34,6 @@ import com.youlai.system.service.SysUserRoleService;
 import com.youlai.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -82,13 +79,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public IPage<UserPageVO> listPagedUsers(UserPageQuery queryParams) {
 
-        Page<UserBO> boPage = this.baseMapper.listPagedUsers(
-                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),  // 分页参数
-                queryParams // 查询参数
+        Page<UserBO> userPage = this.baseMapper.listPagedUsers(
+                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+                queryParams
         );
 
         // 实体转换
-        return userConverter.toPageVo(boPage);
+        return userConverter.toPageVo(userPage);
     }
 
     /**
@@ -99,9 +96,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public UserForm getUserFormData(Long userId) {
-        UserFormBO userFormBO = this.baseMapper.getUserDetail(userId);
-        // 实体转换po->form
-        return userConverter.bo2Form(userFormBO);
+        UserBO userDetail = this.baseMapper.getUserDetail(userId);
+        return userConverter.toForm(userDetail);
     }
 
     /**
@@ -367,7 +363,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserProfileVO getUserProfile() {
         Long userId = SecurityUtils.getUserId();
         // 获取用户个人中心信息
-        UserProfileBO userProfileBO = this.baseMapper.getUserProfile(userId);
-        return userConverter.userProfileBo2Vo(userProfileBO);
+        UserBO userBO = this.baseMapper.getUserProfile(userId);
+        return userConverter.toProfileVO(userBO);
     }
 }
