@@ -1,6 +1,7 @@
 package com.youlai.system.controller;
 
 import com.youlai.common.result.Result;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.annotation.PreventDuplicateResubmit;
 import com.youlai.system.model.form.MenuForm;
 import com.youlai.system.model.query.MenuQuery;
@@ -19,6 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单控制器
@@ -49,10 +51,11 @@ public class SysMenuController {
         return Result.success(menus);
     }
 
-    @Operation(summary = "路由列表")
+    @Operation(summary = "菜单路由列表")
     @GetMapping("/routes")
     public Result<List<RouteVO>> listRoutes() {
-        List<RouteVO> routeList = menuService.listRoutes();
+        Set<String> roles = SecurityUtils.getRoles();
+        List<RouteVO> routeList = menuService.listRoutes(roles);
         return Result.success(routeList);
     }
 
