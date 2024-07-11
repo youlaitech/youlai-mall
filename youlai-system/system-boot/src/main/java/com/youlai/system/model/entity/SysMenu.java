@@ -37,10 +37,15 @@ public class SysMenu{
      */
     private MenuTypeEnum type;
 
+/**
+     * 路由名称（Vue Router 中定义的路由名称）
+     */
+    private String routeName;
+
     /**
      * 路由路径(浏览器地址栏路径)
      */
-    private String path;
+    private String routePath;
 
     /**
      * 组件路径(vue页面完整路径，省略.vue后缀)

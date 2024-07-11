@@ -22,5 +22,5 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     /**
      * 获取菜单路由列表
      */
-    List<RouteBO> listRoutes(Set<String> routes);
+    List<RouteBO> listRoutes(Set<String> roles);
 }

@@ -33,7 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 菜单业务实现类
+ * 菜单服务实现类
  *
  * @author Ray
  * @since 2020/11/06
@@ -171,19 +171,22 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     private RouteVO toRouteVo(RouteBO routeBO) {
         RouteVO routeVO = new RouteVO();
-        // 路由名称 将path转换为驼峰命名  user => User
-        String routeName = StringUtils.capitalize(StrUtil.toCamelCase(routeBO.getPath(), '-'));
+        // 获取路由名称
+        String routeName = routeBO.getRouteName();
+        if (StrUtil.isBlank(routeName)) {
+            // 路由 name 需要驼峰，首字母大写
+            routeName = StringUtils.capitalize(StrUtil.toCamelCase(routeBO.getRoutePath(), '-'));
+        }
         // 根据name路由跳转 this.$router.push({name:xxx})
         routeVO.setName(routeName);
         // 根据path路由跳转 this.$router.push({path:xxx})
-        routeVO.setPath(routeBO.getPath());
+        routeVO.setPath(routeBO.getRoutePath());
         routeVO.setRedirect(routeBO.getRedirect());
         routeVO.setComponent(routeBO.getComponent());
 
         RouteVO.Meta meta = new RouteVO.Meta();
         meta.setTitle(routeBO.getName());
         meta.setIcon(routeBO.getIcon());
-        meta.setRoles(routeBO.getRoles());
         meta.setHidden(StatusEnum.DISABLE.getValue().equals(routeBO.getVisible()));
         // 【菜单】是否开启页面缓存
         if (MenuTypeEnum.MENU.equals(routeBO.getType())

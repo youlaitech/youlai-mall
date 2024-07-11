@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class MenuVO {
 
+
     @Schema(description = "菜单ID")
     private Long id;
 
@@ -23,8 +24,11 @@ public class MenuVO {
     @Schema(description="菜单类型")
     private MenuTypeEnum type;
 
+    @Schema(description = "路由名称")
+    private String routeName;
+
     @Schema(description = "路由路径")
-    private String path;
+    private String routePath;
 
     @Schema(description = "组件路径")
     private String component;

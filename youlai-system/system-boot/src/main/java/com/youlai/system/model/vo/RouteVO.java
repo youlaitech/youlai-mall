@@ -18,6 +18,7 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouteVO {
 
+
     @Schema(description = "路由路径", example = "user")
     private String path;
 
@@ -45,9 +46,6 @@ public class RouteVO {
 
         @Schema(description = "是否隐藏(true-是 false-否)", example = "true")
         private Boolean hidden;
-
-        @Schema(description = "拥有路由权限的角色编码", example = "['ADMIN','ROOT']")
-        private List<String> roles;
 
         @Schema(description = "【菜单】是否开启页面缓存", example = "true")
         @JsonInclude(JsonInclude.Include.NON_NULL)
