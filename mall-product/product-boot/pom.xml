@@ -64,22 +64,12 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-mybatis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-web</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-rabbitmq</artifactId>
+            <artifactId>common-mybatis</artifactId>
         </dependency>
 
         <dependency>
@@ -89,7 +79,17 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-seata</artifactId>
+            <artifactId>common-middleware-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-middleware-rabbitmq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-middleware-seata</artifactId>
         </dependency>
 
     </dependencies>

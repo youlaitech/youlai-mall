@@ -49,6 +49,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>member-api</artifactId>
         </dependency>
@@ -60,22 +71,12 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
+            <artifactId>common-web</artifactId>
         </dependency>
 
         <dependency>
@@ -85,13 +86,12 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-sms</artifactId>
+            <artifactId>common-middleware-redis</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-thirdparty-sms</artifactId>
         </dependency>
 
     </dependencies>

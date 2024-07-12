@@ -30,7 +30,8 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-redis</artifactId>
+            <artifactId>common-middleware-redis</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>

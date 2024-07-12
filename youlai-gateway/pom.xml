@@ -80,7 +80,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
 
-        <!-- 公共依赖 -->
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
@@ -88,7 +87,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-redis</artifactId>
+            <artifactId>common-middleware-redis</artifactId>
         </dependency>
 
     </dependencies>

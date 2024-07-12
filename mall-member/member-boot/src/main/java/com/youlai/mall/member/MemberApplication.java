@@ -6,9 +6,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
+/**
+ * 会员服务启动类
+ *
+ * @author ray
+ */
 @SpringBootApplication
 @EnableDiscoveryClient()
-@EnableFeignClients(basePackageClasses = {  SkuFeignClient.class})
+@EnableFeignClients(basePackageClasses = {SkuFeignClient.class})
 public class MemberApplication {
     public static void main(String[] args) {
         SpringApplication.run(MemberApplication.class, args);
