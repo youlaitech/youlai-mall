@@ -1,7 +1,7 @@
 package com.youlai.mall.sms.controller.app;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.sms.model.vo.AdBannerVO;
+import com.youlai.mall.sms.model.vo.BannerVO;
 import com.youlai.mall.sms.service.SmsAdvertService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,10 +21,10 @@ import java.util.List;
 public class AdvertController {
 
     private SmsAdvertService smsAdvertService;
-    @Operation(summary= "广告横幅列表")
+    @Operation(summary= "APP首页广告横幅列表")
     @GetMapping("/banners")
-    public Result<List<AdBannerVO>> listAdBanners() {
-        List<AdBannerVO> list = smsAdvertService.listAdBanners();
+    public Result<List<BannerVO>> getBannerList() {
+        List<BannerVO> list = smsAdvertService.getBannerList();
         return Result.success(list);
     }
 }

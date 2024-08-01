@@ -5,7 +5,7 @@ import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.web.exception.BizException;
 import com.youlai.mall.oms.constant.OrderConstants;
 import com.youlai.mall.oms.converter.CartConverter;
-import com.youlai.mall.oms.model.dto.CartItemDTO;
+import com.youlai.mall.oms.model.dto.CartItemDto;
 import com.youlai.mall.oms.service.app.CartService;
 import com.youlai.mall.pms.api.SkuFeignClient;
 import com.youlai.mall.pms.model.dto.SkuInfoDTO;
@@ -39,10 +39,10 @@ public class CartServiceImpl implements CartService {
     private final CartConverter cartConverter;
 
     @Override
-    public List<CartItemDTO> listCartItems(Long memberId) {
+    public List<CartItemDto> listCartItems(Long memberId) {
         if (memberId != null) {
             BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
-            List<CartItemDTO> cartItems = cartHashOperations.values();
+            List<CartItemDto> cartItems = cartHashOperations.values();
             return cartItems;
         }
         return Collections.EMPTY_LIST;
@@ -64,10 +64,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public boolean addCartItem(Long skuId) {
         Long memberId = SecurityUtils.getMemberId();
-        BoundHashOperations<String, String, CartItemDTO> cartHashOperations = getCartHashOperations(memberId);
+        BoundHashOperations<String, String, CartItemDto> cartHashOperations = getCartHashOperations(memberId);
         String hKey = String.valueOf(skuId);
 
-        CartItemDTO cartItem = cartHashOperations.get(hKey);
+        CartItemDto cartItem = cartHashOperations.get(hKey);
 
         if (cartItem != null) {
             // 购物车已存在该商品，更新商品数量
@@ -90,7 +90,7 @@ public class CartServiceImpl implements CartService {
      * 更新购物车总商品数量、选中状态
      */
     @Override
-    public boolean updateCartItem(CartItemDTO cartItem) {
+    public boolean updateCartItem(CartItemDto cartItem) {
         Long memberId;
         try {
             memberId = SecurityUtils.getMemberId();
@@ -100,7 +100,7 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         String hKey = cartItem.getSkuId() + "";
         if (cartHashOperations.get(hKey) != null) {
-            CartItemDTO cacheCartItem = (CartItemDTO) cartHashOperations.get(hKey);
+            CartItemDto cacheCartItem = (CartItemDto) cartHashOperations.get(hKey);
             if (cartItem.getChecked() != null) {
                 cacheCartItem.setChecked(cartItem.getChecked());
             }
@@ -143,7 +143,7 @@ public class CartServiceImpl implements CartService {
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
-            CartItemDTO cartItem = (CartItemDTO) value;
+            CartItemDto cartItem = (CartItemDto) value;
             cartItem.setChecked(checked);
             String hKey = cartItem.getSkuId() + "";
             cartHashOperations.put(hKey, cartItem);
@@ -165,7 +165,7 @@ public class CartServiceImpl implements CartService {
         }
         BoundHashOperations cartHashOperations = getCartHashOperations(memberId);
         for (Object value : cartHashOperations.values()) {
-            CartItemDTO cartItem = (CartItemDTO) value;
+            CartItemDto cartItem = (CartItemDto) value;
             if (cartItem.getChecked()) {
                 cartHashOperations.delete(cartItem.getSkuId() + "");
             }

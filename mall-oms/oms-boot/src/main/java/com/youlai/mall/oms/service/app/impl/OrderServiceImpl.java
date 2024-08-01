@@ -31,7 +31,7 @@ import com.youlai.mall.oms.enums.OrderStatusEnum;
 import com.youlai.mall.oms.enums.PaymentMethodEnum;
 import com.youlai.mall.oms.mapper.OrderMapper;
 import com.youlai.mall.oms.model.bo.OrderBO;
-import com.youlai.mall.oms.model.dto.CartItemDTO;
+import com.youlai.mall.oms.model.dto.CartItemDto;
 import com.youlai.mall.oms.model.dto.OrderItemDTO;
 import com.youlai.mall.oms.model.entity.OmsOrder;
 import com.youlai.mall.oms.model.entity.OmsOrderItem;
@@ -461,9 +461,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
             orderItemDTO.setQuantity(1); // 直接购买商品的数量为1
             orderItems.add(orderItemDTO);
         } else { // 购物车结算
-            List<CartItemDTO> cartItems = cartService.listCartItems(memberId);
+            List<CartItemDto> cartItems = cartService.listCartItems(memberId);
             orderItems = cartItems.stream()
-                    .filter(CartItemDTO::getChecked)
+                    .filter(CartItemDto::getChecked)
                     .map(cartItem -> {
                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                         BeanUtil.copyProperties(cartItem, orderItemDTO);
