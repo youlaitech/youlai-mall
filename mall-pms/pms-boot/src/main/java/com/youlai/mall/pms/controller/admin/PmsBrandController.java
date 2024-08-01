@@ -32,7 +32,7 @@ public class PmsBrandController {
     private final BrandService brandService;
 
     @Operation(summary = "品牌分页列表")
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public PageResult getBrandPage(BrandPageQuery queryParams) {
 
         // 查询参数
