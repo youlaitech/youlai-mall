@@ -101,6 +101,11 @@
             <artifactId>common-thirdparty-sms</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-thirdparty-oss</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

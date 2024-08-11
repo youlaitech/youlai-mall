@@ -7,7 +7,7 @@ import cn.hutool.json.JSONUtil;
 import com.youlai.auth.config.CaptchaProperties;
 import com.youlai.auth.model.CaptchaResult;
 import com.youlai.common.constant.RedisConstants;
-import com.youlai.common.sms.property.AliyunSmsProperties;
+import com.youlai.common.sms.config.AliyunSmsProperties;
 import com.youlai.common.sms.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;

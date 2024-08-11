@@ -1,8 +1,8 @@
 package com.youlai.system.controller;
 
+import com.youlai.common.oss.model.FileInfo;
+import com.youlai.common.oss.service.OssService;
 import com.youlai.common.result.Result;
-import com.youlai.system.model.vo.FileInfo;
-import com.youlai.system.service.OssService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,7 +21,8 @@ public class FileController {
     @PostMapping
     @Operation(summary= "文件上传")
     public Result<FileInfo> uploadFile(
-            @Parameter(description = "表单文件对象") @RequestParam(value = "file") MultipartFile file
+            @Parameter(name = "file",description = "表单文件对象")
+            @RequestParam(value = "file") MultipartFile file
     ) {
         FileInfo fileInfo = ossService.uploadFile(file);
         return Result.success(fileInfo);

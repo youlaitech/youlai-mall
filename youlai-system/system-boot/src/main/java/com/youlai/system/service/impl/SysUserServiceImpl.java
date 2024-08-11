@@ -15,7 +15,7 @@ import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.security.service.PermissionService;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.sms.property.AliyunSmsProperties;
+import com.youlai.common.sms.config.AliyunSmsProperties;
 import com.youlai.common.sms.service.SmsService;
 import com.youlai.system.converter.UserConverter;
 import com.youlai.system.dto.UserAuthInfo;
