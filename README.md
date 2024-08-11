@@ -1,7 +1,7 @@
 
 
 <div align="center">
-  <img alt="logo" src="/docs/image/logo.png">
+  <img alt="logo" width="100" height="100" src="https://raw.gitmirror.com/youlaitech/image/main/docs/ym-200x200.png">
   <h2>youlai-mall</h2>
   <img alt="有来技术" src="https://img.shields.io/badge/Java-17-brightgreen.svg"/>
   <img alt="有来技术" src="https://img.shields.io/badge/SpringBoot-3.1.5-green.svg"/>
@@ -22,7 +22,7 @@
   </a>
 </div>
 
-![](/docs/image/rainbow.png "rainbow.png")
+![](https://raw.gitmirror.com/youlaitech/image/main/docs/rainbow.png)
 
 <div align="center">
   <a target="_blank" href="https://admin.youlai.tech/">🔍 在线预览</a> |  <a target="_blank" href="https://doc.youlai.tech/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%95%86%E5%9F%8E/">📖 阅读文档</a> | <a href="./README.en-US.md">🌐English
