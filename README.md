@@ -1,6 +1,6 @@
 
 
-<div style="text-align: center;">
+<div align="center">
   <img alt="logo" src="/docs/image/logo.png">
   <h2>youlai-mall</h2>
   <img alt="有来技术" src="https://img.shields.io/badge/Java-17-brightgreen.svg"/>
