@@ -1,10 +1,8 @@
 
 
 <div style="text-align: center;">
-  <img alt="yuoulai Logo" width="120" height="120" src="/docs/image/logo.png">
-
-<h2 style="margin: 10px 0;">youlai-mall</h2> <!-- 调整上下间距 -->
-
+  <img alt="logo" src="/docs/image/logo.png">
+  <h2>youlai-mall</h2>
   <img alt="有来技术" src="https://img.shields.io/badge/Java-17-brightgreen.svg"/>
   <img alt="有来技术" src="https://img.shields.io/badge/SpringBoot-3.1.5-green.svg"/>
   <img alt="有来技术" src="https://img.shields.io/badge/SpringCloud & Alibaba-2022-yellowgreen.svg"/>
