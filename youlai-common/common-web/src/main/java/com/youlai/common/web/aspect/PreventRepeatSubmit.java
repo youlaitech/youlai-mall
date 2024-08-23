@@ -28,8 +28,8 @@ import java.util.concurrent.TimeUnit;
  */
 @Aspect
 @Component
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class PreventRepeatSubmit {
 
     private final RedissonClient redissonClient;
@@ -41,10 +41,9 @@ public class PreventRepeatSubmit {
      */
     @Pointcut("@annotation(preventDuplicateResubmit)")
     public void preventDuplicateSubmitPointCut(PreventDuplicateResubmit preventDuplicateResubmit) {
-        log.info("定义防重复提交切点");
     }
 
-    @Around("preventDuplicateSubmitPointCut(preventDuplicateResubmit)")
+    @Around(value = "preventDuplicateSubmitPointCut(preventDuplicateResubmit)", argNames = "pjp,preventDuplicateResubmit")
     public Object doAround(ProceedingJoinPoint pjp, PreventDuplicateResubmit preventDuplicateResubmit) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -52,11 +51,14 @@ public class PreventRepeatSubmit {
         String jti = SecurityUtils.getJti();
         if (StrUtil.isNotBlank(jti)) {
             String resubmitLockKey = RESUBMIT_LOCK_PREFIX + jti + ":" + request.getMethod() + "-" + request.getRequestURI();
-            int expire = preventDuplicateResubmit.expire(); // 防重提交锁过期时间
+            // 防重提交锁过期时间
+            int expire = preventDuplicateResubmit.expire();
             RLock lock = redissonClient.getLock(resubmitLockKey);
-            boolean lockResult = lock.tryLock(0, expire, TimeUnit.SECONDS); // 获取锁失败，直接返回 false
+            // 获取锁失败，直接返回 false
+            boolean lockResult = lock.tryLock(0, expire, TimeUnit.SECONDS);
             if (!lockResult) {
-                throw new BusinessException(ResultCode.REPEAT_SUBMIT_ERROR); // 抛出重复提交提示信息
+                // 抛出重复提交提示信息
+                throw new BusinessException(ResultCode.REPEAT_SUBMIT_ERROR);
             }
         }
         return pjp.proceed();

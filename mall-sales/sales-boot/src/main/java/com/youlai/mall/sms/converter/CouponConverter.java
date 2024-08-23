@@ -25,7 +25,7 @@ public interface CouponConverter {
             @Mapping(target = "faceValueLabel", expression = "java(com.youlai.mall.sms.util.CouponUtils.getFaceValue(entity.getType(),entity.getFaceValue(),entity.getDiscount()))"),
             @Mapping(
                     target = "validityPeriodLabel",
-                    expression = "java(com.youlai.mall.sms.util.CouponUtils.getValidityPeriod(entity.getValidityPeriodType(),entity.getValidityDays(),entity.getValidityBeginTime(),entity.getValidityBeginTime()))"
+                    expression = "java(com.youlai.mall.sms.util.CouponUtils.getValidityPeriod(entity.getValidityPeriodType(),entity.getValidityDays(),entity.getValidityStartTime(),entity.getValidityEndTime()))"
             ),
             @Mapping(target = "minPointLabel", expression = "java(cn.hutool.core.util.NumberUtil.toStr(cn.hutool.core.util.NumberUtil.div(entity.getMinPoint(),new java.math.BigDecimal(100)).setScale(2)))"),
     })

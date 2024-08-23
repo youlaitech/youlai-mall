@@ -60,12 +60,12 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-mybatis</artifactId>
+            <artifactId>common-web</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
+            <artifactId>common-mybatis</artifactId>
         </dependency>
 
         <dependency>

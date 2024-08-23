@@ -88,6 +88,10 @@
             <artifactId>common-middleware-seata</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-middleware-rabbitmq</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

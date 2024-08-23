@@ -1,6 +1,6 @@
 package com.youlai.system.handler;
 
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
+import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class DefaultBlockExceptionHandler implements BlockExceptionHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {
+    public void handle(HttpServletRequest request, HttpServletResponse response, String s, BlockException e) throws Exception {
         response.setStatus(HttpStatus.OK.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");

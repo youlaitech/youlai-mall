@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * 营销服务启动类
  *
  * @author ray
+ * @since 0.0.1
  */
 @SpringBootApplication
 @EnableDiscoveryClient

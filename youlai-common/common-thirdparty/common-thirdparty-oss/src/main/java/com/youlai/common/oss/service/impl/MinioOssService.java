@@ -39,23 +39,27 @@ import java.time.LocalDateTime;
 public class MinioOssService implements OssService {
 
     /**
-     * 服务Endpoint(http://localhost:9000)
+     * 服务Endpoint
      */
     private String endpoint;
+
     /**
      * 访问凭据
      */
     private String accessKey;
+
     /**
      * 凭据密钥
      */
     private String secretKey;
+
     /**
      * 存储桶名称
      */
     private String bucketName;
+
     /**
-     * 自定义域名(https://oss.youlai.tech)
+     * 自定义域名
      */
     private String customDomain;
 
@@ -75,7 +79,7 @@ public class MinioOssService implements OssService {
      * 上传文件
      *
      * @param file 表单文件对象
-     * @return
+     * @return 文件信息
      */
     @Override
     public FileInfo uploadFile(MultipartFile file) {
@@ -97,7 +101,8 @@ public class MinioOssService implements OssService {
 
             // 返回文件路径
             String fileUrl;
-            if (StrUtil.isBlank(customDomain)) { // 未配置自定义域名
+            // 未配置自定义域名
+            if (StrUtil.isBlank(customDomain)) {
                 GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
                         .bucket(bucketName).object(fileName)
                         .method(Method.GET)
@@ -105,7 +110,8 @@ public class MinioOssService implements OssService {
 
                 fileUrl = minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
                 fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
-            } else { // 配置自定义文件路径域名
+            } else {
+                // 配置自定义文件路径域名
                 fileUrl = customDomain + '/' + bucketName + "/" + fileName;
             }
 
@@ -122,9 +128,7 @@ public class MinioOssService implements OssService {
     /**
      * 删除文件
      *
-     * @param filePath 文件路径
-     *                 https://oss.youlai.tech/default/20221120/test.jpg
-     * @return
+     * @param filePath 文件路径 https://oss.youlai.tech/default/20221120/test.jpg
      */
     @Override
     public boolean deleteFile(String filePath) {
@@ -161,7 +165,7 @@ public class MinioOssService implements OssService {
      * Resource:  指定存储桶
      * Action: 操作行为
      *
-     * @param bucketName
+     * @param bucketName 存储桶名称
      * @return
      */
     private static String publicBucketPolicy(String bucketName) {

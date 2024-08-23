@@ -86,11 +86,6 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-middleware-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-thirdparty-sms</artifactId>
         </dependency>
 
