@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mall-sales</artifactId>
+    <artifactId>mall-sale</artifactId>
 
     <packaging>pom</packaging>
     <modules>
-        <module>sales-api</module>
-        <module>sales-boot</module>
+        <module>sale-api</module>
+        <module>sale-boot</module>
     </modules>
 
 </project>

@@ -15,9 +15,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableScheduling
-public class SalesApplication {
+public class SaleApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SalesApplication.class, args);
+        SpringApplication.run(SaleApplication.class, args);
     }
 }

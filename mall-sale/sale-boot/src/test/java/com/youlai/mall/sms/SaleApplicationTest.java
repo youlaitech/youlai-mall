@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @since 2021/7/3
  */
 @SpringBootTest
-public class SalesApplicationTest {
+public class SaleApplicationTest {
 
     @Test
     public void contestLoad(){
