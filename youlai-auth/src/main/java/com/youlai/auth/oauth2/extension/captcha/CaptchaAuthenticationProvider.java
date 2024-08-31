@@ -139,7 +139,7 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
                 .registeredClient(registeredClient)
                 .principal(usernamePasswordAuthentication) // 身份验证成功的认证信息(用户名、权限等信息)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
-                .authorizedScopes(authorizedScopes)
+                .authorizedScopes(requestedScopes)
                 .authorizationGrantType(CaptchaAuthenticationToken.CAPTCHA) // 授权方式
                 .authorizationGrant(passwordAuthenticationToken) // 授权具体对象
                 ;
