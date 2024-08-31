@@ -88,7 +88,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-middleware-redis</artifactId>
+            <artifactId>common-web</artifactId>
         </dependency>
 
         <dependency>

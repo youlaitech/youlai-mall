@@ -30,13 +30,16 @@ import java.util.stream.Collectors;
  * ---- hKey:value <--> skuId 商品1
  * ---- hKey:value <--> 商品2
  * ---- hKey:value <--> 商品3
+ *
+ * @author Ray
+ * @since 4.0.0
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class CartServiceImpl implements CartService {
 
-    private final RedisTemplate<String, CartItemDTO> redisTemplate;
+    private final RedisTemplate redisTemplate;
     private final SkuFeignClient skuFeignClient;
     private final CartConverter cartConverter;
 
@@ -59,7 +62,6 @@ public class CartServiceImpl implements CartService {
         // 动态获取商品信息(实时商品价格、库存、图片)到购物车列表
         List<Long> skuIds = cartItems.stream().map(CartItemDTO::getSkuId).toList();
         List<SkuDTO> skuList = skuFeignClient.listSkusByIds(skuIds);
-
 
         // 创建SKU ID到SkuInfoDto的映射，以优化查找性能
         Map<Long, SkuDTO> skuIdToSkuInfoMap = skuList.stream()
@@ -157,8 +159,6 @@ public class CartServiceImpl implements CartService {
             });
         }
     }
-
-
 
     /**
      * 获取购物车的Hash操作对象
