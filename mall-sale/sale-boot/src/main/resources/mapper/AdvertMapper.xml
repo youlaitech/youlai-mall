@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.sms.mapper.AdvertMapper">
+<mapper namespace="com.youlai.mall.sale.mapper.AdvertMapper">
 
     <!-- 广告分页列表 -->
-    <select id="getAdvertPage" resultType="com.youlai.mall.sms.model.entity.Advert">
+    <select id="getAdvertPage" resultType="com.youlai.mall.sale.model.entity.Advert">
         SELECT
             *
         FROM

@@ -82,12 +82,12 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>common-base</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-middleware-redis</artifactId>
+            <artifactId>common-redis</artifactId>
         </dependency>
 
     </dependencies>

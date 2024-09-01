@@ -1,7 +1,7 @@
 package com.youlai.system.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.model.entity.SysDictItem;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.vo.DictPageVO;

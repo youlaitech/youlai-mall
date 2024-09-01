@@ -2,7 +2,7 @@ package com.youlai.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.mybatis.annotation.DataPermission;
+import com.youlai.common.core.annotation.DataPermission;
 import com.youlai.system.dto.UserAuthInfo;
 import com.youlai.system.model.bo.UserBO;
 import com.youlai.system.model.entity.SysUser;

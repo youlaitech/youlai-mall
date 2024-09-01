@@ -3,8 +3,8 @@ package com.youlai.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.annotation.PreventDuplicateResubmit;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.annotation.RepeatSubmit;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.query.DictPageQuery;
 import com.youlai.system.model.vo.DictPageVO;
@@ -62,7 +62,7 @@ public class SysDictController {
     @Operation(summary = "新增字典")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:dict:add')")
-    @PreventDuplicateResubmit
+    @RepeatSubmit
     public Result saveDict(@RequestBody DictForm formData) {
         boolean result = dictService.saveDict(formData);
         return Result.judge(result);

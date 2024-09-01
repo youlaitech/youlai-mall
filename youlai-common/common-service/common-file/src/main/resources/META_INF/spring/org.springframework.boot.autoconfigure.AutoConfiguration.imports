@@ -1,0 +1,2 @@
+  com.youlai.common.file.service.impl.AliyunOssService
+  com.youlai.common.file.service.impl.MinioOssService

@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.converter.CategoryConverter;
 import com.youlai.mall.product.mapper.CategoryMapper;
 import com.youlai.mall.product.model.entity.Category;

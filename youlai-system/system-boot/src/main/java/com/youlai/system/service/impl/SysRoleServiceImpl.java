@@ -15,7 +15,7 @@ import com.youlai.system.model.entity.SysRole;
 import com.youlai.system.model.entity.SysRoleMenu;
 import com.youlai.system.model.form.RoleForm;
 import com.youlai.system.model.query.RolePageQuery;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.model.vo.RolePageVO;
 import com.youlai.system.service.SysRoleMenuService;
 import com.youlai.system.service.SysRoleService;

@@ -1,7 +1,7 @@
 package com.youlai.mall.product.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.model.entity.Brand;
 import com.youlai.mall.product.model.vo.BrandPageVO;
 import org.mapstruct.*;

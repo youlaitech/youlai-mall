@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.sms.mapper.CouponHistoryMapper">
+<mapper namespace="com.youlai.mall.sale.mapper.CouponHistoryMapper">
 
-    <resultMap id="BaseResultMap" type="com.youlai.mall.sms.model.entity.CouponHistory">
+    <resultMap id="BaseResultMap" type="com.youlai.mall.sale.model.entity.CouponHistory">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="couponId" column="coupon_id" jdbcType="BIGINT"/>
             <result property="memberId" column="member_id" jdbcType="BIGINT"/>

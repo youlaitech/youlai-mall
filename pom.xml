@@ -21,6 +21,8 @@
         <module>mall-member</module>
         <module>mall-product</module>
         <module>mall-order</module>
+        <module>youlai-common/common-framework</module>
+        <module>youlai-common/common-service</module>
     </modules>
 
     <parent>
@@ -160,13 +162,13 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-core</artifactId>
+                <artifactId>common-base</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-web</artifactId>
+                <artifactId>common-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -184,31 +186,31 @@
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-middleware-rabbitmq</artifactId>
+                <artifactId>common-rabbitmq</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-middleware-redis</artifactId>
+                <artifactId>common-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-middleware-seata</artifactId>
+                <artifactId>common-seata</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-thirdparty-sms</artifactId>
+                <artifactId>common-sms</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.youlai</groupId>
-                <artifactId>common-thirdparty-oss</artifactId>
+                <artifactId>common-file</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

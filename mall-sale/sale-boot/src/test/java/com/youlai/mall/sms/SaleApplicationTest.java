@@ -1,4 +1,4 @@
-package com.youlai.mall.sms;
+package com.youlai.mall.sale;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

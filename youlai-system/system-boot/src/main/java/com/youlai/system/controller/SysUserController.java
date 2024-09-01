@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.annotation.PreventDuplicateResubmit;
+import com.youlai.common.core.annotation.RepeatSubmit;
 import com.youlai.system.dto.UserAuthInfo;
 import com.youlai.system.listener.excel.UserImportListener;
 import com.youlai.system.model.entity.SysUser;
@@ -60,7 +60,7 @@ public class SysUserController {
     @Operation(summary = "新增用户")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:user:add')")
-    @PreventDuplicateResubmit
+    @RepeatSubmit
     public Result saveUser(
             @RequestBody @Valid UserForm userForm
     ) {

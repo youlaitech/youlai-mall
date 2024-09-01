@@ -1,6 +1,6 @@
 package com.youlai.mall.member.api;
 
-import com.youlai.common.web.config.FeignDecoderConfig;
+import com.youlai.common.core.config.FeignDecoderConfig;
 import com.youlai.mall.member.dto.CartItemDTO;
 import com.youlai.mall.member.dto.MemberAddressDTO;
 import com.youlai.mall.member.dto.MemberAuthDTO;

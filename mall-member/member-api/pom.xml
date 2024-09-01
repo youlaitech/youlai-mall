@@ -19,11 +19,11 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>common-base</artifactId>
         </dependency>
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
+            <artifactId>common-core</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>

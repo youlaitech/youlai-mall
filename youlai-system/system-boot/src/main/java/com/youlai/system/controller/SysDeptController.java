@@ -1,11 +1,11 @@
 package com.youlai.system.controller;
 
 import com.youlai.common.result.Result;
-import com.youlai.common.web.annotation.PreventDuplicateResubmit;
+import com.youlai.common.core.annotation.RepeatSubmit;
 import com.youlai.system.model.form.DeptForm;
 import com.youlai.system.model.query.DeptQuery;
 import com.youlai.system.model.vo.DeptVO;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.service.SysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.annotations.ParameterObject;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +59,7 @@ public class SysDeptController {
     @Operation(summary = "新增部门")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:dept:add')")
-    @PreventDuplicateResubmit
+    @RepeatSubmit
     public Result saveDept(
             @Valid @RequestBody DeptForm formData
     ) {

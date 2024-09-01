@@ -1,0 +1,55 @@
+package ${packageName}.${moduleName}.${subpackageName};
+
+import java.io.Serial;
+import java.io.Serializable;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasRequiredField})
+import jakarta.validation.constraints.*;
+#end
+
+/**
+ * $!{businessName}表单对象
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Getter
+@Setter
+@Schema(description = "$!{businessName}表单对象")
+public class ${entityName}Form implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+## ----------  BEGIN 字段循环遍历  ----------
+#if($fieldConfigs)
+    #foreach($fieldConfig in ${fieldConfigs})
+        #if($fieldConfig.isShowInForm)
+            #if("$!fieldConfig.fieldComment" != "")
+    @Schema(description = "${fieldConfig.fieldComment}")
+            #end
+            #if($fieldConfig.isRequired)
+                #if($fieldConfig.fieldType == 'String')
+    @NotBlank(message = "$fieldConfig.fieldComment不能为空")
+                #else
+    @NotNull(message = "$fieldConfig.fieldComment不能为空")
+                #end
+            #end
+    #if($fieldConfig.maxLength)
+    @Size(max=$fieldConfig.maxLength, message="$fieldConfig.fieldComment长度不能超过${fieldConfig.maxLength}个字符")
+    #end
+    private ${fieldConfig.fieldType} ${fieldConfig.fieldName};
+
+        #end
+    #end
+#end
+
+}

@@ -1,7 +1,7 @@
 package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.model.entity.Category;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.CategoryAppVO;

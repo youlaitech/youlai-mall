@@ -1,7 +1,7 @@
 package com.youlai.mall.product.controller.admin;
 
 import com.youlai.common.result.Result;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.AttrGroupVO;
 import com.youlai.mall.product.model.vo.CategoryVO;

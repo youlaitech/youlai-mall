@@ -5,7 +5,7 @@ import com.youlai.system.model.entity.SysDept;
 import com.youlai.system.model.form.DeptForm;
 import com.youlai.system.model.query.DeptQuery;
 import com.youlai.system.model.vo.DeptVO;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 
 import java.util.List;
 

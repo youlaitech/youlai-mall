@@ -1,0 +1,20 @@
+package ${packageName}.${moduleName}.${subpackageName};
+
+import org.mapstruct.Mapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${packageName}.${moduleName}.model.entity.${entityName};
+import ${packageName}.${moduleName}.model.form.${entityName}Form;
+
+/**
+ * $!{businessName}对象转换器
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Mapper(componentModel = "spring")
+public interface ${entityName}Converter{
+
+    ${entityName}Form toForm(${entityName} entity);
+
+    ${entityName} toEntity(${entityName}Form formData);
+}

@@ -2,17 +2,14 @@ package com.youlai.mall.product.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.model.entity.BrandCategory;
 import com.youlai.mall.product.mapper.BrandCategoryMapper;
 import com.youlai.mall.product.service.BrandCategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 

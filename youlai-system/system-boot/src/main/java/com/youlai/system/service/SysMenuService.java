@@ -5,7 +5,7 @@ import com.youlai.system.model.entity.SysMenu;
 import com.youlai.system.model.form.MenuForm;
 import com.youlai.system.model.query.MenuQuery;
 import com.youlai.system.model.vo.MenuVO;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.model.vo.RouteVO;
 
 import java.util.List;

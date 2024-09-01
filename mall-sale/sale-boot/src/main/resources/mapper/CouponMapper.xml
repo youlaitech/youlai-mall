@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.sms.mapper.CouponMapper">
+<mapper namespace="com.youlai.mall.sale.mapper.CouponMapper">
 
     <!-- 优惠券分页列表 -->
-    <select id="getCouponPage" resultType="com.youlai.mall.sms.model.entity.Coupon">
+    <select id="getCouponPage" resultType="com.youlai.mall.sale.model.entity.Coupon">
         SELECT
             *
         FROM

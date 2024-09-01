@@ -2,7 +2,7 @@ package com.youlai.mall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.web.exception.BusinessException;
+import com.youlai.common.core.exception.BusinessException;
 import com.youlai.mall.product.mapper.AttrMapper;
 import com.youlai.mall.product.model.entity.Attr;
 import com.youlai.mall.product.model.vo.AttrGroupVO;

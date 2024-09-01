@@ -24,7 +24,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.rabbitmq.constant.RabbitMqConstants;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.web.exception.BusinessException;
+import com.youlai.common.core.exception.BusinessException;
 import com.youlai.mall.order.config.property.WxPayProperties;
 import com.youlai.mall.order.converter.OrderConverter;
 import com.youlai.mall.order.enums.ApprovalStatusEnum;

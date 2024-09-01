@@ -1,6 +1,6 @@
 package com.youlai.mall.product.service;
 
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.model.entity.BrandCategory;
 import com.baomidou.mybatisplus.extension.service.IService;
 

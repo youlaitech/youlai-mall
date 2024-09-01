@@ -2,11 +2,11 @@ package com.youlai.system.controller;
 
 import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.web.annotation.PreventDuplicateResubmit;
+import com.youlai.common.core.annotation.RepeatSubmit;
 import com.youlai.system.model.form.MenuForm;
 import com.youlai.system.model.query.MenuQuery;
 import com.youlai.system.model.vo.MenuVO;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.model.vo.RouteVO;
 import com.youlai.system.service.SysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,7 +71,7 @@ public class SysMenuController {
     @Operation(summary = "新增菜单")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:menu:add')")
-    @PreventDuplicateResubmit
+    @RepeatSubmit
     @CacheEvict(cacheNames = "menu", key = "'routes'")
     public Result addMenu(@RequestBody MenuForm menuForm) {
         boolean result = menuService.saveMenu(menuForm);

@@ -1,7 +1,7 @@
 package com.youlai.mall.member.model.form;
 
-import com.youlai.common.web.constraint.CheckCityValid;
-import com.youlai.common.web.constraint.CityType;
+import com.youlai.common.core.constraint.CheckCityValid;
+import com.youlai.common.core.constraint.CityType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

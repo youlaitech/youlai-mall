@@ -81,7 +81,7 @@ youlai-mall
     ├── member-boot                    # 会员服务-启动应用
 ├── youlai-auth                     # 认证授权中心
 ├── youlai-common                   # 公共模块
-    ├── common-core                 # 基础依赖
+    ├── common-base              # 基础依赖
     ├── common-log                  # 日志公共模块
     ├── common-mybatis              # Mybatis 公共模块
     ├── common-rabbitmq             # RabbitMQ 公共模块

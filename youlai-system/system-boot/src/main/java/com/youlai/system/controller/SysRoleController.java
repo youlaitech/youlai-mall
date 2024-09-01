@@ -3,8 +3,8 @@ package com.youlai.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.common.web.annotation.PreventDuplicateResubmit;
-import com.youlai.common.web.model.Option;
+import com.youlai.common.core.annotation.RepeatSubmit;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.model.form.RoleForm;
 import com.youlai.system.model.query.RolePageQuery;
 import com.youlai.system.model.vo.RolePageVO;
@@ -48,7 +48,7 @@ public class SysRoleController {
     @Operation(summary = "新增角色")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:role:add')")
-    @PreventDuplicateResubmit
+    @RepeatSubmit
     public Result addRole(@Valid @RequestBody RoleForm roleForm) {
         boolean result = roleService.saveRole(roleForm);
         return Result.judge(result);

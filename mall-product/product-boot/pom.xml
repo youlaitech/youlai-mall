@@ -64,7 +64,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-web</artifactId>
+            <artifactId>common-core</artifactId>
         </dependency>
 
         <dependency>
@@ -79,17 +79,17 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-middleware-redis</artifactId>
+            <artifactId>common-redis</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-middleware-rabbitmq</artifactId>
+            <artifactId>common-rabbitmq</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-middleware-seata</artifactId>
+            <artifactId>common-seata</artifactId>
         </dependency>
 
     </dependencies>

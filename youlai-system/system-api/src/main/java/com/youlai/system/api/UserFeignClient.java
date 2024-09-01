@@ -1,6 +1,6 @@
 package com.youlai.system.api;
 
-import com.youlai.common.web.config.FeignDecoderConfig;
+import com.youlai.common.core.config.FeignDecoderConfig;
 import com.youlai.system.api.fallback.UserFeignFallbackClient;
 import com.youlai.system.dto.UserAuthInfo;
 import org.springframework.cloud.openfeign.FeignClient;

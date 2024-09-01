@@ -1,0 +1,5 @@
+  com.youlai.common.core.config.WebMvcConfig
+  com.youlai.common.core.config.FeignConfig
+  com.youlai.common.core.exception.GlobalExceptionHandler
+  com.youlai.common.core.aspect.RepeatSubmitAspect
+  com.youlai.common.core.config.OpenApiConfig
