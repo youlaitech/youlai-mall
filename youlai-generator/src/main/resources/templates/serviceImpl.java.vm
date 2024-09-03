@@ -1,0 +1,103 @@
+package ${packageName}.${moduleName}.${subpackageName};
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ${packageName}.${moduleName}.mapper.${entityName}Mapper;
+import ${packageName}.${moduleName}.service.${entityName}Service;
+import ${packageName}.${moduleName}.model.entity.${entityName};
+import ${packageName}.${moduleName}.model.form.${entityName}Form;
+import ${packageName}.${moduleName}.model.query.${entityName}Query;
+import ${packageName}.${moduleName}.model.vo.${entityName}VO;
+import ${packageName}.${moduleName}.converter.${entityName}Converter;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+
+/**
+ * $!{businessName}服务实现类
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+@RequiredArgsConstructor
+public class ${entityName}ServiceImpl extends ServiceImpl<${entityName}Mapper, ${entityName}> implements ${entityName}Service {
+
+    private final ${entityName}Converter ${lowerFirstEntityName}Converter;
+
+    /**
+    * 获取${businessName}分页列表
+    *
+    * @param queryParams 查询参数
+    * @return {@link IPage<${entityName}VO>} $!{businessName}分页列表
+    */
+    @Override
+    public IPage<${entityName}VO> get${entityName}Page(${entityName}Query queryParams) {
+        Page<${entityName}VO> pageVO = this.baseMapper.get${entityName}Page(
+                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+                queryParams
+        );
+        return pageVO;
+    }
+    
+    /**
+     * 获取${businessName}表单数据
+     *
+     * @param id $!{businessName}ID
+     * @return
+     */
+    @Override
+    public ${entityName}Form get${entityName}FormData(Long id) {
+        ${entityName} entity = this.getById(id);
+        return ${lowerFirstEntityName}Converter.toForm(entity);
+    }
+    
+    /**
+     * 新增${businessName}
+     *
+     * @param formData $!{businessName}表单对象
+     * @return
+     */
+    @Override
+    public boolean save${entityName}(${entityName}Form formData) {
+        ${entityName} entity = ${lowerFirstEntityName}Converter.toEntity(formData);
+        return this.save(entity);
+    }
+    
+    /**
+     * 更新${businessName}
+     *
+     * @param id   $!{businessName}ID
+     * @param formData $!{businessName}表单对象
+     * @return
+     */
+    @Override
+    public boolean update${entityName}(Long id,${entityName}Form formData) {
+        ${entityName} entity = ${lowerFirstEntityName}Converter.toEntity(formData);
+        return this.updateById(entity);
+    }
+    
+    /**
+     * 删除${businessName}
+     *
+     * @param ids $!{businessName}ID，多个以英文逗号(,)分割
+     * @return
+     */
+    @Override
+    public boolean delete${entityName}s(String ids) {
+        Assert.isTrue(StrUtil.isNotBlank(ids), "删除的${businessName}数据为空");
+        // 逻辑删除
+        List<Long> idList = Arrays.stream(ids.split(","))
+                .map(Long::parseLong)
+                .toList();
+        return this.removeByIds(idList);
+    }
+
+}

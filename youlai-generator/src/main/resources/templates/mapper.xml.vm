@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${packageName}.${moduleName}.mapper.${entityName}Mapper">
+
+    <!-- 获取${businessName}分页列表 -->
+    <select id="get${entityName}Page" resultType="${packageName}.${moduleName}.model.vo.${entityName}VO">
+        SELECT
+        #if($fieldConfigs)
+            #set ($fields = [])
+            #foreach($fieldConfig in ${fieldConfigs})
+                #if($fieldConfig.isShowInList)
+                #set ($discard = $fields.add(${fieldConfig.columnName}))
+                #end
+            #end
+            #foreach($field in $fields)
+                ${field}#if($foreach.hasNext),#end
+            #end
+        #end
+        FROM
+            ${tableName}
+        <where>
+            #if($fieldConfigs)
+                #foreach($fieldConfig in ${fieldConfigs})
+                    #if($fieldConfig.isShowInQuery)
+                #if($fieldConfig.fieldType == "String")
+            <if test="queryParams.${fieldConfig.fieldName} != null and queryParams.${fieldConfig.fieldName} != ''">
+                #else
+            <if test="queryParams.${fieldConfig.fieldName} != null">
+                #end
+                            #set ($queryType = ${fieldConfig.queryType})
+                            #if($queryType == "EQ")
+                AND ${fieldConfig.columnName} = #{queryParams.${fieldConfig.fieldName}}
+                            #elseif($queryType == "LIKE")
+                AND ${fieldConfig.columnName} LIKE CONCAT('%', #{queryParams.${fieldConfig.fieldName}}, '%')
+                            #elseif($queryType == "IN")
+                <if test="queryParams.${fieldConfig.fieldName}.size() > 0">
+                    AND ${fieldConfig.columnName} IN  <foreach collection="queryParams.${fieldConfig.fieldName}" item="item" open="(" close=")" separator=",">#{item}</foreach>
+                </if>
+                #elseif($queryType == "BETWEEN")
+                    #if($fieldConfig.formType == "DATE" || $fieldConfig.formType == "DATE_TIME")
+                <if test="queryParams.${fieldConfig.fieldName}[0] != null and queryParams.${fieldConfig.fieldName}[0] != ''">
+                    <bind name="startDate" value="queryParams.${fieldConfig.fieldName}[0].length() == 10 ? queryParams.${fieldConfig.fieldName}[0] + ' 00:00:00' : queryParams.${fieldConfig.fieldName}[0]"/>
+                    AND ${fieldConfig.columnName} &gt;= #{startDate}
+                </if>
+                <if test="queryParams.${fieldConfig.fieldName}[1] != null and queryParams.${fieldConfig.fieldName}[1] != ''">
+                    <bind name="endDate" value="queryParams.${fieldConfig.fieldName}[1].length() == 10 ? queryParams.${fieldConfig.fieldName}[1] + ' 23:59:59' : queryParams.${fieldConfig.fieldName}[1]"/>
+                    AND ${fieldConfig.columnName} &lt;= #{endDate}
+                </if>
+                    #else
+                <if test="queryParams.${fieldConfig.fieldName}[0] != null and queryParams.${fieldConfig.fieldName}[0] != ''">
+                    AND ${fieldConfig.columnName} &gt;= #{queryParams.${fieldConfig.fieldName}[0]}
+                </if>
+                <if test="queryParams.${fieldConfig.fieldName}[1] != null and queryParams.${fieldConfig.fieldName}[1] != ''">
+                    AND ${fieldConfig.columnName} &lt;= #{queryParams.${fieldConfig.fieldName}[1]}
+                </if>
+                    #end
+                            #elseif($queryType == "GT")
+                AND ${fieldConfig.columnName} > #{queryParams.${fieldConfig.fieldName}}
+                            #elseif($queryType == "GE")
+                AND ${fieldConfig.columnName} >= #{queryParams.${fieldConfig.fieldName}}
+                            #elseif($queryType == "LT")
+                AND ${fieldConfig.columnName} &lt; #{queryParams.${fieldConfig.fieldName}}
+                            #elseif($queryType == "LE")
+                AND ${fieldConfig.columnName} &lt;= #{queryParams.${fieldConfig.fieldName}}
+                            #elseif($queryType == "NE")
+                AND ${fieldConfig.columnName} != #{queryParams.${fieldConfig.fieldName}}
+                            #elseif($queryType == "LIKE_LEFT")
+                AND ${fieldConfig.columnName} LIKE CONCAT('%', #{queryParams.${fieldConfig.fieldName}})
+                            #elseif($queryType == "LIKE_RIGHT")
+                AND ${fieldConfig.columnName} LIKE CONCAT(#{queryParams.${fieldConfig.fieldName}}, '%')
+                            #end
+            </if>
+                    #end
+                #end
+            #end
+        </where>
+    </select>
+
+</mapper>

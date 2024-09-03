@@ -1,9 +1,9 @@
-package com.youlai.system.enums;
+package com.youlai.generator.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.youlai.boot.common.base.IBaseEnum;
+import com.youlai.common.base.IBaseEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

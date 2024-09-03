@@ -22,6 +22,7 @@
         <module>mall-product</module>
         <module>mall-order</module>
         <module>youlai-generator</module>
+        <module>youlai-generator</module>
     </modules>
 
     <parent>

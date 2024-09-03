@@ -1,0 +1,37 @@
+package ${packageName}.${moduleName}.${subpackageName};
+
+import lombok.Getter;
+import lombok.Setter;
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.youlai.boot.common.base.BaseEntity;
+
+/**
+ * $!{businessName}实体对象
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Getter
+@Setter
+@TableName("${tableName}")
+public class ${entityName} extends BaseEntity {
+
+    private static final long serialVersionUID = 1L;
+
+#foreach($fieldConfig in ${fieldConfigs})
+    #if(!$fieldConfig.fieldName.equals("id") && !$fieldConfig.fieldName.equals("createTime") && !$fieldConfig.fieldName.equals("updateTime"))
+        #if("$!fieldConfig.fieldComment" != "")
+    /**
+     * ${fieldConfig.fieldComment}
+     */
+        #end
+    private ${fieldConfig.fieldType} ${fieldConfig.fieldName};
+    #end
+#end
+}

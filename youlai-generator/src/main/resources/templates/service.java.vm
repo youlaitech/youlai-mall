@@ -1,0 +1,58 @@
+package ${packageName}.${moduleName}.${subpackageName};
+
+import ${packageName}.${moduleName}.model.entity.${entityName};
+import ${packageName}.${moduleName}.model.form.${entityName}Form;
+import ${packageName}.${moduleName}.model.query.${entityName}Query;
+import ${packageName}.${moduleName}.model.vo.${entityName}VO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+/**
+ * $!{businessName}服务类
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public interface ${entityName}Service extends IService<${entityName}> {
+
+    /**
+     *$!{businessName}分页列表
+     *
+     * @return
+     */
+    IPage<${entityName}VO> get${entityName}Page(${entityName}Query queryParams);
+
+    /**
+     * 获取${businessName}表单数据
+     *
+     * @param id $!{businessName}ID
+     * @return
+     */
+     ${entityName}Form get${entityName}FormData(Long id);
+
+    /**
+     * 新增${businessName}
+     *
+     * @param formData $!{businessName}表单对象
+     * @return
+     */
+    boolean save${entityName}(${entityName}Form formData);
+
+    /**
+     * 修改${businessName}
+     *
+     * @param id   $!{businessName}ID
+     * @param formData $!{businessName}表单对象
+     * @return
+     */
+    boolean update${entityName}(Long id, ${entityName}Form formData);
+
+    /**
+     * 删除${businessName}
+     *
+     * @param ids $!{businessName}ID，多个以英文逗号(,)分割
+     * @return
+     */
+    boolean delete${entityName}s(String ids);
+
+}

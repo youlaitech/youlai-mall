@@ -1,0 +1,107 @@
+import request from "@/utils/request";
+
+const ${entityName.toUpperCase()}_BASE_URL = "/api/v1/${lowerFirstEntityName}s";
+
+class ${entityName}API {
+    /** 获取${businessName}分页数据 */
+    static getPage(queryParams?: ${entityName}PageQuery) {
+        return request<any, PageResult<${entityName}PageVO[]>>({
+            url: `${${entityName.toUpperCase()}_BASE_URL}/page`,
+            method: "get",
+            params: queryParams,
+        });
+    }
+    /**
+     * 获取${businessName}表单数据
+     *
+     * @param id ${entityName}ID
+     * @returns ${entityName}表单数据
+     */
+    static getFormData(id: number) {
+        return request<any, ${entityName}Form>({
+            url: `${${entityName.toUpperCase()}_BASE_URL}/${id}/form`,
+            method: "get",
+        });
+    }
+
+    /** 添加${businessName}*/
+    static add(data: ${entityName}Form) {
+        return request({
+            url: `${${entityName.toUpperCase()}_BASE_URL}`,
+            method: "post",
+            data: data,
+        });
+    }
+
+    /**
+     * 更新${businessName}
+     *
+     * @param id ${entityName}ID
+     * @param data ${entityName}表单数据
+     */
+    static update(id: number, data: ${entityName}Form) {
+        return request({
+            url: `${${entityName.toUpperCase()}_BASE_URL}/${id}`,
+            method: "put",
+            data: data,
+        });
+    }
+
+    /**
+     * 批量删除${businessName}，多个以英文逗号(,)分割
+     *
+     * @param ids ${businessName}ID字符串，多个以英文逗号(,)分割
+     */
+    static deleteByIds(ids: string) {
+        return request({
+            url: `${${entityName.toUpperCase()}_BASE_URL}/${ids}`,
+            method: "delete",
+        });
+    }
+}
+
+export default ${entityName}API;
+
+/** ${businessName}分页查询参数 */
+export interface ${entityName}PageQuery extends PageQuery {
+    #foreach($fieldConfig in $fieldConfigs)
+        #if($fieldConfig.isShowInQuery)
+            #if("$!fieldConfig.fieldComment" != "")
+    /** ${fieldConfig.fieldComment} */
+            #end
+            #if($fieldConfig.formType == "DATE" || $fieldConfig.formType == "DATE_TIME")
+                #if($fieldConfig.queryType == "BETWEEN")
+    ${fieldConfig.fieldName}?: [string, string];
+                #else
+    ${fieldConfig.fieldName}?: ${fieldConfig.tsType};
+                #end
+            #else
+    ${fieldConfig.fieldName}?: ${fieldConfig.tsType};
+            #end
+        #end
+    #end
+}
+
+/** ${businessName}表单对象 */
+export interface ${entityName}Form {
+    #foreach($fieldConfig in $fieldConfigs)
+        #if($fieldConfig.isShowInForm)
+    #if("$!fieldConfig.fieldComment" != "")
+    /** ${fieldConfig.fieldComment} */
+    #end
+    ${fieldConfig.fieldName}?:  ${fieldConfig.tsType};
+        #end
+    #end
+}
+
+/** ${businessName}分页对象 */
+export interface ${entityName}PageVO {
+    #foreach($fieldConfig in $fieldConfigs)
+        #if($fieldConfig.isShowInList)
+            #if("$!fieldConfig.fieldComment" != "")
+    /** ${fieldConfig.fieldComment} */
+            #end
+    ${fieldConfig.fieldName}?: ${fieldConfig.tsType};
+        #end
+    #end
+}
