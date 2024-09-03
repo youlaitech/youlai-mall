@@ -3,9 +3,9 @@ package com.youlai.system.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.youlai.boot.common.base.BaseEntity;
-import com.youlai.boot.common.enums.FormTypeEnum;
-import com.youlai.boot.common.enums.QueryTypeEnum;
+import com.youlai.common.base.BaseEntity;
+import com.youlai.system.enums.FormTypeEnum;
+import com.youlai.system.enums.QueryTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
