@@ -18,13 +18,6 @@
 
     <dependencies>
 
-        <!-- 单元测试 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Spring Cloud & Alibaba -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -73,12 +66,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>system-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-mybatis</artifactId>
+            <artifactId>common-core</artifactId>
         </dependency>
 
         <dependency>
@@ -88,7 +76,7 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>common-mybatis</artifactId>
         </dependency>
 
         <dependency>
@@ -104,6 +92,11 @@
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-file</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>system-api</artifactId>
         </dependency>
 
     </dependencies>

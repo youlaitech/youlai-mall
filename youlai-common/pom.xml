@@ -16,6 +16,7 @@
     <modules>
         <module>common-base</module>
         <module>common-core</module>
+        <module>common-framework</module>
         <module>common-middleware</module>
         <module>common-service</module>
     </modules>

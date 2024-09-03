@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
+
+/**
+ * 营销广告
+ *
+ * @author Ray
+ * @since 1.0.0
+ */
 @Tag(name = "Admin-营销广告")
 @RestController
 @RequestMapping("/api/v1/adverts")
@@ -24,7 +31,7 @@ public class AdvertController {
 
     private final AdvertService advertService;
 
-    @Operation(summary= "广告分页列表")
+    @Operation(summary = "广告分页列表")
     @GetMapping("/page")
     public PageResult<Advert> getAdvertPage(AdvertPageQuery queryParams) {
 
@@ -43,7 +50,7 @@ public class AdvertController {
         return PageResult.success(result);
     }
 
-    @Operation(summary= "广告详情")
+    @Operation(summary = "广告详情")
     @GetMapping("/{id}")
     public Result getAdvertDetail(
             @Parameter(description = "广告ID") @PathVariable Long id
@@ -52,14 +59,14 @@ public class AdvertController {
         return Result.success(advert);
     }
 
-    @Operation(summary= "新增广告")
+    @Operation(summary = "新增广告")
     @PostMapping
     public Result addAvert(@RequestBody Advert advert) {
         boolean status = advertService.save(advert);
         return Result.judge(status);
     }
 
-    @Operation(summary= "修改广告")
+    @Operation(summary = "修改广告")
     @PutMapping(value = "/{id}")
     public Result updateAdvert(
             @Parameter(description = "广告ID") @PathVariable Long id,
@@ -68,13 +75,11 @@ public class AdvertController {
         return Result.judge(status);
     }
 
-    @Operation(summary= "删除广告")
+    @Operation(summary = "删除广告")
     @DeleteMapping("/{ids}")
     public Result deleteAdverts(@Parameter(description = "广告ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids) {
         boolean status = advertService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
-
-
     }
 
 }

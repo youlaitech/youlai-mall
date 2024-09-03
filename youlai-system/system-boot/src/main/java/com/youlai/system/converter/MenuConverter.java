@@ -1,6 +1,6 @@
 package com.youlai.system.converter;
 
-import com.youlai.system.model.entity.SysMenu;
+import com.youlai.system.model.entity.Menu;
 import com.youlai.system.model.form.MenuForm;
 import com.youlai.system.model.vo.MenuVO;
 import org.mapstruct.Mapper;
@@ -15,11 +15,11 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface MenuConverter {
 
-    MenuVO entity2Vo(SysMenu entity);
+    MenuVO entity2Vo(Menu entity);
 
     @Mapping(target = "params", ignore = true)
-    MenuForm convertToForm(SysMenu entity);
+    MenuForm convertToForm(Menu entity);
 
     @Mapping(target = "params", ignore = true)
-    SysMenu toEntity(MenuForm menuForm);
+    Menu toEntity(MenuForm menuForm);
 }

@@ -23,6 +23,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-base</artifactId>
+        </dependency>
+
         <!-- MinIO -->
         <dependency>
             <groupId>io.minio</groupId>

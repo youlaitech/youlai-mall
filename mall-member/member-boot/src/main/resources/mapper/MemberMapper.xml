@@ -12,7 +12,7 @@
     </resultMap>
 
     <!-- 会员分页列表 -->
-    <select id="listPagedMembers" resultMap="MemberPageResultMap">
+    <select id="getMemberPage" resultMap="MemberPageResultMap">
         SELECT
             id,
             nickName,

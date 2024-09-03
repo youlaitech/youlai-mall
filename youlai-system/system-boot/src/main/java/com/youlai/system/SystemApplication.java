@@ -7,7 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 /**
  * 系统服务启动类
  *
- * @author ray
+ * @author Ray
+ * @since 0.0.1
  */
 @SpringBootApplication
 @EnableDiscoveryClient

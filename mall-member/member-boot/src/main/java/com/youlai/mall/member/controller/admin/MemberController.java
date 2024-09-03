@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
+/**
+ * 会员管理
+ *
+ * @author Ray
+ * @since 1.0.0
+ */
 
 @Tag(name = "Admin-会员管理")
 @RestController
@@ -26,14 +32,14 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @Operation(summary= "会员分页列表")
+    @Operation(summary = "会员分页列表")
     @GetMapping("/page")
-    public PageResult<MemberPageVO> listPagedMembers(MemberPageQuery pageQuery) {
-        IPage<MemberPageVO> page = memberService.listPagedMembers(pageQuery);
+    public PageResult<MemberPageVO> getMemberPage(MemberPageQuery pageQuery) {
+        IPage<MemberPageVO> page = memberService.getMemberPage(pageQuery);
         return PageResult.success(page);
     }
 
-    @Operation(summary= "修改会员")
+    @Operation(summary = "修改会员")
     @PutMapping(value = "/{memberId}")
     public <T> Result<T> update(
             @Parameter(description = "会员ID") @PathVariable Long memberId,
@@ -43,7 +49,7 @@ public class MemberController {
         return Result.judge(status);
     }
 
-    @Operation(summary= "修改会员状态")
+    @Operation(summary = "修改会员状态")
     @PatchMapping("/{memberId}/status")
     public <T> Result<T> updateMemberStatus(
             @Parameter(description = "会员ID") @PathVariable Long memberId,
@@ -57,7 +63,7 @@ public class MemberController {
         return Result.judge(status);
     }
 
-    @Operation(summary= "删除会员")
+    @Operation(summary = "删除会员")
     @DeleteMapping("/{ids}")
     public <T> Result<T> delete(
             @Parameter(description = "会员ID，多个以英文逗号(,)拼接") @PathVariable String ids

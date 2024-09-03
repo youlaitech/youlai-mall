@@ -66,22 +66,27 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
+            <artifactId>common-base</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-mybatis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>common-sms</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
             <artifactId>member-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>system-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-base</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
-            <artifactId>common-sms</artifactId>
         </dependency>
 
     </dependencies>

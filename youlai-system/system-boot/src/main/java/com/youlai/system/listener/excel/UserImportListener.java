@@ -12,13 +12,13 @@ import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.enums.GenderEnum;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.converter.UserConverter;
-import com.youlai.system.model.entity.SysRole;
-import com.youlai.system.model.entity.SysUser;
-import com.youlai.system.model.entity.SysUserRole;
+import com.youlai.system.model.entity.Role;
+import com.youlai.system.model.entity.User;
+import com.youlai.system.model.entity.UserRole;
 import com.youlai.system.model.vo.UserImportVO;
-import com.youlai.system.service.SysRoleService;
-import com.youlai.system.service.SysUserRoleService;
-import com.youlai.system.service.SysUserService;
+import com.youlai.system.service.RoleService;
+import com.youlai.system.service.UserRoleService;
+import com.youlai.system.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -49,22 +49,22 @@ public class UserImportListener extends MyAnalysisEventListener<UserImportVO> {
     // 部门ID
     private final Long deptId;
 
-    private final SysUserService userService;
+    private final UserService userService;
 
     private final PasswordEncoder passwordEncoder;
 
     private final UserConverter userConverter;
 
-    private final SysRoleService roleService;
+    private final RoleService roleService;
 
-    private final SysUserRoleService userRoleService;
+    private final UserRoleService userRoleService;
 
     public UserImportListener(Long deptId) {
         this.deptId = deptId;
-        this.userService = SpringUtil.getBean(SysUserService.class);
+        this.userService = SpringUtil.getBean(UserService.class);
         this.passwordEncoder = SpringUtil.getBean(PasswordEncoder.class);
-        this.roleService = SpringUtil.getBean(SysRoleService.class);
-        this.userRoleService = SpringUtil.getBean(SysUserRoleService.class);
+        this.roleService = SpringUtil.getBean(RoleService.class);
+        this.userRoleService = SpringUtil.getBean(UserRoleService.class);
         this.userConverter = SpringUtil.getBean(UserConverter.class);
     }
 
@@ -87,7 +87,7 @@ public class UserImportListener extends MyAnalysisEventListener<UserImportVO> {
         if (StrUtil.isBlank(username)) {
             validationMsg.append("用户名为空；");
         } else {
-            long count = userService.count(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username));
+            long count = userService.count(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
             if (count > 0) {
                 validationMsg.append("用户名已存在；");
             }
@@ -109,7 +109,7 @@ public class UserImportListener extends MyAnalysisEventListener<UserImportVO> {
 
         if (validationMsg.length() == 0) {
             // 校验通过，持久化至数据库
-            SysUser entity = userConverter.importVo2Entity(userImportVO);
+            User entity = userConverter.importVo2Entity(userImportVO);
             entity.setDeptId(deptId);   // 部门
             entity.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_PASSWORD));   // 默认密码
             // 性别翻译
@@ -124,10 +124,10 @@ public class UserImportListener extends MyAnalysisEventListener<UserImportVO> {
             List<Long> roleIds = null;
             if (StrUtil.isNotBlank(roleCodes)) {
                 roleIds = roleService.list(
-                                new LambdaQueryWrapper<SysRole>()
-                                        .in(SysRole::getCode, roleCodes.split(","))
-                                        .eq(SysRole::getStatus, StatusEnum.ENABLE.getValue())
-                                        .select(SysRole::getId)
+                                new LambdaQueryWrapper<Role>()
+                                        .in(Role::getCode, roleCodes.split(","))
+                                        .eq(Role::getStatus, StatusEnum.ENABLE.getValue())
+                                        .select(Role::getId)
                         ).stream()
                         .map(role -> role.getId())
                         .collect(Collectors.toList());
@@ -139,8 +139,8 @@ public class UserImportListener extends MyAnalysisEventListener<UserImportVO> {
                 validCount++;
                 // 保存用户角色关联
                 if (CollectionUtil.isNotEmpty(roleIds)) {
-                    List<SysUserRole> userRoles = roleIds.stream()
-                            .map(roleId -> new SysUserRole(entity.getId(), roleId))
+                    List<UserRole> userRoles = roleIds.stream()
+                            .map(roleId -> new UserRole(entity.getId(), roleId))
                             .collect(Collectors.toList());
                     userRoleService.saveBatch(userRoles);
                 }

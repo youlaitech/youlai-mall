@@ -1,6 +1,6 @@
 package com.youlai.system.converter;
 
-import com.youlai.system.model.entity.SysDept;
+import com.youlai.system.model.entity.Dept;
 import com.youlai.system.model.form.DeptForm;
 import com.youlai.system.model.vo.DeptVO;
 import org.mapstruct.Mapper;
@@ -14,9 +14,9 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface DeptConverter {
 
-    DeptForm convertToForm(SysDept entity);
-    DeptVO entity2Vo(SysDept entity);
+    DeptForm convertToForm(Dept entity);
+    DeptVO entity2Vo(Dept entity);
 
-    SysDept convertToForm(DeptForm deptForm);
+    Dept convertToForm(DeptForm deptForm);
 
 }

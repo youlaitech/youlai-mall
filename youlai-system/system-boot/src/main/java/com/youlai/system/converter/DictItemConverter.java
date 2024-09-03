@@ -2,7 +2,7 @@ package com.youlai.system.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.model.Option;
-import com.youlai.system.model.entity.SysDictItem;
+import com.youlai.system.model.entity.DictItem;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.vo.DictPageVO;
 import org.mapstruct.Mapper;
@@ -20,20 +20,20 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DictItemConverter {
 
-    Page<DictPageVO> convertToPageVo(Page<SysDictItem> page);
+    Page<DictPageVO> convertToPageVo(Page<DictItem> page);
 
-    DictForm convertToForm(SysDictItem entity);
+    DictForm convertToForm(DictItem entity);
 
-    SysDictItem convertToEntity(DictForm.DictItem dictFormDictItems);
-    List<SysDictItem> convertToEntity(List<DictForm.DictItem> dictFormDictItems);
+    DictItem convertToEntity(DictForm.DictItem dictFormDictItems);
+    List<DictItem> convertToEntity(List<DictForm.DictItem> dictFormDictItems);
 
-    DictForm.DictItem convertToDictFormDictItem(SysDictItem entity);
-    List<DictForm.DictItem> convertToDictFormDictItem(List<SysDictItem> entities);
+    DictForm.DictItem convertToDictFormDictItem(DictItem entity);
+    List<DictForm.DictItem> convertToDictFormDictItem(List<DictItem> entities);
 
     @Mappings({
             @Mapping(target = "value", source = "id"),
             @Mapping(target = "label", source = "name")
     })
-    Option convertToOption(SysDictItem dictItem);
-    List<Option> convertToOption(List<SysDictItem> dictItems);
+    Option convertToOption(DictItem dictItem);
+    List<Option> convertToOption(List<DictItem> dictItems);
 }

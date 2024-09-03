@@ -51,8 +51,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
      * @return 会员分页列表
      */
     @Override
-    public IPage<MemberPageVO> listPagedMembers(MemberPageQuery queryParams) {
-        Page<MemberBO> boPage = this.baseMapper.listPagedMembers(
+    public IPage<MemberPageVO> getMemberPage(MemberPageQuery queryParams) {
+        Page<MemberBO> boPage = this.baseMapper.getMemberPage(
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 queryParams
         );

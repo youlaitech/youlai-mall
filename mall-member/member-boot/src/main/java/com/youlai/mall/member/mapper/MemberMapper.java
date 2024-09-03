@@ -25,5 +25,5 @@ public interface MemberMapper extends BaseMapper<Member> {
      * @param queryParams 查询参数
      * @return
      */
-    Page<MemberBO> listPagedMembers(Page<MemberBO> page, MemberPageQuery queryParams);
+    Page<MemberBO> getMemberPage(Page<MemberBO> page, MemberPageQuery queryParams);
 }

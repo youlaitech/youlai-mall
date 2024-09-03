@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.system.mapper.DictMapper">
+
+    <!-- 字典映射 -->
+    <resultMap id="DictMap" type="com.youlai.system.model.vo.DictPageVO">
+        <collection property="dictItems"
+                    column="{dictId=id}"
+                    select="com.youlai.system.mapper.DictItemMapper.listDictItemsByDictId">
+        </collection>
+    </resultMap>
+
+    <!-- 字典分页列表 -->
+    <select id="getDictPage" resultMap="DictMap">
+        SELECT
+            t1.id,
+            t1.name,
+            t1.code,
+            t1.status
+        FROM
+            sys_dict t1
+        <where>
+            t1.is_deleted = 0
+            <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
+                AND (
+                    t1.name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                    OR t1.code LIKE CONCAT('%',#{queryParams.keywords},'%')
+                )
+            </if>
+        </where>
+        ORDER BY
+            t1.create_time DESC
+    </select>
+</mapper>

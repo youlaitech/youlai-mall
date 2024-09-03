@@ -20,7 +20,10 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import java.util.List;
 
 /**
- * 默认安全配置
+ * Spring Security安全配置
+ *
+ * @author Ray
+ * @since 3.0.0
  */
 @ConfigurationProperties(prefix = "security")
 @Configuration(proxyBeanMethods = false)
@@ -31,7 +34,7 @@ public class SecurityConfig {
      * 白名单路径列表
      */
     @Setter
-    private List<String> whitelistPaths;
+    private List<String> ignoreUris;
 
     /**
      * Spring Security 安全过滤器链配置
@@ -45,9 +48,9 @@ public class SecurityConfig {
         MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
         http.authorizeHttpRequests((requests) ->
                         {
-                            if (CollectionUtil.isNotEmpty(whitelistPaths)) {
-                                for (String whitelistPath : whitelistPaths) {
-                                    requests.requestMatchers(mvcMatcherBuilder.pattern(whitelistPath)).permitAll();
+                            if (CollectionUtil.isNotEmpty(ignoreUris)) {
+                                for (String ignoreUri : ignoreUris) {
+                                    requests.requestMatchers(mvcMatcherBuilder.pattern(ignoreUri)).permitAll();
                                 }
                             }
                             requests.anyRequest().authenticated();

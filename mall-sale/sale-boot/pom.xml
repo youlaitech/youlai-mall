@@ -11,7 +11,6 @@
 
     <artifactId>sale-boot</artifactId>
     <properties>
-
         <service.port>8804</service.port>
         <service.nodeport>32002</service.nodeport>
     </properties>
@@ -21,13 +20,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-
-        <!-- 单元测试 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!-- Spring Cloud & Alibaba -->
@@ -55,11 +47,6 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
-            <artifactId>sale-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.youlai</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
 
@@ -73,6 +60,11 @@
             <artifactId>common-security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>sale-api</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -84,6 +76,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

@@ -14,8 +14,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
+ *  Feign 响应解码器
+ *
  * @author Ray
- * @link https://zhuanlan.zhihu.com/p/545505705
  * @since 2023/8/23
  */
 public class FeignDecoder implements Decoder {

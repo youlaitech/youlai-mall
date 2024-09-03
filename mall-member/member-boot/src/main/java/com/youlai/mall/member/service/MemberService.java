@@ -25,7 +25,7 @@ public interface MemberService extends IService<Member> {
     /**
      * 会员分页列表
      */
-    IPage<MemberPageVO> listPagedMembers(MemberPageQuery queryParams);
+    IPage<MemberPageVO> getMemberPage(MemberPageQuery queryParams);
 
 
     /**

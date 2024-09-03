@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.system.mapper.MenuMapper">
+
+    <!-- 菜单路由映射 -->
+    <resultMap id="RouteMap" type="com.youlai.system.model.bo.RouteBO">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
+        <result property="component" column="component" jdbcType="VARCHAR"/>
+        <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="visible" column="visible" jdbcType="BOOLEAN"/>
+        <result property="type" column="type" jdbcType="OTHER"/>
+        <result property="alwaysShow" column="always_show" jdbcType="INTEGER"/>
+        <result property="keepAlive" column="keep_alive" jdbcType="INTEGER"/>
+        <result property="params" column="params" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 获取路由列表 -->
+    <select id="listRoutes" resultMap="RouteMap">
+        SELECT
+            DISTINCT t1.id,
+            t1.name,
+            t1.parent_id,
+            t1.route_name,
+            t1.route_path,
+            t1.component,
+            t1.icon,
+            t1.sort,
+            t1.visible,
+            t1.redirect,
+            t1.type,
+            t1.always_show,
+            t1.keep_alive,
+            t1.params
+        FROM
+            sys_menu t1
+            INNER JOIN sys_role_menu t2 ON t1.id = t2.menu_id
+            INNER JOIN sys_role t3 ON t2.role_id = t3.id AND t3.status = 1 AND t3.is_deleted = 0
+        WHERE
+            t1.type != '${@com.youlai.system.enums.MenuTypeEnum@BUTTON.getValue()}'
+            <if test="roles != null and roles.size() > 0">
+                <!-- ROOT 可查看所有菜单  -->
+                <if test="!roles.contains('ROOT')">
+                    AND t3.code IN
+                    <foreach collection="roles" item="role" open="(" close=")" separator=",">
+                        #{role}
+                    </foreach>
+                </if>
+            </if>
+        ORDER BY
+            t1.sort
+    </select>
+
+</mapper>

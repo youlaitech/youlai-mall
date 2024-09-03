@@ -7,11 +7,14 @@ import com.youlai.mall.sale.mapper.CouponHistoryMapper;
 import org.springframework.stereotype.Service;
 
 /**
+ * 优惠券领取历史记录 服务实现类
  *
+ * @author Ray
+ * @since 2.0.0
  */
 @Service
 public class CouponHistoryServiceImpl extends ServiceImpl<CouponHistoryMapper, CouponHistory>
-implements CouponHistoryService {
+        implements CouponHistoryService {
 
 }
 

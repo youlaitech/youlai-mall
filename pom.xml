@@ -21,8 +21,7 @@
         <module>mall-member</module>
         <module>mall-product</module>
         <module>mall-order</module>
-        <module>youlai-common/common-framework</module>
-        <module>youlai-common/common-service</module>
+        <module>youlai-generator</module>
     </modules>
 
     <parent>
