@@ -40,10 +40,10 @@ public class RepeatSubmitAspect {
      * 防重复提交切点
      */
     @Pointcut("@annotation(repeatSubmit)")
-    public void preventDuplicateSubmitPointCut(RepeatSubmit repeatSubmit) {
+    public void repeatSubmitPointCut(RepeatSubmit repeatSubmit) {
     }
 
-    @Around(value = "preventDuplicateSubmitPointCut(repeatSubmit)", argNames = "pjp,preventDuplicateResubmit")
+    @Around(value = "repeatSubmitPointCut(repeatSubmit)",  argNames = "pjp,repeatSubmit")
     public Object doAround(ProceedingJoinPoint pjp, RepeatSubmit repeatSubmit) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

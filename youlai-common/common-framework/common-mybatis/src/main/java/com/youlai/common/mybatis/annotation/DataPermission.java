@@ -5,9 +5,9 @@ import java.lang.annotation.*;
 /**
  * MP数据权限注解
  * <p>
- * https://gitee.com/baomidou/mybatis-plus/issues/I37I90
  *
- * @author <a href="mailto:2256222053@qq.com">zc</a>
+ * @author zc
+ * @link https://gitee.com/baomidou/mybatis-plus/issues/I37I90
  * @since 2021-12-10 15:48
  */
 @Documented
@@ -21,6 +21,7 @@ public @interface DataPermission {
     String deptAlias() default "";
 
     String deptIdColumnName() default "dept_id";
+
     String userAlias() default "";
 
     String userIdColumnName() default "create_by";

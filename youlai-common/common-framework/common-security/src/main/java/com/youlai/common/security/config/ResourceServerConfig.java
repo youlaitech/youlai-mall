@@ -43,9 +43,9 @@ public class ResourceServerConfig {
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
-
 
     /**
      * 白名单路径列表

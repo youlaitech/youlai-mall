@@ -1,7 +1,7 @@
 package com.youlai.system.controller;
 
-import com.youlai.common.oss.model.FileInfo;
-import com.youlai.common.oss.service.OssService;
+import com.youlai.common.file.model.FileInfo;
+import com.youlai.common.file.service.OssService;
 import com.youlai.common.result.Result;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
