@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: youlai-generator
+  profiles:
+    active: dev
+
+# 代码生成器配置
+generator:
+  # 下载代码文件名称
+  downloadFileName: youlai-mall-code.zip
+  # 后端项目名称
+  backendAppName: youlai-mall
+  # 前端项目名称
+  frontendAppName: mall-admin
+  # 默认配置
+  defaultConfig:
+    author: youlaitech
+    moduleName: system
+  # 排除数据表
+  excludeTables:
+    - gen_config
+    - gen_field_config
+  ## 模板配置
+  templateConfigs:
+    API:
+      templatePath: api.ts.vm
+      subpackageName: api
+      extension: .ts
+    VIEW:
+      templatePath: index.vue.vm
+      subpackageName: views
+      extension: .vue
+    Controller:
+      templatePath: controller.java.vm
+      subpackageName: controller
+    Service:
+      templatePath: service.java.vm
+      subpackageName: service
+    ServiceImpl:
+      templatePath: serviceImpl.java.vm
+      subpackageName: service.impl
+    Mapper:
+      templatePath: mapper.java.vm
+      subpackageName: mapper
+    MapperXml:
+      templatePath: mapper.xml.vm
+      subpackageName: mapper
+      extension: .xml
+    Converter:
+      templatePath: converter.java.vm
+      subpackageName: converter
+    Query:
+      templatePath: query.java.vm
+      subpackageName: model.query
+    Form:
+      templatePath: form.java.vm
+      subpackageName: model.form
+    VO:
+      templatePath: vo.java.vm
+      subpackageName: model.vo
+    Entity:
+      templatePath: entity.java.vm
+      subpackageName: model.entity
+
+
+

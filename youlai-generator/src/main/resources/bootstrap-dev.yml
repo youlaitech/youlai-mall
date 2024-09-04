@@ -1,0 +1,56 @@
+server:
+  port: 8810
+
+spring:
+  main:
+    allow-circular-references: true
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  cloud:
+    nacos:
+      # 注册中心
+      discovery:
+        server-addr: http://localhost:8848
+      # 配置中心
+      config:
+        server-addr: http://localhost:8848
+        file-extension: yaml
+        shared-configs[0]:
+          data-id: youlai-common.yaml
+          refresh: true
+  datasource:
+    dynamic:
+      primary: youlai_system #设置默认的数据源或者数据源组,默认值即为 master
+      strict: false # 设置严格模式，当数据源找不到时，是否抛出异常，默认为false不抛出
+      datasource:
+        youlai_system: # 系统库
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver # 3.2.0开始支持SPI可省略此配置
+          url: jdbc:mysql://localhost:3306/youlai_system?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&allowMultiQueries=true
+          username: youlai
+          password: 123456
+        youlai_mall_oms: # 订单库
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/youlai_mall_oms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&allowMultiQueries=true
+          username: youlai
+          password: 123456
+        youlai_mall_pms: # 商品库
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/youlai_mall_pms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&allowMultiQueries=true
+          username: youlai
+          password: 123456
+        youlai_mall_sms: # 营销库
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/youlai_mall_sms?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&allowMultiQueries=true
+          username: youlai
+          password: 123456
+        youlai_mall_ums: # 会员库
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/youlai_mall_ums?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&allowMultiQueries=true
+          username: youlai
+          password: 123456

@@ -24,11 +24,16 @@
             <artifactId>common-core</artifactId>
         </dependency>
 
+
         <dependency>
             <groupId>com.youlai</groupId>
             <artifactId>common-mybatis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+        </dependency>
 
     </dependencies>
 

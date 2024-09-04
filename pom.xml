@@ -16,13 +16,15 @@
         <module>youlai-system</module>
         <module>youlai-auth</module>
 
+        <!-- 工具模块 -->
+        <module>youlai-generator</module>
+
         <!-- 商城模块 -->
         <module>mall-sale</module>
         <module>mall-member</module>
         <module>mall-product</module>
         <module>mall-order</module>
-        <module>youlai-generator</module>
-        <module>youlai-generator</module>
+
     </modules>
 
     <parent>
@@ -73,6 +75,8 @@
         <!-- 自动代码生成 -->
         <mybatis-plus-generator.version>3.5.6</mybatis-plus-generator.version>
         <velocity.version>2.3</velocity.version>
+        <!-- 动态数据源  -->
+        <dynamic-datasource.version>4.2.0</dynamic-datasource.version>
     </properties>
 
     <dependencies>
@@ -284,6 +288,12 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
             </dependency>
 
         </dependencies>
