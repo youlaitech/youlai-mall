@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.boot.platform.generator.mapper.DatabaseMapper">
+<mapper namespace="com.youlai.generator.mapper.DatabaseMapper">
 
     <!-- 查询数据库表分页 -->
-    <select id="getTablePage" resultType="com.youlai.boot.system.model.vo.TablePageVO">
+    <select id="getTablePage" resultType="com.youlai.generator.model.vo.TablePageVO">
         SELECT
             t1.TABLE_NAME ,
             t1.TABLE_COMMENT ,
@@ -33,7 +33,7 @@
             CREATE_TIME DESC
     </select>
 
-    <select id="getTableMetadata" resultType="com.youlai.boot.system.model.bo.TableMetaData">
+    <select id="getTableMetadata" resultType="com.youlai.generator.model.bo.TableMetaData">
         SELECT
             TABLE_NAME ,
             TABLE_COMMENT ,
@@ -47,7 +47,7 @@
           AND TABLE_NAME = #{tableName}
     </select>
 
-    <select id="getTableColumns" resultType="com.youlai.boot.system.model.bo.ColumnMetaData">
+    <select id="getTableColumns" resultType="com.youlai.generator.model.bo.ColumnMetaData">
         SELECT
             COLUMN_NAME,
             DATA_TYPE,

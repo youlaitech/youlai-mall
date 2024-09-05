@@ -1,7 +1,7 @@
 package com.youlai.generator.model.form;
 
-import com.youlai.boot.common.enums.FormTypeEnum;
-import com.youlai.boot.common.enums.QueryTypeEnum;
+import com.youlai.generator.enums.FormTypeEnum;
+import com.youlai.generator.enums.QueryTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

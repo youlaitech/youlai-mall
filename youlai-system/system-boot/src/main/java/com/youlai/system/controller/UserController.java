@@ -13,7 +13,6 @@ import com.youlai.system.model.entity.User;
 import com.youlai.system.model.form.UserForm;
 import com.youlai.system.model.form.UserRegisterForm;
 import com.youlai.system.model.query.UserPageQuery;
-import com.youlai.mall.system.model.vo.*;
 import com.youlai.system.model.vo.*;
 import com.youlai.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

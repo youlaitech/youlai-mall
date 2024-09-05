@@ -1,3 +1,6 @@
+server:
+  port: 8810
+
 spring:
   application:
     name: youlai-generator

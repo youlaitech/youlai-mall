@@ -51,7 +51,7 @@ public class ResourceServerConfig {
      * 白名单路径列表
      */
     @Setter
-    private List<String> whitelistPaths;
+    private List<String> ignoreUris;
 
 
     @Bean
@@ -59,11 +59,11 @@ public class ResourceServerConfig {
 
         MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
 
-        log.info("whitelist path:{}", JSONUtil.toJsonStr(whitelistPaths));
+        log.info("whitelist path:{}", JSONUtil.toJsonStr(ignoreUris));
         http.authorizeHttpRequests((requests) ->
                         {
-                            if (CollectionUtil.isNotEmpty(whitelistPaths)) {
-                                for (String whitelistPath : whitelistPaths) {
+                            if (CollectionUtil.isNotEmpty(ignoreUris)) {
+                                for (String whitelistPath : ignoreUris) {
                                     requests.requestMatchers(mvcMatcherBuilder.pattern(whitelistPath)).permitAll();
                                 }
                             }

@@ -17,7 +17,7 @@ import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.query.DictPageQuery;
 import com.youlai.system.model.vo.DictPageVO;
 import com.youlai.system.service.DictItemService;
-import com.youlai.system.service.SysDictService;
+import com.youlai.system.service.DictService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class SysDictServiceImpl extends ServiceImpl<DictMapper, Dict> implements SysDictService {
+public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
     private final DictItemService dictItemService;
     private final DictConverter dictConverter;

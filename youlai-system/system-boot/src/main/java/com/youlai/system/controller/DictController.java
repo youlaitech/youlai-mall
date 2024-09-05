@@ -8,7 +8,7 @@ import com.youlai.common.core.model.Option;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.query.DictPageQuery;
 import com.youlai.system.model.vo.DictPageVO;
-import com.youlai.system.service.SysDictService;
+import com.youlai.system.service.DictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DictController {
 
-    private final SysDictService dictService;
+    private final DictService dictService;
 
     @Operation(summary = "字典分页列表")
     @GetMapping("/page")

@@ -16,7 +16,7 @@ import java.util.List;
  * @author haoxr
  * @since 2022/10/12
  */
-public interface SysDictService extends IService<Dict> {
+public interface DictService extends IService<Dict> {
 
     /**
      * 字典分页列表

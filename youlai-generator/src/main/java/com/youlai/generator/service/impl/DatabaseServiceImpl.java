@@ -1,17 +1,14 @@
 package com.youlai.generator.service.impl;
 
-import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.generator.config.GeneratorProperties;
 import com.youlai.generator.mapper.DatabaseMapper;
 import com.youlai.generator.model.query.TablePageQuery;
 import com.youlai.generator.model.vo.TablePageVO;
-import com.youlai.generator.service.DatasourceService;
+import com.youlai.generator.service.DatabaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,25 +19,11 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class DatasourceServiceImpl implements DatasourceService {
+public class DatabaseServiceImpl implements DatabaseService {
 
 
-    private final DataSource dataSource;
     private final DatabaseMapper databaseMapper;
     private final GeneratorProperties generatorProperties;
-
-
-    /**
-     * 获取所有数据源
-     *
-     * @return 数据源列表
-     */
-
-    @Override
-    public List<String> getAllDatasourceKeys() {
-        DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
-        return new ArrayList<>(ds.getDataSources().keySet());
-    }
 
 
     /**
