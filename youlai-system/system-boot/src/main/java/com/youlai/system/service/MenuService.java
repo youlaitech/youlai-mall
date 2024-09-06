@@ -1,12 +1,14 @@
 package com.youlai.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.system.dto.CodegenMenuDTO;
 import com.youlai.system.model.entity.Menu;
 import com.youlai.system.model.form.MenuForm;
 import com.youlai.system.model.query.MenuQuery;
 import com.youlai.system.model.vo.MenuVO;
 import com.youlai.common.core.model.Option;
 import com.youlai.system.model.vo.RouteVO;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Set;
@@ -58,4 +60,9 @@ public interface MenuService extends IService<Menu> {
      * 删除菜单
      */
     boolean deleteMenu(Long id);
+
+    /**
+     * 保存生成代码菜单
+     */
+    boolean createCodegenMenu(@Valid CodegenMenuDTO data);
 }

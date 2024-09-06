@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.core.model.KeyValue;
+import com.youlai.system.dto.CodegenMenuDTO;
 import com.youlai.system.enums.MenuTypeEnum;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.converter.MenuConverter;
@@ -334,6 +335,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             roleMenuService.refreshRolePermsCache();
         }
         return result;
+    }
+
+    /**
+     * 保存生成代码菜单
+     *
+     * @param data
+     * @return
+     */
+    @Override
+    public boolean createCodegenMenu(CodegenMenuDTO data) {
+        return false;
     }
 
 

@@ -17,7 +17,7 @@
         <module>youlai-auth</module>
 
         <!-- 工具模块 -->
-        <module>youlai-generator</module>
+        <module>youlai-codegen</module>
 
         <!-- 商城模块 -->
         <module>mall-sale</module>

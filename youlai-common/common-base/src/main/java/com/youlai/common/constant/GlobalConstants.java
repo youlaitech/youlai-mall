@@ -4,7 +4,7 @@ package com.youlai.common.constant;
  * 全局常量
  *
  * @author Ray
- * @since 2021/10/30 9:32
+ * @since 1.0.0
  */
 public interface GlobalConstants {
 
@@ -12,8 +12,6 @@ public interface GlobalConstants {
      * 全局状态-是
      */
     Integer STATUS_YES = 1;
-
-
 
     /**
      * 根节点ID

@@ -3,6 +3,7 @@ package com.youlai.system.controller;
 import com.youlai.common.result.Result;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.core.annotation.RepeatSubmit;
+import com.youlai.system.dto.CodegenMenuDTO;
 import com.youlai.system.model.form.MenuForm;
 import com.youlai.system.model.query.MenuQuery;
 import com.youlai.system.model.vo.MenuVO;
@@ -12,6 +13,7 @@ import com.youlai.system.service.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -111,6 +113,18 @@ public class MenuController {
         return Result.judge(result);
     }
 
+
+    /**
+     * 代码生成器生成代码新增菜单
+     */
+    @PostMapping("/codegen")
+    public Result<Void> createCodegenMenu(
+            @RequestBody @Valid CodegenMenuDTO data
+    ) {
+
+        boolean result = menuService.createCodegenMenu(data);
+        return Result.judge(result);
+    }
 
 }
 
