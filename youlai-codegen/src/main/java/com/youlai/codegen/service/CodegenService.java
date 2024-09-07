@@ -2,7 +2,7 @@ package com.youlai.codegen.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.codegen.model.query.TablePageQuery;
-import com.youlai.codegen.model.vo.CodePreviewVO;
+import com.youlai.codegen.model.vo.CodegenPreviewVO;
 import com.youlai.codegen.model.vo.TablePageVO;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public interface CodegenService {
      * @param tableName 表名
      * @return 包含代码预览信息的列表
      */
-    List<CodePreviewVO> getCodePreviewData(String tableName);
+    List<CodegenPreviewVO> getCodePreviewData(String tableName);
 
     /**
      * 下载代码

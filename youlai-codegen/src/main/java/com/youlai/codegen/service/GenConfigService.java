@@ -12,7 +12,6 @@ import com.youlai.codegen.model.form.GenConfigForm;
  */
 public interface GenConfigService extends IService<GenConfig> {
 
-
     /**
      * 获取代码生成配置
      *

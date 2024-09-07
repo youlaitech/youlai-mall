@@ -13,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @since 0.0.1
  */
 @SpringBootApplication
-@EnableDiscoveryClient()
+@EnableDiscoveryClient
 @EnableFeignClients(basePackageClasses = {SkuFeignClient.class})
 public class MemberApplication {
     public static void main(String[] args) {

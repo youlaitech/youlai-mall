@@ -3,12 +3,12 @@ server:
 
 spring:
   application:
-    name: youlai-generator
+    name: youlai-codegen
   profiles:
     active: dev
 
 # 代码生成器配置
-generator:
+codegen:
   # 下载代码文件名称
   downloadFileName: youlai-mall-code.zip
   # 后端项目名称

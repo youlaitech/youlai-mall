@@ -12,8 +12,8 @@ import lombok.Getter;
 @Getter
 public enum EnvEnum implements IBaseEnum<String> {
 
-    DEV("dev", "开发"),
-    PROD("prod", "生产");
+    DEV("dev", "开发环境"),
+    PROD("prod", "生产环境");
 
     private final String value;
 

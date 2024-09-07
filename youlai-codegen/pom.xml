@@ -72,6 +72,11 @@
             <artifactId>velocity-engine-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.youlai</groupId>
+            <artifactId>system-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

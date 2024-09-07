@@ -338,15 +338,74 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 保存生成代码菜单
+     * 代码生成时添加菜单
      *
-     * @param data
-     * @return
+     * @param data {@link CodegenMenuDTO} 代码生成菜单数据传输对象
+     * @return 是否成功
      */
     @Override
-    public boolean createCodegenMenu(CodegenMenuDTO data) {
-        return false;
+    public boolean addMenuForCodegen(CodegenMenuDTO data) {
+        Long parentMenuId = data.getParentMenuId();
+
+        Menu parentMenu = this.getById(parentMenuId);
+        Assert.notNull(parentMenu, "上级菜单不存在");
+        String entityName =data.getEntityName();
+
+        long count = this.count(new LambdaQueryWrapper<Menu>().eq(Menu::getRouteName, entityName));
+        if (count > 0) {
+            throw new RuntimeException("菜单已存在");
+        }
+        // 业务名称 e.g. 用户管理
+        String businessName = data.getBusinessName();
+        // 模块名称 e.g. system
+        String moduleName = data.getModuleName();
+        // 获取父级菜单子菜单最带的排序
+        Menu maxSortMenu = this.getOne(new LambdaQueryWrapper<Menu>().eq(Menu::getParentId, parentMenuId)
+                .orderByDesc(Menu::getSort)
+                .last("limit 1")
+        );
+        int sort = 1;
+        if (maxSortMenu != null) {
+            sort = maxSortMenu.getSort() + 1;
+        }
+
+        Menu menu = new Menu();
+        menu.setParentId(parentMenuId);
+        menu.setName(businessName);
+
+        menu.setRouteName(entityName);
+        menu.setRoutePath(StrUtil.toSymbolCase(entityName, '-'));
+        menu.setComponent(data.getModuleName() + "/" + StrUtil.toSymbolCase(entityName, '-') + "/index");
+        menu.setType(MenuTypeEnum.MENU);
+        menu.setSort(sort);
+        menu.setVisible(1);
+        boolean result = this.save(menu);
+
+        if (result) {
+            // 生成treePath
+            String treePath = generateMenuTreePath(parentMenuId);
+            menu.setTreePath(treePath);
+            this.updateById(menu);
+
+            // 生成CURD按钮权限
+            String permPrefix = data.getModuleName() + ":" + StrUtil.lowerFirst(entityName) + ":";
+            String[] actions = {"查询", "新增", "编辑", "删除"};
+            String[] perms = {"query", "add", "edit", "delete"};
+
+            for (int i = 0; i < actions.length; i++) {
+                Menu button = new Menu();
+                button.setParentId(menu.getId());
+                button.setType(MenuTypeEnum.BUTTON);
+                button.setName(actions[i]);
+                button.setPerm(permPrefix + perms[i]);
+                button.setSort(i + 1);
+                this.save(button);
+
+                // 生成 treepath
+                button.setTreePath(treePath + "," + button.getId());
+                this.updateById(button);
+            }
+        }
+        return result;
     }
-
-
 }

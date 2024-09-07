@@ -113,16 +113,14 @@ public class MenuController {
         return Result.judge(result);
     }
 
-
     /**
      * 代码生成器生成代码新增菜单
      */
     @PostMapping("/codegen")
-    public Result<Void> createCodegenMenu(
+    public Result<Void> addMenuForCodegen(
             @RequestBody @Valid CodegenMenuDTO data
     ) {
-
-        boolean result = menuService.createCodegenMenu(data);
+        boolean result = menuService.addMenuForCodegen(data);
         return Result.judge(result);
     }
 

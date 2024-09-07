@@ -3,6 +3,7 @@ package com.youlai.codegen.converter;
 import com.youlai.codegen.model.entity.GenConfig;
 import com.youlai.codegen.model.entity.GenFieldConfig;
 import com.youlai.codegen.model.form.GenConfigForm;
+import com.youlai.system.dto.CodegenMenuDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -35,5 +36,9 @@ public interface CodegenConverter {
     List<GenFieldConfig> toGenFieldConfig(List<GenConfigForm.FieldConfig> fieldConfigs);
 
     GenFieldConfig toGenFieldConfig(GenConfigForm.FieldConfig fieldConfig);
+
+
+    @Mapping(source = "parentMenuId", target = "parentMenuId")
+    CodegenMenuDTO toCodegenMenuDTO(Long parentMenuId, GenConfig genConfig);
 
 }

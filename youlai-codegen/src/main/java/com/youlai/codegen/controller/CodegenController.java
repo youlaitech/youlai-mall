@@ -7,7 +7,7 @@ import com.youlai.common.result.Result;
 import com.youlai.codegen.config.CodegenProperties;
 import com.youlai.codegen.model.form.GenConfigForm;
 import com.youlai.codegen.model.query.TablePageQuery;
-import com.youlai.codegen.model.vo.CodePreviewVO;
+import com.youlai.codegen.model.vo.CodegenPreviewVO;
 import com.youlai.codegen.model.vo.TablePageVO;
 import com.youlai.codegen.service.GenConfigService;
 import com.youlai.codegen.service.CodegenService;
@@ -91,14 +91,14 @@ public class CodegenController {
 
     @Operation(summary = "获取预览生成代码")
     @GetMapping("/{tableName}/preview")
-    public Result<List<CodePreviewVO>> getCodePreviewData(@PathVariable String tableName) {
-        List<CodePreviewVO> list = codegenService.getCodePreviewData(tableName);
+    public Result<List<CodegenPreviewVO>> getCodePreviewData(@PathVariable String tableName) {
+        List<CodegenPreviewVO> list = codegenService.getCodePreviewData(tableName);
         return Result.success(list);
     }
 
     @Operation(summary = "下载代码")
     @GetMapping("/{tableName}/download")
-    public void downloadZip(HttpServletResponse response, @PathVariable String tableName) throws IOException {
+    public void downloadZip(HttpServletResponse response, @PathVariable String tableName) {
         String[] tableNames = tableName.split(",");
         byte[] data = codegenService.downloadCode(tableNames);
 

@@ -64,5 +64,5 @@ public interface MenuService extends IService<Menu> {
     /**
      * 保存生成代码菜单
      */
-    boolean createCodegenMenu(@Valid CodegenMenuDTO data);
+    boolean addMenuForCodegen(@Valid CodegenMenuDTO data);
 }

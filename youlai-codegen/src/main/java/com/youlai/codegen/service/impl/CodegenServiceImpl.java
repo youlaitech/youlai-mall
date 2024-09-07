@@ -17,7 +17,7 @@ import com.youlai.codegen.enums.JavaTypeEnum;
 import com.youlai.codegen.model.entity.GenConfig;
 import com.youlai.codegen.model.entity.GenFieldConfig;
 import com.youlai.codegen.model.query.TablePageQuery;
-import com.youlai.codegen.model.vo.CodePreviewVO;
+import com.youlai.codegen.model.vo.CodegenPreviewVO;
 import com.youlai.codegen.model.vo.TablePageVO;
 import com.youlai.codegen.service.DatabaseService;
 import com.youlai.codegen.service.GenConfigService;
@@ -93,9 +93,9 @@ public class CodegenServiceImpl implements CodegenService {
      * @return 预览数据
      */
     @Override
-    public List<CodePreviewVO> getCodePreviewData(String tableName) {
+    public List<CodegenPreviewVO> getCodePreviewData(String tableName) {
 
-        List<CodePreviewVO> list = new ArrayList<>();
+        List<CodegenPreviewVO> list = new ArrayList<>();
 
         GenConfig genConfig = genConfigService.getOne(new LambdaQueryWrapper<GenConfig>()
                 .eq(GenConfig::getTableName, tableName)
@@ -116,7 +116,7 @@ public class CodegenServiceImpl implements CodegenService {
         // 遍历模板配置
         Map<String, CodegenProperties.TemplateConfig> templateConfigs = codegenProperties.getTemplateConfigs();
         for (Map.Entry<String, CodegenProperties.TemplateConfig> templateConfigEntry : templateConfigs.entrySet()) {
-            CodePreviewVO previewVO = new CodePreviewVO();
+            CodegenPreviewVO previewVO = new CodegenPreviewVO();
 
             CodegenProperties.TemplateConfig templateConfig = templateConfigEntry.getValue();
 
@@ -308,9 +308,9 @@ public class CodegenServiceImpl implements CodegenService {
      * @param zip       压缩文件输出流
      */
     private void generateAndZipCode(String tableName, ZipOutputStream zip) {
-        List<CodePreviewVO> codePreviewList = getCodePreviewData(tableName);
+        List<CodegenPreviewVO> codePreviewList = getCodePreviewData(tableName);
 
-        for (CodePreviewVO codePreview : codePreviewList) {
+        for (CodegenPreviewVO codePreview : codePreviewList) {
             String fileName = codePreview.getFileName();
             String content = codePreview.getContent();
             String path = codePreview.getPath();

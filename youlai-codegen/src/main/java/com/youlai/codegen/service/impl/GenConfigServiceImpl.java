@@ -21,6 +21,8 @@ import com.youlai.codegen.model.entity.GenFieldConfig;
 import com.youlai.codegen.model.form.GenConfigForm;
 import com.youlai.codegen.service.GenConfigService;
 import com.youlai.codegen.service.GenFieldConfigService;
+import com.youlai.system.api.MenuFeignClient;
+import com.youlai.system.dto.CodegenMenuDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,7 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
     private final CodegenProperties codegenProperties;
     private final GenFieldConfigService genFieldConfigService;
     private final CodegenConverter codegenConverter;
-   /* private final MenuService menuService;*/
+    private final MenuFeignClient menuFeignClient;
 
     @Value("${spring.profiles.active}")
     private String springProfilesActive;
@@ -174,10 +176,11 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
         GenConfig genConfig = codegenConverter.toGenConfig(formData);
         this.saveOrUpdate(genConfig);
 
-        // 如果选择上级菜单
+        // 如果选择上级菜单且当前环境不是生产环境，则新增菜单
         Long parentMenuId = formData.getParentMenuId();
-        if (parentMenuId != null && EnvEnum.DEV.getValue().equals(springProfilesActive) ) {
-           // menuService.saveMenu(parentMenuId, genConfig);
+        if (parentMenuId != null && EnvEnum.PROD.getValue().equals(springProfilesActive)) {
+            CodegenMenuDTO codegenMenuDTO = codegenConverter.toCodegenMenuDTO(parentMenuId, genConfig);
+            menuFeignClient.addMenuForCodegen(codegenMenuDTO);
         }
 
         List<GenFieldConfig> genFieldConfigs = codegenConverter.toGenFieldConfig(formData.getFieldConfigs());
