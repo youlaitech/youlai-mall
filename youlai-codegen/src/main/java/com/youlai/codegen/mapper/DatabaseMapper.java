@@ -1,5 +1,6 @@
 package com.youlai.codegen.mapper;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -24,7 +25,9 @@ public interface DatabaseMapper extends BaseMapper {
 
     Page<TablePageVO> getTablePage(Page<TablePageVO> page, TablePageQuery queryParams);
 
+
     List<ColumnMetaData> getTableColumns(String tableName);
+
 
     TableMetaData getTableMetadata(String tableName);
 }

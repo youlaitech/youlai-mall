@@ -65,15 +65,16 @@ public class CodegenController {
     @Operation(summary = "获取代码生成配置")
     @GetMapping("/{tableName}/config")
     public Result<GenConfigForm> getGenConfigFormData(
-            @Parameter(description = "表名", example = "sys_user") @PathVariable String tableName
+            @Parameter(description = "表名", example = "sys_user") @PathVariable String tableName,
+            @Parameter(description = "数据源", example = "youlai_system") @RequestParam String datasourceKey
     ) {
-        GenConfigForm formData = genConfigService.getGenConfigFormData(tableName);
+        GenConfigForm formData = genConfigService.getGenConfigFormData(tableName,datasourceKey);
         return Result.success(formData);
     }
 
     @Operation(summary = "保存代码生成配置")
     @PostMapping("/config")
-    public Result<?> saveGenConfig(
+    public Result<Void> saveGenConfig(
             @RequestBody GenConfigForm formData
     ) {
         genConfigService.saveGenConfig(formData);
@@ -82,7 +83,7 @@ public class CodegenController {
 
     @Operation(summary = "删除代码生成配置")
     @DeleteMapping("/{tableName}/config")
-    public Result<?> deleteGenConfig(
+    public Result<Void> deleteGenConfig(
             @Parameter(description = "表名", example = "sys_user") @PathVariable String tableName
     ) {
         genConfigService.deleteGenConfig(tableName);

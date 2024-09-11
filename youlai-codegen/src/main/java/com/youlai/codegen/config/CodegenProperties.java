@@ -86,6 +86,11 @@ public class CodegenProperties {
         private String author;
 
         /**
+         * 默认包名(e.g. com.youlai.mall)
+         */
+        private String packageName;
+
+        /**
          * 默认模块名(e.g. system)
          */
         private String moduleName;

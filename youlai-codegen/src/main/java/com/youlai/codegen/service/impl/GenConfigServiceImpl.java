@@ -3,6 +3,7 @@ package com.youlai.codegen.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.core.exception.BusinessException;
@@ -55,20 +56,17 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
      * @return 代码生成配置
      */
     @Override
-    public GenConfigForm getGenConfigFormData(String tableName) {
+    public GenConfigForm getGenConfigFormData(String tableName, String datasourceKey) {
         // 查询表生成配置
-        GenConfig genConfig = this.getOne(
-                new LambdaQueryWrapper<>(GenConfig.class)
-                        .eq(GenConfig::getTableName, tableName)
-                        .last("LIMIT 1")
+        GenConfig genConfig = this.getOne(new LambdaQueryWrapper<>(GenConfig.class)
+                .eq(GenConfig::getTableName, tableName)
         );
 
         // 是否有代码生成配置
         boolean hasGenConfig = genConfig != null;
-
         // 如果没有代码生成配置，则根据表的元数据生成默认配置
         if (genConfig == null) {
-            TableMetaData tableMetadata = databaseMapper.getTableMetadata(tableName);
+            TableMetaData tableMetadata = this.getTableMetadata(tableName, datasourceKey);
             Assert.isTrue(tableMetadata != null, "未找到表元数据");
 
             genConfig = new GenConfig();
@@ -82,24 +80,21 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
             String entityName = StrUtil.toCamelCase(StrUtil.removePrefix(tableName, tableName.split("_")[0]));
             genConfig.setEntityName(entityName);
 
-            genConfig.setPackageName("com.youlai");
-            // 默认模块名
-            genConfig.setModuleName(codegenProperties.getDefaultConfig().getModuleName());
-            genConfig.setAuthor(codegenProperties.getDefaultConfig().getAuthor());
+            // 默认配置
+            CodegenProperties.DefaultConfig defaultConfig = codegenProperties.getDefaultConfig();
+            genConfig.setPackageName(defaultConfig.getPackageName());
+            genConfig.setModuleName(defaultConfig.getModuleName());
+            genConfig.setAuthor(defaultConfig.getAuthor());
         }
 
         // 根据表的列 + 已经存在的字段生成配置 得到 组合后的字段生成配置
         List<GenFieldConfig> genFieldConfigs = new ArrayList<>();
 
         // 获取表的列
-        List<ColumnMetaData> tableColumns = databaseMapper.getTableColumns(tableName);
+        List<ColumnMetaData> tableColumns = this.getTableColumns(tableName, datasourceKey);
         if (CollectionUtil.isNotEmpty(tableColumns)) {
             // 查询字段生成配置
-            List<GenFieldConfig> fieldConfigList = genFieldConfigService.list(
-                    new LambdaQueryWrapper<GenFieldConfig>()
-                            .eq(GenFieldConfig::getConfigId, genConfig.getId())
-                            .orderByAsc(GenFieldConfig::getFieldSort)
-            );
+            List<GenFieldConfig> fieldConfigList = this.getGenFieldConfigs(tableName);
             Integer maxSort = fieldConfigList.stream()
                     .map(GenFieldConfig::getFieldSort)
                     .filter(Objects::nonNull)
@@ -129,8 +124,10 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
                 genFieldConfigs.add(fieldConfig);
             }
         }
-        //对genFieldConfigs按照fieldSort排序
-        genFieldConfigs = genFieldConfigs.stream().sorted(Comparator.comparing(GenFieldConfig::getFieldSort)).toList();
+        // 对genFieldConfigs按照fieldSort排序
+        genFieldConfigs = genFieldConfigs.stream()
+                .sorted(Comparator.comparing(GenFieldConfig::getFieldSort))
+                .toList();
         GenConfigForm genConfigForm = codegenConverter.toGenConfigForm(genConfig, genFieldConfigs);
 
         genConfigForm.setFrontendAppName(codegenProperties.getFrontendAppName());
@@ -138,6 +135,29 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
         return genConfigForm;
     }
 
+    @DS("master")
+    public List<GenFieldConfig> getGenFieldConfigs(String tableName) {
+        GenConfig genConfig = this.getOne(new LambdaQueryWrapper<>(GenConfig.class)
+                .eq(GenConfig::getTableName, tableName)
+        );
+        if (genConfig == null) {
+            return null;
+        }
+        return genFieldConfigService.list(new LambdaQueryWrapper<GenFieldConfig>()
+                .eq(GenFieldConfig::getConfigId, genConfig.getId())
+                .orderByAsc(GenFieldConfig::getFieldSort)
+        );
+    }
+
+    @DS("#datasourceKey")
+    public TableMetaData getTableMetadata(String tableName, String datasourceKey) {
+        return databaseMapper.getTableMetadata(tableName);
+    }
+
+    @DS("#datasourceKey")
+    public List<ColumnMetaData> getTableColumns(String tableName, String datasourceKey) {
+        return databaseMapper.getTableColumns(tableName);
+    }
 
     /**
      * 创建默认字段配置

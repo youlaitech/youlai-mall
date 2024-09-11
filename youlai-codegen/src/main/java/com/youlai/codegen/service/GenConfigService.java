@@ -16,9 +16,10 @@ public interface GenConfigService extends IService<GenConfig> {
      * 获取代码生成配置
      *
      * @param tableName 表名
+     * @param datasourceKey  数据源Key
      * @return
      */
-    GenConfigForm getGenConfigFormData(String tableName);
+    GenConfigForm getGenConfigFormData(String tableName,String datasourceKey);
 
     /**
      * 保存代码生成配置

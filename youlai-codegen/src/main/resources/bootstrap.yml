@@ -18,6 +18,7 @@ codegen:
   # 默认配置
   defaultConfig:
     author: youlaitech
+    packageName: com.youlai.mall
     moduleName: system
   # 排除数据表
   excludeTables:
