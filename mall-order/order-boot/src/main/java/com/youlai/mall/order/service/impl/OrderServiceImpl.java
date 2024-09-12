@@ -110,8 +110,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * @return {@link OrderPageAdminVO}
      */
     @Override
-    public IPage<OrderPageAdminVO> listAdminPagedOrders(OrderPageQuery queryParams) {
-        Page<OrderBO> boPage = this.baseMapper.listAdminPagedOrders(
+    public IPage<OrderPageAdminVO> getAdminOrderPage(OrderPageQuery queryParams) {
+        Page<OrderBO> boPage = this.baseMapper.getAdminOrderPage(
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 queryParams);
 
@@ -122,8 +122,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
      * 【App】订单分页列表
      */
     @Override
-    public IPage<OrderPageAppVO> listAppPagedOrders(OrderPageQuery queryParams) {
-        Page<OrderBO> boPage = this.baseMapper.listAdminPagedOrders(
+    public IPage<OrderPageAppVO> getAppOrderPage(OrderPageQuery queryParams) {
+        Page<OrderBO> boPage = this.baseMapper.getAdminOrderPage(
                 new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
                 queryParams);
         return orderConverter.toAppPageVo(boPage);

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.oms.mapper.OrderMapper">
+<mapper namespace="com.youlai.mall.order.mapper.OrderMapper">
 
     <resultMap id="OrderMap" type="com.youlai.mall.order.model.bo.OrderBO">
         <collection property="orderItems"

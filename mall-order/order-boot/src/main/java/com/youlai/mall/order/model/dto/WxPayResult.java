@@ -1,4 +1,4 @@
-package com.youlai.mall.order.model.result;
+package com.youlai.mall.order.model.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

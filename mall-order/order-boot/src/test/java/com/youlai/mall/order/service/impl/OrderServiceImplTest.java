@@ -26,7 +26,7 @@ class OrderServiceImplTest {
         queryParams.setBeginDate(DateUtil.parseDate("2022-01-01"));
         queryParams.setEndDate(DateUtil.parseDate("2025-01-01"));
 
-        IPage<OrderPageAppVO> orderPage = orderService.listAppPagedOrders(queryParams);
+        IPage<OrderPageAppVO> orderPage = orderService.getAppOrderPage(queryParams);
 
         log.info(JSONUtil.toJsonStr(orderPage));
 

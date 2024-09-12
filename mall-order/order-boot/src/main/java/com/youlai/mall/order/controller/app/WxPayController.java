@@ -1,8 +1,8 @@
-package com.youlai.mall.order.controller.common;
+package com.youlai.mall.order.controller.app;
 
 import com.github.binarywang.wxpay.bean.notify.SignatureHeader;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
-import com.youlai.mall.order.model.result.WxPayResult;
+import com.youlai.mall.order.model.dto.WxPayResult;
 import com.youlai.mall.order.service.OrderService;
 import com.youlai.mall.order.util.WxPayUtils;
 import io.swagger.v3.oas.annotations.Operation;

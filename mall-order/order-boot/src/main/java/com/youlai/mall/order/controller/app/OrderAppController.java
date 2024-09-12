@@ -33,8 +33,8 @@ public class OrderAppController {
 
     @Operation(summary = "订单分页列表")
     @GetMapping
-    public PageResult<OrderPageAppVO> listPagedOrders(OrderPageQuery queryParams) {
-        IPage<OrderPageAppVO> result = orderService.listAppPagedOrders(queryParams);
+    public PageResult<OrderPageAppVO> getAppOrderPage(OrderPageQuery queryParams) {
+        IPage<OrderPageAppVO> result = orderService.getAppOrderPage(queryParams);
         return PageResult.success(result);
     }
 
@@ -56,14 +56,14 @@ public class OrderAppController {
 
     @Operation(summary = "订单支付")
     @PostMapping("/pay")
-    public Result payOrder(@Validated @RequestBody OrderPayForm paymentForm) {
+    public Result<Void> payOrder(@Validated @RequestBody OrderPayForm paymentForm) {
         boolean result = orderService.payOrder(paymentForm);
         return Result.judge(result);
     }
 
     @Operation(summary = "订单申请退款")
     @PostMapping("/refund/apply")
-    public Result refundApply(
+    public Result<Void> refundApply(
             @Validated @RequestBody OrderRefundForm refundForm
     ) {
         boolean result = orderService.refundApply(refundForm);
@@ -72,7 +72,7 @@ public class OrderAppController {
 
     @Operation(summary = "订单删除")
     @DeleteMapping("/{orderId}")
-    public Result deleteOrder(@PathVariable Long orderId) {
+    public Result<Void> deleteOrder(@PathVariable Long orderId) {
         boolean deleted = orderService.deleteOrder(orderId);
         return Result.judge(deleted);
     }

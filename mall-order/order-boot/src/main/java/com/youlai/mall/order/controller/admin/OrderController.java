@@ -19,9 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Admin-订单控制层
@@ -40,37 +38,32 @@ public class OrderController {
 
     @Operation(summary ="订单分页列表")
     @GetMapping("/page")
-    public PageResult<OrderPageAdminVO> listAdminPagedOrders(OrderPageQuery queryParams) {
-        IPage<OrderPageAdminVO> page = orderService.listAdminPagedOrders(queryParams);
+    public PageResult<OrderPageAdminVO> getAdminOrderPage(OrderPageQuery queryParams) {
+        IPage<OrderPageAdminVO> page = orderService.getAdminOrderPage(queryParams);
         return PageResult.success(page);
     }
 
     @Operation(summary = "订单退款审批")
     @PostMapping("/refund/approval")
-    public Result refundApproval(
+    public Result<Void> refundApproval(
             @Validated @RequestBody OrderRefundApprovalForm refundApprovalForm
     ) {
         boolean result = orderService.refundApproval(refundApprovalForm);
         return Result.judge(result);
     }
 
-
-
     @Operation(summary = "订单详情")
     @GetMapping("/{orderId}")
-    public Result getOrderDetail(
+    public Result<OrderDTO> getOrderDetail(
             @Parameter(description ="订单ID") @PathVariable Long orderId
     ) {
         OrderDTO orderDTO = new OrderDTO();
         // 订单
         OmsOrder order = orderService.getById(orderId);
-
         // 订单明细
-        List orderItems = orderItemService.list(new LambdaQueryWrapper<OmsOrderItem>()
+        List<OmsOrderItem> orderItems = orderItemService.list(new LambdaQueryWrapper<OmsOrderItem>()
                 .eq(OmsOrderItem::getOrderId, orderId)
         );
-        orderItems = Optional.ofNullable(orderItems).orElse(Collections.EMPTY_LIST);
-
         orderDTO.setOrder(order).setOrderItems(orderItems);
         return Result.success(orderDTO);
     }

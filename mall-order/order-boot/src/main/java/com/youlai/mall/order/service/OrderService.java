@@ -29,7 +29,7 @@ public interface OrderService extends IService<OmsOrder> {
      * @param queryParams {@link OrderPageQuery}
      * @return {@link OrderPageAdminVO}
      */
-    IPage<OrderPageAdminVO> listAdminPagedOrders(OrderPageQuery queryParams);
+    IPage<OrderPageAdminVO> getAdminOrderPage(OrderPageQuery queryParams);
 
     /**
      * 【App】订单分页列表
@@ -37,7 +37,7 @@ public interface OrderService extends IService<OmsOrder> {
      * @param queryParams 订单分页查询参数
      * @return {@link OrderPageAppVO}
      */
-    IPage<OrderPageAppVO> listAppPagedOrders(OrderPageQuery queryParams);
+    IPage<OrderPageAppVO> getAppOrderPage(OrderPageQuery queryParams);
 
 
     /**
