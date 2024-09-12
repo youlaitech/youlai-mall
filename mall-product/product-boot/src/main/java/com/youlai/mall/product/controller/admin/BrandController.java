@@ -85,10 +85,10 @@ public class BrandController {
 
     @Operation(summary = "获取品牌关联的分类列表")
     @GetMapping("/{brandId}/categories")
-    public Result<List<Option>> listCategoriesByBrandId(
+    public Result<List<Option>> getCategoryOptions(
            @Parameter(description = "品牌ID") @PathVariable Long brandId
     ) {
-        List<Option> categories = brandCategoryService.listCategoriesByBrandId(brandId);
+        List<Option> categories = brandCategoryService.getCategoryOptions(brandId);
         return Result.success(categories);
     }
 

@@ -20,5 +20,5 @@ public interface BrandCategoryMapper extends BaseMapper<BrandCategory> {
     /**
      * 获取品牌的分类列表
      */
-    List<Option> listCategoriesByBrandId(Long brandId);
+    List<Option> getCategoryOptions(Long brandId);
 }

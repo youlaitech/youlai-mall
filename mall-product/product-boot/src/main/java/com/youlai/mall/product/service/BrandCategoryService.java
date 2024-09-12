@@ -17,7 +17,7 @@ public interface BrandCategoryService extends IService<BrandCategory> {
     /**
      * 品牌分类关联列表
      */
-    List<Option> listCategoriesByBrandId(Long brandId);
+    List<Option> getCategoryOptions(Long brandId);
 
 
     /**

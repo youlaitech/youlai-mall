@@ -26,11 +26,11 @@ public class BrandCategoryServiceImpl extends ServiceImpl<BrandCategoryMapper, B
      * 获取品牌的分类ID列表
      */
     @Override
-    public List<Option> listCategoriesByBrandId(Long brandId) {
+    public List<Option> getCategoryOptions(Long brandId) {
         if (brandId == null) {
             return Collections.emptyList();
         }
-        return this.baseMapper.listCategoriesByBrandId(brandId);
+        return this.baseMapper.getCategoryOptions(brandId);
     }
 
 
