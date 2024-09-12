@@ -25,9 +25,11 @@ public interface DatabaseMapper extends BaseMapper {
 
     Page<TablePageVO> getTablePage(Page<TablePageVO> page, TablePageQuery queryParams);
 
+    @DS("#datasourceKey")
+    TableMetaData getTableMetadata(String tableName,String datasourceKey);
 
-    List<ColumnMetaData> getTableColumns(String tableName);
+    @DS("#datasourceKey")
+    List<ColumnMetaData> getTableColumns(String tableName,String datasourceKey);
 
 
-    TableMetaData getTableMetadata(String tableName);
 }

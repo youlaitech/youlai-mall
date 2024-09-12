@@ -133,9 +133,9 @@ public class CodegenServiceImpl implements CodegenService {
             previewVO.setFileName(fileName);
 
             /* 2. 生成文件路径 */
-            // 包名：com.youlai.boot
+            // 包名：com.youlai.mall
             String packageName = genConfig.getPackageName();
-            // 模块名：system
+            // 模块名：mall-order
             String moduleName = genConfig.getModuleName();
             // 子包名：controller
             String subpackageName = templateConfig.getSubpackageName();

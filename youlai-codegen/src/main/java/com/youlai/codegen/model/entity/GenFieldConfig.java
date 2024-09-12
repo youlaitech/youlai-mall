@@ -1,13 +1,13 @@
 package com.youlai.codegen.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.youlai.common.base.BaseEntity;
 import com.youlai.codegen.enums.FormTypeEnum;
 import com.youlai.codegen.enums.QueryTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 /**
  * 字段生成配置实体
@@ -18,7 +18,13 @@ import lombok.Setter;
 @TableName(value = "gen_field_config")
 @Getter
 @Setter
-public class GenFieldConfig extends BaseEntity {
+public class GenFieldConfig {
+
+    /**
+     * 主键ID
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
 
 
     /**
@@ -102,4 +108,17 @@ public class GenFieldConfig extends BaseEntity {
      * 字典类型
      */
     private String dictType;
+
+
+    /**
+     * 创建时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 }

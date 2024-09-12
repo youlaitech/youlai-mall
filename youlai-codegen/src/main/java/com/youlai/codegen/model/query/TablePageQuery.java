@@ -19,11 +19,11 @@ import java.util.List;
 @Setter
 public class TablePageQuery extends BasePageQuery {
 
-    @Schema(description="关键字(表名)")
+    @Schema(description="关键字(表名)",example = "sys_user")
     private String keywords;
 
-    @Schema(description="数据源Key")
-    private String datasourceKey;
+    @Schema(description="数据源Key",example = "master")
+    private String dsKey;
 
     /**
      * 排除的表名

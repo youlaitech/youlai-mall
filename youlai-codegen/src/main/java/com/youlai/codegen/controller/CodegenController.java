@@ -66,9 +66,9 @@ public class CodegenController {
     @GetMapping("/{tableName}/config")
     public Result<GenConfigForm> getGenConfigFormData(
             @Parameter(description = "表名", example = "sys_user") @PathVariable String tableName,
-            @Parameter(description = "数据源", example = "youlai_system") @RequestParam String datasourceKey
+            @Parameter(description = "数据源Key", example = "youlai_system") @RequestParam String dsKey
     ) {
-        GenConfigForm formData = genConfigService.getGenConfigFormData(tableName,datasourceKey);
+        GenConfigForm formData = genConfigService.getGenConfigFormData(tableName,dsKey);
         return Result.success(formData);
     }
 

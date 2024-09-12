@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.core.exception.BusinessException;
@@ -66,9 +67,8 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
         boolean hasGenConfig = genConfig != null;
         // 如果没有代码生成配置，则根据表的元数据生成默认配置
         if (genConfig == null) {
-            TableMetaData tableMetadata = this.getTableMetadata(tableName, datasourceKey);
+            TableMetaData tableMetadata = databaseMapper.getTableMetadata(tableName, datasourceKey);
             Assert.isTrue(tableMetadata != null, "未找到表元数据");
-
             genConfig = new GenConfig();
             genConfig.setTableName(tableName);
 
@@ -91,37 +91,46 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
         List<GenFieldConfig> genFieldConfigs = new ArrayList<>();
 
         // 获取表的列
-        List<ColumnMetaData> tableColumns = this.getTableColumns(tableName, datasourceKey);
+        List<ColumnMetaData> tableColumns = databaseMapper.getTableColumns(tableName, datasourceKey);
         if (CollectionUtil.isNotEmpty(tableColumns)) {
-            // 查询字段生成配置
-            List<GenFieldConfig> fieldConfigList = this.getGenFieldConfigs(tableName);
-            Integer maxSort = fieldConfigList.stream()
-                    .map(GenFieldConfig::getFieldSort)
-                    .filter(Objects::nonNull)
-                    .max(Integer::compareTo)
-                    .orElse(0);
-            for (ColumnMetaData tableColumn : tableColumns) {
-                // 根据列名获取字段生成配置
-                String columnName = tableColumn.getColumnName();
-                GenFieldConfig fieldConfig = fieldConfigList.stream()
-                        .filter(item -> StrUtil.equals(item.getColumnName(), columnName))
-                        .findFirst()
-                        .orElseGet(() -> createDefaultFieldConfig(tableColumn));
-                if (fieldConfig.getFieldSort() == null) {
-                    fieldConfig.setFieldSort(++maxSort);
+            try {
+                DynamicDataSourceContextHolder.push("master");
+                // 查询字段生成配置
+                List<GenFieldConfig> fieldConfigList = genFieldConfigService.list(new LambdaQueryWrapper<GenFieldConfig>()
+                        .eq(GenFieldConfig::getConfigId, genConfig.getId())
+                        .orderByAsc(GenFieldConfig::getFieldSort)
+                );
+
+                Integer maxSort = fieldConfigList.stream()
+                        .map(GenFieldConfig::getFieldSort)
+                        .filter(Objects::nonNull)
+                        .max(Integer::compareTo)
+                        .orElse(0);
+                for (ColumnMetaData tableColumn : tableColumns) {
+                    // 根据列名获取字段生成配置
+                    String columnName = tableColumn.getColumnName();
+                    GenFieldConfig fieldConfig = fieldConfigList.stream()
+                            .filter(item -> StrUtil.equals(item.getColumnName(), columnName))
+                            .findFirst()
+                            .orElseGet(() -> createDefaultFieldConfig(tableColumn));
+                    if (fieldConfig.getFieldSort() == null) {
+                        fieldConfig.setFieldSort(++maxSort);
+                    }
+                    // 根据列类型设置字段类型
+                    String fieldType = fieldConfig.getFieldType();
+                    if (StrUtil.isBlank(fieldType)) {
+                        String javaType = JavaTypeEnum.getJavaTypeByColumnType(fieldConfig.getColumnType());
+                        fieldConfig.setFieldType(javaType);
+                    }
+                    // 如果没有代码生成配置，则默认展示在列表和表单
+                    if (!hasGenConfig) {
+                        fieldConfig.setIsShowInList(1);
+                        fieldConfig.setIsShowInForm(1);
+                    }
+                    genFieldConfigs.add(fieldConfig);
                 }
-                // 根据列类型设置字段类型
-                String fieldType = fieldConfig.getFieldType();
-                if (StrUtil.isBlank(fieldType)) {
-                    String javaType = JavaTypeEnum.getJavaTypeByColumnType(fieldConfig.getColumnType());
-                    fieldConfig.setFieldType(javaType);
-                }
-                // 如果没有代码生成配置，则默认展示在列表和表单
-                if (!hasGenConfig) {
-                    fieldConfig.setIsShowInList(1);
-                    fieldConfig.setIsShowInForm(1);
-                }
-                genFieldConfigs.add(fieldConfig);
+            } finally {
+                DynamicDataSourceContextHolder.poll();
             }
         }
         // 对genFieldConfigs按照fieldSort排序
@@ -133,30 +142,6 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
         genConfigForm.setFrontendAppName(codegenProperties.getFrontendAppName());
         genConfigForm.setBackendAppName(codegenProperties.getBackendAppName());
         return genConfigForm;
-    }
-
-    @DS("master")
-    public List<GenFieldConfig> getGenFieldConfigs(String tableName) {
-        GenConfig genConfig = this.getOne(new LambdaQueryWrapper<>(GenConfig.class)
-                .eq(GenConfig::getTableName, tableName)
-        );
-        if (genConfig == null) {
-            return null;
-        }
-        return genFieldConfigService.list(new LambdaQueryWrapper<GenFieldConfig>()
-                .eq(GenFieldConfig::getConfigId, genConfig.getId())
-                .orderByAsc(GenFieldConfig::getFieldSort)
-        );
-    }
-
-    @DS("#datasourceKey")
-    public TableMetaData getTableMetadata(String tableName, String datasourceKey) {
-        return databaseMapper.getTableMetadata(tableName);
-    }
-
-    @DS("#datasourceKey")
-    public List<ColumnMetaData> getTableColumns(String tableName, String datasourceKey) {
-        return databaseMapper.getTableColumns(tableName);
     }
 
     /**
