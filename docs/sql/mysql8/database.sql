@@ -29,3 +29,8 @@ CREATE DATABASE IF NOT EXISTS youlai_mall_oms DEFAULT CHARACTER SET utf8mb4 DEFA
 -- 商城营销数据库
 -- ----------------------------
 CREATE DATABASE IF NOT EXISTS youlai_mall_sms DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
+
+-- ----------------------------
+-- 代码生成数据库
+-- ----------------------------
+CREATE DATABASE IF NOT EXISTS youlai_codegen DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;

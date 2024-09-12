@@ -1,18 +1,4 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : localhost
- Source Server Type    : MySQL
- Source Server Version : 80027
- Source Host           : 192.168.10.192:3306
- Source Schema         : youlai_mall_sms
-
- Target Server Type    : MySQL
- Target Server Version : 80027
- File Encoding         : 65001
-
- Date: 15/06/2024 09:36:31
-*/
+use youlai_mall_sms;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
