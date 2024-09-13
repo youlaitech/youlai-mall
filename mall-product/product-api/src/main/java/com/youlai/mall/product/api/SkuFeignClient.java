@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+/**
+ *  商品库存服务 FeignClient
+ *
+ * @author Ray
+ */
 @FeignClient(value = "mall-product", contextId = "sku", configuration = {FeignDecoderConfig.class})
 public interface SkuFeignClient {
 

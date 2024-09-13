@@ -37,7 +37,6 @@ public interface CodegenConverter {
 
     GenFieldConfig toGenFieldConfig(GenConfigForm.FieldConfig fieldConfig);
 
-
     @Mapping(source = "parentMenuId", target = "parentMenuId")
     CodegenMenuDTO toCodegenMenuDTO(Long parentMenuId, GenConfig genConfig);
 

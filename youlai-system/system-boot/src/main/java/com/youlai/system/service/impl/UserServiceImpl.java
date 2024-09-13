@@ -14,6 +14,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.core.exception.BusinessException;
+import com.youlai.common.mail.service.MailService;
 import com.youlai.common.security.service.PermissionService;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.sms.config.AliyunSmsProperties;
@@ -66,6 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final PermissionService permissionService;
 
     private final SmsService smsService;
+    private final MailService mailService;
 
     private final AliyunSmsProperties aliyunSmsProperties;
 

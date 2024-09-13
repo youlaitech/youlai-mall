@@ -96,7 +96,18 @@
 
         <dependency>
             <groupId>com.youlai</groupId>
+            <artifactId>common-mail</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.youlai</groupId>
             <artifactId>system-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
     </dependencies>

@@ -4,7 +4,7 @@ import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.youlai.auth.config.CaptchaProperties;
+import com.youlai.auth.config.property.CaptchaProperties;
 import com.youlai.auth.model.CaptchaResult;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.sms.config.AliyunSmsProperties;

@@ -1,0 +1,2 @@
+  com.youlai.common.mail.config.MailConfig
+  com.youlai.common.mail.service.impl.MailServiceImpl

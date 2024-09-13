@@ -15,6 +15,7 @@
     <modules>
         <module>common-sms</module>
         <module>common-file</module>
+        <module>common-mail</module>
     </modules>
 
 </project>

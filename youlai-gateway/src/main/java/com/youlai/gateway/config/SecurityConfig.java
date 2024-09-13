@@ -23,12 +23,12 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 @EnableWebFluxSecurity
 @Slf4j
+@Setter
 public class SecurityConfig {
 
     /**
      * 黑名单请求路径列表
      */
-    @Setter
     private List<String> blacklistPaths;
 
 
@@ -46,8 +46,5 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable);
         return http.build();
     }
-
-
-
 
 }

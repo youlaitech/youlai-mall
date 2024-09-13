@@ -3,7 +3,7 @@ package com.youlai.auth.service;
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.generator.CodeGenerator;
-import com.youlai.auth.config.CaptchaProperties;
+import com.youlai.auth.config.property.CaptchaProperties;
 import com.youlai.auth.enums.CaptchaTypeEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

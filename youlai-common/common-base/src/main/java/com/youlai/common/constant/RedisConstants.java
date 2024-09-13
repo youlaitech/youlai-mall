@@ -56,7 +56,6 @@ public interface RedisConstants {
     /**
      * 手机验证码缓存前缀
      */
-
     String MOBILE_VERIFICATION_CODE_PREFIX = "verification_code:mobile:";
 
     /**

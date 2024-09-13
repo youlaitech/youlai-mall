@@ -3,6 +3,7 @@ package com.youlai.auth.config;
 import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.captcha.generator.RandomGenerator;
+import com.youlai.auth.config.property.CaptchaProperties;
 import com.youlai.auth.enums.CaptchaCodeTypeEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

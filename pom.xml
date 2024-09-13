@@ -219,6 +219,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.youlai</groupId>
+                <artifactId>common-mail</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-core</artifactId>
                 <version>${aliyun.java.sdk.core.version}</version>

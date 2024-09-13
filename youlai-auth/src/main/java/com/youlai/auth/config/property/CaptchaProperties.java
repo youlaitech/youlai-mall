@@ -1,9 +1,8 @@
-package com.youlai.auth.config;
+package com.youlai.auth.config.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 /**
  * 验证码配置
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class CaptchaProperties {
 
     /**
-     * 验证码类型  circle-圆圈干扰验证码|gif-Gif验证码|line-干扰线验证码|shear-扭曲干扰验证码
+     * 验证码类型 circle-圆圈干扰验证码|gif-Gif验证码|line-干扰线验证码|shear-扭曲干扰验证码
      */
     private String type;
 

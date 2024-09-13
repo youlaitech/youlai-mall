@@ -299,4 +299,27 @@ INSERT INTO `sys_user_role` VALUES (1, 1);
 INSERT INTO `sys_user_role` VALUES (2, 2);
 INSERT INTO `sys_user_role` VALUES (3, 3);
 
+
+-- ----------------------------
+-- Table structure for sys_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `module` enum('LOGIN','USER','ROLE','DEPT','MENU','DICT','OTHER') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志模块',
+    `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志内容',
+    `request_uri` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求路径',
+    `ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'IP地址',
+    `province` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '省份',
+    `city` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '城市',
+    `execution_time` bigint DEFAULT NULL COMMENT '执行时间(ms)',
+    `browser` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+    `browser_version` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器版本',
+    `os` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '终端系统',
+    `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+    `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除标识(1-已删除 0-未删除)',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统日志表';
+
 SET FOREIGN_KEY_CHECKS = 1;

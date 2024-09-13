@@ -11,7 +11,7 @@ import java.util.List;
  * 订单商品验价传输对象
  *
  * @author Ray
- * @date 2022/2/7
+ * @since 2022/2/7
  */
 @Data
 @NoArgsConstructor
