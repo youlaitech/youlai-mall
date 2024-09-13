@@ -7,11 +7,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.core.annotation.RepeatSubmit;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.system.dto.UserAuthInfo;
+import com.youlai.system.enums.ContactType;
 import com.youlai.system.listener.excel.UserImportListener;
 import com.youlai.system.model.entity.User;
-import com.youlai.system.model.form.UserForm;
-import com.youlai.system.model.form.UserRegisterForm;
+import com.youlai.system.model.form.*;
 import com.youlai.system.model.query.UserPageQuery;
 import com.youlai.system.model.vo.*;
 import com.youlai.system.service.UserService;
@@ -181,30 +182,68 @@ public class UserController {
                 .doWrite(exportUserList);
     }
 
-    @Operation(summary = "注册用户")
-    @PostMapping("/register")
-    public Result registerUser(
-            @RequestBody @Valid UserRegisterForm userRegisterForm
-    ) {
-        boolean result = userService.registerUser(userRegisterForm);
-        return Result.judge(result);
-    }
-
-    @Operation(summary = "发送注册短信验证码")
-    @PostMapping("/register/sms_code")
-    public Result sendRegistrationSmsCode(
-            @Parameter(description = "手机号") @RequestParam String mobile
-    ) {
-        boolean result = userService.sendRegistrationSmsCode(mobile);
-        return Result.judge(result);
-    }
-
-    @Operation(summary = "获取用户个人中心信息")
+    @Operation(summary = "获取个人中心用户信息")
     @GetMapping("/profile")
-    public Result getUserProfile() {
-        UserProfileVO userProfile = userService.getUserProfile();
+    public Result<UserProfileVO> getUserProfile() {
+        Long userId = SecurityUtils.getUserId();
+        UserProfileVO userProfile = userService.getUserProfile(userId);
         return Result.success(userProfile);
     }
 
+    @Operation(summary = "修改个人中心用户信息")
+    @PutMapping("/profile")
+    public Result<?> updateUserProfile(@RequestBody UserProfileForm formData) {
+        boolean result = userService.updateUserProfile(formData);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "重置用户密码")
+    @PutMapping(value = "/{userId}/password/reset")
+    @PreAuthorize("@ss.hasPerm('sys:user:password:reset')")
+    public Result<?> resetPassword(
+            @Parameter(description = "用户ID") @PathVariable Long userId,
+            @RequestParam String password
+    ) {
+        boolean result = userService.resetPassword(userId, password);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "修改密码")
+    @PutMapping(value = "/password")
+    public Result<?> changePassword(
+            @RequestBody PasswordChangeForm data
+    ) {
+        Long currUserId = SecurityUtils.getUserId();
+        boolean result = userService.changePassword(currUserId, data);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "发送短信/邮箱验证码")
+    @PostMapping(value = "/send-verification-code")
+    public Result<?> sendVerificationCode(
+            @Parameter(description = "联系方式（手机号码或邮箱地址）", required = true) @RequestParam String contact,
+            @Parameter(description = "联系方式类型（Mobile或Email）", required = true) @RequestParam ContactType contactType
+    ) {
+        boolean result = userService.sendVerificationCode(contact, contactType);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "绑定个人中心用户手机号")
+    @PutMapping(value = "/mobile")
+    public Result<?> bindMobile(
+            @RequestBody @Validated MobileBindingForm data
+    ) {
+        boolean result = userService.bindMobile(data);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "绑定个人中心用户邮箱")
+    @PutMapping(value = "/email")
+    public Result<?> bindEmail(
+            @RequestBody @Validated EmailChangeForm data
+    ) {
+        boolean result = userService.bindEmail(data);
+        return Result.judge(result);
+    }
 
 }

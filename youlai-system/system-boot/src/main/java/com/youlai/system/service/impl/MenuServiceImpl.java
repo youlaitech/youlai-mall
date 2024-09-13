@@ -98,12 +98,18 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     /**
      * 菜单下拉数据
+     *
+     * @param onlyParent 是否只查询父级菜单 如果为true，排除按钮
      */
     @Override
-    public List<Option> listMenuOptions() {
-        List<Menu> menuList = this.list(new LambdaQueryWrapper<Menu>().orderByAsc(Menu::getSort));
+    public List<Option> listMenuOptions(boolean onlyParent) {
+        List<Menu> menuList = this.list(new LambdaQueryWrapper<Menu>()
+                .in(onlyParent, Menu::getType, MenuTypeEnum.CATALOG.getValue(), MenuTypeEnum.MENU.getValue())
+                .orderByAsc(Menu::getSort)
+        );
         return buildMenuOptions(GlobalConstants.ROOT_NODE_ID, menuList);
     }
+
 
     /**
      * 递归生成菜单下拉层级列表

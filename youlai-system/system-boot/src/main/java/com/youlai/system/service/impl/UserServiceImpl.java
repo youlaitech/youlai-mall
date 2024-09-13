@@ -13,17 +13,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.constant.SystemConstants;
+import com.youlai.common.core.exception.BusinessException;
 import com.youlai.common.security.service.PermissionService;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.common.sms.config.AliyunSmsProperties;
 import com.youlai.common.sms.service.SmsService;
 import com.youlai.system.converter.UserConverter;
 import com.youlai.system.dto.UserAuthInfo;
+import com.youlai.system.enums.ContactType;
 import com.youlai.system.mapper.UserMapper;
 import com.youlai.system.model.bo.UserBO;
 import com.youlai.system.model.entity.User;
-import com.youlai.system.model.form.UserForm;
-import com.youlai.system.model.form.UserRegisterForm;
+import com.youlai.system.model.form.*;
 import com.youlai.system.model.query.UserPageQuery;
 import com.youlai.system.model.vo.UserExportVO;
 import com.youlai.system.model.vo.UserInfoVO;
@@ -353,17 +354,168 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return result;
     }
 
-
     /**
-     * 获取用户个人中心信息
+     * 获取个人中心用户信息
      *
-     * @return {@link UserProfileVO}
+     * @param userId 用户ID
+     * @return
      */
     @Override
-    public UserProfileVO getUserProfile() {
+    public UserProfileVO getUserProfile(Long userId) {
+        UserBO entity = this.baseMapper.getUserProfile(userId);
+        return userConverter.toProfileVO(entity);
+    }
+
+    /**
+     * 修改个人中心用户信息
+     *
+     * @param formData 表单数据
+     * @return
+     */
+    @Override
+    public boolean updateUserProfile(UserProfileForm formData) {
         Long userId = SecurityUtils.getUserId();
-        // 获取用户个人中心信息
-        UserBO userBO = this.baseMapper.getUserProfile(userId);
-        return userConverter.toProfileVO(userBO);
+        User entity = userConverter.toEntity(formData);
+        entity.setId(userId);
+        return this.updateById(entity);
+    }
+
+
+    /**
+     * 修改用户密码
+     *
+     * @param userId 用户ID
+     * @param data   密码修改表单数据
+     * @return
+     */
+    @Override
+    public boolean changePassword(Long userId, PasswordChangeForm data) {
+
+        User user = this.getById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+
+        String oldPassword = data.getOldPassword();
+
+        // 校验原密码
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new BusinessException("原密码错误");
+        }
+        // 新旧密码不能相同
+        if (passwordEncoder.matches(data.getNewPassword(), user.getPassword())) {
+            throw new BusinessException("新密码不能与原密码相同");
+        }
+
+        String newPassword = data.getNewPassword();
+        return this.update(new LambdaUpdateWrapper<User>()
+                .eq(User::getId, userId)
+                .set(User::getPassword, passwordEncoder.encode(newPassword))
+        );
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param userId   用户ID
+     * @param password 密码重置表单数据
+     * @return
+     */
+    @Override
+    public boolean resetPassword(Long userId, String password) {
+        return this.update(new LambdaUpdateWrapper<User>()
+                .eq(User::getId, userId)
+                .set(User::getPassword, passwordEncoder.encode(password))
+        );
+    }
+
+    /**
+     * 发送验证码
+     *
+     * @param contact 联系方式 手机号/邮箱
+     * @param type    联系方式类型 {@link ContactType}
+     * @return
+     */
+    @Override
+    public boolean sendVerificationCode(String contact, ContactType type) {
+
+        // 随机生成4位验证码
+        String code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
+        // 发送验证码
+
+        String verificationCodePrefix = null;
+        switch (type) {
+            case MOBILE:
+                // 获取修改密码的模板code
+                String changePasswordSmsTemplateCode = aliyunSmsProperties.getTemplateCodes().get("changePassword");
+                smsService.sendSms(contact, changePasswordSmsTemplateCode, "[{\"code\":\"" + code + "\"}]");
+                verificationCodePrefix = RedisConstants.MOBILE_VERIFICATION_CODE_PREFIX;
+                break;
+            case EMAIL:
+                mailService.sendMail(contact, "验证码", "您的验证码是：" + code);
+                verificationCodePrefix = RedisConstants.EMAIL_VERIFICATION_CODE_PREFIX;
+                break;
+            default:
+                throw new BusinessException("不支持的联系方式类型");
+        }
+        // 存入 redis 用于校验, 5分钟有效
+        redisTemplate.opsForValue().set(verificationCodePrefix + contact, code, 5, TimeUnit.MINUTES );
+        return true;
+    }
+
+    /**
+     * 修改当前用户手机号码
+     *
+     * @param data 表单数据
+     * @return
+     */
+    @Override
+    public boolean bindMobile(MobileBindingForm data) {
+        Long userId = SecurityUtils.getUserId();
+        User user = this.getById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+        // 校验验证码
+        String verificationCode = data.getCode();
+        String contact = data.getMobile();
+        String verificationCodeKey = RedisConstants.MOBILE_VERIFICATION_CODE_PREFIX + contact;
+        String code = redisTemplate.opsForValue().get(verificationCodeKey);
+        if (!verificationCode.equals(code)) {
+            throw new BusinessException("验证码错误");
+        }
+        // 更新手机号码
+        return this.update(new LambdaUpdateWrapper<User>()
+                .eq(User::getId, userId)
+                .set(User::getMobile, contact)
+        );
+    }
+
+    /**
+     * 修改当前用户邮箱
+     *
+     * @param data 表单数据
+     * @return
+     */
+    @Override
+    public boolean bindEmail(EmailChangeForm data) {
+        Long userId = SecurityUtils.getUserId();
+        User user = this.getById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+        // 校验验证码
+        String verificationCode = data.getCode();
+        String email = data.getEmail();
+        String verificationCodeKey = RedisConstants.EMAIL_VERIFICATION_CODE_PREFIX + email;
+        String code = redisTemplate.opsForValue().get(verificationCodeKey);
+        if (!verificationCode.equals(code)) {
+            throw new BusinessException("验证码错误");
+        }
+        // 更新邮箱
+        return this.update(new LambdaUpdateWrapper<User>()
+                .eq(User::getId, userId)
+                .set(User::getEmail, email)
+        );
     }
 }

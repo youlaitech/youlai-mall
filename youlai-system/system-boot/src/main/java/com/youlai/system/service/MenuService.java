@@ -15,7 +15,7 @@ import java.util.Set;
 
 /**
  * 菜单业务接口
- * 
+ *
  * @author Ray
  * @since 2020/11/06
  */
@@ -29,8 +29,10 @@ public interface MenuService extends IService<Menu> {
 
     /**
      * 获取菜单下拉列表
+     *
+     * @param onlyParent 是否只查询父级菜单
      */
-    List<Option> listMenuOptions();
+    List<Option> listMenuOptions(boolean onlyParent);
 
     /**
      * 新增菜单
@@ -44,8 +46,8 @@ public interface MenuService extends IService<Menu> {
 
     /**
      * 修改菜单显示状态
-     * 
-     * @param menuId 菜单ID
+     *
+     * @param menuId  菜单ID
      * @param visible 是否显示(1-显示 0-隐藏)
      * @return
      */

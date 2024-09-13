@@ -53,4 +53,15 @@ public interface RedisConstants {
      */
     String PRODUCT_SKUS_LOCK_PREFIX = "product:skus:lock:";
 
+    /**
+     * 手机验证码缓存前缀
+     */
+
+    String MOBILE_VERIFICATION_CODE_PREFIX = "verification_code:mobile:";
+
+    /**
+     * 邮箱验证码缓存前缀
+     */
+    String EMAIL_VERIFICATION_CODE_PREFIX = "verification_code:email:";
+
 }

@@ -4,9 +4,9 @@ package com.youlai.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.system.dto.UserAuthInfo;
+import com.youlai.system.enums.ContactType;
 import com.youlai.system.model.entity.User;
-import com.youlai.system.model.form.UserForm;
-import com.youlai.system.model.form.UserRegisterForm;
+import com.youlai.system.model.form.*;
 import com.youlai.system.model.query.UserPageQuery;
 import com.youlai.system.model.vo.UserExportVO;
 import com.youlai.system.model.vo.UserInfoVO;
@@ -115,18 +115,67 @@ public interface UserService extends IService<User> {
 
 
     /**
-     * 发送注册短信验证码
-     *
-     * @param mobile 手机号
-     * @return {@link Boolean} 是否发送成功
+     *  发送注册短信验证码
+     * @param mobile
+     * @return
      */
-    boolean sendRegistrationSmsCode(String mobile);
-
+     boolean sendRegistrationSmsCode(String mobile);
 
     /**
-     * 获取用户个人中心信息
+     * 获取个人中心用户信息
      *
-     * @return {@link UserProfileVO}
+     * @return
      */
-    UserProfileVO getUserProfile();
+    UserProfileVO getUserProfile(Long userId);
+
+    /**
+     * 修改个人中心用户信息
+     *
+     * @param formData 表单数据
+     * @return
+     */
+    boolean updateUserProfile(UserProfileForm formData);
+
+    /**
+     * 修改用户密码
+     *
+     * @param userId 用户ID
+     * @param data   修改密码表单数据
+     * @return
+     */
+    boolean changePassword(Long userId, PasswordChangeForm data);
+
+    /**
+     * 重置用户密码
+     *
+     * @param userId   用户ID
+     * @param password 重置后的密码
+     * @return
+     */
+    boolean resetPassword(Long userId, String password);
+
+    /**
+     * 发送验证码
+     *
+     * @param contact 联系方式
+     * @param type    联系方式类型
+     * @return
+     */
+    boolean sendVerificationCode(String contact, ContactType type);
+
+    /**
+     * 修改当前用户手机号
+     *
+     * @param data 表单数据
+     * @return
+     */
+    boolean bindMobile(MobileBindingForm data);
+
+    /**
+     * 修改当前用户邮箱
+     *
+     * @param data 表单数据
+     * @return
+     */
+    boolean bindEmail(EmailChangeForm data);
 }
