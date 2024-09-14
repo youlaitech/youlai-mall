@@ -2,6 +2,7 @@ package com.youlai.system.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import lombok.Data;
  * @since 2022/12/17
  */
 @Data
+@TableName("sys_dict")
 public class Dict extends BaseEntity {
     /**
      * 主键 

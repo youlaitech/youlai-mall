@@ -1,7 +1,7 @@
 package com.youlai.common.mail.service.impl;
 
-import com.youlai.boot.config.property.MailProperties;
-import com.youlai.boot.module.mail.service.MailService;
+import com.youlai.common.mail.config.property.MailProperties;
+import com.youlai.common.mail.service.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;

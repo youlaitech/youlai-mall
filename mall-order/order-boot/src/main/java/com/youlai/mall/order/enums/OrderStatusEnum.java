@@ -12,17 +12,25 @@ import lombok.Getter;
 @Getter
 public enum OrderStatusEnum implements IBaseEnum<Integer> {
 
-    PENDING_PAYMENT(0, "待支付"),
-    PENDING_SHIPMENT(1, "待发货"),
-    PENDING_RECEIPT(2, "待收货"),
-    COMPLETED(3, "交易完成"), // 用户确认收货
-    CANCELLED(4, "已取消"),
-    RETURN_IN_PROGRESS(5, "退货中"),
-    RETURNED(6, "已退货"),
-    REFUND_PENDING(7, "退款处理中"),
-    REFUNDED(8, "已退款"),
-    EVALUATING(9, "待评价"), // 用户确认收货后，如果商品支持评价，则状态变为待评价
-    EVALUATED(10, "已评价");
+    // 支付阶段
+    WAIT_PAY(0, "待支付"),           // 订单已生成，待用户支付
+    WAIT_REFUND(7, "退款处理中"),     // 用户发起退款申请，退款处理中
+    REFUNDED(8, "已退款"),            // 退款已完成
+
+    // 发货阶段
+    WAIT_SHIP(1, "待发货"),           // 用户已支付，等待商家发货
+    WAIT_RECEIVE(2, "待收货"),        // 商品已发货，待用户签收
+    FINISHED(3, "交易完成"),          // 用户确认收货，交易完成
+    CANCELLED(4, "已取消"),           // 订单已取消（用户取消或超时）
+
+    // 售后阶段
+    RETURNING(5, "退货中"),           // 用户申请退货，退货处理中
+    RETURNED(6, "已退货"),            // 退货完成
+
+    // 评价阶段
+    WAIT_REVIEW(9, "待评价"),          // 用户确认收货后，待评价
+    REVIEWED(10, "已评价");            // 用户已评价
+
 
     OrderStatusEnum(Integer value, String label) {
         this.value = value;

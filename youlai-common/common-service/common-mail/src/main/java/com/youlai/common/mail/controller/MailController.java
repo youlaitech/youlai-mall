@@ -1,5 +1,7 @@
 package com.youlai.common.mail.controller;
 
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * 邮件控制层
  *
