@@ -15,8 +15,8 @@ DROP TABLE IF EXISTS `sms_advert`;
 CREATE TABLE `sms_advert`  (
                                `id` bigint(0) NOT NULL AUTO_INCREMENT,
                                `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '广告标题',
-                               `pic_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片地址',
-                               `begin_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时间',
+                               `image_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片地址',
+                               `start_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时间',
                                `end_time` datetime(0) NULL DEFAULT NULL COMMENT '结束时间',
                                `status` tinyint(1) NOT NULL COMMENT '状态(1:开启；0:关闭)',
                                `sort` int(0) NULL DEFAULT NULL COMMENT '排序',
