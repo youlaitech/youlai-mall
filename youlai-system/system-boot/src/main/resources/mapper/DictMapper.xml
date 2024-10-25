@@ -6,9 +6,9 @@
 
     <!-- 字典映射 -->
     <resultMap id="DictMap" type="com.youlai.system.model.vo.DictPageVO">
-        <collection property="dictItems"
+        <collection property="dictData"
                     column="{dictId=id}"
-                    select="com.youlai.system.mapper.DictItemMapper.listDictItemsByDictId">
+                    select="com.youlai.system.mapper.DictDataMapper.listDictItemsByDictId">
         </collection>
     </resultMap>
 

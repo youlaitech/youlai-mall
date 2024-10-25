@@ -15,10 +15,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface MenuConverter {
 
-    MenuVO entity2Vo(Menu entity);
+    MenuVO toVo(Menu entity);
 
     @Mapping(target = "params", ignore = true)
-    MenuForm convertToForm(Menu entity);
+    MenuForm toForm(Menu entity);
 
     @Mapping(target = "params", ignore = true)
     Menu toEntity(MenuForm menuForm);

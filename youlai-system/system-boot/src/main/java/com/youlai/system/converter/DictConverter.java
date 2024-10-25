@@ -7,7 +7,7 @@ import com.youlai.system.model.vo.DictPageVO;
 import org.mapstruct.Mapper;
 
 /**
- * 字典 对象转换器
+ * 字典对象转换器
  *
  * @author Ray Hao
  * @since 2022/6/8
@@ -15,9 +15,9 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface DictConverter {
 
-    Page<DictPageVO> convertToPageVo(Page<Dict> page);
+    Page<DictPageVO> toPageVo(Page<Dict> page);
 
-    DictForm convertToForm(Dict entity);
+    DictForm toForm(Dict entity);
 
-    Dict convertToEntity(DictForm entity);
+    Dict toEntity(DictForm entity);
 }

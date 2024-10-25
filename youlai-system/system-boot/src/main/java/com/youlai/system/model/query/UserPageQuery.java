@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * @since 2022/1/14
  */
 @Schema(description = "用户分页查询对象")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class UserPageQuery extends BasePageQuery {
 

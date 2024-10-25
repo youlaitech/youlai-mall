@@ -18,9 +18,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AdvertConverter {
 
-    AdvertPageVO entity2PageVo(Advert entity);
+    AdvertPageVO toPageVoVo(Advert entity);
 
-    Page<AdvertPageVO> entity2PageVo(Page<Advert> po);
+    Page<AdvertPageVO> toPageVoVo(Page<Advert> po);
 
     BannerVO entity2BannerVo(Advert entity);
     

@@ -1,10 +1,12 @@
 package com.youlai.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.common.result.PageResult;
-import com.youlai.common.result.Result;
+import com.youlai.common.core.annotation.Log;
 import com.youlai.common.core.annotation.RepeatSubmit;
 import com.youlai.common.core.model.Option;
+import com.youlai.common.enums.LogModuleEnum;
+import com.youlai.common.result.PageResult;
+import com.youlai.common.result.Result;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.query.DictPageQuery;
 import com.youlai.system.model.vo.DictPageVO;
@@ -12,6 +14,7 @@ import com.youlai.system.service.DictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +37,7 @@ public class DictController {
 
     @Operation(summary = "字典分页列表")
     @GetMapping("/page")
+    @Log( value = "字典分页列表",module = LogModuleEnum.DICT)
     public PageResult<DictPageVO> getDictPage(
             DictPageQuery queryParams
     ) {
@@ -41,13 +45,11 @@ public class DictController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "字典数据项列表")
-    @GetMapping("/{code}/options")
-    public Result<List<Option>> getDictOptions(
-            @Parameter(description = "字典编码") @PathVariable String code
-    ) {
-        List<Option> options = dictService.listDictItemsByCode(code);
-        return Result.success(options);
+    @Operation(summary = "字典列表")
+    @GetMapping("/list")
+    public Result<List<Option<String>>> getDictList() {
+        List<Option<String>> list = dictService.getDictList();
+        return Result.success(list);
     }
 
     @Operation(summary = "字典表单")
@@ -63,7 +65,7 @@ public class DictController {
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:dict:add')")
     @RepeatSubmit
-    public Result saveDict(@RequestBody DictForm formData) {
+    public Result<?> saveDict(@Valid @RequestBody DictForm formData) {
         boolean result = dictService.saveDict(formData);
         return Result.judge(result);
     }
@@ -71,7 +73,7 @@ public class DictController {
     @Operation(summary = "修改字典")
     @PutMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('sys:dict:edit')")
-    public Result updateDict(
+    public Result<?> updateDict(
             @PathVariable Long id,
             @RequestBody DictForm DictForm
     ) {
@@ -82,12 +84,17 @@ public class DictController {
     @Operation(summary = "删除字典")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:dict:delete')")
-    public Result deleteDictionaries(
+    public Result<?> deleteDictionaries(
             @Parameter(description = "字典ID，多个以英文逗号(,)拼接") @PathVariable String ids
     ) {
         dictService.deleteDictByIds(ids);
         return Result.success();
     }
+
+
+
+
+
 
 
 }

@@ -3,10 +3,7 @@ package com.youlai.system.model.form;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * 字典表单对象
@@ -25,35 +22,10 @@ public class DictForm {
     private String name;
 
     @Schema(description = "字典编码", example ="gender")
-    private String code;
+    private String dictCode;
 
     @Schema(description = "字典状态（1-启用，0-禁用）", example = "1")
+    @Range(min = 0, max = 1, message = "字典状态不正确")
     private Integer status;
-
-    @Schema(description = "字典数据项列表",example = "[{\"id\":1,\"name\":\"男\",\"value\":\"1\",\"sort\":1,\"status\":1},{\"id\":2,\"name\":\"女\",\"value\":\"2\",\"sort\":2,\"status\":1}]")
-    private List<DictItem> dictItems;
-
-    @Schema(description = "字典数据项")
-    @Getter
-    @Setter
-    public static class DictItem {
-
-        @Schema(description = "字典ID")
-        private Long id;
-
-        @Schema(description = "字典名称")
-        private String name;
-
-        @Schema(description = "字典值")
-        private String value;
-
-        @Schema(description = "排序")
-        private Integer sort;
-
-        @Schema(description = "状态（1-启用，0-禁用）")
-        private Integer status;
-
-    }
-
 
 }

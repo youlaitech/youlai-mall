@@ -69,7 +69,13 @@ public interface DictService extends IService<Dict> {
      * @param code 字典编码
      * @return
      */
-    List<Option> listDictItemsByCode(String code);
+    List<Option<Long>> listDictItemsByCode(String code);
 
 
+    /**
+     * 获取字典列表
+     *
+     * @return
+     */
+    List<Option<String>> getDictList();
 }

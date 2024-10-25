@@ -89,7 +89,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 .stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
                 .map(entity -> {
-                    MenuVO menuVO = menuConverter.entity2Vo(entity);
+                    MenuVO menuVO = menuConverter.toVo(entity);
                     List<MenuVO> children = buildMenuTree(entity.getId(), menuList);
                     menuVO.setChildren(children);
                     return menuVO;
@@ -299,7 +299,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     public MenuForm getMenuForm(Long id) {
         Menu entity = this.getById(id);
         Assert.isTrue(entity != null, "菜单不存在");
-        MenuForm formData = menuConverter.convertToForm(entity);
+        MenuForm formData = menuConverter.toForm(entity);
         // 路由参数字符串 {"id":"1","name":"张三"} 转换为 [{key:"id", value:"1"}, {key:"name", value:"张三"}]
         String params = entity.getParams();
         if (StrUtil.isNotBlank(params)) {

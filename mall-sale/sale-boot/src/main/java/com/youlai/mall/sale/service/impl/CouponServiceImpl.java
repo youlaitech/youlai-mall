@@ -55,7 +55,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
         // 查询数据
         List<Coupon> couponList = this.baseMapper.getCouponPage(page, queryParams);
         // 实体转换
-        List<CouponPageVO> records = couponConverter.entity2PageVO(couponList);
+        List<CouponPageVO> records = couponConverter.toPageVoVO(couponList);
         page.setRecords(records);
         return page;
     }
@@ -70,7 +70,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
     public CouponForm getCouponFormData(Long couponId) {
         Coupon entity = this.getById(couponId);
         // 实体转换entity->form
-        CouponForm couponForm = couponConverter.convertToForm(entity);
+        CouponForm couponForm = couponConverter.toForm(entity);
 
         Integer applicationScope = couponForm.getApplicationScope();
 

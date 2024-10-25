@@ -63,4 +63,9 @@ public interface RedisConstants {
      */
     String EMAIL_VERIFICATION_CODE_PREFIX = "verification_code:email:";
 
+    /**
+     * 系统配置Redis-key
+     */
+    String SYSTEM_CONFIG_KEY = "system:config";
+
 }

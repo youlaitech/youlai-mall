@@ -80,7 +80,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
         return deptList.stream()
                 .filter(dept -> dept.getParentId().equals(parentId))
                 .map(dept -> {
-                    DeptVO deptVO = deptConverter.entity2Vo(dept);
+                    DeptVO deptVO = deptConverter.toVo(dept);
                     List<DeptVO> children = recurDeptList(dept.getId(), deptList);
                     deptVO.setChildren(children);
                     return deptVO;
@@ -126,7 +126,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      */
     @Override
     public Long saveDept(DeptForm formData) {
-        Dept entity = deptConverter.convertToForm(formData);
+        Dept entity = deptConverter.toEntity(formData);
         // 部门层级路径
         String treePath = buildTreePath(formData.getParentId());
         entity.setTreePath(treePath);
@@ -197,7 +197,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
                         Dept::getSort
                 ));
 
-        return deptConverter.convertToForm(entity);
+        return deptConverter.toForm(entity);
     }
 
 

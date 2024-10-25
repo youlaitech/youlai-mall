@@ -86,13 +86,13 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
         AttrGroup attrGroup = this.getById(groupId);
         Assert.isTrue(attrGroup != null, "属性组不存在");
 
-        AttrGroupForm attrGroupForm = attrGroupConverter.convertToForm(attrGroup);
+        AttrGroupForm attrGroupForm = attrGroupConverter.toForm(attrGroup);
 
         // 属性列表
         List<Attr> attrEntities = attrService.list(new LambdaQueryWrapper<Attr>()
                 .eq(Attr::getAttrGroupId, groupId)
         );
-        List<AttrGroupForm.Attr> attrList = attrConverter.convertToForm(attrEntities);
+        List<AttrGroupForm.Attr> attrList = attrConverter.toForm(attrEntities);
         attrGroupForm.setAttrs(attrList);
 
         return attrGroupForm;

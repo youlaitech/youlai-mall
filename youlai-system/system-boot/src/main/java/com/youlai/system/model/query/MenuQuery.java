@@ -16,7 +16,7 @@ public class MenuQuery {
     @Schema(description="关键字(菜单名称)")
     private String keywords;
 
-    @Schema(description="状态(1->显示；0->隐藏)")
+    @Schema(description="状态(1：显示；0：隐藏)")
     private Integer status;
 
 }

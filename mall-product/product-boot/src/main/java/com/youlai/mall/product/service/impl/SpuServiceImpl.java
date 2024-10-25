@@ -91,7 +91,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         Spu spu = this.getById(spuId);
         Assert.isTrue(spu != null, "商品不存在");
 
-        SpuForm spuForm = spuConverter.convertToForm(spu);
+        SpuForm spuForm = spuConverter.toForm(spu);
 
         // 商品图片
         List<SpuForm.Image> imageList = spuImageService.list(new LambdaQueryWrapper<SpuImage>()

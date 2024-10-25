@@ -68,7 +68,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         );
 
         // 实体转换
-        Page<RolePageVO> pageResult = roleConverter.entity2Page(rolePage);
+        Page<RolePageVO> pageResult = roleConverter.toPageVo(rolePage);
         return pageResult;
     }
 
@@ -87,7 +87,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         );
 
         // 实体转换
-        return roleConverter.entities2Options(roleList);
+        return roleConverter.toOption(roleList);
     }
 
     /**
@@ -142,7 +142,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public RoleForm getRoleForm(Long roleId) {
         Role entity = this.getById(roleId);
-        return roleConverter.convertToForm(entity);
+        return roleConverter.toForm(entity);
     }
 
     /**

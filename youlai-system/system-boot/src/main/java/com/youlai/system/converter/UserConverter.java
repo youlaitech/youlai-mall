@@ -32,9 +32,9 @@ public interface UserConverter {
 
     UserForm toForm(UserBO bo);
 
-    UserForm convertToForm(User entity);
+    UserForm toForm(User entity);
 
-    @InheritInverseConfiguration(name = "convertToForm")
+    @InheritInverseConfiguration(name = "toForm")
     User toEntity(UserForm entity);
 
     @Mappings({

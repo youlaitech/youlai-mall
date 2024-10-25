@@ -146,7 +146,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public CategoryForm getCategoryForm(Long id) {
         Category entity = this.getById(id);
-        return categoryConverter.convertToForm(entity);
+        return categoryConverter.toForm(entity);
     }
 
     /**

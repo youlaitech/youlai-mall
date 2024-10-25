@@ -17,5 +17,5 @@ public interface SpuConverter {
     Spu toEntity(SpuForm form);
 
 
-    SpuForm convertToForm(Spu spu);
+    SpuForm toForm(Spu spu);
 }

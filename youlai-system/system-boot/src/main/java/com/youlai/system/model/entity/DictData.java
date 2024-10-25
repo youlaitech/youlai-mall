@@ -2,17 +2,22 @@ package com.youlai.system.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.youlai.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 /**
- * 字典项实体
+ * 字典数据实体对象
  *
  * @author haoxr
- * @since 0.0.1
+ * @since 2022/12/17
  */
+@EqualsAndHashCode(callSuper = true)
+@TableName("sys_dict_data")
 @Data
-public class DictItem  {
+public class DictData extends BaseEntity {
     /**
      * 主键
      */
@@ -20,14 +25,14 @@ public class DictItem  {
     private Long id;
 
     /**
-     * 字典类ID
+     * 字典编码
      */
-    private Long dictId;
+    private String dictCode;
 
     /**
      * 字典项名称
      */
-    private String name;
+    private String label;
 
     /**
      * 字典项值
@@ -48,4 +53,9 @@ public class DictItem  {
      * 备注
      */
     private String remark;
+
+    /**
+     * 标签类型
+     */
+    private String tagType;
 }

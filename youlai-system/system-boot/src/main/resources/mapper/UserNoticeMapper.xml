@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.system.mapper.UserNoticeMapper">
+
+    <!-- 获取我的通知分页列表 -->
+    <select id="getMyNoticePage" resultType="com.youlai.system.model.vo.UserNoticePageVO">
+        SELECT
+            t2.id,
+            t2.title,
+            t2.type,
+            t3.nickname publisherName,
+            t2.publish_time,
+            t1.is_read,
+            t2.level
+        FROM
+            sys_user_notice t1
+                INNER JOIN sys_notice t2 ON  t1.notice_id = t2.id AND t2.publish_status = 1
+                LEFT JOIN sys_user t3 ON t2.publisher_id = t3.id
+        WHERE
+            t1.user_id = #{queryParams.userId} AND t1.is_deleted = 0 AND t2.is_deleted = 0
+        <if test="queryParams.title != null and queryParams.title != ''">
+            AND t2.title LIKE CONCAT('%',#{queryParams.title},'%')
+        </if>
+        ORDER BY
+            t2.publish_time DESC,
+            t2.create_time DESC
+    </select>
+</mapper>

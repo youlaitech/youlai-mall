@@ -29,10 +29,10 @@ public interface CouponConverter {
             ),
             @Mapping(target = "minPointLabel", expression = "java(cn.hutool.core.util.NumberUtil.toStr(cn.hutool.core.util.NumberUtil.div(entity.getMinPoint(),new java.math.BigDecimal(100)).setScale(2)))"),
     })
-    CouponPageVO entity2PageVO(Coupon entity);
+    CouponPageVO toPageVoVO(Coupon entity);
 
 
-    List<CouponPageVO> entity2PageVO(List<Coupon> entities);
+    List<CouponPageVO> toPageVoVO(List<Coupon> entities);
 
 
     @Mappings({
@@ -44,5 +44,5 @@ public interface CouponConverter {
     @Mappings({
             @Mapping(target = "discount",expression = "java(cn.hutool.core.util.NumberUtil.mul(entity.getDiscount(),10L))"),
     })
-    CouponForm convertToForm(Coupon entity);
+    CouponForm toForm(Coupon entity);
 }

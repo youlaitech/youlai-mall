@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.system.mapper.NoticeMapper">
+
+    <!-- 获取通知公告分页列表 -->
+    <select id="getNoticePage" resultType="com.youlai.system.model.bo.NoticeBO">
+        SELECT
+                t1.id,
+                t1.title,
+                t1.type,
+                t2.nickname AS publisherName,
+                t1.level,
+                t1.target_type,
+                t1.publish_status,
+                t1.publish_time,
+                t1.revoke_time,
+                t1.create_time
+        FROM
+            sys_notice t1
+                LEFT JOIN sys_user t2 ON t2.id = t1.publisher_id
+        WHERE
+            t1.is_deleted = 0
+            <if test="queryParams.title != null and queryParams.title != ''">
+                AND t1.title LIKE CONCAT('%',#{queryParams.title},'%')
+            </if>
+            <if test="queryParams.publishStatus != null">
+                AND t1.publish_status = #{queryParams.publishStatus}
+            </if>
+            <if test="queryParams.publishTime != null">
+                <if test="queryParams.publishTime[0] != null and queryParams.publishTime[0] != ''">
+                    <bind name="startDate" value="queryParams.publishTime[0].length() == 10 ? queryParams.publishTime[0] + ' 00:00:00' : queryParams.publishTime[0]"/>
+                    AND t1.publish_time &gt;= #{startDate}
+                </if>
+                <if test="queryParams.publishTime[1] != null and queryParams.publishTime[1] != ''">
+                    <bind name="endDate" value="queryParams.publishTime[1].length() == 10 ? queryParams.publishTime[1] + ' 23:59:59' : queryParams.publishTime[1]"/>
+                    AND t1.publish_time &lt;= #{endDate}
+                </if>
+            </if>
+        ORDER BY
+            t1.publish_time DESC,
+            t1.create_time DESC
+    </select>
+
+    <!-- 获取通知公告详情 -->
+    <select id="getNoticeDetail" resultType="com.youlai.system.model.bo.NoticeBO">
+        SELECT
+            t1.id,
+            t1.title,
+            t1.content,
+            t1.type,
+            t2.nickname AS publisherName,
+            t1.level,
+            t1.publish_status,
+            t1.publish_time
+        FROM
+            sys_notice t1
+                LEFT JOIN sys_user t2 ON t2.id = t1.publisher_id
+        WHERE
+            t1.id = #{id} AND t1.is_deleted = 0
+    </select>
+
+</mapper>
