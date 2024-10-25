@@ -22,7 +22,6 @@ import java.util.Properties;
  */
 @Configuration
 @EnableConfigurationProperties(MailProperties.class)
-// 当 spring.mail.host 属性存在时，才会创建 MailConfig bean
 @ConditionalOnProperty(prefix = "spring.mail", name = "host")
 public class MailConfig {
 

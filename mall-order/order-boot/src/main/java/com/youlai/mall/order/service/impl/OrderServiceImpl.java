@@ -250,7 +250,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
     private boolean saveOrder(OrderSubmitForm submitForm) {
         // 保存订单
         OmsOrder order = orderConverter.toEntity(submitForm);
-        order.setStatus(OrderStatusEnum.PENDING_PAYMENT.getValue());
+        order.setStatus(OrderStatusEnum.WAIT_PAY.getValue());
         order.setMemberId(SecurityUtils.getMemberId());
         boolean result = this.save(order);
 
@@ -289,7 +289,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         OmsOrder order = this.getOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderNo, orderNo)
         );
-        Assert.isTrue(order != null && OrderStatusEnum.PENDING_PAYMENT.getValue().equals(order.getStatus()),
+        Assert.isTrue(order != null && OrderStatusEnum.WAIT_PAY.getValue().equals(order.getStatus()),
                 "订单不存在或已支付");
 
         RLock lock = redissonClient.getLock(RedisConstants.ORDER_PAYMENT_LOCK_PREFIX + order.getOrderNo());
@@ -377,7 +377,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
                 throw new BusinessException("订单（" + order.getOrderNo() + "）退款失败");
             }
             if (WxPayConstants.ResultCode.SUCCESS.equals(refundResult.getResultCode())) {
-                order.setStatus(OrderStatusEnum.REFUND_PENDING.getValue());
+                order.setStatus(OrderStatusEnum.REFUNDED.getValue());
                 order.setOutRefundNo(outRefundNo);
                 order.setRefundId(refundResult.getRefundId());
                 return this.updateById(order);
@@ -403,7 +403,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Assert.isTrue(stockDeducted, "订单支付失败：库存扣减失败！");
 
         // 更新订单状态
-        order.setStatus(OrderStatusEnum.PENDING_SHIPMENT.getValue());
+        order.setStatus(OrderStatusEnum.WAIT_SHIP.getValue());
         order.setPaymentMethod(PaymentMethodEnum.BALANCE.getValue());
         order.setPaymentTime(new Date());
         boolean result = this.updateById(order);
@@ -477,7 +477,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         return this.update(new LambdaUpdateWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderNo, orderNo)
-                .eq(OmsOrder::getStatus, OrderStatusEnum.PENDING_PAYMENT.getValue())
+                .eq(OmsOrder::getStatus, OrderStatusEnum.WAIT_PAY.getValue())
                 .set(OmsOrder::getStatus, OrderStatusEnum.CANCELLED.getValue())
         );
     }
@@ -495,7 +495,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
 
         Assert.isTrue(
                 OrderStatusEnum.CANCELLED.getValue().equals(order.getStatus())
-                        || OrderStatusEnum.PENDING_PAYMENT.getValue().equals(order.getStatus())
+                        || OrderStatusEnum.WAIT_PAY.getValue().equals(order.getStatus())
                 ,
                 "当前状态订单不能删除"
         );
@@ -535,7 +535,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 如果支付状态为成功，更新订单状态和相关信息
         if (WxPayConstants.WxpayTradeStatus.SUCCESS.equals(result.getTradeState())) {
             // 设置订单状态为待发货
-            order.setStatus(OrderStatusEnum.PENDING_SHIPMENT.getValue());
+            order.setStatus(OrderStatusEnum.WAIT_SHIP.getValue());
             // 设置交易流水号
             order.setTransactionId(result.getTransactionId());
             // 设置支付时间为当前时间
