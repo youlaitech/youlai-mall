@@ -22,10 +22,6 @@ public interface DictDataMapper extends BaseMapper<DictData> {
      */
     Page<DictDataPageVO> getDictDataPage(Page<DictDataPageVO> page, DictDataPageQuery queryParams);
 
-    /**
-     * 根据字典编码获取字典数据列表
-     */
-    Option listDictDataByDictCode(String dictCode);
 }
 
 

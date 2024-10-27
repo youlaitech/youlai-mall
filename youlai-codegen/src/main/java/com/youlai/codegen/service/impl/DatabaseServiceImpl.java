@@ -32,7 +32,7 @@ public class DatabaseServiceImpl implements DatabaseService {
      * @return 分页结果
      */
     @Override
-    @DS("#queryParams.dsKey")
+    @DS("#queryParams.database")
     public Page<TablePageVO> getTablePage(TablePageQuery queryParams) {
         // 设置排除的表
         List<String> excludeTables = codegenProperties.getExcludeTables();

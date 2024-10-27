@@ -1,12 +1,19 @@
 package com.youlai.system.model.form;
 
-import com.youlai.common.core.model.KeyValue;
 import com.youlai.system.enums.MenuTypeEnum;
+import com.youlai.common.core.model.KeyValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
+/**
+ * 菜单表单对象
+ *
+ * @author Ray
+ * @since 2024/06/23
+ */
 @Schema(description = "菜单表单对象")
 @Data
 public class MenuForm {
@@ -20,11 +27,14 @@ public class MenuForm {
     @Schema(description = "菜单名称")
     private String name;
 
-    @Schema(description = "菜单类型(1-菜单；2-目录；3-外链；4-按钮权限)")
+    @Schema(description = "菜单类型（1-菜单 2-目录 3-外链 4-按钮）")
     private MenuTypeEnum type;
 
+    @Schema(description = "路由名称")
+    private String routeName;
+
     @Schema(description = "路由路径")
-    private String path;
+    private String routePath;
 
     @Schema(description = "组件路径(vue页面完整路径，省略.vue后缀)")
     private String component;
@@ -33,6 +43,7 @@ public class MenuForm {
     private String perm;
 
     @Schema(description = "显示状态(1:显示;0:隐藏)")
+    @Range(max = 1, min = 0, message = "显示状态不正确")
     private Integer visible;
 
     @Schema(description = "排序(数字越小排名越靠前)")
@@ -52,4 +63,5 @@ public class MenuForm {
 
     @Schema(description = "路由参数")
     private List<KeyValue> params;
+
 }

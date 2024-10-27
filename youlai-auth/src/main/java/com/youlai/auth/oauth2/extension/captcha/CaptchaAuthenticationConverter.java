@@ -78,11 +78,11 @@ public class CaptchaAuthenticationConverter implements AuthenticationConverter {
         }
 
         // 验证码ID(必需)
-        String captchaId = parameters.getFirst(CaptchaParameterNames.CAPTCHA_ID);
-        if (StrUtil.isBlank(captchaId)) {
+        String captchaKey = parameters.getFirst(CaptchaParameterNames.CAPTCHA_KEY);
+        if (StrUtil.isBlank(captchaKey)) {
             OAuth2EndpointUtils.throwError(
                     OAuth2ErrorCodes.INVALID_REQUEST,
-                    CaptchaParameterNames.CAPTCHA_ID,
+                    CaptchaParameterNames.CAPTCHA_KEY,
                     OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI
             );
         }

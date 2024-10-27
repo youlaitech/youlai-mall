@@ -138,12 +138,6 @@ public class UserController {
         return Result.success(userInfoVO);
     }
 
-    @Operation(summary = "注销登出")
-    @DeleteMapping("/logout")
-    public Result logout() {
-        boolean result = userService.logout();
-        return Result.judge(result);
-    }
 
     @Operation(summary = "用户导入模板下载")
     @GetMapping("/template")
@@ -202,7 +196,7 @@ public class UserController {
     @PreAuthorize("@ss.hasPerm('sys:user:password:reset')")
     public Result<?> resetPassword(
             @Parameter(description = "用户ID") @PathVariable Long userId,
-            @RequestParam String password
+            @Parameter(description = "密码") @RequestParam String password
     ) {
         boolean result = userService.resetPassword(userId, password);
         return Result.judge(result);

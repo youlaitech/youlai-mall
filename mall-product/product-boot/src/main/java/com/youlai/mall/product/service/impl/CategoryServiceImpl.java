@@ -79,7 +79,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         );
         return buildTree(0L, categoryList,
                 category -> new Option<>(category.getId(), category.getName()),
-                (option, children) -> ((Option<?>) option).setChildren(children)
+                (option, children) -> option.setChildren(children)
         );
     }
 
@@ -92,7 +92,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @param childSetter  子节点设置器，用于将子节点列表设置到父节点上
      * @return 构建好的树形结构列表
      */
-    private <T> List<T> buildTree(Long parentId, List<Category> categoryList, Function<Category, T> converter, BiConsumer<T, List<T>> childSetter) {
+    private <T> List<T> buildTree(Long parentId,
+                                  List<Category> categoryList,
+                                  Function<Category, T> converter,
+                                  BiConsumer<T, List<T>> childSetter) {
         return categoryList.stream()
                 .filter(category -> category.getParentId().equals(parentId))
                 .map(category -> {

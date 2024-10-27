@@ -6,6 +6,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.youlai.auth.config.property.CaptchaProperties;
 import com.youlai.auth.model.CaptchaResult;
+import com.youlai.auth.util.SecurityUtils;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.sms.config.AliyunSmsProperties;
 import com.youlai.common.sms.service.SmsService;
@@ -14,6 +15,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -45,16 +47,16 @@ public class AuthService {
         AbstractCaptcha captcha = captchaService.generate();
 
         // 验证码文本缓存至Redis，用于登录校验
-        String captchaId = IdUtil.fastSimpleUUID();
+        String captchaKey = IdUtil.fastSimpleUUID();
         redisTemplate.opsForValue().set(
-                RedisConstants.CAPTCHA_CODE_PREFIX + captchaId,
+                RedisConstants.CAPTCHA_CODE_PREFIX + captchaKey,
                 captcha.getCode(),
                 captchaProperties.getExpireSeconds(),
                 TimeUnit.SECONDS
         );
 
         CaptchaResult captchaResult = CaptchaResult.builder()
-                .captchaId(captchaId)
+                .captchaKey(captchaKey)
                 .captchaBase64(captcha.getImageBase64Data())
                 .build();
 
@@ -88,4 +90,29 @@ public class AuthService {
         return result;
     }
 
+    /**
+     * 注销
+     *
+     * @return true|false 是否注销成功
+     */
+    public void logout() {
+
+        String jti = SecurityUtils.getJti();
+        Optional<Long> expireTimeOpt = Optional.ofNullable(SecurityUtils.getExp()); // 使用Optional处理可能的null值
+
+        long currentTimeInSeconds = System.currentTimeMillis() / 1000; // 当前时间（单位：秒）
+
+        expireTimeOpt.ifPresent(expireTime -> {
+            if (expireTime > currentTimeInSeconds) {
+                // token未过期，添加至缓存作为黑名单，缓存时间为token剩余的有效时间
+                long remainingTimeInSeconds = expireTime - currentTimeInSeconds;
+                redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "", remainingTimeInSeconds, TimeUnit.SECONDS);
+            }
+        });
+
+        if (expireTimeOpt.isEmpty()) {
+            // token 永不过期则永久加入黑名单
+            redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "");
+        }
+    }
 }

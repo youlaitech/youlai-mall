@@ -23,7 +23,7 @@ public class TablePageQuery extends BasePageQuery {
     private String keywords;
 
     @Schema(description="数据源Key",example = "master")
-    private String dsKey;
+    private String database;
 
     /**
      * 排除的表名

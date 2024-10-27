@@ -1,4 +1,4 @@
-package com.youlai.system.config;
+package com.youlai.common.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

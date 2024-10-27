@@ -17,7 +17,7 @@ public class CaptchaResult {
     /**
      * 验证码唯一标识(用于从Redis获取验证码Code)
      */
-    private String captchaId;
+    private String captchaKey;
 
     /**
      * 验证码图片Base64字符串

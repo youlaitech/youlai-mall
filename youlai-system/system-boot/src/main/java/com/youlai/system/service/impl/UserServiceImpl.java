@@ -42,6 +42,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
+    private final Set<String> onlineUsers = ConcurrentHashMap.newKeySet();
+
     private final PasswordEncoder passwordEncoder;
 
     private final UserRoleService userRoleService;
@@ -67,6 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final PermissionService permissionService;
 
     private final SmsService smsService;
+
     private final MailService mailService;
 
     private final AliyunSmsProperties aliyunSmsProperties;
@@ -260,33 +264,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         return userInfoVO;
     }
-
-    /**
-     * 注销登录
-     */
-    @Override
-    public boolean logout() {
-        String jti = SecurityUtils.getJti();
-        Optional<Long> expireTimeOpt = Optional.ofNullable(SecurityUtils.getExp()); // 使用Optional处理可能的null值
-
-        long currentTimeInSeconds = System.currentTimeMillis() / 1000; // 当前时间（单位：秒）
-
-        expireTimeOpt.ifPresent(expireTime -> {
-            if (expireTime > currentTimeInSeconds) {
-                // token未过期，添加至缓存作为黑名单，缓存时间为token剩余的有效时间
-                long remainingTimeInSeconds = expireTime - currentTimeInSeconds;
-                redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "", remainingTimeInSeconds, TimeUnit.SECONDS);
-            }
-        });
-
-        if (expireTimeOpt.isEmpty()) {
-            // token 永不过期则永久加入黑名单
-            redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "");
-        }
-
-        return true;
-    }
-
     /**
      * 注册用户
      *
@@ -519,5 +496,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .eq(User::getId, userId)
                 .set(User::getEmail, email)
         );
+    }
+
+    @Override
+    public void addOnlineUser(String username) {
+        onlineUsers.add(username);
+    }
+
+    @Override
+    public void removeOnlineUser(String username) {
+        onlineUsers.remove(username);
+    }
+
+    @Override
+    public Set<String> getAllOnlineUsers() {
+        return Collections.unmodifiableSet(onlineUsers);
+    }
+
+    @Override
+    public Set<String> getOnlineReceivers(Set<String> receivers) {
+        return receivers.stream().filter(onlineUsers::contains).collect(Collectors.toSet());
+    }
+
+    @Override
+    public int getOnlineUserCount() {
+        return onlineUsers.size();
     }
 }

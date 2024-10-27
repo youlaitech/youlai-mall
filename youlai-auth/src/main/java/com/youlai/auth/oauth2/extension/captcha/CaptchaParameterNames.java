@@ -12,7 +12,7 @@ public class CaptchaParameterNames {
     /**
      * 验证码ID
      */
-    public static final String CAPTCHA_ID = "captchaId";
+    public static final String CAPTCHA_KEY = "captchaKey";
 
 
     /**

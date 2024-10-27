@@ -2,6 +2,7 @@ package com.youlai.codegen.controller;
 
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.codegen.enums.DatabaseEnum;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.codegen.config.CodegenProperties;
@@ -44,13 +45,12 @@ public class CodegenController {
     private final GenConfigService genConfigService;
     private final CodegenProperties codegenProperties;
 
-    private final DataSource dataSource;
 
-    @GetMapping("/datasource/keys")
-    @Operation(summary = "获取所有数据源的key")
-    public Result<List<String>> getAllDatasourceKeys() {
-        DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
-        return Result.success(new ArrayList<>(ds.getDataSources().keySet()));
+    @GetMapping("/databases")
+    @Operation(summary = "获取数据库列表")
+    public Result<List<String>> getDatabases() {
+        List<String> databases = DatabaseEnum.getDatabases();
+        return Result.success(databases);
     }
 
     @Operation(summary = "获取数据表分页列表")
@@ -66,9 +66,9 @@ public class CodegenController {
     @GetMapping("/{tableName}/config")
     public Result<GenConfigForm> getGenConfigFormData(
             @Parameter(description = "表名", example = "sys_user") @PathVariable String tableName,
-            @Parameter(description = "数据源Key", example = "youlai_system") @RequestParam String dsKey
+            @Parameter(description = "数据源Key", example = "youlai_system") @RequestParam String database
     ) {
-        GenConfigForm formData = genConfigService.getGenConfigFormData(tableName,dsKey);
+        GenConfigForm formData = genConfigService.getGenConfigFormData(tableName,database);
         return Result.success(formData);
     }
 

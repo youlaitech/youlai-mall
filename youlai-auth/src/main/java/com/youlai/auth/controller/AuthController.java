@@ -32,14 +32,19 @@ public class AuthController {
     }
 
     @Operation(summary = "发送手机短信验证码")
-    @PostMapping("/sms_code")
-    public Result sendLoginSmsCode(
+    @PostMapping("/login-code")
+    public Result<Void> sendLoginSmsCode(
             @Parameter(description = "手机号") @RequestParam String mobile
     ) {
         boolean result = authService.sendLoginSmsCode(mobile);
         return Result.judge(result);
     }
 
-
+    @Operation(summary = "注销")
+    @DeleteMapping("/logout")
+    public Result<Void> logout() {
+        authService.logout();
+        return Result.success();
+    }
 
 }

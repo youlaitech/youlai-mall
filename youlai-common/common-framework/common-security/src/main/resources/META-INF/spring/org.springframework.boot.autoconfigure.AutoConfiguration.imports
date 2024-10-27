@@ -2,3 +2,4 @@ com.youlai.common.security.service.PermissionService
 com.youlai.common.security.config.ResourceServerConfig
 com.youlai.common.security.exception.MyAccessDeniedHandler
 com.youlai.common.security.exception.MyAuthenticationEntryPoint
+com.youlai.common.security.config.PasswordEncoderConfig

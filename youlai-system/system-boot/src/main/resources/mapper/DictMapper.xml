@@ -4,32 +4,47 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.system.mapper.DictMapper">
 
-    <!-- 字典映射 -->
-    <resultMap id="DictMap" type="com.youlai.system.model.vo.DictPageVO">
-        <collection property="dictData"
-                    column="{dictId=id}"
-                    select="com.youlai.system.mapper.DictDataMapper.listDictItemsByDictId">
-        </collection>
-    </resultMap>
-
     <!-- 字典分页列表 -->
-    <select id="getDictPage" resultMap="DictMap">
+    <select id="getDictPage" resultType="com.youlai.system.model.vo.DictPageVO">
         SELECT
-            t1.id,
-            t1.name,
-            t1.code,
-            t1.status
+        t1.id,
+        t1.name,
+        t1.dict_code,
+        t1.status
         FROM
-            sys_dict t1
+        sys_dict t1
         <where>
             t1.is_deleted = 0
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
-                    t1.name LIKE CONCAT('%',#{queryParams.keywords},'%')
-                    OR t1.code LIKE CONCAT('%',#{queryParams.keywords},'%')
+                t1.name LIKE CONCAT('%',#{queryParams.keywords},'%')
+                OR
+                t1.dict_code LIKE CONCAT('%',#{queryParams.keywords},'%')
                 )
             </if>
         </where>
+        ORDER BY
+        t1.create_time DESC
+    </select>
+
+    <resultMap id="DictWithDataMap" type="com.youlai.system.model.vo.DictVO">
+        <result column="name" property="name"/>
+        <result column="dict_code" property="dictCode"/>
+        <collection property="dictDataList"
+                    column="{dictCode=dict_code}"
+                    select="com.youlai.system.mapper.DictDataMapper.getDictDataList">
+        </collection>
+    </resultMap>
+
+    <!-- 获取字典列表（包含字典数据） -->
+    <select id="getAllDictWithData" resultMap="DictWithDataMap">
+        SELECT
+            t1.name,
+            t1.dict_code
+        FROM
+            sys_dict t1
+        WHERE
+            t1.is_deleted = 0 AND t1.status = 1
         ORDER BY
             t1.create_time DESC
     </select>

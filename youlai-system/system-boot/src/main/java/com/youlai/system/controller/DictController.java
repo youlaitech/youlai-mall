@@ -3,13 +3,13 @@ package com.youlai.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.annotation.Log;
 import com.youlai.common.core.annotation.RepeatSubmit;
-import com.youlai.common.core.model.Option;
 import com.youlai.common.enums.LogModuleEnum;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.query.DictPageQuery;
 import com.youlai.system.model.vo.DictPageVO;
+import com.youlai.system.model.vo.DictVO;
 import com.youlai.system.service.DictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class DictController {
 
     @Operation(summary = "字典分页列表")
     @GetMapping("/page")
-    @Log( value = "字典分页列表",module = LogModuleEnum.DICT)
+    @Log(value = "字典分页列表", module = LogModuleEnum.DICT)
     public PageResult<DictPageVO> getDictPage(
             DictPageQuery queryParams
     ) {
@@ -47,8 +48,8 @@ public class DictController {
 
     @Operation(summary = "字典列表")
     @GetMapping("/list")
-    public Result<List<Option<String>>> getDictList() {
-        List<Option<String>> list = dictService.getDictList();
+    public Result<List<DictVO>> getDictList() {
+        List<DictVO> list = dictService.getAllDictWithData();
         return Result.success(list);
     }
 
@@ -87,14 +88,9 @@ public class DictController {
     public Result<?> deleteDictionaries(
             @Parameter(description = "字典ID，多个以英文逗号(,)拼接") @PathVariable String ids
     ) {
-        dictService.deleteDictByIds(ids);
+        dictService.deleteDictByIds(Arrays.stream(ids.split(",")).toList());
         return Result.success();
     }
-
-
-
-
-
 
 
 }

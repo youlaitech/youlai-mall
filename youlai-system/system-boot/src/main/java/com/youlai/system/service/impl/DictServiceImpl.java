@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.core.exception.BusinessException;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.converter.DictConverter;
 import com.youlai.system.converter.DictDataConverter;
 import com.youlai.system.mapper.DictMapper;
@@ -14,6 +16,7 @@ import com.youlai.system.model.entity.DictData;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.query.DictPageQuery;
 import com.youlai.system.model.vo.DictPageVO;
+import com.youlai.system.model.vo.DictVO;
 import com.youlai.system.service.DictDataService;
 import com.youlai.system.service.DictService;
 import lombok.RequiredArgsConstructor;
@@ -120,14 +123,8 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     @Transactional
-    public void deleteDictByIds(String ids) {
-
-        Assert.isTrue(StrUtil.isNotBlank(ids), "请选择需要删除的字典");
-
-        List<String> idList = Arrays.stream(ids.split(","))
-                .toList();
-
-        for (String id : idList) {
+    public void deleteDictByIds(List<String> ids) {
+        for (String id : ids) {
             Dict dict = this.getById(id);
             if (dict != null) {
                 boolean removeResult = this.removeById(id);
@@ -138,50 +135,18 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
                                     .eq(DictData::getDictCode, dict.getDictCode())
                     );
                 }
-
             }
         }
     }
 
     /**
-     * 获取字典的数据项
+     * 获取字典列表（包含字典数据）
      *
-     * @param code 字典编码
+     *  @return 字典列表
      */
     @Override
-    public List<Option<Long>> listDictItemsByCode(String code) {
-        // 根据字典编码获取字典ID
-        Dict dict = this.getOne(new LambdaQueryWrapper<Dict>()
-                .eq(Dict::getDictCode, code)
-                .select(Dict::getId)
-                .last("limit 1")
-        );
-        // 如果字典不存在，则返回空集合
-        if (dict == null) {
-            return CollectionUtil.newArrayList();
-        }
-
-        // 获取字典项
-        List<DictData> dictData = dictDataService.list(
-                new LambdaQueryWrapper<DictData>()
-                        .eq(DictData::getDictCode, dict.getDictCode())
-        );
-
-        // 转换为 Option
-        return dictDataConverter.toOption(dictData);
-    }
-
-    /**
-     * 获取字典列表
-     */
-    @Override
-    public List<Option<String>> getDictList() {
-        return this.list(new LambdaQueryWrapper<Dict>()
-                        .eq(Dict::getStatus, 1)
-                        .select(Dict::getName, Dict::getDictCode)
-                ).stream()
-                .map(dict -> new Option<>(dict.getDictCode(), dict.getName()))
-                .toList();
+    public List<DictVO> getAllDictWithData() {
+        return this.baseMapper.getAllDictWithData();
     }
 }
 

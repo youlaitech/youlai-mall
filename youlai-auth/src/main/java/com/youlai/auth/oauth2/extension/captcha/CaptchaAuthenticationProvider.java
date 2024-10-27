@@ -95,10 +95,10 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
         Map<String, Object> additionalParameters = passwordAuthenticationToken.getAdditionalParameters();
 
         // 验证码校验
-        String captchaId = (String) additionalParameters.get(CaptchaParameterNames.CAPTCHA_ID);
+        String captchaKey = (String) additionalParameters.get(CaptchaParameterNames.CAPTCHA_KEY);
         String captchaCode = (String) additionalParameters.get(CaptchaParameterNames.CAPTCHA_CODE);
 
-        String cacheCaptchaCode = redisTemplate.opsForValue().get(RedisConstants.CAPTCHA_CODE_PREFIX + captchaId);
+        String cacheCaptchaCode = redisTemplate.opsForValue().get(RedisConstants.CAPTCHA_CODE_PREFIX + captchaKey);
 
         // 验证码比对
         if (!codeGenerator.verify(cacheCaptchaCode, captchaCode)) {

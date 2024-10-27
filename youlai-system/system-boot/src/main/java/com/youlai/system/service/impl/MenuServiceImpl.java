@@ -223,15 +223,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     public boolean saveMenu(MenuForm menuForm) {
+
         MenuTypeEnum menuType = menuForm.getType();
 
         if (menuType == MenuTypeEnum.CATALOG) {  // 如果是外链
-            String path = menuForm.getPath();
+            String path = menuForm.getRoutePath();
             if (menuForm.getParentId() == 0 && !path.startsWith("/")) {
-                menuForm.setPath("/" + path); // 一级目录需以 / 开头
+                menuForm.setRoutePath("/" + path); // 一级目录需以 / 开头
             }
             menuForm.setComponent("Layout");
         } else if (menuType == MenuTypeEnum.EXTLINK) {   // 如果是目录
+
             menuForm.setComponent(null);
         }
 
@@ -244,8 +246,18 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         if (CollectionUtil.isNotEmpty(params)) {
             entity.setParams(JSONUtil.toJsonStr(params.stream()
                     .collect(Collectors.toMap(KeyValue::getKey, KeyValue::getValue))));
-        }else{
+        } else {
             entity.setParams(null);
+        }
+        // 新增类型为菜单时候 路由名称唯一
+        if (MenuTypeEnum.MENU.equals(menuType)) {
+            Assert.isFalse(this.exists(new LambdaQueryWrapper<Menu>()
+                    .eq(Menu::getRouteName, entity.getRouteName())
+                    .ne(menuForm.getId() != null, Menu::getId, menuForm.getId())
+            ), "路由名称已存在");
+        }else{
+            // 其他类型时 给路由名称赋值为空
+            entity.setRouteName(null);
         }
 
         boolean result = this.saveOrUpdate(entity);
@@ -255,7 +267,31 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 roleMenuService.refreshRolePermsCache();
             }
         }
+        // 修改菜单如果有子菜单，则更新子菜单的树路径
+        updateChildrenTreePath(entity.getId(), treePath);
         return result;
+    }
+
+
+    /**
+     * 更新子菜单树路径
+     * @param id 当前菜单ID
+     * @param treePath 当前菜单树路径
+     */
+    private void updateChildrenTreePath(Long id, String treePath) {
+        List<Menu> children = this.list(new LambdaQueryWrapper<Menu>().eq(Menu::getParentId, id));
+        if (CollectionUtil.isNotEmpty(children)) {
+            // 子菜单的树路径等于父菜单的树路径加上父菜单ID
+            String childTreePath = treePath + "," + id;
+            this.update(new LambdaUpdateWrapper<Menu>()
+                    .eq(Menu::getParentId, id)
+                    .set(Menu::getTreePath, childTreePath)
+            );
+            for (Menu child : children) {
+                // 递归更新子菜单
+                updateChildrenTreePath(child.getId(), childTreePath);
+            }
+        }
     }
 
     /**
@@ -272,7 +308,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             return parent != null ? parent.getTreePath() + "," + parent.getId() : null;
         }
     }
-
 
     /**
      * 修改菜单显示状态
@@ -306,7 +341,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 // 解析 JSON 字符串为 Map<String, String>
-                Map<String, String> paramMap = objectMapper.readValue(params, new TypeReference<>() {});
+                Map<String, String> paramMap = objectMapper.readValue(params, new TypeReference<>() {
+                });
 
                 // 转换为 List<KeyValue> 格式 [{key:"id", value:"1"}, {key:"name", value:"张三"}]
                 List<KeyValue> transformedList = paramMap.entrySet().stream()

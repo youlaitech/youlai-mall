@@ -45,7 +45,7 @@ public class DictDataController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "字典数据表单内")
+    @Operation(summary = "获取字典数据表单")
     @GetMapping("/{id}/form")
     public Result<DictDataForm> getDictDataForm(
             @Parameter(description = "字典数据ID") @PathVariable Long id

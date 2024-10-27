@@ -3,10 +3,10 @@ package com.youlai.codegen.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.codegen.enums.DatabaseEnum;
 import com.youlai.common.core.exception.BusinessException;
 import com.youlai.common.enums.EnvEnum;
 import com.youlai.codegen.config.CodegenProperties;
@@ -57,7 +57,7 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
      * @return 代码生成配置
      */
     @Override
-    public GenConfigForm getGenConfigFormData(String tableName, String datasourceKey) {
+    public GenConfigForm getGenConfigFormData(String tableName, String database) {
         // 查询表生成配置
         GenConfig genConfig = this.getOne(new LambdaQueryWrapper<>(GenConfig.class)
                 .eq(GenConfig::getTableName, tableName)
@@ -67,7 +67,7 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
         boolean hasGenConfig = genConfig != null;
         // 如果没有代码生成配置，则根据表的元数据生成默认配置
         if (genConfig == null) {
-            TableMetaData tableMetadata = databaseMapper.getTableMetadata(tableName, datasourceKey);
+            TableMetaData tableMetadata = databaseMapper.getTableMetadata(tableName, database);
             Assert.isTrue(tableMetadata != null, "未找到表元数据");
             genConfig = new GenConfig();
             genConfig.setTableName(tableName);
@@ -83,7 +83,8 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
             // 默认配置
             CodegenProperties.DefaultConfig defaultConfig = codegenProperties.getDefaultConfig();
             genConfig.setPackageName(defaultConfig.getPackageName());
-            genConfig.setModuleName(defaultConfig.getModuleName());
+            String modelName = DatabaseEnum.getModelNameByDatabase(database);
+            genConfig.setModuleName(modelName);
             genConfig.setAuthor(defaultConfig.getAuthor());
         }
 
@@ -91,7 +92,7 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
         List<GenFieldConfig> genFieldConfigs = new ArrayList<>();
 
         // 获取表的列
-        List<ColumnMetaData> tableColumns = databaseMapper.getTableColumns(tableName, datasourceKey);
+        List<ColumnMetaData> tableColumns = databaseMapper.getTableColumns(tableName, database);
         if (CollectionUtil.isNotEmpty(tableColumns)) {
             try {
                 DynamicDataSourceContextHolder.push("master");

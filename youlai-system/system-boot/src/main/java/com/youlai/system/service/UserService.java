@@ -14,6 +14,7 @@ import com.youlai.system.model.vo.UserPageVO;
 import com.youlai.system.model.vo.UserProfileVO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户业务接口
@@ -99,20 +100,12 @@ public interface UserService extends IService<User> {
     UserInfoVO getCurrentUserInfo();
 
     /**
-     * 注销登出
-     *
-     * @return {@link Boolean}
-     */
-    boolean logout();
-
-    /**
      * 注册用户
      *
      * @param userRegisterForm 用户注册表单对象
      * @return {@link Boolean}
      */
     boolean registerUser(UserRegisterForm userRegisterForm);
-
 
     /**
      *  发送注册短信验证码
@@ -178,4 +171,42 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean bindEmail(EmailChangeForm data);
+
+
+    /**
+     * 添加用户到在线用户集合
+     *
+     * @param username 用户名
+     */
+     void addOnlineUser(String username);
+
+    /**
+     * 从在线用户集合移除用户
+     *
+     * @param username 用户名
+     */
+     void removeOnlineUser(String username);
+
+    /**
+     * 获取所有在线用户
+     *
+     * @return 在线用户集合
+     */
+     Set<String> getAllOnlineUsers();
+
+    /**
+     * 获取在线的接收者
+     * 从所有接收者中过滤出在线的接收者
+     *
+     * @param receivers 接收者
+     * @return 在线的接收者集合
+     */
+     Set<String> getOnlineReceivers(Set<String> receivers);
+
+    /**
+     * 获取在线用户数量
+     *
+     * @return 在线用户数量
+     */
+     int getOnlineUserCount();
 }

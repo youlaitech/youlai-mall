@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.youlai.system.enums.MenuTypeEnum;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -36,13 +37,13 @@ public class Menu {
      */
     private MenuTypeEnum type;
 
-/**
+    /**
      * 路由名称（Vue Router 中定义的路由名称）
      */
     private String routeName;
 
     /**
-     * 路由路径(浏览器地址栏路径)
+     * 路由路径（Vue Router 中定义的 URL 路径）
      */
     private String routePath;
 
@@ -92,20 +93,19 @@ public class Menu {
     private Integer alwaysShow;
 
     /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
      * 路由参数
      */
     @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private String params;
 
+
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
 }

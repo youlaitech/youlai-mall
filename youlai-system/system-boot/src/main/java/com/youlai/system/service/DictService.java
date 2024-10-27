@@ -2,11 +2,11 @@ package com.youlai.system.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.common.core.model.Option;
 import com.youlai.system.model.entity.Dict;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.query.DictPageQuery;
 import com.youlai.system.model.vo.DictPageVO;
+import com.youlai.system.model.vo.DictVO;
 
 import java.util.List;
 
@@ -26,7 +26,6 @@ public interface DictService extends IService<Dict> {
      */
     Page<DictPageVO> getDictPage(DictPageQuery queryParams);
 
-
     /**
      * 获取字典表单详情
      *
@@ -35,7 +34,6 @@ public interface DictService extends IService<Dict> {
      */
     DictForm getDictForm(Long id);
 
-
     /**
      * 新增字典
      *
@@ -43,7 +41,6 @@ public interface DictService extends IService<Dict> {
      * @return
      */
     boolean saveDict(DictForm dictForm);
-
 
     /**
      * 修改字典
@@ -57,25 +54,15 @@ public interface DictService extends IService<Dict> {
     /**
      * 删除字典
      *
-     * @param idsStr 字典ID，多个以英文逗号(,)分割
+     * @param ids 字典ID，多个以英文逗号(,)分割
      * @return
      */
-    void deleteDictByIds(String idsStr);
-
+    void deleteDictByIds(List<String> ids);
 
     /**
-     * 获取字典的数据项
+     * 获取字典列表（包含字典数据）
      *
-     * @param code 字典编码
-     * @return
+     * @return 字典列表
      */
-    List<Option<Long>> listDictItemsByCode(String code);
-
-
-    /**
-     * 获取字典列表
-     *
-     * @return
-     */
-    List<Option<String>> getDictList();
+    List<DictVO> getAllDictWithData();
 }

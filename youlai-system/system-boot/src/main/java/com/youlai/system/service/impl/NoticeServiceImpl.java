@@ -7,9 +7,14 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.common.core.exception.BusinessException;
+import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.system.converter.NoticeConverter;
+import com.youlai.system.enums.NoticePublishStatusEnum;
+import com.youlai.system.enums.NoticeTargetEnum;
 import com.youlai.system.mapper.NoticeMapper;
 import com.youlai.system.model.bo.NoticeBO;
+import com.youlai.system.model.dto.NoticeDTO;
 import com.youlai.system.model.entity.Notice;
 import com.youlai.system.model.entity.User;
 import com.youlai.system.model.entity.UserNotice;
@@ -50,7 +55,6 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     private final UserService userService;
 
     private final SimpMessagingTemplate messagingTemplate;
-    private final OnlineUserService onlineUserService;
 
     /**
      * 获取通知公告分页列表
@@ -88,7 +92,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     @Override
     public boolean saveNotice(NoticeForm formData) {
 
-        if (NoticeTargetTypeEnum.SPECIFIED.getValue().equals(formData.getTargetType())) {
+        if (NoticeTargetEnum.SPECIFIED.getValue().equals(formData.getTargetType())) {
             List<String> targetUserIdList = formData.getTargetUserIds();
             if (CollectionUtil.isEmpty(targetUserIdList)) {
                 throw new BusinessException("推送指定用户不能为空");
@@ -108,7 +112,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
      */
     @Override
     public boolean updateNotice(Long id, NoticeForm formData) {
-        if (NoticeTargetTypeEnum.SPECIFIED.getValue().equals(formData.getTargetType())) {
+        if (NoticeTargetEnum.SPECIFIED.getValue().equals(formData.getTargetType())) {
             List<String> targetUserIdList = formData.getTargetUserIds();
             if (CollectionUtil.isEmpty(targetUserIdList)) {
                 throw new BusinessException("推送指定用户不能为空");
@@ -133,7 +137,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         }
 
         // 逻辑删除
-        List<Long> idList = Arrays.stream(ids.split(SymbolConstant.COMMA))
+        List<Long> idList = Arrays.stream(ids.split(","))
                 .map(Long::parseLong)
                 .toList();
         boolean isRemoved = this.removeByIds(idList);
@@ -164,7 +168,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
         Integer targetType = notice.getTargetType();
         String targetUserIds = notice.getTargetUserIds();
-        if (NoticeTargetTypeEnum.SPECIFIED.getValue().equals(targetType)
+        if (NoticeTargetEnum.SPECIFIED.getValue().equals(targetType)
                 && StrUtil.isBlank(targetUserIds)) {
             throw new BusinessException("推送指定用户不能为空");
         }
@@ -182,7 +186,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
             // 添加新的用户通知数据
             List<String> targetUserIdList = null;
-            if (NoticeTargetTypeEnum.SPECIFIED.getValue().equals(targetType)) {
+            if (NoticeTargetEnum.SPECIFIED.getValue().equals(targetType)) {
                 targetUserIdList = Arrays.asList(targetUserIds.split(","));
             }
 
@@ -190,7 +194,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
                     new LambdaQueryWrapper<User>()
                             // 如果是指定用户，则筛选出指定用户
                             .in(
-                                    NoticeTargetTypeEnum.SPECIFIED.getValue().equals(targetType),
+                                    NoticeTargetEnum.SPECIFIED.getValue().equals(targetType),
                                     User::getId,
                                     targetUserIdList
                             )
@@ -210,7 +214,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
             Set<String> receivers = targetUserList.stream().map(User::getUsername).collect(Collectors.toSet());
 
-            Set<String> allOnlineUsers = onlineUserService.getAllOnlineUsers();
+            Set<String> allOnlineUsers = userService.getAllOnlineUsers();
 
             // 找出在线用户的通知接收者
             Set<String> onlineReceivers = new HashSet<>(CollectionUtil.intersection(receivers, allOnlineUsers));
