@@ -1,0 +1,129 @@
+
+
+version: '3'
+
+# 创建一个名为 "mall" 的桥接网络
+networks:
+  mall:
+    driver: bridge
+
+services:
+  mysql:
+    image: mysql:8.0.29
+    container_name: mysql
+    restart: unless-stopped # 重启策略：除非手动停止容器，否则自动重启
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG= en_US.UTF-8
+      - MYSQL_ROOT_PASSWORD=123456 #设置 root 用户的密码
+    volumes:
+      - ./mysql/conf/my.cnf:/etc/my.cnf # 挂载 my.cnf 文件到容器的指定路径
+      - ./mysql/data:/var/lib/mysql # 持久化 MySQL 数据
+      - ../sql/mysql8:/docker-entrypoint-initdb.d # 初始化 SQL 脚本目录
+    ports:
+      - 3306:3306 # 暴露 3306 端口
+    networks:
+      - mall # 加入 "mall" 网络
+
+  nacos:
+    image: nacos/nacos-server:v2.2.3 # 使用 Nacos 2.2.3 镜像
+    container_name: nacos-server
+    restart: unless-stopped # 重启策略：除非手动停止容器，否则自动重启
+    environment:
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=mysql
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_DB_NAME=nacos_config
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=123456
+    volumes:
+      - ./logs:/home/nacos/logs
+    ports:
+      - 8848:8848
+      - 9848:9848
+    networks:
+      - mall # 加入 "mall" 网络
+    depends_on:
+      - mysql # 保证 MySQL 服务先启动
+
+  # https://seata.apache.org/zh-cn/docs/ops/deploy-by-docker-compose#nacos%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83db%E5%AD%98%E5%82%A8
+  seata:
+    image: seataio/seata-server:1.7.1
+    container_name: seata-server
+    restart: unless-stopped #  指定了容器的重启策略，除了手动停止容器，其他情况都自动重启容器
+    environment:
+      - STORE_MODE=db
+      - SEATA_IP=192.168.31.134
+      - SEATA_PORT=8091
+    volumes:
+      - ./seata/config:/seata-server/resources
+      - ./seata/logs:/root/logs/seata
+    ports:
+      - 8091:8091
+      - 7091:7091
+    networks:
+      - mall
+    depends_on:
+      - nacos
+
+  redis:
+    image: redis:7.2.3
+    container_name: redis
+    restart: unless-stopped # 重启策略：除非手动停止容器，否则自动重启
+    command: redis-server /etc/redis/redis.conf --requirepass 123456 --appendonly no # 启动 Redis 服务并添加密码为：123456，默认不开启 Redis AOF 方式持久化配置
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./redis/data:/data
+      - ./redis/config/redis.conf:/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    networks:
+      - mall
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped # 重启策略：除非手动停止容器，否则自动重启
+    command: server /data --console-address ":9090"
+    ports:
+      - 9001:9000
+      - 9090:9090
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=en_US.UTF-8
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    volumes:
+      - ./minio/data:/data
+      - ./minio/config:/root/.minio
+    networks:
+      - mall
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - mall # 加入 "mall" 网络
+
+  xxl-job-admin:
+    image: xuxueli/xxl-job-admin:2.4.0   # https://hub.docker.com/r/xuxueli/xxl-job-admin/tags
+    container_name: xxl-job-admin
+    restart: unless-stopped #  指定了容器的重启策略，除了手动停止容器，其他情况都自动重启容器
+    environment:
+      PARAMS: '--spring.datasource.url=jdbc:mysql://mysql:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai --spring.datasource.username=root --spring.datasource.password=123456 --spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver'
+    volumes:
+      - ./xxljob/logs:/data/applogs
+    ports:
+      - 8181:8080
+    networks:
+      - mall
