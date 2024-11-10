@@ -1,7 +1,7 @@
 
 
 <div align="center">
-  <img alt="logo" width="100" height="100" src="https://raw.gitmirror.com/youlaitech/image/main/docs/ym-200x200.png">
+   <img alt="logo" width="100" height="100" src="https://foruda.gitee.com/images/1724259461244885014/4de96569_716974.png">
   <h2>youlai-mall</h2>
   <img alt="有来技术" src="https://img.shields.io/badge/Java-17-brightgreen.svg"/>
   <img alt="有来技术" src="https://img.shields.io/badge/SpringBoot-3.1.5-green.svg"/>
