@@ -68,4 +68,9 @@ public class User extends BaseEntity {
      */
     private String email;
 
+    /**
+     * 是否删除(0-否 1-是)
+     */
+    private Integer isDeleted;
+
 }

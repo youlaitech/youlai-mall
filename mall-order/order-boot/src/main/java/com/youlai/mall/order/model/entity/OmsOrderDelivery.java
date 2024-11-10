@@ -80,10 +80,10 @@ public class OmsOrderDelivery extends BaseEntity {
 	 * 确认收货时间
 	 */
 	private Date receiveTime;
-	/**
-	 * 逻辑删除【0->正常；1->已删除】
-	 */
-	private Integer deleted;
 
+	/**
+	 * 逻辑删除标识(0-未删除 1-已删除)
+	 */
+	private Integer isDeleted;
 
 }

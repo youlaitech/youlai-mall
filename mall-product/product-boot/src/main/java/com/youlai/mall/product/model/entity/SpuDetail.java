@@ -21,4 +21,10 @@ public class SpuDetail extends BaseEntity {
      * 商品详情
      */
     private String detail;
+
+
+    /**
+     * 逻辑删除标识(0-未删除 1-已删除)
+     */
+    private Integer isDeleted;
 }

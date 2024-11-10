@@ -43,4 +43,9 @@ public class Dict extends BaseEntity {
      */
     private String remark;
 
+    /**
+     * 逻辑删除标识(0-未删除 1-已删除)
+     */
+    private Integer isDeleted;
+
 }

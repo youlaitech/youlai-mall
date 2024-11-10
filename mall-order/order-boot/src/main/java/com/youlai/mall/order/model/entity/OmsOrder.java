@@ -102,4 +102,10 @@ public class OmsOrder extends BaseEntity {
 	@TableField(exist = false)
 	private List<OmsOrderItem> orderItems;
 
+	/**
+	 * 逻辑删除标识(0-未删除 1-已删除)
+	 */
+	private Integer isDeleted;
+
+
 }

@@ -43,4 +43,10 @@ public class Brand extends BaseEntity {
      * 品牌的简介
      */
     private String description;
+
+
+    /**
+     * 逻辑删除标识(0-未删除 1-已删除)
+     */
+    private Integer isDeleted;
 }

@@ -48,4 +48,9 @@ public class Dept extends BaseEntity {
      */
     private Integer status;
 
+    /**
+     * 是否删除(0-否 1-是)
+     */
+    private Integer isDeleted;
+
 }

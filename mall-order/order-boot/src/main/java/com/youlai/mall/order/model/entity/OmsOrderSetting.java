@@ -45,8 +45,8 @@ public class OmsOrderSetting extends BaseEntity {
 	 */
 	private Integer memberLevel;
 	/**
-	 * 逻辑删除【0->正常；1->已删除】
+	 * 逻辑删除标识(0-未删除 1-已删除)
 	 */
-	private Integer deleted;
+	private Integer isDeleted;
 
 }

@@ -86,15 +86,14 @@ public class Member extends BaseEntity {
     private Long balance;
 
     /**
-     * 是否删除的标志
-     * 0 - 未删除，1 - 已删除
-     */
-    @TableLogic(delval = "1", value = "0")
-    private Integer isDeleted;
-
-    /**
      * 积分
      */
     private Integer point;
+
+    /**
+     * 逻辑删除标识(0-未删除 1-已删除)
+     */
+    @TableLogic(delval = "1", value = "0")
+    private Integer isDeleted;
 
 }

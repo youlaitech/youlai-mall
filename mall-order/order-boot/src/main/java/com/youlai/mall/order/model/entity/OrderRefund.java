@@ -85,5 +85,5 @@ public class OrderRefund implements Serializable {
     /**
      * 逻辑删除标识（1：已删除，0：未删除）
      */
-    private Byte isDeleted;
+    private Integer isDeleted;
 }

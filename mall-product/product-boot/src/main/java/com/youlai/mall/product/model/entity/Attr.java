@@ -2,7 +2,6 @@ package com.youlai.mall.product.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import com.youlai.mall.product.enums.AttributeInputTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,4 +40,10 @@ public class Attr extends BaseEntity {
      * 排序
      */
     private Integer sort;
+
+    /**
+     * 逻辑删除标识(0-未删除 1-已删除)
+     */
+    private Integer isDeleted;
+
 }

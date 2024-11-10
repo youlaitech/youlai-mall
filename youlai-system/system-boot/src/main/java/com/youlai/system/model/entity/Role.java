@@ -44,4 +44,9 @@ public class Role extends BaseEntity {
      * 数据权限
      */
     private Integer dataScope;
+
+    /**
+     * 是否删除(0-否 1-是)
+     */
+    private Integer isDeleted;
 }
