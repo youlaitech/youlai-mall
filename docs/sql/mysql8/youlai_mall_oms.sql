@@ -62,7 +62,7 @@ CREATE TABLE `oms_order_delivery`  (
   `delivery_status` tinyint NULL DEFAULT 0 COMMENT '物流状态【0->运输中；1->已收货】',
   `delivery_time` datetime NULL DEFAULT NULL COMMENT '发货时间',
   `receive_time` datetime NULL DEFAULT NULL COMMENT '确认收货时间',
-  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -87,7 +87,7 @@ CREATE TABLE `oms_order_item`  (
   `price` bigint NOT NULL DEFAULT 0 COMMENT '商品单价(单位：分)',
   `quantity` int NULL DEFAULT NULL COMMENT '商品数量',
   `total_amount` bigint NOT NULL DEFAULT 0 COMMENT '商品总价(单位：分)',
-  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除标识(1:已删除；0:正常)',
+  `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除标识(1:已删除；0:正常)',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -109,7 +109,7 @@ CREATE TABLE `oms_order_log`  (
   `detail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '操作详情',
   `order_status` int NULL DEFAULT NULL COMMENT '操作时订单状态',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '备注',
-  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -135,7 +135,7 @@ CREATE TABLE `oms_order_pay`  (
   `callback_content` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '回调内容',
   `callback_time` datetime NULL DEFAULT NULL COMMENT '回调时间',
   `pay_subject` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '交易内容',
-  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -182,7 +182,7 @@ CREATE TABLE `oms_order_setting`  (
   `finish_overtime` int NULL DEFAULT NULL COMMENT '自动完成交易时间，不能申请退货（天）',
   `comment_overtime` int NULL DEFAULT NULL COMMENT '订单完成后自动好评时间（天）',
   `member_level` tinyint NULL DEFAULT NULL COMMENT '会员等级【0-不限会员等级，全部通用；其他-对应的其他会员等级】',
-  `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
+  `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除【0->正常；1->已删除】',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE

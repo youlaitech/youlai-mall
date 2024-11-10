@@ -43,7 +43,7 @@ CREATE TABLE `ums_member`  (
   `session_key` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `status` tinyint(1) NULL DEFAULT 1,
   `point` int NULL DEFAULT 0 COMMENT '会员积分',
-  `deleted` tinyint(1) NULL DEFAULT 0,
+  `is_deleted` tinyint(1) NULL DEFAULT 0,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   `balance` bigint NULL DEFAULT 1000000000,

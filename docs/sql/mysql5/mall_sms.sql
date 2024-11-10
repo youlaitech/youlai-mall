@@ -60,7 +60,7 @@ CREATE TABLE `sms_coupon`  (
                                `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
                                `update_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
                                `create_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-                               `deleted` tinyint(0) NULL DEFAULT 1 COMMENT '逻辑删除标识(0-正常;1-删除)',
+                               `is_deleted` tinyint(0) NULL DEFAULT 1 COMMENT '逻辑删除标识(0-正常;1-删除)',
                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '优惠券表' ROW_FORMAT = Dynamic;
 

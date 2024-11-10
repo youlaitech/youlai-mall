@@ -9,12 +9,16 @@ out
 gen
 target
 *.log
+logs
+data
+
+docs/docker/minio/config
 
 # Nacos
 !**/nacos/target
 **/nacos/bin/work
 **/nacos/data
-logs
+
 **/nacos/LICENSE
 **/nacos/NOTICE
 
