@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 特定日期访问统计
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @Data

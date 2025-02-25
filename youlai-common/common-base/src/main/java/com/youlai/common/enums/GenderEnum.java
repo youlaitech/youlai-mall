@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 性别枚举
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/4/10
  */
 @Getter

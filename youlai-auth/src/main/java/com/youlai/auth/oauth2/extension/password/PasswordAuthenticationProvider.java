@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * <p>
  * 处理基于用户名和密码的身份验证
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @Slf4j

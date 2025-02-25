@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 会员地址对象转换器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/6/21 23:52
  */
 @Mapper(componentModel = "spring")

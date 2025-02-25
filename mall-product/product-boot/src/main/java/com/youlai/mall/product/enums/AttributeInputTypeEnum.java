@@ -8,7 +8,7 @@ import lombok.Getter;
 /**
  * 属性录入方式枚举
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/19
  */
 @Getter

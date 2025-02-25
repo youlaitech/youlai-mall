@@ -49,12 +49,10 @@ import java.util.stream.Collectors;
 public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> implements NoticeService {
 
     private final NoticeConverter noticeConverter;
-
     private final UserNoticeService userNoticeService;
-
     private final UserService userService;
-
     private final SimpMessagingTemplate messagingTemplate;
+    private final OnlineUserService onlineUserService;
 
     /**
      * 获取通知公告分页列表
@@ -214,7 +212,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
             Set<String> receivers = targetUserList.stream().map(User::getUsername).collect(Collectors.toSet());
 
-            Set<String> allOnlineUsers = userService.getAllOnlineUsers();
+            Set<String> allOnlineUsers = onlineUserService.getAllOnlineUsers();
 
             // 找出在线用户的通知接收者
             Set<String> onlineReceivers = new HashSet<>(CollectionUtil.intersection(receivers, allOnlineUsers));
@@ -297,5 +295,4 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
                 queryParams
         );
     }
-
 }

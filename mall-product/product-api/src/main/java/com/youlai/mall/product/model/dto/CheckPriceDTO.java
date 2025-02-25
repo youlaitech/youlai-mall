@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 订单商品验价传输对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/2/7
  */
 @Data

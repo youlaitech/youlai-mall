@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 /**
  * 商城会员用户认证服务
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @Service

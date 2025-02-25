@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 自定义 OIDC 用户信息服务
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.1.0
  */
 @Service

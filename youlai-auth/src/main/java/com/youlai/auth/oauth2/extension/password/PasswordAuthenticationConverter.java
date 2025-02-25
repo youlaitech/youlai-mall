@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * <p>
  * 解析请求参数中的用户名和密码，并构建相应的身份验证(Authentication)对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @see org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter
  * @since 3.0.0
  */

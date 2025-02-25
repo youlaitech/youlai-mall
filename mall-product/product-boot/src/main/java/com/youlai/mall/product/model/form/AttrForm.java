@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * 属性表单对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 @Getter

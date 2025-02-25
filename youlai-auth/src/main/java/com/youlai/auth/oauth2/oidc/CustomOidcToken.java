@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.server.authorization.oidc.authenticat
 /**
  * 自定义 OidcToken
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.1.0
  */
 public class CustomOidcToken extends OidcUserInfoAuthenticationToken {

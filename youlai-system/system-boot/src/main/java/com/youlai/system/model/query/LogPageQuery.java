@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 日志分页查询对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @Schema(description = "日志分页查询对象")

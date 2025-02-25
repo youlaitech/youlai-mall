@@ -1,6 +1,7 @@
 package com.youlai.system.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.model.bo.UserBO;
 import com.youlai.system.model.entity.User;
 import com.youlai.system.model.form.UserForm;
@@ -14,10 +15,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 /**
  * 用户对象转换器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/6/8
  */
 @Mapper(componentModel = "spring")
@@ -48,4 +51,12 @@ public interface UserConverter {
     UserProfileVO toProfileVO(UserBO bo);
 
     User toEntity(UserProfileForm formData);
+
+    @Mappings({
+            @Mapping(target = "label", source = "nickname"),
+            @Mapping(target = "value", source = "id")
+    })
+    Option<String> toOption(User entity);
+
+    List<Option<String>> toOptions(List<User> list);
 }

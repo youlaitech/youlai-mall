@@ -23,7 +23,9 @@
                 LEFT JOIN sys_user_role sur ON u.id = sur.user_id
                 LEFT JOIN sys_role r ON sur.role_id = r.id
         <where>
-            u.is_deleted = 0 AND u.username != '${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}'
+            u.is_deleted = 0
+            <!-- 超级管理员不显示在列表 -->
+            AND r.name != '${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}'
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
                     u.username LIKE CONCAT('%',#{queryParams.keywords},'%')

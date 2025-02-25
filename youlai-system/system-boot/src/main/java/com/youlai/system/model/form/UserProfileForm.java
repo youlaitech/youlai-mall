@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 个人中心用户信息
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/8/13
  */
 @Schema(description = "个人中心用户信息")

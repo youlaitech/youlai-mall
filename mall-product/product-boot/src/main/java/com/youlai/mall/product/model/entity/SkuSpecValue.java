@@ -12,7 +12,7 @@ import lombok.Data;
 /**
  * SKU 属性值实体对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/4/14
  */
 @TableName("pms_sku_spec_value")

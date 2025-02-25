@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * 日志模块枚举
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @Schema(enumAsRef = true)

@@ -10,7 +10,7 @@ import com.youlai.mall.sale.model.vo.CouponPageVO;
 /**
  * 优惠券业务接口
  *
- * @author Ray
+ * @author Ray.Hao
  * @since  2022/5/29
  */
 public interface CouponService extends IService<Coupon> {

@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * 菜单类型枚举
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/4/23
  */
 

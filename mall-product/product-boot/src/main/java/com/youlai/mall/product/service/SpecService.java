@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 规格接口层
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-06-13
  */
 public interface SpecService extends IService<Spec> {

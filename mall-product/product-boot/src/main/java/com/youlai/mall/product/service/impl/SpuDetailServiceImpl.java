@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * 商品详情 服务实现类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/5/8
  */
 @Service

@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 用户分页视图对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/1/15 9:41
  */
 @Schema(description ="用户分页对象")

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * SKU规格值服务实现类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024-04-14
  */
 @Service

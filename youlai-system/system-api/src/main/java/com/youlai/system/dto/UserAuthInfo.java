@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * 用户认证信息传输层对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2021/9/27
  */
 @Data

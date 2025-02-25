@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /**
  * 字段生成配置实体
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @TableName(value = "gen_field_config")

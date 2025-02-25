@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 属性 Mapper 接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/19
  */
 

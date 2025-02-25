@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 会员Feign客户端
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/11/29
  */
 @FeignClient(name = "mall-member", contextId = "member", configuration = {FeignDecoderConfig.class})

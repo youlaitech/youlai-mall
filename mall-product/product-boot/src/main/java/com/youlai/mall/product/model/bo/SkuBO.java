@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * SKU 业务对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.3.0
  */
 

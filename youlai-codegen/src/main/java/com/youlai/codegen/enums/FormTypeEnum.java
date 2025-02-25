@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * 表单类型枚举
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @Getter

@@ -24,7 +24,7 @@ import java.text.ParseException;
 /**
  * Token 验证全局过滤器
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.1.0
  */
 @Component
@@ -52,7 +52,7 @@ public class TokenBlacklistGlobalFilter implements GlobalFilter, Ordered {
             String token = authorization.substring(BEARER_PREFIX.length());
             JWSObject jwsObject = JWSObject.parse(token);
             String jti = (String) jwsObject.getPayload().toJSONObject().get(JWTPayload.JWT_ID);
-            Boolean isBlackToken = redisTemplate.hasKey(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti);
+            Boolean isBlackToken = redisTemplate.hasKey(RedisConstants.Auth.BLACKLIST_TOKEN + jti);
             if (Boolean.TRUE.equals(isBlackToken)) {
                 return WebFluxUtils.writeErrorResponse(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
             }

@@ -10,7 +10,7 @@ import lombok.Setter;
 /**
  * 属性 VO
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 @Getter

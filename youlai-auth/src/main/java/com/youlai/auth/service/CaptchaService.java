@@ -13,7 +13,7 @@ import java.awt.*;
 /**
  * 图形验证码生成器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.1.0
  */
 @Component

@@ -1,8 +1,17 @@
 
+-- ----------------------------
+-- OAuth2数据库
+-- ----------------------------
+CREATE DATABASE IF NOT EXISTS youlai_oauth2_server DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- 创建表 && 数据初始化
+-- ----------------------------
 use youlai_oauth2_server;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
 -- ----------------------------
 -- 1 oauth2_authorization 令牌发放记录表
 -- ----------------------------

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * SKU 属性值 Mapper 接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/04/14
  */
 

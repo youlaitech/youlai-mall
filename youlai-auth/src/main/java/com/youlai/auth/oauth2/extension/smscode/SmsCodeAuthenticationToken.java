@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * 短信验证码身份验证令牌
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.0.0
  */
 public class SmsCodeAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {

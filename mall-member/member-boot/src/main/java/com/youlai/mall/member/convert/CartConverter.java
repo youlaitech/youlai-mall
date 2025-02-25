@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 购物车对象转化器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.0.0
  */
 @Mapper(componentModel = "spring")

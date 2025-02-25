@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 数据表元数据
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @Data

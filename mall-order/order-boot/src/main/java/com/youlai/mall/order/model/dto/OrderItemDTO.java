@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 订单商品
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.0.0
  */
 @Data

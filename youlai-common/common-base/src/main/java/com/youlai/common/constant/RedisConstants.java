@@ -1,71 +1,69 @@
 package com.youlai.common.constant;
 
+/**
+ * Redis 常量
+ *
+ * @author Ray.Hao
+ * @since 4.0.0
+ */
 public interface RedisConstants {
 
-    /**
-     * 黑名单TOKEN Key前缀
-     */
-    String TOKEN_BLACKLIST_PREFIX = "token:blacklist:";
 
     /**
-     * 图形验证码key前缀
+     * 认证模块
      */
-    String CAPTCHA_CODE_PREFIX = "captcha_code:";
+    interface Auth {
+        String BLACKLIST_TOKEN = "auth:token:blacklist";  // 黑名单Token
+        String JWK_SET = "auth:jwk:set";                 // JWT密钥对
+    }
 
     /**
-     * 登录短信验证码key前缀
+     * 验证码模块
      */
-    String LOGIN_SMS_CODE_PREFIX = "sms_code:login";
+    interface Captcha {
+        String IMAGE_CODE = "captcha:image";              // 图形验证码
+        String SMS_LOGIN_CODE = "captcha:sms:login";      // 登录短信验证码
+        String SMS_REGISTER_CODE = "captcha:sms:register";// 注册短信验证码
+        String MOBILE_CODE = "captcha:mobile";            // 手机验证码（通用）
+        String EMAIL_CODE = "captcha:email";              // 邮箱验证码
+    }
 
     /**
-     * 注册短信验证码key前缀
+     * 会员模块
      */
-    String REGISTER_SMS_CODE_PREFIX = "sms_code:register";
-
+    interface Member {
+        String INFO = "member:info";                     // 会员信息
+        String CART = "member:cart";                     // 会员购物车
+    }
 
     /**
-     * 角色和权限缓存前缀
+     * 订单模块
      */
-    String ROLE_PERMS_PREFIX = "role_perms:";
-
+    interface Order {
+        String SUBMIT_TOKEN = "order:submit:token";      // 防重提交令牌
+        String PAYMENT_LOCK = "order:payment:lock";      // 支付锁
+    }
 
     /**
-     * JWT 密钥对(包含公钥和私钥)
+     * 商品模块
      */
-    String JWK_SET_KEY = "jwk_set";
-
-
-    String MEMBER_KEY_PREFIX = "member:";
-    String MEMBER_CART_KEY_SUFFIX = ":cart";
+    interface Product {
+        String SKU_LOCK = "product:sku:lock";            // SKU库存锁
+    }
 
     /**
-     * 订单防重提交令牌缓存键前缀
+     * 系统模块
      */
-    String ORDER_TOKEN_PREFIX = "order:token:";
+    interface System {
+        String CONFIG = "system:config";                 // 系统配置
+        String ROLE_PERMS = "system:role:perms"; // 系统角色和权限映射
+    }
 
-    /**
-     * 订单支付锁缓存键前缀
-     */
-    String ORDER_PAYMENT_LOCK_PREFIX = "order:payment:lock:";
 
-    /**
-     * 商品锁定缓存键前缀
-     */
-    String PRODUCT_SKUS_LOCK_PREFIX = "product:skus:lock:";
+    interface Common {
+        String REGION_DATA = "common:region";       // 省市区数据
+    }
 
-    /**
-     * 手机验证码缓存前缀
-     */
-    String MOBILE_VERIFICATION_CODE_PREFIX = "verification_code:mobile:";
 
-    /**
-     * 邮箱验证码缓存前缀
-     */
-    String EMAIL_VERIFICATION_CODE_PREFIX = "verification_code:email:";
-
-    /**
-     * 系统配置Redis-key
-     */
-    String SYSTEM_CONFIG_KEY = "system:config";
 
 }

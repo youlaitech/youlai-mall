@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * 优惠券表
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/6/7
  */
 @EqualsAndHashCode(callSuper = true)

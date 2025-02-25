@@ -3,7 +3,7 @@ package com.youlai.auth.oauth2.extension.captcha;
 /**
  * 验证码模式请求参数名
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.0.0
  */
 

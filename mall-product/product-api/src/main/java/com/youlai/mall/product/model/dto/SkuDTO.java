@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * SKU 传输对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2.0.0
  */
 

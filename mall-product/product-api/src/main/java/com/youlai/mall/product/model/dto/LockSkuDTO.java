@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * 锁定库存传输对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.0.0
  */
 @Data

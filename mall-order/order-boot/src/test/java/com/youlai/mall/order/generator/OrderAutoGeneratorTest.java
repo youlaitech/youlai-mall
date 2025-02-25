@@ -14,7 +14,7 @@ import java.util.List;
  * <p>
  * 代码生成、MySQL表生成代码、自动代码生成
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @see <a href="https://baomidou.com/pages/981406/">代码生成器配置新</a>
  * @since 2024/6/7
  */

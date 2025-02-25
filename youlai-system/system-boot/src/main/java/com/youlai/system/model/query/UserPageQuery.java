@@ -1,14 +1,18 @@
 package com.youlai.system.model.query;
 
+import cn.hutool.db.sql.Direction;
 import com.youlai.common.base.BasePageQuery;
+import com.youlai.common.core.annotation.validation.ValidField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
  * 用户分页查询对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/1/14
  */
 @Schema(description = "用户分页查询对象")
@@ -24,5 +28,19 @@ public class UserPageQuery extends BasePageQuery {
 
     @Schema(description="部门ID")
     private Long deptId;
+
+
+    @Schema(description = "角色ID")
+    private List<Long> roleIds;
+
+    @Schema(description = "创建时间范围")
+    private List<String> createTime;
+
+    @Schema(description = "排序的字段")
+    @ValidField(allowedValues = {"create_time","update_time"})
+    private String field;
+
+    @Schema(description = "排序方式（正序:ASC；反序:DESC）")
+    private Direction direction;
 
 }

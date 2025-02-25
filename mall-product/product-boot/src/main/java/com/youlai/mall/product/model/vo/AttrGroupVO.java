@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 属性组VO
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/6/11
  */
 @Schema( description = "属性组VO")

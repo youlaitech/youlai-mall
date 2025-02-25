@@ -13,7 +13,7 @@ import java.util.Collections;
 /**
  * 会员信息
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @Data

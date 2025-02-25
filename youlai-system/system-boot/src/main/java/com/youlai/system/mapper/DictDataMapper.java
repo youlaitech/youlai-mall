@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 字典数据映射层
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2.9.0
  */
 @Mapper

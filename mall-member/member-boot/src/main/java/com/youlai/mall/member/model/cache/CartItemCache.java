@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 购物车商品项
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 0.0.1
  */
 @Data

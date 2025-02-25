@@ -11,7 +11,7 @@ import lombok.Setter;
 /**
  * 属性业务对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 @Getter

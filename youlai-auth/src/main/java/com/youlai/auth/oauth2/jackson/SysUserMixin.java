@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  *
  * 刷新模式根据 refresh_token 从 oauth2_authorization 表中获取字段 attributes 内容反序列化成
  *
- * @author Ray
+ * @author Ray.Hao
  * @see org.springframework.security.jackson2.UserMixin
  * @since 2023/7/4
  */

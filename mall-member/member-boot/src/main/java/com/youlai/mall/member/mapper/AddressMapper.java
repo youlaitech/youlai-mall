@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 会员地址访问层接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/8
  */
 @Mapper

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * 会员信息
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/2/12
  */
 @Data

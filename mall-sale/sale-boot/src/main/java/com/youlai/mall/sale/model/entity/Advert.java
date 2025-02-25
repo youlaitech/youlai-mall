@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 营销广告
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/6/7
  */
 @EqualsAndHashCode(callSuper = true)

@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 订单类型枚举
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/6/7
  */
 @Getter

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 商品分类控制器
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2022/2/5
  */
 @Tag(name = "【App】商品分类")

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * <p>
  * 用户名和密码用于认证，认证成功之后授予权限
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @Data

@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 验证码字符类型枚举
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.1.0
  */
 public enum CaptchaCodeTypeEnum {

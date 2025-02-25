@@ -1,3 +1,11 @@
+-- ----------------------------
+-- Seata 数据库
+-- ----------------------------
+CREATE DATABASE seata DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- 创建表 && 数据初始化
+-- ----------------------------
 use seata;
 
 -- https://github.com/seata/seata/blob/1.7.1/script/server/db/mysql.sql

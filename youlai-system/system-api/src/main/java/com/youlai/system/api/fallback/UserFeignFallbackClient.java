@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * 系统用户服务远程调用异常后的降级处理类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2021/4/24
  */
 @Component

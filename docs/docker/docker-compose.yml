@@ -1,10 +1,8 @@
 
 
-version: '3'
-
-# 创建一个名为 "mall" 的桥接网络
+# 创建一个名为 youlai-mall 的桥接网络，在同一个网络中的容器可以通过容器名互相访问
 networks:
-  mall:
+  youlai-mall:
     driver: bridge
 
 services:
@@ -19,11 +17,11 @@ services:
     volumes:
       - ./mysql/conf/my.cnf:/etc/my.cnf # 挂载 my.cnf 文件到容器的指定路径
       - ./mysql/data:/var/lib/mysql # 持久化 MySQL 数据
-      - ../sql/mysql8:/docker-entrypoint-initdb.d # 初始化 SQL 脚本目录
+      - ../sql/mysql:/docker-entrypoint-initdb.d # 初始化 SQL 脚本目录
     ports:
       - 3306:3306 # 暴露 3306 端口
     networks:
-      - mall # 加入 "mall" 网络
+      - youlai-mall # 加入 youlai-mall 网络
 
   nacos:
     image: nacos/nacos-server:v2.2.3 # 使用 Nacos 2.2.3 镜像
@@ -43,7 +41,7 @@ services:
       - 8848:8848
       - 9848:9848
     networks:
-      - mall # 加入 "mall" 网络
+      - youlai-mall # 加入 youlai-mall 网络
     depends_on:
       - mysql # 保证 MySQL 服务先启动
 
@@ -54,8 +52,12 @@ services:
     restart: unless-stopped #  指定了容器的重启策略，除了手动停止容器，其他情况都自动重启容器
     environment:
       - STORE_MODE=db
-      - SEATA_IP=192.168.31.134
+      - SEATA_IP=seata-server
       - SEATA_PORT=8091
+      # 注入 Nacos 相关环境变量
+      - NACOS_SERVER_ADDR=nacos-server:8848  # 使用 Docker 服务名替代 IP
+      - NACOS_USERNAME=nacos
+      - NACOS_PASSWORD=nacos
     volumes:
       - ./seata/config:/seata-server/resources
       - ./seata/logs:/root/logs/seata
@@ -63,9 +65,9 @@ services:
       - 8091:8091
       - 7091:7091
     networks:
-      - mall # 加入 "mall" 网络
+      - youlai-mall # 加入 youlai-mall 网络
     depends_on:
-      - nacos
+      - nacos # 保证 Nacos 服务先启动
 
   redis:
     image: redis:7.2.3
@@ -80,16 +82,16 @@ services:
     ports:
       - 6379:6379
     networks:
-      - mall
+      - youlai-mall # 加入 youlai-mall 网络
 
   minio:
     image: minio/minio:latest
     container_name: minio
     restart: unless-stopped # 重启策略：除非手动停止容器，否则自动重启
-    command: server /data --console-address ":9090"
+    command: server /data --console-address ":9001"
     ports:
-      - 9001:9000
-      - 9090:9090
+      - 9010:9000 # 避免和已有的端口（认证服务）冲突，修改为 9010
+      - 9011:9001
     environment:
       - TZ=Asia/Shanghai
       - LANG=en_US.UTF-8
@@ -99,7 +101,7 @@ services:
       - ./minio/data:/data
       - ./minio/config:/root/.minio
     networks:
-      - mall
+      - youlai-mall # 加入 youlai-mall 网络
 
   rabbitmq:
     image: rabbitmq:management
@@ -113,7 +115,7 @@ services:
       - 5672:5672
       - 15672:15672
     networks:
-      - mall # 加入 "mall" 网络
+      - youlai-mall  # 加入 youlai-mall 网络
 
   xxl-job-admin:
     image: xuxueli/xxl-job-admin:2.4.0   # https://hub.docker.com/r/xuxueli/xxl-job-admin/tags
@@ -124,6 +126,6 @@ services:
     volumes:
       - ./xxljob/logs:/data/applogs
     ports:
-      - 8181:8080
+      - 8080:8080
     networks:
-      - mall
+      - youlai-mall  # 加入 youlai-mall 网络

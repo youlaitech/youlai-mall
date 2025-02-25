@@ -39,14 +39,14 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     @Override
     public void refreshRolePermsCache() {
         // 清理权限缓存
-        redisTemplate.opsForHash().delete(RedisConstants.ROLE_PERMS_PREFIX, "*");
+        redisTemplate.opsForHash().delete(RedisConstants.System.ROLE_PERMS, "*");
 
         List<RolePermsBO> list = this.baseMapper.getRolePermsList(null);
         if (CollectionUtil.isNotEmpty(list)) {
             list.forEach(item -> {
                 String roleCode = item.getRoleCode();
                 Set<String> perms = item.getPerms();
-                redisTemplate.opsForHash().put(RedisConstants.ROLE_PERMS_PREFIX, roleCode, perms);
+                redisTemplate.opsForHash().put(RedisConstants.System.ROLE_PERMS, roleCode, perms);
             });
         }
     }
@@ -57,7 +57,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     @Override
     public void refreshRolePermsCache(String roleCode) {
         // 清理权限缓存
-        redisTemplate.opsForHash().delete(RedisConstants.ROLE_PERMS_PREFIX, roleCode);
+        redisTemplate.opsForHash().delete(RedisConstants.System.ROLE_PERMS, roleCode);
 
         List<RolePermsBO> list = this.baseMapper.getRolePermsList(roleCode);
         if (CollectionUtil.isNotEmpty(list)) {
@@ -67,7 +67,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
             }
 
             Set<String> perms = rolePerms.getPerms();
-            redisTemplate.opsForHash().put(RedisConstants.ROLE_PERMS_PREFIX, roleCode, perms);
+            redisTemplate.opsForHash().put(RedisConstants.System.ROLE_PERMS, roleCode, perms);
         }
     }
 
@@ -77,7 +77,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     @Override
     public void refreshRolePermsCache(String oldRoleCode, String newRoleCode) {
         // 清理旧角色权限缓存
-        redisTemplate.opsForHash().delete(RedisConstants.ROLE_PERMS_PREFIX, oldRoleCode);
+        redisTemplate.opsForHash().delete(RedisConstants.System.ROLE_PERMS, oldRoleCode);
 
         // 添加新角色权限缓存
         List<RolePermsBO> list =this.baseMapper.getRolePermsList(newRoleCode);
@@ -88,7 +88,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
             }
 
             Set<String> perms = rolePerms.getPerms();
-            redisTemplate.opsForHash().put(RedisConstants.ROLE_PERMS_PREFIX, newRoleCode, perms);
+            redisTemplate.opsForHash().put(RedisConstants.System.ROLE_PERMS, newRoleCode, perms);
         }
     }
 

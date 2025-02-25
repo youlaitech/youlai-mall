@@ -3,7 +3,7 @@ package com.youlai.common.constant;
 /**
  * JWT声明常量
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 1.0.0
  */
 public interface JwtClaimConstants {

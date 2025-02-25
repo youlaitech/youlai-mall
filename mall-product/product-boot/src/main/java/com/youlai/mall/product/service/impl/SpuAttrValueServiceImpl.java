@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * 商品属性 服务实现类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/04/24
  */
 @Service

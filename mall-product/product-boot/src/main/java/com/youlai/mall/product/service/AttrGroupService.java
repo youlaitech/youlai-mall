@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 /**
  * 属性组 服务类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 public interface AttrGroupService extends IService<AttrGroup> {

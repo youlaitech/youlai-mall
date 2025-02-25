@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 /**
  * 自定义 OidcUserInfo
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.1.0
  */
 public class CustomOidcUserInfo extends OidcUserInfo {

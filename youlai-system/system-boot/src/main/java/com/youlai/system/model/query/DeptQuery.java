@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 部门查询对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/6/11
  */
 @Schema(description ="部门分页查询对象")

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 品牌分类关联 服务类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-05-06
  */
 public interface BrandCategoryService extends IService<BrandCategory> {

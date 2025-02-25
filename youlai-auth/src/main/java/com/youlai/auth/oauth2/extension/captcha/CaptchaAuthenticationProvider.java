@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * <p>
  * 处理基于用户名和密码的身份验证
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @Slf4j
@@ -98,7 +98,7 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
         String captchaKey = (String) additionalParameters.get(CaptchaParameterNames.CAPTCHA_KEY);
         String captchaCode = (String) additionalParameters.get(CaptchaParameterNames.CAPTCHA_CODE);
 
-        String cacheCaptchaCode = redisTemplate.opsForValue().get(RedisConstants.CAPTCHA_CODE_PREFIX + captchaKey);
+        String cacheCaptchaCode = redisTemplate.opsForValue().get(RedisConstants.Captcha.IMAGE_CODE + captchaKey);
 
         // 验证码比对
         if (!codeGenerator.verify(cacheCaptchaCode, captchaCode)) {

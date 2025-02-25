@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 属性 分页VO
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 @Getter

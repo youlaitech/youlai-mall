@@ -27,7 +27,7 @@ import cn.hutool.core.util.StrUtil;
 /**
  * 规格服务实现类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-06-13
  */
 @Service

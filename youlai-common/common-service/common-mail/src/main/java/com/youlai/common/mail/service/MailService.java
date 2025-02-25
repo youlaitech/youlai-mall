@@ -3,7 +3,7 @@ package com.youlai.common.mail.service;
 /**
  * 邮件服务接口层
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/8/17
  */
 public interface MailService {

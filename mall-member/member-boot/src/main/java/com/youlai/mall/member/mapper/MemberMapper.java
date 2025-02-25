@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 会员访问层
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/7
  */
 @Mapper

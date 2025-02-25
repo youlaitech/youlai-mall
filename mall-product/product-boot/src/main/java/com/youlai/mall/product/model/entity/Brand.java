@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 品牌实体
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 @TableName("pms_brand")

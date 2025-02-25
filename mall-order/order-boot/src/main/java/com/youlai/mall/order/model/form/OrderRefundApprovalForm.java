@@ -9,7 +9,7 @@ import lombok.Setter;
 /**
  * 订单退款传输对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/6/7
  */
 @Schema(description = "订单退款传输对象")

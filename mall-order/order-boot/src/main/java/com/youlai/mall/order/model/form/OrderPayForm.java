@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 订单支付表单对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.3.0
  */
 @Data

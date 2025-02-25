@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 系统日志 服务接口
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 public interface LogService extends IService<Log> {

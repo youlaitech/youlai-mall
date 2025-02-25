@@ -8,7 +8,7 @@ import lombok.Getter;
 /**
  * 优惠券适用类型枚举
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/7/13
  */
 @Getter

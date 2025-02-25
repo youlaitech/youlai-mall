@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * 广告分页视图对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/11/12
  */
 @Schema(description = "广告分页视图对象")

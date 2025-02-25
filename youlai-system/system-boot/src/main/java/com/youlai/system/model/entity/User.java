@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 用户实体
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 0.0.1
  */
 @EqualsAndHashCode(callSuper = true)

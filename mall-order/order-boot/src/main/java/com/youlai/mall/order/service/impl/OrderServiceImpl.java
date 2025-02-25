@@ -80,7 +80,7 @@ import java.util.stream.Collectors;
 /**
  * 订单业务实现类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.0.0
  */
 @Service
@@ -167,7 +167,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         // 生成唯一令牌,防止重复提交(原理：提交会消耗令牌，令牌被消耗无法再次提交)
         CompletableFuture<String> generateOrderTokenFuture = CompletableFuture.supplyAsync(() -> {
             String orderToken = OrderUtils.generateTradeNo(memberId, OrderTypeEnum.WECHAT_ORDER);
-            redisTemplate.opsForValue().set(RedisConstants.ORDER_TOKEN_PREFIX + orderToken, orderToken);
+            redisTemplate.opsForValue().set(RedisConstants.Order.SUBMIT_TOKEN + orderToken, orderToken);
             return orderToken;
         }, threadPoolExecutor).exceptionally(ex -> {
             log.error("Failed to generate order token .");
@@ -201,10 +201,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         String lockAcquireScript = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
         Long lockAcquired = this.redisTemplate.execute(
                 new DefaultRedisScript<>(lockAcquireScript, Long.class),
-                Collections.singletonList(RedisConstants.ORDER_TOKEN_PREFIX + orderToken),
+                Collections.singletonList(RedisConstants.Order.SUBMIT_TOKEN + orderToken),
                 orderToken
         );
-        Assert.isTrue(lockAcquired != null && lockAcquired.equals(1L), "订单重复提交，请刷新页面后重试");
+
+        if (!lockAcquired.equals(1)) {
+            throw new BusinessException("订单重复提交，请刷新页面后重试");
+        }
 
         // 2. 订单商品校验 (PS：校验进入订单确认页面到提交过程商品(价格、上架状态)变化)
         List<OrderSubmitForm.OrderItem> orderItems = submitForm.getOrderItems();
@@ -292,7 +295,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OmsOrder> impleme
         Assert.isTrue(order != null && OrderStatusEnum.WAIT_PAY.getValue().equals(order.getStatus()),
                 "订单不存在或已支付");
 
-        RLock lock = redissonClient.getLock(RedisConstants.ORDER_PAYMENT_LOCK_PREFIX + order.getOrderNo());
+        RLock lock = redissonClient.getLock(RedisConstants.Order.PAYMENT_LOCK + order.getOrderNo());
         try {
             lock.lock();
             T result;

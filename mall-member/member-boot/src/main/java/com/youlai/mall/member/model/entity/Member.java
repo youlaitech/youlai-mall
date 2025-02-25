@@ -9,7 +9,7 @@ import java.time.LocalDate;
 /**
  * 会员实体类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2022/2/12
  */
 @Data

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 /**
  * 用户和角色关联表
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/12/17
  */
 @Data

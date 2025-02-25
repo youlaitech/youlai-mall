@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 会员分页对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2022/2/12
  */
 @Schema(description = "会员分页对象")

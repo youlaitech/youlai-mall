@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * ---- hKey:value <--> 商品2
  * ---- hKey:value <--> 商品3
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 4.0.0
  */
 @Service
@@ -175,6 +175,6 @@ public class CartServiceImpl implements CartService {
      * @param memberId 会员ID
      */
     private String buildCartKey(Long memberId) {
-        return RedisConstants.MEMBER_KEY_PREFIX + memberId + RedisConstants.MEMBER_CART_KEY_SUFFIX;
+        return RedisConstants.Member.CART + memberId;
     }
 }

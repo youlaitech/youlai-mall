@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * Canal + RabbitMQ 监听数据库数据变化
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2021/11/4 23:14
  */
 @Component

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 /**
  * SPU 实体类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2022/7/2
  */
 @EqualsAndHashCode(callSuper = true)

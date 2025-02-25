@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 部门业务接口
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2021/8/22
  */
 public interface DeptService extends IService<Dept> {

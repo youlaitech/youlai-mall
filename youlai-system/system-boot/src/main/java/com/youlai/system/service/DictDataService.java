@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 字典数据接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2023/3/4
  */
 public interface DictDataService extends IService<DictData> {

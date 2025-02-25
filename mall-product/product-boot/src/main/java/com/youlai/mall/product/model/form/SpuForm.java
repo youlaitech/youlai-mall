@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 商品SPU表单对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/23
  */
 @Schema(description = "商品SPU表单对象")

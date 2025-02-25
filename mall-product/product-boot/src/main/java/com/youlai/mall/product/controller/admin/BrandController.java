@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 品牌前端控制器
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/5/7
  */
 @Tag(name = "【Admin】品牌接口")

@@ -21,7 +21,7 @@ import java.util.function.Function;
 /**
  * 自定义 OIDC 认证提供者
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.1.0
  */
 @Slf4j
