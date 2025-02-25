@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 属性前端控制器
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/19
  */
 @Tag(name = "【Admin】属性接口")

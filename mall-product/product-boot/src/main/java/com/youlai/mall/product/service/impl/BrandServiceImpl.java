@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 品牌接服务现类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/5/4
  */
 @Service

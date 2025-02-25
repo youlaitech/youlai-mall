@@ -10,7 +10,7 @@ import lombok.Setter;
 /**
  * 会员地址实体类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2022/2/12
  */
 @TableName("ums_address")

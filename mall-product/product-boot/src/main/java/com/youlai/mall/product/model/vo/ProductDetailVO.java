@@ -14,7 +14,7 @@ import java.util.Map;
  * <p>
  * NutUI 商品数据结构：<a href="https://nutui.jd.com/h5/vue/4x/#/zh-CN/component/sku">Nut UI SKU 规格</a>
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/5/20
  */
 @Schema(description = "商品详情")

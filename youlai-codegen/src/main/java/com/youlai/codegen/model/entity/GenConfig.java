@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  * 代码生成基础配置
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @TableName(value = "gen_config")

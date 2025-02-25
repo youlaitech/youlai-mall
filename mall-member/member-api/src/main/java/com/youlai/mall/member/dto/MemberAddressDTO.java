@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 会员地址传输层对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/2/12 15:57
  */
 @Data

@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * SKU 规格值实体
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/4/14
  */
 @TableName("pms_sku_spec_value")

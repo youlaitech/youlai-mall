@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * 认证服务启动类
  *
- * @author ray
+ * @author Ray.Hao
  */
 @EnableFeignClients(basePackageClasses = {UserFeignClient.class, MemberFeignClient.class})
 @SpringBootApplication

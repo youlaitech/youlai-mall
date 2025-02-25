@@ -17,7 +17,6 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * 系统配置前端控制层
  *
@@ -68,7 +67,8 @@ public class ConfigController {
     @Operation(summary = "修改系统配置")
     @PreAuthorize("@ss.hasPerm('sys:config:update')")
     public Result<?> update(@Valid @PathVariable Long id, @RequestBody ConfigForm configForm) {
-        return Result.judge(configService.edit(id, configForm));
+        boolean result = configService.updateConfig(id, configForm);
+        return Result.judge(result);
     }
 
     @DeleteMapping("/{id}")

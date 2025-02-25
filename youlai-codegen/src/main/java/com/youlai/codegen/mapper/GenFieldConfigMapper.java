@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 代码生成字段配置访问层
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @Mapper

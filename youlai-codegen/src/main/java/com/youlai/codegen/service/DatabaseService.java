@@ -8,7 +8,7 @@ import com.youlai.codegen.model.vo.TablePageVO;
 /**
  * 数据源服务接口
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 4.0.0
  */
 public interface DatabaseService {

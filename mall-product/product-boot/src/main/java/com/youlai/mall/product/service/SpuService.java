@@ -10,7 +10,7 @@ import com.youlai.mall.product.model.vo.SpuPageVO;
 /**
  * SPU 接口
  *
- * @author Ray
+ * @author Ray.Hao
  * @since  2022/2/5
  */
 public interface SpuService extends IService<Spu> {

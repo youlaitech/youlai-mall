@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 认证服务
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.1.0
  */
 @Service
@@ -49,18 +49,16 @@ public class AuthService {
         // 验证码文本缓存至Redis，用于登录校验
         String captchaKey = IdUtil.fastSimpleUUID();
         redisTemplate.opsForValue().set(
-                RedisConstants.CAPTCHA_CODE_PREFIX + captchaKey,
+                RedisConstants.Captcha.IMAGE_CODE + captchaKey,
                 captcha.getCode(),
                 captchaProperties.getExpireSeconds(),
                 TimeUnit.SECONDS
         );
 
-        CaptchaResult captchaResult = CaptchaResult.builder()
+        return CaptchaResult.builder()
                 .captchaKey(captchaKey)
                 .captchaBase64(captcha.getImageBase64Data())
                 .build();
-
-        return captchaResult;
     }
 
     /**
@@ -83,7 +81,7 @@ public class AuthService {
         boolean result = smsService.sendSms(mobile, templateCode, templateParams);
         if (result) {
             // 将验证码存入redis，有效期5分钟
-            redisTemplate.opsForValue().set(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile, code, 5, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(RedisConstants.Captcha.MOBILE_CODE + mobile, code, 5, TimeUnit.MINUTES);
 
             // TODO 考虑记录每次发送短信的详情，如发送时间、手机号和短信内容等，以便后续审核或分析短信发送效果。
         }
@@ -92,8 +90,6 @@ public class AuthService {
 
     /**
      * 注销
-     *
-     * @return true|false 是否注销成功
      */
     public void logout() {
 
@@ -106,13 +102,13 @@ public class AuthService {
             if (expireTime > currentTimeInSeconds) {
                 // token未过期，添加至缓存作为黑名单，缓存时间为token剩余的有效时间
                 long remainingTimeInSeconds = expireTime - currentTimeInSeconds;
-                redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "", remainingTimeInSeconds, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(RedisConstants.Auth.BLACKLIST_TOKEN + jti, "", remainingTimeInSeconds, TimeUnit.SECONDS);
             }
         });
 
         if (expireTimeOpt.isEmpty()) {
             // token 永不过期则永久加入黑名单
-            redisTemplate.opsForValue().set(RedisConstants.TOKEN_BLACKLIST_PREFIX + jti, "");
+            redisTemplate.opsForValue().set(RedisConstants.Auth.BLACKLIST_TOKEN + jti, "");
         }
     }
 }

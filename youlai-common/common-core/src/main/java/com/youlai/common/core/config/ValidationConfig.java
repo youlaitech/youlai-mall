@@ -13,7 +13,7 @@ import jakarta.validation.ValidatorFactory;
 /**
  * 运行时入参校验配置
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/11/10
  */
 @Configuration

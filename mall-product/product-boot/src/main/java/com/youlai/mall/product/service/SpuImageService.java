@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 商品图片接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-14
  */
 public interface SpuImageService extends IService<SpuImage> {

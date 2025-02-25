@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 /**
  * 部门对象转换器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/7/29
  */
 @Mapper(componentModel = "spring")

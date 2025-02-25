@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.AuthenticationConverter;
 /**
  * 自定义 OIDC 认证转换器
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 3.1.0
  */
 public class CustomOidcAuthenticationConverter implements AuthenticationConverter {

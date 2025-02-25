@@ -11,7 +11,7 @@ import java.util.List;
 /**
  *  商品库存服务 FeignClient
  *
- * @author Ray
+ * @author Ray.Hao
  */
 @FeignClient(value = "mall-product", contextId = "sku", configuration = {FeignDecoderConfig.class})
 public interface SkuFeignClient {

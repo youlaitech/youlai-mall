@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationEvent;
 /**
  * 用户连接事件
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 4.0.0
  */
 @Getter

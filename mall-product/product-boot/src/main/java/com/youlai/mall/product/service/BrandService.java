@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 品牌接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/7/2
  */
 public interface BrandService extends IService<Brand> {

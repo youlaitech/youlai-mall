@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 广告业务实现类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2022/5/28
  */
 @Service

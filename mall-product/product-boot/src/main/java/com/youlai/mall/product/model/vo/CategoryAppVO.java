@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 商品分类 APP 端VO
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/5/21
  */
 @Data

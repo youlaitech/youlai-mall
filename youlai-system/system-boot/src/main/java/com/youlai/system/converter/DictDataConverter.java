@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 字典项 对象转换器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/6/8
  */
 @Mapper(componentModel = "spring")

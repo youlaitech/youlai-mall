@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * mybatis-plus 配置类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/7/2
  */
 @Configuration

@@ -17,7 +17,7 @@ import java.io.Serializable;
  * </ul>
  * </p>
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2020/11/06
  */
 @TableName("pms_spu_attr_value")

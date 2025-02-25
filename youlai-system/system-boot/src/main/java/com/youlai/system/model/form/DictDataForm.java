@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 字典数据表单对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2.9.0
  */
 @Schema(description = "字典数据表单")

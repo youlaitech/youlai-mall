@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 将 application.yml 中的 spring.mail  绑定到此类中
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/8/17
  */
 @ConfigurationProperties(prefix = "spring.mail")

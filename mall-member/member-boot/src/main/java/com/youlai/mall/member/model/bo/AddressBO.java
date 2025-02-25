@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 地址业务对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/8
  */
 @Data

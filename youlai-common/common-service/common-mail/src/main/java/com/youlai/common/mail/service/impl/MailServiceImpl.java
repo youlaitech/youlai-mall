@@ -17,7 +17,7 @@ import java.io.File;
 /**
  * 邮件服务实现类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/8/17
  */
 @Service

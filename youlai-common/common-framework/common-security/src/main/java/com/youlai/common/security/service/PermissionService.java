@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * SpringSecurity 权限校验
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/2/22
  */
 @Service("ss")
@@ -81,7 +81,7 @@ public class PermissionService {
         Set<String> perms = new HashSet<>();
         // 从缓存中一次性获取所有角色的权限
         Collection<Object> roleCodesAsObjects = new ArrayList<>(roleCodes);
-        List<Object> rolePermsList = redisTemplate.opsForHash().multiGet(RedisConstants.ROLE_PERMS_PREFIX, roleCodesAsObjects);
+        List<Object> rolePermsList = redisTemplate.opsForHash().multiGet(RedisConstants.System.ROLE_PERMS, roleCodesAsObjects);
 
         for (Object rolePermsObj : rolePermsList) {
             if (rolePermsObj instanceof Set) {

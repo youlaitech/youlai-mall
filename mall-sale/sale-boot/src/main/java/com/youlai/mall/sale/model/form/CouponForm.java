@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 优惠券表单对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/6/23
  */
 @Schema(description = "优惠券表单对象")

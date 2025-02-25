@@ -24,7 +24,7 @@ import java.util.function.Function;
 /**
  * 商品分类服务实现类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/04/20
  */
 @Service

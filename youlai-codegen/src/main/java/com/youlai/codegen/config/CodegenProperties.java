@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 代码生成配置属性
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.11.0
  */
 @Component

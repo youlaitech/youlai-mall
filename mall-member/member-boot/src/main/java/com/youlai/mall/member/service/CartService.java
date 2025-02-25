@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 购物车接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/4
  */
 public interface CartService {

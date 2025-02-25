@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2023/8/24
  */
 public class FeignDecoderConfig {

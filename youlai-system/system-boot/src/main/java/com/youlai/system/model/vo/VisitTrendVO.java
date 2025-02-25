@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 访问趋势VO
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.3.0
  */
 @Schema(description = "访问趋势VO")

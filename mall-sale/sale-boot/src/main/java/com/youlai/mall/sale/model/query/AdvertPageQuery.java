@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 广告分页列表查询对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2021/7/11
  */
 @EqualsAndHashCode(callSuper = true)

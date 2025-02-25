@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * 阿里云短信配置
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2021/10/13
  */
 @Configuration

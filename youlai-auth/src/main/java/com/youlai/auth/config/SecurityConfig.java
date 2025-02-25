@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Spring Security安全配置
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @ConfigurationProperties(prefix = "security")

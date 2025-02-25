@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 系统配置Service接口实现
+ * 系统配置服务实现类
  *
  * @author Theo
  * @since 2024-07-29 11:17:26
@@ -35,12 +35,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> implements ConfigService {
 
-    private final ConfigMapper configMapper;
-
     private final ConfigConverter configConverter;
 
     private final RedisTemplate<String, Object> redisTemplate;
-
 
     /**
      * 系统启动完成后，加载系统配置到缓存
@@ -62,9 +59,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
         String keywords = configPageQuery.getKeywords();
         LambdaQueryWrapper<Config> query = new LambdaQueryWrapper<Config>()
                 .and(StringUtils.isNotBlank(keywords),
-                    q -> q.like(Config::getConfigKey, keywords)
-                        .or()
-                        .like(Config::getConfigName, keywords)
+                        q -> q.like(Config::getConfigKey, keywords)
+                                .or()
+                                .like(Config::getConfigName, keywords)
                 );
         Page<Config> pageList = this.page(page, query);
         return configConverter.toPageVo(pageList);
@@ -106,10 +103,14 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
      * @return 是否编辑成功
      */
     @Override
-    public boolean edit(Long id, ConfigForm configForm) {
-        Assert.isTrue(
-                super.count(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configForm.getConfigKey()).ne(Config::getId, id)) == 0,
-                "配置键已存在");
+    public boolean updateConfig(Long id, ConfigForm configForm) {
+        long count = this.count(new LambdaQueryWrapper<Config>()
+                .eq(Config::getConfigKey, configForm.getConfigKey())
+                .ne(Config::getId, id));
+        if (count > 0) {
+            throw new IllegalArgumentException("配置键已存在");
+        }
+
         Config config = configConverter.toEntity(configForm);
         config.setUpdateBy(SecurityUtils.getUserId());
         return this.updateById(config);
@@ -125,7 +126,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     public boolean delete(Long id) {
         if (id != null) {
             return super.update(new LambdaUpdateWrapper<Config>()
-                    .eq(Config::getId,id)
+                    .eq(Config::getId, id)
                     .set(Config::getIsDeleted, 1)
                     .set(Config::getUpdateBy, SecurityUtils.getUserId())
             );
@@ -140,11 +141,11 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
      */
     @Override
     public boolean refreshCache() {
-        redisTemplate.delete(RedisConstants.SYSTEM_CONFIG_KEY);
+        redisTemplate.delete(RedisConstants.System.CONFIG);
         List<Config> list = this.list();
         if (list != null) {
             Map<String, String> map = list.stream().collect(Collectors.toMap(Config::getConfigKey, Config::getConfigValue));
-            redisTemplate.opsForHash().putAll(RedisConstants.SYSTEM_CONFIG_KEY, map);
+            redisTemplate.opsForHash().putAll(RedisConstants.System.CONFIG, map);
             return true;
         }
         return false;
@@ -159,7 +160,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     @Override
     public Object getSystemConfig(String key) {
         if (StringUtils.isNotBlank(key)) {
-            return redisTemplate.opsForHash().get(RedisConstants.SYSTEM_CONFIG_KEY, key);
+            return redisTemplate.opsForHash().get(RedisConstants.System.CONFIG, key);
         }
         return null;
     }

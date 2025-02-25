@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 订单状态枚举
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2.0.0
  */
 @Getter

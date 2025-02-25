@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * JWT 自定义字段配置
  *
- * @author Ray
+ * @author Ray.Hao
 * @since 3.0.0
  */
 @Configuration

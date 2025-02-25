@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 代码生成配置表单
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @Schema(description = "代码生成配置表单")

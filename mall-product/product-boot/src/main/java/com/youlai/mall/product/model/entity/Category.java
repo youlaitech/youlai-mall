@@ -8,7 +8,7 @@ import lombok.Setter;
 /**
  * 商品分类实体类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/04/20
  */
 @TableName("pms_category")

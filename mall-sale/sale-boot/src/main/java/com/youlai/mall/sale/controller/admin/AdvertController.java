@@ -20,7 +20,7 @@ import java.util.Arrays;
 /**
  * 营销广告
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 1.0.0
  */
 @Tag(name = "Admin-营销广告")

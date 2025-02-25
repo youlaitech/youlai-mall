@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 优惠券对象转换器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/5/29
  */
 @Mapper(componentModel = "spring")

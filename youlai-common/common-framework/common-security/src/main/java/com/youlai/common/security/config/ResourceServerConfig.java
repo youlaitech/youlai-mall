@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * 资源服务器配置
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @ConfigurationProperties(prefix = "security")

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 品牌分类关联服务实现类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-05-06
  */
 @Service

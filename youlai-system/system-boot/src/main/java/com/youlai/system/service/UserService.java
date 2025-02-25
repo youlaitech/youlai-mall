@@ -1,10 +1,9 @@
 package com.youlai.system.service;
 
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.common.core.model.Option;
 import com.youlai.system.dto.UserAuthInfo;
-import com.youlai.system.enums.ContactType;
 import com.youlai.system.model.entity.User;
 import com.youlai.system.model.form.*;
 import com.youlai.system.model.query.UserPageQuery;
@@ -14,12 +13,11 @@ import com.youlai.system.model.vo.UserPageVO;
 import com.youlai.system.model.vo.UserProfileVO;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 用户业务接口
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/1/14
  */
 public interface UserService extends IService<User> {
@@ -79,9 +77,7 @@ public interface UserService extends IService<User> {
      * @param username 用户名
      * @return {@link UserAuthInfo}
      */
-
     UserAuthInfo getUserAuthInfo(String username);
-
 
     /**
      * 获取导出用户列表
@@ -91,7 +87,6 @@ public interface UserService extends IService<User> {
      */
     List<UserExportVO> listExportUsers(UserPageQuery queryParams);
 
-
     /**
      * 获取登录用户信息
      *
@@ -99,25 +94,16 @@ public interface UserService extends IService<User> {
      */
     UserInfoVO getCurrentUserInfo();
 
+
     /**
      * 注册用户
      *
-     * @param userRegisterForm 用户注册表单对象
-     * @return {@link Boolean}
+     * @param userRegisterForm 注册表单
      */
-    boolean registerUser(UserRegisterForm userRegisterForm);
-
-    /**
-     *  发送注册短信验证码
-     * @param mobile
-     * @return
-     */
-     boolean sendRegistrationSmsCode(String mobile);
+     boolean registerUser(UserRegisterForm userRegisterForm);
 
     /**
      * 获取个人中心用户信息
-     *
-     * @return
      */
     UserProfileVO getUserProfile(Long userId);
 
@@ -125,7 +111,6 @@ public interface UserService extends IService<User> {
      * 修改个人中心用户信息
      *
      * @param formData 表单数据
-     * @return
      */
     boolean updateUserProfile(UserProfileForm formData);
 
@@ -134,79 +119,52 @@ public interface UserService extends IService<User> {
      *
      * @param userId 用户ID
      * @param data   修改密码表单数据
-     * @return
      */
-    boolean changePassword(Long userId, PasswordChangeForm data);
+    boolean changePassword(Long userId, PasswordUpdateForm data);
 
     /**
      * 重置用户密码
      *
      * @param userId   用户ID
      * @param password 重置后的密码
-     * @return
      */
     boolean resetPassword(Long userId, String password);
 
     /**
-     * 发送验证码
+     * 发送短信验证码(绑定或更换手机号)
      *
-     * @param contact 联系方式
-     * @param type    联系方式类型
-     * @return
+     * @param mobile 手机号
+     * @return {@link Boolean} 是否发送成功
      */
-    boolean sendVerificationCode(String contact, ContactType type);
+    boolean sendMobileCode(String mobile);
 
     /**
      * 修改当前用户手机号
      *
      * @param data 表单数据
-     * @return
+     * @return {@link Boolean} 是否修改成功
      */
-    boolean bindMobile(MobileBindingForm data);
+    boolean bindOrChangeMobile(MobileUpdateForm data);
 
     /**
-     * 修改当前用户邮箱
+     * 发送邮箱验证码(绑定或更换邮箱)
+     *
+     * @param email 邮箱
+     */
+    void sendEmailCode(String email);
+
+    /**
+     * 绑定或更换邮箱
      *
      * @param data 表单数据
-     * @return
+     * @return {@link Boolean} 是否绑定成功
      */
-    boolean bindEmail(EmailChangeForm data);
-
-
-    /**
-     * 添加用户到在线用户集合
-     *
-     * @param username 用户名
-     */
-     void addOnlineUser(String username);
+    boolean bindOrChangeEmail(EmailUpdateForm data);
 
     /**
-     * 从在线用户集合移除用户
+     * 获取用户选项列表
      *
-     * @param username 用户名
+     * @return {@link List<Option<String>>} 用户选项列表
      */
-     void removeOnlineUser(String username);
-
-    /**
-     * 获取所有在线用户
-     *
-     * @return 在线用户集合
-     */
-     Set<String> getAllOnlineUsers();
-
-    /**
-     * 获取在线的接收者
-     * 从所有接收者中过滤出在线的接收者
-     *
-     * @param receivers 接收者
-     * @return 在线的接收者集合
-     */
-     Set<String> getOnlineReceivers(Set<String> receivers);
-
-    /**
-     * 获取在线用户数量
-     *
-     * @return 在线用户数量
-     */
-     int getOnlineUserCount();
+    List<Option<String>> listUserOptions();
 }

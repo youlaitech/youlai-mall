@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * 商品分类表单对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/04/20
  */
 @Schema(description = "商品分类表单对象")

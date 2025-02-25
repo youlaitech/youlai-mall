@@ -8,7 +8,7 @@ import lombok.Setter;
 /**
  * 属性组实体对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 @Getter

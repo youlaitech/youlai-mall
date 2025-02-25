@@ -7,7 +7,7 @@ import com.youlai.codegen.model.form.GenConfigForm;
 /**
  * 代码生成配置接口
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 4.0.0
  */
 public interface GenConfigService extends IService<GenConfig> {

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 验证码配置
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.1.0
  */
 @Configuration

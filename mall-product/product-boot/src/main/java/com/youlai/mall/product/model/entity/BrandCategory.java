@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * 品牌分类关联实体
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-05-06
  */
 @Getter

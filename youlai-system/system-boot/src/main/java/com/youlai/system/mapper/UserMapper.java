@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 用户持久层
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/1/14
  */
 @Mapper
@@ -28,7 +28,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param queryParams 查询参数
      * @return {@link List<UserBO>}
      */
-    @DataPermission(deptAlias = "u")
+    @DataPermission(deptAlias = "u", userAlias = "u")
     Page<UserBO> getUserPage(Page<UserBO> page, UserPageQuery queryParams);
 
     /**
@@ -53,7 +53,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param queryParams 查询参数
      * @return {@link List<UserExportVO>}
      */
-    @DataPermission(deptAlias = "u")
+    @DataPermission(deptAlias = "u", userAlias = "u")
     List<UserExportVO> listExportUsers(UserPageQuery queryParams);
 
     /**

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 商品分类 Mapper 接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/04/20
  */
 @Mapper

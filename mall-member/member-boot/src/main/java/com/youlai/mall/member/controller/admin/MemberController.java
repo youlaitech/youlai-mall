@@ -20,7 +20,7 @@ import java.util.Arrays;
 /**
  * 会员管理
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 1.0.0
  */
 

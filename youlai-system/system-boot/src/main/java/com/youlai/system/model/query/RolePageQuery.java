@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 角色分页查询实体
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/6/3
  */
 @Schema(description ="角色分页查询对象")

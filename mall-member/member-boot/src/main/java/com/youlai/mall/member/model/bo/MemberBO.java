@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 会员业务对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2022/2/12
  */
 @Data

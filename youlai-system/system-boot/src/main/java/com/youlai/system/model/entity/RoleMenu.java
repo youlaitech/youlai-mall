@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 /**
  * 角色和菜单关联表
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 0.0.1
  */
 @Data

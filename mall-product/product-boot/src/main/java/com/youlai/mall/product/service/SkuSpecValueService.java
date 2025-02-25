@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * SKU销售属性值 服务类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-14
  */
 public interface SkuSpecValueService extends IService<SkuSpecValue> {

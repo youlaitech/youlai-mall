@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 /**
  * 系统日志 实体类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.10.0
  */
 @TableName("sys_log")

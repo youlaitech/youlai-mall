@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * 品牌分页列表查询对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2021/7/11
  */
 @Schema(description = "品牌分页查询对象")

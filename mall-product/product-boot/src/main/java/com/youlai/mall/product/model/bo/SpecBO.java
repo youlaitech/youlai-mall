@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 /**
  * 规格BO
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-06-13
  */
 @Getter

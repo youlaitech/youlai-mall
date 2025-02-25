@@ -7,7 +7,7 @@ import org.slf4j.helpers.MessageFormatter;
 /**
  * 自定义业务异常
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/7/31
  */
 @Getter

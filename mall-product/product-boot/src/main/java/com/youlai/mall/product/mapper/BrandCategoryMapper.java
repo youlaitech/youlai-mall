@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 品牌分类关联 Mapper 接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-05-06
  */
 

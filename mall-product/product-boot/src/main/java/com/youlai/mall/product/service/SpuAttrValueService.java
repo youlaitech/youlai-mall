@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 商品属性 接口层
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/04/24
  */
 public interface SpuAttrValueService extends IService<SpuAttrValue> {

@@ -14,6 +14,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.core.exception.BusinessException;
+import com.youlai.common.core.model.Option;
 import com.youlai.common.mail.service.MailService;
 import com.youlai.common.security.service.PermissionService;
 import com.youlai.common.security.util.SecurityUtils;
@@ -21,7 +22,7 @@ import com.youlai.common.sms.config.AliyunSmsProperties;
 import com.youlai.common.sms.service.SmsService;
 import com.youlai.system.converter.UserConverter;
 import com.youlai.system.dto.UserAuthInfo;
-import com.youlai.system.enums.ContactType;
+import com.youlai.system.enums.SmsTypeEnum;
 import com.youlai.system.mapper.UserMapper;
 import com.youlai.system.model.bo.UserBO;
 import com.youlai.system.model.entity.User;
@@ -49,7 +50,7 @@ import java.util.stream.Collectors;
 /**
  * 用户业务实现类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/1/14
  */
 @Service
@@ -264,6 +265,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         return userInfoVO;
     }
+
     /**
      * 注册用户
      *
@@ -276,13 +278,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String mobile = userRegisterForm.getMobile();
         String code = userRegisterForm.getCode();
         // 校验验证码
-        String cacheCode = redisTemplate.opsForValue().get(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile);
+        String cacheCode = redisTemplate.opsForValue().get(RedisConstants.Captcha.MOBILE_CODE + mobile);
         if (!StrUtil.equals(code, cacheCode)) {
             log.warn("验证码不匹配或不存在: {}", mobile);
             return false; // 验证码不匹配或不存在时返回false
         }
         // 校验通过，删除验证码
-        redisTemplate.delete(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile);
+        redisTemplate.delete(RedisConstants.Captcha.MOBILE_CODE + mobile);
 
         // 校验手机号是否已注册
         long count = this.count(new LambdaQueryWrapper<User>()
@@ -290,7 +292,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .or()
                 .eq(User::getUsername, mobile)
         );
-        Assert.isTrue(count == 0, "手机号已注册");
+        if (count > 0) {
+            throw new BusinessException("该手机号已注册");
+        }
 
         User entity = new User();
         entity.setUsername(mobile);
@@ -303,34 +307,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         // 新增用户，并直接返回结果
         return this.save(entity);
-    }
-
-    /**
-     * 发送注册短信验证码
-     *
-     * @param mobile 手机号
-     * @return true|false 是否发送成功
-     */
-    @Override
-    public boolean sendRegistrationSmsCode(String mobile) {
-        // 获取短信模板代码
-        String templateCode = aliyunSmsProperties.getTemplateCodes().get("register");
-
-        // 生成随机4位数验证码
-        String code = RandomUtil.randomNumbers(4);
-
-        // 短信模板: 您的验证码：${code}，该验证码5分钟内有效，请勿泄漏于他人。
-        // 其中 ${code} 是模板参数，使用时需要替换为实际值。
-        String templateParams = JSONUtil.toJsonStr(Collections.singletonMap("code", code));
-
-        boolean result = smsService.sendSms(mobile, templateCode, templateParams);
-        if (result) {
-            // 将验证码存入redis，有效期5分钟
-            redisTemplate.opsForValue().set(RedisConstants.REGISTER_SMS_CODE_PREFIX + mobile, code, 5, TimeUnit.MINUTES);
-
-            // TODO 考虑记录每次发送短信的详情，如发送时间、手机号和短信内容等，以便后续审核或分析短信发送效果。
-        }
-        return result;
     }
 
     /**
@@ -368,7 +344,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public boolean changePassword(Long userId, PasswordChangeForm data) {
+    public boolean changePassword(Long userId, PasswordUpdateForm data) {
 
         User user = this.getById(userId);
         if (user == null) {
@@ -409,117 +385,141 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 发送验证码
+     * 发送短信验证码(绑定或更换手机号)
      *
-     * @param contact 联系方式 手机号/邮箱
-     * @param type    联系方式类型 {@link ContactType}
-     * @return
+     * @param mobile 手机号
+     * @return true|false
      */
     @Override
-    public boolean sendVerificationCode(String contact, ContactType type) {
+    public boolean sendMobileCode(String mobile) {
 
-        // 随机生成4位验证码
-        String code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
-        // 发送验证码
+        // String code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
+        // TODO 为了方便测试，验证码固定为 1234，实际开发中在配置了厂商短信服务后，可以使用上面的随机验证码
+        String code = "1234";
 
-        String verificationCodePrefix = null;
-        switch (type) {
-            case MOBILE:
-                // 获取修改密码的模板code
-                String changePasswordSmsTemplateCode = aliyunSmsProperties.getTemplateCodes().get("changePassword");
-                smsService.sendSms(contact, changePasswordSmsTemplateCode, "[{\"code\":\"" + code + "\"}]");
-                verificationCodePrefix = RedisConstants.MOBILE_VERIFICATION_CODE_PREFIX;
-                break;
-            case EMAIL:
-                mailService.sendMail(contact, "验证码", "您的验证码是：" + code);
-                verificationCodePrefix = RedisConstants.EMAIL_VERIFICATION_CODE_PREFIX;
-                break;
-            default:
-                throw new BusinessException("不支持的联系方式类型");
+        Map<String, String> templateParams = new HashMap<>();
+        templateParams.put("code", code);
+        boolean result = false;
+        // boolean result = smsService.sendSms(mobile, "change-mobile", templateParams);
+        if (result) {
+            // 缓存验证码，5分钟有效，用于更换手机号校验
+            String redisCacheKey = RedisConstants.Captcha.MOBILE_CODE + mobile;
+            redisTemplate.opsForValue().set(redisCacheKey, code, 5, TimeUnit.MINUTES);
         }
-        // 存入 redis 用于校验, 5分钟有效
-        redisTemplate.opsForValue().set(verificationCodePrefix + contact, code, 5, TimeUnit.MINUTES );
-        return true;
+        return result;
     }
 
     /**
-     * 修改当前用户手机号码
+     * 绑定或更换手机号
      *
-     * @param data 表单数据
-     * @return
+     * @param form 表单数据
+     * @return true|false
      */
     @Override
-    public boolean bindMobile(MobileBindingForm data) {
-        Long userId = SecurityUtils.getUserId();
-        User user = this.getById(userId);
-        if (user == null) {
+    public boolean bindOrChangeMobile(MobileUpdateForm form) {
+
+        Long currentUserId = SecurityUtils.getUserId();
+        User currentUser = this.getById(currentUserId);
+
+        if (currentUser == null) {
             throw new BusinessException("用户不存在");
         }
+
         // 校验验证码
-        String verificationCode = data.getCode();
-        String contact = data.getMobile();
-        String verificationCodeKey = RedisConstants.MOBILE_VERIFICATION_CODE_PREFIX + contact;
-        String code = redisTemplate.opsForValue().get(verificationCodeKey);
-        if (!verificationCode.equals(code)) {
+        String inputVerifyCode = form.getCode();
+        String mobile = form.getMobile();
+
+        String redisCacheKey = RedisConstants.Captcha.MOBILE_CODE + mobile;
+        String cachedVerifyCode = redisTemplate.opsForValue().get(redisCacheKey);
+
+        if (StrUtil.isBlank(cachedVerifyCode)) {
+            throw new BusinessException("验证码已过期");
+        }
+        if (!inputVerifyCode.equals(cachedVerifyCode)) {
             throw new BusinessException("验证码错误");
         }
+        // 验证完成删除验证码
+        redisTemplate.delete(redisCacheKey);
+
         // 更新手机号码
-        return this.update(new LambdaUpdateWrapper<User>()
-                .eq(User::getId, userId)
-                .set(User::getMobile, contact)
+        return this.update(
+                new LambdaUpdateWrapper<User>()
+                        .eq(User::getId, currentUserId)
+                        .set(User::getMobile, mobile)
         );
+    }
+
+    /**
+     * 发送邮箱验证码（绑定或更换邮箱）
+     *
+     * @param email 邮箱
+     */
+    @Override
+    public void sendEmailCode(String email) {
+
+        // String code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
+        // TODO 为了方便测试，验证码固定为 1234，实际开发中在配置了邮箱服务后，可以使用上面的随机验证码
+        String code = "1234";
+
+        mailService.sendMail(email, "邮箱验证码", "您的验证码为：" + code + "，请在5分钟内使用");
+        // 缓存验证码，5分钟有效，用于更换邮箱校验
+        String redisCacheKey = RedisConstants.Captcha.EMAIL_CODE + email;
+        redisTemplate.opsForValue().set(redisCacheKey, code, 5, TimeUnit.MINUTES);
     }
 
     /**
      * 修改当前用户邮箱
      *
-     * @param data 表单数据
-     * @return
+     * @param form 表单数据
+     * @return true|false
      */
     @Override
-    public boolean bindEmail(EmailChangeForm data) {
-        Long userId = SecurityUtils.getUserId();
-        User user = this.getById(userId);
-        if (user == null) {
+    public boolean bindOrChangeEmail(EmailUpdateForm form) {
+
+        Long currentUserId = SecurityUtils.getUserId();
+
+        User currentUser = this.getById(currentUserId);
+        if (currentUser == null) {
             throw new BusinessException("用户不存在");
         }
-        // 校验验证码
-        String verificationCode = data.getCode();
-        String email = data.getEmail();
-        String verificationCodeKey = RedisConstants.EMAIL_VERIFICATION_CODE_PREFIX + email;
-        String code = redisTemplate.opsForValue().get(verificationCodeKey);
-        if (!verificationCode.equals(code)) {
+
+        // 获取前端输入的验证码
+        String inputVerifyCode = form.getCode();
+
+        // 获取缓存的验证码
+        String email = form.getEmail();
+        String redisCacheKey = RedisConstants.Captcha.EMAIL_CODE + email;
+        String cachedVerifyCode = redisTemplate.opsForValue().get(redisCacheKey);
+
+        if (StrUtil.isBlank(cachedVerifyCode)) {
+            throw new BusinessException("验证码已过期");
+        }
+
+        if (!inputVerifyCode.equals(cachedVerifyCode)) {
             throw new BusinessException("验证码错误");
         }
-        // 更新邮箱
-        return this.update(new LambdaUpdateWrapper<User>()
-                .eq(User::getId, userId)
-                .set(User::getEmail, email)
+        // 验证完成删除验证码
+        redisTemplate.delete(redisCacheKey);
+
+        // 更新邮箱地址
+        return this.update(
+                new LambdaUpdateWrapper<User>()
+                        .eq(User::getId, currentUserId)
+                        .set(User::getEmail, email)
         );
     }
 
+    /**
+     * 获取用户选项列表
+     *
+     * @return {@link List<Option<String>>} 用户选项列表
+     */
     @Override
-    public void addOnlineUser(String username) {
-        onlineUsers.add(username);
+    public List<Option<String>> listUserOptions() {
+        List<User> list = this.list(new LambdaQueryWrapper<User>()
+                .eq(User::getStatus, 1)
+        );
+        return userConverter.toOptions(list);
     }
 
-    @Override
-    public void removeOnlineUser(String username) {
-        onlineUsers.remove(username);
-    }
-
-    @Override
-    public Set<String> getAllOnlineUsers() {
-        return Collections.unmodifiableSet(onlineUsers);
-    }
-
-    @Override
-    public Set<String> getOnlineReceivers(Set<String> receivers) {
-        return receivers.stream().filter(onlineUsers::contains).collect(Collectors.toSet());
-    }
-
-    @Override
-    public int getOnlineUserCount() {
-        return onlineUsers.size();
-    }
 }

@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * 验证码自动装配配置
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.1.0
  */
 @Configuration

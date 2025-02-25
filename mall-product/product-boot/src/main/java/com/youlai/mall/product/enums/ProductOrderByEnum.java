@@ -8,7 +8,7 @@ import lombok.Getter;
 /**
  * 商品排序字段枚举
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/5/23
  */
 @Getter

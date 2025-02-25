@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * 自定义流控异常
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2021/4/12 22:57
  */
 @Component

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * 商品图片服务实现类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/04/14
  */
 @Service

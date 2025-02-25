@@ -19,7 +19,7 @@ package com.youlai.auth.oauth2.extension.smscode;
 /**
  * 短信验证码模式参数名称常量
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 public final class SmsCodeParameterNames {

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 代码生成服务接口
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 4.0.0
  */
 public interface CodegenService {

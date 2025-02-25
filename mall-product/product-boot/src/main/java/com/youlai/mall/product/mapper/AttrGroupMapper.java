@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 属性组 Mapper 接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 

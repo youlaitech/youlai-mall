@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 属性 服务类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 public interface AttrService extends IService<Attr> {

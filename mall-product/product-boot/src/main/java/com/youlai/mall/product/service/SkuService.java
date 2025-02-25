@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * SKU 接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2.0.0
  */
 public interface SkuService extends IService<Sku> {

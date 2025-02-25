@@ -1,7 +1,6 @@
 package com.youlai.mall.member.model.form;
 
-import com.youlai.common.core.constraint.CheckCityValid;
-import com.youlai.common.core.constraint.CityType;
+import com.youlai.common.core.annotation.validation.ValidCity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -11,7 +10,7 @@ import jakarta.validation.constraints.Pattern;
 /**
  * 地址表单对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/2/12
  */
 @Schema(description = "地址表单对象")
@@ -29,15 +28,15 @@ public class AddressForm {
     private String recipientMobile;
 
     @Schema(description = "省")
-    @CheckCityValid(CityType.PROVINCE)
+    @ValidCity(CityType.PROVINCE)
     private String province;
 
     @Schema(description = "市")
-    @CheckCityValid(CityType.CITY)
+    @ValidCity(CityType.CITY)
     private String city;
 
     @Schema(description = "区")
-    @CheckCityValid(CityType.DISTRICT)
+    @ValidCity(CityType.DISTRICT)
     private String district;
 
     @Schema(description = "街道地址")

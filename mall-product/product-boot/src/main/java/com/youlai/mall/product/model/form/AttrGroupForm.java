@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 属性组表单对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024-04-19
  */
 @Getter

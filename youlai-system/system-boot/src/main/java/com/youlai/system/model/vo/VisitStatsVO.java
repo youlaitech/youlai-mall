@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 /**
  * 访问量统计VO
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2024/7/2
  */
 @Schema(description = "访问量统计VO")

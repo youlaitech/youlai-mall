@@ -1,3 +1,11 @@
+-- ----------------------------
+-- XXL-JOB 数据库
+-- ----------------------------
+CREATE DATABASE `xxl_job` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- 创建表 && 数据初始化
+-- ----------------------------
 use `xxl_job`;
 
 CREATE TABLE `xxl_job_info` (

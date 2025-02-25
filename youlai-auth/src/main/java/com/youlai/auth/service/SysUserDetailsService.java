@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 /**
  * 系统用户信息加载实现类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @Service

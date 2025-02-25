@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 分类查询对象
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/5/15
  */
 @Schema(description = "分类查询对象")

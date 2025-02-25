@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 商品服务启动类
  *
  * @since 1.0.0
- * @author Ray
+ * @author Ray.Hao
  */
 @SpringBootApplication
 @EnableDiscoveryClient

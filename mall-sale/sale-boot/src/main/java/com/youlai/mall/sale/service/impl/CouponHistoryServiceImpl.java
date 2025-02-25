@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * 优惠券领取历史记录 服务实现类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.0.0
  */
 @Service

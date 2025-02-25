@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 品牌转换器
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/5/8
  */
 @Mapper(componentModel = "spring")

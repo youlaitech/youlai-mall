@@ -10,7 +10,7 @@ import lombok.Setter;
  * Sku 通常包含特定的属性组合，如颜色、尺寸等，与Spu相对，
  * Spu是指商品的标准化信息，而Sku是在此基础上的特定属性的实体。
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/6
  */
 @TableName("pms_sku")

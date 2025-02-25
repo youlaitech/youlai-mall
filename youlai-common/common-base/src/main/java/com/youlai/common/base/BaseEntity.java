@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * <p>
  * 【阿里开发手册】表必备三字段: id, create_time, update_time
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/13
  */
 @Data

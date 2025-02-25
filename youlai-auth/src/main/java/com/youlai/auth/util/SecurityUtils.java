@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Spring Security 工具类
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2.1.0
  */
 public class SecurityUtils {

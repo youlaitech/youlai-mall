@@ -22,7 +22,7 @@ import org.springframework.http.HttpHeaders;
  * <p>
  * 基于 OpenAPI 3.0 规范 + SpringDoc 实现 + knife4j 增强
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @Configuration

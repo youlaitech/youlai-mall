@@ -14,7 +14,7 @@ import org.mapstruct.Mappings;
 /**
  * 订单对象转化器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2.0.0
  */
 @Mapper(componentModel = "spring")

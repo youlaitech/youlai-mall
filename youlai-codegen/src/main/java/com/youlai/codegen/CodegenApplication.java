@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * 代码生成器启动类
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 4.0.0
  */
 @SpringBootApplication

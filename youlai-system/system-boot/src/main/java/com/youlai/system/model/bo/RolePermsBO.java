@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * 角色权限业务对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2023/11/29
  */
 @Data

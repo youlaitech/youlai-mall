@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * 短信验证码认证授权提供者
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 @Slf4j
@@ -89,7 +89,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         String code = (String) additionalParameters.get(SmsCodeParameterNames.CODE);
 
         if (!code.equals("666666")) { // 666666 是后门，因为短信收费，正式环境删除这个if
-            String codeKey = RedisConstants.LOGIN_SMS_CODE_PREFIX + mobile;
+            String codeKey = RedisConstants.Captcha.MOBILE_CODE + mobile;
             String cacheCode = (String) redisTemplate.opsForValue().get(codeKey);
 
             if (!StrUtil.equals(code, cacheCode)) {

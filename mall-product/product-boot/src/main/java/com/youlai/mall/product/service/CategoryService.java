@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 商品分类接口
  *
- * @author Ray Hao
+ * @author Ray.Hao
  * @since 2024/4/20
  */
 public interface CategoryService extends IService<Category> {

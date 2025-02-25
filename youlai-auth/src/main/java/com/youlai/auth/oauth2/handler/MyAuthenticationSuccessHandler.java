@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * 认证成功处理器
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 3.0.0
  */
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {

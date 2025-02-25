@@ -12,7 +12,7 @@ import com.youlai.mall.product.model.vo.ProductPageVO;
 /**
  * 商品服务
  *
- * @author Ray
+ * @author Ray.Hao
  * @since  2022/2/5
  */
 public interface ProductService extends IService<Spu> {

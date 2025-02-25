@@ -1,5 +1,7 @@
-package com.youlai.common.core.constraint;
+package com.youlai.common.core.annotation.validation;
 
+import com.youlai.common.core.validator.CityValidator;
+import com.youlai.common.enums.AddressFieldEnum;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import java.lang.annotation.Documented;
@@ -19,9 +21,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = CityValidator.class)
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
-public @interface CheckCityValid {
+public @interface ValidCity {
     /* 校验字段类型 */
-    CityType value() default CityType.CITY;
+    AddressFieldEnum value() default AddressFieldEnum.CITY;
 
     String message() default "{city.valid}";
 

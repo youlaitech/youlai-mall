@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * 重命名线程池
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/2/13 0:14
  */
 public class NamedThreadFactory implements ThreadFactory {

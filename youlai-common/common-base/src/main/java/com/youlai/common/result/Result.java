@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 统一响应结构体
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 2022/1/30
  **/
 @Data

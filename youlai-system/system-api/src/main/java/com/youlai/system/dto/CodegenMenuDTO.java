@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 代码生成器菜单传输对象
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 4.0.0
  */
 @Data

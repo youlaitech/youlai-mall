@@ -8,7 +8,7 @@ import lombok.Setter;
 /**
  * 字典分页VO
  *
- * @author Ray
+ * @author Ray.Hao
  * @since 0.0.1
  */
 @Schema(description = "字典分页对象")
