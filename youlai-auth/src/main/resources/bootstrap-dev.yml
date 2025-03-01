@@ -17,3 +17,10 @@ spring:
         shared-configs[0]:
           data-id: youlai-common.yaml
           refresh: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG          # Spring Security基础流程
+    org.springframework.security.oauth2: DEBUG   # OAuth2协议处理
+    org.springframework.security.oauth2.server.authorization: TRACE  # 授权服务器细节
+    org.springframework.web: DEBUG               # HTTP请求/响应日志

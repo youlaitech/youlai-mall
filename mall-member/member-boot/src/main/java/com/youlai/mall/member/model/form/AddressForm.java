@@ -1,6 +1,7 @@
 package com.youlai.mall.member.model.form;
 
 import com.youlai.common.core.annotation.validation.ValidCity;
+import com.youlai.common.enums.AddressFieldEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -28,15 +29,15 @@ public class AddressForm {
     private String recipientMobile;
 
     @Schema(description = "省")
-    @ValidCity(CityType.PROVINCE)
+    @ValidCity(AddressFieldEnum.PROVINCE)
     private String province;
 
     @Schema(description = "市")
-    @ValidCity(CityType.CITY)
+    @ValidCity(AddressFieldEnum.CITY)
     private String city;
 
     @Schema(description = "区")
-    @ValidCity(CityType.DISTRICT)
+    @ValidCity(AddressFieldEnum.DISTRICT)
     private String district;
 
     @Schema(description = "街道地址")

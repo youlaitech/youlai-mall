@@ -52,9 +52,8 @@ services:
     restart: unless-stopped #  指定了容器的重启策略，除了手动停止容器，其他情况都自动重启容器
     environment:
       - STORE_MODE=db
-      - SEATA_IP=seata-server
+      - SEATA_IP=${HOST_IP}
       - SEATA_PORT=8091
-      # 注入 Nacos 相关环境变量
       - NACOS_SERVER_ADDR=nacos-server:8848  # 使用 Docker 服务名替代 IP
       - NACOS_USERNAME=nacos
       - NACOS_PASSWORD=nacos
