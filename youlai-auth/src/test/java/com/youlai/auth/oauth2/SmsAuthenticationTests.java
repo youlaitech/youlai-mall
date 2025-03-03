@@ -27,7 +27,7 @@ public class SmsAuthenticationTests {
     @Test
     void testSmsCodeAuthentication() throws Exception {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("mall-app", "123456");
+        headers.setBasicAuth("mall-client", "123456");
 
         this.mvc.perform(post("/oauth2/token")
                         .param(OAuth2ParameterNames.GRANT_TYPE, "sms_code")

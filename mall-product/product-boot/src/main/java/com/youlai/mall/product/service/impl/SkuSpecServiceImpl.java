@@ -3,10 +3,10 @@ package com.youlai.mall.product.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.mall.product.mapper.SkuSpecValueMapper;
+import com.youlai.mall.product.mapper.SkuSpecMapper;
 import com.youlai.mall.product.model.entity.SkuSpec;
 import com.youlai.mall.product.model.form.SpuForm;
-import com.youlai.mall.product.service.SkuSpecValueService;
+import com.youlai.mall.product.service.SkuSpecService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * @since 2024-04-14
  */
 @Service
-public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, SkuSpec> implements SkuSpecValueService {
+public class SkuSpecServiceImpl extends ServiceImpl<SkuSpecMapper, SkuSpec> implements SkuSpecService {
 
     /**
      * 保存商品规格值

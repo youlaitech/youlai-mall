@@ -1,13 +1,17 @@
 package com.youlai.mall.product.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.entity.Attr;
-import com.youlai.mall.product.model.vo.AttrGroupVO;
+import com.youlai.mall.product.model.form.AttrForm;
+import com.youlai.mall.product.model.query.AttrPageQuery;
+import com.youlai.mall.product.model.vo.AttrVO;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
 /**
- * 属性 服务类
+ * 商品属性服务接口
  *
  * @author Ray.Hao
  * @since 2024-04-19
@@ -19,12 +23,45 @@ public interface AttrService extends IService<Attr> {
      *
      * @param categoryId 分类ID
      */
-    List<AttrGroupVO> listAttrsByCategoryId(Long categoryId);
+    List<AttrVO> listAttrsByCategoryId(Long categoryId);
 
     /**
-     * 根据分组ID删除属性
+     * 分页查询属性列表
      *
-     * @param groupId 分组ID
+     * @param queryParams 查询参数
+     * @return 属性分页列表
      */
-    void removeByGroupId(Long groupId);
+    IPage<AttrVO> getAttrPage(AttrPageQuery queryParams);
+
+    /**
+     * 保存属性
+     *
+     * @param formData 属性表单
+     * @return 是否成功
+     */
+    boolean saveAttr(@Valid AttrForm formData);
+
+    /**
+     * 获取属性表单
+     *
+     * @param id 属性ID
+     * @return 属性表单
+     */
+    AttrForm getAttrForm(Long id);
+
+    /**
+     * 更新属性
+     *
+     * @param id       属性ID
+     * @param formData 属性表单
+     * @return
+     */
+    boolean updateAttr(Long id, AttrForm formData);
+
+    /**
+     * 删除属性
+     *
+     * @param ids 属性ID
+     */
+    void deleteAttrs(String ids);
 }

@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.mall.product.mapper.SpuMapper">
 
     <!-- Admin-商品分页列表 -->
-    <select id="listPagedSpu" resultType="com.youlai.mall.product.model.vo.SpuPageVO">
+    <select id="getSpuPage" resultType="com.youlai.mall.product.model.vo.SpuPageVO">
         SELECT
             t1.id,
             t1.name,
@@ -32,7 +32,7 @@
     </select>
 
     <!-- APP-商品分页列表 -->
-    <select id="listPagedProducts" resultType="com.youlai.mall.product.model.vo.ProductPageVO">
+    <select id="getProductPage" resultType="com.youlai.mall.product.model.vo.ProductPageVO">
         SELECT
             t1.id,
             t1.`name`,

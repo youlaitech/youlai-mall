@@ -60,7 +60,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         // 客户端发送消息的请求前缀
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.setApplicationDestinationPrefixes("/client");
 
         // 客户端订阅消息的请求前缀，topic一般用于广播推送，queue用于点对点推送
         registry.enableSimpleBroker("/topic", "/queue");

@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/app-api/v1/adverts")
 @Slf4j
 @AllArgsConstructor
-public class AdvertAppController {
+public class AppAdvertController {
 
     private AdvertService advertService;
 

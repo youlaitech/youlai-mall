@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class OrderAppControllerTest {
+public class AppOrderControllerTest {
 
 
     @Autowired
@@ -208,7 +208,7 @@ public class OrderAppControllerTest {
      * @return
      */
     private String acquireTokenByLogin(String mobile, String code) {
-        String clientId = "mall-app";
+        String clientId = "mall-client";
         String clientSecret = "123456";
         String tokenUrl = "http://localhost:9000/oauth2/token";
 

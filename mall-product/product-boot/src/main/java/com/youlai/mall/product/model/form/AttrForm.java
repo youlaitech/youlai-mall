@@ -1,6 +1,5 @@
 package com.youlai.mall.product.model.form;
 
-import com.youlai.mall.product.enums.AttributeInputTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;

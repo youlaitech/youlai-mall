@@ -39,7 +39,7 @@ public class AdvertServiceImpl extends ServiceImpl<AdvertMapper, Advert> impleme
         Page<Advert> page = this.baseMapper.getAdvertPage(new Page<>(queryParams.getPageNum(),
                         queryParams.getPageSize()),
                 queryParams);
-        return advertConverter.toPageVoVo(page);
+        return advertConverter.toPageVo(page);
     }
 
     /**

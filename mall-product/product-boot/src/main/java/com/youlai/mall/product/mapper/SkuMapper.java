@@ -2,7 +2,6 @@ package com.youlai.mall.product.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
-import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.product.model.entity.Sku;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;

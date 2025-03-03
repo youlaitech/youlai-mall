@@ -3,6 +3,7 @@ package com.youlai.mall.product.model.query;
 import com.youlai.common.base.BasePageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -12,8 +13,9 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @since 2024-04-19
  */
 @Schema(description ="属性分页查询对象")
+@EqualsAndHashCode(callSuper = false)
 @Data
-public class AttrGroupPageQuery extends BasePageQuery {
+public class AttrPageQuery extends BasePageQuery {
 
     @Schema(description="关键字(属性名称/属性组名称/分类名称)")
     private String keywords;

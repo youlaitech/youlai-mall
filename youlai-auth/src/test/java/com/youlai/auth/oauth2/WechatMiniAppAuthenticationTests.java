@@ -26,7 +26,7 @@ public class WechatMiniAppAuthenticationTests {
     @Test
     void testWechatMiniAppPasswordAuthentication() throws Exception {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("mall-app", "123456");
+        headers.setBasicAuth("mall-client", "123456");
 
         // @formatter:off
         this.mvc.perform(post("/oauth2/token")

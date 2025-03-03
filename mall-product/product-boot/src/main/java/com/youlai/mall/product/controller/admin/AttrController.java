@@ -5,9 +5,9 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.form.AttrForm;
-import com.youlai.mall.product.model.query.AttrGroupPageQuery;
-import com.youlai.mall.product.model.vo.AttrGroupPageVO;
-import com.youlai.mall.product.service.AttrGroupService;
+import com.youlai.mall.product.model.query.AttrPageQuery;
+import com.youlai.mall.product.model.vo.AttrVO;
+import com.youlai.mall.product.service.AttrService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,65 +17,65 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 属性前端控制器
+ * 商品属性控制器
  *
  * @author Ray.Hao
  * @since 2024/4/19
  */
-@Tag(name = "【Admin】属性接口")
+@Tag(name = "【Admin】商品属性接口")
 @RestController
-@RequestMapping("/api/v1/attributes")
+@RequestMapping("/api/v1/attrs")
 @RequiredArgsConstructor
 public class AttrController {
 
-    private final AttrGroupService attrGroupService;
+    private final AttrService attrService;
 
     @ApiOperationSupport(order = 1)
     @Operation(summary = "属性分页列表")
     @GetMapping("/page")
-    public PageResult<AttrGroupPageVO> listPagedAttrGroups(
-            AttrGroupPageQuery queryParams
+    public PageResult<AttrVO> getAttrPage(
+            AttrPageQuery queryParams
     ) {
-        IPage<AttrGroupPageVO> page = attrGroupService.listPagedAttrGroups(queryParams);
+        IPage<AttrVO> page = attrService.getAttrPage(queryParams);
         return PageResult.success(page);
     }
 
     @ApiOperationSupport(order = 2)
     @Operation(summary = "保存属性")
     @PostMapping
-    public Result saveAttrGroup(@RequestBody @Valid AttrForm formData) {
-        boolean result = attrGroupService.saveAttrGroup(formData);
+    public Result saveAttr(@RequestBody @Valid AttrForm formData) {
+        boolean result = attrService.saveAttr(formData);
         return Result.judge(result);
     }
 
     @ApiOperationSupport(order = 3)
     @Operation(summary = "获取属性表单")
     @GetMapping("/{id}/form")
-    public Result<AttrGroupForm> getAttrGroupForm(
+    public Result<AttrForm> getAttrForm(
             @Parameter(description = "属性组ID") @PathVariable Long id
     ) {
-        AttrGroupForm formData = attrGroupService.getAttrGroupForm(id);
+        AttrForm formData = attrService.getAttrForm(id);
         return Result.success(formData);
     }
 
     @ApiOperationSupport(order = 4)
     @Operation(summary = "修改属性")
     @PutMapping(value = "/{id}")
-    public Result updateAttrGroup(
+    public Result updateAttr(
             @Parameter(description = "属性组ID") @PathVariable Long id,
-            @RequestBody @Validated AttrGroupForm formData
+            @RequestBody @Validated AttrForm formData
     ) {
-        boolean result = attrGroupService.updateAttrGroup(id, formData);
+        boolean result = attrService.updateAttr(id, formData);
         return Result.judge(result);
     }
 
     @ApiOperationSupport(order = 5)
     @Operation(summary = "删除属性")
     @DeleteMapping("/{ids}")
-    public Result deleteAttrGroups(
+    public Result deleteAttrs(
             @Parameter(description = "属性组ID，多个以英文逗号(,)分割") @PathVariable String ids
     ) {
-        attrGroupService.deleteAttrGroups(ids);
+        attrService.deleteAttrs(ids);
         return Result.success();
     }
 

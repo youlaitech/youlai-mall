@@ -11,6 +11,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ *  商品SPU持久化接口
+ */
 @Mapper
 public interface SpuMapper extends BaseMapper<Spu> {
 
@@ -21,7 +24,7 @@ public interface SpuMapper extends BaseMapper<Spu> {
      * @param queryParams 查询参数
      * @return 商品分页列表
      */
-    List<SpuPageVO> listPagedSpu(Page<SpuPageVO> page, SpuPageQuery queryParams);
+    List<SpuPageVO> getSpuPage(Page<SpuPageVO> page, SpuPageQuery queryParams);
 
     /**
      * APP-商品分页列表
@@ -30,7 +33,7 @@ public interface SpuMapper extends BaseMapper<Spu> {
      * @param queryParams 查询参数
      * @return 商品分页列表
      */
-    List<ProductPageVO> listPagedProducts(Page<ProductPageVO> page, ProductPageQuery queryParams);
+    List<ProductPageVO> getProductPage(Page<ProductPageVO> page, ProductPageQuery queryParams);
 
 
 }

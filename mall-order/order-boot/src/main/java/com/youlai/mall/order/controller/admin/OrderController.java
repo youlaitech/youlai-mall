@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Admin-订单控制层
+ * 订单控制层
  *
  * @author huawei
  * @since 2.3.0
  */
-@Tag(name  = "【Admin】订单管理")
+@Tag(name = "【Admin】订单接口")
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderItemService orderItemService;
 
-    @Operation(summary ="订单分页列表")
+    @Operation(summary = "订单分页列表")
     @GetMapping("/page")
     public PageResult<OrderPageAdminVO> getAdminOrderPage(OrderPageQuery queryParams) {
         IPage<OrderPageAdminVO> page = orderService.getAdminOrderPage(queryParams);
@@ -55,7 +55,7 @@ public class OrderController {
     @Operation(summary = "订单详情")
     @GetMapping("/{orderId}")
     public Result<OrderDTO> getOrderDetail(
-            @Parameter(description ="订单ID") @PathVariable Long orderId
+            @Parameter(description = "订单ID") @PathVariable Long orderId
     ) {
         OrderDTO orderDTO = new OrderDTO();
         // 订单

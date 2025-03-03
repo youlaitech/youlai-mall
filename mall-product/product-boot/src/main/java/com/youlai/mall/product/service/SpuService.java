@@ -19,10 +19,10 @@ public interface SpuService extends IService<Spu> {
     /**
      * Admin-商品分页列表
      *
-     * @param queryParams
+     * @param queryParams 查询参数
      * @return
      */
-    IPage<SpuPageVO> listPagedSpu(SpuPageQuery queryParams);
+    IPage<SpuPageVO> getSpuPage(SpuPageQuery queryParams);
 
 
 

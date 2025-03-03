@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 /**
- * 规格前端控制器
+ * 商品规格控制器
  *
  * @author Ray.Hao
  * @since 2024-06-13
@@ -33,8 +33,8 @@ public class SpecController {
 
     @Operation(summary = "规格分页列表")
     @GetMapping("/page")
-    public PageResult<SpecPageVO> listPagedSpecs(SpecPageQuery queryParams) {
-        IPage<SpecPageVO> result = specService.listPagedSpecs(queryParams);
+    public PageResult<SpecPageVO> getSpecPage(SpecPageQuery queryParams) {
+        IPage<SpecPageVO> result = specService.getSpecPage(queryParams);
         return PageResult.success(result);
     }
 

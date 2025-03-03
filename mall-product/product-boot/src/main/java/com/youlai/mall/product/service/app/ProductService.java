@@ -23,7 +23,7 @@ public interface ProductService extends IService<Spu> {
      * @param queryParams 查询参数
      * @return 商品分页列表 IPage<ProductPageVO>
      */
-    IPage<ProductPageVO> listPagedProducts(ProductPageQuery queryParams);
+    IPage<ProductPageVO> getProductPage(ProductPageQuery queryParams);
 
     /**
      * 获取商品详情

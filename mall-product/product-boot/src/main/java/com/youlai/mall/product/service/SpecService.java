@@ -24,7 +24,7 @@ public interface SpecService extends IService<Spec> {
      *
      * @return
      */
-    IPage<SpecPageVO> listPagedSpecs(SpecPageQuery queryParams);
+    IPage<SpecPageVO> getSpecPage(SpecPageQuery queryParams);
 
 
     /**

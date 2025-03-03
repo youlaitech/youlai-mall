@@ -355,10 +355,10 @@ INSERT INTO `pms_sku` VALUES (3, '白色 12+512G', '20240520003', 1, 799900, 100
 INSERT INTO `pms_sku` VALUES (4, '黑色 12+512G', '20240520004', 1, 799900, 100, 0, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', 1, '2021-08-08 00:43:26', '2024-05-08 10:51:34', 0);
 
 -- ----------------------------
--- Table structure for pms_sku_spec_value
+-- Table structure for pms_sku_spec
 -- ----------------------------
-DROP TABLE IF EXISTS `pms_sku_spec_value`;
-CREATE TABLE `pms_sku_spec_value`  (
+DROP TABLE IF EXISTS `pms_sku_spec`;
+CREATE TABLE `pms_sku_spec`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '销售属性ID',
   `sku_id` bigint COMMENT 'SKU ID',
   `spec_id` bigint COMMENT '规格 ID',
@@ -368,16 +368,16 @@ CREATE TABLE `pms_sku_spec_value`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4;
 
 -- ----------------------------
--- Records of pms_sku_spec_value
+-- Records of pms_sku_spec
 -- ----------------------------
-INSERT INTO `pms_sku_spec_value` VALUES (1, 1, 7, '白色');
-INSERT INTO `pms_sku_spec_value` VALUES (2, 1, 8, '8+256G');
-INSERT INTO `pms_sku_spec_value` VALUES (3, 2, 7, '黑色');
-INSERT INTO `pms_sku_spec_value` VALUES (4, 2, 8, '8+256G');
-INSERT INTO `pms_sku_spec_value` VALUES (5, 3, 7, '白色');
-INSERT INTO `pms_sku_spec_value` VALUES (6, 3, 8, '12+512G');
-INSERT INTO `pms_sku_spec_value` VALUES (7, 4, 7, '黑色');
-INSERT INTO `pms_sku_spec_value` VALUES (8, 4, 8, '12+512G');
+INSERT INTO `pms_sku_spec` VALUES (1, 1, 7, '白色');
+INSERT INTO `pms_sku_spec` VALUES (2, 1, 8, '8+256G');
+INSERT INTO `pms_sku_spec` VALUES (3, 2, 7, '黑色');
+INSERT INTO `pms_sku_spec` VALUES (4, 2, 8, '8+256G');
+INSERT INTO `pms_sku_spec` VALUES (5, 3, 7, '白色');
+INSERT INTO `pms_sku_spec` VALUES (6, 3, 8, '12+512G');
+INSERT INTO `pms_sku_spec` VALUES (7, 4, 7, '黑色');
+INSERT INTO `pms_sku_spec` VALUES (8, 4, 8, '12+512G');
 
 -- ----------------------------
 -- Table structure for pms_spec

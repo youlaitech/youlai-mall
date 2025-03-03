@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
  * SPU属性值 Mapper
  */
 @Mapper
-public interface SpuAttrValueMapper extends BaseMapper<SpuAttr> {
+public interface SpuAttrMapper extends BaseMapper<SpuAttr> {
 
 }

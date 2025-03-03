@@ -29,10 +29,10 @@ public interface CouponConverter {
             ),
             @Mapping(target = "minPointLabel", expression = "java(cn.hutool.core.util.NumberUtil.toStr(cn.hutool.core.util.NumberUtil.div(entity.getMinPoint(),new java.math.BigDecimal(100)).setScale(2)))"),
     })
-    CouponPageVO toPageVoVO(Coupon entity);
+    CouponPageVO toPageVo(Coupon entity);
 
 
-    List<CouponPageVO> toPageVoVO(List<Coupon> entities);
+    List<CouponPageVO> toPageVo(List<Coupon> entities);
 
 
     @Mappings({

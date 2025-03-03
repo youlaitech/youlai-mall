@@ -6,6 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 品牌持久层接口
+ *
+ * @author Ray.Hao
+ * @since 1.0.0
+ */
 @Mapper
 public interface BrandMapper extends BaseMapper<Brand> {
 

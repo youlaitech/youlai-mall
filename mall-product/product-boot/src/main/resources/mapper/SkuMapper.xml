@@ -47,7 +47,7 @@
     <resultMap id="SkuAndAttributeValueMap" type="com.youlai.mall.product.model.bo.SkuBO">
         <collection property="specValues" ofType="com.youlai.mall.product.model.bo.SkuSpecBO"
                     column="{skuId=id}"
-                    select="com.youlai.mall.product.mapper.SkuSpecValueMapper.listSpecValuesBySkuId">
+                    select="com.youlai.mall.product.mapper.SkuSpecMapper.listSpecBySkuId">
         </collection>
     </resultMap>
 

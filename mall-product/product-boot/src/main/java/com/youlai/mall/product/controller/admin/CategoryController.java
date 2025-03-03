@@ -3,7 +3,7 @@ package com.youlai.mall.product.controller.admin;
 import com.youlai.common.result.Result;
 import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.model.form.CategoryForm;
-import com.youlai.mall.product.model.vo.AttrGroupVO;
+import com.youlai.mall.product.model.vo.AttrVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
 import com.youlai.mall.product.model.vo.SpecVO;
 import com.youlai.mall.product.service.AttrService;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 【Admin】商品分类控制层
+ * 商品分类控制层
  *
  * @author Ray.Hao
  * @since 2024/4/20
@@ -77,10 +77,10 @@ public class CategoryController {
 
     @Operation(summary = "获取属性列表")
     @GetMapping("/{categoryId}/attributes")
-    public Result<List<AttrGroupVO>> listAttrsByCategoryId(
+    public Result<List<AttrVO>> listAttrsByCategoryId(
             @Parameter(description = "分类ID", example = "3") @PathVariable Long categoryId
     ) {
-        List<AttrGroupVO> list = attrService.listAttrsByCategoryId(categoryId);
+        List<AttrVO> list = attrService.listAttrsByCategoryId(categoryId);
         return Result.success(list);
     }
 

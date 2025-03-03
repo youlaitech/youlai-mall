@@ -38,9 +38,9 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
      * @return 商品分页列表 IPage<SpuPageVO>
      */
     @Override
-    public IPage<ProductPageVO> listPagedProducts(ProductPageQuery queryParams) {
+    public IPage<ProductPageVO> getProductPage(ProductPageQuery queryParams) {
         Page<ProductPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<ProductPageVO> list = this.baseMapper.listPagedProducts(page, queryParams);
+        List<ProductPageVO> list = this.baseMapper.getProductPage(page, queryParams);
         page.setRecords(list);
         return page;
     }

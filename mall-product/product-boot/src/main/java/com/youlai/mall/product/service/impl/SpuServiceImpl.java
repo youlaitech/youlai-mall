@@ -34,7 +34,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     private final SkuService skuService;
     private final SpuImageService spuImageService;
     private final SpuDetailService spuDetailService;
-    private final SpuAttrValueService spuAttrValueService;
+    private final SpuAttrService spuAttrService;
 
     /**
      * Admin-商品分页列表
@@ -43,9 +43,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
      * @return 商品分页列表 IPage<PmsSpuPageVO>
      */
     @Override
-    public IPage<SpuPageVO> listPagedSpu(SpuPageQuery queryParams) {
+    public IPage<SpuPageVO> getSpuPage(SpuPageQuery queryParams) {
         Page<SpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        List<SpuPageVO> list = this.baseMapper.listPagedSpu(page, queryParams);
+        List<SpuPageVO> list = this.baseMapper.getSpuPage(page, queryParams);
         page.setRecords(list);
         return page;
     }
@@ -70,7 +70,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             spuImageService.saveSpuImages(spuId, imgList);
             // 保存商品属性
             List<SpuForm.AttrValue> attrValues = formData.getAttrValues();
-            spuAttrValueService.saveAttributeValues(spuId, attrValues);
+            spuAttrService.saveAttributeValues(spuId, attrValues);
             // 保存 SKU
             List<SpuForm.Sku> skuList = formData.getSkuList();
             skuService.saveSkus(spuId, skuList);
@@ -112,7 +112,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         }
 
         // 商品属性
-        List<SpuForm.AttrValue> attrValues = spuAttrValueService.list(new LambdaQueryWrapper<SpuAttr>()
+        List<SpuForm.AttrValue> attrValues = spuAttrService.list(new LambdaQueryWrapper<SpuAttr>()
                         .eq(SpuAttr::getSpuId, spuId)
                         .select(SpuAttr::getAttrId, SpuAttr::getAttrValue)
                 )
@@ -157,9 +157,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         for (String spuId : spuIds) {
             skuService.remove(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
             // 规格
-            spuAttrValueService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
+            spuAttrService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
             // 参数
-            spuAttrValueService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
+            spuAttrService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
             // SPU
             this.removeById(spuId);
         }

@@ -10,9 +10,11 @@ import java.util.List;
 public interface AttrConverter {
 
     AttrForm toForm(Attr entity);
-    List<AttrGroupForm.Attr> toForm(List<Attr> entity);
 
-    Attr convertToEntity(AttrGroupForm.Attr attr);
-    List<Attr> convertToEntity(List<AttrGroupForm.Attr> attrs);
+    List<Attr> toForm(List<Attr> entity);
+
+    Attr toEntity(AttrForm attr);
+
+    List<Attr> toEntity(List<AttrForm> attrs);
 
 }

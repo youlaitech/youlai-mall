@@ -2,17 +2,14 @@ package com.youlai.mall.product.model.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.youlai.mall.product.enums.AttributeInputTypeEnum;
+import com.youlai.mall.product.enums.AttrInputTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 /**
  * 规格BO
@@ -38,7 +35,7 @@ public class SpecBO implements Serializable {
     /**
      * 输入方式：1->手动输入，2->列表选择
      */
-    private AttributeInputTypeEnum inputType;
+    private AttrInputTypeEnum inputType;
 
     /**
      * 可选值（以逗号分隔，仅当输入方式为2时使用）

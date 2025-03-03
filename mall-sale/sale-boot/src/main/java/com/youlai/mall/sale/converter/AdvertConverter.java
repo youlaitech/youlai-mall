@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 /**
- * advert实体转换器
+ * 广告实体转换器
  *
  * @author Ray.Hao
  * @since 2022/5/29
@@ -18,9 +18,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AdvertConverter {
 
-    AdvertPageVO toPageVoVo(Advert entity);
+    AdvertPageVO toPageVo(Advert entity);
 
-    Page<AdvertPageVO> toPageVoVo(Page<Advert> po);
+    Page<AdvertPageVO> toPageVo(Page<Advert> po);
 
     BannerVO entity2BannerVo(Advert entity);
     

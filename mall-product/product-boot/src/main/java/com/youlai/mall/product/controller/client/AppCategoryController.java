@@ -1,4 +1,4 @@
-package com.youlai.mall.product.controller.app;
+package com.youlai.mall.product.controller.client;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.vo.CategoryAppVO;
@@ -18,11 +18,11 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2022/2/5
  */
-@Tag(name = "【App】商品分类")
+@Tag(name = "【App】商品分类接口")
 @RestController
-@RequestMapping("/app-api/v1/categories")
+@RequestMapping("/api/v1/client/app/categories")
 @RequiredArgsConstructor
-public class CategoryAppController {
+public class AppCategoryController {
 
     private final CategoryService categoryService;
 

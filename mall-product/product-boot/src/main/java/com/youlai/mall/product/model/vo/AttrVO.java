@@ -24,13 +24,16 @@ public class AttrVO implements Serializable {
     @Schema(description = "属性主键")
     private Long id;
 
+    @Schema(description = "属性组名称")
+    private String groupName;
+
     @Schema(description = "属性名称")
     private String name;
 
-    @Schema(description = "属性输入类型：1->手动输入；2->列表选择")
+    @Schema(description = "输入类型(1:文本 2:单选 3:多选)")
     private Integer inputType;
 
-    @Schema(description = "可选列表(仅当input_type是2使用)",example = "1920*1080,2560*1440,3840*2160")
+    @Schema(description = "可选项(逗号分隔)",example = "1920*1080,2560*1440,3840*2160")
     private String options;
 
     @Schema(description = "排序")

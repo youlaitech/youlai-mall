@@ -12,7 +12,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2024/04/24
  */
-public interface SpuAttrValueService extends IService<SpuAttr> {
+public interface SpuAttrService extends IService<SpuAttr> {
 
     /**
      * 保存商品属性

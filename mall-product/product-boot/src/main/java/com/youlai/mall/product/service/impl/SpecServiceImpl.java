@@ -43,7 +43,7 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
      * @return {@link IPage<SpecPageVO>} 分页列表
      */
     @Override
-    public IPage<SpecPageVO> listPagedSpecs(SpecPageQuery queryParams) {
+    public IPage<SpecPageVO> getSpecPage(SpecPageQuery queryParams) {
 
         // 参数构建
         int pageNum = queryParams.getPageNum();
@@ -52,7 +52,7 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
 
         // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
         DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
-        Page<SpecBO> boPage = this.baseMapper.listPagedSpecs(page, queryParams);
+        Page<SpecBO> boPage = this.baseMapper.getSpecPage(page, queryParams);
         return specConverter.toPageVo(boPage);
     }
 

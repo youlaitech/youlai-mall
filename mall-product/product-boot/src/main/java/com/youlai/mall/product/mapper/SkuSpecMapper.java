@@ -7,14 +7,14 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * SKU 属性值 Mapper 接口
+ * SKU 规格持久层接口
  *
  * @author Ray.Hao
  * @since 2024/04/14
  */
 
 @Mapper
-public interface SkuSpecValueMapper extends BaseMapper<SkuSpec> {
+public interface SkuSpecMapper extends BaseMapper<SkuSpec> {
 
     /**
      * 根据SKU ID获取销售属性值列表
@@ -22,6 +22,6 @@ public interface SkuSpecValueMapper extends BaseMapper<SkuSpec> {
      * @param skuId SKU ID
      * @return 销售属性值列表
      */
-    List<SkuSpec> listSpecValuesBySkuId(Long skuId);
+    List<SkuSpec> listSpecBySkuId(Long skuId);
 
 }

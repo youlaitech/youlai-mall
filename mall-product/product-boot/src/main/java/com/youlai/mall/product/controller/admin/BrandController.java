@@ -7,7 +7,6 @@ import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.model.entity.Brand;
 import com.youlai.mall.product.model.query.BrandPageQuery;
 import com.youlai.mall.product.model.vo.BrandPageVO;
-import com.youlai.mall.product.service.BrandCategoryService;
 import com.youlai.mall.product.service.BrandService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 【Admin】品牌控制器
+ * 商品品牌控制器
  *
  * @author Ray.Hao
  * @since 2024/5/7
@@ -31,8 +30,6 @@ import java.util.List;
 public class BrandController {
 
     private final BrandService brandService;
-
-    private final BrandCategoryService brandCategoryService;
 
     @Operation(summary = "品牌分页列表")
     @GetMapping("/page")
@@ -81,24 +78,6 @@ public class BrandController {
     ) {
         boolean status = brandService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.judge(status);
-    }
-
-    @Operation(summary = "获取品牌关联的分类列表")
-    @GetMapping("/{brandId}/categories")
-    public Result<List<Option>> getCategoryOptions(
-           @Parameter(description = "品牌ID") @PathVariable Long brandId
-    ) {
-        List<Option> categories = brandCategoryService.getCategoryOptions(brandId);
-        return Result.success(categories);
-    }
-
-    @Operation(summary = "修改品牌分类关联")
-    @PutMapping("/{brandId}/categories")
-    public Result saveBrandCategories(
-            @Parameter(description = "品牌ID") @PathVariable Long brandId,
-            @RequestBody List<Long> categoryIds) {
-        brandCategoryService.saveBrandCategories(brandId, categoryIds);
-        return Result.success();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.youlai.mall.product.controller.app;
+package com.youlai.mall.product.controller.client;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 商品库存
+ * 商品库存控制层
  *
  * @author Ray.Hao
  * @since 2.0.0
  */
 @Tag(name  = "【App】商品库存接口")
 @RestController
-@RequestMapping("/app-api/v1/stocks")
+@RequestMapping("/api/v1/client/app/sku")
 @RequiredArgsConstructor
-public class StockController {
+public class AppSkuController {
 
     private final SkuService skuService;
 

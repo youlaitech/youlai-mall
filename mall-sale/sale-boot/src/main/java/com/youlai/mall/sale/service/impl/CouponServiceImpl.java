@@ -55,7 +55,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
         // 查询数据
         List<Coupon> couponList = this.baseMapper.getCouponPage(page, queryParams);
         // 实体转换
-        List<CouponPageVO> records = couponConverter.toPageVoVO(couponList);
+        List<CouponPageVO> records = couponConverter.toPageVo(couponList);
         page.setRecords(records);
         return page;
     }

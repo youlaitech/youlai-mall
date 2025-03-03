@@ -350,7 +350,7 @@ public class AuthorizationServerConfig {
      */
     private void initMallAppClient(JdbcRegisteredClientRepository registeredClientRepository) {
 
-        String clientId = "mall-app";
+        String clientId = "mall-client";
         String clientSecret = "123456";
         String clientName = "商城APP客户端";
 

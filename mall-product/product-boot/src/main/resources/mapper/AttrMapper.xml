@@ -2,45 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.AttrMapper">
 
-    <!-- 根据分组ID获取属性列表 -->
-    <select id="listAttrsByGroupId" resultType="com.youlai.mall.product.model.vo.AttrGroupPageVO$Attr">
-        SELECT
-            id,
-            `name`,
-            case input_type when 1 then '手工录入' when 2 then '列表选择' end as inputTypeLabel,
-            options,
-            sort,
-            create_time
-        FROM
-            `pms_attr`
-        <where>
-            is_deleted = 0
-            AND attr_group_id = #{groupId}
-        </where>
-        ORDER BY
-            sort ASC
-    </select>
-
-    <!-- 属性组映射 -->
-    <resultMap id="AttributeGroupMap" type="com.youlai.mall.product.model.vo.AttrGroupVO">
-        <result column="attr_group_id" property="groupId"/>
-        <result column="attribute_group_name" property="groupName"/>
-        <collection property="attrs"
-                    ofType="com.youlai.mall.product.model.vo.AttrVO"
-                    javaType="java.util.List"
-        >
-            <result column="id" property="id"/>
-            <result column="name" property="name"/>
-            <result column="input_type" property="inputType"/>
-            <result column="options"
-                    property="options"
-                    typeHandler="com.youlai.common.mybatis.handler.typehandler.CommaStringListHandler"
-            />
-        </collection>
-    </resultMap>
-
     <!-- 根据分类ID获取属性组&列表 -->
-    <select id="listAttrsByCategoryId" resultMap="AttributeGroupMap">
+    <select id="listAttrsByCategoryId" resultType="com.youlai.mall.product.model.vo.AttrVO">
         SELECT
             t1.id,
             t1.`name`,
@@ -56,6 +19,5 @@
             t2.sort,
             t1.sort
     </select>
-
 
 </mapper>

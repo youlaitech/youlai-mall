@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Admin-商品控制层
+ * 商品控制层
  *
  * @author Ray.Hao
  * @since 2021/1/4
@@ -30,15 +30,15 @@ public class SpuController {
 
     @Operation(summary = "商品分页列表")
     @GetMapping("/page")
-    public PageResult<SpuPageVO> listPagedSpu(SpuPageQuery queryParams) {
-        IPage<SpuPageVO> result = spuService.listPagedSpu(queryParams);
+    public PageResult<SpuPageVO> getSpuPage(SpuPageQuery queryParams) {
+        IPage<SpuPageVO> result = spuService.getSpuPage(queryParams);
         return PageResult.success(result);
     }
 
     @Operation(summary = "获取商品表单数据")
     @GetMapping("/{spuId}/form")
     public Result<SpuForm> getSpuForm(
-            @Parameter(description = "SPU ID",example = "290") @PathVariable Long spuId
+            @Parameter(description = "SPU ID", example = "290") @PathVariable Long spuId
     ) {
         SpuForm spuForm = spuService.getSpuForm(spuId);
         return Result.success(spuForm);

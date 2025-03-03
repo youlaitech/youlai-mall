@@ -12,7 +12,7 @@
             WHERE
                 id = #{categoryId}
             UNION ALL
-  ·          SELECT
+           SELECT
                 c.id
             FROM
                 pms_category c

@@ -9,12 +9,12 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * SKU 规格值实体
+ * SKU 规格值实体类
  *
  * @author Ray.Hao
  * @since 2024/4/14
  */
-@TableName("pms_sku_spec_value")
+@TableName("pms_sku_spec")
 @Data
 public class SkuSpecBO implements Serializable {
 

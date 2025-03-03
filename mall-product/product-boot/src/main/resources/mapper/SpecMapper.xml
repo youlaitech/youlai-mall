@@ -3,7 +3,7 @@
 <mapper namespace="com.youlai.mall.product.mapper.SpecMapper">
 
     <!-- 规格分页列表 -->
-    <select id="listPagedSpecs" resultType="com.youlai.mall.product.model.bo.SpecBO">
+    <select id="getSpecPage" resultType="com.youlai.mall.product.model.bo.SpecBO">
         SELECT
             id,
             `name`,
