@@ -3,13 +3,15 @@ package com.youlai.mall.product.model.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 商品详情
  */
 @TableName(value ="pms_spu_detail")
-@Data
+@Getter
+@Setter
 public class SpuDetail extends BaseEntity {
 
     /**
@@ -24,7 +26,7 @@ public class SpuDetail extends BaseEntity {
 
 
     /**
-     * 逻辑删除标识(0-未删除 1-已删除)
+     * 逻辑删除标识(0:未删除 1:已删除)
      */
     private Integer isDeleted;
 }

@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
  * @since 2022/6/11
  */
 @Mapper(componentModel = "spring")
-public interface SpuAttrValueConverter {
+public interface SpuAttrConverter {
 
 
 }

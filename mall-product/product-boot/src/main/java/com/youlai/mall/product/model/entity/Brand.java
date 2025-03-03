@@ -2,7 +2,8 @@ package com.youlai.mall.product.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 品牌实体
@@ -11,7 +12,8 @@ import lombok.Data;
  * @since 2024-04-19
  */
 @TableName("pms_brand")
-@Data
+@Getter
+@Setter
 public class Brand extends BaseEntity {
 
     /**

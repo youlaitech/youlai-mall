@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  * @author Ray.Hao
  * @since 2021/7/11
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "广告分页查询对象")
 @Data
 public class AdvertPageQuery extends BasePageQuery {

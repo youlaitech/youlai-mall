@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * @since 2024/5/22
  */
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "商品分页查询对象")
 @Data
 public class ProductPageQuery extends BasePageQuery {

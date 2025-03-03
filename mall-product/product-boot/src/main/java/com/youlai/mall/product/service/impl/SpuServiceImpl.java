@@ -112,9 +112,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         }
 
         // 商品属性
-        List<SpuForm.AttrValue> attrValues = spuAttrValueService.list(new LambdaQueryWrapper<SpuAttrValue>()
-                        .eq(SpuAttrValue::getSpuId, spuId)
-                        .select(SpuAttrValue::getAttrId, SpuAttrValue::getAttrValue)
+        List<SpuForm.AttrValue> attrValues = spuAttrValueService.list(new LambdaQueryWrapper<SpuAttr>()
+                        .eq(SpuAttr::getSpuId, spuId)
+                        .select(SpuAttr::getAttrId, SpuAttr::getAttrValue)
                 )
                 .stream()
                 .map(item -> {
@@ -157,9 +157,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         for (String spuId : spuIds) {
             skuService.remove(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
             // 规格
-            spuAttrValueService.remove(new LambdaQueryWrapper<SpuAttrValue>().eq(SpuAttrValue::getSpuId, spuId));
+            spuAttrValueService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
             // 参数
-            spuAttrValueService.remove(new LambdaQueryWrapper<SpuAttrValue>().eq(SpuAttrValue::getSpuId, spuId));
+            spuAttrValueService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
             // SPU
             this.removeById(spuId);
         }

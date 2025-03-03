@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 品牌前端控制器
+ * 【Admin】品牌控制器
  *
  * @author Ray.Hao
  * @since 2024/5/7

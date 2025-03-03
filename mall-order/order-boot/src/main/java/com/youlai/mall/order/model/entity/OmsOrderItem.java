@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * @author huawei
  * @since 2020-12-30
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class OmsOrderItem extends BaseEntity {
 

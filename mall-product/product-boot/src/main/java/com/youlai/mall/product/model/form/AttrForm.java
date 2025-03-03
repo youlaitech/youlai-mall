@@ -25,8 +25,8 @@ public class AttrForm implements Serializable {
     @Schema(description = "属性ID",example = "1")
     private Long id;
 
-    @Schema(description = "属性组ID",example = "1")
-    private Long attrGroupId;
+    @Schema(description = "属性组名称",example = "1")
+    private String groupName;
 
     @Schema(description = "分类ID",example = "1")
     private Long categoryId;

@@ -1,23 +1,22 @@
-package com.youlai.mall.product.model.entity;
+package com.youlai.mall.product.model.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-import lombok.Data;
-
 /**
- * SKU 属性值实体对象
+ * SKU 规格值实体
  *
  * @author Ray.Hao
  * @since 2024/4/14
  */
 @TableName("pms_sku_spec_value")
 @Data
-public class SkuSpecValue implements Serializable {
+public class SkuSpecBO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -39,7 +38,12 @@ public class SkuSpecValue implements Serializable {
     private Long specId;
 
     /**
-     * 规格值
+     * 规格名称 如：颜色
+     */
+    private String specName;
+
+    /**
+     * 规格值 如：红色
      */
     private String specValue;
 }

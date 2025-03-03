@@ -1,7 +1,7 @@
 package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.product.model.entity.SpuAttrValue;
+import com.youlai.mall.product.model.entity.SpuAttr;
 import com.youlai.mall.product.model.form.SpuForm;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2024/04/24
  */
-public interface SpuAttrValueService extends IService<SpuAttrValue> {
+public interface SpuAttrValueService extends IService<SpuAttr> {
 
     /**
      * 保存商品属性

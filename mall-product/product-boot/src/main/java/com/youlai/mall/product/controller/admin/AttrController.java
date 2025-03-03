@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.product.model.form.AttrGroupForm;
+import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.query.AttrGroupPageQuery;
 import com.youlai.mall.product.model.vo.AttrGroupPageVO;
 import com.youlai.mall.product.service.AttrGroupService;
@@ -43,7 +43,7 @@ public class AttrController {
     @ApiOperationSupport(order = 2)
     @Operation(summary = "保存属性")
     @PostMapping
-    public Result saveAttrGroup(@RequestBody @Valid AttrGroupForm formData) {
+    public Result saveAttrGroup(@RequestBody @Valid AttrForm formData) {
         boolean result = attrGroupService.saveAttrGroup(formData);
         return Result.judge(result);
     }

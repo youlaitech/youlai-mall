@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  * @author Ray.Hao
  * @since 2024-06-13
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Schema(description ="分页查询对象")
 @Data
 public class SpecPageQuery extends BasePageQuery {

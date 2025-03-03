@@ -2,7 +2,6 @@ package com.youlai.mall.product.service;
 
 import com.youlai.mall.product.model.entity.AttrGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.product.model.form.AttrGroupForm;
 import com.youlai.mall.product.model.query.AttrGroupPageQuery;
 import com.youlai.mall.product.model.vo.AttrGroupPageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;

@@ -1,6 +1,6 @@
 package com.youlai.mall.product.service;
 
-import com.youlai.mall.product.model.entity.SkuSpecValue;
+import com.youlai.mall.product.model.entity.SkuSpec;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.form.SpuForm;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2024-04-14
  */
-public interface SkuSpecValueService extends IService<SkuSpecValue> {
+public interface SkuSpecValueService extends IService<SkuSpec> {
 
     /**
      * 保存商品规格值

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
-import com.youlai.mall.product.model.bo.SpecValueBO;
+import com.youlai.mall.product.model.bo.SkuSpecBO;
 import com.youlai.mall.product.model.entity.Spu;
 import com.youlai.mall.product.model.query.ProductPageQuery;
 import com.youlai.mall.product.model.vo.ProductDetailVO;
@@ -127,7 +127,7 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
             productSku.setStock(sku.getStock());
             productSku.setImgUrl(sku.getImgUrl());
             productSku.setSpecValues(sku.getSpecValues().stream()
-                    .map(SpecValueBO::getSpecValue)
+                    .map(SkuSpecBO::getSpecValue)
                     .collect(Collectors.toList()));
             return productSku;
         }).toList();
@@ -149,7 +149,7 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
 
         return skuList.stream()
                 .filter(sku -> new HashSet<>(sku.getSpecValues().stream()
-                        .map(SpecValueBO::getSpecValue)
+                        .map(SkuSpecBO::getSpecValue)
                         .collect(Collectors.toList()))
                         .containsAll(activeAttributeValues))
                 .findFirst()

@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  * @author Ray.Hao
  * @since 2024/6/7
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @TableName("sys_dept")
 @Data
 public class Dept extends BaseEntity {

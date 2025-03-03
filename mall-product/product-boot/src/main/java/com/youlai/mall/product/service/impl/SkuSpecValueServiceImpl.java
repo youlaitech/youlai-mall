@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SkuSpecValueMapper;
-import com.youlai.mall.product.model.entity.SkuSpecValue;
+import com.youlai.mall.product.model.entity.SkuSpec;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SkuSpecValueService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
  * @since 2024-04-14
  */
 @Service
-public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, SkuSpecValue> implements SkuSpecValueService {
+public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, SkuSpec> implements SkuSpecValueService {
 
     /**
      * 保存商品规格值
@@ -32,18 +32,18 @@ public class SkuSpecValueServiceImpl extends ServiceImpl<SkuSpecValueMapper, Sku
     public void specSpecValues(Long skuId, List<SpuForm.SpecValue> specValues) {
 
         // 删除 SKU 的规格值
-        this.remove(new LambdaQueryWrapper<SkuSpecValue>().eq(SkuSpecValue::getSkuId, skuId));
+        this.remove(new LambdaQueryWrapper<SkuSpec>().eq(SkuSpec::getSkuId, skuId));
 
         // 保存 SKU 的规格值
         if (CollectionUtil.isNotEmpty(specValues)) {
-            List<SkuSpecValue> skuSpecValues = specValues.stream().map(specValue -> {
-                SkuSpecValue skuSpecValue = new SkuSpecValue();
-                skuSpecValue.setSkuId(skuId);
-                skuSpecValue.setSpecId(specValue.getSpecId());
-                skuSpecValue.setSpecValue(specValue.getSpecValue());
-                return skuSpecValue;
+            List<SkuSpec> skuSpecs = specValues.stream().map(specValue -> {
+                SkuSpec skuSpec = new SkuSpec();
+                skuSpec.setSkuId(skuId);
+                skuSpec.setSpecId(specValue.getSpecId());
+                skuSpec.setSpecValue(specValue.getSpecValue());
+                return skuSpec;
             }).toList();
-            this.saveBatch(skuSpecValues);
+            this.saveBatch(skuSpecs);
         }
     }
 

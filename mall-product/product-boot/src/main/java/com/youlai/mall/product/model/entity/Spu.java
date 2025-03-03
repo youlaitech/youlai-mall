@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  * @author Ray.Hao
  * @since 2022/7/2
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @TableName("pms_spu")
 @Data
 public class Spu extends BaseEntity {

@@ -11,7 +11,6 @@ import com.youlai.mall.product.converter.AttrGroupConverter;
 import com.youlai.mall.product.mapper.AttrGroupMapper;
 import com.youlai.mall.product.model.entity.Attr;
 import com.youlai.mall.product.model.entity.AttrGroup;
-import com.youlai.mall.product.model.form.AttrGroupForm;
 import com.youlai.mall.product.model.query.AttrGroupPageQuery;
 import com.youlai.mall.product.model.vo.AttrGroupPageVO;
 import com.youlai.mall.product.service.AttrGroupService;

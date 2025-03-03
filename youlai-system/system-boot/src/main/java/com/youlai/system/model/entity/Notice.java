@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @author youlaitech
  * @since 2024-08-27 10:31
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @TableName("sys_notice")
 @Data
 public class Notice extends BaseEntity {

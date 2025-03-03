@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  * @since 2024-7-29 11:38:00
  */
 @Schema(description = "系统配置分页查询")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class ConfigPageQuery extends BasePageQuery {
 

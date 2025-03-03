@@ -14,7 +14,7 @@ import java.util.Date;
  * @author Ray.Hao
  * @since 2.3.0
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Schema(description ="订单分页查询对象")
 @Data
 public class OrderPageQuery extends BasePageQuery {

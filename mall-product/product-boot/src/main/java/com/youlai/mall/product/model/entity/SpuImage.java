@@ -12,9 +12,9 @@ import lombok.Setter;
  * @author Ray.Hao
  * @since 2024-04-14
  */
+@TableName("pms_spu_image")
 @Getter
 @Setter
-@TableName("pms_spu_image")
 public class SpuImage extends BaseEntity {
 
     /**
@@ -33,7 +33,7 @@ public class SpuImage extends BaseEntity {
     private Integer sort;
 
     /**
-     * 逻辑删除标识(0-未删除 1-已删除)
+     * 逻辑删除标识(0:未删除 1:已删除)
      */
     private Integer isDeleted;
 }

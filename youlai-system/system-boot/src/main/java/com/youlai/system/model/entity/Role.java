@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 角色实体
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @TableName("sys_role")
 public class Role extends BaseEntity {

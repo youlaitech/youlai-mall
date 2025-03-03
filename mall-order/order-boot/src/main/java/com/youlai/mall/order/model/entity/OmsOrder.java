@@ -17,7 +17,7 @@ import java.util.List;
  * @author huawei
  * @since 2.0.0
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class OmsOrder extends BaseEntity {
 

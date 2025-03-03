@@ -19,14 +19,9 @@ import lombok.Setter;
 public class Sku extends BaseEntity {
 
     /**
-     * 商品的SKU编号，唯一标识一个SKU。
+     * SKU编号
      */
     private String code;
-
-    /**
-     * 商品SKU的名称。
-     */
-    private String name;
 
     /**
      * 与该SKU相关联的SPU的ID。
@@ -53,9 +48,8 @@ public class Sku extends BaseEntity {
      */
     private String imgUrl;
 
-
     /**
-     * 逻辑删除标识(0-未删除 1-已删除)
+     * 逻辑删除标识(0:未删除 1:已删除)
      */
     private Integer isDeleted;
 }

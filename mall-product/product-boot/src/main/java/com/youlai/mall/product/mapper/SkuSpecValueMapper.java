@@ -1,6 +1,6 @@
 package com.youlai.mall.product.mapper;
 
-import com.youlai.mall.product.model.entity.SkuSpecValue;
+import com.youlai.mall.product.model.entity.SkuSpec;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface SkuSpecValueMapper extends BaseMapper<SkuSpecValue> {
+public interface SkuSpecValueMapper extends BaseMapper<SkuSpec> {
 
     /**
      * 根据SKU ID获取销售属性值列表
@@ -22,6 +22,6 @@ public interface SkuSpecValueMapper extends BaseMapper<SkuSpecValue> {
      * @param skuId SKU ID
      * @return 销售属性值列表
      */
-    List<SkuSpecValue> listSpecValuesBySkuId(Long skuId);
+    List<SkuSpec> listSpecValuesBySkuId(Long skuId);
 
 }

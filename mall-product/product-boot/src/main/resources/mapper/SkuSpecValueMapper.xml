@@ -5,7 +5,7 @@
 <mapper namespace="com.youlai.mall.product.mapper.SkuSpecValueMapper">
 
     <!-- 根据 SKU 的 ID 获取销售属性列表  -->
-    <select id="listSpecValuesBySkuId" resultType="com.youlai.mall.product.model.bo.SpecValueBO">
+    <select id="listSpecValuesBySkuId" resultType="com.youlai.mall.product.model.bo.SkuSpecBO">
         SELECT
             t1.id,
             t1.spec_id,

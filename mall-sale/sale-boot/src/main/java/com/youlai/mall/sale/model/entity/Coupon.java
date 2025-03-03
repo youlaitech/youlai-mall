@@ -17,7 +17,7 @@ import java.util.Date;
  * @author Ray.Hao
  * @since 2024/6/7
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @TableName("sms_coupon")
 @Data
 public class Coupon extends BaseEntity {

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SpuAttrValueMapper;
-import com.youlai.mall.product.model.entity.SpuAttrValue;
+import com.youlai.mall.product.model.entity.SpuAttr;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SpuAttrValueService;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @since 2024/04/24
  */
 @Service
-public class SpuAttrValueServiceImpl extends ServiceImpl<SpuAttrValueMapper, SpuAttrValue> implements SpuAttrValueService {
+public class SpuAttrValueServiceImpl extends ServiceImpl<SpuAttrValueMapper, SpuAttr> implements SpuAttrValueService {
     /**
      * 保存商品属性
      *
@@ -31,18 +31,18 @@ public class SpuAttrValueServiceImpl extends ServiceImpl<SpuAttrValueMapper, Spu
     @Transactional
     public void saveAttributeValues(Long spuId, List<SpuForm.AttrValue> attrValues) {
         // 删除原有属性
-        this.remove(new LambdaQueryWrapper<SpuAttrValue>().eq(SpuAttrValue::getSpuId, spuId));
+        this.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
 
         // 保存新属性
         if (CollectionUtil.isNotEmpty(attrValues)) {
-            List<SpuAttrValue> spuAttrValues = attrValues.stream().map(attrValue -> {
-                SpuAttrValue spuAttrValue = new SpuAttrValue();
-                spuAttrValue.setSpuId(spuId);
-                spuAttrValue.setAttrId(attrValue.getAttrId());
-                spuAttrValue.setAttrValue(attrValue.getAttrValue());
-                return spuAttrValue;
+            List<SpuAttr> spuAttrs = attrValues.stream().map(attrValue -> {
+                SpuAttr spuAttr = new SpuAttr();
+                spuAttr.setSpuId(spuId);
+                spuAttr.setAttrId(attrValue.getAttrId());
+                spuAttr.setAttrValue(attrValue.getAttrValue());
+                return spuAttr;
             }).collect(Collectors.toList());
-            this.saveBatch(spuAttrValues);
+            this.saveBatch(spuAttrs);
         }
     }
 
@@ -53,8 +53,8 @@ public class SpuAttrValueServiceImpl extends ServiceImpl<SpuAttrValueMapper, Spu
      */
     @Override
     public boolean isAttrReferenced(Long attrId) {
-        long count = this.count(new LambdaQueryWrapper<SpuAttrValue>()
-                .eq(SpuAttrValue::getAttrId, attrId));
+        long count = this.count(new LambdaQueryWrapper<SpuAttr>()
+                .eq(SpuAttr::getAttrId, attrId));
         return count > 0;
     }
 

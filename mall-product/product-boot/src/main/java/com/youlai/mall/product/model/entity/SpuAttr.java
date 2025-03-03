@@ -20,10 +20,10 @@ import java.io.Serializable;
  * @author Ray.Hao
  * @since 2020/11/06
  */
-@TableName("pms_spu_attr_value")
+@TableName("pms_spu_attr")
 @Getter
 @Setter
-public class SpuAttrValue implements Serializable {
+public class SpuAttr implements Serializable {
 
     /**
      * 销售属性 ID

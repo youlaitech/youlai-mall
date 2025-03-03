@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  * @author Ray.Hao
  * @since 0.0.1
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @TableName("sys_user")
 public class User extends BaseEntity {
