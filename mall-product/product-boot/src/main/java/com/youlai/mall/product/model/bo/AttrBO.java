@@ -4,7 +4,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.youlai.mall.product.enums.AttrInputTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,9 +26,9 @@ public class AttrBO implements Serializable {
     private Long id;
 
     /**
-     * 属性组主键
+     * 属性组名称
      */
-    private Long attrGroupId;
+    private String groupName;
 
     /**
      * 属性名称
@@ -37,19 +36,14 @@ public class AttrBO implements Serializable {
     private String name;
 
     /**
-     * 输入方式（1：手动输入，2：从列表选择）
+     * 输入方式输入类型(1:文本 2:单选 3:多选)
      */
-    private AttrInputTypeEnum inputType;
+    private Integer inputType;
 
     /**
-     * 可选值列表（以逗号分隔，仅当输入方式为2时使用）
+     * 可选项(逗号分隔)
      */
     private String options;
-
-    /**
-     * 属性组名称
-     */
-    private String attributeGroupName;
 
     /**
      * 创建时间

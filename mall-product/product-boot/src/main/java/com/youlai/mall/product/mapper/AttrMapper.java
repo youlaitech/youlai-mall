@@ -1,5 +1,6 @@
 package com.youlai.mall.product.mapper;
 
+import com.youlai.mall.product.model.bo.AttrBO;
 import com.youlai.mall.product.model.entity.Attr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.mall.product.model.vo.AttrVO;
@@ -18,9 +19,9 @@ import java.util.List;
 public interface AttrMapper extends BaseMapper<Attr> {
 
     /**
-     * 根据分类ID获取基础属性列表
+     * 获取分类下的属性列表
      *
      * @param categoryId 分类ID
      */
-    List<AttrVO> listAttrsByCategoryId(Long categoryId);
+    List<AttrBO> getCategoryAttrs(Long categoryId);
 }

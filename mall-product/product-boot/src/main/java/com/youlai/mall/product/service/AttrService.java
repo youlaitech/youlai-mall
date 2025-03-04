@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.entity.Attr;
 import com.youlai.mall.product.model.form.AttrForm;
-import com.youlai.mall.product.model.query.AttrPageQuery;
+import com.youlai.mall.product.model.query.AttrQuery;
 import com.youlai.mall.product.model.vo.AttrVO;
 import jakarta.validation.Valid;
 
@@ -23,15 +23,7 @@ public interface AttrService extends IService<Attr> {
      *
      * @param categoryId 分类ID
      */
-    List<AttrVO> listAttrsByCategoryId(Long categoryId);
-
-    /**
-     * 分页查询属性列表
-     *
-     * @param queryParams 查询参数
-     * @return 属性分页列表
-     */
-    IPage<AttrVO> getAttrPage(AttrPageQuery queryParams);
+    List<AttrVO> getCategoryAttrs(Long categoryId);
 
     /**
      * 保存属性

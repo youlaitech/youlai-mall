@@ -5,7 +5,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.form.AttrForm;
-import com.youlai.mall.product.model.query.AttrPageQuery;
+import com.youlai.mall.product.model.query.AttrQuery;
 import com.youlai.mall.product.model.vo.AttrVO;
 import com.youlai.mall.product.service.AttrService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +15,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 商品属性控制器
@@ -29,16 +31,6 @@ import org.springframework.web.bind.annotation.*;
 public class AttrController {
 
     private final AttrService attrService;
-
-    @ApiOperationSupport(order = 1)
-    @Operation(summary = "属性分页列表")
-    @GetMapping("/page")
-    public PageResult<AttrVO> getAttrPage(
-            AttrPageQuery queryParams
-    ) {
-        IPage<AttrVO> page = attrService.getAttrPage(queryParams);
-        return PageResult.success(page);
-    }
 
     @ApiOperationSupport(order = 2)
     @Operation(summary = "保存属性")

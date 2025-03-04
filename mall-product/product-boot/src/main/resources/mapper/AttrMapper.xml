@@ -3,21 +3,20 @@
 <mapper namespace="com.youlai.mall.product.mapper.AttrMapper">
 
     <!-- 根据分类ID获取属性组&列表 -->
-    <select id="listAttrsByCategoryId" resultType="com.youlai.mall.product.model.vo.AttrVO">
+    <select id="getCategoryAttrs" resultType="com.youlai.mall.product.model.bo.AttrBO">
         SELECT
-            t1.id,
-            t1.`name`,
-            t2.id AS attr_group_id,
-            t2.`name` AS attribute_group_name
+            id,
+            name,
+            group_name,
+            input_type,
+            options
         FROM
-            pms_attr t1
-            INNER JOIN pms_attr_group t2 ON t1.attr_group_id = t2.id AND t2.is_deleted = 0
+            pms_attr
         WHERE
-            t1.category_id = #{categoryId}
-            AND t1.is_deleted = 0
+             is_deleted = 0
+             AND category_id = #{categoryId}
         ORDER BY
-            t2.sort,
-            t1.sort
+            sort
     </select>
 
 </mapper>

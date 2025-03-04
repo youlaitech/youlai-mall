@@ -42,7 +42,7 @@
     </resultMap>
 
     <!-- 根据分类ID获取销售属性列表 -->
-    <select id="listSpecsByCategoryId" resultMap="SpecMap">
+    <select id="getCategorySpecs" resultMap="SpecMap">
         SELECT
             id,
             `name`,

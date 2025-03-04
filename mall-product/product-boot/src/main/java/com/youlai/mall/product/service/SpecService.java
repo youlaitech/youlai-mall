@@ -68,5 +68,5 @@ public interface SpecService extends IService<Spec> {
      * @param categoryId 分类ID
      * @return
      */
-    List<SpecVO> listSpecsByCategoryId(Long categoryId);
+    List<SpecVO> getCategorySpecs(Long categoryId);
 }

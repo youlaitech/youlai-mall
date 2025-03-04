@@ -117,8 +117,8 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
      * @return
      */
     @Override
-    public List<SpecVO> listSpecsByCategoryId(Long categoryId) {
-        return this.baseMapper.listSpecsByCategoryId(categoryId);
+    public List<SpecVO> getCategorySpecs(Long categoryId) {
+        return this.baseMapper.getCategorySpecs(categoryId);
     }
 
 

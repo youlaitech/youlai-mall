@@ -76,20 +76,20 @@ public class CategoryController {
     }
 
     @Operation(summary = "获取属性列表")
-    @GetMapping("/{categoryId}/attributes")
-    public Result<List<AttrVO>> listAttrsByCategoryId(
-            @Parameter(description = "分类ID", example = "3") @PathVariable Long categoryId
+    @GetMapping("/{categoryId}/attrs")
+    public Result<List<AttrVO>> getCategoryAttrs(
+            @Parameter(description = "分类ID", example = "1") @PathVariable Long categoryId
     ) {
-        List<AttrVO> list = attrService.listAttrsByCategoryId(categoryId);
+        List<AttrVO> list = attrService.getCategoryAttrs(categoryId);
         return Result.success(list);
     }
 
     @Operation(summary = "获取规格列表")
     @GetMapping("/{categoryId}/specs")
-    public Result<List<SpecVO>> listSpecsByCategoryId(
-            @Parameter(description = "分类ID", example = "3") @PathVariable Long categoryId
+    public Result<List<SpecVO>> getCategorySpecs(
+            @Parameter(description = "分类ID", example = "1") @PathVariable Long categoryId
     ) {
-        List<SpecVO> list = specService.listSpecsByCategoryId(categoryId);
+        List<SpecVO> list = specService.getCategorySpecs(categoryId);
         return Result.success(list);
     }
 
