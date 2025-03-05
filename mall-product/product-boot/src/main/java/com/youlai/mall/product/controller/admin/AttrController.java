@@ -1,12 +1,8 @@
 package com.youlai.mall.product.controller.admin;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.form.AttrForm;
-import com.youlai.mall.product.model.query.AttrQuery;
-import com.youlai.mall.product.model.vo.AttrVO;
 import com.youlai.mall.product.service.AttrService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  * 商品属性控制器

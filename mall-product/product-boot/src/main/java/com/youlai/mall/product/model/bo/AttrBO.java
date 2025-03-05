@@ -36,7 +36,7 @@ public class AttrBO implements Serializable {
     private String name;
 
     /**
-     * 输入方式输入类型(1:文本 2:单选 3:多选)
+     * 输入方式类型(1:文本 2:单选 3:多选)
      */
     private Integer inputType;
 
