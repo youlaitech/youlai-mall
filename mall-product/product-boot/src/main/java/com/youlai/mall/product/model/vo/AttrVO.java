@@ -30,8 +30,8 @@ public class AttrVO implements Serializable {
     @Schema(description = "属性名称")
     private String name;
 
-    @Schema(description = "输入类型标签")
-    private Integer inputTypeLabel;
+    @Schema(description = "输入类型文本标签")
+    private String inputTypeLabel;
 
     @Schema(description = "可选项(逗号分隔)",example = "1920*1080,2560*1440,3840*2160")
     private String options;

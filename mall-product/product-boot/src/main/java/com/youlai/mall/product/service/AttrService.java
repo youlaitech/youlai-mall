@@ -53,7 +53,7 @@ public interface AttrService extends IService<Attr> {
     /**
      * 删除属性
      *
-     * @param ids 属性ID
+     * @param ids 属性ID，多个以英文逗号(,)分割
      */
     void deleteAttrs(String ids);
 }
