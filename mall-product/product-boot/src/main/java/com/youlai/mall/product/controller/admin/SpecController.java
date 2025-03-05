@@ -4,11 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.youlai.mall.product.model.form.SpecForm;
-import com.youlai.mall.product.model.query.SpecPageQuery;
-import com.youlai.mall.product.model.vo.SpecPageVO;
 import com.youlai.mall.product.service.SpecService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,13 +26,6 @@ import jakarta.validation.Valid;
 public class SpecController {
 
     private final SpecService specService;
-
-    @Operation(summary = "规格分页列表")
-    @GetMapping("/page")
-    public PageResult<SpecPageVO> getSpecPage(SpecPageQuery queryParams) {
-        IPage<SpecPageVO> result = specService.getSpecPage(queryParams);
-        return PageResult.success(result);
-    }
 
     @Operation(summary = "新增规格")
     @PostMapping

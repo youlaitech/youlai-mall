@@ -9,7 +9,8 @@
             name,
             group_name,
             input_type,
-            options
+            options,
+            sort
         FROM
             pms_attr
         WHERE

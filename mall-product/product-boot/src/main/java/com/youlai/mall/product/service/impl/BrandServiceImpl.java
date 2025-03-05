@@ -35,7 +35,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
      * @return 品牌分页列表
      */
     @Override
-    public Page<BrandPageVO> listPagedBrands(BrandPageQuery queryParams) {
+    public Page<BrandPageVO> getBrandPage(BrandPageQuery queryParams) {
         String keywords = queryParams.getKeywords();
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();

@@ -19,7 +19,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
@@ -37,30 +36,9 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
     private final SpecConverter specConverter;
 
     /**
-     * 获取分页列表
-     *
-     * @param queryParams 查询参数
-     * @return {@link IPage<SpecPageVO>} 分页列表
-     */
-    @Override
-    public IPage<SpecPageVO> getSpecPage(SpecPageQuery queryParams) {
-
-        // 参数构建
-        int pageNum = queryParams.getPageNum();
-        int pageSize = queryParams.getPageSize();
-        Page<SpecBO> page = new Page<>(pageNum, pageSize);
-
-        // 格式化为数据库日期格式，避免日期比较使用格式化函数导致索引失效
-        DateUtils.toDatabaseFormat(queryParams, "startTime", "endTime");
-        Page<SpecBO> boPage = this.baseMapper.getSpecPage(page, queryParams);
-        return specConverter.toPageVo(boPage);
-    }
-
-    /**
-     * 获取表单数据
+     * 获取规格表单数据
      *
      * @param id ID
-     * @return
      */
     @Override
     public SpecForm getSpecFormData(Long id) {
@@ -69,7 +47,7 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
     }
 
     /**
-     * 新增
+     * 新增规格
      *
      * @param formData 表单对象
      * @return
@@ -82,10 +60,10 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
     }
 
     /**
-     * 更新
+     * 更新规格
      *
-     * @param id       ID
-     * @param formData 表单对象
+     * @param id   规格ID
+     * @param formData 规格表单对象
      * @return
      */
     @Override
@@ -95,10 +73,9 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
     }
 
     /**
-     * 删除
+     * 删除规格
      *
      * @param ids ID，多个以英文逗号(,)分割
-     * @return true|false
      */
     @Override
     public boolean deleteSpecs(String ids) {
@@ -111,15 +88,15 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
     }
 
     /**
-     * 根据分类ID获取规格列表
+     * 获取分类关联规格
      *
      * @param categoryId 分类ID
-     * @return
+     * @return 规格列表
      */
     @Override
     public List<SpecVO> getCategorySpecs(Long categoryId) {
-        return this.baseMapper.getCategorySpecs(categoryId);
+        List<SpecBO> list = this.baseMapper.getCategorySpecs(categoryId);
+        return specConverter.toVO(list);
     }
-
 
 }

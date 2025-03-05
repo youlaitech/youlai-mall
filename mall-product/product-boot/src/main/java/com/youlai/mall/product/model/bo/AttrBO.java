@@ -60,5 +60,4 @@ public class AttrBO implements Serializable {
      */
     private Integer sort;
 
-
 }

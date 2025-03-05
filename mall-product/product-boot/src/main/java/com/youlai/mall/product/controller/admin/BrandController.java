@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 商品品牌控制器
+ * 品牌控制层
  *
  * @author Ray.Hao
  * @since 2024/5/7
@@ -33,24 +33,23 @@ public class BrandController {
 
     @Operation(summary = "品牌分页列表")
     @GetMapping("/page")
-    public PageResult<BrandPageVO> listPagedBrands(BrandPageQuery queryParams) {
-        // 分页查询
-        Page<BrandPageVO> page = brandService.listPagedBrands(queryParams);
+    public PageResult<BrandPageVO> getBrandPage(BrandPageQuery queryParams) {
+        Page<BrandPageVO> page = brandService.getBrandPage(queryParams);
         return PageResult.success(page);
     }
 
     @Operation(summary = "品牌下拉列表")
     @GetMapping("/options")
     public Result<List<Option<Long>>> listBrandOptions(
-          @Parameter(description = "分类ID")  @RequestParam(required = false) Long categoryId
+            @Parameter(description = "分类ID") @RequestParam(required = false) Long categoryId
     ) {
         List<Option<Long>> list = brandService.listBrandOptions(categoryId);
         return Result.success(list);
     }
 
     @Operation(summary = "品牌表单数据")
-    @GetMapping("/{id}")
-    public Result<Brand> getBrandDetail(@PathVariable Long id) {
+    @GetMapping("/{id}/form")
+    public Result<Brand> getBrandForm(@PathVariable Long id) {
         Brand brand = brandService.getById(id);
         return Result.success(brand);
     }

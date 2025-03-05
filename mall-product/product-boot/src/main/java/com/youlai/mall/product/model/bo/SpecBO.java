@@ -7,12 +7,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.youlai.mall.product.enums.AttrInputTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 规格BO
+ * 规格业务对象
  *
  * @author Ray.Hao
  * @since 2024-06-13
@@ -33,12 +32,12 @@ public class SpecBO implements Serializable {
     private String name;
 
     /**
-     * 输入方式：1->手动输入，2->列表选择
+     * 输入类型(1:文本 2:单选 3:多选)
      */
-    private AttrInputTypeEnum inputType;
+    private Integer inputType;
 
     /**
-     * 可选值（以逗号分隔，仅当输入方式为2时使用）
+     * 可选项(逗号分隔)
      */
     private String options;
 
@@ -63,7 +62,7 @@ public class SpecBO implements Serializable {
     private LocalDateTime updateTime;
 
     /**
-     * 逻辑删除标识（0：未删除，1：已删除）
+     * 逻辑删除标识(0:未删除 1:已删除)
      */
     private Byte isDeleted;
 }

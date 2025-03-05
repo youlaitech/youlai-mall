@@ -35,5 +35,5 @@ public interface SpecMapper extends BaseMapper<Spec> {
      * @param categoryId 分类ID
      * @return 规格列表
      */
-    List<SpecVO> getCategorySpecs(Long categoryId);
+    List<SpecBO> getCategorySpecs(Long categoryId);
 }

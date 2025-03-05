@@ -18,55 +18,40 @@ import java.util.List;
  */
 public interface SpecService extends IService<Spec> {
 
-
     /**
-     * 分页列表
+     * 获取规格表单数据
      *
-     * @return
-     */
-    IPage<SpecPageVO> getSpecPage(SpecPageQuery queryParams);
-
-
-    /**
-     * 获取表单数据
-     *
-     * @param id ID
-     * @return
+     * @param id 规格ID
      */
     SpecForm getSpecFormData(Long id);
 
-
     /**
-     * 新增
+     * 新增规格
      *
      * @param formData 表单对象
-     * @return
      */
     boolean saveSpec(SpecForm formData);
 
     /**
-     * 修改
+     * 修改规格
      *
-     * @param id       ID
-     * @param formData 表单对象
-     * @return
+     * @param id  规格ID
+     * @param formData 规格表单对象
      */
     boolean updateSpec(Long id, SpecForm formData);
 
-
     /**
-     * 删除
+     * 删除规格
      *
      * @param ids ID，多个以英文逗号(,)分割
-     * @return
      */
     boolean deleteSpecs(String ids);
 
     /**
-     * 根据分类ID获取规格列表
+     * 获取分类下的规格列表
      *
      * @param categoryId 分类ID
-     * @return
+     * @return 规格列表
      */
     List<SpecVO> getCategorySpecs(Long categoryId);
 }

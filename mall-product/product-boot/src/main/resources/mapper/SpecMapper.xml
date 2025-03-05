@@ -2,58 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.SpecMapper">
 
-    <!-- 规格分页列表 -->
-    <select id="getSpecPage" resultType="com.youlai.mall.product.model.bo.SpecBO">
+    <!-- 获取分类的关联规格 -->
+    <select id="getCategorySpecs" resultType="com.youlai.mall.product.model.bo.SpecBO">
         SELECT
             id,
-            `name`,
+            name,
             input_type,
             options,
-            create_time
-        FROM
-            pms_spec
-        <where>
-            is_deleted = 0
-            <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
-                AND (
-                    name LIKE CONCAT('%',#{queryParams.keywords},'%')
-                )
-            </if>
-            <if test="queryParams.startTime != null">
-                AND create_time &gt;= #{queryParams.startTime}
-            </if>
-            <if test="queryParams.endTime != null">
-                AND create_time &lt;= #{queryParams.endTime}
-            </if>
-        </where>
-        ORDER BY
-            create_time DESC
-    </select>
-
-    <!-- 规格映射 -->
-    <resultMap id="SpecMap" type="com.youlai.mall.product.model.vo.SpecVO">
-        <result column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="input_type" property="inputType"/>
-        <result column="options"
-                property="options"
-                typeHandler="com.youlai.common.mybatis.handler.typehandler.CommaStringListHandler"
-        />
-    </resultMap>
-
-    <!-- 根据分类ID获取销售属性列表 -->
-    <select id="getCategorySpecs" resultMap="SpecMap">
-        SELECT
-            id,
-            `name`,
-            input_type,
-            options
+            sort
         FROM
             pms_spec
         WHERE
-            category_id = #{categoryId} AND is_deleted = 0
+            is_deleted = 0
+            AND category_id = #{categoryId}
         ORDER BY
-            sort
+            sort ASC
     </select>
 
 </mapper>

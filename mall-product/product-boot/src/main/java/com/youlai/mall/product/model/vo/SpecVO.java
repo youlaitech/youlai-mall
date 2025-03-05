@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 规格 VO
+ * 规格视图对象
  *
  * @author Ray.Hao
  * @since 2024-06-13
@@ -28,10 +28,13 @@ public class SpecVO implements Serializable {
     @Schema(description = "规格名称")
     private String name;
 
-    @Schema(description = "输入方式（1：手动输入，2：列表选择）")
-    private Byte inputType;
+    @Schema(description = "输入类型(文本 单选 多选)")
+    private String inputTypeLabel;
 
-    @Schema(description = "可选值列表（以逗号分隔，仅当输入方式为2时使用）")
+    @Schema(description = "可选项(逗号分隔)")
     private String options;
+
+    @Schema(description = "排序")
+    private Integer sort;
 
 }

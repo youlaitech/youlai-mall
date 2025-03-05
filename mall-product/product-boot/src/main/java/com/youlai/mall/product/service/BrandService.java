@@ -23,7 +23,7 @@ public interface BrandService extends IService<Brand> {
      * @param queryParams 查询参数
      * @return 品牌分页列表
      */
-    Page<BrandPageVO> listPagedBrands(BrandPageQuery queryParams);
+    Page<BrandPageVO> getBrandPage(BrandPageQuery queryParams);
 
 
     /**
