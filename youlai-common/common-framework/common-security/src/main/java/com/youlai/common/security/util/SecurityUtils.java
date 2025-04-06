@@ -1,5 +1,4 @@
 package com.youlai.common.security.util;
-
 import cn.hutool.core.convert.Convert;
 import com.youlai.common.constant.SystemConstants;
 import org.springframework.security.core.Authentication;

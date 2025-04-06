@@ -19,14 +19,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * 通知公告前端控制层
  *
  * @author youlaitech
  * @since 2024-08-27 10:31
  */
-@Tag(name = "通知公告接口")
+@Tag(name = "12.通知公告接口")
 @RestController
 @RequestMapping("/api/v1/notices")
 @RequiredArgsConstructor
@@ -83,7 +82,7 @@ public class NoticeController {
     }
 
     @Operation(summary = "发布通知公告")
-    @PatchMapping(value = "/{id}/publish")
+    @PutMapping("/{id}/publish")
     @PreAuthorize("@ss.hasPerm('sys:notice:publish')")
     public Result<Void> publishNotice(
             @Parameter(description = "通知公告ID") @PathVariable Long id
@@ -93,7 +92,7 @@ public class NoticeController {
     }
 
     @Operation(summary = "撤回通知公告")
-    @PatchMapping(value = "/{id}/revoke")
+    @PutMapping("/{id}/revoke")
     @PreAuthorize("@ss.hasPerm('sys:notice:revoke')")
     public Result<Void> revokeNotice(
             @Parameter(description = "通知公告ID") @PathVariable Long id

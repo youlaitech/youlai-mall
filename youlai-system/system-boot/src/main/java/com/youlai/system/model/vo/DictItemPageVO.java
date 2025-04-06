@@ -5,19 +5,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
- * 字典数据项分页VO
+ * 字典项分页对象
  *
  * @author Ray.Hao
  * @since 0.0.1
  */
-@Schema(description = "字典数据分页对象")
+@Schema(description = "字典项分页对象")
 @Getter
 @Setter
-public class DictDataPageVO {
+public class DictItemPageVO {
 
-    @Schema(description = "字典数据ID")
+    @Schema(description = "字典项ID")
     private Long id;
 
     @Schema(description = "字典编码")

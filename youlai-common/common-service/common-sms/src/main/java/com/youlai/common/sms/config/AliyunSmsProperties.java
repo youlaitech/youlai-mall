@@ -9,8 +9,8 @@ import java.util.Map;
 /**
  * 阿里云短信配置
  *
- * @author Ray.Hao
- * @since 2021/10/13
+ * @author Ray
+ * @since 2024/8/17
  */
 @Configuration
 @ConfigurationProperties(prefix = "sms.aliyun")
@@ -43,7 +43,8 @@ public class AliyunSmsProperties {
     private String signName;
 
     /**
-     * 模板编码
+     * 短信模板集合
      */
-    private Map<String, String> templateCodes;
+    private Map<String, String> templates;
+
 }

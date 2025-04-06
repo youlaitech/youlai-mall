@@ -1,6 +1,6 @@
-package com.youlai.system.model.vo;
+package com.youlai.system.model.dto;
 
-import com.alibaba.excel.annotation.ExcelProperty;
+import cn.idev.excel.annotation.ExcelProperty;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  * @since 2022/4/10
  */
 @Data
-public class UserImportVO {
+public class UserImportDTO {
 
     @ExcelProperty(value = "用户名")
     private String username;
@@ -19,7 +19,7 @@ public class UserImportVO {
     private String nickname;
 
     @ExcelProperty(value = "性别")
-    private String gender;
+    private String genderLabel;
 
     @ExcelProperty(value = "手机号码")
     private String mobile;
@@ -29,5 +29,8 @@ public class UserImportVO {
 
     @ExcelProperty("角色")
     private String roleCodes;
+
+    @ExcelProperty("部门")
+    private String deptCode;
 
 }

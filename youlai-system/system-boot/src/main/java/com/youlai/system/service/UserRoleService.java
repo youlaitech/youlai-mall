@@ -6,23 +6,16 @@ import com.youlai.system.model.entity.UserRole;
 
 import java.util.List;
 
-/**
- * 用户角色关联业务接口
- *
- * @author Ray.Hao
- * @since 0.0.1
- */
 public interface UserRoleService extends IService<UserRole> {
 
     /**
      * 保存用户角色
      *
-     * @param userId 用户ID
-     * @param roleIds 角色ID集合
-     * @return boolean 是否保存成功
+     * @param userId
+     * @param roleIds
+     * @return
      */
-     boolean saveUserRoles(Long userId, List<Long> roleIds);
-
+    boolean saveUserRoles(Long userId, List<Long> roleIds);
 
     /**
      * 判断角色是否存在绑定的用户

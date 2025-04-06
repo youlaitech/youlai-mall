@@ -1,7 +1,6 @@
 package com.youlai.system.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.youlai.system.enums.MenuTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -10,7 +9,6 @@ import java.util.List;
 @Schema(description ="菜单视图对象")
 @Data
 public class MenuVO {
-
 
     @Schema(description = "菜单ID")
     private Long id;
@@ -22,7 +20,7 @@ public class MenuVO {
     private String name;
 
     @Schema(description="菜单类型")
-    private MenuTypeEnum type;
+    private Integer type;
 
     @Schema(description = "路由名称")
     private String routeName;

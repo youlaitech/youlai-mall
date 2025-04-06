@@ -1,24 +1,20 @@
 package com.youlai.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 角色实体
+ *
+ * @author Ray.Hao
+ * @since 2024/6/23
  */
-@EqualsAndHashCode(callSuper = false)
-@Data
 @TableName("sys_role")
+@Getter
+@Setter
 public class Role extends BaseEntity {
-    /**
-     * 
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
 
     /**
      * 角色名称
@@ -36,7 +32,7 @@ public class Role extends BaseEntity {
     private Integer sort;
 
     /**
-     * 角色状态(1-正常；0-停用)
+     * 角色状态(1-正常 0-停用)
      */
     private Integer status;
 
@@ -44,6 +40,16 @@ public class Role extends BaseEntity {
      * 数据权限
      */
     private Integer dataScope;
+
+    /**
+     * 创建人 ID
+     */
+    private Long createBy;
+
+    /**
+     * 更新人 ID
+     */
+    private Long updateBy;
 
     /**
      * 是否删除(0-否 1-是)

@@ -13,11 +13,12 @@ import java.time.LocalDateTime;
  * @author Ray.Hao
  * @since 2.10.0
  */
-@TableName("sys_log")
 @Data
+@TableName("sys_log")
 public class Log implements Serializable {
+
     /**
-     * 主键
+     *  主键
      */
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -27,6 +28,23 @@ public class Log implements Serializable {
      */
     private LogModuleEnum module;
 
+    /**
+     * 请求方式
+     */
+    @TableField(value = "request_method")
+    private String requestMethod;
+
+    /**
+     * 请求参数
+     */
+    @TableField(value = "request_params")
+    private String requestParams;
+
+    /**
+     * 响应参数
+     */
+    @TableField(value = "response_content")
+    private String responseContent;
 
     /**
      * 日志内容
@@ -72,7 +90,6 @@ public class Log implements Serializable {
      * 执行时间(毫秒)
      */
     private Long executionTime;
-
 
     /**
      * 创建人ID

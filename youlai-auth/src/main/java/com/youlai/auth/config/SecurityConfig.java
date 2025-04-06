@@ -2,15 +2,18 @@ package com.youlai.auth.config;
 
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -27,6 +30,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "security")
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfig {
 
     /**
@@ -56,7 +60,20 @@ public class SecurityConfig {
                         }
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults())
+                // 配置资源服务器
+                .oauth2ResourceServer(oauth2ResourceServer ->
+                    oauth2ResourceServer.jwt(Customizer.withDefaults()))
+                // 禁用session
+                .sessionManagement(sessionManagement ->
+                    sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // 禁用重定向到登录页面
+                .exceptionHandling(exceptions -> exceptions
+                    .authenticationEntryPoint((request, response, authException) -> {
+                        log.info("未登录或登录已过期，拒绝访问，URL：{}", request.getRequestURI());
+                        response.setStatus(401);
+                    })
+                );
 
         return http.build();
     }
@@ -75,6 +92,5 @@ public class SecurityConfig {
                 AntPathRequestMatcher.antMatcher("/swagger-ui/**")
         );
     }
-
 
 }

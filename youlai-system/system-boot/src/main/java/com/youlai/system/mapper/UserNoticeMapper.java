@@ -18,11 +18,9 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface UserNoticeMapper extends BaseMapper<UserNotice> {
-
     /**
      * 分页获取我的通知公告
-     *
-     * @param page        分页对象
+     * @param page 分页对象
      * @param queryParams 查询参数
      * @return 通知公告分页列表
      */

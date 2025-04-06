@@ -1,29 +1,24 @@
 package com.youlai.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.core.exception.BusinessException;
 import com.youlai.common.core.model.Option;
 import com.youlai.system.converter.DictConverter;
-import com.youlai.system.converter.DictDataConverter;
 import com.youlai.system.mapper.DictMapper;
 import com.youlai.system.model.entity.Dict;
-import com.youlai.system.model.entity.DictData;
+import com.youlai.system.model.entity.DictItem;
 import com.youlai.system.model.form.DictForm;
 import com.youlai.system.model.query.DictPageQuery;
 import com.youlai.system.model.vo.DictPageVO;
-import com.youlai.system.model.vo.DictVO;
-import com.youlai.system.service.DictDataService;
+import com.youlai.system.service.DictItemService;
 import com.youlai.system.service.DictService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,9 +31,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
-    private final DictDataService dictDataService;
+    private final DictItemService dictItemService;
     private final DictConverter dictConverter;
-    private final DictDataConverter dictDataConverter;
 
     /**
      * 字典分页列表
@@ -56,6 +50,20 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     /**
+     * 获取字典列表
+     *
+     * @return 字典列表
+     */
+    @Override
+    public List<Option<String>> getDictList() {
+        return this.list(new LambdaQueryWrapper<Dict>().eq(Dict::getStatus, 1))
+                .stream()
+                .map(item -> new Option<>(item.getDictCode(), item.getName()))
+                .toList();
+    }
+
+
+    /**
      * 新增字典
      *
      * @param dictForm 字典表单数据
@@ -71,6 +79,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         long count = this.count(new LambdaQueryWrapper<Dict>()
                 .eq(Dict::getDictCode, dictCode)
         );
+
         Assert.isTrue(count == 0, "字典编码已存在");
 
         return this.save(entity);
@@ -86,7 +95,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     public DictForm getDictForm(Long id) {
         // 获取字典
         Dict entity = this.getById(id);
-        if(entity==null){
+        if (entity == null) {
             throw new BusinessException("字典不存在");
         }
         return dictConverter.toForm(entity);
@@ -109,7 +118,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
                 .eq(Dict::getDictCode, dictCode)
                 .ne(Dict::getId, id)
         );
-        if(count>0){
+        if (count > 0) {
             throw new BusinessException("字典编码已存在");
         }
 
@@ -130,24 +139,16 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
                 boolean removeResult = this.removeById(id);
                 // 删除字典下的字典项
                 if (removeResult) {
-                    dictDataService.remove(
-                            new LambdaQueryWrapper<DictData>()
-                                    .eq(DictData::getDictCode, dict.getDictCode())
+                    dictItemService.remove(
+                            new LambdaQueryWrapper<DictItem>()
+                                    .eq(DictItem::getDictCode, dict.getDictCode())
                     );
                 }
+
             }
         }
     }
 
-    /**
-     * 获取字典列表（包含字典数据）
-     *
-     *  @return 字典列表
-     */
-    @Override
-    public List<DictVO> getAllDictWithData() {
-        return this.baseMapper.getAllDictWithData();
-    }
 }
 
 

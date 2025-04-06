@@ -1,7 +1,7 @@
 package com.youlai.auth.oauth2.oidc;
 
 import com.youlai.system.api.UserFeignClient;
-import com.youlai.system.dto.UserAuthInfo;
+import com.youlai.system.dto.UserAuthCredentials;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,27 +24,27 @@ public class CustomOidcUserInfoService {
     }
 
     public CustomOidcUserInfo loadUserByUsername(String username) {
-        UserAuthInfo userAuthInfo = null;
+        UserAuthCredentials userAuthCredentials = null;
         try {
-            userAuthInfo = userFeignClient.getUserAuthInfo(username);
-            if (userAuthInfo == null) {
+            userAuthCredentials = userFeignClient.getUserAuthInfo(username);
+            if (userAuthCredentials == null) {
                 return null;
             }
-            return new CustomOidcUserInfo(createUser(userAuthInfo));
+            return new CustomOidcUserInfo(createUser(userAuthCredentials));
         } catch (Exception e) {
             log.error("获取用户信息失败", e);
             return null;
         }
     }
 
-    private Map<String, Object> createUser(UserAuthInfo userAuthInfo) {
+    private Map<String, Object> createUser(UserAuthCredentials userAuthCredentials) {
         return CustomOidcUserInfo.customBuilder()
-                .username(userAuthInfo.getUsername())
-                .nickname(userAuthInfo.getNickname())
-                .status(userAuthInfo.getStatus())
-                .phoneNumber(userAuthInfo.getMobile())
-                .email(userAuthInfo.getEmail())
-                .profile(userAuthInfo.getAvatar())
+                .username(userAuthCredentials.getUsername())
+                .nickname(userAuthCredentials.getNickname())
+                .status(userAuthCredentials.getStatus())
+                .phoneNumber(userAuthCredentials.getMobile())
+                .email(userAuthCredentials.getEmail())
+                .profile(userAuthCredentials.getAvatar())
                 .build()
                 .getClaims();
     }

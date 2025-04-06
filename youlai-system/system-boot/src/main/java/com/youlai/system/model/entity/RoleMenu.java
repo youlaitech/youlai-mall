@@ -5,17 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 /**
  * 角色和菜单关联表
- *
- * @author Ray.Hao
- * @since 0.0.1
  */
+@TableName("sys_role_menu")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_role_menu")
 public class RoleMenu {
     /**
      * 角色ID
@@ -26,4 +22,5 @@ public class RoleMenu {
      * 菜单ID
      */
     private Long menuId;
+
 }

@@ -1,32 +1,30 @@
 package com.youlai.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * 部门实体
+ * 部门实体对象
  *
  * @author Ray.Hao
- * @since 2024/6/7
+ * @since 2024/06/23
  */
-@EqualsAndHashCode(callSuper = false)
 @TableName("sys_dept")
-@Data
+@Getter
+@Setter
 public class Dept extends BaseEntity {
-    /**
-     * 主键
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
 
     /**
      * 部门名称
      */
     private String name;
+
+    /**
+     * 部门编码
+     */
+    private String code;
 
     /**
      * 父节点id
@@ -44,9 +42,19 @@ public class Dept extends BaseEntity {
     private Integer sort;
 
     /**
-     * 状态(1:正常;0:禁用)
+     * 状态(1-正常 0-禁用)
      */
     private Integer status;
+
+    /**
+     * 创建人 ID
+     */
+    private Long createBy;
+
+    /**
+     * 更新人 ID
+     */
+    private Long updateBy;
 
     /**
      * 是否删除(0-否 1-是)

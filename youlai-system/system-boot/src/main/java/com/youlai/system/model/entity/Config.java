@@ -1,20 +1,21 @@
 package com.youlai.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 系统配置实体对象
+ * 系统配置对象
  *
  * @author Theo
  * @since 2024-07-29 11:17:26
  */
-@TableName("sys_config")
-@EqualsAndHashCode(callSuper = false)
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Schema(description = "系统配置")
+@TableName("sys_config")
 public class Config extends BaseEntity {
 
     /**
@@ -50,7 +51,6 @@ public class Config extends BaseEntity {
     /**
      * 逻辑删除标识(0-未删除 1-已删除)
      */
-    @TableLogic(value = "0", delval = "1")
     private Integer isDeleted;
 
 }

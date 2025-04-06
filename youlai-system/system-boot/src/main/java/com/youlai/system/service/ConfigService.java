@@ -43,7 +43,7 @@ public interface ConfigService extends IService<Config> {
      * @param sysConfigForm 系统配置表单
      * @return 是否编辑成功
      */
-    boolean updateConfig(Long id, ConfigForm sysConfigForm);
+    boolean edit(Long id, ConfigForm sysConfigForm);
 
     /**
      * 删除系统配置

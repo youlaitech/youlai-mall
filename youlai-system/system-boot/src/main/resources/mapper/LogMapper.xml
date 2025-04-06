@@ -74,7 +74,7 @@
     </select>
 
     <!-- 获取访问量(PV)统计数据 -->
-    <select id="getPvStats" resultType="com.youlai.system.model.vo.VisitStatsVO">
+    <select id="getPvStats" resultType="com.youlai.system.model.bo.VisitStatsBO">
         SELECT
             COUNT(CASE WHEN DATE(create_time) = CURDATE() THEN 1 END) AS todayCount,
             COUNT(*) AS totalCount,
@@ -94,7 +94,7 @@
     </select>
 
     <!-- 获取IP统计数据 -->
-    <select id="getIpStats" resultType="com.youlai.system.model.vo.VisitStatsVO">
+    <select id="getUvStats" resultType="com.youlai.system.model.bo.VisitStatsBO">
         SELECT
             COUNT(DISTINCT CASE WHEN DATE(create_time) = CURDATE() THEN ip END) AS todayCount,
             COUNT(DISTINCT ip) AS totalCount,

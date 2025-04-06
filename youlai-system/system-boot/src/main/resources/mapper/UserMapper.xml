@@ -14,6 +14,7 @@
             u.gender,
             u.avatar,
             u.STATUS,
+            u.email,
             d.NAME AS dept_name,
             GROUP_CONCAT( r.NAME ) AS roleNames,
             u.create_time
@@ -24,8 +25,18 @@
                 LEFT JOIN sys_role r ON sur.role_id = r.id
         <where>
             u.is_deleted = 0
-            <!-- 超级管理员不显示在列表 -->
-            AND r.name != '${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}'
+            <!-- 非超级管理员用户限制查看超级管理员  -->
+            <if test="!queryParams.isRoot">
+                AND NOT EXISTS (
+                SELECT
+                    1
+                FROM sys_user_role sur
+                    INNER JOIN sys_role r ON sur.role_id = r.id
+                WHERE
+                    sur.user_id = u.id
+                    AND r.code = '${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}'
+                )
+            </if>
             <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
                 AND (
                     u.username LIKE CONCAT('%',#{queryParams.keywords},'%')
@@ -39,12 +50,39 @@
             <if test='queryParams.deptId!=null'>
                 AND concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{queryParams.deptId},',%')
             </if>
+            <if test="queryParams.createTime != null and queryParams.createTime.size > 0">
+                <if test="queryParams.createTime[0] != null and queryParams.createTime[0] != ''">
+                    <bind name="startDate" value="queryParams.createTime[0].length() == 10 ? queryParams.createTime[0] + ' 00:00:00' : queryParams.createTime[0]"/>
+                    AND u.create_time &gt;= #{startDate}
+                </if>
+                <if test="queryParams.createTime[1] != null and queryParams.createTime[1] != ''">
+                    <bind name="endDate" value="queryParams.createTime[1].length() == 10 ? queryParams.createTime[1] + ' 23:59:59' : queryParams.createTime[1]"/>
+                    AND u.create_time &lt;= #{endDate}
+                </if>
+            </if>
+            <if test="queryParams.roleIds != null and queryParams.roleIds.size() > 0">
+                AND sur.role_id IN
+                <foreach item="roleId" collection="queryParams.roleIds" open="(" separator="," close=")">
+                    #{roleId}
+                </foreach>
+            </if>
         </where>
-        GROUP BY u.id
+        GROUP BY
+            u.id
+        <choose>
+            <!-- 如果排序参数都传入 -->
+            <when test="queryParams.field != null and queryParams.field != '' and queryParams.direction != null">
+                ORDER BY u.${queryParams.field} ${queryParams.direction}
+            </when>
+            <!-- 默认排序 -->
+            <otherwise>
+                ORDER BY u.update_time DESC, u.create_time DESC
+            </otherwise>
+        </choose>
     </select>
 
     <!-- 用户表单信息映射 -->
-    <resultMap id="UserFormMap" type="com.youlai.system.model.bo.UserBO">
+    <resultMap id="UserFormMap" type="com.youlai.system.model.form.UserForm">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
@@ -63,7 +101,7 @@
     </resultMap>
 
     <!-- 根据用户ID获取用户详情 -->
-    <select id="getUserDetail" resultMap="UserFormMap">
+    <select id="getUserFormData" resultMap="UserFormMap">
         SELECT
             id,
             username,
@@ -72,7 +110,7 @@
             gender,
             avatar,
             email,
-            STATUS,
+            status,
             dept_id
         FROM
             sys_user
@@ -81,61 +119,96 @@
     </select>
 
     <!-- 用户认证信息映射 -->
-    <resultMap id="UserAuthMap" type="com.youlai.system.dto.UserAuthInfo">
-        <id property="userId" column="id" jdbcType="BIGINT"/>
-        <result property="username" column="username"/>
-        <result property="password" column="PASSWORD"/>
-        <result property="status" column="STATUS"/>
-        <result property="deptId" column="dept_id"/>
-        <result property="nickname" column="nickname"/>
-        <result property="mobile" column="mobile"/>
-        <result property="email" column="email"/>
-        <result property="avatar" column="avatar"/>
+    <resultMap id="AuthCredentialsMap" type="com.youlai.system.dto.UserAuthCredentials">
+        <id property="userId" column="userId" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="BOOLEAN"/>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
         <collection property="roles" ofType="string" javaType="java.util.Set">
-            <result column="code"/>
+            <result column="code" />
         </collection>
     </resultMap>
 
-    <!-- 获取用户认证信息(登录认证，密码判读) -->
-    <select id="getUserAuthInfo" resultMap="UserAuthMap">
+    <!-- 根据用户名获取用户的认证信息 -->
+    <select id="getAuthCredentialsByUsername" resultMap="AuthCredentialsMap">
         SELECT
-            t1.id,
+            t1.id userId,
             t1.username,
             t1.nickname,
             t1.PASSWORD,
             t1.STATUS,
-            t1.dept_id,
-            t3.CODE,
-            t1.avatar,
-            t1.mobile,
-            t1.email
+            t1.dept_id ,
+            t3.CODE
         FROM
             sys_user t1
                 LEFT JOIN sys_user_role t2 ON t2.user_id = t1.id
                 LEFT JOIN sys_role t3 ON t3.id = t2.role_id
         WHERE
-            t1.username = #{username}
-            AND t1.is_deleted=0
+            t1.username = #{username} AND t1.is_deleted = 0
+    </select>
+
+    <!-- 根据微信openid获取用户的认证信息  -->
+    <select id="getAuthCredentialsByOpenId" resultMap="AuthCredentialsMap">
+        SELECT
+            t1.id userId,
+            t1.username,
+            t1.nickname,
+            t1.PASSWORD,
+            t1.STATUS,
+            t1.dept_id ,
+            t3.CODE
+        FROM
+            sys_user t1
+                LEFT JOIN sys_user_role t2 ON t2.user_id = t1.id
+                LEFT JOIN sys_role t3 ON t3.id = t2.role_id
+        WHERE
+            t1.openid = #{openid} AND t1.is_deleted = 0
+    </select>
+
+    <!-- 根据手机号获取用户的认证信息 -->
+    <select id="getAuthCredentialsByMobile" resultMap="AuthCredentialsMap">
+        SELECT
+            t1.id userId,
+            t1.username,
+            t1.nickname,
+            t1.STATUS,
+            t1.dept_id ,
+            t3.CODE
+        FROM
+            sys_user t1
+                LEFT JOIN sys_user_role t2 ON t2.user_id = t1.id
+                LEFT JOIN sys_role t3 ON t3.id = t2.role_id
+        WHERE
+            t1.mobile = #{mobile} AND t1.is_deleted = 0
     </select>
 
     <!-- 获取用户导出列表 -->
-    <select id="listExportUsers" resultType="com.youlai.system.model.vo.UserExportVO">
+    <select id="listExportUsers" resultType="com.youlai.system.model.dto.UserExportDTO">
         SELECT
             u.username,
             u.nickname,
             u.mobile,
-            CASE u.gender
-                WHEN 1 THEN '男'
-                WHEN 2 THEN '女'
-                ELSE '未知'
-            END gender,
+            u.email,
+            u.gender,
             d.NAME AS dept_name,
             u.create_time
         FROM
             sys_user u
                 LEFT JOIN sys_dept d ON u.dept_id = d.id
         <where>
-            u.is_deleted = 0 AND u.username != 'root'
+            u.is_deleted = 0
+            <if test="!isRoot">
+            AND NOT EXISTS (
+                SELECT
+                    1
+                FROM sys_user_role sur
+                    INNER JOIN sys_role r ON sur.role_id = r.id
+                WHERE
+                    sur.user_id = u.id
+                    AND r.code = '${@com.youlai.common.constant.SystemConstants@ROOT_ROLE_CODE}'
+            )
+            </if>
             <if test='keywords!=null and keywords.trim() neq ""'>
                 AND (u.username LIKE CONCAT('%',#{keywords},'%')
                 OR u.nickname LIKE CONCAT('%',#{keywords},'%')
@@ -151,7 +224,7 @@
         GROUP BY u.id
     </select>
 
-    <!-- 获取用户个人中心信息 -->
+    <!-- 根据用户ID获取用户详情 -->
     <select id="getUserProfile" resultType="com.youlai.system.model.bo.UserBO">
         SELECT
             u.id,
@@ -161,8 +234,9 @@
             u.gender,
             u.avatar,
             u.STATUS,
-            d.NAME AS dept_name,
-            GROUP_CONCAT( r.NAME ) AS roleNames,
+            u.email,
+            d.NAME AS deptName,
+            GROUP_CONCAT(r.NAME) AS roleNames,
             u.create_time
         FROM
             sys_user u
@@ -170,8 +244,7 @@
                 LEFT JOIN sys_user_role sur ON u.id = sur.user_id
                 LEFT JOIN sys_role r ON sur.role_id = r.id
         WHERE
-            u.id = #{userId}
-            AND u.is_deleted = 0
+            u.id = #{userId} AND u.is_deleted = 0
     </select>
 
 </mapper>

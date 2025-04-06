@@ -5,20 +5,21 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.system.model.entity.RoleMenu;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色菜单业务接口
  *
- * @author Ray.Hao
- * @since 0.0.1
+ * @author haoxr
+ * @since 2.5.0
  */
 public interface RoleMenuService extends IService<RoleMenu> {
 
     /**
      * 获取角色拥有的菜单ID集合
      *
-     * @param roleId
-     * @return
+     * @param roleId 角色ID
+     * @return 菜单ID集合
      */
     List<Long> listMenuIdsByRoleId(Long roleId);
 
@@ -43,4 +44,11 @@ public interface RoleMenuService extends IService<RoleMenu> {
      */
     void refreshRolePermsCache(String oldRoleCode, String newRoleCode);
 
+    /**
+     * 获取角色权限集合
+     *
+     * @param roles 角色编码集合
+     * @return 权限集合
+     */
+    Set<String> getRolePermsByRoleCodes(Set<String> roles);
 }

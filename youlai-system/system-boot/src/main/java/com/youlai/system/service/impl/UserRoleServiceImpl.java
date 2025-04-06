@@ -7,7 +7,6 @@ import com.youlai.system.mapper.UserRoleMapper;
 import com.youlai.system.model.entity.UserRole;
 import com.youlai.system.service.UserRoleService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +22,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
      * @return
      */
     @Override
-    @Transactional
     public boolean saveUserRoles(Long userId, List<Long> roleIds) {
 
         if (userId == null || CollectionUtil.isEmpty(roleIds)) {

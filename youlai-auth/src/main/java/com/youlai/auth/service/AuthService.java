@@ -1,6 +1,7 @@
 package com.youlai.auth.service;
 
 import cn.hutool.captcha.AbstractCaptcha;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
@@ -9,12 +10,15 @@ import com.youlai.auth.model.CaptchaResult;
 import com.youlai.auth.util.SecurityUtils;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.sms.config.AliyunSmsProperties;
+import com.youlai.common.sms.enums.SmsTypeEnum;
 import com.youlai.common.sms.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -68,17 +72,15 @@ public class AuthService {
      * @return true|false 是否发送成功
      */
     public boolean sendLoginSmsCode(String mobile) {
-        // 获取短信模板代码
-        String templateCode = aliyunSmsProperties.getTemplateCodes().get("login");
 
         // 生成随机4位数验证码
         String code = RandomUtil.randomNumbers(4);
 
         // 短信模板: 您的验证码：${code}，该验证码5分钟内有效，请勿泄漏于他人。
         // 其中 ${code} 是模板参数，使用时需要替换为实际值。
-        String templateParams = JSONUtil.toJsonStr(Collections.singletonMap("code", code));
-
-        boolean result = smsService.sendSms(mobile, templateCode, templateParams);
+        Map<String,String> templateParams =new HashMap<>();
+        templateParams.put("code",code);
+        boolean result = smsService.sendSms(mobile, SmsTypeEnum.LOGIN, templateParams);
         if (result) {
             // 将验证码存入redis，有效期5分钟
             redisTemplate.opsForValue().set(RedisConstants.Captcha.MOBILE_CODE + mobile, code, 5, TimeUnit.MINUTES);
@@ -92,23 +94,23 @@ public class AuthService {
      * 注销
      */
     public void logout() {
-
-        String jti = SecurityUtils.getJti();
-        Optional<Long> expireTimeOpt = Optional.ofNullable(SecurityUtils.getExp()); // 使用Optional处理可能的null值
-
-        long currentTimeInSeconds = System.currentTimeMillis() / 1000; // 当前时间（单位：秒）
-
-        expireTimeOpt.ifPresent(expireTime -> {
-            if (expireTime > currentTimeInSeconds) {
-                // token未过期，添加至缓存作为黑名单，缓存时间为token剩余的有效时间
-                long remainingTimeInSeconds = expireTime - currentTimeInSeconds;
-                redisTemplate.opsForValue().set(RedisConstants.Auth.BLACKLIST_TOKEN + jti, "", remainingTimeInSeconds, TimeUnit.SECONDS);
+        // 先获取令牌信息
+        Map<String, Object> tokenAttributes = SecurityUtils.getTokenAttributes();
+        if (tokenAttributes != null) {
+            String jti = String.valueOf(tokenAttributes.get("jti"));
+            Long exp = Convert.toLong(tokenAttributes.get("exp"));
+            
+            if (exp != null) {
+                long currentTimeInSeconds = System.currentTimeMillis() / 1000;
+                if (exp > currentTimeInSeconds) {
+                    // token未过期，添加至缓存作为黑名单，缓存时间为token剩余的有效时间
+                    long remainingTimeInSeconds = exp - currentTimeInSeconds;
+                    redisTemplate.opsForValue().set(RedisConstants.Auth.BLACKLIST_TOKEN + jti, "", remainingTimeInSeconds, TimeUnit.SECONDS);
+                }
+            } else {
+                // token 永不过期则永久加入黑名单
+                redisTemplate.opsForValue().set(RedisConstants.Auth.BLACKLIST_TOKEN + jti, "");
             }
-        });
-
-        if (expireTimeOpt.isEmpty()) {
-            // token 永不过期则永久加入黑名单
-            redisTemplate.opsForValue().set(RedisConstants.Auth.BLACKLIST_TOKEN + jti, "");
         }
     }
 }

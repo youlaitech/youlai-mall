@@ -1,20 +1,20 @@
 package com.youlai.system.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.youlai.system.enums.MenuTypeEnum;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
- * 菜单实体对象
+ * 菜单实体
  *
  * @author Ray.Hao
  * @since 2023/3/6
  */
-@TableName(value ="sys_menu")
-@Data
+@TableName("sys_menu")
+@Getter
+@Setter
 public class Menu {
     /**
      * 菜单ID
@@ -35,7 +35,7 @@ public class Menu {
     /**
      * 菜单类型(1-菜单；2-目录；3-外链；4-按钮权限)
      */
-    private MenuTypeEnum type;
+    private Integer type;
 
     /**
      * 路由名称（Vue Router 中定义的路由名称）

@@ -55,7 +55,7 @@
         <hutool.version>5.8.28</hutool.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <weixin-java.version>4.2.6.B</weixin-java.version>
-        <easyexcel.version>3.3.4</easyexcel.version>
+        <fastexcel.version>1.1.0</fastexcel.version>
         <nimbus-jose-jwt.version>9.16.1</nimbus-jose-jwt.version>
 
         <!-- 阿里云短信 -->
@@ -236,10 +236,11 @@
                 <version>${aliyun.java.sdk.dysmsapi.version}</version>
             </dependency>
 
+            <!-- Excel 工具（EasyExcel-PLus ）  -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>easyexcel</artifactId>
-                <version>${easyexcel.version}</version>
+                <groupId>cn.idev.excel</groupId>
+                <artifactId>fastexcel</artifactId>
+                <version>${fastexcel.version}</version>
             </dependency>
 
             <dependency>

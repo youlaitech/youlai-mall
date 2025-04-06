@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.system.mapper.LogMapper;
 import com.youlai.system.model.bo.VisitCount;
+import com.youlai.system.model.bo.VisitStatsBO;
 import com.youlai.system.model.entity.Log;
 import com.youlai.system.model.query.LogPageQuery;
 import com.youlai.system.model.vo.LogPageVO;
@@ -12,7 +13,6 @@ import com.youlai.system.model.vo.VisitTrendVO;
 import com.youlai.system.service.LogService;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
      * 获取日志分页列表
      *
      * @param queryParams 查询参数
-     * @return
+     * @return 日志分页列表
      */
     @Override
     public Page<LogPageVO> getLogPage(LogPageQuery queryParams) {
@@ -84,39 +84,29 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
     }
 
     /**
-     * 获取访问统计
-     *
-     * @return
+     * 访问量统计
      */
     @Override
-    public List<VisitStatsVO> getVisitStats() {
-        List<VisitStatsVO> list = new ArrayList<>();
+    public VisitStatsVO getVisitStats() {
+        VisitStatsVO result = new VisitStatsVO();
 
-        // 访问量
-        VisitStatsVO pvStats = this.baseMapper.getPvStats();
-        pvStats.setTitle("浏览量");
-        pvStats.setType("pv");
-        pvStats.setGranularityLabel("日");
-        list.add(pvStats);
+        // 访客数统计(UV)
+        VisitStatsBO uvStats = this.baseMapper.getUvStats();
+        if(uvStats!=null){
+            result.setTodayUvCount(uvStats.getTodayCount());
+            result.setTotalUvCount(uvStats.getTotalCount());
+            result.setUvGrowthRate(uvStats.getGrowthRate());
+        }
 
-        // 访客数
-        VisitStatsVO uvStats = new VisitStatsVO();
-        uvStats.setTitle("访客数");
-        uvStats.setType("uv");
-        uvStats.setTodayCount(100);
-        uvStats.setTotalCount(2000);
-        uvStats.setGrowthRate(BigDecimal.ZERO);
-        uvStats.setGranularityLabel("日");
-        list.add(uvStats);
+        // 浏览量统计(PV)
+        VisitStatsBO pvStats = this.baseMapper.getPvStats();
+        if(pvStats!=null){
+            result.setTodayPvCount(pvStats.getTodayCount());
+            result.setTotalPvCount(pvStats.getTotalCount());
+            result.setPvGrowthRate(pvStats.getGrowthRate());
+        }
 
-        // IP数
-        VisitStatsVO ipStats = this.baseMapper.getIpStats();
-        ipStats.setTitle("IP数");
-        ipStats.setType("ip");
-        ipStats.setGranularityLabel("日");
-        list.add(ipStats);
-
-        return list;
+        return result;
     }
 
 }

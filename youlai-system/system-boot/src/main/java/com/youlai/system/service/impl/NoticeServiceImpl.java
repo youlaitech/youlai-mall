@@ -52,7 +52,6 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     private final UserNoticeService userNoticeService;
     private final UserService userService;
     private final SimpMessagingTemplate messagingTemplate;
-    private final OnlineUserService onlineUserService;
 
     /**
      * 获取通知公告分页列表
@@ -212,7 +211,8 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
             Set<String> receivers = targetUserList.stream().map(User::getUsername).collect(Collectors.toSet());
 
-            Set<String> allOnlineUsers = onlineUserService.getAllOnlineUsers();
+            // Set<String> allOnlineUsers = onlineUserService.getAllOnlineUsers();
+            Set<String> allOnlineUsers = new HashSet<>();
 
             // 找出在线用户的通知接收者
             Set<String> onlineReceivers = new HashSet<>(CollectionUtil.intersection(receivers, allOnlineUsers));
@@ -262,10 +262,9 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 阅读获取通知公告详情
      *
      * @param id 通知公告ID
-     * @return
+     * @return NoticeDetailVO 通知公告详情
      */
     @Override
     public NoticeDetailVO getNoticeDetail(Long id) {
@@ -295,4 +294,5 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
                 queryParams
         );
     }
+
 }

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 角色对象转换器
  *
- * @author Ray.Hao
+ * @author haoxr
  * @since 2022/5/29
  */
 @Mapper(componentModel = "spring")
@@ -26,10 +26,9 @@ public interface RoleConverter {
             @Mapping(target = "value", source = "id"),
             @Mapping(target = "label", source = "name")
     })
-    Option toOption(Role role);
+    Option<Long> toOption(Role role);
 
-
-    List<Option> toOption(List<Role> roles);
+    List<Option<Long>> toOptions(List<Role> roles);
 
     Role toEntity(RoleForm roleForm);
 

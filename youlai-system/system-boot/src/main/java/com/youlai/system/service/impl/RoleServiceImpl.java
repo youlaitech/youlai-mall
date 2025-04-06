@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.constant.SystemConstants;
+import com.youlai.common.core.exception.BusinessException;
+import com.youlai.common.core.model.Option;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.system.converter.RoleConverter;
 import com.youlai.system.mapper.RoleMapper;
@@ -15,7 +17,6 @@ import com.youlai.system.model.entity.Role;
 import com.youlai.system.model.entity.RoleMenu;
 import com.youlai.system.model.form.RoleForm;
 import com.youlai.system.model.query.RolePageQuery;
-import com.youlai.common.core.model.Option;
 import com.youlai.system.model.vo.RolePageVO;
 import com.youlai.system.service.RoleMenuService;
 import com.youlai.system.service.RoleService;
@@ -25,13 +26,14 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 角色业务实现类
  *
- * @author Ray.Hao
+ * @author haoxr
  * @since 2022/6/3
  */
 @Service
@@ -46,7 +48,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * 角色分页列表
      *
      * @param queryParams 角色查询参数
-     * @return {@link Page<RolePageVO>} – 角色分页列表
+     * @return {@link Page< RolePageVO >} – 角色分页列表
      */
     @Override
     public Page<RolePageVO> getRolePage(RolePageQuery queryParams) {
@@ -60,16 +62,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 new LambdaQueryWrapper<Role>()
                         .and(StrUtil.isNotBlank(keywords),
                                 wrapper ->
-                                        wrapper.like(StrUtil.isNotBlank(keywords), Role::getName, keywords)
+                                        wrapper.like(Role::getName, keywords)
                                                 .or()
-                                                .like(StrUtil.isNotBlank(keywords), Role::getCode, keywords)
+                                                .like(Role::getCode, keywords)
                         )
                         .ne(!SecurityUtils.isRoot(), Role::getCode, SystemConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
+                        .orderByAsc(Role::getSort).orderByDesc(Role::getCreateTime).orderByDesc(Role::getUpdateTime)
         );
 
         // 实体转换
-        Page<RolePageVO> pageResult = roleConverter.toPageVo(rolePage);
-        return pageResult;
+        return roleConverter.toPageVo(rolePage);
     }
 
     /**
@@ -78,7 +80,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return {@link List<Option>} – 角色下拉列表
      */
     @Override
-    public List<Option> listRoleOptions() {
+    public List<Option<Long>> listRoleOptions() {
         // 查询数据
         List<Role> roleList = this.list(new LambdaQueryWrapper<Role>()
                 .ne(!SecurityUtils.isRoot(), Role::getCode, SystemConstants.ROOT_ROLE_CODE)
@@ -87,7 +89,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         );
 
         // 实体转换
-        return roleConverter.toOption(roleList);
+        return roleConverter.toOptions(roleList);
     }
 
     /**
@@ -137,7 +139,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * 获取角色表单数据
      *
      * @param roleId 角色ID
-     * @return  {@link RoleForm} – 角色表单数据
+     * @return {@link RoleForm} – 角色表单数据
      */
     @Override
     public RoleForm getRoleForm(Long roleId) {
@@ -154,8 +156,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public boolean updateRoleStatus(Long roleId, Integer status) {
+
         Role role = this.getById(roleId);
-        Assert.isTrue(role != null, "角色不存在");
+        if (role == null) {
+            throw new BusinessException("角色不存在");
+        }
 
         role.setStatus(status);
         boolean result = this.updateById(role);
@@ -163,7 +168,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             // 刷新角色的权限缓存
             roleMenuService.refreshRolePermsCache(role.getCode());
         }
-
         return result;
     }
 
@@ -171,10 +175,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * 批量删除角色
      *
      * @param ids 角色ID，多个使用英文逗号(,)分割
-     * @return
      */
     @Override
-    public boolean deleteRoles(String ids) {
+    public void deleteRoles(String ids) {
+        Assert.isTrue(StrUtil.isNotBlank(ids), "删除的角色ID不能为空");
         List<Long> roleIds = Arrays.stream(ids.split(","))
                 .map(Long::parseLong)
                 .toList();
@@ -193,7 +197,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 roleMenuService.refreshRolePermsCache(role.getCode());
             }
         }
-        return true;
     }
 
     /**
@@ -208,45 +211,46 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     /**
-     * 分配角色资源权限
+     * 修改角色的资源权限
      *
      * @param roleId  角色ID
      * @param menuIds 菜单ID集合
-     * @return {@link Boolean}
      */
     @Override
     @Transactional
     @CacheEvict(cacheNames = "menu", key = "'routes'")
-    public boolean assignMenusToRole(Long roleId, List<Long> menuIds) {
+    public void assignMenusToRole(Long roleId, List<Long> menuIds) {
         Role role = this.getById(roleId);
-        Assert.isTrue(role != null, "角色不存在");
-
+        if (role == null) {
+            throw new RuntimeException("角色不存在");
+        }
         // 删除角色菜单
-        roleMenuService.remove(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, roleId));
+        roleMenuService.remove(
+                new LambdaQueryWrapper<RoleMenu>()
+                        .eq(RoleMenu::getRoleId, roleId)
+        );
         // 新增角色菜单
         if (CollectionUtil.isNotEmpty(menuIds)) {
-            List<RoleMenu> roleMenus = menuIds.stream()
+            List<RoleMenu> roleMenus = menuIds
+                    .stream()
                     .map(menuId -> new RoleMenu(roleId, menuId))
-                    .collect(Collectors.toList());
+                    .toList();
             roleMenuService.saveBatch(roleMenus);
         }
 
         // 刷新角色的权限缓存
         roleMenuService.refreshRolePermsCache(role.getCode());
-
-        return true;
     }
 
     /**
      * 获取最大范围的数据权限
      *
-     * @param roles
-     * @return
+     * @param roles 角色编码集合
+     * @return {@link Integer} – 数据权限范围
      */
     @Override
-    public Integer getMaxDataRangeDataScope(Set<String> roles) {
-        Integer dataScope = this.baseMapper.getMaxDataRangeDataScope(roles);
-        return dataScope;
+    public Integer getMaximumDataScope(Set<String> roles) {
+        return this.baseMapper.getMaximumDataScope(roles);
     }
 
 }

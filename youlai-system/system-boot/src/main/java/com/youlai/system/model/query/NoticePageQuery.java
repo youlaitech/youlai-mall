@@ -13,9 +13,9 @@ import java.util.List;
  * @author youlaitech
  * @since 2024-08-27 10:31
  */
-@Schema(description ="通知公告查询对象")
-@EqualsAndHashCode(callSuper = false)
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Schema(description ="通知公告查询对象")
 public class NoticePageQuery extends BasePageQuery {
 
     @Schema(description = "通知标题")

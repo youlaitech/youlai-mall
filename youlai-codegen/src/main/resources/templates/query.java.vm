@@ -1,6 +1,6 @@
 package ${packageName}.${moduleName}.${subpackageName};
 
-import com.youlai.boot.common.base.BasePageQuery;
+import com.youlai.common.base.BasePageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;

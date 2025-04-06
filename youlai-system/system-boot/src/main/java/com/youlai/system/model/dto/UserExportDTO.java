@@ -1,8 +1,8 @@
-package com.youlai.system.model.vo;
+package com.youlai.system.model.dto;
 
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.annotation.format.DateTimeFormat;
-import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import cn.idev.excel.annotation.ExcelProperty;
+import cn.idev.excel.annotation.format.DateTimeFormat;
+import cn.idev.excel.annotation.write.style.ColumnWidth;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 /**
  * 用户导出视图对象
  *
- * @author Ray.Hao
+ * @author haoxr
  * @since 2022/4/11 8:46
  */
 
 @Data
 @ColumnWidth(20)
-public class UserExportVO {
+public class UserExportDTO {
 
     @ExcelProperty(value = "用户名")
     private String username;

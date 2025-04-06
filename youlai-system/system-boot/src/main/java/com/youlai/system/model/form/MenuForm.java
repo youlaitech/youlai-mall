@@ -1,6 +1,5 @@
 package com.youlai.system.model.form;
 
-import com.youlai.system.enums.MenuTypeEnum;
 import com.youlai.common.core.model.KeyValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -28,7 +27,7 @@ public class MenuForm {
     private String name;
 
     @Schema(description = "菜单类型（1-菜单 2-目录 3-外链 4-按钮）")
-    private MenuTypeEnum type;
+    private Integer type;
 
     @Schema(description = "路由名称")
     private String routeName;

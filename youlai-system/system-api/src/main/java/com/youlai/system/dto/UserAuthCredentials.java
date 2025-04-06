@@ -2,7 +2,6 @@ package com.youlai.system.dto;
 
 import lombok.Data;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Set;
  * @since 2021/9/27
  */
 @Data
-public class UserAuthInfo {
+public class UserAuthCredentials {
 
     /**
      * 用户ID

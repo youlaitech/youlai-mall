@@ -13,8 +13,8 @@ import java.io.Serializable;
  * @author Theo
  * @since 2024-07-29 11:17:26
  */
-@Schema(description = "系统配置Form实体")
 @Data
+@Schema(description = "系统配置Form实体")
 public class ConfigForm implements Serializable {
 
     @Serial

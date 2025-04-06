@@ -3,6 +3,7 @@ package com.youlai.system.model.form;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 @Schema(description = "角色表单对象")
 @Data
@@ -23,6 +24,7 @@ public class RoleForm {
     private Integer sort;
 
     @Schema(description="角色状态(1-正常；0-停用)")
+    @Range(max = 1, min = 0, message = "角色状态不正确")
     private Integer status;
 
     @Schema(description="数据权限")

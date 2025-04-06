@@ -1,22 +1,22 @@
 package com.youlai.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
+
 /**
  * 通知公告实体对象
  *
- * @author youlaitech
+ * @author Kylin
  * @since 2024-08-27 10:31
  */
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @TableName("sys_notice")
-@Data
 public class Notice extends BaseEntity {
 
     @Serial
@@ -79,9 +79,9 @@ public class Notice extends BaseEntity {
      * 更新人ID
      */
     private Long updateBy;
+
     /**
      * 逻辑删除标识(0-未删除 1-已删除)
      */
-    @TableLogic(value = "0", delval = "1")
     private Integer isDeleted;
 }

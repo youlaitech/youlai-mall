@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Range;
 /**
  * 字典表单对象
  *
- * @author Ray.Hao
+ * @author Ray Hao
  * @since 2.9.0
  */
 @Schema(description = "字典")
@@ -23,6 +23,9 @@ public class DictForm {
 
     @Schema(description = "字典编码", example ="gender")
     private String dictCode;
+
+    @Schema(description = "备注")
+    private String remark;
 
     @Schema(description = "字典状态（1-启用，0-禁用）", example = "1")
     @Range(min = 0, max = 1, message = "字典状态不正确")

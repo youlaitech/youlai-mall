@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserNoticeServiceImpl extends ServiceImpl<UserNoticeMapper, UserNotice> implements UserNoticeService {
 
+    private final UserNoticeMapper userNoticeMapper;
+
     /**
      * 全部标记为已读
      *

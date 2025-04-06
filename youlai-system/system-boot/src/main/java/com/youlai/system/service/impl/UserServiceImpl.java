@@ -2,15 +2,12 @@ package com.youlai.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.constant.RedisConstants;
 import com.youlai.common.constant.SystemConstants;
 import com.youlai.common.core.exception.BusinessException;
@@ -18,32 +15,30 @@ import com.youlai.common.core.model.Option;
 import com.youlai.common.mail.service.MailService;
 import com.youlai.common.security.service.PermissionService;
 import com.youlai.common.security.util.SecurityUtils;
-import com.youlai.common.sms.config.AliyunSmsProperties;
+import com.youlai.common.sms.enums.SmsTypeEnum;
 import com.youlai.common.sms.service.SmsService;
 import com.youlai.system.converter.UserConverter;
-import com.youlai.system.dto.UserAuthInfo;
-import com.youlai.system.enums.SmsTypeEnum;
+import com.youlai.system.dto.UserAuthCredentials;
+import com.youlai.system.enums.DictCodeEnum;
 import com.youlai.system.mapper.UserMapper;
 import com.youlai.system.model.bo.UserBO;
+import com.youlai.system.model.dto.CurrentUserDTO;
+import com.youlai.system.model.dto.UserExportDTO;
+import com.youlai.system.model.entity.DictItem;
 import com.youlai.system.model.entity.User;
+import com.youlai.system.model.entity.UserRole;
 import com.youlai.system.model.form.*;
 import com.youlai.system.model.query.UserPageQuery;
-import com.youlai.system.model.vo.UserExportVO;
-import com.youlai.system.model.vo.UserInfoVO;
 import com.youlai.system.model.vo.UserPageVO;
 import com.youlai.system.model.vo.UserProfileVO;
-import com.youlai.system.service.RoleService;
-import com.youlai.system.service.UserRoleService;
-import com.youlai.system.service.UserService;
+import com.youlai.system.service.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -55,10 +50,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-
-    private final Set<String> onlineUsers = ConcurrentHashMap.newKeySet();
 
     private final PasswordEncoder passwordEncoder;
 
@@ -66,46 +58,51 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private final RoleService roleService;
 
-    private final UserConverter userConverter;
-
     private final PermissionService permissionService;
 
     private final SmsService smsService;
 
     private final MailService mailService;
 
-    private final AliyunSmsProperties aliyunSmsProperties;
-
     private final StringRedisTemplate redisTemplate;
+
+    private final DictItemService dictItemService;
+
+    private final UserConverter userConverter;
 
     /**
      * 获取用户分页列表
      *
      * @param queryParams 查询参数
-     * @return {@link UserPageVO}
+     * @return {@link IPage<UserPageVO>} 用户分页列表
      */
     @Override
     public IPage<UserPageVO> getUserPage(UserPageQuery queryParams) {
 
-        Page<UserBO> userPage = this.baseMapper.getUserPage(
-                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
-                queryParams
-        );
+        // 参数构建
+        int pageNum = queryParams.getPageNum();
+        int pageSize = queryParams.getPageSize();
+        Page<UserBO> page = new Page<>(pageNum, pageSize);
+
+        boolean isRoot = SecurityUtils.isRoot();
+        queryParams.setIsRoot(isRoot);
+
+        // 查询数据
+        Page<UserBO> userPage = this.baseMapper.getUserPage(page, queryParams);
 
         // 实体转换
         return userConverter.toPageVo(userPage);
     }
 
     /**
-     * 获取用户详情
+     * 获取用户表单数据
      *
      * @param userId 用户ID
-     * @return {@link UserForm}
+     * @return {@link UserForm} 用户表单数据
      */
     @Override
     public UserForm getUserFormData(Long userId) {
-        UserBO userDetail = this.baseMapper.getUserDetail(userId);
-        return userConverter.toForm(userDetail);
+        return this.baseMapper.getUserFormData(userId);
     }
 
     /**
@@ -144,7 +141,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      *
      * @param userId   用户ID
      * @param userForm 用户表单对象
-     * @return true|false 是否更新成功
+     * @return true|false
      */
     @Override
     @Transactional
@@ -175,157 +172,176 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 删除用户
      *
      * @param idsStr 用户ID，多个以英文逗号(,)分割
-     * @return true/false 是否删除成功
+     * @return true|false
      */
     @Override
-    @Transactional
     public boolean deleteUsers(String idsStr) {
+        Assert.isTrue(StrUtil.isNotBlank(idsStr), "删除的用户数据为空");
+        // 逻辑删除
         List<Long> ids = Arrays.stream(idsStr.split(","))
-                .map(Long::parseLong).
-                collect(Collectors.toList());
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
         return this.removeByIds(ids);
 
     }
 
     /**
-     * 修改用户密码
+     * 根据用户名获取认证凭证信息
      *
-     * @param userId   用户ID
-     * @param password 用户密码
-     * @return true|false
+     * @param username 用户名
+     * @return 用户认证凭证信息 {@link UserAuthCredentials}
      */
     @Override
-    public boolean updatePassword(Long userId, String password) {
-        return this.update(new LambdaUpdateWrapper<User>()
-                .eq(User::getId, userId)
-                .set(User::getPassword, passwordEncoder.encode(password))
-        );
+    public UserAuthCredentials getAuthCredentialsByUsername(String username) {
+        UserAuthCredentials userAuthCredentials = this.baseMapper.getAuthCredentialsByUsername(username);
+        if (userAuthCredentials != null) {
+            Set<String> roles = userAuthCredentials.getRoles();
+            // 获取最大范围的数据权限
+            Integer dataScope = roleService.getMaximumDataScope(roles);
+            userAuthCredentials.setDataScope(dataScope);
+        }
+        return userAuthCredentials;
     }
 
     /**
-     * 根据用户名获取认证信息
+     * 根据手机号获取用户认证凭证信息
      *
-     * @param username 用户名
-     * @return 用户认证信息 {@link UserAuthInfo}
+     * @param mobile 手机号
+     * @return {@link UserAuthCredentials}
      */
     @Override
-    public UserAuthInfo getUserAuthInfo(String username) {
-        UserAuthInfo userAuthInfo = this.baseMapper.getUserAuthInfo(username);
-        if (userAuthInfo != null) {
-            Set<String> roles = userAuthInfo.getRoles();
-            if (CollectionUtil.isNotEmpty(roles)) {
-                // 获取最大范围的数据权限(目前设定DataScope越小，拥有的数据权限范围越大，所以获取得到角色列表中最小的DataScope)
-                Integer dataScope = roleService.getMaxDataRangeDataScope(roles);
-                userAuthInfo.setDataScope(dataScope);
-            }
+    public UserAuthCredentials getAuthCredentialsByMobile(String mobile) {
+        UserAuthCredentials userAuthCredentials = this.baseMapper.getAuthCredentialsByMobile(mobile);
+        if (userAuthCredentials != null) {
+            Set<String> roles = userAuthCredentials.getRoles();
+            // 获取最大范围的数据权限
+            Integer dataScope = roleService.getMaximumDataScope(roles);
+            userAuthCredentials.setDataScope(dataScope);
         }
-        return userAuthInfo;
+        return userAuthCredentials;
     }
 
+
+    /**
+     * 根据微信 OpenID 注册或绑定用户
+     * <p>
+     * TODO 根据手机号绑定用户
+     *
+     * @param openId 微信 OpenID
+     */
+    @Override
+    public void registerOrBindWechatUser(String openId) {
+        User user = this.getOne(
+                new LambdaQueryWrapper<User>().eq(User::getOpenid, openId)
+        );
+        if (user == null) {
+            user = new User();
+            user.setNickname("微信用户");  // 默认昵称
+            user.setUsername(openId);      // TODO 后续替换为手机号
+            user.setOpenid(openId);
+            user.setGender(0); // 保密
+            user.setUpdateBy(SecurityUtils.getUserId());
+            user.setPassword(SystemConstants.DEFAULT_PASSWORD);
+            this.save(user);
+            // 为了默认系统管理员角色，这里按需调整，实际情况绑定已存在的系统用户，另一种情况是给默认游客角色，然后由系统管理员设置用户的角色
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getId());
+            userRole.setRoleId(1L);  // TODO 系统管理员
+            userRoleService.save(userRole);
+        }
+    }
 
     /**
      * 获取导出用户列表
      *
      * @param queryParams 查询参数
-     * @return {@link UserExportVO}
+     * @return {@link List<UserExportDTO>} 导出用户列表
      */
     @Override
-    public List<UserExportVO> listExportUsers(UserPageQuery queryParams) {
-        return this.baseMapper.listExportUsers(queryParams);
+    public List<UserExportDTO> listExportUsers(UserPageQuery queryParams) {
+
+        boolean isRoot = SecurityUtils.isRoot();
+        queryParams.setIsRoot(isRoot);
+
+        List<UserExportDTO> exportUsers = this.baseMapper.listExportUsers(queryParams);
+        if (CollectionUtil.isNotEmpty(exportUsers)) {
+            //获取性别的字典项
+            Map<String, String> genderMap = dictItemService.list(
+                            new LambdaQueryWrapper<DictItem>().eq(DictItem::getDictCode,
+                                    DictCodeEnum.GENDER.getValue())
+                    ).stream()
+                    .collect(Collectors.toMap(DictItem::getValue, DictItem::getLabel)
+                    );
+
+            exportUsers.forEach(item -> {
+                String gender = item.getGender();
+                if (StrUtil.isBlank(gender)) {
+                    return;
+                }
+
+                // 判断map是否为空
+                if (genderMap.isEmpty()) {
+                    return;
+                }
+
+                item.setGender(genderMap.get(gender));
+            });
+        }
+        return exportUsers;
     }
 
     /**
      * 获取登录用户信息
      *
-     * @return {@link UserInfoVO}   用户信息
+     * @return {@link CurrentUserDTO}   用户信息
      */
     @Override
-    public UserInfoVO getCurrentUserInfo() {
-        // 登录用户entity
+    public CurrentUserDTO getCurrentUserInfo() {
+
+        String username = SecurityUtils.getUsername();
+
+        // 获取登录用户基础信息
         User user = this.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getUsername, SecurityUtils.getUsername())
+                .eq(User::getUsername, username)
                 .select(
                         User::getId,
+                        User::getUsername,
                         User::getNickname,
                         User::getAvatar
                 )
         );
         // entity->VO
-        UserInfoVO userInfoVO = userConverter.entity2InfoVo(user);
+        CurrentUserDTO userInfoVO = userConverter.toCurrentUserDto(user);
 
-        // 获取用户角色集合
+        // 用户角色集合
         Set<String> roles = SecurityUtils.getRoles();
         userInfoVO.setRoles(roles);
 
-        // 获取用户权限集合
+        // 用户权限集合
         if (CollectionUtil.isNotEmpty(roles)) {
             Set<String> perms = permissionService.getRolePermsFormCache(roles);
             userInfoVO.setPerms(perms);
         }
-
         return userInfoVO;
-    }
-
-    /**
-     * 注册用户
-     *
-     * @param userRegisterForm 用户注册表单对象
-     * @return true|false 是否注册成功
-     */
-    @Override
-    public boolean registerUser(UserRegisterForm userRegisterForm) {
-
-        String mobile = userRegisterForm.getMobile();
-        String code = userRegisterForm.getCode();
-        // 校验验证码
-        String cacheCode = redisTemplate.opsForValue().get(RedisConstants.Captcha.MOBILE_CODE + mobile);
-        if (!StrUtil.equals(code, cacheCode)) {
-            log.warn("验证码不匹配或不存在: {}", mobile);
-            return false; // 验证码不匹配或不存在时返回false
-        }
-        // 校验通过，删除验证码
-        redisTemplate.delete(RedisConstants.Captcha.MOBILE_CODE + mobile);
-
-        // 校验手机号是否已注册
-        long count = this.count(new LambdaQueryWrapper<User>()
-                .eq(User::getMobile, mobile)
-                .or()
-                .eq(User::getUsername, mobile)
-        );
-        if (count > 0) {
-            throw new BusinessException("该手机号已注册");
-        }
-
-        User entity = new User();
-        entity.setUsername(mobile);
-        entity.setMobile(mobile);
-        entity.setStatus(GlobalConstants.STATUS_YES);
-
-        // 设置默认加密密码
-        String defaultEncryptPwd = passwordEncoder.encode(SystemConstants.DEFAULT_PASSWORD);
-        entity.setPassword(defaultEncryptPwd);
-
-        // 新增用户，并直接返回结果
-        return this.save(entity);
     }
 
     /**
      * 获取个人中心用户信息
      *
      * @param userId 用户ID
-     * @return
+     * @return {@link UserProfileVO} 个人中心用户信息
      */
     @Override
     public UserProfileVO getUserProfile(Long userId) {
         UserBO entity = this.baseMapper.getUserProfile(userId);
-        return userConverter.toProfileVO(entity);
+        return userConverter.toProfileVo(entity);
     }
 
     /**
      * 修改个人中心用户信息
      *
      * @param formData 表单数据
-     * @return
+     * @return true|false
      */
     @Override
     public boolean updateUserProfile(UserProfileForm formData) {
@@ -335,13 +351,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return this.updateById(entity);
     }
 
-
     /**
      * 修改用户密码
      *
      * @param userId 用户ID
      * @param data   密码修改表单数据
-     * @return
+     * @return true|false
      */
     @Override
     public boolean changePassword(Long userId, PasswordUpdateForm data) {
@@ -374,7 +389,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      *
      * @param userId   用户ID
      * @param password 密码重置表单数据
-     * @return
+     * @return true|false
      */
     @Override
     public boolean resetPassword(Long userId, String password) {
@@ -399,11 +414,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         Map<String, String> templateParams = new HashMap<>();
         templateParams.put("code", code);
-        boolean result = false;
-        // boolean result = smsService.sendSms(mobile, "change-mobile", templateParams);
+        boolean result = smsService.sendSms(mobile, SmsTypeEnum.CHANGE_MOBILE, templateParams);
         if (result) {
             // 缓存验证码，5分钟有效，用于更换手机号校验
-            String redisCacheKey = RedisConstants.Captcha.MOBILE_CODE + mobile;
+            String redisCacheKey = StrUtil.format(RedisConstants.Captcha.MOBILE_CODE, mobile);
             redisTemplate.opsForValue().set(redisCacheKey, code, 5, TimeUnit.MINUTES);
         }
         return result;
@@ -429,8 +443,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String inputVerifyCode = form.getCode();
         String mobile = form.getMobile();
 
-        String redisCacheKey = RedisConstants.Captcha.MOBILE_CODE + mobile;
-        String cachedVerifyCode = redisTemplate.opsForValue().get(redisCacheKey);
+        String cacheKey = StrUtil.format(RedisConstants.Captcha.MOBILE_CODE, mobile);
+
+        String cachedVerifyCode = redisTemplate.opsForValue().get(cacheKey);
 
         if (StrUtil.isBlank(cachedVerifyCode)) {
             throw new BusinessException("验证码已过期");
@@ -439,7 +454,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException("验证码错误");
         }
         // 验证完成删除验证码
-        redisTemplate.delete(redisCacheKey);
+        redisTemplate.delete(cacheKey);
 
         // 更新手机号码
         return this.update(
@@ -463,7 +478,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         mailService.sendMail(email, "邮箱验证码", "您的验证码为：" + code + "，请在5分钟内使用");
         // 缓存验证码，5分钟有效，用于更换邮箱校验
-        String redisCacheKey = RedisConstants.Captcha.EMAIL_CODE + email;
+        String redisCacheKey = StrUtil.format(RedisConstants.Captcha.EMAIL_CODE, email);
         redisTemplate.opsForValue().set(redisCacheKey, code, 5, TimeUnit.MINUTES);
     }
 

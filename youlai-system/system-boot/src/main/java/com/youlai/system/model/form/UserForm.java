@@ -5,13 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
 /**
  * 用户表单对象
  *
- * @author Ray.Hao
+ * @author haoxr
  * @since 2022/4/12 11:04
  */
 @Schema(description = "用户表单对象")
@@ -44,6 +45,7 @@ public class UserForm {
     private String email;
 
     @Schema(description="用户状态(1:正常;0:禁用)")
+    @Range(min = 0, max = 1, message = "用户状态不正确")
     private Integer status;
 
     @Schema(description="部门ID")
@@ -52,5 +54,8 @@ public class UserForm {
     @Schema(description="角色ID集合")
     @NotEmpty(message = "用户角色不能为空")
     private List<Long> roleIds;
+
+    @Schema(description="微信openId")
+    private String openId;
 
 }

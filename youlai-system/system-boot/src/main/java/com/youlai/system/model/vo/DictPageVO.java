@@ -5,10 +5,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+
 /**
  * 字典分页VO
  *
- * @author Ray.Hao
+ * @author Ray
  * @since 0.0.1
  */
 @Schema(description = "字典分页对象")

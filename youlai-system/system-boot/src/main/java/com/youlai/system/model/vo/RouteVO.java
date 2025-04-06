@@ -10,14 +10,13 @@ import java.util.Map;
 /**
  * 菜单路由视图对象
  *
- * @author Ray.Hao
+ * @author haoxr
  * @since 2020/11/28
  */
 @Schema(description = "路由对象")
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouteVO {
-
 
     @Schema(description = "路由路径", example = "user")
     private String path;

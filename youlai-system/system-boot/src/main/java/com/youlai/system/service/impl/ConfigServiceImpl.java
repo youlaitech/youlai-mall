@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 系统配置服务实现类
+ * 系统配置Service接口实现
  *
  * @author Theo
  * @since 2024-07-29 11:17:26
@@ -59,9 +59,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
         String keywords = configPageQuery.getKeywords();
         LambdaQueryWrapper<Config> query = new LambdaQueryWrapper<Config>()
                 .and(StringUtils.isNotBlank(keywords),
-                        q -> q.like(Config::getConfigKey, keywords)
-                                .or()
-                                .like(Config::getConfigName, keywords)
+                    q -> q.like(Config::getConfigKey, keywords)
+                        .or()
+                        .like(Config::getConfigName, keywords)
                 );
         Page<Config> pageList = this.page(page, query);
         return configConverter.toPageVo(pageList);
@@ -80,6 +80,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
                 "配置键已存在");
         Config config = configConverter.toEntity(configForm);
         config.setCreateBy(SecurityUtils.getUserId());
+        config.setIsDeleted(0);
         return this.save(config);
     }
 
@@ -103,14 +104,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
      * @return 是否编辑成功
      */
     @Override
-    public boolean updateConfig(Long id, ConfigForm configForm) {
-        long count = this.count(new LambdaQueryWrapper<Config>()
-                .eq(Config::getConfigKey, configForm.getConfigKey())
-                .ne(Config::getId, id));
-        if (count > 0) {
-            throw new IllegalArgumentException("配置键已存在");
-        }
-
+    public boolean edit(Long id, ConfigForm configForm) {
+        Assert.isTrue(
+                super.count(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configForm.getConfigKey()).ne(Config::getId, id)) == 0,
+                "配置键已存在");
         Config config = configConverter.toEntity(configForm);
         config.setUpdateBy(SecurityUtils.getUserId());
         return this.updateById(config);
@@ -126,7 +123,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     public boolean delete(Long id) {
         if (id != null) {
             return super.update(new LambdaUpdateWrapper<Config>()
-                    .eq(Config::getId, id)
+                    .eq(Config::getId,id)
                     .set(Config::getIsDeleted, 1)
                     .set(Config::getUpdateBy, SecurityUtils.getUserId())
             );

@@ -1,7 +1,7 @@
 package com.youlai.system.api.fallback;
 
 import com.youlai.system.api.UserFeignClient;
-import com.youlai.system.dto.UserAuthInfo;
+import com.youlai.system.dto.UserAuthCredentials;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 public class UserFeignFallbackClient implements UserFeignClient {
 
     @Override
-    public UserAuthInfo getUserAuthInfo(String username) {
+    public UserAuthCredentials getUserAuthInfo(String username) {
         log.error("feign远程调用系统用户服务异常后的降级方法");
-        return new UserAuthInfo();
+        return new UserAuthCredentials();
     }
 }

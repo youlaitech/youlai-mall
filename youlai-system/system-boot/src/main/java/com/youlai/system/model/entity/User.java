@@ -1,27 +1,17 @@
 package com.youlai.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 用户实体
- *
- * @author Ray.Hao
- * @since 0.0.1
  */
-@EqualsAndHashCode(callSuper = false)
-@Data
 @TableName("sys_user")
+@Getter
+@Setter
 public class User extends BaseEntity {
-    /**
-     * 主键
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
 
     /**
      * 用户名
@@ -34,7 +24,7 @@ public class User extends BaseEntity {
     private String nickname;
 
     /**
-     * 性别(1:男;2:女)
+     * 性别((1-男 2-女 0-保密)
      */
     private Integer gender;
 
@@ -59,7 +49,7 @@ public class User extends BaseEntity {
     private String mobile;
 
     /**
-     * 用户状态(1:正常;0:禁用)
+     * 状态((1-正常 0-禁用)
      */
     private Integer status;
 
@@ -69,8 +59,22 @@ public class User extends BaseEntity {
     private String email;
 
     /**
+     * 创建人 ID
+     */
+    private Long createBy;
+
+    /**
+     * 更新人 ID
+     */
+    private Long updateBy;
+
+    /**
      * 是否删除(0-否 1-是)
      */
     private Integer isDeleted;
 
+    /**
+     * 微信 OpenID
+     */
+    private String openid;
 }

@@ -3,12 +3,12 @@ package com.youlai.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.core.model.Option;
-import com.youlai.system.dto.UserAuthInfo;
+import com.youlai.system.dto.UserAuthCredentials;
+import com.youlai.system.model.dto.CurrentUserDTO;
+import com.youlai.system.model.dto.UserExportDTO;
 import com.youlai.system.model.entity.User;
 import com.youlai.system.model.form.*;
 import com.youlai.system.model.query.UserPageQuery;
-import com.youlai.system.model.vo.UserExportVO;
-import com.youlai.system.model.vo.UserInfoVO;
 import com.youlai.system.model.vo.UserPageVO;
 import com.youlai.system.model.vo.UserProfileVO;
 
@@ -25,7 +25,7 @@ public interface UserService extends IService<User> {
     /**
      * 用户分页列表
      *
-     * @return {@link IPage<UserPageVO>}
+     * @return {@link IPage<UserPageVO>} 用户分页列表
      */
     IPage<UserPageVO> getUserPage(UserPageQuery queryParams);
 
@@ -33,15 +33,16 @@ public interface UserService extends IService<User> {
      * 获取用户表单数据
      *
      * @param userId 用户ID
-     * @return {@link UserForm}
+     * @return {@link UserForm} 用户表单数据
      */
     UserForm getUserFormData(Long userId);
+
 
     /**
      * 新增用户
      *
      * @param userForm 用户表单对象
-     * @return {@link Boolean}
+     * @return {@link Boolean} 是否新增成功
      */
     boolean saveUser(UserForm userForm);
 
@@ -50,60 +51,50 @@ public interface UserService extends IService<User> {
      *
      * @param userId   用户ID
      * @param userForm 用户表单对象
-     * @return {@link Boolean}
+     * @return {@link Boolean} 是否修改成功
      */
     boolean updateUser(Long userId, UserForm userForm);
+
 
     /**
      * 删除用户
      *
      * @param idsStr 用户ID，多个以英文逗号(,)分割
-     * @return {@link Boolean}
+     * @return {@link Boolean} 是否删除成功
      */
     boolean deleteUsers(String idsStr);
 
-    /**
-     * 修改用户密码
-     *
-     * @param userId   用户ID
-     * @param password 用户密码
-     * @return {@link Boolean}
-     */
-    boolean updatePassword(Long userId, String password);
 
     /**
      * 根据用户名获取认证信息
      *
      * @param username 用户名
-     * @return {@link UserAuthInfo}
+     * @return {@link UserAuthCredentials}
      */
-    UserAuthInfo getUserAuthInfo(String username);
+
+    UserAuthCredentials getAuthCredentialsByUsername(String username);
+
 
     /**
      * 获取导出用户列表
      *
      * @param queryParams 查询参数
-     * @return {@link List<UserExportVO>}
+     * @return {@link List<UserExportDTO>} 导出用户列表
      */
-    List<UserExportVO> listExportUsers(UserPageQuery queryParams);
+    List<UserExportDTO> listExportUsers(UserPageQuery queryParams);
+
 
     /**
      * 获取登录用户信息
      *
-     * @return {@link UserInfoVO}
+     * @return {@link CurrentUserDTO} 登录用户信息
      */
-    UserInfoVO getCurrentUserInfo();
-
-
-    /**
-     * 注册用户
-     *
-     * @param userRegisterForm 注册表单
-     */
-     boolean registerUser(UserRegisterForm userRegisterForm);
+    CurrentUserDTO getCurrentUserInfo();
 
     /**
      * 获取个人中心用户信息
+     *
+     * @return {@link UserProfileVO} 个人中心用户信息
      */
     UserProfileVO getUserProfile(Long userId);
 
@@ -111,6 +102,7 @@ public interface UserService extends IService<User> {
      * 修改个人中心用户信息
      *
      * @param formData 表单数据
+     * @return {@link Boolean} 是否修改成功
      */
     boolean updateUserProfile(UserProfileForm formData);
 
@@ -119,6 +111,7 @@ public interface UserService extends IService<User> {
      *
      * @param userId 用户ID
      * @param data   修改密码表单数据
+     * @return {@link Boolean} 是否修改成功
      */
     boolean changePassword(Long userId, PasswordUpdateForm data);
 
@@ -127,6 +120,7 @@ public interface UserService extends IService<User> {
      *
      * @param userId   用户ID
      * @param password 重置后的密码
+     * @return {@link Boolean} 是否重置成功
      */
     boolean resetPassword(Long userId, String password);
 
@@ -167,4 +161,21 @@ public interface UserService extends IService<User> {
      * @return {@link List<Option<String>>} 用户选项列表
      */
     List<Option<String>> listUserOptions();
+
+    /**
+     * 根据微信 OpenID 注册或绑定用户
+     *
+     * @param openId 微信 OpenID
+     */
+    void registerOrBindWechatUser(String openId);
+
+    /**
+     * 根据手机号获取用户认证信息
+     *
+     * @param mobile 手机号
+     * @return {@link UserAuthCredentials}
+     */
+    UserAuthCredentials getAuthCredentialsByMobile(String mobile);
+
+
 }

@@ -24,9 +24,6 @@ public class VisitTrendVO {
     @Schema(description = "浏览量(PV)")
     private List<Integer> pvList;
 
-    @Schema(description = "访客数(UV)")
-    private List<Integer> uvList;
-
     @Schema(description = "IP数")
     private List<Integer> ipList;
 

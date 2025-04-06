@@ -10,8 +10,8 @@ import lombok.Data;
  * @author Ray.Hao
  * @since 2024/8/19
  */
-@Data
 @Schema(description = "修改邮箱表单")
+@Data
 public class EmailUpdateForm {
 
     @Schema(description = "邮箱")

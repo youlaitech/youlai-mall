@@ -9,8 +9,8 @@ import org.mapstruct.Mapping;
 /**
  * 菜单对象转换器
  *
- * @author Ray.Hao
- * @since 2022/7/29
+ * @author Ray Hao
+ * @since 2024/5/26
  */
 @Mapper(componentModel = "spring")
 public interface MenuConverter {
@@ -22,4 +22,5 @@ public interface MenuConverter {
 
     @Mapping(target = "params", ignore = true)
     Menu toEntity(MenuForm menuForm);
+
 }

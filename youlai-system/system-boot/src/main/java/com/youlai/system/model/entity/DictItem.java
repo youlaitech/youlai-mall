@@ -1,28 +1,20 @@
 package com.youlai.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 /**
- * 字典数据实体对象
+ * 字典项实体对象
  *
- * @author haoxr
+ * @author Ray.Hao
  * @since 2022/12/17
  */
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_dict_data")
+@TableName("sys_dict_item")
 @Data
-public class DictData extends BaseEntity {
-    /**
-     * 主键
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
+public class DictItem extends BaseEntity {
 
     /**
      * 字典编码

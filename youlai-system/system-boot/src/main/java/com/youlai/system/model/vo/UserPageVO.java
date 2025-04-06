@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 用户分页视图对象
  *
- * @author Ray.Hao
+ * @author haoxr
  * @since 2022/1/15 9:41
  */
 @Schema(description ="用户分页对象")
@@ -29,7 +29,7 @@ public class UserPageVO {
     private String mobile;
 
     @Schema(description="性别")
-    private String genderLabel;
+    private Integer gender;
 
     @Schema(description="用户头像地址")
     private String avatar;
@@ -47,7 +47,7 @@ public class UserPageVO {
     private String roleNames;
 
     @Schema(description="创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createTime;
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
+    private LocalDateTime createTime;
 
 }

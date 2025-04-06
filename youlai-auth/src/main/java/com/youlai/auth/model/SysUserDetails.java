@@ -2,7 +2,7 @@ package com.youlai.auth.model;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.youlai.common.enums.StatusEnum;
-import com.youlai.system.dto.UserAuthInfo;
+import com.youlai.system.dto.UserAuthCredentials;
 import lombok.Data;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -61,7 +61,7 @@ public class SysUserDetails implements UserDetails, CredentialsContainer {
     /**
      * 系统管理用户
      */
-    public SysUserDetails(UserAuthInfo user) {
+    public SysUserDetails(UserAuthCredentials user) {
         this.setUserId(user.getUserId());
         this.setUsername(user.getUsername());
         this.setDeptId(user.getDeptId());

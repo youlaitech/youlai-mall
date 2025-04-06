@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 /**
  * 用户通知公告实体对象
  *
- * @author youlaitech
+ * @author Kylin
  * @since 2024-08-28 16:56
  */
 @Getter

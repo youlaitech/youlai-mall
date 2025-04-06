@@ -3,11 +3,11 @@ package com.youlai.system.converter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.model.Option;
 import com.youlai.system.model.bo.UserBO;
+import com.youlai.system.model.dto.CurrentUserDTO;
+import com.youlai.system.model.dto.UserImportDTO;
 import com.youlai.system.model.entity.User;
 import com.youlai.system.model.form.UserForm;
 import com.youlai.system.model.form.UserProfileForm;
-import com.youlai.system.model.vo.UserImportVO;
-import com.youlai.system.model.vo.UserInfoVO;
 import com.youlai.system.model.vo.UserPageVO;
 import com.youlai.system.model.vo.UserProfileVO;
 import org.mapstruct.InheritInverseConfiguration;
@@ -26,14 +26,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UserConverter {
 
-    @Mappings({
-            @Mapping(target = "genderLabel", expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(bo.getGender(), com.youlai.common.enums.GenderEnum.class))")
-    })
     UserPageVO toPageVo(UserBO bo);
 
     Page<UserPageVO> toPageVo(Page<UserBO> bo);
-
-    UserForm toForm(UserBO bo);
 
     UserForm toForm(User entity);
 
@@ -43,12 +38,12 @@ public interface UserConverter {
     @Mappings({
             @Mapping(target = "userId", source = "id")
     })
-    UserInfoVO entity2InfoVo(User entity);
+    CurrentUserDTO toCurrentUserDto(User entity);
 
-    User importVo2Entity(UserImportVO vo);
+    User toEntity(UserImportDTO vo);
 
 
-    UserProfileVO toProfileVO(UserBO bo);
+    UserProfileVO toProfileVo(UserBO bo);
 
     User toEntity(UserProfileForm formData);
 

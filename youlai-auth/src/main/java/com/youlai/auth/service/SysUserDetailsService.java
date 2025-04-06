@@ -5,7 +5,7 @@ import com.youlai.auth.model.LoginUserInfo;
 import com.youlai.auth.model.SysUserDetails;
 import com.youlai.common.enums.StatusEnum;
 import com.youlai.system.api.UserFeignClient;
-import com.youlai.system.dto.UserAuthInfo;
+import com.youlai.system.dto.UserAuthCredentials;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,15 +34,15 @@ public class SysUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserAuthInfo userAuthInfo = userFeignClient.getUserAuthInfo(username);
+        UserAuthCredentials userAuthCredentials = userFeignClient.getUserAuthInfo(username);
 
-        Assert.isTrue(userAuthInfo != null, "用户不存在");
+        Assert.isTrue(userAuthCredentials != null, "用户不存在");
 
-        if (!StatusEnum.ENABLE.getValue().equals(userAuthInfo.getStatus())) {
+        if (!StatusEnum.ENABLE.getValue().equals(userAuthCredentials.getStatus())) {
             throw new DisabledException("该账户已被禁用!");
         }
 
-        return new SysUserDetails(userAuthInfo);
+        return new SysUserDetails(userAuthCredentials);
     }
 
 

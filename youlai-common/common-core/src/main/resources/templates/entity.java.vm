@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.math.BigDecimal;
 #end
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.youlai.boot.common.base.BaseEntity;
+import com.youlai.common.base.BaseEntity;
 
 /**
  * $!{businessName}实体对象

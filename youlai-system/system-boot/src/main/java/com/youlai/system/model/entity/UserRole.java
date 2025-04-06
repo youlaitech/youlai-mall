@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 /**
  * 用户和角色关联表
  *
- * @author Ray.Hao
+ * @author Rya.Hao
  * @since 2022/12/17
  */
+@TableName("sys_user_role")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_user_role")
 public class UserRole {
     /**
      * 用户ID
@@ -26,5 +26,4 @@ public class UserRole {
      * 角色ID
      */
     private Long roleId;
-
 }
