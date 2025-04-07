@@ -9,8 +9,7 @@
         SELECT
             t1.id,
             t1.spec_id,
-            t2.name spec_name,
-            t1.value
+            t1.spec_Value
         FROM
             pms_sku_spec t1
                 INNER JOIN pms_spec t2 ON t1.spec_id = t2.id

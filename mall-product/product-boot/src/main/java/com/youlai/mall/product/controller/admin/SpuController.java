@@ -38,7 +38,7 @@ public class SpuController {
     @Operation(summary = "获取商品表单数据")
     @GetMapping("/{spuId}/form")
     public Result<SpuForm> getSpuForm(
-            @Parameter(description = "SPU ID", example = "290") @PathVariable Long spuId
+            @Parameter(description = "SPU ID", example = "1") @PathVariable Long spuId
     ) {
         SpuForm spuForm = spuService.getSpuForm(spuId);
         return Result.success(spuForm);
