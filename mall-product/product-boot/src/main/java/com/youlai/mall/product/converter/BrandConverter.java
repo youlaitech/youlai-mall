@@ -21,9 +21,9 @@ public interface BrandConverter {
             @Mapping(target = "value", source = "id"),
             @Mapping(target = "label", source = "name"),
     })
-    Option<Long> convertToOption(Brand entity);
+    Option<Long> toOption(Brand entity);
 
-    List<Option<Long>> convertToOption(List<Brand> list);
+    List<Option<Long>> toOption(List<Brand> list);
 
     BrandPageVO convertToVo(Brand entity);
 

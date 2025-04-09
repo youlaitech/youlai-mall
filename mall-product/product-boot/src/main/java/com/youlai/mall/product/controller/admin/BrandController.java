@@ -40,10 +40,8 @@ public class BrandController {
 
     @Operation(summary = "品牌下拉列表")
     @GetMapping("/options")
-    public Result<List<Option<Long>>> listBrandOptions(
-            @Parameter(description = "分类ID") @RequestParam(required = false) Long categoryId
-    ) {
-        List<Option<Long>> list = brandService.listBrandOptions(categoryId);
+    public Result<List<Option<Long>>> listBrandOptions( ) {
+        List<Option<Long>> list = brandService.listBrandOptions();
         return Result.success(list);
     }
 

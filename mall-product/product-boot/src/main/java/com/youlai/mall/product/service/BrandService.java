@@ -31,7 +31,7 @@ public interface BrandService extends IService<Brand> {
      *
      * @return 品牌下拉选项
      */
-    List<Option<Long>> listBrandOptions(Long categoryId);
+    List<Option<Long>> listBrandOptions();
 
 
 }

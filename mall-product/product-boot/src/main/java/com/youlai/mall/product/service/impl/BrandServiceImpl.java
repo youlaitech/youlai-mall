@@ -48,12 +48,10 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
 
     /**
      * 品牌下拉选项
-     *
-     * @param categoryId 分类ID
      */
     @Override
-    public List<Option<Long>> listBrandOptions(Long categoryId){
-        List<Brand> list = this.baseMapper.listBrandOptions(categoryId);
-        return brandConverter.convertToOption(list);
+    public List<Option<Long>> listBrandOptions(){
+        List<Brand> list = this.baseMapper.listBrandOptions();
+        return brandConverter.toOption(list);
     }
 }

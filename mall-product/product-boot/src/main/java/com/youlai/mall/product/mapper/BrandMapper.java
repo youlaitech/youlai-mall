@@ -15,5 +15,5 @@ import java.util.List;
 @Mapper
 public interface BrandMapper extends BaseMapper<Brand> {
 
-    List<Brand> listBrandOptions(Long categoryId);
+    List<Brand> listBrandOptions();
 }
