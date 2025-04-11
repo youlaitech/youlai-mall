@@ -95,6 +95,12 @@ public class SpuForm {
 
         @Schema(description = "规格值", example = "白色")
         private String specValue;
+
+        @Schema(description = "是否主规格(0-否 1-是)", example = "true")
+        private Integer isMain;
+
+        @Schema(description = "规格图片URL", example = "https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg")
+        private String imgUrl;
     }
 
 

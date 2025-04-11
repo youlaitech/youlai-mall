@@ -326,10 +326,12 @@ INSERT INTO `pms_sku` VALUES (4, '20240520004', 1, 799900, 100, 0, 'https://www.
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_sku_spec`;
 CREATE TABLE `pms_sku_spec`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '销售属性ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '规格ID',
   `sku_id` bigint NULL DEFAULT NULL COMMENT 'SKU ID',
   `spec_id` bigint NULL DEFAULT NULL COMMENT '规格 ID',
   `spec_value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格值（如：颜色，内存）',
+  `is_main` tinyint NULL DEFAULT 0 COMMENT '是否主规格（0-否，1-是）',
+  `img_url` varchar(255) COMMENT '规格图片URL',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_skuid`(`sku_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
@@ -337,14 +339,14 @@ CREATE TABLE `pms_sku_spec`  (
 -- ----------------------------
 -- Records of pms_sku_spec
 -- ----------------------------
-INSERT INTO `pms_sku_spec` VALUES (1, 1, 7, '白色');
-INSERT INTO `pms_sku_spec` VALUES (2, 1, 8, '8+256G');
-INSERT INTO `pms_sku_spec` VALUES (3, 2, 7, '黑色');
-INSERT INTO `pms_sku_spec` VALUES (4, 2, 8, '8+256G');
-INSERT INTO `pms_sku_spec` VALUES (5, 3, 7, '白色');
-INSERT INTO `pms_sku_spec` VALUES (6, 3, 8, '12+512G');
-INSERT INTO `pms_sku_spec` VALUES (7, 4, 7, '黑色');
-INSERT INTO `pms_sku_spec` VALUES (8, 4, 8, '12+512G');
+INSERT INTO `pms_sku_spec` VALUES (1, 1, 7, '白色',1, '');
+INSERT INTO `pms_sku_spec` VALUES (2, 1, 8, '8+256G',0,'');
+INSERT INTO `pms_sku_spec` VALUES (3, 2, 7, '黑色',1,'');
+INSERT INTO `pms_sku_spec` VALUES (4, 2, 8, '8+256G',0,'');
+INSERT INTO `pms_sku_spec` VALUES (5, 3, 7, '白色',1,'');
+INSERT INTO `pms_sku_spec` VALUES (6, 3, 8, '12+512G',0,'');
+INSERT INTO `pms_sku_spec` VALUES (7, 4, 7, '黑色',1,'');
+INSERT INTO `pms_sku_spec` VALUES (8, 4, 8, '12+512G',0,'');
 
 -- ----------------------------
 -- Table structure for pms_spec

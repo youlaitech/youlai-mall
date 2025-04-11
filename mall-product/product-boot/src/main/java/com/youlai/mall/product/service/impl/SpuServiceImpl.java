@@ -126,13 +126,13 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
 
         // 商品SKU
         List<SkuBO> skuList = skuService.listSkusBySpuId(spuId);
-        spuForm.setSkuList(skuList.stream().map(entity -> {
+        spuForm.setSkuList(skuList.stream().map(skuBO -> {
             SpuForm.Sku sku = new SpuForm.Sku();
-            BeanUtil.copyProperties(entity, sku);
-            sku.setSpecValues(entity.getSpecValues().stream().map(attrValue -> {
+            BeanUtil.copyProperties(skuBO, sku);
+            // 规格值
+            sku.setSpecValues(skuBO.getSpecValues().stream().map(item -> {
                 SpuForm.SpecValue specValue = new SpuForm.SpecValue();
-                specValue.setSpecId(attrValue.getSpecId());
-                specValue.setSpecValue(attrValue.getSpecValue());
+                BeanUtil.copyProperties(item, specValue);
                 return specValue;
             }).toList());
             return sku;
