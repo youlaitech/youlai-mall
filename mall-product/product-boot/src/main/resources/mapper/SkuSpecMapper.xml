@@ -9,7 +9,9 @@
         SELECT
             t1.id,
             t1.spec_id,
-            t1.spec_Value
+            t1.spec_Value,
+            t1.is_main,
+            t1.img_url
         FROM
             pms_sku_spec t1
                 INNER JOIN pms_spec t2 ON t1.spec_id = t2.id

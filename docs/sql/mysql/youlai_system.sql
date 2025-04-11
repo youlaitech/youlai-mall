@@ -12,6 +12,35 @@ SET NAMES utf8mb4;  # 设置字符集
 SET FOREIGN_KEY_CHECKS = 0; # 关闭外键检查，加快导入速度
 
 -- ----------------------------
+-- Table structure for sys_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user` (
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `username` varchar(64)  DEFAULT NULL COMMENT '用户名',
+                            `nickname` varchar(64)  DEFAULT NULL COMMENT '昵称',
+                            `gender` tinyint(1) DEFAULT '1' COMMENT '性别((1-男 2-女 0-保密)',
+                            `password` varchar(100)  DEFAULT NULL COMMENT '密码',
+                            `dept_id` int DEFAULT NULL COMMENT '部门ID',
+                            `avatar` varchar(255)  DEFAULT NULL COMMENT '用户头像',
+                            `mobile` varchar(20)  DEFAULT NULL COMMENT '联系方式',
+                            `status` tinyint(1) DEFAULT '1' COMMENT '状态(1-正常 0-禁用)',
+                            `email` varchar(128)  DEFAULT NULL COMMENT '用户邮箱',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `update_by` bigint DEFAULT NULL COMMENT '修改人ID',
+                            `is_deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标识(0-未删除 1-已删除)',
+                            `openid` char(28)  DEFAULT NULL COMMENT '微信 openid',
+                            PRIMARY KEY (`id`) USING BTREE,
+                            UNIQUE KEY `login_name` (`username`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户信息表';
+
+INSERT INTO `sys_user` VALUES (1, 'root', '有来技术', 0, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', NULL, 'https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif', '18812345677', 1, 'youlaitech@163.com', now(), NULL, now(), NULL, 0, NULL);
+INSERT INTO `sys_user` VALUES (2, 'admin', '系统管理员', 1, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', 1, 'https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif', '18812345678', 1, 'youlaitech@163.com', now(), NULL, now(), NULL, 0, NULL);
+INSERT INTO `sys_user` VALUES (3, 'test', '测试小用户', 1, '$2a$10$xVWsNOhHrCxh5UbpCE7/HuJ.PAOKcYAqRxD2CO2nVnJS.IAXkr5aq', 3, 'https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif', '18812345679', 1, 'youlaitech@163.com', now(), NULL, now(), NULL, 0, NULL);
+
+-- ----------------------------
 -- Table structure for sys_dept
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
@@ -30,7 +59,7 @@ CREATE TABLE `sys_dept`  (
                              `is_deleted` tinyint DEFAULT 0 COMMENT '逻辑删除标识(1-已删除 0-未删除)',
                              PRIMARY KEY (`id`) USING BTREE,
                              UNIQUE INDEX `uk_code`(`code` ASC) USING BTREE COMMENT '部门编号唯一索引'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '部门表';
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COMMENT = '部门表';
 
 -- ----------------------------
 -- Records of sys_dept
@@ -38,6 +67,52 @@ CREATE TABLE `sys_dept`  (
 INSERT INTO `sys_dept` VALUES (1, '有来技术', 'YOULAI', 0, '0', 1, 1, 1, NULL, 1, now(), 0);
 INSERT INTO `sys_dept` VALUES (2, '研发部门', 'RD001', 1, '0,1', 1, 1, 2, NULL, 2, now(), 0);
 INSERT INTO `sys_dept` VALUES (3, '测试部门', 'QA001', 1, '0,1', 1, 1, 2, NULL, 2, now(), 0);
+
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role`  (
+                             `id` bigint NOT NULL AUTO_INCREMENT,
+                             `name` varchar(64) NOT NULL COMMENT '角色名称',
+                             `code` varchar(32) NOT NULL COMMENT '角色编码',
+                             `sort` int COMMENT '显示顺序',
+                             `status` tinyint(1) DEFAULT 1 COMMENT '角色状态(1-正常 0-停用)',
+                             `data_scope` tinyint COMMENT '数据权限(1-所有数据 2-部门及子部门数据 3-本部门数据 4-本人数据)',
+                             `create_by` bigint COMMENT '创建人 ID',
+                             `create_time` datetime NULL COMMENT '创建时间',
+                             `update_by` bigint COMMENT '更新人ID',
+                             `update_time` datetime NULL COMMENT '更新时间',
+                             `is_deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除标识(0-未删除 1-已删除)',
+                             PRIMARY KEY (`id`) USING BTREE,
+                             UNIQUE INDEX `uk_name`(`name` ASC) USING BTREE COMMENT '角色名称唯一索引',
+                             UNIQUE INDEX `uk_code`(`code` ASC) USING BTREE COMMENT '角色编码唯一索引'
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COMMENT = '角色表';
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 'ROOT', 1, 1, 1, NULL, now(), NULL, now(), 0);
+INSERT INTO `sys_role` VALUES (2, '系统管理员', 'ADMIN', 2, 1, 1, NULL, now(), NULL, NULL, 0);
+INSERT INTO `sys_role` VALUES (3, '访问游客', 'GUEST', 3, 1, 4, NULL, now(), NULL, now(), 0);
+
+
+-- ----------------------------
+-- Table structure for sys_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role` (
+                                 `user_id` bigint NOT NULL COMMENT '用户ID',
+                                 `role_id` bigint NOT NULL COMMENT '角色ID',
+                                 PRIMARY KEY (`user_id`,`role_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户和角色关联表';
+
+-- ----------------------------
+-- Records of sys_user_role
+-- ----------------------------
+INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1, 1);
+INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (2, 2);
+INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (3, 3);
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -125,7 +200,7 @@ CREATE TABLE `sys_menu`  (
                              `update_time` datetime NULL COMMENT '更新时间',
                              `params` varchar(255) NULL COMMENT '路由参数',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '菜单管理';
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COMMENT = '菜单管理';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -216,43 +291,6 @@ INSERT INTO `sys_menu` VALUES (222, 22, '0,2,22', '品牌修改', 4, NULL, '', N
 INSERT INTO `sys_menu` VALUES (223, 22, '0,2,22', '品牌删除', 4, NULL, '', NULL, 'pms:brand:delete', NULL, NULL, 1, 4, '', '', now(), now(), NULL);
 
 -- ----------------------------
--- Table structure for sys_role
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role`  (
-                             `id` bigint NOT NULL AUTO_INCREMENT,
-                             `name` varchar(64) NOT NULL COMMENT '角色名称',
-                             `code` varchar(32) NOT NULL COMMENT '角色编码',
-                             `sort` int COMMENT '显示顺序',
-                             `status` tinyint(1) DEFAULT 1 COMMENT '角色状态(1-正常 0-停用)',
-                             `data_scope` tinyint COMMENT '数据权限(1-所有数据 2-部门及子部门数据 3-本部门数据 4-本人数据)',
-                             `create_by` bigint COMMENT '创建人 ID',
-                             `create_time` datetime NULL COMMENT '创建时间',
-                             `update_by` bigint COMMENT '更新人ID',
-                             `update_time` datetime NULL COMMENT '更新时间',
-                             `is_deleted` tinyint(1) DEFAULT 0 COMMENT '逻辑删除标识(0-未删除 1-已删除)',
-                             PRIMARY KEY (`id`) USING BTREE,
-                             UNIQUE INDEX `uk_name`(`name` ASC) USING BTREE COMMENT '角色名称唯一索引',
-                             UNIQUE INDEX `uk_code`(`code` ASC) USING BTREE COMMENT '角色编码唯一索引'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '角色表';
-
--- ----------------------------
--- Records of sys_role
--- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 'ROOT', 1, 1, 1, NULL, now(), NULL, now(), 0);
-INSERT INTO `sys_role` VALUES (2, '系统管理员', 'ADMIN', 2, 1, 1, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (3, '访问游客', 'GUEST', 3, 1, 4, NULL, now(), NULL, now(), 0);
-INSERT INTO `sys_role` VALUES (4, '系统管理员1', 'ADMIN1', 4, 1, 2, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (5, '系统管理员2', 'ADMIN2', 5, 1, 2, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (6, '系统管理员3', 'ADMIN3', 6, 1, 2, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (7, '系统管理员4', 'ADMIN4', 7, 1, 2, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (8, '系统管理员5', 'ADMIN5', 8, 1, 2, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (9, '系统管理员6', 'ADMIN6', 9, 1, 2, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (10, '系统管理员7', 'ADMIN7', 10, 1, 2, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (11, '系统管理员8', 'ADMIN8', 11, 1, 2, NULL, now(), NULL, NULL, 0);
-INSERT INTO `sys_role` VALUES (12, '系统管理员9', 'ADMIN9', 12, 1, 2, NULL, now(), NULL, NULL, 0);
-
--- ----------------------------
 -- Table structure for sys_role_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_menu`;
@@ -318,3 +356,93 @@ INSERT INTO `sys_role_menu` VALUES (2, 220);
 INSERT INTO `sys_role_menu` VALUES (2, 221);
 INSERT INTO `sys_role_menu` VALUES (2, 222);
 INSERT INTO `sys_role_menu` VALUES (2, 223);
+
+
+-- ----------------------------
+-- Table structure for sys_config
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_config`;
+CREATE TABLE `sys_config` (
+                              `id` bigint NOT NULL AUTO_INCREMENT,
+                              `config_name` varchar(50)NOT NULL COMMENT '配置名称',
+                              `config_key` varchar(50)NOT NULL COMMENT '配置key',
+                              `config_value` varchar(100)NOT NULL COMMENT '配置值',
+                              `remark` varchar(255)DEFAULT NULL COMMENT '备注',
+                              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                              `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                              `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                              `update_by` bigint DEFAULT NULL COMMENT '更新人ID',
+                              `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除标识(0-未删除 1-已删除)',
+                              PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统配置表';
+-- ----------------------------
+-- Records of sys_config
+-- ----------------------------
+INSERT INTO `sys_config` VALUES (1, '系统限流QPS', 'IP_QPS_THRESHOLD_LIMIT', '10', '单个IP请求的最大每秒查询数（QPS）阈值Key', '2025-02-26 15:25:07', 1, NULL, NULL, 0);
+
+-- ----------------------------
+-- Table structure for sys_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log` (
+                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                           `module` varchar(50)  NOT NULL COMMENT '日志模块',
+                           `request_method` varchar(64)  NOT NULL COMMENT '请求方式',
+                           `request_params` text  COMMENT '请求参数(批量请求参数可能会超过text)',
+                           `response_content` mediumtext  COMMENT '返回参数',
+                           `content` varchar(255)  NOT NULL COMMENT '日志内容',
+                           `request_uri` varchar(255)  DEFAULT NULL COMMENT '请求路径',
+                           `method` varchar(255)  DEFAULT NULL COMMENT '方法名',
+                           `ip` varchar(45)  DEFAULT NULL COMMENT 'IP地址',
+                           `province` varchar(100)  DEFAULT NULL COMMENT '省份',
+                           `city` varchar(100)  DEFAULT NULL COMMENT '城市',
+                           `execution_time` bigint DEFAULT NULL COMMENT '执行时间(ms)',
+                           `browser` varchar(100)  DEFAULT NULL COMMENT '浏览器',
+                           `browser_version` varchar(100)  DEFAULT NULL COMMENT '浏览器版本',
+                           `os` varchar(100)  DEFAULT NULL COMMENT '终端系统',
+                           `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                           `is_deleted` tinyint DEFAULT '0' COMMENT '逻辑删除标识(1-已删除 0-未删除)',
+                           PRIMARY KEY (`id`) USING BTREE,
+                           KEY `idx_create_time` (`create_time`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='系统日志表';
+
+-- ----------------------------
+-- Table structure for sys_notice
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_notice`;
+CREATE TABLE `sys_notice` (
+                              `id` bigint NOT NULL AUTO_INCREMENT,
+                              `title` varchar(50)  DEFAULT NULL COMMENT '通知标题',
+                              `content` text  COMMENT '通知内容',
+                              `type` tinyint NOT NULL COMMENT '通知类型（关联字典编码：notice_type）',
+                              `level` varchar(5)  NOT NULL COMMENT '通知等级（字典code：notice_level）',
+                              `target_type` tinyint NOT NULL COMMENT '目标类型（1: 全体, 2: 指定）',
+                              `target_user_ids` varchar(255)  DEFAULT NULL COMMENT '目标人ID集合（多个使用英文逗号,分割）',
+                              `publisher_id` bigint DEFAULT NULL COMMENT '发布人ID',
+                              `publish_status` tinyint DEFAULT 0 COMMENT '发布状态（0: 未发布, 1: 已发布, -1: 已撤回）',
+                              `publish_time` datetime DEFAULT NULL COMMENT '发布时间',
+                              `revoke_time` datetime DEFAULT NULL COMMENT '撤回时间',
+                              `create_by` bigint NOT NULL COMMENT '创建人ID',
+                              `create_time` datetime NOT NULL COMMENT '创建时间',
+                              `update_by` bigint DEFAULT NULL COMMENT '更新人ID',
+                              `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                              `is_deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除（0: 未删除, 1: 已删除）',
+                              PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通知公告表';
+
+-- ----------------------------
+-- Table structure for sys_user_notice
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_notice`;
+CREATE TABLE `sys_user_notice` (
+                                   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                   `notice_id` bigint NOT NULL COMMENT '公共通知id',
+                                   `user_id` bigint NOT NULL COMMENT '用户id',
+                                   `is_read` bigint DEFAULT '0' COMMENT '读取状态（0: 未读, 1: 已读）',
+                                   `read_time` datetime DEFAULT NULL COMMENT '阅读时间',
+                                   `create_time` datetime NOT NULL COMMENT '创建时间',
+                                   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                   `is_deleted` tinyint DEFAULT '0' COMMENT '逻辑删除(0: 未删除, 1: 已删除)',
+                                   PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户通知公告表';

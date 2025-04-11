@@ -42,4 +42,9 @@ public class SkuSpec implements Serializable {
      * 规格值
      */
     private String specValue;
+
+    /**
+     * 是否主规格(0-否 1-是)
+     */
+    private Integer isMain;
 }
