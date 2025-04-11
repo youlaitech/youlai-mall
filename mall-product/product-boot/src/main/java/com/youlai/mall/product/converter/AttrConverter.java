@@ -21,12 +21,6 @@ public interface AttrConverter {
 
     List<Attr> toEntity(List<AttrForm> attrs);
 
-    @Mappings({
-            @Mapping(
-                    target = "inputTypeLabel",
-                    expression = "java(com.youlai.common.base.IBaseEnum.getLabelByValue(attr.getInputType(), com.youlai.mall.product.enums.AttrInputTypeEnum.class))"
-            )
-    })
     AttrVO toVO(AttrBO attr);
 
     List<AttrVO> toVO(List<AttrBO> attrs);

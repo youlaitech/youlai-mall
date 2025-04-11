@@ -28,8 +28,8 @@ public class SpecVO implements Serializable {
     @Schema(description = "规格名称")
     private String name;
 
-    @Schema(description = "输入类型(文本 单选 多选)")
-    private String inputTypeLabel;
+    @Schema(description = "输入类型(1文本 2单选 3多选)")
+    private Integer inputType;
 
     @Schema(description = "可选项(逗号分隔)")
     private String options;
