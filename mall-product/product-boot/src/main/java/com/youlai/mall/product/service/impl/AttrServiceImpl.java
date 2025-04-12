@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.converter.AttrConverter;
 import com.youlai.mall.product.mapper.AttrMapper;
 import com.youlai.mall.product.model.bo.AttrBO;
-import com.youlai.mall.product.model.entity.Attr;
+import com.youlai.mall.product.model.entity.AttrEntity;
 import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.vo.AttrVO;
 import com.youlai.mall.product.service.AttrService;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements AttrService {
+public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> implements AttrService {
 
     private final AttrConverter attrConverter;
 
@@ -45,7 +45,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
      */
     @Override
     public boolean saveAttr(AttrForm formData) {
-        Attr entity = attrConverter.toEntity(formData);
+        AttrEntity entity = attrConverter.toEntity(formData);
         return this.save(entity);
     }
 
@@ -57,8 +57,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
      */
     @Override
     public AttrForm getAttrForm(Long id) {
-        Attr attr = this.getById(id);
-        return attrConverter.toForm(attr);
+        AttrEntity attrEntity = this.getById(id);
+        return attrConverter.toForm(attrEntity);
     }
 
     /**
@@ -70,7 +70,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
      */
     @Override
     public boolean updateAttr(Long id, AttrForm formData) {
-        Attr entity = attrConverter.toEntity(formData);
+        AttrEntity entity = attrConverter.toEntity(formData);
         return this.updateById(entity);
     }
 

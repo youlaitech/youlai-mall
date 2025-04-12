@@ -7,12 +7,12 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 商品SPU表单对象
+ * 商品表单对象
  *
  * @author Ray.Hao
  * @since 2024/4/23
  */
-@Schema(description = "商品SPU表单对象")
+@Schema(description = "商品表单对象")
 @Data
 public class SpuForm {
 
@@ -44,8 +44,8 @@ public class SpuForm {
     @Schema(description = "商品详情", example = "<p>Apple iPhone 12 64GB 绿色</p>")
     private String detail;
 
-    @Schema(description = "属性值列表", example = "[{\"id\":\"1\",\"value\":\"2K\"},{\"id\":\"2\",\"value\":\"6英寸\"}]")
-    private List<AttrValue> attrValues;
+    @Schema(description = "属性列表", example = "[{\"id\":\"1\",\"value\":\"2K\"},{\"id\":\"2\",\"value\":\"6英寸\"}]")
+    private List<Attr> attrList;
 
     @Schema(description = "SKU列表", example = "[{\"name\":\"白色 64GB\",\"price\":699900,\"stock\":100,\"imgUrl\":\"https://youlai.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg\",\"specValues\":[{\"id\":\"1\",\"value\":\"白色\"},{\"id\":\"2\",\"value\":\"64GB\"}]}]")
     private List<Sku> skuList;
@@ -81,38 +81,41 @@ public class SpuForm {
         @Schema(description = "商品图片URL")
         private String imgUrl;
 
-        @Schema(description = "规格值列表", example = "[{\"id\":\"1\",\"value\":\"白色\"},{\"id\":\"2\",\"value\":\"64GB\"}]")
-        private List<SpecValue> specValues;
+        @Schema(description = "规格列表", example = "[{\"id\":\"1\",\"value\":\"白色\"},{\"id\":\"2\",\"value\":\"64GB\"}]")
+        private List<Spec> specList;
 
     }
 
     @Schema(description = "规格值")
     @Data
-    public static class SpecValue {
+    public static class Spec {
 
         @Schema(description = "规格ID", example = "1")
-        private Long specId;
+        private Long id;
+
+        @Schema(description = "规格名称", example = "颜色")
+        private String name;
 
         @Schema(description = "规格值", example = "白色")
-        private String specValue;
-
-        @Schema(description = "是否主规格(0-否 1-是)", example = "true")
-        private Integer isMain;
+        private String value;
 
         @Schema(description = "规格图片URL", example = "https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg")
         private String imgUrl;
     }
 
 
-    @Schema(description = "属性值")
+    @Schema(description = "属性")
     @Data
-    public static class AttrValue {
+    public static class Attr {
 
         @Schema(description = "属性ID", example = "1")
-        private Long attrId;
+        private Long id;
+
+        @Schema(description = "属性名称", example = "分辨率")
+        private String name;
 
         @Schema(description = "属性值", example = "2K")
-        private String attrValue;
+        private String value;
 
     }
 

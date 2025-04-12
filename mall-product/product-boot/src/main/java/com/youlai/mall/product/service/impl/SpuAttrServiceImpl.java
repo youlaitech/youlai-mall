@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SpuAttrMapper;
+import com.youlai.mall.product.model.bo.SpuAttrBO;
 import com.youlai.mall.product.model.entity.SpuAttr;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SpuAttrService;
@@ -58,5 +59,14 @@ public class SpuAttrServiceImpl extends ServiceImpl<SpuAttrMapper, SpuAttr> impl
         return count > 0;
     }
 
-
+    /**
+     * 根据SPU ID查询商品属性列表
+     *
+     * @param spuId SPU ID
+     * @return 商品属性列表
+     */
+    @Override
+    public List<SpuAttrBO> listAttrsBySpuId(Long spuId) {
+        return this.baseMapper.listAttrsBySpuId(spuId);
+    }
 }

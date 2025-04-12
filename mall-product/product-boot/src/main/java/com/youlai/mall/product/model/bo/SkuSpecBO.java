@@ -14,7 +14,6 @@ import java.io.Serializable;
  * @author Ray.Hao
  * @since 2024/4/14
  */
-@TableName("pms_sku_spec")
 @Data
 public class SkuSpecBO implements Serializable {
 
@@ -46,11 +45,6 @@ public class SkuSpecBO implements Serializable {
      * 规格值 如：红色
      */
     private String specValue;
-
-    /**
-     * 是否主规格(0-否 1-是)
-     */
-    private Integer isMain;
 
     /**
      * 规格图片，只有主规格才有，如：红色为红色图片

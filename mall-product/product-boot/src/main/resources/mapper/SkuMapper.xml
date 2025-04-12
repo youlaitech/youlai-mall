@@ -45,7 +45,7 @@
 
     <!-- 定义SKU和属性值的结果集 -->
     <resultMap id="SkuAndAttributeValueMap" type="com.youlai.mall.product.model.bo.SkuBO">
-        <collection property="specValues" ofType="com.youlai.mall.product.model.bo.SkuSpecBO"
+        <collection property="specList" ofType="com.youlai.mall.product.model.bo.SkuSpecBO"
                     column="{skuId=id}"
                     select="com.youlai.mall.product.mapper.SkuSpecMapper.listSpecBySkuId">
         </collection>

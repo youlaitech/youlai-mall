@@ -1,6 +1,7 @@
 package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.mall.product.model.bo.SpuAttrBO;
 import com.youlai.mall.product.model.entity.SpuAttr;
 import com.youlai.mall.product.model.form.SpuForm;
 
@@ -28,4 +29,12 @@ public interface SpuAttrService extends IService<SpuAttr> {
      * @param attrId 属性ID
      */
     boolean isAttrReferenced(Long attrId);
+
+    /**
+     * 根据SPU ID查询商品属性列表
+     *
+     * @param spuId SPU ID
+     * @return 商品属性列表
+     */
+    List<SpuAttrBO> listAttrsBySpuId(Long spuId);
 }

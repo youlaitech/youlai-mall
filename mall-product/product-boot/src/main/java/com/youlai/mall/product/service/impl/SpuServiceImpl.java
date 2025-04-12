@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.mall.product.converter.SpuAttrConverter;
 import com.youlai.mall.product.converter.SpuConverter;
 import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
+import com.youlai.mall.product.model.bo.SpuAttrBO;
 import com.youlai.mall.product.model.entity.*;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.model.query.SpuPageQuery;
@@ -31,6 +33,7 @@ import java.util.*;
 public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuService {
 
     private final SpuConverter spuConverter;
+    private final SpuAttrConverter spuAttrConverter;
     private final SkuService skuService;
     private final SpuImageService spuImageService;
     private final SpuDetailService spuDetailService;
@@ -111,29 +114,21 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             spuForm.setDetail(spuDetail.getDetail());
         }
 
-        // 商品属性
-        List<SpuForm.AttrValue> attrValues = spuAttrService.list(new LambdaQueryWrapper<SpuAttr>()
-                        .eq(SpuAttr::getSpuId, spuId)
-                        .select(SpuAttr::getAttrId, SpuAttr::getAttrValue)
-                )
-                .stream()
-                .map(item -> {
-                    SpuForm.AttrValue attrValue = new SpuForm.AttrValue();
-                    BeanUtil.copyProperties(item, attrValue);
-                    return attrValue;
-                }).toList();
-        spuForm.setAttrValues(attrValues);
+        // 商品属性列表
+        List<SpuForm.Attr> attrList=  spuAttrConverter.toSpuFormAttr(spuAttrService.listAttrsBySpuId(spuId));
+        spuForm.setAttrList(attrList);
 
         // 商品SKU
         List<SkuBO> skuList = skuService.listSkusBySpuId(spuId);
+
         spuForm.setSkuList(skuList.stream().map(skuBO -> {
             SpuForm.Sku sku = new SpuForm.Sku();
             BeanUtil.copyProperties(skuBO, sku);
             // 规格值
-            sku.setSpecValues(skuBO.getSpecValues().stream().map(item -> {
-                SpuForm.SpecValue specValue = new SpuForm.SpecValue();
-                BeanUtil.copyProperties(item, specValue);
-                return specValue;
+            sku.setSpecList(skuBO.getSpecValues().stream().map(item -> {
+                SpuForm.Spec spec = new SpuForm.Spec();
+                BeanUtil.copyProperties(item, spec);
+                return spec;
             }).toList());
             return sku;
         }).toList());

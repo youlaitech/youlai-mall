@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("pms_attr")
-public class Attr extends BaseEntity {
+public class AttrEntity extends BaseEntity {
 
     /**
      * 属性名称

@@ -4,5 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.SpuAttrMapper">
 
-
+    <!-- 根据spuId查询spu属性列表 -->
+    <select id="listAttrsBySpuId" resultType="com.youlai.mall.product.model.bo.SpuAttrBO">
+        SELECT
+            sa.attr_id,
+            sa.attr_name,
+            sa.attr_value,
+            sa.attr_sort
+        FROM
+            pms_spu_attr sa
+        WHERE
+            sa.spu_id = #{spuId}
+        ORDER BY
+            sa.attr_sort ASC
+    </select>
 </mapper>

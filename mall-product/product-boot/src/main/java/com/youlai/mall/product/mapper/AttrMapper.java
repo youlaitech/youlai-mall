@@ -1,9 +1,8 @@
 package com.youlai.mall.product.mapper;
 
 import com.youlai.mall.product.model.bo.AttrBO;
-import com.youlai.mall.product.model.entity.Attr;
+import com.youlai.mall.product.model.entity.AttrEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.product.model.vo.AttrVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface AttrMapper extends BaseMapper<Attr> {
+public interface AttrMapper extends BaseMapper<AttrEntity> {
 
     /**
      * 获取分类下的属性列表

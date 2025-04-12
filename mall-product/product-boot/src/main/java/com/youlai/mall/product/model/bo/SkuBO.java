@@ -51,8 +51,8 @@ public class SkuBO {
     private String spuName;
 
     /**
-     * 商品属性值列表
+     * 商品属性列表
      */
-    private List<SkuSpecBO> specValues;
+    private List<SkuSpecBO> specList;
 
 }

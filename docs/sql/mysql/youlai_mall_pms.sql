@@ -9,11 +9,8 @@ CREATE DATABASE IF NOT EXISTS youlai_mall_pms DEFAULT CHARACTER SET utf8mb4 DEFA
 -- ----------------------------
 use youlai_mall_pms;
 
-
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
 
 
 -- ----------------------------
@@ -37,12 +34,12 @@ CREATE TABLE `pms_attr`  (
 -- ----------------------------
 -- Records of pms_attr
 -- ----------------------------
-INSERT INTO `pms_attr` VALUES (1, '屏幕分辨率', '屏幕', 1, 2, '1080P,2K,4K', 1, '2024-05-17 14:32:15', '2025-03-05 22:26:40', 0);
-INSERT INTO `pms_attr` VALUES (2, '屏幕尺寸', '屏幕', 1, 1, '', 2, '2024-05-17 14:32:15', '2025-03-05 22:22:44', 0);
-INSERT INTO `pms_attr` VALUES (3, '屏幕材料', '1', 1, 1, 'LCD,AMOLED', 3, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attr` VALUES (4, '摄像头像素', '2', 1, 1, NULL, 4, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attr` VALUES (5, '指纹类型', '2', 1, 2, '屏下指纹,屏后指纹', 5, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attr` VALUES (6, '刷新率', '2', 1, 2, '90HZ,120HZ', 6, '2024-05-17 14:32:15', '2024-06-01 21:51:28', 0);
+INSERT INTO `pms_attr` VALUES (1, '屏幕分辨率', '屏幕', 3, 2, '1080P,2K,4K', 1, '2024-05-17 14:32:15', '2025-03-05 22:26:40', 0);
+INSERT INTO `pms_attr` VALUES (2, '屏幕尺寸', '屏幕', 3, 1, '', 2, '2024-05-17 14:32:15', '2025-03-05 22:22:44', 0);
+INSERT INTO `pms_attr` VALUES (3, '屏幕材料', '1', 3, 1, 'LCD,AMOLED', 3, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attr` VALUES (4, '摄像头像素', '2', 3, 1, NULL, 4, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attr` VALUES (5, '指纹类型', '2', 3, 2, '屏下指纹,屏后指纹', 5, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_attr` VALUES (6, '刷新率', '2', 3, 2, '90HZ,120HZ', 6, '2024-05-17 14:32:15', '2024-06-01 21:51:28', 0);
 
 -- ----------------------------
 -- Table structure for pms_brand
@@ -339,14 +336,14 @@ CREATE TABLE `pms_sku_spec`  (
 -- ----------------------------
 -- Records of pms_sku_spec
 -- ----------------------------
-INSERT INTO `pms_sku_spec` VALUES (1, 1, 7, '白色',1, '');
-INSERT INTO `pms_sku_spec` VALUES (2, 1, 8, '8+256G',0,'');
-INSERT INTO `pms_sku_spec` VALUES (3, 2, 7, '黑色',1,'');
-INSERT INTO `pms_sku_spec` VALUES (4, 2, 8, '8+256G',0,'');
-INSERT INTO `pms_sku_spec` VALUES (5, 3, 7, '白色',1,'');
-INSERT INTO `pms_sku_spec` VALUES (6, 3, 8, '12+512G',0,'');
-INSERT INTO `pms_sku_spec` VALUES (7, 4, 7, '黑色',1,'');
-INSERT INTO `pms_sku_spec` VALUES (8, 4, 8, '12+512G',0,'');
+INSERT INTO `pms_sku_spec` VALUES (1, 1, 1, '白色',1, '');
+INSERT INTO `pms_sku_spec` VALUES (2, 1, 2, '8+256G',0,'');
+INSERT INTO `pms_sku_spec` VALUES (3, 2, 1, '黑色',1,'');
+INSERT INTO `pms_sku_spec` VALUES (4, 2, 2, '8+256G',0,'');
+INSERT INTO `pms_sku_spec` VALUES (5, 3, 1, '白色',1,'');
+INSERT INTO `pms_sku_spec` VALUES (6, 3, 2, '12+512G',0,'');
+INSERT INTO `pms_sku_spec` VALUES (7, 4, 1, '黑色',1,'');
+INSERT INTO `pms_sku_spec` VALUES (8, 4, 2, '12+512G',0,'');
 
 -- ----------------------------
 -- Table structure for pms_spec
@@ -368,9 +365,8 @@ CREATE TABLE `pms_spec`  (
 -- ----------------------------
 -- Records of pms_spec
 -- ----------------------------
-INSERT INTO `pms_spec` VALUES (1, '颜色', 2, '红色,蓝色,黑色', 1, 1, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_spec` VALUES (2, '存储容量', 2, '8+256G,12+512G,16+1T', 1, 2, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_spec` VALUES (3, '使用场景', 3, '商务办公,游戏电竞,影音娱乐', 2, 1, NULL, NULL, 0);
+INSERT INTO `pms_spec` VALUES (1, '颜色', 2, '红色,蓝色,黑色', 3, 1, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_spec` VALUES (2, '存储容量', 2, '8+256G,12+512G,16+1T', 3, 2, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
 
 -- ----------------------------
 -- Table structure for pms_spu
