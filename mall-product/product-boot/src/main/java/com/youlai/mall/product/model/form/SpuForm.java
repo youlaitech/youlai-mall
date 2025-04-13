@@ -90,9 +90,6 @@ public class SpuForm {
     @Data
     public static class Spec {
 
-        @Schema(description = "规格ID", example = "1")
-        private Long id;
-
         @Schema(description = "规格名称", example = "颜色")
         private String name;
 
@@ -107,9 +104,6 @@ public class SpuForm {
     @Schema(description = "属性")
     @Data
     public static class Attr {
-
-        @Schema(description = "属性ID", example = "1")
-        private Long id;
 
         @Schema(description = "属性名称", example = "分辨率")
         private String name;

@@ -7,7 +7,7 @@ import com.youlai.mall.product.model.form.SpuForm;
 import java.util.List;
 
 /**
- * SKU销售属性值 服务类
+ * SKU 规格接口层
  *
  * @author Ray.Hao
  * @since 2024-04-14
@@ -18,7 +18,7 @@ public interface SkuSpecService extends IService<SkuSpec> {
      * 保存商品规格值
      *
      * @param id    SKU ID
-     * @param specValues 规格值列表
+     * @param specList 规格列表
      */
-    void specSpecValues(Long id, List<SpuForm.SpecValue> specValues);
+    void saveSkuSpecs(Long id, List<SpuForm.Spec> specList);
 }

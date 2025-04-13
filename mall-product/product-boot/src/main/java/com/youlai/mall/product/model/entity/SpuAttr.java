@@ -42,6 +42,11 @@ public class SpuAttr implements Serializable {
     private Long attrId;
 
     /**
+     * 属性名称
+     */
+    private String attrName;
+
+    /**
      * 属性值
      */
     private String attrValue;

@@ -1,11 +1,8 @@
 package com.youlai.mall.product.model.vo;
 
-import com.youlai.mall.product.model.entity.Sku;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 【管理端】商品分页视图对象

@@ -26,9 +26,9 @@ public class SkuBO {
     private String name;
 
     /**
-     * 商品编号
+     * SKU 编号
      */
-    private String code;
+    private String skuCode;
 
     /**
      * 商品展示图片URL

@@ -2,12 +2,12 @@ package com.youlai.mall.product.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
-import com.youlai.mall.product.model.entity.Sku;
+import com.youlai.mall.product.model.entity.SkuEntity;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface SkuMapper extends BaseMapper<Sku> {
+public interface SkuMapper extends BaseMapper<SkuEntity> {
 
     /**
      * 获取 SKU

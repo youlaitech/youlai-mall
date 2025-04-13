@@ -4,9 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
 import com.youlai.mall.product.model.dto.SkuDTO;
-import com.youlai.mall.product.model.entity.Sku;
+import com.youlai.mall.product.model.entity.SkuEntity;
 import com.youlai.mall.product.model.form.SpuForm;
-import com.youlai.mall.product.model.vo.ProductDetailVO;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2.0.0
  */
-public interface SkuService extends IService<Sku> {
+public interface SkuService extends IService<SkuEntity> {
 
     /**
      * 获取 SKU 传输对象

@@ -1,16 +1,18 @@
 package com.youlai.mall.product.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.youlai.mall.product.converter.SkuConverter;
+import com.youlai.mall.product.converter.SkuSpecConverter;
 import com.youlai.mall.product.converter.SpuAttrConverter;
 import com.youlai.mall.product.converter.SpuConverter;
 import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
-import com.youlai.mall.product.model.bo.SpuAttrBO;
 import com.youlai.mall.product.model.entity.*;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.model.query.SpuPageQuery;
@@ -19,7 +21,6 @@ import com.youlai.mall.product.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
 
 /**
@@ -34,10 +35,12 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
 
     private final SpuConverter spuConverter;
     private final SpuAttrConverter spuAttrConverter;
+    private final SkuConverter skuConverter;
     private final SkuService skuService;
     private final SpuImageService spuImageService;
     private final SpuDetailService spuDetailService;
     private final SpuAttrService spuAttrService;
+    private final SkuSpecConverter skuSpecConverter;
 
     /**
      * Admin-商品分页列表
@@ -72,8 +75,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             List<SpuForm.Image> imgList = formData.getImgList();
             spuImageService.saveSpuImages(spuId, imgList);
             // 保存商品属性
-            List<SpuForm.AttrValue> attrValues = formData.getAttrValues();
-            spuAttrService.saveAttributeValues(spuId, attrValues);
+            List<SpuForm.Attr> attrList = formData.getAttrList();
+            spuAttrService.saveSpuAttrs(spuId, attrList);
             // 保存 SKU
             List<SpuForm.Sku> skuList = formData.getSkuList();
             skuService.saveSkus(spuId, skuList);
@@ -114,24 +117,20 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             spuForm.setDetail(spuDetail.getDetail());
         }
 
-        // 商品属性列表
+        // 属性列表
         List<SpuForm.Attr> attrList=  spuAttrConverter.toSpuFormAttr(spuAttrService.listAttrsBySpuId(spuId));
         spuForm.setAttrList(attrList);
 
-        // 商品SKU
+        // SKU 列表
         List<SkuBO> skuList = skuService.listSkusBySpuId(spuId);
-
-        spuForm.setSkuList(skuList.stream().map(skuBO -> {
-            SpuForm.Sku sku = new SpuForm.Sku();
-            BeanUtil.copyProperties(skuBO, sku);
-            // 规格值
-            sku.setSpecList(skuBO.getSpecValues().stream().map(item -> {
-                SpuForm.Spec spec = new SpuForm.Spec();
-                BeanUtil.copyProperties(item, spec);
-                return spec;
+        if(CollectionUtil.isNotEmpty(skuList)){
+            spuForm.setSkuList(skuList.stream().map(skuBO -> {
+                SpuForm.Sku sku =  skuConverter.toSpuFormSku(skuBO);
+                // 规格列表
+                   sku.setSpecList(skuSpecConverter.toSkuFormSpec(skuBO.getSpecList()));
+                return sku;
             }).toList());
-            return sku;
-        }).toList());
+        }
 
         return spuForm;
     }
@@ -150,7 +149,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         String[] spuIds = ids.split(",");
 
         for (String spuId : spuIds) {
-            skuService.remove(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
+            skuService.remove(new LambdaQueryWrapper<SkuEntity>().eq(SkuEntity::getSpuId, spuId));
             // 规格
             spuAttrService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
             // 参数

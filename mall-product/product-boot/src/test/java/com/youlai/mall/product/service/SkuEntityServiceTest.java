@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 
 @SpringBootTest
 @Slf4j
-class SkuServiceTest {
+class SkuEntityServiceTest {
 
     @Autowired
     SkuService skuService;

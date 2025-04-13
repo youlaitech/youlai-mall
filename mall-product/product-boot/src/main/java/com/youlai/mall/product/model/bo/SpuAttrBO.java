@@ -27,11 +27,6 @@ public class SpuAttrBO {
     private Long spuId;
 
     /**
-     * 属性ID
-     */
-    private Long attrId;
-
-    /**
      * 属性名称 如：屏幕尺寸
      */
     private String attrName;

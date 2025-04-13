@@ -2,7 +2,7 @@ package com.youlai.mall.product.controller;
 
 import org.junit.jupiter.api.Test;
 
-class AppSkuControllerTest {
+class AppSkuEntityControllerTest {
 
     @Test
     void lockStock() {

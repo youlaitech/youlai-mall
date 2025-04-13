@@ -55,7 +55,7 @@
     <select id="listSkusBySpuId" resultMap="SkuAndAttributeValueMap">
         SELECT
             t1.id,
-            t1.code,
+            t1.sku_code,
             t1.stock - t1.locked_stock AS stock,
             t1.price,
             t1.img_url

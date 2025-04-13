@@ -18,8 +18,8 @@ import java.util.List;
 public interface SpuAttrConverter {
 
     @Mappings({
-            @Mapping(target = "attrName", source = "name"),
-            @Mapping(target = "attrValue", source = "value"),
+            @Mapping(target = "name", source = "attrName"),
+            @Mapping(target = "value", source = "attrValue"),
     })
     SpuForm.Attr toSpuFormAttr(SpuAttrBO bo);
 

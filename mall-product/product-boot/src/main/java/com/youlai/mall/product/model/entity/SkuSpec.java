@@ -34,9 +34,9 @@ public class SkuSpec implements Serializable {
     private Long skuId;
 
     /**
-     * 规格ID
+     * 规格名称
      */
-    private Long specId;
+    private String specName;
 
     /**
      * 规格值
@@ -44,7 +44,7 @@ public class SkuSpec implements Serializable {
     private String specValue;
 
     /**
-     * 是否主规格(0-否 1-是)
+     * 规格图片，只有主规格才有，如：红色为红色图片
      */
-    private Integer isMain;
+    private String imgUrl;
 }

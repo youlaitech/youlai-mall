@@ -8,10 +8,12 @@ import com.youlai.mall.product.model.bo.SpuAttrBO;
 import com.youlai.mall.product.model.entity.SpuAttr;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SpuAttrService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -21,31 +23,47 @@ import java.util.stream.Collectors;
  * @since 2024/04/24
  */
 @Service
+@Slf4j
 public class SpuAttrServiceImpl extends ServiceImpl<SpuAttrMapper, SpuAttr> implements SpuAttrService {
+
     /**
      * 保存商品属性
      *
-     * @param spuId      SPU ID
-     * @param attrValues 属性值列表
+     * @param spuId  SPU ID
+     * @param attrList 属性列表
      */
     @Override
     @Transactional
-    public void saveAttributeValues(Long spuId, List<SpuForm.AttrValue> attrValues) {
-        // 删除原有属性
+    public void saveSpuAttrs(Long spuId, List<SpuForm.Attr> attrList) {
+        // 参数校验
+        if (spuId == null) {
+            throw new IllegalArgumentException("SPU ID 不能为空");
+        }
+
+        log.info("开始保存 SPU ID={} 的属性（全删全插模式）", spuId);
+
+        // 1. 先删除该SPU的所有现有属性
         this.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
 
-        // 保存新属性
-        if (CollectionUtil.isNotEmpty(attrValues)) {
-            List<SpuAttr> spuAttrs = attrValues.stream().map(attrValue -> {
-                SpuAttr spuAttr = new SpuAttr();
-                spuAttr.setSpuId(spuId);
-                spuAttr.setAttrId(attrValue.getAttrId());
-                spuAttr.setAttrValue(attrValue.getAttrValue());
-                return spuAttr;
-            }).collect(Collectors.toList());
-            this.saveBatch(spuAttrs);
+        // 2. 如果传入的属性列表不为空，则批量插入新属性
+        if (CollectionUtil.isNotEmpty(attrList)) {
+            List<SpuAttr> newAttrs = attrList.stream()
+                    .map(attr -> {
+                        SpuAttr spuAttr = new SpuAttr();
+                        spuAttr.setSpuId(spuId);
+                        spuAttr.setAttrName(attr.getName());
+                        spuAttr.setAttrValue(attr.getValue());
+                        return spuAttr;
+                    })
+                    .collect(Collectors.toList());
+
+            log.info("插入 SPU ID={} 的新属性，数量={}", spuId, newAttrs.size());
+            this.saveBatch(newAttrs);
         }
+
+        log.info("完成保存 SPU ID={} 的属性", spuId);
     }
+
 
     /**
      * 判断属性是否有商品引用

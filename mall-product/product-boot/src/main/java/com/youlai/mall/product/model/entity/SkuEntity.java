@@ -5,6 +5,7 @@ import com.youlai.common.base.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
+
 /**
  * Sku 实体类，代表商品的一个具体的库存单元。
  * Sku 通常包含特定的属性组合，如颜色、尺寸等，与Spu相对，
@@ -16,17 +17,22 @@ import lombok.Setter;
 @TableName("pms_sku")
 @Getter
 @Setter
-public class Sku extends BaseEntity {
+public class SkuEntity extends BaseEntity {
 
     /**
      * SKU编号
      */
-    private String code;
+    private String skuCode;
 
     /**
      * 与该SKU相关联的SPU的ID。
      */
     private Long spuId;
+
+    /**
+     * 规格组合的MD5哈希值
+     */
+    private String specHash;
 
     /**
      * 商品SKU的价格单位（分）

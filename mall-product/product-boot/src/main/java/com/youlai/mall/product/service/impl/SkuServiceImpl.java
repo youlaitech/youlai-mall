@@ -2,7 +2,10 @@ package com.youlai.mall.product.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.cloud.commons.lang.StringUtils;
+import com.alibaba.nacos.client.naming.utils.CollectionUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,7 +16,7 @@ import com.youlai.mall.product.mapper.SkuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
 import com.youlai.mall.product.model.dto.SkuDTO;
-import com.youlai.mall.product.model.entity.Sku;
+import com.youlai.mall.product.model.entity.SkuEntity;
 import com.youlai.mall.product.model.entity.SkuSpec;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SkuService;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * SKU 服务实现类
@@ -35,7 +39,7 @@ import java.util.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuService {
+public class SkuServiceImpl extends ServiceImpl<SkuMapper, SkuEntity> implements SkuService {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final SkuConverter skuConverter;
@@ -92,9 +96,9 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
         for (LockSkuDTO lockedSku : lockSkuList) {
             Integer quantity = lockedSku.getQuantity(); // 订单的商品数量
             // 库存足够
-            boolean lockResult = this.update(new LambdaUpdateWrapper<Sku>()
+            boolean lockResult = this.update(new LambdaUpdateWrapper<SkuEntity>()
                     .setSql("locked_stock = locked_stock + " + quantity) // 修改锁定商品数
-                    .eq(Sku::getId, lockedSku.getSkuId())
+                    .eq(SkuEntity::getId, lockedSku.getSkuId())
                     .apply("stock - locked_stock >= {0}", quantity) // 剩余商品数 ≥ 订单商品数
             );
             Assert.isTrue(lockResult, "商品库存不足");
@@ -127,9 +131,9 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
         // 解锁商品库存
         for (LockSkuDTO lockedSku : lockedSkus) {
-            boolean unlockResult = this.update(new LambdaUpdateWrapper<Sku>()
+            boolean unlockResult = this.update(new LambdaUpdateWrapper<SkuEntity>()
                     .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
-                    .eq(Sku::getId, lockedSku.getSkuId())
+                    .eq(SkuEntity::getId, lockedSku.getSkuId())
             );
             Assert.isTrue(unlockResult, "解锁商品库存失败");
         }
@@ -158,10 +162,10 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
         }
 
         for (LockSkuDTO lockedSku : lockedSkus) {
-            boolean deductResult = this.update(new LambdaUpdateWrapper<Sku>()
+            boolean deductResult = this.update(new LambdaUpdateWrapper<SkuEntity>()
                     .setSql("stock = stock - " + lockedSku.getQuantity())
                     .setSql("locked_stock = locked_stock - " + lockedSku.getQuantity())
-                    .eq(Sku::getId, lockedSku.getSkuId())
+                    .eq(SkuEntity::getId, lockedSku.getSkuId())
             );
             Assert.isTrue(deductResult, "扣减商品库存失败");
         }
@@ -173,7 +177,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
 
 
     /**
-     * 保存商品SKU
+     * 保存 SKU
      *
      * @param spuId   SPU ID
      * @param skuList SKU 列表 非空的
@@ -181,49 +185,73 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
     @Override
     @Transactional
     public void saveSkus(Long spuId, List<SpuForm.Sku> skuList) {
-        // 检索数据库中与spuId相关联的所有SKU
-        List<Sku> existingSkusInDb = this.list(new LambdaQueryWrapper<Sku>().eq(Sku::getSpuId, spuId));
+        // 1. 查询现有SKU ID集合
+        Set<Long> existingSkuIds = this.list(new LambdaQueryWrapper<SkuEntity>()
+                        .select(SkuEntity::getId)
+                        .eq(SkuEntity::getSpuId, spuId))
+                .stream()
+                .map(SkuEntity::getId)
+                .collect(Collectors.toSet());
 
-        // 从提交的表单中提取所有非空的SKU ID
-        List<Long> submittedSkuIds = skuList.stream()
+        // 2. 提取提交的SKU ID集合
+        Set<Long> submittedSkuIds = skuList.stream()
                 .map(SpuForm.Sku::getId)
                 .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        // 3. 计算需要删除的SKU ID
+        List<Long> skuIdsToDelete = existingSkuIds.stream()
+                .filter(id -> !submittedSkuIds.contains(id))
                 .toList();
 
-        // 确定需要删除的SKU：如果它们在提交的SKU列表中不存在
-        List<Sku> skusToDelete = existingSkusInDb.stream()
-                .filter(sku -> !submittedSkuIds.contains(sku.getId()))
-                .toList();
-
-        // 如果有SKU需要删除，则进行删除操作
-        if (!skusToDelete.isEmpty()) {
-            List<Long> skuIdsToDelete = skusToDelete.stream()
-                    .map(Sku::getId)
-                    .toList();
-
-            // 删除SKU记录
-            boolean result = this.removeByIds(skuIdsToDelete);
-
-            // 删除关联的SKU规格值
-            if (result) {
-                skuSpecService.remove(new LambdaQueryWrapper<SkuSpec>().in(SkuSpec::getSkuId, skuIdsToDelete));
-            }
+        // 4. 批量删除SKU及关联规格
+        if (!skuIdsToDelete.isEmpty()) {
+            this.removeByIds(skuIdsToDelete);
+            skuSpecService.remove(new LambdaQueryWrapper<SkuSpec>()
+                    .in(SkuSpec::getSkuId, skuIdsToDelete));
         }
 
-        // 循环处理提交的每个SKU，执行更新或保存操作
+        // 5. 批量处理SKU
         for (SpuForm.Sku skuForm : skuList) {
-            Sku entity = skuConverter.toEntity(skuForm);
+            SkuEntity entity = skuConverter.toEntity(skuForm);
             entity.setSpuId(spuId);
 
-            // 保存或更新SKU实体
-            boolean result = this.saveOrUpdate(entity);
+            // 计算规格组合Hash值
+            List<SpuForm.Spec> specList = skuForm.getSpecList();
+            String specHash = calculateSpecHash(specList);
+            entity.setSpecHash(specHash);
 
-            // 如果成功保存或更新，则处理SKU的规格值
-            if (result) {
-                skuSpecService.specSpecValues(entity.getId(), skuForm.getSpecValues());
-            }
+            // 保存或更新SKU
+            this.saveOrUpdate(entity);
+
+            // 直接处理规格数据
+            skuSpecService.saveSkuSpecs(entity.getId(),specList);
         }
     }
+
+    /**
+     * 计算规格组合的Hash值
+     * 规则：将规格按name排序后拼接成字符串，然后取MD5
+     */
+    private String calculateSpecHash(List<SpuForm.Spec> specList) {
+        if (CollectionUtils.isEmpty(specList)) {
+            return StringUtils.EMPTY;
+        }
+
+        // 1. 按规格名称排序
+        List<SpuForm.Spec> sortedSpecs = specList.stream()
+                .sorted(Comparator.comparing(SpuForm.Spec::getName))
+                .toList();
+
+        // 2. 拼接成字符串：格式 "name:value,name:value"
+        String specString = sortedSpecs.stream()
+                .map(spec -> spec.getName() + ":" + spec.getValue())
+                .collect(Collectors.joining(","));
+
+        // 3. 生成MD5（截取前16位）
+        return DigestUtil.md5Hex(specString);
+    }
+
 
     /**
      * 根据SPU ID查询商品SKU列表

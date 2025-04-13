@@ -84,7 +84,7 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
         Map<Long, ProductDetailVO.Spec> attributeMap = new HashMap<>();
         AtomicBoolean isFirstAttributeValue = new AtomicBoolean(false);
 
-        skuList.forEach(sku -> sku.getSpecValues().forEach(specValue -> {
+        skuList.forEach(sku -> sku.getSpecList().forEach(specValue -> {
             Long specId = specValue.getSpecId();
             ProductDetailVO.Spec attribute = attributeMap.computeIfAbsent(specId, id -> {
                 ProductDetailVO.Spec attr = new ProductDetailVO.Spec();
@@ -121,12 +121,10 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
         return skuList.stream().map(sku -> {
             ProductDetailVO.Sku productSku = new ProductDetailVO.Sku();
             productSku.setId(sku.getId());
-            productSku.setName(sku.getName());
-            productSku.setCode(sku.getCode());
             productSku.setPrice(sku.getPrice());
             productSku.setStock(sku.getStock());
             productSku.setImgUrl(sku.getImgUrl());
-            productSku.setSpecValues(sku.getSpecValues().stream()
+            productSku.setSpecValues(sku.getSpecList().stream()
                     .map(SkuSpecBO::getSpecValue)
                     .collect(Collectors.toList()));
             return productSku;
@@ -148,7 +146,7 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
                 .toList();
 
         return skuList.stream()
-                .filter(sku -> new HashSet<>(sku.getSpecValues().stream()
+                .filter(sku -> new HashSet<>(sku.getSpecList().stream()
                         .map(SkuSpecBO::getSpecValue)
                         .collect(Collectors.toList()))
                         .containsAll(activeAttributeValues))

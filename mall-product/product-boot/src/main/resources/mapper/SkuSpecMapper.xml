@@ -8,9 +8,8 @@
     <select id="listSpecBySkuId" resultType="com.youlai.mall.product.model.bo.SkuSpecBO">
         SELECT
             t1.id,
-            t1.spec_id,
-            t1.spec_Value,
-            t1.is_main,
+            t1.spec_name,
+            t1.spec_value,
             t1.img_url
         FROM
             pms_sku_spec t1

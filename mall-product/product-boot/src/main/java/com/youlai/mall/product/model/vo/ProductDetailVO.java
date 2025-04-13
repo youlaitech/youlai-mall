@@ -86,11 +86,11 @@ public class ProductDetailVO implements Serializable {
         @Schema(description = "SKU ID")
         private Long id;
 
-        @Schema(description = "SKU 名称")
-        private String name;
+        @Schema(description = "规格组合Hash")
+        private String specHash;
 
         @Schema(description = "SKU 编码")
-        private String code;
+        private String skuCode;
 
         @Schema(description = "SKU 价格（单位：分）")
         private Long price;
