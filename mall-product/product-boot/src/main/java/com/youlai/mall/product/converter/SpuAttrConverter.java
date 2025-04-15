@@ -21,7 +21,7 @@ public interface SpuAttrConverter {
             @Mapping(target = "name", source = "attrName"),
             @Mapping(target = "value", source = "attrValue"),
     })
-    SpuForm.Attr toSpuFormAttr(SpuAttrBO bo);
+    SpuForm.AttrValue toSpuFormAttr(SpuAttrBO bo);
 
-    List<SpuForm.Attr> toSpuFormAttr(List<SpuAttrBO> boList);
+    List<SpuForm.AttrValue> toSpuFormAttr(List<SpuAttrBO> boList);
 }

@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * SKU规格值服务实现类
@@ -33,7 +31,7 @@ public class SkuSpecServiceImpl extends ServiceImpl<SkuSpecMapper, SkuSpec> impl
      */
     @Override
     @Transactional
-    public void saveSkuSpecs(Long skuId, List<SpuForm.Spec> specList) {
+    public void saveSkuSpecs(Long skuId, List<SpuForm.SpecValue> specList) {
         if (skuId == null) {
             throw new IllegalArgumentException("SKU ID 不能为空");
         }

@@ -20,5 +20,5 @@ public interface SkuSpecService extends IService<SkuSpec> {
      * @param id    SKU ID
      * @param specList 规格列表
      */
-    void saveSkuSpecs(Long id, List<SpuForm.Spec> specList);
+    void saveSkuSpecs(Long id, List<SpuForm.SpecValue> specList);
 }

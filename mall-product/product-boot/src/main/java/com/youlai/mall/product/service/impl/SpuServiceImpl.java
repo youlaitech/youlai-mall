@@ -72,10 +72,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             // 保存商品详情
             spuDetailService.saveSpuDetail(spuId, formData.getDetail());
             // 保存商品图片
-            List<SpuForm.Image> imgList = formData.getImgList();
+            List<String> imgList = formData.getImgList();
             spuImageService.saveSpuImages(spuId, imgList);
             // 保存商品属性
-            List<SpuForm.Attr> attrList = formData.getAttrList();
+            List<SpuForm.AttrValue> attrList = formData.getAttrList();
             spuAttrService.saveSpuAttrs(spuId, attrList);
             // 保存 SKU
             List<SpuForm.Sku> skuList = formData.getSkuList();
@@ -100,14 +100,11 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         SpuForm spuForm = spuConverter.toForm(spu);
 
         // 商品图片
-        List<SpuForm.Image> imageList = spuImageService.list(new LambdaQueryWrapper<SpuImage>()
-                        .eq(SpuImage::getSpuId, spuId))
-                .stream().map(item -> {
-                    SpuForm.Image image = new SpuForm.Image();
-                    BeanUtil.copyProperties(item, image);
-                    return image;
-                }).toList();
-        spuForm.setImgList(imageList);
+        List<String> imageUrls = spuImageService.list(new LambdaQueryWrapper<SpuImage>()
+                        .eq(SpuImage::getSpuId, spuId)
+                        .select(SpuImage::getImgUrl)
+                ).stream().map(SpuImage::getImgUrl).toList();
+        spuForm.setImgList(imageUrls);
 
         // 商品详情
         SpuDetail spuDetail = spuDetailService.getOne(new LambdaQueryWrapper<SpuDetail>()
@@ -118,7 +115,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         }
 
         // 属性列表
-        List<SpuForm.Attr> attrList=  spuAttrConverter.toSpuFormAttr(spuAttrService.listAttrsBySpuId(spuId));
+        List<SpuForm.AttrValue> attrList=  spuAttrConverter.toSpuFormAttr(spuAttrService.listAttrsBySpuId(spuId));
         spuForm.setAttrList(attrList);
 
         // SKU 列表

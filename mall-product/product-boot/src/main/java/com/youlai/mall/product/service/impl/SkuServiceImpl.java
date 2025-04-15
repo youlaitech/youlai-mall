@@ -217,7 +217,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, SkuEntity> implements
             entity.setSpuId(spuId);
 
             // 计算规格组合Hash值
-            List<SpuForm.Spec> specList = skuForm.getSpecList();
+            List<SpuForm.SpecValue> specList = skuForm.getSpecList();
             String specHash = calculateSpecHash(specList);
             entity.setSpecHash(specHash);
 
@@ -233,14 +233,14 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, SkuEntity> implements
      * 计算规格组合的Hash值
      * 规则：将规格按name排序后拼接成字符串，然后取MD5
      */
-    private String calculateSpecHash(List<SpuForm.Spec> specList) {
+    private String calculateSpecHash(List<SpuForm.SpecValue> specList) {
         if (CollectionUtils.isEmpty(specList)) {
             return StringUtils.EMPTY;
         }
 
         // 1. 按规格名称排序
-        List<SpuForm.Spec> sortedSpecs = specList.stream()
-                .sorted(Comparator.comparing(SpuForm.Spec::getName))
+        List<SpuForm.SpecValue> sortedSpecs = specList.stream()
+                .sorted(Comparator.comparing(SpuForm.SpecValue::getName))
                 .toList();
 
         // 2. 拼接成字符串：格式 "name:value,name:value"

@@ -18,8 +18,8 @@ public interface SpuImageService extends IService<SpuImage> {
      * 保存商品图片
      *
      * @param spuId 商品ID
-     * @param galleryImages 商品图册
+     * @param imgUrls 商品图册
      * @return
      */
-    void saveSpuImages(Long spuId, List<SpuForm.Image> galleryImages);
+    void saveSpuImages(Long spuId, List<String> imgUrls);
 }

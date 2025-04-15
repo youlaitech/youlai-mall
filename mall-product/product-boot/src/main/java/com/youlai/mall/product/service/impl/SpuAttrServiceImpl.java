@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -34,7 +33,7 @@ public class SpuAttrServiceImpl extends ServiceImpl<SpuAttrMapper, SpuAttr> impl
      */
     @Override
     @Transactional
-    public void saveSpuAttrs(Long spuId, List<SpuForm.Attr> attrList) {
+    public void saveSpuAttrs(Long spuId, List<SpuForm.AttrValue> attrList) {
         // 参数校验
         if (spuId == null) {
             throw new IllegalArgumentException("SPU ID 不能为空");

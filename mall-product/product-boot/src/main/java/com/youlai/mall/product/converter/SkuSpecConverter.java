@@ -15,7 +15,7 @@ public interface SkuSpecConverter {
             @Mapping(target = "name", source = "specName"),
             @Mapping(target = "value", source = "specValue"),
     })
-    SpuForm.Spec toSkuFormSpec(SkuSpecBO specBO);
+    SpuForm.SpecValue toSkuFormSpec(SkuSpecBO specBO);
 
-    List<SpuForm.Spec> toSkuFormSpec(List<SkuSpecBO> specList);
+    List<SpuForm.SpecValue> toSkuFormSpec(List<SkuSpecBO> specList);
 }

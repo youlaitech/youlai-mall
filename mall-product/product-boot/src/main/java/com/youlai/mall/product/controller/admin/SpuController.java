@@ -44,12 +44,20 @@ public class SpuController {
         return Result.success(spuForm);
     }
 
-    @Operation(summary = "保存商品")
+    @Operation(summary = "新增商品")
     @PostMapping
     public Result saveSpu(@Validated @RequestBody SpuForm formData) {
         boolean result = spuService.saveSpu(formData);
         return Result.judge(result);
     }
+
+    @Operation(summary = "编辑商品")
+    @PutMapping("/{spuId}")
+    public Result updateSpu(@PathVariable Long spuId,@Validated @RequestBody SpuForm formData) {
+        boolean result = spuService.saveSpu(formData);
+        return Result.judge(result);
+    }
+
 
     @Operation(summary = "删除商品")
     @DeleteMapping("/{ids}")

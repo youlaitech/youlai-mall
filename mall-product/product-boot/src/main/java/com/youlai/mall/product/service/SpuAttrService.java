@@ -21,7 +21,7 @@ public interface SpuAttrService extends IService<SpuAttr> {
      * @param spuId      SPU ID
      * @param attrList   属性列表
      */
-    void saveSpuAttrs(Long spuId,  List<SpuForm.Attr> attrList);
+    void saveSpuAttrs(Long spuId,  List<SpuForm.AttrValue> attrList);
 
     /**
      * 判断属性是否有商品引用

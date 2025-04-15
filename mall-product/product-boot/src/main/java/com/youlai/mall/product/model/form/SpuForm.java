@@ -32,8 +32,8 @@ public class SpuForm {
     @Schema(description = "商品主图URL", example = "https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg")
     private String imgUrl;
 
-    @Schema(description = "商品图册(详情页轮播图)", example = "[{\"imgUrl\":\"https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg\",\"sort\":1}]")
-    private List<Image> imgList;
+    @Schema(description = "商品图册(详情页轮播图)")
+    private List<String> imgList;
 
     @Schema(description = "商品单位", example = "台")
     private String unit;
@@ -45,22 +45,10 @@ public class SpuForm {
     private String detail;
 
     @Schema(description = "属性列表", example = "[{\"id\":\"1\",\"value\":\"2K\"},{\"id\":\"2\",\"value\":\"6英寸\"}]")
-    private List<Attr> attrList;
+    private List<AttrValue> attrList;
 
     @Schema(description = "SKU列表", example = "[{\"name\":\"白色 64GB\",\"price\":699900,\"stock\":100,\"imgUrl\":\"https://youlai.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg\",\"specValues\":[{\"id\":\"1\",\"value\":\"白色\"},{\"id\":\"2\",\"value\":\"64GB\"}]}]")
     private List<Sku> skuList;
-
-    @Schema(description = "商品图片")
-    @Data
-    public static class Image {
-
-        @Schema(description = "图片ID")
-        private Long id;
-
-        @Schema(description = "图片地址")
-        private String imgUrl;
-
-    }
 
     @Schema(description = "SKU")
     @Data
@@ -69,8 +57,8 @@ public class SpuForm {
         @Schema(description = "SKU ID")
         private Long id;
 
-        @Schema(description = "SKU 名称")
-        private String name;
+        @Schema(description = "SKU编码", example = "白色 64GB")
+        private String skuCode;
 
         @Schema(description = "价格(单位：分)")
         private Long price;
@@ -82,13 +70,13 @@ public class SpuForm {
         private String imgUrl;
 
         @Schema(description = "规格列表", example = "[{\"id\":\"1\",\"value\":\"白色\"},{\"id\":\"2\",\"value\":\"64GB\"}]")
-        private List<Spec> specList;
+        private List<SpecValue> specList;
 
     }
 
     @Schema(description = "规格值")
     @Data
-    public static class Spec {
+    public static class SpecValue {
 
         @Schema(description = "规格名称", example = "颜色")
         private String name;
@@ -101,9 +89,9 @@ public class SpuForm {
     }
 
 
-    @Schema(description = "属性")
+    @Schema(description = "属性值对象")
     @Data
-    public static class Attr {
+    public static class AttrValue {
 
         @Schema(description = "属性名称", example = "分辨率")
         private String name;
