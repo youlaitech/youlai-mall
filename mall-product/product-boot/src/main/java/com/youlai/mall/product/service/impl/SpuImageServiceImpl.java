@@ -5,16 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.converter.SpuImageConverter;
 import com.youlai.mall.product.mapper.SpuImageMapper;
-import com.youlai.mall.product.model.entity.SpuImage;
-import com.youlai.mall.product.model.form.SpuForm;
+import com.youlai.mall.product.model.entity.SpuImageEntity;
 import com.youlai.mall.product.service.SpuImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -26,7 +23,7 @@ import java.util.stream.IntStream;
  */
 @Service
 @RequiredArgsConstructor
-public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImage> implements SpuImageService {
+public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImageEntity> implements SpuImageService {
 
     private final SpuImageConverter spuImageConverter;
 
@@ -41,14 +38,14 @@ public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImage> i
     @Transactional
     public void saveSpuImages(Long spuId, List<String> imgUrls) {
         // 删除旧的商品图册
-        this.remove(new LambdaQueryWrapper<SpuImage>()
-                .eq(SpuImage::getSpuId, spuId));
+        this.remove(new LambdaQueryWrapper<SpuImageEntity>()
+                .eq(SpuImageEntity::getSpuId, spuId));
 
         // 2. 保存新图册
         if (CollectionUtil.isNotEmpty(imgUrls)) {
-            List<SpuImage> spuImages = IntStream.range(0, imgUrls.size())
+            List<SpuImageEntity> spuImageEntities = IntStream.range(0, imgUrls.size())
                     .mapToObj(i -> {
-                        SpuImage image = new SpuImage();
+                        SpuImageEntity image = new SpuImageEntity();
                         image.setSpuId(spuId);
                         image.setImgUrl(imgUrls.get(i));
                         image.setSort(i + 1);  // 从1开始编号
@@ -56,7 +53,7 @@ public class SpuImageServiceImpl extends ServiceImpl<SpuImageMapper, SpuImage> i
                     })
                     .collect(Collectors.toList());
 
-            this.saveBatch(spuImages);
+            this.saveBatch(spuImageEntities);
         }
     }
 }

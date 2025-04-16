@@ -2,7 +2,7 @@ package com.youlai.mall.product.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youlai.mall.product.model.entity.Spu;
+import com.youlai.mall.product.model.entity.SpuEntity;
 import com.youlai.mall.product.model.query.ProductPageQuery;
 import com.youlai.mall.product.model.query.SpuPageQuery;
 import com.youlai.mall.product.model.vo.ProductPageVO;
@@ -15,7 +15,7 @@ import java.util.List;
  *  商品SPU持久化接口
  */
 @Mapper
-public interface SpuMapper extends BaseMapper<Spu> {
+public interface SpuMapper extends BaseMapper<SpuEntity> {
 
     /**
      * Admin-商品分页列表

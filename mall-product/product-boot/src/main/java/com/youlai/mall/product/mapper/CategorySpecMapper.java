@@ -1,11 +1,10 @@
 package com.youlai.mall.product.mapper;
 
-import com.youlai.mall.product.model.entity.Spec;
+import com.youlai.mall.product.model.entity.CategorySpecEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.product.model.bo.SpecBO;
 import com.youlai.mall.product.model.query.SpecPageQuery;
-import com.youlai.mall.product.model.vo.SpecVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface SpecMapper extends BaseMapper<Spec> {
+public interface CategorySpecMapper extends BaseMapper<CategorySpecEntity> {
 
     /**
      * 规格分页列表

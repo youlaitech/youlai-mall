@@ -1,8 +1,7 @@
 package com.youlai.mall.product.converter;
 
-import com.youlai.mall.product.model.entity.Spu;
+import com.youlai.mall.product.model.entity.SpuEntity;
 import com.youlai.mall.product.model.form.SpuForm;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 
 /**
@@ -14,8 +13,8 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SpuConverter {
 
-    Spu toEntity(SpuForm form);
+    SpuEntity toEntity(SpuForm form);
 
-    SpuForm toForm(Spu spu);
+    SpuForm toForm(SpuEntity spuEntity);
     
 }

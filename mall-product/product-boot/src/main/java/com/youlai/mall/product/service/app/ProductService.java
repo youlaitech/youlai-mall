@@ -2,11 +2,9 @@ package com.youlai.mall.product.service.app;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.product.model.entity.Spu;
+import com.youlai.mall.product.model.entity.SpuEntity;
 import com.youlai.mall.product.model.query.ProductPageQuery;
-import com.youlai.mall.product.model.query.SpuPageQuery;
 import com.youlai.mall.product.model.vo.ProductDetailVO;
-import com.youlai.mall.product.model.vo.SpuDetailVO;
 import com.youlai.mall.product.model.vo.ProductPageVO;
 
 /**
@@ -15,7 +13,7 @@ import com.youlai.mall.product.model.vo.ProductPageVO;
  * @author Ray.Hao
  * @since  2022/2/5
  */
-public interface ProductService extends IService<Spu> {
+public interface ProductService extends IService<SpuEntity> {
 
     /**
      * 商品分页列表

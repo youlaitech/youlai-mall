@@ -1,7 +1,7 @@
 package com.youlai.mall.product.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.product.model.entity.Category;
+import com.youlai.mall.product.model.entity.CategoryEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,5 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024/04/20
  */
 @Mapper
-public interface CategoryMapper extends BaseMapper<Category> {
+public interface CategoryMapper extends BaseMapper<CategoryEntity> {
 }

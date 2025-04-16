@@ -1,21 +1,15 @@
 package com.youlai.mall.product.service.impl;
 
-import com.youlai.mall.product.model.entity.Spec;
-import com.youlai.mall.product.mapper.SpecMapper;
+import com.youlai.mall.product.model.entity.CategorySpecEntity;
+import com.youlai.mall.product.mapper.CategorySpecMapper;
 import com.youlai.mall.product.model.vo.SpecVO;
-import com.youlai.mall.product.service.SpecService;
+import com.youlai.mall.product.service.CategorySpecService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.youlai.common.util.DateUtils;
 import com.youlai.mall.product.model.form.SpecForm;
-import com.youlai.mall.product.model.query.SpecPageQuery;
 import com.youlai.mall.product.model.bo.SpecBO;
-import com.youlai.mall.product.model.vo.SpecPageVO;
 import com.youlai.mall.product.converter.SpecConverter;
-
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +25,7 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 @RequiredArgsConstructor
-public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements SpecService {
+public class CategorySpecServiceImpl extends ServiceImpl<CategorySpecMapper, CategorySpecEntity> implements CategorySpecService {
 
     private final SpecConverter specConverter;
 
@@ -42,7 +36,7 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
      */
     @Override
     public SpecForm getSpecFormData(Long id) {
-        Spec entity = this.getById(id);
+        CategorySpecEntity entity = this.getById(id);
         return specConverter.toForm(entity);
     }
 
@@ -55,7 +49,7 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
     @Override
     public boolean saveSpec(SpecForm formData) {
         // 实体转换 form->entity
-        Spec entity = specConverter.toEntity(formData);
+        CategorySpecEntity entity = specConverter.toEntity(formData);
         return this.save(entity);
     }
 
@@ -68,7 +62,7 @@ public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements Sp
      */
     @Override
     public boolean updateSpec(Long id, SpecForm formData) {
-        Spec entity = specConverter.toEntity(formData);
+        CategorySpecEntity entity = specConverter.toEntity(formData);
         return this.updateById(entity);
     }
 

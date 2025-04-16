@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.bo.SkuSpecBO;
-import com.youlai.mall.product.model.entity.Spu;
+import com.youlai.mall.product.model.entity.SpuEntity;
 import com.youlai.mall.product.model.query.ProductPageQuery;
 import com.youlai.mall.product.model.vo.ProductDetailVO;
 import com.youlai.mall.product.model.vo.ProductPageVO;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ProductService {
+public class ProductServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements ProductService {
 
     private final SkuService skuService;
 
@@ -55,8 +55,8 @@ public class ProductServiceImpl extends ServiceImpl<SpuMapper, Spu> implements P
     public ProductDetailVO getProductDetail(Long spuId) {
         ProductDetailVO productDetailVO = new ProductDetailVO();
         // 获取商品基本信息
-        Spu spu = this.getById(spuId);
-        if (spu != null) {
+        SpuEntity spuEntity = this.getById(spuId);
+        if (spuEntity != null) {
             // 获取 SKU 列表
             List<SkuBO> skuList = skuService.listSkusBySpuId(spuId);
             // 转换为商品属性列表

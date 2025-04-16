@@ -1,7 +1,7 @@
 package com.youlai.mall.product.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youlai.mall.product.model.entity.Brand;
+import com.youlai.mall.product.model.entity.BrandEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Mapper
-public interface BrandMapper extends BaseMapper<Brand> {
+public interface BrandMapper extends BaseMapper<BrandEntity> {
 
-    List<Brand> listBrandOptions();
+    List<BrandEntity> listBrandOptions();
 }

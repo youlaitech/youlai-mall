@@ -17,7 +17,7 @@ import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.dto.LockSkuDTO;
 import com.youlai.mall.product.model.dto.SkuDTO;
 import com.youlai.mall.product.model.entity.SkuEntity;
-import com.youlai.mall.product.model.entity.SkuSpec;
+import com.youlai.mall.product.model.entity.SkuSpecEntity;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SkuService;
 import com.youlai.mall.product.service.SkuSpecService;
@@ -207,8 +207,8 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, SkuEntity> implements
         // 4. 批量删除SKU及关联规格
         if (!skuIdsToDelete.isEmpty()) {
             this.removeByIds(skuIdsToDelete);
-            skuSpecService.remove(new LambdaQueryWrapper<SkuSpec>()
-                    .in(SkuSpec::getSkuId, skuIdsToDelete));
+            skuSpecService.remove(new LambdaQueryWrapper<SkuSpecEntity>()
+                    .in(SkuSpecEntity::getSkuId, skuIdsToDelete));
         }
 
         // 5. 批量处理SKU

@@ -6,9 +6,9 @@ import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.AttrVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
 import com.youlai.mall.product.model.vo.SpecVO;
-import com.youlai.mall.product.service.AttrService;
+import com.youlai.mall.product.service.CategoryAttrService;
 import com.youlai.mall.product.service.CategoryService;
-import com.youlai.mall.product.service.SpecService;
+import com.youlai.mall.product.service.CategorySpecService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,8 +31,8 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
-    private final AttrService attrService;
-    private final SpecService specService;
+    private final CategoryAttrService categoryAttrService;
+    private final CategorySpecService categorySpecService;
 
     @Operation(summary = "获取商品分类列表")
     @GetMapping
@@ -80,7 +80,7 @@ public class CategoryController {
     public Result<List<AttrVO>> getCategoryAttrs(
             @Parameter(description = "分类ID", example = "1") @PathVariable Long categoryId
     ) {
-        List<AttrVO> list = attrService.getCategoryAttrs(categoryId);
+        List<AttrVO> list = categoryAttrService.getCategoryAttrs(categoryId);
         return Result.success(list);
     }
 
@@ -89,7 +89,7 @@ public class CategoryController {
     public Result<List<SpecVO>> getCategorySpecs(
             @Parameter(description = "分类ID", example = "1") @PathVariable Long categoryId
     ) {
-        List<SpecVO> list = specService.getCategorySpecs(categoryId);
+        List<SpecVO> list = categorySpecService.getCategorySpecs(categoryId);
         return Result.success(list);
     }
 

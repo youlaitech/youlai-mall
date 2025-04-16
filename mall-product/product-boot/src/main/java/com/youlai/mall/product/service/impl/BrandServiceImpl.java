@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.converter.BrandConverter;
 import com.youlai.mall.product.mapper.BrandMapper;
-import com.youlai.mall.product.model.entity.Brand;
+import com.youlai.mall.product.model.entity.BrandEntity;
 import com.youlai.mall.product.model.query.BrandPageQuery;
 import com.youlai.mall.product.model.vo.BrandPageVO;
 import com.youlai.mall.product.service.BrandService;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements BrandService {
+public class BrandServiceImpl extends ServiceImpl<BrandMapper, BrandEntity> implements BrandService {
 
     private final BrandConverter brandConverter;
 
@@ -39,9 +39,9 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         String keywords = queryParams.getKeywords();
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
-        Page<Brand> page = this.page(new Page<>(pageNum, pageSize),
-                new LambdaQueryWrapper<Brand>().like(StrUtil.isNotBlank(keywords), Brand::getName, keywords)
-                        .orderByAsc(Brand::getSort)
+        Page<BrandEntity> page = this.page(new Page<>(pageNum, pageSize),
+                new LambdaQueryWrapper<BrandEntity>().like(StrUtil.isNotBlank(keywords), BrandEntity::getName, keywords)
+                        .orderByAsc(BrandEntity::getSort)
         );
         return brandConverter.toPageVo(page);
     }
@@ -51,7 +51,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
      */
     @Override
     public List<Option<Long>> listBrandOptions(){
-        List<Brand> list = this.baseMapper.listBrandOptions();
+        List<BrandEntity> list = this.baseMapper.listBrandOptions();
         return brandConverter.toOption(list);
     }
 }

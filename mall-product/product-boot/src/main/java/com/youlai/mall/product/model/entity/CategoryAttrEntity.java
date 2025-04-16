@@ -1,31 +1,40 @@
 package com.youlai.mall.product.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import com.youlai.common.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 商品图片实体
+ * 属性实体
  *
  * @author Ray.Hao
- * @since 2024-04-14
+ * @since 2024/5/24
  */
-@TableName("pms_spu_image")
 @Getter
 @Setter
-public class SpuImage extends BaseEntity {
+@TableName("pms_category_attr")
+public class CategoryAttrEntity extends BaseEntity {
 
     /**
-     * 商品ID
+     * 属性名称
      */
-    private Long spuId;
+    private String name;
 
     /**
-     * 图片地址
+     * 属性组名称
      */
-    private String imgUrl;
+    private String groupName;
+
+    /**
+     * 输入类型(1:文本 2:单选 3:多选)
+     */
+    private Integer inputType;
+
+    /**
+     * 可选项(逗号分隔)
+     */
+    private String options;
 
     /**
      * 排序
@@ -36,4 +45,5 @@ public class SpuImage extends BaseEntity {
      * 逻辑删除标识(0:未删除 1:已删除)
      */
     private Integer isDeleted;
+
 }

@@ -2,7 +2,7 @@ package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.core.model.Option;
-import com.youlai.mall.product.model.entity.Category;
+import com.youlai.mall.product.model.entity.CategoryEntity;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.CategoryAppVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2024/4/20
  */
-public interface CategoryService extends IService<Category> {
+public interface CategoryService extends IService<CategoryEntity> {
 
 
     /**

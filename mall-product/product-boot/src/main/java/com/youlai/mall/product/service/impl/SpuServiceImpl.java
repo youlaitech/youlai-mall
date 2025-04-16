@@ -1,6 +1,5 @@
 package com.youlai.mall.product.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -31,14 +30,13 @@ import java.util.*;
  */
 @Service
 @RequiredArgsConstructor
-public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuService {
+public class SpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements SpuService {
 
     private final SpuConverter spuConverter;
     private final SpuAttrConverter spuAttrConverter;
     private final SkuConverter skuConverter;
     private final SkuService skuService;
     private final SpuImageService spuImageService;
-    private final SpuDetailService spuDetailService;
     private final SpuAttrService spuAttrService;
     private final SkuSpecConverter skuSpecConverter;
 
@@ -65,12 +63,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     @Override
     public boolean saveSpu(SpuForm formData) {
 
-        Spu entity = spuConverter.toEntity(formData);
+        SpuEntity entity = spuConverter.toEntity(formData);
         boolean result = this.saveOrUpdate(entity);
         if (result) {
             Long spuId = entity.getId();
-            // 保存商品详情
-            spuDetailService.saveSpuDetail(spuId, formData.getDetail());
             // 保存商品图片
             List<String> imgList = formData.getImgList();
             spuImageService.saveSpuImages(spuId, imgList);
@@ -94,25 +90,17 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
      */
     @Override
     public SpuForm getSpuForm(Long spuId) {
-        Spu spu = this.getById(spuId);
-        Assert.isTrue(spu != null, "商品不存在");
+        SpuEntity spuEntity = this.getById(spuId);
+        Assert.isTrue(spuEntity != null, "商品不存在");
 
-        SpuForm spuForm = spuConverter.toForm(spu);
+        SpuForm spuForm = spuConverter.toForm(spuEntity);
 
         // 商品图片
-        List<String> imageUrls = spuImageService.list(new LambdaQueryWrapper<SpuImage>()
-                        .eq(SpuImage::getSpuId, spuId)
-                        .select(SpuImage::getImgUrl)
-                ).stream().map(SpuImage::getImgUrl).toList();
+        List<String> imageUrls = spuImageService.list(new LambdaQueryWrapper<SpuImageEntity>()
+                        .eq(SpuImageEntity::getSpuId, spuId)
+                        .select(SpuImageEntity::getImgUrl)
+                ).stream().map(SpuImageEntity::getImgUrl).toList();
         spuForm.setImgList(imageUrls);
-
-        // 商品详情
-        SpuDetail spuDetail = spuDetailService.getOne(new LambdaQueryWrapper<SpuDetail>()
-                .eq(SpuDetail::getSpuId, spuId)
-        );
-        if (spuDetail != null) {
-            spuForm.setDetail(spuDetail.getDetail());
-        }
 
         // 属性列表
         List<SpuForm.AttrValue> attrList=  spuAttrConverter.toSpuFormAttr(spuAttrService.listAttrsBySpuId(spuId));
@@ -148,9 +136,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         for (String spuId : spuIds) {
             skuService.remove(new LambdaQueryWrapper<SkuEntity>().eq(SkuEntity::getSpuId, spuId));
             // 规格
-            spuAttrService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
+            spuAttrService.remove(new LambdaQueryWrapper<SpuAttrEntity>().eq(SpuAttrEntity::getSpuId, spuId));
             // 参数
-            spuAttrService.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
+            spuAttrService.remove(new LambdaQueryWrapper<SpuAttrEntity>().eq(SpuAttrEntity::getSpuId, spuId));
             // SPU
             this.removeById(spuId);
         }

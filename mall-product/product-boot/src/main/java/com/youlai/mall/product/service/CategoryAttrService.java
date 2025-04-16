@@ -1,7 +1,7 @@
 package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.product.model.entity.AttrEntity;
+import com.youlai.mall.product.model.entity.CategoryAttrEntity;
 import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.vo.AttrVO;
 import jakarta.validation.Valid;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2024-04-19
  */
-public interface AttrService extends IService<AttrEntity> {
+public interface CategoryAttrService extends IService<CategoryAttrEntity> {
 
     /**
      * 根据分类ID获取属性列表

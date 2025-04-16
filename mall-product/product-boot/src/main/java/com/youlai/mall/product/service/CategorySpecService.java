@@ -1,11 +1,8 @@
 package com.youlai.mall.product.service;
 
-import com.youlai.mall.product.model.entity.Spec;
+import com.youlai.mall.product.model.entity.CategorySpecEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.form.SpecForm;
-import com.youlai.mall.product.model.query.SpecPageQuery;
-import com.youlai.mall.product.model.vo.SpecPageVO;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.mall.product.model.vo.SpecVO;
 
 import java.util.List;
@@ -16,7 +13,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2024-06-13
  */
-public interface SpecService extends IService<Spec> {
+public interface CategorySpecService extends IService<CategorySpecEntity> {
 
     /**
      * 获取规格表单数据

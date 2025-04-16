@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("pms_spu")
 @Data
-public class Spu extends BaseEntity {
+public class SpuEntity extends BaseEntity {
 
     /**
      * 商品名称
@@ -51,6 +51,10 @@ public class Spu extends BaseEntity {
      */
     private String description;
 
+    /**
+     * 商品详情
+     */
+    private String detail;
 
     /**
      * 逻辑删除标识(0-未删除 1-已删除)

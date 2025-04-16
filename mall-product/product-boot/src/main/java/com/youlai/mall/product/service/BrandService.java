@@ -3,7 +3,7 @@ package com.youlai.mall.product.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.core.model.Option;
-import com.youlai.mall.product.model.entity.Brand;
+import com.youlai.mall.product.model.entity.BrandEntity;
 import com.youlai.mall.product.model.query.BrandPageQuery;
 import com.youlai.mall.product.model.vo.BrandPageVO;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2024/7/2
  */
-public interface BrandService extends IService<Brand> {
+public interface BrandService extends IService<BrandEntity> {
 
     /**
      * 品牌分页列表

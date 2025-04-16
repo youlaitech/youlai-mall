@@ -1,9 +1,9 @@
 package com.youlai.mall.product.converter;
 
+import com.youlai.mall.product.model.entity.CategorySpecEntity;
 import com.youlai.mall.product.model.vo.SpecVO;
 import org.mapstruct.Mapper;
 
-import com.youlai.mall.product.model.entity.Spec;
 import com.youlai.mall.product.model.form.SpecForm;
 import com.youlai.mall.product.model.bo.SpecBO;
 
@@ -18,9 +18,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SpecConverter {
 
-    SpecForm toForm(Spec entity);
+    SpecForm toForm(CategorySpecEntity entity);
 
-    Spec toEntity(SpecForm formData);
+    CategorySpecEntity toEntity(SpecForm formData);
 
     SpecVO toVO(SpecBO spec);
 

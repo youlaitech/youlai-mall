@@ -14,7 +14,7 @@ import lombok.Setter;
 @TableName("pms_brand")
 @Getter
 @Setter
-public class Brand extends BaseEntity {
+public class BrandEntity extends BaseEntity {
 
     /**
      * 品牌的名称。

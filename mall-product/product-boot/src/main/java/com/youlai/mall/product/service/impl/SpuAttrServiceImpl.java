@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.mapper.SpuAttrMapper;
 import com.youlai.mall.product.model.bo.SpuAttrBO;
-import com.youlai.mall.product.model.entity.SpuAttr;
+import com.youlai.mall.product.model.entity.SpuAttrEntity;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.service.SpuAttrService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class SpuAttrServiceImpl extends ServiceImpl<SpuAttrMapper, SpuAttr> implements SpuAttrService {
+public class SpuAttrServiceImpl extends ServiceImpl<SpuAttrMapper, SpuAttrEntity> implements SpuAttrService {
 
     /**
      * 保存商品属性
@@ -42,17 +42,17 @@ public class SpuAttrServiceImpl extends ServiceImpl<SpuAttrMapper, SpuAttr> impl
         log.info("开始保存 SPU ID={} 的属性（全删全插模式）", spuId);
 
         // 1. 先删除该SPU的所有现有属性
-        this.remove(new LambdaQueryWrapper<SpuAttr>().eq(SpuAttr::getSpuId, spuId));
+        this.remove(new LambdaQueryWrapper<SpuAttrEntity>().eq(SpuAttrEntity::getSpuId, spuId));
 
         // 2. 如果传入的属性列表不为空，则批量插入新属性
         if (CollectionUtil.isNotEmpty(attrList)) {
-            List<SpuAttr> newAttrs = attrList.stream()
+            List<SpuAttrEntity> newAttrs = attrList.stream()
                     .map(attr -> {
-                        SpuAttr spuAttr = new SpuAttr();
-                        spuAttr.setSpuId(spuId);
-                        spuAttr.setAttrName(attr.getName());
-                        spuAttr.setAttrValue(attr.getValue());
-                        return spuAttr;
+                        SpuAttrEntity spuAttrEntity = new SpuAttrEntity();
+                        spuAttrEntity.setSpuId(spuId);
+                        spuAttrEntity.setAttrName(attr.getName());
+                        spuAttrEntity.setAttrValue(attr.getValue());
+                        return spuAttrEntity;
                     })
                     .collect(Collectors.toList());
 
@@ -71,8 +71,8 @@ public class SpuAttrServiceImpl extends ServiceImpl<SpuAttrMapper, SpuAttr> impl
      */
     @Override
     public boolean isAttrReferenced(Long attrId) {
-        long count = this.count(new LambdaQueryWrapper<SpuAttr>()
-                .eq(SpuAttr::getAttrId, attrId));
+        long count = this.count(new LambdaQueryWrapper<SpuAttrEntity>()
+                .eq(SpuAttrEntity::getAttrId, attrId));
         return count > 0;
     }
 

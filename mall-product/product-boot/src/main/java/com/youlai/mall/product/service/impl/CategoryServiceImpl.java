@@ -8,11 +8,11 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.converter.CategoryConverter;
 import com.youlai.mall.product.mapper.CategoryMapper;
-import com.youlai.mall.product.model.entity.Category;
+import com.youlai.mall.product.model.entity.CategoryEntity;
 import com.youlai.mall.product.model.form.CategoryForm;
 import com.youlai.mall.product.model.vo.CategoryAppVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
-import com.youlai.mall.product.service.AttrService;
+import com.youlai.mall.product.service.CategoryAttrService;
 import com.youlai.mall.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,11 +29,11 @@ import java.util.function.Function;
  */
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEntity> implements CategoryService {
 
     private final CategoryConverter categoryConverter;
 
-    private final AttrService attrService;
+    private final CategoryAttrService categoryAttrService;
 
     /**
      * 分类列表（树形）
@@ -42,12 +42,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public List<CategoryVO> listCategories() {
-        List<Category> categoryList = this.list(
-                new LambdaQueryWrapper<Category>()
-                        .eq(Category::getIsVisible, GlobalConstants.STATUS_YES)
-                        .orderByAsc(Category::getSort)
+        List<CategoryEntity> categoryEntityList = this.list(
+                new LambdaQueryWrapper<CategoryEntity>()
+                        .eq(CategoryEntity::getIsVisible, GlobalConstants.STATUS_YES)
+                        .orderByAsc(CategoryEntity::getSort)
         );
-        return buildTree(0L, categoryList,
+        return buildTree(0L, categoryEntityList,
                 category -> {
                     CategoryVO categoryVO = new CategoryVO();
                     BeanUtil.copyProperties(category, categoryVO);
@@ -72,12 +72,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public List<Option> listCategoryOptions() {
-        List<Category> categoryList = this.list(
-                new LambdaQueryWrapper<Category>()
-                        .eq(Category::getIsVisible, GlobalConstants.STATUS_YES)
-                        .orderByAsc(Category::getSort)
+        List<CategoryEntity> categoryEntityList = this.list(
+                new LambdaQueryWrapper<CategoryEntity>()
+                        .eq(CategoryEntity::getIsVisible, GlobalConstants.STATUS_YES)
+                        .orderByAsc(CategoryEntity::getSort)
         );
-        return buildTree(0L, categoryList,
+        return buildTree(0L, categoryEntityList,
                 category -> new Option<>(category.getId(), category.getName()),
                 (option, children) -> option.setChildren(children)
         );
@@ -87,20 +87,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * 通用的递归树构建方法
      *
      * @param parentId     父分类ID
-     * @param categoryList 分类列表
+     * @param categoryEntityList 分类列表
      * @param converter    实体转换器
      * @param childSetter  子节点设置器，用于将子节点列表设置到父节点上
      * @return 构建好的树形结构列表
      */
     private <T> List<T> buildTree(Long parentId,
-                                  List<Category> categoryList,
-                                  Function<Category, T> converter,
+                                  List<CategoryEntity> categoryEntityList,
+                                  Function<CategoryEntity, T> converter,
                                   BiConsumer<T, List<T>> childSetter) {
-        return categoryList.stream()
+        return categoryEntityList.stream()
                 .filter(category -> category.getParentId().equals(parentId))
                 .map(category -> {
                     T node = converter.apply(category);
-                    List<T> children = buildTree(category.getId(), categoryList, converter, childSetter);
+                    List<T> children = buildTree(category.getId(), categoryEntityList, converter, childSetter);
                     childSetter.accept(node, children);
                     return node;
                 })
@@ -116,13 +116,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public Long saveCategory(CategoryForm formData) {
         // 转成实体对象
-        Category category = categoryConverter.toEntity(formData);
+        CategoryEntity categoryEntity = categoryConverter.toEntity(formData);
         // 构建层级路径
         String treePath = buildTreePath(formData.getParentId());
-        category.setTreePath(treePath);
+        categoryEntity.setTreePath(treePath);
         // 保存分类
-        this.saveOrUpdate(category);
-        return category.getId();
+        this.saveOrUpdate(categoryEntity);
+        return categoryEntity.getId();
     }
 
     /**
@@ -133,8 +133,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public void deleteCategory(Long id) {
         // 删除分类及子分类
-        this.remove(new LambdaQueryWrapper<Category>()
-                .eq(Category::getId, id)
+        this.remove(new LambdaQueryWrapper<CategoryEntity>()
+                .eq(CategoryEntity::getId, id)
                 .or()
                 .apply("CONCAT (',',tree_path,',') LIKE CONCAT('%,',{0},',%')", id)
         );
@@ -148,7 +148,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public CategoryForm getCategoryForm(Long id) {
-        Category entity = this.getById(id);
+        CategoryEntity entity = this.getById(id);
         return categoryConverter.toForm(entity);
     }
 
@@ -159,9 +159,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public List<CategoryAppVO> listAppCategories() {
-        List<Category> categories = this.list(new LambdaQueryWrapper<Category>()
-                .eq(Category::getIsVisible, GlobalConstants.STATUS_YES)
-                .orderByAsc(Category::getSort)
+        List<CategoryEntity> categories = this.list(new LambdaQueryWrapper<CategoryEntity>()
+                .eq(CategoryEntity::getIsVisible, GlobalConstants.STATUS_YES)
+                .orderByAsc(CategoryEntity::getSort)
         );
 
         return categories.stream()
@@ -214,7 +214,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         if (GlobalConstants.ROOT_NODE_ID.equals(parentId)) {
             treePath = String.valueOf(parentId);
         } else {
-            Category parent = this.getById(parentId);
+            CategoryEntity parent = this.getById(parentId);
             if (parent != null) {
                 treePath = parent.getTreePath() + "," + parent.getId();
             }

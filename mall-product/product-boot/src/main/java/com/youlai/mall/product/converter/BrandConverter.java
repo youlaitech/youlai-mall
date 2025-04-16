@@ -2,7 +2,7 @@ package com.youlai.mall.product.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.core.model.Option;
-import com.youlai.mall.product.model.entity.Brand;
+import com.youlai.mall.product.model.entity.BrandEntity;
 import com.youlai.mall.product.model.vo.BrandPageVO;
 import org.mapstruct.*;
 
@@ -21,11 +21,11 @@ public interface BrandConverter {
             @Mapping(target = "value", source = "id"),
             @Mapping(target = "label", source = "name"),
     })
-    Option<Long> toOption(Brand entity);
+    Option<Long> toOption(BrandEntity entity);
 
-    List<Option<Long>> toOption(List<Brand> list);
+    List<Option<Long>> toOption(List<BrandEntity> list);
 
-    BrandPageVO convertToVo(Brand entity);
+    BrandPageVO convertToVo(BrandEntity entity);
 
-    Page<BrandPageVO> toPageVo(Page<Brand> page);
+    Page<BrandPageVO> toPageVo(Page<BrandEntity> page);
 }

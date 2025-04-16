@@ -23,7 +23,7 @@ import java.io.Serializable;
 @TableName("pms_spu_attr")
 @Getter
 @Setter
-public class SpuAttr implements Serializable {
+public class SpuAttrEntity implements Serializable {
 
     /**
      * 销售属性 ID

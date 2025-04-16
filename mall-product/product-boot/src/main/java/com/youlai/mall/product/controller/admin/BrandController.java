@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.common.core.model.Option;
-import com.youlai.mall.product.model.entity.Brand;
+import com.youlai.mall.product.model.entity.BrandEntity;
 import com.youlai.mall.product.model.query.BrandPageQuery;
 import com.youlai.mall.product.model.vo.BrandPageVO;
 import com.youlai.mall.product.service.BrandService;
@@ -47,15 +47,15 @@ public class BrandController {
 
     @Operation(summary = "品牌表单数据")
     @GetMapping("/{id}/form")
-    public Result<Brand> getBrandForm(@PathVariable Long id) {
-        Brand brand = brandService.getById(id);
-        return Result.success(brand);
+    public Result<BrandEntity> getBrandForm(@PathVariable Long id) {
+        BrandEntity brandEntity = brandService.getById(id);
+        return Result.success(brandEntity);
     }
 
     @Operation(summary = "新增品牌")
     @PostMapping
-    public Result addBrand(@RequestBody Brand brand) {
-        boolean status = brandService.save(brand);
+    public Result addBrand(@RequestBody BrandEntity brandEntity) {
+        boolean status = brandService.save(brandEntity);
         return Result.judge(status);
     }
 
@@ -63,8 +63,8 @@ public class BrandController {
     @PutMapping(value = "/{id}")
     public Result updateBrand(
             @PathVariable Long id,
-            @RequestBody Brand brand) {
-        boolean status = brandService.updateById(brand);
+            @RequestBody BrandEntity brandEntity) {
+        boolean status = brandService.updateById(brandEntity);
         return Result.judge(status);
     }
 

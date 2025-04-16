@@ -2,12 +2,12 @@ package com.youlai.mall.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.youlai.mall.product.converter.AttrConverter;
-import com.youlai.mall.product.mapper.AttrMapper;
+import com.youlai.mall.product.mapper.CategoryAttrMapper;
 import com.youlai.mall.product.model.bo.AttrBO;
-import com.youlai.mall.product.model.entity.AttrEntity;
+import com.youlai.mall.product.model.entity.CategoryAttrEntity;
 import com.youlai.mall.product.model.form.AttrForm;
 import com.youlai.mall.product.model.vo.AttrVO;
-import com.youlai.mall.product.service.AttrService;
+import com.youlai.mall.product.service.CategoryAttrService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> implements AttrService {
+public class CategoryAttrServiceImpl extends ServiceImpl<CategoryAttrMapper, CategoryAttrEntity> implements CategoryAttrService {
 
     private final AttrConverter attrConverter;
 
@@ -45,7 +45,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
      */
     @Override
     public boolean saveAttr(AttrForm formData) {
-        AttrEntity entity = attrConverter.toEntity(formData);
+        CategoryAttrEntity entity = attrConverter.toEntity(formData);
         return this.save(entity);
     }
 
@@ -57,8 +57,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
      */
     @Override
     public AttrForm getAttrForm(Long id) {
-        AttrEntity attrEntity = this.getById(id);
-        return attrConverter.toForm(attrEntity);
+        CategoryAttrEntity categoryAttrEntity = this.getById(id);
+        return attrConverter.toForm(categoryAttrEntity);
     }
 
     /**
@@ -70,7 +70,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
      */
     @Override
     public boolean updateAttr(Long id, AttrForm formData) {
-        AttrEntity entity = attrConverter.toEntity(formData);
+        CategoryAttrEntity entity = attrConverter.toEntity(formData);
         return this.updateById(entity);
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.product.mapper.AttrMapper">
+<mapper namespace="com.youlai.mall.product.mapper.CategoryAttrMapper">
 
     <!-- 根据分类ID获取属性组&列表 -->
     <select id="getCategoryAttrs" resultType="com.youlai.mall.product.model.bo.AttrBO">
@@ -12,7 +12,7 @@
             options,
             sort
         FROM
-            pms_attr
+            pms_category_attr
         WHERE
              is_deleted = 0
              AND category_id = #{categoryId}

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youlai.mall.product.mapper.SpecMapper">
+<mapper namespace="com.youlai.mall.product.mapper.CategorySpecMapper">
 
     <!-- 获取分类的关联规格 -->
     <select id="getCategorySpecs" resultType="com.youlai.mall.product.model.bo.SpecBO">
         SELECT
             id,
             name,
-            input_type,
             options,
             sort
         FROM
-            pms_spec
+            pms_category_spec
         WHERE
             is_deleted = 0
             AND category_id = #{categoryId}

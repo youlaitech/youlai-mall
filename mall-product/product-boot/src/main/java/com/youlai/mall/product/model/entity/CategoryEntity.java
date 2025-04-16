@@ -14,7 +14,7 @@ import lombok.Setter;
 @TableName("pms_category")
 @Getter
 @Setter
-public class Category extends BaseEntity {
+public class CategoryEntity extends BaseEntity {
 
     /**
      * 分类名称

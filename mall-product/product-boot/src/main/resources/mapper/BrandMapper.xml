@@ -3,7 +3,7 @@
 <mapper namespace="com.youlai.mall.product.mapper.BrandMapper">
 
     <!-- 获取品牌下拉列表 -->
-    <select id="listBrandOptions" resultType="com.youlai.mall.product.model.entity.Brand">
+    <select id="listBrandOptions" resultType="com.youlai.mall.product.model.entity.BrandEntity">
         SELECT
             id,
             name

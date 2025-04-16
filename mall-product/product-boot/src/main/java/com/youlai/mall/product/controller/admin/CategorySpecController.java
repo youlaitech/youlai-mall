@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.youlai.mall.product.model.form.SpecForm;
-import com.youlai.mall.product.service.SpecService;
+import com.youlai.mall.product.service.CategorySpecService;
 import com.youlai.common.result.Result;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,16 +23,16 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/specs")
 @RequiredArgsConstructor
-public class SpecController {
+public class CategorySpecController {
 
-    private final SpecService specService;
+    private final CategorySpecService categorySpecService;
 
     @Operation(summary = "新增规格")
     @PostMapping
     public Result saveSpec(
             @RequestBody @Valid SpecForm formData
     ) {
-        boolean result = specService.saveSpec(formData);
+        boolean result = categorySpecService.saveSpec(formData);
         return Result.judge(result);
     }
 
@@ -41,7 +41,7 @@ public class SpecController {
     public Result<SpecForm> getSpecForm(
             @Parameter(description = "规格ID") @PathVariable Long id
     ) {
-        SpecForm formData = specService.getSpecFormData(id);
+        SpecForm formData = categorySpecService.getSpecFormData(id);
         return Result.success(formData);
     }
 
@@ -51,7 +51,7 @@ public class SpecController {
             @Parameter(description = "规格ID") @PathVariable Long id,
             @RequestBody @Validated SpecForm formData
     ) {
-        boolean result = specService.updateSpec(id, formData);
+        boolean result = categorySpecService.updateSpec(id, formData);
         return Result.judge(result);
     }
 
@@ -60,7 +60,7 @@ public class SpecController {
     public Result deleteSpecs(
             @Parameter(description = "规格ID，多个以英文逗号(,)分割") @PathVariable String ids
     ) {
-        boolean result = specService.deleteSpecs(ids);
+        boolean result = categorySpecService.deleteSpecs(ids);
         return Result.judge(result);
     }
 }

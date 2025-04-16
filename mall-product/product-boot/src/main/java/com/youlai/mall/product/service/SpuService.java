@@ -2,7 +2,7 @@ package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.youlai.mall.product.model.entity.Spu;
+import com.youlai.mall.product.model.entity.SpuEntity;
 import com.youlai.mall.product.model.form.SpuForm;
 import com.youlai.mall.product.model.query.SpuPageQuery;
 import com.youlai.mall.product.model.vo.SpuPageVO;
@@ -13,7 +13,7 @@ import com.youlai.mall.product.model.vo.SpuPageVO;
  * @author Ray.Hao
  * @since  2022/2/5
  */
-public interface SpuService extends IService<Spu> {
+public interface SpuService extends IService<SpuEntity> {
 
 
     /**
