@@ -37,8 +37,4 @@ public class SkuSpecEntity extends BaseEntity {
      */
     private String specValue;
 
-    /**
-     * 规格图片，只有主规格才有，如：红色为红色图片
-     */
-    private String imgUrl;
 }

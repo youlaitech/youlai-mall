@@ -84,8 +84,6 @@ public class SpuForm {
         @Schema(description = "规格值", example = "白色")
         private String value;
 
-        @Schema(description = "规格图片URL", example = "https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg")
-        private String imgUrl;
     }
 
 

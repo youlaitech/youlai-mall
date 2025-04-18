@@ -55,7 +55,6 @@ public class SkuSpecServiceImpl extends ServiceImpl<SkuSpecMapper, SkuSpecEntity
                     skuSpecEntity.setSkuId(skuId);
                     skuSpecEntity.setSpecName(spec.getName());
                     skuSpecEntity.setSpecValue(spec.getValue());
-                    skuSpecEntity.setImgUrl(spec.getImgUrl());
                     return skuSpecEntity;
                 })
                 .toList();
