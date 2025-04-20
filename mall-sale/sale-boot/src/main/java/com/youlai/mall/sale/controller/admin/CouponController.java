@@ -7,13 +7,12 @@ import com.youlai.mall.sale.model.form.CouponForm;
 import com.youlai.mall.sale.model.query.CouponPageQuery;
 import com.youlai.mall.sale.model.vo.CouponPageVO;
 import com.youlai.mall.sale.service.CouponService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 @Tag(name = "Admin-优惠券管理")
 @RestController
@@ -24,15 +23,17 @@ public class CouponController {
     private final CouponService couponService;
 
     @Operation(summary= "优惠券分页列表")
-    @GetMapping("/pages")
-    public PageResult getCouponPage(CouponPageQuery queryParams) {
+    @GetMapping("/page")
+    public PageResult<CouponPageVO> getCouponPage(CouponPageQuery queryParams) {
         Page<CouponPageVO> result = couponService.getCouponPage(queryParams);
         return PageResult.success(result);
     }
 
     @Operation(summary= "优惠券表单数据")
-    @GetMapping("/{couponId}/form_data")
-    public Result<CouponForm> getCouponFormData(@Parameter(description = "优惠券ID") @PathVariable Long couponId) {
+    @GetMapping("/{couponId}/form")
+    public Result<CouponForm> getCouponFormData(
+            @Parameter(description = "优惠券ID") @PathVariable Long couponId
+    ) {
         CouponForm couponForm = couponService.getCouponFormData(couponId);
         return Result.success(couponForm);
     }

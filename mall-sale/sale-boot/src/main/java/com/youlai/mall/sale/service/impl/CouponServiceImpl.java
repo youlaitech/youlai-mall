@@ -46,7 +46,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
     /**
      * 优惠券分页列表
      *
-     * @param queryParams
+     * @param queryParams 优惠券分页查询参数
      * @return
      */
     @Override
@@ -63,7 +63,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
     /**
      * 优惠券表单数据
      *
-     * @param couponId
+     * @param couponId 优惠券ID
      * @return
      */
     @Override
