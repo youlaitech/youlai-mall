@@ -3,7 +3,7 @@ package com.youlai.mall.member.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.member.model.bo.MemberBO;
-import com.youlai.mall.member.model.entity.Member;
+import com.youlai.mall.member.model.entity.MemberEntity;
 import com.youlai.mall.member.model.query.MemberPageQuery;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024/4/7
  */
 @Mapper
-public interface MemberMapper extends BaseMapper<Member> {
+public interface MemberMapper extends BaseMapper<MemberEntity> {
 
 
     /**

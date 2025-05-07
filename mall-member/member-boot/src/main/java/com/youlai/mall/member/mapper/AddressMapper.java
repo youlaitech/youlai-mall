@@ -2,7 +2,7 @@ package com.youlai.mall.member.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youlai.mall.member.model.bo.AddressBO;
-import com.youlai.mall.member.model.entity.Address;
+import com.youlai.mall.member.model.entity.AddressEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @since 2024/4/8
  */
 @Mapper
-public interface AddressMapper extends BaseMapper<Address> {
+public interface AddressMapper extends BaseMapper<AddressEntity> {
 
 
     /**

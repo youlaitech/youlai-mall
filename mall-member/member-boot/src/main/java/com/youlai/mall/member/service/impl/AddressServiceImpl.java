@@ -8,7 +8,7 @@ import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.security.util.SecurityUtils;
 import com.youlai.mall.member.dto.MemberAddressDTO;
 import com.youlai.mall.member.mapper.AddressMapper;
-import com.youlai.mall.member.model.entity.Address;
+import com.youlai.mall.member.model.entity.AddressEntity;
 import com.youlai.mall.member.model.form.AddressForm;
 import com.youlai.mall.member.service.AddressService;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @since 2022/2/12
  */
 @Service
-public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> implements AddressService {
+public class AddressServiceImpl extends ServiceImpl<AddressMapper, AddressEntity> implements AddressService {
 
     /**
      * 新增地址
@@ -39,18 +39,18 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
     public boolean addAddress(AddressForm addressForm) {
         Long memberId = SecurityUtils.getMemberId();
 
-        Address address = new Address();
-        BeanUtil.copyProperties(addressForm, address);
-        address.setMemberId(memberId);
-        boolean result = this.save(address);
+        AddressEntity addressEntity = new AddressEntity();
+        BeanUtil.copyProperties(addressForm, addressEntity);
+        addressEntity.setMemberId(memberId);
+        boolean result = this.save(addressEntity);
         if (result) {
             // 修改其他默认地址为非默认
             if (GlobalConstants.STATUS_YES.equals(addressForm.getIsDefault())) {
-                this.update(new LambdaUpdateWrapper<Address>()
-                        .eq(Address::getMemberId, memberId)
-                        .eq(Address::getIsDefault, 1)
-                        .ne(Address::getId, address.getId())
-                        .set(Address::getIsDefault, 0)
+                this.update(new LambdaUpdateWrapper<AddressEntity>()
+                        .eq(AddressEntity::getMemberId, memberId)
+                        .eq(AddressEntity::getIsDefault, 1)
+                        .ne(AddressEntity::getId, addressEntity.getId())
+                        .set(AddressEntity::getIsDefault, 0)
                 );
             }
         }
@@ -67,19 +67,19 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
     public boolean updateAddress(AddressForm addressForm) {
         Long memberId = SecurityUtils.getMemberId();
 
-        Address address = new Address();
-        BeanUtil.copyProperties(addressForm, address);
+        AddressEntity addressEntity = new AddressEntity();
+        BeanUtil.copyProperties(addressForm, addressEntity);
 
-        boolean result = this.updateById(address);
+        boolean result = this.updateById(addressEntity);
 
         if(result){
             // 修改其他默认地址为非默认
             if (GlobalConstants.STATUS_YES.equals(addressForm.getIsDefault())) {
-                this.update(new LambdaUpdateWrapper<Address>()
-                        .eq(Address::getMemberId, memberId)
-                        .eq(Address::getIsDefault, 1)
-                        .ne(Address::getId, address.getId())
-                        .set(Address::getIsDefault, 0)
+                this.update(new LambdaUpdateWrapper<AddressEntity>()
+                        .eq(AddressEntity::getMemberId, memberId)
+                        .eq(AddressEntity::getIsDefault, 1)
+                        .ne(AddressEntity::getId, addressEntity.getId())
+                        .set(AddressEntity::getIsDefault, 0)
                 );
             }
         }
@@ -94,11 +94,11 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
     @Override
     public List<MemberAddressDTO> listCurrentMemberAddresses() {
         Long memberId = SecurityUtils.getMemberId();
-        List<Address> addressList = this.list(new LambdaQueryWrapper<Address>()
-                .eq(Address::getMemberId, memberId)
-                .orderByDesc(Address::getIsDefault) // 默认地址排在首位
+        List<AddressEntity> addressEntityList = this.list(new LambdaQueryWrapper<AddressEntity>()
+                .eq(AddressEntity::getMemberId, memberId)
+                .orderByDesc(AddressEntity::getIsDefault) // 默认地址排在首位
         );
-        List<MemberAddressDTO> memberAddressList = Optional.ofNullable(addressList).orElse(new ArrayList<>()).stream()
+        List<MemberAddressDTO> memberAddressList = Optional.ofNullable(addressEntityList).orElse(new ArrayList<>()).stream()
                 .map(umsAddress -> {
                     MemberAddressDTO memberAddressDTO = new MemberAddressDTO();
                     BeanUtil.copyProperties(umsAddress, memberAddressDTO);

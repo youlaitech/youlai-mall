@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
-import com.youlai.mall.member.model.entity.Member;
+import com.youlai.mall.member.model.entity.MemberEntity;
 import com.youlai.mall.member.model.query.MemberPageQuery;
 import com.youlai.mall.member.model.vo.MemberPageVO;
 import com.youlai.mall.member.service.MemberService;
@@ -43,9 +43,9 @@ public class MemberController {
     @PutMapping(value = "/{memberId}")
     public <T> Result<T> update(
             @Parameter(description = "会员ID") @PathVariable Long memberId,
-            @RequestBody Member member
+            @RequestBody MemberEntity memberEntity
     ) {
-        boolean status = memberService.updateById(member);
+        boolean status = memberService.updateById(memberEntity);
         return Result.judge(status);
     }
 
@@ -53,12 +53,12 @@ public class MemberController {
     @PatchMapping("/{memberId}/status")
     public <T> Result<T> updateMemberStatus(
             @Parameter(description = "会员ID") @PathVariable Long memberId,
-            @RequestBody Member member
+            @RequestBody MemberEntity memberEntity
     ) {
         boolean status = memberService.update(
-                new LambdaUpdateWrapper<Member>()
-                        .eq(Member::getId, memberId)
-                        .set(Member::getStatus, member.getStatus())
+                new LambdaUpdateWrapper<MemberEntity>()
+                        .eq(MemberEntity::getId, memberId)
+                        .set(MemberEntity::getStatus, memberEntity.getStatus())
         );
         return Result.judge(status);
     }
@@ -68,9 +68,9 @@ public class MemberController {
     public <T> Result<T> delete(
             @Parameter(description = "会员ID，多个以英文逗号(,)拼接") @PathVariable String ids
     ) {
-        boolean status = memberService.update(new LambdaUpdateWrapper<Member>()
-                .in(Member::getId, Arrays.asList(ids.split(",")))
-                .set(Member::getIsDeleted, GlobalConstants.STATUS_YES));
+        boolean status = memberService.update(new LambdaUpdateWrapper<MemberEntity>()
+                .in(MemberEntity::getId, Arrays.asList(ids.split(",")))
+                .set(MemberEntity::getIsDeleted, GlobalConstants.STATUS_YES));
         return Result.judge(status);
     }
 

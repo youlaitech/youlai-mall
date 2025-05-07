@@ -7,7 +7,7 @@ import com.youlai.mall.member.dto.MemberAddressDTO;
 import com.youlai.mall.member.dto.MemberAuthDTO;
 import com.youlai.mall.member.dto.MemberRegisterDTO;
 import com.youlai.mall.member.model.dto.MemberDTO;
-import com.youlai.mall.member.model.entity.Member;
+import com.youlai.mall.member.model.entity.MemberEntity;
 import com.youlai.mall.member.model.query.MemberPageQuery;
 import com.youlai.mall.member.model.vo.MemberPageVO;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2022/2/12
  */
-public interface MemberService extends IService<Member> {
+public interface MemberService extends IService<MemberEntity> {
 
 
     /**

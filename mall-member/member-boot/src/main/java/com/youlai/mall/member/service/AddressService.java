@@ -3,7 +3,7 @@ package com.youlai.mall.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.member.dto.MemberAddressDTO;
-import com.youlai.mall.member.model.entity.Address;
+import com.youlai.mall.member.model.entity.AddressEntity;
 import com.youlai.mall.member.model.form.AddressForm;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2022/2/12
  */
-public interface AddressService extends IService<Address> {
+public interface AddressService extends IService<AddressEntity> {
 
     /**
      * 新增地址

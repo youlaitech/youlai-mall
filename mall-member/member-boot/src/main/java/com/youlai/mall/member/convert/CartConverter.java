@@ -20,6 +20,4 @@ public interface CartConverter {
 
     List<com.youlai.mall.member.dto.CartItemDTO> convertToDto(List<CartItemCache> caches);
 
-
-
 }

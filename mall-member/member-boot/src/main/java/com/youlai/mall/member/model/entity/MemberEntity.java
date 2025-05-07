@@ -1,8 +1,10 @@
 package com.youlai.mall.member.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.youlai.common.base.BaseEntity;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -12,8 +14,10 @@ import java.time.LocalDate;
  * @author Ray.Hao
  * @since 2022/2/12
  */
-@Data
-public class Member extends BaseEntity {
+@TableName("ums_member")
+@Getter
+@Setter
+public class MemberEntity extends BaseEntity {
 
     /**
      * 会员性别

@@ -7,7 +7,7 @@ import com.youlai.mall.member.dto.MemberAddressDTO;
 import com.youlai.mall.member.dto.MemberAuthDTO;
 import com.youlai.mall.member.dto.MemberRegisterDTO;
 import com.youlai.mall.member.model.dto.MemberDTO;
-import com.youlai.mall.member.model.entity.Member;
+import com.youlai.mall.member.model.entity.MemberEntity;
 import com.youlai.mall.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,10 +30,10 @@ public class MemberAppController {
     public Result<String> getMemberOpenId(
             @Parameter(description = "会员ID") @PathVariable Long memberId
     ) {
-        Member member = memberService.getOne(new LambdaQueryWrapper<Member>()
-                .eq(Member::getId, memberId)
-                .select(Member::getOpenid));
-        String openid = member.getOpenid();
+        MemberEntity memberEntity = memberService.getOne(new LambdaQueryWrapper<MemberEntity>()
+                .eq(MemberEntity::getId, memberId)
+                .select(MemberEntity::getOpenid));
+        String openid = memberEntity.getOpenid();
         return Result.success(openid);
     }
 

@@ -16,8 +16,8 @@ import com.youlai.mall.member.dto.MemberAuthDTO;
 import com.youlai.mall.member.dto.MemberRegisterDTO;
 import com.youlai.mall.member.mapper.MemberMapper;
 import com.youlai.mall.member.model.bo.MemberBO;
-import com.youlai.mall.member.model.entity.Address;
-import com.youlai.mall.member.model.entity.Member;
+import com.youlai.mall.member.model.entity.AddressEntity;
+import com.youlai.mall.member.model.entity.MemberEntity;
 import com.youlai.mall.member.model.dto.MemberDTO;
 import com.youlai.mall.member.model.query.MemberPageQuery;
 import com.youlai.mall.member.model.vo.MemberPageVO;
@@ -38,7 +38,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements MemberService {
+public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> implements MemberService {
 
 
     private final AddressService addressService;
@@ -67,11 +67,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
      */
     @Override
     public MemberAuthDTO getMemberByOpenid(String openid) {
-        Member entity = this.getOne(new LambdaQueryWrapper<Member>()
-                .eq(Member::getOpenid, openid)
-                .select(Member::getId,
-                        Member::getOpenid,
-                        Member::getStatus
+        MemberEntity entity = this.getOne(new LambdaQueryWrapper<MemberEntity>()
+                .eq(MemberEntity::getOpenid, openid)
+                .select(MemberEntity::getId,
+                        MemberEntity::getOpenid,
+                        MemberEntity::getStatus
                 )
         );
 
@@ -89,11 +89,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
      */
     @Override
     public MemberAuthDTO getMemberByMobile(String mobile) {
-        Member entity = this.getOne(new LambdaQueryWrapper<Member>()
-                .eq(Member::getMobile, mobile)
-                .select(Member::getId,
-                        Member::getMobile,
-                        Member::getStatus
+        MemberEntity entity = this.getOne(new LambdaQueryWrapper<MemberEntity>()
+                .eq(MemberEntity::getMobile, mobile)
+                .select(MemberEntity::getId,
+                        MemberEntity::getMobile,
+                        MemberEntity::getStatus
                 )
         );
 
@@ -108,7 +108,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
      */
     @Override
     public Long addMember(MemberRegisterDTO registerDto) {
-        Member entity = memberConvert.registerDto2Entity(registerDto);
+        MemberEntity entity = memberConvert.registerDto2Entity(registerDto);
         boolean result = this.save(entity);
         Assert.isTrue(result, "注册新增会员失败");
         return entity.getId();
@@ -120,17 +120,17 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Override
     public MemberDTO getCurrMemberInfo() {
         Long memberId = SecurityUtils.getMemberId();
-        Member member = this.getOne(new LambdaQueryWrapper<Member>()
-                .eq(Member::getId, memberId)
-                .select(Member::getId,
-                        Member::getNickName,
-                        Member::getAvatarUrl,
-                        Member::getMobile,
-                        Member::getBalance
+        MemberEntity memberEntity = this.getOne(new LambdaQueryWrapper<MemberEntity>()
+                .eq(MemberEntity::getId, memberId)
+                .select(MemberEntity::getId,
+                        MemberEntity::getNickName,
+                        MemberEntity::getAvatarUrl,
+                        MemberEntity::getMobile,
+                        MemberEntity::getBalance
                 )
         );
         MemberDTO memberDTO = new MemberDTO();
-        BeanUtil.copyProperties(member, memberDTO);
+        BeanUtil.copyProperties(memberEntity, memberDTO);
         return memberDTO;
     }
 
@@ -142,8 +142,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
      */
     @Override
     public List<MemberAddressDTO> listMemberAddress(Long memberId) {
-        List<Address> entities = addressService.list(new LambdaQueryWrapper<Address>()
-                .eq(Address::getMemberId, memberId)
+        List<AddressEntity> entities = addressService.list(new LambdaQueryWrapper<AddressEntity>()
+                .eq(AddressEntity::getMemberId, memberId)
         );
         return addressConvert.entity2Dto(entities);
     }
@@ -157,9 +157,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
      */
     @Override
     public boolean deductMemberBalance(Long memberId, Long deductionAmount) {
-        Member member = this.getById(memberId);
-       Assert.isTrue(member.getBalance() >= deductionAmount, "会员账户余额不足");
-        member.setBalance(member.getBalance() - deductionAmount);
-        return this.updateById(member);
+        MemberEntity memberEntity = this.getById(memberId);
+       Assert.isTrue(memberEntity.getBalance() >= deductionAmount, "会员账户余额不足");
+        memberEntity.setBalance(memberEntity.getBalance() - deductionAmount);
+        return this.updateById(memberEntity);
     }
 }

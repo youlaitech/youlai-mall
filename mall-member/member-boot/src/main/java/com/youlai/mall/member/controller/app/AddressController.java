@@ -2,7 +2,7 @@ package com.youlai.mall.member.controller.app;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.member.dto.MemberAddressDTO;
-import com.youlai.mall.member.model.entity.Address;
+import com.youlai.mall.member.model.entity.AddressEntity;
 import com.youlai.mall.member.model.form.AddressForm;
 import com.youlai.mall.member.service.AddressService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,11 +32,11 @@ public class AddressController {
 
     @Operation(summary= "获取地址详情")
     @GetMapping("/{addressId}")
-    public Result<Address> getAddressDetail(
+    public Result<AddressEntity> getAddressDetail(
             @Parameter(description = "地址ID") @PathVariable Long addressId
     ) {
-        Address address = addressService.getById(addressId);
-        return Result.success(address);
+        AddressEntity addressEntity = addressService.getById(addressId);
+        return Result.success(addressEntity);
     }
 
     @Operation(summary= "新增地址")

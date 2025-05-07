@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.member.dto.MemberAuthDTO;
 import com.youlai.mall.member.dto.MemberRegisterDTO;
 import com.youlai.mall.member.model.bo.MemberBO;
-import com.youlai.mall.member.model.entity.Member;
+import com.youlai.mall.member.model.entity.MemberEntity;
 import com.youlai.mall.member.model.vo.MemberPageVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,14 +21,14 @@ public interface MemberConvert {
     @Mappings({
             @Mapping(target = "username", source = "openid")
     })
-    MemberAuthDTO entity2OpenidAuthDTO(Member entity);
+    MemberAuthDTO entity2OpenidAuthDTO(MemberEntity entity);
 
     @Mappings({
             @Mapping(target = "username", source = "mobile")
     })
-    MemberAuthDTO entity2MobileAuthDTO(Member entity);
+    MemberAuthDTO entity2MobileAuthDTO(MemberEntity entity);
 
-    Member registerDto2Entity(MemberRegisterDTO memberRegisterDTO);
+    MemberEntity registerDto2Entity(MemberRegisterDTO memberRegisterDTO);
 
 
     @Mappings({

@@ -16,7 +16,7 @@ import lombok.Setter;
 @TableName("ums_address")
 @Getter
 @Setter
-public class Address extends BaseEntity {
+public class AddressEntity extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
