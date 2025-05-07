@@ -9,8 +9,7 @@
         SELECT
             t1.id,
             t1.spec_name,
-            t1.spec_value,
-            t1.img_url
+            t1.spec_value
         FROM
             pms_sku_spec t1
         WHERE
