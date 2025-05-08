@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "【APP】商品接口")
 @RestController
-@RequestMapping("/api/v1/client/app/products")
+@RequestMapping("/api/app/v1/products")
 @RequiredArgsConstructor
 public class AppSpuController {
 

@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Tag(name = "【App】商品分类接口")
 @RestController
-@RequestMapping("/api/v1/client/app/categories")
+@RequestMapping("/api/app/v1/categories")
 @RequiredArgsConstructor
 public class AppCategoryController {
 

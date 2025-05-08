@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Tag(name  = "【App】商品库存接口")
 @RestController
-@RequestMapping("/api/v1/client/app/sku")
+@RequestMapping("/api/app/v1/sku")
 @RequiredArgsConstructor
 public class AppSkuController {
 
