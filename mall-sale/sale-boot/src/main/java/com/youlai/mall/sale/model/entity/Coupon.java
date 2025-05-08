@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.youlai.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,15 +23,10 @@ import java.util.Date;
 @Data
 public class Coupon extends BaseEntity {
     /**
-     * ID
+     * 主键ID
      */
     @TableId(type = IdType.AUTO)
     private Long id;
-
-    /**
-     * 优惠券类型(1:满减券;2:直减券;3:折扣券)
-     */
-    private Integer type;
 
     /**
      * 优惠券名称
@@ -38,83 +34,105 @@ public class Coupon extends BaseEntity {
     private String name;
 
     /**
-     * 优惠券码
+     * 优惠券兑换码
      */
     private String code;
 
     /**
-     * 使用平台(0:全平台;1:移动端;2:PC端)
+     * 优惠券类型(1-满减券;2-直减券;3-折扣券;4-包邮券)
      */
-    private Integer platform;
+    private Integer type;
 
     /**
-     * 优惠券面值类型((1:金额;2:折扣)
+     * 优惠金额/折扣值
      */
-    private Integer faceValueType;
+    private BigDecimal discountAmount;
 
     /**
-     * 优惠券面值金额(单位:分)
+     * 最高折扣金额
      */
-    private Long faceValue;
+    private BigDecimal discountLimit;
 
     /**
-     * 优惠券折扣
+     * 使用门槛金额
      */
-    private BigDecimal discount;
+    private BigDecimal minAmount;
 
     /**
-     * 使用门槛(0:无门槛)
+     * 优惠券状态(0-草稿;1-未开始;2-进行中;3-已结束;4-已失效)
      */
-    private Long minPoint;
+    private Integer status;
 
     /**
-     * 每人限领张数(0:不限制)
+     * 发布时间
      */
-    private Integer perLimit;
+    private Date publishTime;
 
     /**
-     * 有效期类型(1:自领取之起有效天数;2:有效起止时间)
+     * 发行数量(-1表示不限制)
      */
-    private Integer validityPeriodType;
+    private Integer totalCount;
 
     /**
-     * 自领取之日起有效天数
+     * 已领取数量
      */
-    private Integer validityDays;
+    private Integer receiveCount;
 
     /**
-     * 有效期起始时间
-     */
-    private Date validityStartTime;
-
-    /**
-     * 有效期截止时间
-     */
-    private Date validityEndTime;
-
-    /**
-     * 使用类型(0-全场通用;1-指定商品分类;2-指定商品)
-     */
-    private Integer applicationScope;
-
-    /**
-     * 发行量(-1:无限制)
-     */
-    private Integer circulation;
-
-    /**
-     * 已领取的优惠券数量(统计)
-     */
-    private Integer receivedCount;
-
-    /**
-     * 已使用的优惠券数量(统计)
+     * 已使用数量
      */
     private Integer usedCount;
 
     /**
-     * 备注
+     * 每人限领数量(-1表示不限制)
+     */
+    private Integer perLimit;
+
+    /**
+     * 有效期类型(1-固定日期范围;2-领取后天数)
+     */
+    private Integer validType;
+
+    /**
+     * 领取后有效天数
+     */
+    private Integer validDays;
+
+    /**
+     * 有效期开始时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date validStartTime;
+
+    /**
+     * 有效期结束时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date validEndTime;
+
+    /**
+     * 使用范围(位运算: 1-全场通用(0001);2-指定分类(0010);4-指定商品(0100))
+     */
+    private Integer useScope;
+
+    /**
+     * 是否可叠加使用(0-否;1-是)
+     */
+    private Integer canSuperimpose;
+
+    /**
+     * 是否仅首单可用(0-否;1-是)
+     */
+    private Integer firstOrderOnly;
+
+    /**
+     * 备注说明
      */
     private String remark;
 
+    /**
+     * 是否删除(0-否;1-是)
+     */
+    @TableLogic
+    private Integer isDeleted;
 }

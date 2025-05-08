@@ -8,9 +8,10 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * 优惠券与产品关联表
+ * 优惠券-商品关联表
  */
 
 @TableName(value ="sms_coupon_spu")
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class CouponSpu implements Serializable {
     /**
-     * 
+     * 主键ID
      */
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -34,8 +35,14 @@ public class CouponSpu implements Serializable {
     private Long spuId;
 
     /**
-     * 商品名称
+     * 创建时间
      */
+    private Date createTime;
+
+    /**
+     * 商品名称（非数据库字段）
+     */
+    @TableField(exist = false)
     private String spuName;
 
     @TableField(exist = false)

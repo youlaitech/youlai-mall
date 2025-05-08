@@ -57,7 +57,9 @@ public class CouponController {
 
     @Operation(summary= "删除优惠券")
     @DeleteMapping("/{ids}")
-    public Result deleteCoupons(@Parameter(description = "用户ID，多个以英文逗号(,)分割") @PathVariable String ids) {
+    public Result deleteCoupons(
+            @Parameter(description = "用户ID，多个以英文逗号(,)分割")   @PathVariable String ids
+    ) {
         boolean result = couponService.deleteCoupons(ids);
         return Result.judge(result);
     }

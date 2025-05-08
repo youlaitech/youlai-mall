@@ -363,7 +363,7 @@ INSERT INTO `sys_role_menu` VALUES (2, 223);
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_config`;
 CREATE TABLE `sys_config` (
-                              `id` bigint NOT NULL AUTO_INCREMENT,
+                             `id` bigint NOT NULL AUTO_INCREMENT,
                               `config_name` varchar(50)NOT NULL COMMENT '配置名称',
                               `config_key` varchar(50)NOT NULL COMMENT '配置key',
                               `config_value` varchar(100)NOT NULL COMMENT '配置值',

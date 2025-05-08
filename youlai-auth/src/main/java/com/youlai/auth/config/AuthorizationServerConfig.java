@@ -307,6 +307,7 @@ public class AuthorizationServerConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     /**
      * 初始化创建商城管理客户端
      */
@@ -370,6 +371,7 @@ public class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .authorizationGrantType(WechatAuthenticationToken.WECHAT_MINI_APP) // 微信小程序模式
                 .authorizationGrantType(SmsCodeAuthenticationToken.SMS_CODE) // 短信验证码模式
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD) // 短信验证码模式
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
                 .scope(OidcScopes.OPENID)

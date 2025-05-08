@@ -11,7 +11,8 @@ public enum CouponTypeEnum implements IBaseEnum<Integer> {
     WZ(0, null),
     MJ(1, "满减券"),
     ZJ(2, "直减券"),
-    ZK(3, "折扣券")
+    ZK(3, "折扣券"),
+    BY(4, "包邮券")
     ;
 
     @Getter
