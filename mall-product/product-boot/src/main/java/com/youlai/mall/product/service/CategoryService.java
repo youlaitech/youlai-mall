@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.common.core.model.Option;
 import com.youlai.mall.product.model.entity.CategoryEntity;
 import com.youlai.mall.product.model.form.CategoryForm;
-import com.youlai.mall.product.model.vo.CategoryAppVO;
+import com.youlai.mall.product.model.vo.client.ClientCategoryVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
 
 import java.util.List;
@@ -61,6 +61,6 @@ public interface CategoryService extends IService<CategoryEntity> {
      *
      * @return APP端分类列表
      */
-    List<CategoryAppVO> listAppCategories();
+    List<ClientCategoryVO> listAppCategories();
 
 }

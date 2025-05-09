@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 商品库存控制层
+ * 客户端 SKU 控制器
  *
  * @author Ray.Hao
  * @since 2.0.0
  */
-@Tag(name  = "【App】商品库存接口")
+@Tag(name  = "【客户端】SKU 接口")
 @RestController
-@RequestMapping("/api/app/v1/sku")
+@RequestMapping("/api/client/v1/sku")
 @RequiredArgsConstructor
-public class AppSkuController {
+public class ClientSkuController {
 
     private final SkuService skuService;
 

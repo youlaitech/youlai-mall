@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.product.model.entity.SpuEntity;
 import com.youlai.mall.product.model.query.ProductPageQuery;
 import com.youlai.mall.product.model.query.SpuPageQuery;
-import com.youlai.mall.product.model.vo.ProductPageVO;
+import com.youlai.mall.product.model.vo.client.ClientSpuPageVO;
 import com.youlai.mall.product.model.vo.SpuPageVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,13 +27,13 @@ public interface SpuMapper extends BaseMapper<SpuEntity> {
     List<SpuPageVO> getSpuPage(Page<SpuPageVO> page, SpuPageQuery queryParams);
 
     /**
-     * APP-商品分页列表
+     * 客户端-商品分页列表
      *
      * @param page        分页参数
      * @param queryParams 查询参数
      * @return 商品分页列表
      */
-    List<ProductPageVO> getProductPage(Page<ProductPageVO> page, ProductPageQuery queryParams);
+    List<ClientSpuPageVO> getClientSpuPage(Page<ClientSpuPageVO> page, ProductPageQuery queryParams);
 
 
 }

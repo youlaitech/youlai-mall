@@ -10,7 +10,7 @@ import com.youlai.mall.product.converter.CategoryConverter;
 import com.youlai.mall.product.mapper.CategoryMapper;
 import com.youlai.mall.product.model.entity.CategoryEntity;
 import com.youlai.mall.product.model.form.CategoryForm;
-import com.youlai.mall.product.model.vo.CategoryAppVO;
+import com.youlai.mall.product.model.vo.client.ClientCategoryVO;
 import com.youlai.mall.product.model.vo.CategoryVO;
 import com.youlai.mall.product.service.CategoryAttrService;
 import com.youlai.mall.product.service.CategoryService;
@@ -158,7 +158,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
      * @return APP端分类列表
      */
     @Override
-    public List<CategoryAppVO> listAppCategories() {
+    public List<ClientCategoryVO> listAppCategories() {
         List<CategoryEntity> categories = this.list(new LambdaQueryWrapper<CategoryEntity>()
                 .eq(CategoryEntity::getIsVisible, GlobalConstants.STATUS_YES)
                 .orderByAsc(CategoryEntity::getSort)
@@ -167,25 +167,25 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
         return categories.stream()
                 .filter(category -> GlobalConstants.ROOT_NODE_ID.equals(category.getParentId()))
                 .map(rootCategory -> {
-                    CategoryAppVO rootVO = categoryConverter.convertToFirstLevelVo(rootCategory);
+                    ClientCategoryVO rootVO = categoryConverter.convertToFirstLevelVo(rootCategory);
                     rootVO.setCatType(1);
                     rootVO.setShowPic(true);
                     rootVO.setShowVideo(false);
                     Long rootCategoryId = rootCategory.getId();
 
-                    List<CategoryAppVO.SecondLevelCategory> secondLevelCategories = categories.stream()
+                    List<ClientCategoryVO.SecondLevelCategory> secondLevelCategories = categories.stream()
                             .filter(category -> category.getParentId().equals(rootCategoryId))
                             .map(secondCategory -> {
-                                CategoryAppVO.SecondLevelCategory secondVO = categoryConverter.convertToSecondLevelVo(secondCategory);
+                                ClientCategoryVO.SecondLevelCategory secondVO = categoryConverter.convertToSecondLevelVo(secondCategory);
                                 secondVO.setCatType(1);
                                 secondVO.setShowPic(true);
                                 secondVO.setShowVideo(false);
                                 Long secondCategoryId = secondCategory.getId();
 
-                                List<CategoryAppVO.ThirdLevelCategory> thirdLevelCategories = categories.stream()
+                                List<ClientCategoryVO.ThirdLevelCategory> thirdLevelCategories = categories.stream()
                                         .filter(category -> category.getParentId().equals(secondCategoryId))
                                         .map(thirdCategory -> {
-                                            CategoryAppVO.ThirdLevelCategory thirdVO = categoryConverter.convertToThirdLevelVo(thirdCategory);
+                                            ClientCategoryVO.ThirdLevelCategory thirdVO = categoryConverter.convertToThirdLevelVo(thirdCategory);
                                             thirdVO.setShowPic(true);
                                             thirdVO.setShowVideo(false);
                                             return thirdVO;

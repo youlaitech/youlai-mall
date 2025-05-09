@@ -2,7 +2,7 @@ package com.youlai.mall.product.converter;
 
 import com.youlai.mall.product.model.entity.CategoryEntity;
 import com.youlai.mall.product.model.form.CategoryForm;
-import com.youlai.mall.product.model.vo.CategoryAppVO;
+import com.youlai.mall.product.model.vo.client.ClientCategoryVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -17,13 +17,13 @@ public interface CategoryConverter {
             @Mapping(target = "catId", source = "id"),
             @Mapping(target = "catName", source = "name"),
     })
-    CategoryAppVO convertToFirstLevelVo(CategoryEntity categoryEntity);
+    ClientCategoryVO convertToFirstLevelVo(CategoryEntity categoryEntity);
 
     @Mappings({
             @Mapping(target = "catId", source = "id"),
             @Mapping(target = "catName", source = "name"),
     })
-    CategoryAppVO.SecondLevelCategory convertToSecondLevelVo(CategoryEntity item);
+    ClientCategoryVO.SecondLevelCategory convertToSecondLevelVo(CategoryEntity item);
 
 
     @Mappings({
@@ -31,5 +31,5 @@ public interface CategoryConverter {
             @Mapping(target = "catName", source = "name"),
             @Mapping(target = "backImg", source = "iconUrl"),
     })
-    CategoryAppVO.ThirdLevelCategory convertToThirdLevelVo(CategoryEntity item);
+    ClientCategoryVO.ThirdLevelCategory convertToThirdLevelVo(CategoryEntity item);
 }

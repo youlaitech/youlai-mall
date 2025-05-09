@@ -1,17 +1,17 @@
-package com.youlai.mall.product.model.vo;
+package com.youlai.mall.product.model.vo.client;
 
 import lombok.Data;
 
 import java.util.List;
 
 /**
- * 商品分类 APP 端VO
+ * 客户端分类视图对象
  *
  * @author Ray.Hao
  * @since 2024/5/21
  */
 @Data
-public class CategoryAppVO {
+public class ClientCategoryVO {
 
     private String catId;
 

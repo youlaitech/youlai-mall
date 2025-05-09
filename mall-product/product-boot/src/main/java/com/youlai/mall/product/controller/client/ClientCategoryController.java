@@ -1,7 +1,7 @@
 package com.youlai.mall.product.controller.client;
 
 import com.youlai.common.result.Result;
-import com.youlai.mall.product.model.vo.CategoryAppVO;
+import com.youlai.mall.product.model.vo.client.ClientCategoryVO;
 import com.youlai.mall.product.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,18 +18,18 @@ import java.util.List;
  * @author Ray.Hao
  * @since 2022/2/5
  */
-@Tag(name = "【App】商品分类接口")
+@Tag(name = "【客户端】商品分类接口")
 @RestController
-@RequestMapping("/api/app/v1/categories")
+@RequestMapping("/api/client/v1/categories")
 @RequiredArgsConstructor
-public class AppCategoryController {
+public class ClientCategoryController {
 
     private final CategoryService categoryService;
 
     @Operation(summary = "分类列表")
     @GetMapping
-    public Result<List<CategoryAppVO>> list() {
-        List<CategoryAppVO> list = categoryService.listAppCategories();
+    public Result<List<ClientCategoryVO>> list() {
+        List<ClientCategoryVO> list = categoryService.listAppCategories();
         return Result.success(list);
     }
 }

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.mall.product.mapper.SpuMapper">
 
-    <!-- Admin-商品分页列表 -->
+    <!-- 管理端-商品分页列表 -->
     <select id="getSpuPage" resultType="com.youlai.mall.product.model.vo.SpuPageVO">
         SELECT
             t1.id,
@@ -31,8 +31,8 @@
             t1.create_time DESC
     </select>
 
-    <!-- APP-商品分页列表 -->
-    <select id="getProductPage" resultType="com.youlai.mall.product.model.vo.ProductPageVO">
+    <!-- 客户端-商品分页列表 -->
+    <select id="getClientSpuPage" resultType="com.youlai.mall.product.model.vo.client.ClientSpuPageVO">
         SELECT
             t1.id,
             t1.`name`,

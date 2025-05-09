@@ -1,9 +1,7 @@
-package com.youlai.mall.product.model.vo;
+package com.youlai.mall.product.model.vo.client;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.math.BigDecimal;
 
 /**
  * 【应用端】商品分页视图对象
@@ -13,7 +11,7 @@ import java.math.BigDecimal;
  */
 @Schema(description = "商品分页对象")
 @Data
-public class ProductPageVO {
+public class ClientSpuPageVO {
 
     @Schema(description="商品ID")
     private Long id;

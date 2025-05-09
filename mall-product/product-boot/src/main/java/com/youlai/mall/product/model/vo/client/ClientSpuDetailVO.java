@@ -1,13 +1,11 @@
-package com.youlai.mall.product.model.vo;
+package com.youlai.mall.product.model.vo.client;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 商品详情视图对象
@@ -19,7 +17,7 @@ import java.util.Map;
  */
 @Schema(description = "商品详情")
 @Data
-public class ProductDetailVO implements Serializable {
+public class ClientSpuDetailVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
