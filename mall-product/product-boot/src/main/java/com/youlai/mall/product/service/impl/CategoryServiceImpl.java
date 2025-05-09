@@ -33,7 +33,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
 
     private final CategoryConverter categoryConverter;
 
-    private final CategoryAttrService categoryAttrService;
+
 
     /**
      * 分类列表（树形）
@@ -152,56 +152,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
         return categoryConverter.toForm(entity);
     }
 
-    /**
-     * 获取APP端分类列表
-     *
-     * @return APP端分类列表
-     */
-    @Override
-    public List<ClientCategoryVO> listAppCategories() {
-        List<CategoryEntity> categories = this.list(new LambdaQueryWrapper<CategoryEntity>()
-                .eq(CategoryEntity::getIsVisible, GlobalConstants.STATUS_YES)
-                .orderByAsc(CategoryEntity::getSort)
-        );
-
-        return categories.stream()
-                .filter(category -> GlobalConstants.ROOT_NODE_ID.equals(category.getParentId()))
-                .map(rootCategory -> {
-                    ClientCategoryVO rootVO = categoryConverter.convertToFirstLevelVo(rootCategory);
-                    rootVO.setCatType(1);
-                    rootVO.setShowPic(true);
-                    rootVO.setShowVideo(false);
-                    Long rootCategoryId = rootCategory.getId();
-
-                    List<ClientCategoryVO.SecondLevelCategory> secondLevelCategories = categories.stream()
-                            .filter(category -> category.getParentId().equals(rootCategoryId))
-                            .map(secondCategory -> {
-                                ClientCategoryVO.SecondLevelCategory secondVO = categoryConverter.convertToSecondLevelVo(secondCategory);
-                                secondVO.setCatType(1);
-                                secondVO.setShowPic(true);
-                                secondVO.setShowVideo(false);
-                                Long secondCategoryId = secondCategory.getId();
-
-                                List<ClientCategoryVO.ThirdLevelCategory> thirdLevelCategories = categories.stream()
-                                        .filter(category -> category.getParentId().equals(secondCategoryId))
-                                        .map(thirdCategory -> {
-                                            ClientCategoryVO.ThirdLevelCategory thirdVO = categoryConverter.convertToThirdLevelVo(thirdCategory);
-                                            thirdVO.setShowPic(true);
-                                            thirdVO.setShowVideo(false);
-                                            return thirdVO;
-                                        })
-                                        .toList();
-
-                                secondVO.setChildCateList(thirdLevelCategories);
-                                return secondVO;
-                            })
-                            .toList();
-
-                    rootVO.setChildren(secondLevelCategories);
-                    return rootVO;
-                })
-                .toList();
-    }
 
     /**
      * 构建部门层级路径

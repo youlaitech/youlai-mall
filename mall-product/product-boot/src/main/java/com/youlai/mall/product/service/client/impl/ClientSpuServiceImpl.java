@@ -7,7 +7,7 @@ import com.youlai.mall.product.mapper.SpuMapper;
 import com.youlai.mall.product.model.bo.SkuBO;
 import com.youlai.mall.product.model.bo.SkuSpecBO;
 import com.youlai.mall.product.model.entity.SpuEntity;
-import com.youlai.mall.product.model.query.ProductPageQuery;
+import com.youlai.mall.product.model.query.client.ClientGoodsPageQuery;
 import com.youlai.mall.product.model.vo.client.ClientSpuDetailVO;
 import com.youlai.mall.product.model.vo.client.ClientSpuPageVO;
 import com.youlai.mall.product.service.SkuService;
@@ -38,7 +38,7 @@ public class ClientSpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity>  imp
      * @return 商品分页列表 IPage<SpuPageVO>
      */
     @Override
-    public IPage<ClientSpuPageVO> getSpuPage(ProductPageQuery queryParams) {
+    public IPage<ClientSpuPageVO> getSpuPage(ClientGoodsPageQuery queryParams) {
         Page<ClientSpuPageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
         List<ClientSpuPageVO> list = this.baseMapper.getClientSpuPage(page, queryParams);
         page.setRecords(list);

@@ -1,16 +1,11 @@
 package com.youlai.mall.product.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.mall.product.model.entity.SpuEntity;
 import com.youlai.mall.product.model.form.SpuForm;
-import com.youlai.mall.product.model.query.ProductPageQuery;
 import com.youlai.mall.product.model.query.SpuPageQuery;
-import com.youlai.mall.product.model.vo.client.ClientSpuPageVO;
 import com.youlai.mall.product.model.vo.SpuPageVO;
-
-import java.util.List;
 
 /**
  * SPU 接口

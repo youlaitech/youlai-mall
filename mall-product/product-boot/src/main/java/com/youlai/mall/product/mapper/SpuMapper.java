@@ -3,7 +3,7 @@ package com.youlai.mall.product.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youlai.mall.product.model.entity.SpuEntity;
-import com.youlai.mall.product.model.query.ProductPageQuery;
+import com.youlai.mall.product.model.query.client.ClientGoodsPageQuery;
 import com.youlai.mall.product.model.query.SpuPageQuery;
 import com.youlai.mall.product.model.vo.client.ClientSpuPageVO;
 import com.youlai.mall.product.model.vo.SpuPageVO;
@@ -33,7 +33,7 @@ public interface SpuMapper extends BaseMapper<SpuEntity> {
      * @param queryParams 查询参数
      * @return 商品分页列表
      */
-    List<ClientSpuPageVO> getClientSpuPage(Page<ClientSpuPageVO> page, ProductPageQuery queryParams);
+    List<ClientSpuPageVO> getClientSpuPage(Page<ClientSpuPageVO> page, ClientGoodsPageQuery queryParams);
 
 
 }

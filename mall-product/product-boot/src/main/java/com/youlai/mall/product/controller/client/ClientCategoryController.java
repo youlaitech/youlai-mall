@@ -2,7 +2,7 @@ package com.youlai.mall.product.controller.client;
 
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.vo.client.ClientCategoryVO;
-import com.youlai.mall.product.service.CategoryService;
+import com.youlai.mall.product.service.client.ClientCategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +24,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientCategoryController {
 
-    private final CategoryService categoryService;
+    private final ClientCategoryService clientCategoryService;
 
-    @Operation(summary = "分类列表")
+    @Operation(summary = "商品分类列表")
     @GetMapping
-    public Result<List<ClientCategoryVO>> list() {
-        List<ClientCategoryVO> list = categoryService.listAppCategories();
+    public Result<List<ClientCategoryVO>> listCategories() {
+        List<ClientCategoryVO> list = clientCategoryService.listCategories();
         return Result.success(list);
     }
 }

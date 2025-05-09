@@ -1,4 +1,4 @@
-package com.youlai.mall.product.model.query;
+package com.youlai.mall.product.model.query.client;
 
 import com.youlai.common.base.BasePageQuery;
 import com.youlai.mall.product.enums.ProductOrderByEnum;
@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 商品分页查询对象
+ * 客户端商品分页查询对象
  *
  * @author Ray.Hao
  * @since 2024/5/22
@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "商品分页查询对象")
 @Data
-public class ProductPageQuery extends BasePageQuery {
+public class ClientGoodsPageQuery extends BasePageQuery {
 
     @Schema(description="关键字")
     private String keywords;

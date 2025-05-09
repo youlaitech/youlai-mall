@@ -17,7 +17,6 @@ import java.util.List;
  */
 public interface CategoryService extends IService<CategoryEntity> {
 
-
     /**
      * 分类列表（树形）
      *
@@ -55,12 +54,5 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @return 分类表单数据
      */
     CategoryForm getCategoryForm(Long id);
-
-    /**
-     * 获取APP端分类列表
-     *
-     * @return APP端分类列表
-     */
-    List<ClientCategoryVO> listAppCategories();
 
 }
