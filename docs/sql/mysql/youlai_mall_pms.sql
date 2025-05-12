@@ -14,55 +14,27 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 
 -- ----------------------------
--- Table structure for pms_attr
--- ----------------------------
-DROP TABLE IF EXISTS `pms_attr`;
-CREATE TABLE `pms_attr`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称',
-  `group_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '所属分组名称',
-  `category_id` bigint NULL DEFAULT NULL COMMENT '分类ID',
-  `input_type` tinyint NOT NULL COMMENT '输入类型(1:文本 2:单选 3:多选)',
-  `options` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '可选项(逗号分隔)',
-  `sort` smallint NULL DEFAULT NULL COMMENT '排序',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识(0:未删除 1:已删除)',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_attr
--- ----------------------------
-INSERT INTO `pms_attr` VALUES (1, '屏幕分辨率', '屏幕', 3, 2, '1080P,2K,4K', 1, '2024-05-17 14:32:15', '2025-03-05 22:26:40', 0);
-INSERT INTO `pms_attr` VALUES (2, '屏幕尺寸', '屏幕', 3, 1, '', 2, '2024-05-17 14:32:15', '2025-03-05 22:22:44', 0);
-INSERT INTO `pms_attr` VALUES (3, '屏幕材料', '1', 3, 1, 'LCD,AMOLED', 3, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attr` VALUES (4, '摄像头像素', '2', 3, 1, NULL, 4, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attr` VALUES (5, '指纹类型', '2', 3, 2, '屏下指纹,屏后指纹', 5, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_attr` VALUES (6, '刷新率', '2', 3, 2, '90HZ,120HZ', 6, '2024-05-17 14:32:15', '2024-06-01 21:51:28', 0);
-
--- ----------------------------
 -- Table structure for pms_brand
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_brand`;
 CREATE TABLE `pms_brand`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '品牌ID',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '品牌名称',
-  `first_letter` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '检索首字母',
-  `is_visible` tinyint NULL DEFAULT NULL COMMENT '是否显示[0-隐藏，1-显示]',
-  `sort` smallint NULL DEFAULT 1 COMMENT '排序',
-  `logo_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'Logo URL',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '品牌描述',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识[0-未删除，1-已删除]',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '品牌表' ROW_FORMAT = DYNAMIC;
+                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT '品牌ID',
+                            `name` varchar(64)  NOT NULL COMMENT '品牌名称',
+                            `first_letter` char(1)  NULL DEFAULT NULL COMMENT '检索首字母',
+                            `is_visible` tinyint NULL DEFAULT NULL COMMENT '是否显示[0-隐藏，1-显示]',
+                            `sort` smallint NULL DEFAULT 1 COMMENT '排序',
+                            `logo_url` varchar(255)  NULL DEFAULT NULL COMMENT 'Logo URL',
+                            `description` varchar(255)  NULL DEFAULT NULL COMMENT '品牌描述',
+                            `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                            `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                            `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识[0-未删除，1-已删除]',
+                            PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 34  COMMENT = '品牌表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_brand
 -- ----------------------------
-INSERT INTO `pms_brand` VALUES (1, '有来', 'Y', 1, 1, 'http://a.youlai.tech:9000/default/5409e3deb5a14b8fa8cb4275dee0e25d.png', NULL, '2021-07-11 19:56:58', '2021-07-11 20:02:54', 0);
+INSERT INTO `pms_brand` VALUES (1, '有来', 'Y', 1, 1, 'http://localhost:9010/default/20250419/0c4690e6df334356ad717593ff67580b.jpg', NULL, '2021-07-11 19:56:58', '2025-04-19 19:41:06', 0);
 INSERT INTO `pms_brand` VALUES (10, '小米', 'X', 1, 2, 'http://a.youlai.tech:9000/default/6a5a606fc60742919149a7861bf26cd5.jpg', NULL, '2022-03-05 16:12:16', '2022-03-05 16:12:16', 0);
 INSERT INTO `pms_brand` VALUES (11, '华硕', 'H', 1, 3, 'http://a.youlai.tech:9000/default/f18083f95e104a0bae3c587dee3bb2ed.png', NULL, '2022-03-05 16:12:16', '2022-03-05 16:12:16', 0);
 INSERT INTO `pms_brand` VALUES (20, '华为', 'H', 1, 1, 'https://oss.youlai.tech/default/ff61bd639b23491d8f2aa85d09fcf788.jpg', NULL, '2022-05-06 23:08:33', '2022-05-06 23:08:33', 0);
@@ -73,18 +45,18 @@ INSERT INTO `pms_brand` VALUES (33, '惠普', 'H', 1, 1, 'https://oss.youlai.tec
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_category`;
 CREATE TABLE `pms_category`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '分类ID',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称',
-  `parent_id` bigint NOT NULL COMMENT '父级ID',
-  `tree_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '层级路径',
-  `icon_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标地址',
-  `sort` int NULL DEFAULT 1 COMMENT '排序',
-  `is_visible` tinyint(1) NULL DEFAULT 1 COMMENT '是否显示[1-显示，0-隐藏]',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识[0-未删除，1-已删除]',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 218 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = DYNAMIC;
+                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT '分类ID',
+                               `name` varchar(64)  NOT NULL COMMENT '分类名称',
+                               `parent_id` bigint NOT NULL COMMENT '父级ID',
+                               `tree_path` varchar(100)  NULL DEFAULT NULL COMMENT '层级路径',
+                               `icon_url` varchar(255)  NULL DEFAULT NULL COMMENT '图标地址',
+                               `sort` int NULL DEFAULT 1 COMMENT '排序',
+                               `is_visible` tinyint(1) NULL DEFAULT 1 COMMENT '是否显示[1-显示，0-隐藏]',
+                               `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                               `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                               `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识[0-未删除，1-已删除]',
+                               PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 218  COMMENT = '商品分类表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_category
@@ -291,191 +263,201 @@ INSERT INTO `pms_category` VALUES (216, '箱包皮具配件', 185, '0,185', '', 
 INSERT INTO `pms_category` VALUES (217, '箱包配件', 216, '0,185,216', 'https://m.360buyimg.com/n2/jfs/t1/64678/14/16857/69808/613ec336E1b44c59f/08d620e59291eecd.jpg', 200, 1, '2024-05-21 17:53:57', NULL, 0);
 
 -- ----------------------------
+-- Table structure for pms_category_attr
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_category_attr`;
+CREATE TABLE `pms_category_attr`  (
+                                    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                    `name` varchar(50)  NOT NULL COMMENT '属性/规格名称',
+                                    `group_name` varchar(50)  NULL DEFAULT NULL COMMENT '所属分组名称',
+                                    `category_id` bigint NULL DEFAULT NULL COMMENT '分类ID',
+                                    `input_type` tinyint NOT NULL COMMENT '输入类型(1:文本 2:单选 3:多选)',
+                                    `options` varchar(500)  NULL DEFAULT NULL COMMENT '可选项(逗号分隔)',
+                                    `sort` smallint NULL DEFAULT NULL COMMENT '排序',
+                                    `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                                    `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                                    `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识(0:未删除 1:已删除)',
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    INDEX `idx_category_id`(`category_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11  COMMENT = '商品分类属性/规格表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of pms_category_attr
+-- ----------------------------
+INSERT INTO `pms_category_attr` VALUES (1, '屏幕分辨率', '屏幕', 3, 3, '1080P,2K,4K', 1, '2024-05-17 14:32:15', '2025-04-19 19:15:38', 0);
+INSERT INTO `pms_category_attr` VALUES (2, '屏幕尺寸', '屏幕', 3, 1, '', 2, '2024-05-17 14:32:15', '2025-03-05 22:22:44', 0);
+INSERT INTO `pms_category_attr` VALUES (3, '屏幕材料', '屏幕', 3, 1, 'LCD,AMOLED', 3, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_category_attr` VALUES (4, '摄像头像素', '屏幕', 3, 1, NULL, 4, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_category_attr` VALUES (5, '指纹类型', '屏幕', 3, 2, '屏下指纹,屏后指纹', 5, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_category_attr` VALUES (6, '刷新率', '屏幕', 3, 2, '90HZ,120HZ', 6, '2024-05-17 14:32:15', '2024-06-01 21:51:28', 0);
+
+-- ----------------------------
+-- Table structure for pms_category_spec
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_category_spec`;
+CREATE TABLE `pms_category_spec`  (
+                                    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                    `name` varchar(50)  NOT NULL COMMENT '属性/规格名称',
+                                    `category_id` bigint NULL DEFAULT NULL COMMENT '分类ID',
+                                    `options` varchar(500)  NULL DEFAULT NULL COMMENT '可选项(逗号分隔)',
+                                    `sort` smallint NULL DEFAULT NULL COMMENT '排序',
+                                    `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                                    `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                                    `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识(0:未删除 1:已删除)',
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    INDEX `idx_category_id`(`category_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11  COMMENT = '商品分类属性/规格表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of pms_category_spec
+-- ----------------------------
+INSERT INTO `pms_category_spec` VALUES (1, '颜色', 3, '红色,蓝色,黑色', 1, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_category_spec` VALUES (2, '存储容量', 3, '8+256G,12+512G,16+1T', 2, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+
+-- ----------------------------
 -- Table structure for pms_sku
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_sku`;
 CREATE TABLE `pms_sku`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'SKU 主键',
-  `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU 编码',
-  `spu_id` bigint NOT NULL COMMENT 'SPU ID',
-  `price` bigint NOT NULL COMMENT '商品价格(单位：分)',
-  `stock` int UNSIGNED NOT NULL COMMENT '库存数量',
-  `locked_stock` int NULL DEFAULT 0 COMMENT '库存锁定数量',
-  `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'SKU 图片URL',
-  `sold_count` int NULL DEFAULT 0 COMMENT '已售数量',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0:未删除1:已删除）',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `fk_pms_sku_pms_spu`(`spu_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = DYNAMIC;
+                          `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'SKU 主键',
+                          `sku_code` varchar(50)  NULL DEFAULT NULL COMMENT 'SKU 编码',
+                          `spu_id` bigint NOT NULL COMMENT 'SPU ID',
+                          `spec_hash` char(32)  NULL DEFAULT NULL COMMENT '规格组合的MD5哈希值',
+                          `price` bigint NOT NULL COMMENT '商品价格(单位：分)',
+                          `stock` int UNSIGNED NOT NULL COMMENT '库存数量',
+                          `stock_locked` int NULL DEFAULT 0 COMMENT '库存锁定数量',
+                          `stock_sold` int NULL DEFAULT 0 COMMENT '已售数量',
+                          `img_url` varchar(255)  NULL DEFAULT NULL COMMENT 'SKU 图片URL',
+                          `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                          `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                          `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0:未删除1:已删除）',
+                          PRIMARY KEY (`id`) USING BTREE,
+                          INDEX `fk_pms_sku_pms_spu`(`spu_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 21  COMMENT = '商品库存单元表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_sku
 -- ----------------------------
-INSERT INTO `pms_sku` VALUES (1, '20240520001', 1, 699900, 100, 0, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', 1, '2021-08-08 00:43:26', '2024-05-08 10:51:34', 0);
-INSERT INTO `pms_sku` VALUES (2, '20240520002', 1, 699900, 100, 0, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', 1, '2024-05-08 10:54:43', '2024-05-08 10:54:43', 0);
-INSERT INTO `pms_sku` VALUES (3, '20240520003', 1, 799900, 100, 0, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', 2, '2021-08-08 00:43:26', '2024-05-08 10:51:34', 0);
-INSERT INTO `pms_sku` VALUES (4, '20240520004', 1, 799900, 100, 0, 'https://www.youlai.tech/files/default/c25b39470474494485633c49101a0f5d.png', 1, '2021-08-08 00:43:26', '2024-05-08 10:51:34', 0);
+INSERT INTO `pms_sku` VALUES (17, NULL, 1, 'b0483152f82090c7f1df1e692c1ef82a', 100, 1, 0, 0, 'http://localhost:9010/default/20250418/5f4c1c5abf19408b9f6c74d114cafd26.png', '2025-04-18 01:09:56', '2025-04-18 01:09:56', 0);
+INSERT INTO `pms_sku` VALUES (18, NULL, 1, '542c022c46454683d01622b044986b9a', 200, 2, 0, 0, 'http://localhost:9010/default/20250418/65d2f879ff9149f6828d45da743903c6.png', '2025-04-18 01:09:56', '2025-04-18 01:09:56', 0);
+INSERT INTO `pms_sku` VALUES (19, NULL, 1, '9dc5196081a595c2c9fcfa3b8cf24843', 300, 3, 0, 0, 'http://localhost:9010/default/20250418/5f4c1c5abf19408b9f6c74d114cafd26.png', '2025-04-18 01:09:56', '2025-04-18 01:09:56', 0);
+INSERT INTO `pms_sku` VALUES (20, NULL, 1, '75263904b1ecc0c66a652aa9245f1830', 400, 4, 0, 0, 'http://localhost:9010/default/20250418/65d2f879ff9149f6828d45da743903c6.png', '2025-04-18 01:09:56', '2025-04-18 01:09:56', 0);
 
 -- ----------------------------
 -- Table structure for pms_sku_spec
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_sku_spec`;
 CREATE TABLE `pms_sku_spec`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '规格ID',
-  `sku_id` bigint NULL DEFAULT NULL COMMENT 'SKU ID',
-  `spec_id` bigint NULL DEFAULT NULL COMMENT '规格 ID',
-  `spec_value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格值（如：颜色，内存）',
-  `is_main` tinyint NULL DEFAULT 0 COMMENT '是否主规格（0-否，1-是）',
-  `img_url` varchar(255) COMMENT '规格图片URL',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_skuid`(`sku_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT '规格ID',
+                               `sku_id` bigint NULL DEFAULT NULL COMMENT 'SKU ID',
+                               `spec_name` varchar(255)  NULL DEFAULT NULL COMMENT '规格名称（如：颜色）',
+                               `spec_value` varchar(100)  NULL DEFAULT NULL COMMENT '规格值（如：白色）',
+                               `create_time` datetime NULL DEFAULT NULL,
+                               `update_time` datetime NULL DEFAULT NULL,
+                               PRIMARY KEY (`id`) USING BTREE,
+                               INDEX `idx_skuid`(`sku_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 65  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_sku_spec
 -- ----------------------------
-INSERT INTO `pms_sku_spec` VALUES (1, 1, 1, '白色',1, '');
-INSERT INTO `pms_sku_spec` VALUES (2, 1, 2, '8+256G',0,'');
-INSERT INTO `pms_sku_spec` VALUES (3, 2, 1, '黑色',1,'');
-INSERT INTO `pms_sku_spec` VALUES (4, 2, 2, '8+256G',0,'');
-INSERT INTO `pms_sku_spec` VALUES (5, 3, 1, '白色',1,'');
-INSERT INTO `pms_sku_spec` VALUES (6, 3, 2, '12+512G',0,'');
-INSERT INTO `pms_sku_spec` VALUES (7, 4, 1, '黑色',1,'');
-INSERT INTO `pms_sku_spec` VALUES (8, 4, 2, '12+512G',0,'');
-
--- ----------------------------
--- Table structure for pms_spec
--- ----------------------------
-DROP TABLE IF EXISTS `pms_spec`;
-CREATE TABLE `pms_spec`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性名称',
-  `input_type` tinyint NOT NULL COMMENT '输入类型(1:文本 2:单选 3:多选)',
-  `options` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '可选项(逗号分隔)',
-  `category_id` bigint NULL DEFAULT NULL COMMENT '分类ID',
-  `sort` smallint NULL DEFAULT NULL COMMENT '排序',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识(0:未删除 1:已删除)',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_spec
--- ----------------------------
-INSERT INTO `pms_spec` VALUES (1, '颜色', 2, '红色,蓝色,黑色', 3, 1, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
-INSERT INTO `pms_spec` VALUES (2, '存储容量', 2, '8+256G,12+512G,16+1T', 3, 2, '2024-05-17 14:32:15', '2024-05-17 14:32:15', 0);
+INSERT INTO `pms_sku_spec` VALUES (57, 17, '颜色', '白色', '2025-04-18 01:09:56', '2025-04-18 01:09:56');
+INSERT INTO `pms_sku_spec` VALUES (58, 17, '存储', '8+256G', '2025-04-18 01:09:56', '2025-04-18 01:09:56');
+INSERT INTO `pms_sku_spec` VALUES (59, 18, '颜色', '白色', '2025-04-18 01:09:56', '2025-04-18 01:09:56');
+INSERT INTO `pms_sku_spec` VALUES (60, 18, '存储', '12+512G', '2025-04-18 01:09:56', '2025-04-18 01:09:56');
+INSERT INTO `pms_sku_spec` VALUES (61, 19, '颜色', '黑色', '2025-04-18 01:09:56', '2025-04-18 01:09:56');
+INSERT INTO `pms_sku_spec` VALUES (62, 19, '存储', '8+256G', '2025-04-18 01:09:56', '2025-04-18 01:09:56');
+INSERT INTO `pms_sku_spec` VALUES (63, 20, '颜色', '黑色', '2025-04-18 01:09:56', '2025-04-18 01:09:56');
+INSERT INTO `pms_sku_spec` VALUES (64, 20, '存储', '12+512G', '2025-04-18 01:09:56', '2025-04-18 01:09:56');
 
 -- ----------------------------
 -- Table structure for pms_spu
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_spu`;
 CREATE TABLE `pms_spu`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称',
-  `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（0：未上架，1：已上架）',
-  `category_id` bigint NOT NULL COMMENT '类型ID',
-  `brand_id` bigint NULL DEFAULT NULL COMMENT '品牌ID',
-  `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品主图',
-  `unit` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '单位',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品描述',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0：未删除，1：已删除）',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `fk_pms_spu_pms_brand`(`brand_id` ASC) USING BTREE,
-  INDEX `fk_pms_spu_pms_category`(`category_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表' ROW_FORMAT = DYNAMIC;
+                          `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                          `name` varchar(64)  NOT NULL COMMENT '商品名称',
+                          `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（0：未上架，1：已上架）',
+                          `category_id` bigint NOT NULL COMMENT '类型ID',
+                          `brand_id` bigint NULL DEFAULT NULL COMMENT '品牌ID',
+                          `img_url` varchar(255)  NULL DEFAULT NULL COMMENT '商品主图',
+                          `unit` varchar(16)  NULL DEFAULT NULL COMMENT '单位',
+                          `description` varchar(255)  NULL DEFAULT NULL COMMENT '商品描述',
+                          `detail` text  NULL COMMENT '商品详情',
+                          `sales` int NULL DEFAULT NULL COMMENT '销量',
+                          `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                          `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                          `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0：未删除，1：已删除）',
+                          PRIMARY KEY (`id`) USING BTREE,
+                          INDEX `fk_pms_spu_pms_brand`(`brand_id` ASC) USING BTREE,
+                          INDEX `fk_pms_spu_pms_category`(`category_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2  COMMENT = '商品标准化单元表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_spu
 -- ----------------------------
-INSERT INTO `pms_spu` VALUES (1, '小米14', 1, 24, 10, 'https://oss.youlai.tech/youlai-boot/2023/06/08/6b83dd33eaa248ed8e11cff0003287ee.jpg', '台', '小米14 旗舰版描述', '2024-05-17 13:38:53', '2022-07-03 14:16:16', 0);
+INSERT INTO `pms_spu` VALUES (1, '小米14', 1, 24, 10, 'http://localhost:9010/default/20250417/661e1ed9f0854e3d848b6766d868e135.jpg', '台', '小米14 旗舰版描述', '<p>123</p>', NULL, '2024-05-17 13:38:53', '2025-04-18 01:09:56', 0);
 
 -- ----------------------------
 -- Table structure for pms_spu_attr
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_spu_attr`;
 CREATE TABLE `pms_spu_attr`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '基础属性ID',
-  `spu_id` bigint NOT NULL COMMENT 'SPU ID',
-  `attr_id` bigint NULL DEFAULT NULL COMMENT '属性ID',
-  `attr_value` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性值',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `fk_pms_spu_attribute_pms_spu`(`spu_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品属性/规格表' ROW_FORMAT = DYNAMIC;
+                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT '基础属性ID',
+                               `spu_id` bigint NOT NULL COMMENT 'SPU ID',
+                               `attr_id` bigint NULL DEFAULT NULL COMMENT '属性 ID',
+                               `attr_name` varchar(50)  NULL DEFAULT NULL COMMENT '属性名称',
+                               `attr_value` varchar(255)  NOT NULL COMMENT '属性值',
+                               `attr_sort` smallint NULL DEFAULT 0 COMMENT '属性排序',
+                               `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                               `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                               PRIMARY KEY (`id`) USING BTREE,
+                               INDEX `fk_pms_spu_attribute_pms_spu`(`spu_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 21  COMMENT = '商品属性/规格表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_spu_attr
 -- ----------------------------
-INSERT INTO `pms_spu_attr` VALUES (1, 1, 1, '2K');
-INSERT INTO `pms_spu_attr` VALUES (2, 1, 2, '6英寸');
-INSERT INTO `pms_spu_attr` VALUES (3, 1, 3, 'OLED');
-INSERT INTO `pms_spu_attr` VALUES (4, 1, 4, '5000万');
-INSERT INTO `pms_spu_attr` VALUES (5, 1, 5, '屏下指纹');
-INSERT INTO `pms_spu_attr` VALUES (6, 1, 6, '150HZ');
+INSERT INTO `pms_spu_attr` VALUES (19, 1, NULL, '分辨率', '2K', 0, NULL, NULL);
+INSERT INTO `pms_spu_attr` VALUES (20, 1, NULL, '尺寸', '6英寸', 0, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for pms_spu_comment
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_spu_comment`;
 CREATE TABLE `pms_spu_comment`  (
-  `id` bigint NOT NULL,
-  `spu_id` bigint NULL DEFAULT NULL,
-  `spu_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `sku_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `member_id` bigint NULL DEFAULT NULL,
-  `member_nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `star` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `create_time` datetime NULL DEFAULT NULL,
-  `update_time` datetime NULL DEFAULT NULL,
-  `is_deleted` tinyint NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+                                  `id` bigint NOT NULL,
+                                  `spu_id` bigint NULL DEFAULT NULL,
+                                  `spu_name` varchar(255)  NULL DEFAULT NULL,
+                                  `sku_name` varchar(255)  NULL DEFAULT NULL,
+                                  `member_id` bigint NULL DEFAULT NULL,
+                                  `member_nickname` varchar(255)  NULL DEFAULT NULL,
+                                  `star` varchar(255)  NULL DEFAULT NULL,
+                                  `content` text  NULL,
+                                  `create_time` datetime NULL DEFAULT NULL,
+                                  `update_time` datetime NULL DEFAULT NULL,
+                                  `is_deleted` tinyint NOT NULL DEFAULT 0,
+                                  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_spu_comment
 -- ----------------------------
-INSERT INTO `pms_spu_comment` VALUES (1, 1, '小米14', '白色 8+256G', 1, '张三', '3.5', '质量嘎嘎好', '2024-05-23 11:34:47', NULL, 0);
-INSERT INTO `pms_spu_comment` VALUES (2, 1, '小米14', '白色 8+256G', 1, '张三', '4.2', '质量嘎嘎好', '2024-05-23 11:34:47', NULL, 0);
-
--- ----------------------------
--- Table structure for pms_spu_detail
--- ----------------------------
-DROP TABLE IF EXISTS `pms_spu_detail`;
-CREATE TABLE `pms_spu_detail`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `spu_id` bigint NOT NULL COMMENT 'SPU ID',
-  `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '详情',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除[0-未删除，1-已删除]',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品详情' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_spu_detail
--- ----------------------------
-INSERT INTO `pms_spu_detail` VALUES (1, 1, '<p><img src=\"http://a.youlai.tech:9000/default/1a69357664c24962ac23953905c3c38f.png\" alt=\"\" data-href=\"\" style=\"width: 449.00px;height: 449.00px;\"/></p>', '2024-05-07 16:18:35', '2024-05-07 16:18:39', 0);
-INSERT INTO `pms_spu_detail` VALUES (2, 290, '<p>Apple iPhone 12 64GB 绿色</p>', '2024-05-08 16:22:55', '2024-05-08 16:22:55', 0);
 
 -- ----------------------------
 -- Table structure for pms_spu_image
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_spu_image`;
 CREATE TABLE `pms_spu_image`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `spu_id` bigint NOT NULL COMMENT 'SPU ID',
-  `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品图片URL',
-  `sort` smallint NOT NULL DEFAULT 1 COMMENT '排序',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除，1-已删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                `spu_id` bigint NOT NULL COMMENT 'SPU ID',
+                                `img_url` varchar(255)  NOT NULL COMMENT '商品图片URL',
+                                `sort` smallint NOT NULL DEFAULT 1 COMMENT '排序',
+                                `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                                `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                                `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识：0-未删除，1-已删除',
+                                PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 25  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pms_spu_image
@@ -486,24 +468,43 @@ INSERT INTO `pms_spu_image` VALUES (3, 288, 'https://youlai-mall.oss-cn-shenzhen
 INSERT INTO `pms_spu_image` VALUES (4, 288, 'https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg', 4, '2024-05-08 10:54:43', '2024-05-08 10:54:43', 0);
 INSERT INTO `pms_spu_image` VALUES (5, 290, 'https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg', 5, '2024-05-08 10:58:19', '2024-05-08 10:58:19', 1);
 INSERT INTO `pms_spu_image` VALUES (6, 290, 'https://youlai-mall.oss-cn-shenzhen.aliyuncs.com/images/2021/04/23/1619163660000.jpg', 6, '2024-05-08 16:22:56', '2024-05-08 16:22:56', 0);
+INSERT INTO `pms_spu_image` VALUES (7, 1, 'http://localhost:9010/default/20250417/e0e47a23b4494a29ac42b4ea48566537.jpg', 1, '2025-04-17 00:17:10', '2025-04-17 00:17:10', 1);
+INSERT INTO `pms_spu_image` VALUES (8, 1, 'http://localhost:9010/default/20250417/b930dbfe4da343ee9eccdcf89b3af810.png', 2, '2025-04-17 00:17:10', '2025-04-17 00:17:10', 1);
+INSERT INTO `pms_spu_image` VALUES (9, 1, 'http://localhost:9010/default/20250417/c3647bff5c084e3eb273d3f00635e992.png', 3, '2025-04-17 00:17:10', '2025-04-17 00:17:10', 1);
+INSERT INTO `pms_spu_image` VALUES (10, 1, 'http://localhost:9010/default/20250417/6776a5f6a55841269435f5ddced6c62e.jpg', 1, '2025-04-17 06:59:14', '2025-04-17 06:59:14', 1);
+INSERT INTO `pms_spu_image` VALUES (11, 1, 'http://localhost:9010/default/20250417/d7e910cb1a994bc982c0a8355a56520e.png', 2, '2025-04-17 06:59:14', '2025-04-17 06:59:14', 1);
+INSERT INTO `pms_spu_image` VALUES (12, 1, 'http://localhost:9010/default/20250417/918b9ce3e60742fbaad5c85e1713ace7.jpg', 3, '2025-04-17 06:59:14', '2025-04-17 06:59:14', 1);
+INSERT INTO `pms_spu_image` VALUES (13, 1, 'http://localhost:9010/default/20250417/6776a5f6a55841269435f5ddced6c62e.jpg', 1, '2025-04-17 07:15:00', '2025-04-17 07:15:00', 1);
+INSERT INTO `pms_spu_image` VALUES (14, 1, 'http://localhost:9010/default/20250417/918b9ce3e60742fbaad5c85e1713ace7.jpg', 2, '2025-04-17 07:15:00', '2025-04-17 07:15:00', 1);
+INSERT INTO `pms_spu_image` VALUES (15, 1, 'http://localhost:9010/default/20250417/0ec895f9e118483b9f7f2ffd62d7bb06.png', 3, '2025-04-17 07:15:00', '2025-04-17 07:15:00', 1);
+INSERT INTO `pms_spu_image` VALUES (16, 1, 'http://localhost:9010/default/20250417/6776a5f6a55841269435f5ddced6c62e.jpg', 1, '2025-04-18 01:00:30', '2025-04-18 01:00:30', 1);
+INSERT INTO `pms_spu_image` VALUES (17, 1, 'http://localhost:9010/default/20250417/918b9ce3e60742fbaad5c85e1713ace7.jpg', 2, '2025-04-18 01:00:30', '2025-04-18 01:00:30', 1);
+INSERT INTO `pms_spu_image` VALUES (18, 1, 'http://localhost:9010/default/20250417/0ec895f9e118483b9f7f2ffd62d7bb06.png', 3, '2025-04-18 01:00:30', '2025-04-18 01:00:30', 1);
+INSERT INTO `pms_spu_image` VALUES (19, 1, 'http://localhost:9010/default/20250417/6776a5f6a55841269435f5ddced6c62e.jpg', 1, '2025-04-18 01:07:37', '2025-04-18 01:07:37', 1);
+INSERT INTO `pms_spu_image` VALUES (20, 1, 'http://localhost:9010/default/20250417/918b9ce3e60742fbaad5c85e1713ace7.jpg', 2, '2025-04-18 01:07:37', '2025-04-18 01:07:37', 1);
+INSERT INTO `pms_spu_image` VALUES (21, 1, 'http://localhost:9010/default/20250417/0ec895f9e118483b9f7f2ffd62d7bb06.png', 3, '2025-04-18 01:07:37', '2025-04-18 01:07:37', 1);
+INSERT INTO `pms_spu_image` VALUES (22, 1, 'http://localhost:9010/default/20250417/6776a5f6a55841269435f5ddced6c62e.jpg', 1, '2025-04-18 01:09:56', '2025-04-18 01:09:56', 0);
+INSERT INTO `pms_spu_image` VALUES (23, 1, 'http://localhost:9010/default/20250417/918b9ce3e60742fbaad5c85e1713ace7.jpg', 2, '2025-04-18 01:09:56', '2025-04-18 01:09:56', 0);
+INSERT INTO `pms_spu_image` VALUES (24, 1, 'http://localhost:9010/default/20250417/0ec895f9e118483b9f7f2ffd62d7bb06.png', 3, '2025-04-18 01:09:56', '2025-04-18 01:09:56', 0);
 
 -- ----------------------------
 -- Table structure for undo_log
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log`  (
-  `branch_id` bigint NOT NULL COMMENT 'branch transaction id',
-  `xid` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'global transaction id',
-  `context` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'undo_log context,such as serialization',
-  `rollback_info` longblob NOT NULL COMMENT 'rollback info',
-  `log_status` int NOT NULL COMMENT '0:normal status,1:defense status',
-  `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
-  `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
-  UNIQUE INDEX `ux_undo_log`(`xid` ASC, `branch_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'AT transaction mode undo table' ROW_FORMAT = DYNAMIC;
+                           `branch_id` bigint NOT NULL COMMENT 'branch transaction id',
+                           `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'global transaction id',
+                           `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'undo_log context,such as serialization',
+                           `rollback_info` longblob NOT NULL COMMENT 'rollback info',
+                           `log_status` int NOT NULL COMMENT '0:normal status,1:defense status',
+                           `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
+                           `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
+                           UNIQUE INDEX `ux_undo_log`(`xid` ASC, `branch_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'AT transaction mode undo table' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of undo_log
 -- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
+

@@ -56,13 +56,12 @@
         SELECT
             t1.id,
             t1.sku_code,
-            t1.stock - t1.locked_stock AS stock,
+            t1.stock - t1.stock_locked AS stock,
             t1.price,
             t1.img_url
         FROM
             pms_sku t1
         WHERE
-            t1.spu_id = #{spuId}
-
+            t1.spu_id = #{spuId} AND t1.is_deleted = 0
     </select>
 </mapper>

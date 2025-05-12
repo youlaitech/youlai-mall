@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youlai.common.result.PageResult;
 import com.youlai.common.result.Result;
 import com.youlai.mall.product.model.query.client.ClientGoodsPageQuery;
-import com.youlai.mall.product.model.vo.client.ClientSpuDetailVO;
-import com.youlai.mall.product.model.vo.client.ClientSpuPageVO;
+import com.youlai.mall.product.model.vo.client.ClientGoodsDetailVO;
+import com.youlai.mall.product.model.vo.client.ClientGoodsPageVO;
 import com.youlai.mall.product.service.client.ClientSpuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,18 +32,18 @@ public class ClientGoodsController {
 
     @Operation(summary = "商品分页列表")
     @GetMapping("/page")
-    public PageResult<ClientSpuPageVO> getGoodsPage(ClientGoodsPageQuery queryParams) {
-        IPage<ClientSpuPageVO> result = clientSpuService.getSpuPage(queryParams);
+    public PageResult<ClientGoodsPageVO> getGoodsPage(ClientGoodsPageQuery queryParams) {
+        IPage<ClientGoodsPageVO> result = clientSpuService.getGoodsPage(queryParams);
         return PageResult.success(result);
     }
 
     @Operation(summary = "获取商品详情")
-    @GetMapping("/{id}")
-    public Result<ClientSpuDetailVO> getGoodsDetail(
-            @Parameter(description = "商品ID") @PathVariable Long id
+    @GetMapping("/{spuId}")
+    public Result<ClientGoodsDetailVO> getGoodsDetail(
+            @Parameter(description = "SPU ID") @PathVariable Long spuId
     ) {
-        ClientSpuDetailVO clientSpuDetailVO = clientSpuService.getSpuDetail(id);
-        return Result.success(clientSpuDetailVO);
+        ClientGoodsDetailVO clientGoodsDetailVO = clientSpuService.getGoodsDetail(spuId);
+        return Result.success(clientGoodsDetailVO);
     }
 
 }

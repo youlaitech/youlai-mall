@@ -1,12 +1,6 @@
 package com.youlai.mall.product.converter;
 
-import com.youlai.mall.product.model.bo.SpuAttrBO;
-import com.youlai.mall.product.model.form.SpuForm;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
-
-import java.util.List;
 
 /**
  * 商品属性对象转换器
@@ -17,11 +11,4 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SpuAttrConverter {
 
-    @Mappings({
-            @Mapping(target = "name", source = "attrName"),
-            @Mapping(target = "value", source = "attrValue"),
-    })
-    SpuForm.AttrValue toSpuFormAttr(SpuAttrBO bo);
-
-    List<SpuForm.AttrValue> toSpuFormAttr(List<SpuAttrBO> boList);
 }

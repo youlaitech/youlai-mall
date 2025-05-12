@@ -32,15 +32,13 @@
     </select>
 
     <!-- 客户端-商品分页列表 -->
-    <select id="getClientSpuPage" resultType="com.youlai.mall.product.model.vo.client.ClientSpuPageVO">
+    <select id="getClientGoodsPage" resultType="com.youlai.mall.product.model.vo.client.ClientGoodsPageVO">
         SELECT
             t1.id,
             t1.`name`,
             min(t2.price) price,
             t1.img_url,
-            sum(t2.sales) sales,
-            t1.description,
-            t1.unit
+            t1.sales
         FROM
             `pms_spu` t1
                 LEFT JOIN pms_sku t2 ON t1.id = t2.spu_id  AND t2.is_deleted = 0
@@ -55,20 +53,26 @@
                 )
             </if>
             <if test='queryParams.categoryId!=null'>
-                AND category_id LIKE CONCAT('%',#{queryParams.categoryId},'%')
+                AND category_id = #{queryParams.categoryId}
+            </if>
+            <if test='queryParams.minPrice!=null'>
+                AND t2.price >= #{queryParams.minPrice}
+            </if>
+            <if test='queryParams.maxPrice!=null'>
+                AND t2.price &lt;= #{queryParams.maxPrice}
             </if>
         GROUP BY
             t1.id
-        <if test="queryParams.orderBy!=null and queryParams.sort !=null">
+        <if test="queryParams.orderBy!=null and queryParams.direction !=null">
         ORDER BY
             <choose>
-                <when test="queryParams.orderBy.toString() eq 'price'">min(t2.price) </when>
-                <when test="queryParams.orderBy.toString() eq 'sales'">sum( t2.sales )</when>
-                <when test="queryParams.orderBy.toString() eq 'score'">(sum(t2.sales) * 0.5 + sum(t3.star)/COUNT(t3.id) * 0.5)</when>
+                <when test="queryParams.orderBy.toString() eq 'price'"> min(t2.price) </when>
+                <when test="queryParams.orderBy.toString() eq 'sales'"> t1.sales </when>
+                <when test="queryParams.orderBy.toString() eq 'comprehensive'">(sum(t1.sales) * 0.5 + sum(t3.star)/COUNT(t3.id) * 0.5)</when>
                 <otherwise>t1.create_time </otherwise>
             </choose>
             <choose>
-                <when test="queryParams.sort.toString() eq 'asc'">ASC</when>
+                <when test="queryParams.direction.toString() eq 'asc'">ASC</when>
                 <otherwise>DESC</otherwise>
             </choose>
         </if>

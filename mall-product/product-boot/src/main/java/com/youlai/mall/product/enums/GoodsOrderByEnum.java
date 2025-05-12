@@ -12,13 +12,13 @@ import lombok.Getter;
  * @since 2024/5/23
  */
 @Getter
-public enum ProductOrderByEnum implements IBaseEnum<String>{
+public enum GoodsOrderByEnum implements IBaseEnum<String>{
 
-    SCORE("score", "评分"),
+    SCORE("comprehensive", "综合"),
     PRICE("price", "价格"),
     SALES("sales", "销量");
 
-    ProductOrderByEnum(String column, String label) {
+    GoodsOrderByEnum(String column, String label) {
         this.value = column;
         this.label = label;
     }

@@ -19,43 +19,48 @@ import lombok.Setter;
 @Setter
 public class SkuEntity extends BaseEntity {
 
-    /**
-     * SKU编号
-     */
-    private String skuCode;
+  /**
+   * SKU编号
+   */
+  private String skuCode;
 
-    /**
-     * 与该SKU相关联的SPU的ID。
-     */
-    private Long spuId;
+  /**
+   * 与该SKU相关联的SPU的ID。
+   */
+  private Long spuId;
 
-    /**
-     * 规格组合的MD5哈希值
-     */
-    private String specHash;
+  /**
+   * 规格组合的MD5哈希值
+   */
+  private String specHash;
 
-    /**
-     * 商品SKU的价格单位（分）
-     */
-    private Long price;
+  /**
+   * 商品SKU的价格单位（分）
+   */
+  private Long price;
 
-    /**
-     * 商品SKU的库存数量。
-     */
-    private Integer stock;
+  /**
+   * 商品SKU的库存数量
+   */
+  private Integer stock;
 
-    /**
-     * 被锁定的库存数量
-     */
-    private Integer lockedStock;
+  /**
+   * 商品SKU的库存锁定数量
+   */
+  private Integer stockLocked;
 
-    /**
-     * 商品SKU的图片URL地址。
-     */
-    private String imgUrl;
+  /**
+   * 商品SKU的销量
+   */
+  private Integer stockSold;
 
-    /**
-     * 逻辑删除标识(0:未删除 1:已删除)
-     */
-    private Integer isDeleted;
+  /**
+   * 商品SKU的图片URL地址。
+   */
+  private String imgUrl;
+
+  /**
+   * 逻辑删除标识(0:未删除 1:已删除)
+   */
+  private Integer isDeleted;
 }

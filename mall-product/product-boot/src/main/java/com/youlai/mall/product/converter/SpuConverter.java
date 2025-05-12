@@ -2,6 +2,7 @@ package com.youlai.mall.product.converter;
 
 import com.youlai.mall.product.model.entity.SpuEntity;
 import com.youlai.mall.product.model.form.SpuForm;
+import com.youlai.mall.product.model.vo.client.ClientGoodsDetailVO;
 import org.mapstruct.Mapper;
 
 /**
@@ -13,8 +14,9 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SpuConverter {
 
-    SpuEntity toEntity(SpuForm form);
+  SpuEntity toEntity(SpuForm form);
 
-    SpuForm toForm(SpuEntity spuEntity);
-    
+  SpuForm toForm(SpuEntity entity);
+
+  ClientGoodsDetailVO toClientDetailVO(SpuEntity entity);
 }

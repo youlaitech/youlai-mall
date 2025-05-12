@@ -2,7 +2,9 @@ package com.youlai.mall.product.model.form;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -76,6 +78,8 @@ public class SpuForm {
 
     @Schema(description = "规格值")
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class SpecValue {
 
         @Schema(description = "规格名称", example = "颜色")
@@ -86,9 +90,10 @@ public class SpuForm {
 
     }
 
-
     @Schema(description = "属性值对象")
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class AttrValue {
 
         @Schema(description = "属性名称", example = "分辨率")

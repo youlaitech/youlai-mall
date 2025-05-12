@@ -1,8 +1,8 @@
 package com.youlai.mall.product.model.query.client;
 
 import com.youlai.common.base.BasePageQuery;
-import com.youlai.mall.product.enums.ProductOrderByEnum;
-import com.youlai.mall.product.enums.SortEnum;
+import com.youlai.mall.product.enums.GoodsOrderByEnum;
+import com.youlai.mall.product.enums.DirectionEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,24 +11,30 @@ import lombok.EqualsAndHashCode;
  * 客户端商品分页查询对象
  *
  * @author Ray.Hao
- * @since 2024/5/22
+ * @since 2024/5/17
  */
 
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "商品分页查询对象")
+@Schema(description = "客户端商品分页查询对象")
 @Data
 public class ClientGoodsPageQuery extends BasePageQuery {
 
-    @Schema(description="关键字")
+    @Schema(description = "关键字")
     private String keywords;
 
-    @Schema(description="商品分类ID")
+    @Schema(description = "分类ID")
     private Long categoryId;
 
-    @Schema(description="排序字段名（SCORE:评分，PRICE：价格，SALES：销量）",example = "SCORE")
-    private ProductOrderByEnum orderBy;
+    @Schema(description = "排序字段：comprehensive-综合，price-价格，sales-销量")
+    private String orderBy;
 
-    @Schema(description="排序规则（ASC:升序;DESC:降序）",example = "DESC")
-    private SortEnum sort;
+    @Schema(description = "排序方式：asc-升序 desc-降序")
+    private String direction;
+
+    @Schema(description = "最低价格（单位：分）")
+    private Integer minPrice;
+
+    @Schema(description = "最高价格（单位：分）")
+    private Integer maxPrice;
 
 }

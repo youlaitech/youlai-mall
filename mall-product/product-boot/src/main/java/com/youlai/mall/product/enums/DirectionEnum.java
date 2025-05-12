@@ -12,12 +12,12 @@ import lombok.Getter;
  * @since 2024/5/23
  */
 @Getter
-public enum SortEnum implements IBaseEnum<String> {
+public enum DirectionEnum implements IBaseEnum<String> {
 
     ASC("asc","升序"),
     DESC("desc","降序");
 
-    SortEnum(String value, String label) {
+    DirectionEnum(String value, String label) {
         this.value = value;
         this.label = label;
     }
