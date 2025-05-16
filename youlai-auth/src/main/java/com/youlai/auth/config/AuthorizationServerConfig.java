@@ -11,6 +11,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.youlai.auth.model.MemberDetails;
 import com.youlai.auth.model.SysUserDetails;
 import com.youlai.auth.oauth2.extension.captcha.CaptchaAuthenticationConverter;
 import com.youlai.auth.oauth2.extension.captcha.CaptchaAuthenticationProvider;
@@ -271,6 +272,7 @@ public class AuthorizationServerConfig {
         // 添加自定义Mixin，用于序列化/反序列化特定的类。
         // Mixin类需要自行实现，以便Jackson可以处理这些类的序列化。
         objectMapper.addMixIn(SysUserDetails.class, SysUserMixin.class);
+        objectMapper.addMixIn(MemberDetails.class, MemberMixin.class);
         objectMapper.addMixIn(Long.class, Object.class);
 
         // 将配置好的ObjectMapper设置到行映射器中。
