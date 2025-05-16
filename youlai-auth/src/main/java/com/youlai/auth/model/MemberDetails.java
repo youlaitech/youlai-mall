@@ -2,6 +2,7 @@ package com.youlai.auth.model;
 
 import com.youlai.common.constant.GlobalConstants;
 import com.youlai.mall.ums.dto.MemberAuthDTO;
+import java.util.HashSet;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,7 +54,7 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.EMPTY_SET;
+    return new HashSet<>();
     }
 
     @Override
